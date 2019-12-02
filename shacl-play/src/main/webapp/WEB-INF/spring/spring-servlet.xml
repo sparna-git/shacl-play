@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans 
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<!-- Load skosplay-application.properties -->
+	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+	  <property name="locations">
+	    <list>
+	        <value>file://#{systemProperties['shaclplay.home']}/conf/shaclplay-application.properties</value>
+	        <value>classpath:shaclplay-application.properties</value>
+	        <!-- Load version.properties from the classpath -->
+	        <value>classpath:version.properties</value>
+	    </list>
+	  </property>
+	  <property name="properties">  
+		<props>  
+		   <prop key="project.version">project.version</prop>
+		   <prop key="timestamp">timestamp</prop>  
+		</props>  
+	  </property>
+	  <property name="ignoreResourceNotFound" value="true" />
+	</bean>
+
+
+	<!-- ***** Basic application bootstraping ***** -->	
+	<context:component-scan base-package="fr.sparna.rdf.shacl" />
+
+	<!-- Maps /** to the DefaultServletHandler -->
+	<mvc:default-servlet-handler />
+
+	<mvc:annotation-driven />
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/jsp/" />
+		<property name="suffix" value=".jsp" />
+		<property name="order" value="1" />
+	</bean>
+	
+	<!-- For file upload -->
+    <bean id="multipartResolver"  
+        class="org.springframework.web.multipart.commons.CommonsMultipartResolver">  
+    </bean>
+	
+	<!-- / Basic application bootstraping -->
+
+	<!-- Maps the resources URL to a physical directory so that we can easily 
+		change 'themes' -->
+	<mvc:resources mapping="/resources/**" location="/theme-default/" />
+	
+	<!-- ***** Application Config ***** -->
+	<bean id="applicationData" class="fr.sparna.rdf.shacl.shaclplay.ApplicationData">	
+		<property name="buildVersion" value="${build.version:unknown}" />
+		<property name="buildTimestamp" value="${build.timestamp:unknown}" />
+	</bean>
+
+</beans>

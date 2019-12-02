@@ -1,0 +1,1048 @@
+<http://data.europa.eu/eli/dir/1980/181/oj/nld/print>
+        a       <http://data.europa.eu/eli/ontology#Format> ;
+        <http://data.europa.eu/eli/ontology#embodies>
+                <http://data.europa.eu/eli/dir/1980/181/oj/nld> ;
+        <http://data.europa.eu/eli/ontology#format>
+                <http://www.w3.org/1999/02/print> ;
+        <http://data.europa.eu/eli/ontology#publisher_agent>
+                <http://publications.europa.eu/resource/authority/corporate-body/PUBL> .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/pol/print>
+        a       <http://data.europa.eu/eli/ontology#Format> ;
+        <http://data.europa.eu/eli/ontology#embodies>
+                <http://data.europa.eu/eli/dir/1980/181/oj/pol> ;
+        <http://data.europa.eu/eli/ontology#format>
+                <http://www.w3.org/1999/02/print> ;
+        <http://data.europa.eu/eli/ontology#publisher_agent>
+                <http://publications.europa.eu/resource/authority/corporate-body/PUBL> .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/eng/html>
+        a       <http://data.europa.eu/eli/ontology#Format> ;
+        <http://data.europa.eu/eli/ontology#embodies>
+                <http://data.europa.eu/eli/dir/1980/181/oj/eng> ;
+        <http://data.europa.eu/eli/ontology#format>
+                <http://www.iana.org/assignments/media-types/text/html> ;
+        <http://data.europa.eu/eli/ontology#is_exemplified_by>
+                <http://publications.europa.eu/resource/celex/31980L0181.ENG.html.31980L0181en.html> ;
+        <http://data.europa.eu/eli/ontology#publisher_agent>
+                <http://publications.europa.eu/resource/authority/corporate-body/PUBL> .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/por/html>
+        a       <http://data.europa.eu/eli/ontology#Format> ;
+        <http://data.europa.eu/eli/ontology#embodies>
+                <http://data.europa.eu/eli/dir/1980/181/oj/por> ;
+        <http://data.europa.eu/eli/ontology#format>
+                <http://www.iana.org/assignments/media-types/text/html> ;
+        <http://data.europa.eu/eli/ontology#is_exemplified_by>
+                <http://publications.europa.eu/resource/celex/31980L0181.POR.html.31980L0181pt.html> ;
+        <http://data.europa.eu/eli/ontology#publisher_agent>
+                <http://publications.europa.eu/resource/authority/corporate-body/PUBL> .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/hun/html>
+        a       <http://data.europa.eu/eli/ontology#Format> ;
+        <http://data.europa.eu/eli/ontology#embodies>
+                <http://data.europa.eu/eli/dir/1980/181/oj/hun> ;
+        <http://data.europa.eu/eli/ontology#format>
+                <http://www.iana.org/assignments/media-types/text/html> ;
+        <http://data.europa.eu/eli/ontology#is_exemplified_by>
+                <http://publications.europa.eu/resource/celex/31980L0181.HUN.html.31980L0181hu.html> ;
+        <http://data.europa.eu/eli/ontology#publisher_agent>
+                <http://publications.europa.eu/resource/authority/corporate-body/PUBL> .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/ron/print>
+        a       <http://data.europa.eu/eli/ontology#Format> ;
+        <http://data.europa.eu/eli/ontology#embodies>
+                <http://data.europa.eu/eli/dir/1980/181/oj/ron> ;
+        <http://data.europa.eu/eli/ontology#format>
+                <http://www.w3.org/1999/02/print> ;
+        <http://data.europa.eu/eli/ontology#publisher_agent>
+                <http://publications.europa.eu/resource/authority/corporate-body/PUBL> .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/dan/pdfa1b>
+        a       <http://data.europa.eu/eli/ontology#Format> ;
+        <http://data.europa.eu/eli/ontology#embodies>
+                <http://data.europa.eu/eli/dir/1980/181/oj/dan> ;
+        <http://data.europa.eu/eli/ontology#format>
+                <http://www.iana.org/assignments/media-types/application/pdf;type=pdfa1b> ;
+        <http://data.europa.eu/eli/ontology#is_exemplified_by>
+                <http://publications.europa.eu/resource/celex/31980L0181.DAN.pdfa1b.l_03919800215da00400050.pdf> ;
+        <http://data.europa.eu/eli/ontology#publisher_agent>
+                <http://publications.europa.eu/resource/authority/corporate-body/PUBL> .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/spa/print>
+        a       <http://data.europa.eu/eli/ontology#Format> ;
+        <http://data.europa.eu/eli/ontology#embodies>
+                <http://data.europa.eu/eli/dir/1980/181/oj/spa> ;
+        <http://data.europa.eu/eli/ontology#format>
+                <http://www.w3.org/1999/02/print> ;
+        <http://data.europa.eu/eli/ontology#publisher_agent>
+                <http://publications.europa.eu/resource/authority/corporate-body/PUBL> .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/slv/pdf>
+        a       <http://data.europa.eu/eli/ontology#Format> ;
+        <http://data.europa.eu/eli/ontology#embodies>
+                <http://data.europa.eu/eli/dir/1980/181/oj/slv> ;
+        <http://data.europa.eu/eli/ontology#format>
+                <http://www.iana.org/assignments/media-types/application/pdf> ;
+        <http://data.europa.eu/eli/ontology#is_exemplified_by>
+                <http://publications.europa.eu/resource/celex/31980L0181.SLV.pdf.31980L0181_SL.pdf> ;
+        <http://data.europa.eu/eli/ontology#publisher_agent>
+                <http://publications.europa.eu/resource/authority/corporate-body/PUBL> .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/por/print>
+        a       <http://data.europa.eu/eli/ontology#Format> ;
+        <http://data.europa.eu/eli/ontology#embodies>
+                <http://data.europa.eu/eli/dir/1980/181/oj/por> ;
+        <http://data.europa.eu/eli/ontology#format>
+                <http://www.w3.org/1999/02/print> ;
+        <http://data.europa.eu/eli/ontology#publisher_agent>
+                <http://publications.europa.eu/resource/authority/corporate-body/PUBL> .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/pol/pdf>
+        a       <http://data.europa.eu/eli/ontology#Format> ;
+        <http://data.europa.eu/eli/ontology#embodies>
+                <http://data.europa.eu/eli/dir/1980/181/oj/pol> ;
+        <http://data.europa.eu/eli/ontology#format>
+                <http://www.iana.org/assignments/media-types/application/pdf> ;
+        <http://data.europa.eu/eli/ontology#is_exemplified_by>
+                <http://publications.europa.eu/resource/celex/31980L0181.POL.pdf.31980L0181_PL.pdf> ;
+        <http://data.europa.eu/eli/ontology#publisher_agent>
+                <http://publications.europa.eu/resource/authority/corporate-body/PUBL> .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/hrv>
+        a       <http://data.europa.eu/eli/ontology#LegalExpression> ;
+        <http://data.europa.eu/eli/ontology#is_embodied_by>
+                <http://data.europa.eu/eli/dir/1980/181/oj/hrv/xhtml> , <http://data.europa.eu/eli/dir/1980/181/oj/hrv/print> , <http://data.europa.eu/eli/dir/1980/181/oj/hrv/pdfa1a> , <http://data.europa.eu/eli/dir/1980/181/oj/hrv/fmx4> ;
+        <http://data.europa.eu/eli/ontology#language>
+                <http://publications.europa.eu/resource/authority/language/HRV> ;
+        <http://data.europa.eu/eli/ontology#realizes>
+                <http://data.europa.eu/eli/dir/1980/181/oj> ;
+        <http://data.europa.eu/eli/ontology#title>
+                "80/181/EEZ: Direktiva Vijeća od 20. prosinca 1979. o usklađivanju zakonodavstava država članica u odnosu na mjerne jedinice i o stavljanju izvan snage Direktive 71/354/EEZ"@hr .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/est>
+        a       <http://data.europa.eu/eli/ontology#LegalExpression> ;
+        <http://data.europa.eu/eli/ontology#is_embodied_by>
+                <http://data.europa.eu/eli/dir/1980/181/oj/est/print> , <http://data.europa.eu/eli/dir/1980/181/oj/est/pdf> , <http://data.europa.eu/eli/dir/1980/181/oj/est/html> ;
+        <http://data.europa.eu/eli/ontology#language>
+                <http://publications.europa.eu/resource/authority/language/EST> ;
+        <http://data.europa.eu/eli/ontology#realizes>
+                <http://data.europa.eu/eli/dir/1980/181/oj> ;
+        <http://data.europa.eu/eli/ontology#title>
+                "Nõukogu direktiiv, 20. detsember 1979, mõõtühikuid käsitlevate liikmesriikide õigusaktide ühtlustamise ja direktiivi 71/354/EMÜ kehtetuks tunnistamise kohta"@et .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/lit/pdf>
+        a       <http://data.europa.eu/eli/ontology#Format> ;
+        <http://data.europa.eu/eli/ontology#embodies>
+                <http://data.europa.eu/eli/dir/1980/181/oj/lit> ;
+        <http://data.europa.eu/eli/ontology#format>
+                <http://www.iana.org/assignments/media-types/application/pdf> ;
+        <http://data.europa.eu/eli/ontology#is_exemplified_by>
+                <http://publications.europa.eu/resource/celex/31980L0181.LIT.pdf.31980L0181_LT.pdf> ;
+        <http://data.europa.eu/eli/ontology#publisher_agent>
+                <http://publications.europa.eu/resource/authority/corporate-body/PUBL> .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/lav/html>
+        a       <http://data.europa.eu/eli/ontology#Format> ;
+        <http://data.europa.eu/eli/ontology#embodies>
+                <http://data.europa.eu/eli/dir/1980/181/oj/lav> ;
+        <http://data.europa.eu/eli/ontology#format>
+                <http://www.iana.org/assignments/media-types/text/html> ;
+        <http://data.europa.eu/eli/ontology#is_exemplified_by>
+                <http://publications.europa.eu/resource/celex/31980L0181.LAV.html.31980L0181lv.html> ;
+        <http://data.europa.eu/eli/ontology#publisher_agent>
+                <http://publications.europa.eu/resource/authority/corporate-body/PUBL> .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/fra/pdfa1b>
+        a       <http://data.europa.eu/eli/ontology#Format> ;
+        <http://data.europa.eu/eli/ontology#embodies>
+                <http://data.europa.eu/eli/dir/1980/181/oj/fra> ;
+        <http://data.europa.eu/eli/ontology#format>
+                <http://www.iana.org/assignments/media-types/application/pdf;type=pdfa1b> ;
+        <http://data.europa.eu/eli/ontology#is_exemplified_by>
+                <http://publications.europa.eu/resource/celex/31980L0181.FRA.pdfa1b.l_03919800215fr00400050.pdf> ;
+        <http://data.europa.eu/eli/ontology#publisher_agent>
+                <http://publications.europa.eu/resource/authority/corporate-body/PUBL> .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/hun>
+        a       <http://data.europa.eu/eli/ontology#LegalExpression> ;
+        <http://data.europa.eu/eli/ontology#is_embodied_by>
+                <http://data.europa.eu/eli/dir/1980/181/oj/hun/print> , <http://data.europa.eu/eli/dir/1980/181/oj/hun/pdf> , <http://data.europa.eu/eli/dir/1980/181/oj/hun/html> ;
+        <http://data.europa.eu/eli/ontology#language>
+                <http://publications.europa.eu/resource/authority/language/HUN> ;
+        <http://data.europa.eu/eli/ontology#realizes>
+                <http://data.europa.eu/eli/dir/1980/181/oj> ;
+        <http://data.europa.eu/eli/ontology#title>
+                "A Tanács irányelve (1979. december 20.) a mértékegységekre vonatkozó tagállami jogszabályok közelítéséről és a 71/354/EGK irányelv hatályon kívül helyezéséről"@hu .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/ell/print>
+        a       <http://data.europa.eu/eli/ontology#Format> ;
+        <http://data.europa.eu/eli/ontology#embodies>
+                <http://data.europa.eu/eli/dir/1980/181/oj/ell> ;
+        <http://data.europa.eu/eli/ontology#format>
+                <http://www.w3.org/1999/02/print> ;
+        <http://data.europa.eu/eli/ontology#publisher_agent>
+                <http://publications.europa.eu/resource/authority/corporate-body/PUBL> .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/swe/pdfa1b>
+        a       <http://data.europa.eu/eli/ontology#Format> ;
+        <http://data.europa.eu/eli/ontology#embodies>
+                <http://data.europa.eu/eli/dir/1980/181/oj/swe> ;
+        <http://data.europa.eu/eli/ontology#format>
+                <http://www.iana.org/assignments/media-types/application/pdf;type=pdfa1b> ;
+        <http://data.europa.eu/eli/ontology#is_exemplified_by>
+                <http://publications.europa.eu/resource/celex/31980L0181.SWE.pdfa1b.31980L0181_SV.pdf> ;
+        <http://data.europa.eu/eli/ontology#publisher_agent>
+                <http://publications.europa.eu/resource/authority/corporate-body/PUBL> .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/ces/html>
+        a       <http://data.europa.eu/eli/ontology#Format> ;
+        <http://data.europa.eu/eli/ontology#embodies>
+                <http://data.europa.eu/eli/dir/1980/181/oj/ces> ;
+        <http://data.europa.eu/eli/ontology#format>
+                <http://www.iana.org/assignments/media-types/text/html> ;
+        <http://data.europa.eu/eli/ontology#is_exemplified_by>
+                <http://publications.europa.eu/resource/celex/31980L0181.CES.html.31980L0181cs.html> ;
+        <http://data.europa.eu/eli/ontology#publisher_agent>
+                <http://publications.europa.eu/resource/authority/corporate-body/PUBL> .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/hun/print>
+        a       <http://data.europa.eu/eli/ontology#Format> ;
+        <http://data.europa.eu/eli/ontology#embodies>
+                <http://data.europa.eu/eli/dir/1980/181/oj/hun> ;
+        <http://data.europa.eu/eli/ontology#format>
+                <http://www.w3.org/1999/02/print> ;
+        <http://data.europa.eu/eli/ontology#publisher_agent>
+                <http://publications.europa.eu/resource/authority/corporate-body/PUBL> .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/por/pdfa1b>
+        a       <http://data.europa.eu/eli/ontology#Format> ;
+        <http://data.europa.eu/eli/ontology#embodies>
+                <http://data.europa.eu/eli/dir/1980/181/oj/por> ;
+        <http://data.europa.eu/eli/ontology#format>
+                <http://www.iana.org/assignments/media-types/application/pdf;type=pdfa1b> ;
+        <http://data.europa.eu/eli/ontology#is_exemplified_by>
+                <http://publications.europa.eu/resource/celex/31980L0181.POR.pdfa1b.31980L0181_PT.pdf> ;
+        <http://data.europa.eu/eli/ontology#publisher_agent>
+                <http://publications.europa.eu/resource/authority/corporate-body/PUBL> .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/deu/print>
+        a       <http://data.europa.eu/eli/ontology#Format> ;
+        <http://data.europa.eu/eli/ontology#embodies>
+                <http://data.europa.eu/eli/dir/1980/181/oj/deu> ;
+        <http://data.europa.eu/eli/ontology#format>
+                <http://www.w3.org/1999/02/print> ;
+        <http://data.europa.eu/eli/ontology#publisher_agent>
+                <http://publications.europa.eu/resource/authority/corporate-body/PUBL> .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/slk/html>
+        a       <http://data.europa.eu/eli/ontology#Format> ;
+        <http://data.europa.eu/eli/ontology#embodies>
+                <http://data.europa.eu/eli/dir/1980/181/oj/slk> ;
+        <http://data.europa.eu/eli/ontology#format>
+                <http://www.iana.org/assignments/media-types/text/html> ;
+        <http://data.europa.eu/eli/ontology#is_exemplified_by>
+                <http://publications.europa.eu/resource/celex/31980L0181.SLK.html.31980L0181sk.html> ;
+        <http://data.europa.eu/eli/ontology#publisher_agent>
+                <http://publications.europa.eu/resource/authority/corporate-body/PUBL> .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/swe/print>
+        a       <http://data.europa.eu/eli/ontology#Format> ;
+        <http://data.europa.eu/eli/ontology#embodies>
+                <http://data.europa.eu/eli/dir/1980/181/oj/swe> ;
+        <http://data.europa.eu/eli/ontology#format>
+                <http://www.w3.org/1999/02/print> ;
+        <http://data.europa.eu/eli/ontology#publisher_agent>
+                <http://publications.europa.eu/resource/authority/corporate-body/PUBL> .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/deu/pdfa1b>
+        a       <http://data.europa.eu/eli/ontology#Format> ;
+        <http://data.europa.eu/eli/ontology#embodies>
+                <http://data.europa.eu/eli/dir/1980/181/oj/deu> ;
+        <http://data.europa.eu/eli/ontology#format>
+                <http://www.iana.org/assignments/media-types/application/pdf;type=pdfa1b> ;
+        <http://data.europa.eu/eli/ontology#is_exemplified_by>
+                <http://publications.europa.eu/resource/celex/31980L0181.DEU.pdfa1b.l_03919800215de00400050.pdf> ;
+        <http://data.europa.eu/eli/ontology#publisher_agent>
+                <http://publications.europa.eu/resource/authority/corporate-body/PUBL> .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/mlt/html>
+        a       <http://data.europa.eu/eli/ontology#Format> ;
+        <http://data.europa.eu/eli/ontology#embodies>
+                <http://data.europa.eu/eli/dir/1980/181/oj/mlt> ;
+        <http://data.europa.eu/eli/ontology#format>
+                <http://www.iana.org/assignments/media-types/text/html> ;
+        <http://data.europa.eu/eli/ontology#is_exemplified_by>
+                <http://publications.europa.eu/resource/celex/31980L0181.MLT.html.31980L0181mt.html> ;
+        <http://data.europa.eu/eli/ontology#publisher_agent>
+                <http://publications.europa.eu/resource/authority/corporate-body/PUBL> .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/mlt/print>
+        a       <http://data.europa.eu/eli/ontology#Format> ;
+        <http://data.europa.eu/eli/ontology#embodies>
+                <http://data.europa.eu/eli/dir/1980/181/oj/mlt> ;
+        <http://data.europa.eu/eli/ontology#format>
+                <http://www.w3.org/1999/02/print> ;
+        <http://data.europa.eu/eli/ontology#publisher_agent>
+                <http://publications.europa.eu/resource/authority/corporate-body/PUBL> .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/eng/pdfa1b>
+        a       <http://data.europa.eu/eli/ontology#Format> ;
+        <http://data.europa.eu/eli/ontology#embodies>
+                <http://data.europa.eu/eli/dir/1980/181/oj/eng> ;
+        <http://data.europa.eu/eli/ontology#format>
+                <http://www.iana.org/assignments/media-types/application/pdf;type=pdfa1b> ;
+        <http://data.europa.eu/eli/ontology#is_exemplified_by>
+                <http://publications.europa.eu/resource/celex/31980L0181.ENG.pdfa1b.l_03919800215en00400050.pdf> ;
+        <http://data.europa.eu/eli/ontology#publisher_agent>
+                <http://publications.europa.eu/resource/authority/corporate-body/PUBL> .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/ell/pdfa1b>
+        a       <http://data.europa.eu/eli/ontology#Format> ;
+        <http://data.europa.eu/eli/ontology#embodies>
+                <http://data.europa.eu/eli/dir/1980/181/oj/ell> ;
+        <http://data.europa.eu/eli/ontology#format>
+                <http://www.iana.org/assignments/media-types/application/pdf;type=pdfa1b> ;
+        <http://data.europa.eu/eli/ontology#is_exemplified_by>
+                <http://publications.europa.eu/resource/celex/31980L0181.ELL.pdfa1b.31980L0181_EL.pdf> ;
+        <http://data.europa.eu/eli/ontology#publisher_agent>
+                <http://publications.europa.eu/resource/authority/corporate-body/PUBL> .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/bul/html>
+        a       <http://data.europa.eu/eli/ontology#Format> ;
+        <http://data.europa.eu/eli/ontology#embodies>
+                <http://data.europa.eu/eli/dir/1980/181/oj/bul> ;
+        <http://data.europa.eu/eli/ontology#format>
+                <http://www.iana.org/assignments/media-types/text/html> ;
+        <http://data.europa.eu/eli/ontology#is_exemplified_by>
+                <http://publications.europa.eu/resource/celex/31980L0181.BUL.html.31980L0181bg.html> ;
+        <http://data.europa.eu/eli/ontology#publisher_agent>
+                <http://publications.europa.eu/resource/authority/corporate-body/PUBL> .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/spa>
+        a       <http://data.europa.eu/eli/ontology#LegalExpression> ;
+        <http://data.europa.eu/eli/ontology#is_embodied_by>
+                <http://data.europa.eu/eli/dir/1980/181/oj/spa/print> , <http://data.europa.eu/eli/dir/1980/181/oj/spa/pdfa1b> , <http://data.europa.eu/eli/dir/1980/181/oj/spa/html> ;
+        <http://data.europa.eu/eli/ontology#language>
+                <http://publications.europa.eu/resource/authority/language/SPA> ;
+        <http://data.europa.eu/eli/ontology#realizes>
+                <http://data.europa.eu/eli/dir/1980/181/oj> ;
+        <http://data.europa.eu/eli/ontology#title>
+                "Directiva 80/181/CEE del Consejo, de 20 de diciembre de 1979, relativa a la aproximación de las legislaciones de los Estados Miembros sobre las unidades de medida, y que deroga la Directiva 71/354/CEE"@es .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/deu>
+        a       <http://data.europa.eu/eli/ontology#LegalExpression> ;
+        <http://data.europa.eu/eli/ontology#is_embodied_by>
+                <http://data.europa.eu/eli/dir/1980/181/oj/deu/print> , <http://data.europa.eu/eli/dir/1980/181/oj/deu/pdfa1b> , <http://data.europa.eu/eli/dir/1980/181/oj/deu/html> ;
+        <http://data.europa.eu/eli/ontology#language>
+                <http://publications.europa.eu/resource/authority/language/DEU> ;
+        <http://data.europa.eu/eli/ontology#realizes>
+                <http://data.europa.eu/eli/dir/1980/181/oj> ;
+        <http://data.europa.eu/eli/ontology#title>
+                "Richtlinie 80/181/EWG des Rates vom 20. Dezember 1979 zur Angleichung der Rechtsvorschriften der Mitgliedstaaten über die Einheiten im Meßwesen und zur Aufhebung der Richtlinie 71/354/EWG"@de .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/hrv/print>
+        a       <http://data.europa.eu/eli/ontology#Format> ;
+        <http://data.europa.eu/eli/ontology#embodies>
+                <http://data.europa.eu/eli/dir/1980/181/oj/hrv> ;
+        <http://data.europa.eu/eli/ontology#format>
+                <http://www.w3.org/1999/02/print> ;
+        <http://data.europa.eu/eli/ontology#publisher_agent>
+                <http://publications.europa.eu/resource/authority/corporate-body/PUBL> .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/dan>
+        a       <http://data.europa.eu/eli/ontology#LegalExpression> ;
+        <http://data.europa.eu/eli/ontology#is_embodied_by>
+                <http://data.europa.eu/eli/dir/1980/181/oj/dan/print> , <http://data.europa.eu/eli/dir/1980/181/oj/dan/pdfa1b> , <http://data.europa.eu/eli/dir/1980/181/oj/dan/html> ;
+        <http://data.europa.eu/eli/ontology#language>
+                <http://publications.europa.eu/resource/authority/language/DAN> ;
+        <http://data.europa.eu/eli/ontology#realizes>
+                <http://data.europa.eu/eli/dir/1980/181/oj> ;
+        <http://data.europa.eu/eli/ontology#title>
+                "Rådets direktiv 80/181/EØF af 20. december 1979 om indbyrdes tilnærmelse af medlemsstaternes lovgivning om måleenheder og om ophævelse af direktiv 71/354/EØF"@da .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/slk>
+        a       <http://data.europa.eu/eli/ontology#LegalExpression> ;
+        <http://data.europa.eu/eli/ontology#is_embodied_by>
+                <http://data.europa.eu/eli/dir/1980/181/oj/slk/print> , <http://data.europa.eu/eli/dir/1980/181/oj/slk/pdf> , <http://data.europa.eu/eli/dir/1980/181/oj/slk/html> ;
+        <http://data.europa.eu/eli/ontology#language>
+                <http://publications.europa.eu/resource/authority/language/SLK> ;
+        <http://data.europa.eu/eli/ontology#realizes>
+                <http://data.europa.eu/eli/dir/1980/181/oj> ;
+        <http://data.europa.eu/eli/ontology#title>
+                "Smernica Rady z 20. decembra 1979 o aproximácii právnych predpisov členských štátov, týkajúcich sa meracích jednotiek a rušiaca smernicu 71/354/EHS"@sk .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/lit>
+        a       <http://data.europa.eu/eli/ontology#LegalExpression> ;
+        <http://data.europa.eu/eli/ontology#is_embodied_by>
+                <http://data.europa.eu/eli/dir/1980/181/oj/lit/print> , <http://data.europa.eu/eli/dir/1980/181/oj/lit/pdf> , <http://data.europa.eu/eli/dir/1980/181/oj/lit/html> ;
+        <http://data.europa.eu/eli/ontology#language>
+                <http://publications.europa.eu/resource/authority/language/LIT> ;
+        <http://data.europa.eu/eli/ontology#realizes>
+                <http://data.europa.eu/eli/dir/1980/181/oj> ;
+        <http://data.europa.eu/eli/ontology#title>
+                "1979 m. gruodžio 20 d. Tarybos direktyva dėl valstybių narių įstatymų, susijusių su matavimo vienetais, suderinimo ir Direktyvos 71/354/EEB panaikinimo"@lt .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/fra/html>
+        a       <http://data.europa.eu/eli/ontology#Format> ;
+        <http://data.europa.eu/eli/ontology#embodies>
+                <http://data.europa.eu/eli/dir/1980/181/oj/fra> ;
+        <http://data.europa.eu/eli/ontology#format>
+                <http://www.iana.org/assignments/media-types/text/html> ;
+        <http://data.europa.eu/eli/ontology#is_exemplified_by>
+                <http://publications.europa.eu/resource/celex/31980L0181.FRA.html.31980L0181fr.html> ;
+        <http://data.europa.eu/eli/ontology#publisher_agent>
+                <http://publications.europa.eu/resource/authority/corporate-body/PUBL> .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/slv>
+        a       <http://data.europa.eu/eli/ontology#LegalExpression> ;
+        <http://data.europa.eu/eli/ontology#is_embodied_by>
+                <http://data.europa.eu/eli/dir/1980/181/oj/slv/print> , <http://data.europa.eu/eli/dir/1980/181/oj/slv/pdf> , <http://data.europa.eu/eli/dir/1980/181/oj/slv/html> ;
+        <http://data.europa.eu/eli/ontology#language>
+                <http://publications.europa.eu/resource/authority/language/SLV> ;
+        <http://data.europa.eu/eli/ontology#realizes>
+                <http://data.europa.eu/eli/dir/1980/181/oj> ;
+        <http://data.europa.eu/eli/ontology#title>
+                "Direktiva Sveta z dne 20. decembra 1979 o približevanju zakonodaje držav članic, ki se nanašajo na merske enote, in o razveljavitvi direktive 71/354/EGS"@sl .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/swe>
+        a       <http://data.europa.eu/eli/ontology#LegalExpression> ;
+        <http://data.europa.eu/eli/ontology#is_embodied_by>
+                <http://data.europa.eu/eli/dir/1980/181/oj/swe/print> , <http://data.europa.eu/eli/dir/1980/181/oj/swe/pdfa1b> , <http://data.europa.eu/eli/dir/1980/181/oj/swe/html> ;
+        <http://data.europa.eu/eli/ontology#language>
+                <http://publications.europa.eu/resource/authority/language/SWE> ;
+        <http://data.europa.eu/eli/ontology#realizes>
+                <http://data.europa.eu/eli/dir/1980/181/oj> ;
+        <http://data.europa.eu/eli/ontology#title>
+                "Rådets direktiv 80/181/EEG av den 20 december 1979 om tillnärmning av medlemsstaternas lagstiftning för måttenheter och om upphävande av direktiv 71/354/EEG."@sv .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/nld/html>
+        a       <http://data.europa.eu/eli/ontology#Format> ;
+        <http://data.europa.eu/eli/ontology#embodies>
+                <http://data.europa.eu/eli/dir/1980/181/oj/nld> ;
+        <http://data.europa.eu/eli/ontology#format>
+                <http://www.iana.org/assignments/media-types/text/html> ;
+        <http://data.europa.eu/eli/ontology#is_exemplified_by>
+                <http://publications.europa.eu/resource/celex/31980L0181.NLD.html.31980L0181nl.html> ;
+        <http://data.europa.eu/eli/ontology#publisher_agent>
+                <http://publications.europa.eu/resource/authority/corporate-body/PUBL> .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/ita/pdfa1b>
+        a       <http://data.europa.eu/eli/ontology#Format> ;
+        <http://data.europa.eu/eli/ontology#embodies>
+                <http://data.europa.eu/eli/dir/1980/181/oj/ita> ;
+        <http://data.europa.eu/eli/ontology#format>
+                <http://www.iana.org/assignments/media-types/application/pdf;type=pdfa1b> ;
+        <http://data.europa.eu/eli/ontology#is_exemplified_by>
+                <http://publications.europa.eu/resource/celex/31980L0181.ITA.pdfa1b.l_03919800215it00400050.pdf> ;
+        <http://data.europa.eu/eli/ontology#publisher_agent>
+                <http://publications.europa.eu/resource/authority/corporate-body/PUBL> .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/fra/print>
+        a       <http://data.europa.eu/eli/ontology#Format> ;
+        <http://data.europa.eu/eli/ontology#embodies>
+                <http://data.europa.eu/eli/dir/1980/181/oj/fra> ;
+        <http://data.europa.eu/eli/ontology#format>
+                <http://www.w3.org/1999/02/print> ;
+        <http://data.europa.eu/eli/ontology#publisher_agent>
+                <http://publications.europa.eu/resource/authority/corporate-body/PUBL> .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/bul/pdf>
+        a       <http://data.europa.eu/eli/ontology#Format> ;
+        <http://data.europa.eu/eli/ontology#embodies>
+                <http://data.europa.eu/eli/dir/1980/181/oj/bul> ;
+        <http://data.europa.eu/eli/ontology#format>
+                <http://www.iana.org/assignments/media-types/application/pdf> ;
+        <http://data.europa.eu/eli/ontology#is_exemplified_by>
+                <http://publications.europa.eu/resource/celex/31980L0181.BUL.pdf.31980L0181_BG.pdf> ;
+        <http://data.europa.eu/eli/ontology#publisher_agent>
+                <http://publications.europa.eu/resource/authority/corporate-body/PUBL> .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/ron/fmx4>
+        a       <http://data.europa.eu/eli/ontology#Format> ;
+        <http://data.europa.eu/eli/ontology#embodies>
+                <http://data.europa.eu/eli/dir/1980/181/oj/ron> ;
+        <http://data.europa.eu/eli/ontology#format>
+                <http://www.iana.org/assignments/media-types/application/xml> ;
+        <http://data.europa.eu/eli/ontology#is_exemplified_by>
+                <http://publications.europa.eu/resource/celex/31980L0181.RON.fmx4.L_1980039RO.01004301.xml> , <http://publications.europa.eu/resource/celex/31980L0181.RON.fmx4.L_1980039RO.01004001.doc.xml> , <http://publications.europa.eu/resource/celex/31980L0181.RON.fmx4.L_1980039RO.01004001.xml> ;
+        <http://data.europa.eu/eli/ontology#publisher_agent>
+                <http://publications.europa.eu/resource/authority/corporate-body/PUBL> .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/est/pdf>
+        a       <http://data.europa.eu/eli/ontology#Format> ;
+        <http://data.europa.eu/eli/ontology#embodies>
+                <http://data.europa.eu/eli/dir/1980/181/oj/est> ;
+        <http://data.europa.eu/eli/ontology#format>
+                <http://www.iana.org/assignments/media-types/application/pdf> ;
+        <http://data.europa.eu/eli/ontology#is_exemplified_by>
+                <http://publications.europa.eu/resource/celex/31980L0181.EST.pdf.31980L0181_ET.pdf> ;
+        <http://data.europa.eu/eli/ontology#publisher_agent>
+                <http://publications.europa.eu/resource/authority/corporate-body/PUBL> .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/ron/xhtml>
+        a       <http://data.europa.eu/eli/ontology#Format> ;
+        <http://data.europa.eu/eli/ontology#embodies>
+                <http://data.europa.eu/eli/dir/1980/181/oj/ron> ;
+        <http://data.europa.eu/eli/ontology#format>
+                <http://www.iana.org/assignments/media-types/application/xhtml+xml> ;
+        <http://data.europa.eu/eli/ontology#is_exemplified_by>
+                <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1981257RO.01000501.notes.0010.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1980375RO.01003801.notes.0007.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1980039RO.01004301.notes.0001.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1979239RO.01000301.notes.0004.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1981167RO.01000701.notes.0005.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1979239RO.01001701.notes.0007.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1980039RO.01004301.notes.0003.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1979239RO.01002701.notes.0004.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1979239RO.01000301.notes.0005.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1980383RO.01002801.notes.0004.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1980213RO.01004301.notes.0003.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1981167RO.01000701.notes.0001.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1979239RO.01000301.notes.0002.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1980254RO.01003701.notes.0005.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1981257RO.01000501.notes.0003.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1979239RO.01001501.notes.0001.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1980383RO.01002801.notes.0005.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1981257RO.01000501.notes.0001.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1981257RO.01000501.notes.0009.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1980254RO.01003701.notes.0001.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1979239RO.01002701.notes.0003.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1980383RO.01002801.notes.0002.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1979239RO.01001701.notes.0001.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1979239RO.01001701.notes.0004.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1981257RO.01000501.notes.0011.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1979239RO.01001701.notes.0002.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1981167RO.01000701.notes.0003.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1980213RO.01004301.notes.0004.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1979239RO.01002701.notes.0001.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1979239RO.01001701.notes.0008.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1981257RO.01000501.notes.0002.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1981257RO.01000501.notes.0005.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1980254RO.01003701.notes.0003.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1980375RO.01003801.notes.0003.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1980213RO.01004301.notes.0005.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1979239RO.01001701.notes.0003.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1980375RO.01004801.notes.0003.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1981167RO.01000701.notes.0002.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1980383RO.01002801.notes.0001.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1981257RO.01000501.notes.0006.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1980039RO.01004301.notes.0002.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1980375RO.01003801.notes.0001.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1980375RO.01004801.notes.0002.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1980213RO.01004301.notes.0008.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1981167RO.01000701.notes.0006.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1980213RO.01004301.notes.0007.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1980375RO.01004801.notes.0001.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1981257RO.01000501.notes.0007.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1981167RO.01000701.notes.0007.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1979239RO.01002701.notes.0005.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1980254RO.01003701.notes.0006.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1980383RO.01002801.notes.0006.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1979239RO.01001701.notes.0005.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1980375RO.01003801.notes.0006.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1980039RO.01004301.notes.0004.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1980213RO.01004301.notes.0006.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1980254RO.01003701.notes.0002.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1979239RO.01002701.notes.0002.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1980213RO.01004301.notes.0002.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1980375RO.01003801.notes.0004.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1979239RO.01002701.notes.0009.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1979239RO.01000301.notes.0003.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1980213RO.01004301.notes.0001.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1980039RO.01004301.notes.0005.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1980383RO.01002801.notes.0010.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1981257RO.01000501.notes.0008.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1980254RO.01003701.notes.0004.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1980383RO.01002801.notes.0007.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1979239RO.01001701.notes.0006.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1980254RO.01003701.notes.0007.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1981167RO.01000701.notes.0004.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1981257RO.01000501.notes.0012.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1980375RO.01003801.notes.0002.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1980383RO.01002801.notes.0009.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1980383RO.01002801.notes.0003.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1979239RO.01002701.notes.0007.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.L_1980039RO.01004001.doc.html> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1979239RO.01002701.notes.0008.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1980383RO.01002801.notes.0008.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1980375RO.01003801.notes.0005.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1979239RO.01002701.notes.0006.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1981167RO.01000701.notes.0008.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1981257RO.01000501.notes.0004.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.RON.xhtml.FOR-L_1979239RO.01000301.notes.0001.xml.jpg> ;
+        <http://data.europa.eu/eli/ontology#publisher_agent>
+                <http://publications.europa.eu/resource/authority/corporate-body/PUBL> .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/spa/pdfa1b>
+        a       <http://data.europa.eu/eli/ontology#Format> ;
+        <http://data.europa.eu/eli/ontology#embodies>
+                <http://data.europa.eu/eli/dir/1980/181/oj/spa> ;
+        <http://data.europa.eu/eli/ontology#format>
+                <http://www.iana.org/assignments/media-types/application/pdf;type=pdfa1b> ;
+        <http://data.europa.eu/eli/ontology#is_exemplified_by>
+                <http://publications.europa.eu/resource/celex/31980L0181.SPA.pdfa1b.31980L0181_ES.pdf> ;
+        <http://data.europa.eu/eli/ontology#publisher_agent>
+                <http://publications.europa.eu/resource/authority/corporate-body/PUBL> .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/ron>
+        a       <http://data.europa.eu/eli/ontology#LegalExpression> ;
+        <http://data.europa.eu/eli/ontology#is_embodied_by>
+                <http://data.europa.eu/eli/dir/1980/181/oj/ron/xhtml> , <http://data.europa.eu/eli/dir/1980/181/oj/ron/print> , <http://data.europa.eu/eli/dir/1980/181/oj/ron/pdf> , <http://data.europa.eu/eli/dir/1980/181/oj/ron/fmx4> ;
+        <http://data.europa.eu/eli/ontology#language>
+                <http://publications.europa.eu/resource/authority/language/RON> ;
+        <http://data.europa.eu/eli/ontology#realizes>
+                <http://data.europa.eu/eli/dir/1980/181/oj> ;
+        <http://data.europa.eu/eli/ontology#title>
+                "Directiva Consiliului din 20 decembrie 1979 privind apropierea legislațiilor statelor membre referitoare la unitățile de măsură și de abrogare a Directivei 71/354/CEE"@ro .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/bul/print>
+        a       <http://data.europa.eu/eli/ontology#Format> ;
+        <http://data.europa.eu/eli/ontology#embodies>
+                <http://data.europa.eu/eli/dir/1980/181/oj/bul> ;
+        <http://data.europa.eu/eli/ontology#format>
+                <http://www.w3.org/1999/02/print> ;
+        <http://data.europa.eu/eli/ontology#publisher_agent>
+                <http://publications.europa.eu/resource/authority/corporate-body/PUBL> .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/nld/pdfa1b>
+        a       <http://data.europa.eu/eli/ontology#Format> ;
+        <http://data.europa.eu/eli/ontology#embodies>
+                <http://data.europa.eu/eli/dir/1980/181/oj/nld> ;
+        <http://data.europa.eu/eli/ontology#format>
+                <http://www.iana.org/assignments/media-types/application/pdf;type=pdfa1b> ;
+        <http://data.europa.eu/eli/ontology#is_exemplified_by>
+                <http://publications.europa.eu/resource/celex/31980L0181.NLD.pdfa1b.l_03919800215nl00400050.pdf> ;
+        <http://data.europa.eu/eli/ontology#publisher_agent>
+                <http://publications.europa.eu/resource/authority/corporate-body/PUBL> .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/swe/html>
+        a       <http://data.europa.eu/eli/ontology#Format> ;
+        <http://data.europa.eu/eli/ontology#embodies>
+                <http://data.europa.eu/eli/dir/1980/181/oj/swe> ;
+        <http://data.europa.eu/eli/ontology#format>
+                <http://www.iana.org/assignments/media-types/text/html> ;
+        <http://data.europa.eu/eli/ontology#is_exemplified_by>
+                <http://publications.europa.eu/resource/celex/31980L0181.SWE.html.31980L0181sv.html> ;
+        <http://data.europa.eu/eli/ontology#publisher_agent>
+                <http://publications.europa.eu/resource/authority/corporate-body/PUBL> .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/pol/html>
+        a       <http://data.europa.eu/eli/ontology#Format> ;
+        <http://data.europa.eu/eli/ontology#embodies>
+                <http://data.europa.eu/eli/dir/1980/181/oj/pol> ;
+        <http://data.europa.eu/eli/ontology#format>
+                <http://www.iana.org/assignments/media-types/text/html> ;
+        <http://data.europa.eu/eli/ontology#is_exemplified_by>
+                <http://publications.europa.eu/resource/celex/31980L0181.POL.html.31980L0181pl.html> ;
+        <http://data.europa.eu/eli/ontology#publisher_agent>
+                <http://publications.europa.eu/resource/authority/corporate-body/PUBL> .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/deu/html>
+        a       <http://data.europa.eu/eli/ontology#Format> ;
+        <http://data.europa.eu/eli/ontology#embodies>
+                <http://data.europa.eu/eli/dir/1980/181/oj/deu> ;
+        <http://data.europa.eu/eli/ontology#format>
+                <http://www.iana.org/assignments/media-types/text/html> ;
+        <http://data.europa.eu/eli/ontology#is_exemplified_by>
+                <http://publications.europa.eu/resource/celex/31980L0181.DEU.html.31980L0181de.html> ;
+        <http://data.europa.eu/eli/ontology#publisher_agent>
+                <http://publications.europa.eu/resource/authority/corporate-body/PUBL> .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/ces/pdf>
+        a       <http://data.europa.eu/eli/ontology#Format> ;
+        <http://data.europa.eu/eli/ontology#embodies>
+                <http://data.europa.eu/eli/dir/1980/181/oj/ces> ;
+        <http://data.europa.eu/eli/ontology#format>
+                <http://www.iana.org/assignments/media-types/application/pdf> ;
+        <http://data.europa.eu/eli/ontology#is_exemplified_by>
+                <http://publications.europa.eu/resource/celex/31980L0181.CES.pdf.31980L0181_CS.pdf> ;
+        <http://data.europa.eu/eli/ontology#publisher_agent>
+                <http://publications.europa.eu/resource/authority/corporate-body/PUBL> .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/fin/pdfa1b>
+        a       <http://data.europa.eu/eli/ontology#Format> ;
+        <http://data.europa.eu/eli/ontology#embodies>
+                <http://data.europa.eu/eli/dir/1980/181/oj/fin> ;
+        <http://data.europa.eu/eli/ontology#format>
+                <http://www.iana.org/assignments/media-types/application/pdf;type=pdfa1b> ;
+        <http://data.europa.eu/eli/ontology#is_exemplified_by>
+                <http://publications.europa.eu/resource/celex/31980L0181.FIN.pdfa1b.31980L0181_FI.pdf> ;
+        <http://data.europa.eu/eli/ontology#publisher_agent>
+                <http://publications.europa.eu/resource/authority/corporate-body/PUBL> .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/lav/pdf>
+        a       <http://data.europa.eu/eli/ontology#Format> ;
+        <http://data.europa.eu/eli/ontology#embodies>
+                <http://data.europa.eu/eli/dir/1980/181/oj/lav> ;
+        <http://data.europa.eu/eli/ontology#format>
+                <http://www.iana.org/assignments/media-types/application/pdf> ;
+        <http://data.europa.eu/eli/ontology#is_exemplified_by>
+                <http://publications.europa.eu/resource/celex/31980L0181.LAV.pdf.31980L0181_LV.pdf> ;
+        <http://data.europa.eu/eli/ontology#publisher_agent>
+                <http://publications.europa.eu/resource/authority/corporate-body/PUBL> .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/hrv/pdfa1a>
+        a       <http://data.europa.eu/eli/ontology#Format> ;
+        <http://data.europa.eu/eli/ontology#embodies>
+                <http://data.europa.eu/eli/dir/1980/181/oj/hrv> ;
+        <http://data.europa.eu/eli/ontology#format>
+                <http://www.iana.org/assignments/media-types/application/pdf;type=pdfa1a> ;
+        <http://data.europa.eu/eli/ontology#is_exemplified_by>
+                <http://publications.europa.eu/resource/celex/31980L0181.HRV.pdfa1a.31980L0181_HR.pdf> ;
+        <http://data.europa.eu/eli/ontology#publisher_agent>
+                <http://publications.europa.eu/resource/authority/corporate-body/PUBL> .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/fin>
+        a       <http://data.europa.eu/eli/ontology#LegalExpression> ;
+        <http://data.europa.eu/eli/ontology#is_embodied_by>
+                <http://data.europa.eu/eli/dir/1980/181/oj/fin/print> , <http://data.europa.eu/eli/dir/1980/181/oj/fin/pdfa1b> , <http://data.europa.eu/eli/dir/1980/181/oj/fin/html> ;
+        <http://data.europa.eu/eli/ontology#language>
+                <http://publications.europa.eu/resource/authority/language/FIN> ;
+        <http://data.europa.eu/eli/ontology#realizes>
+                <http://data.europa.eu/eli/dir/1980/181/oj> ;
+        <http://data.europa.eu/eli/ontology#title>
+                "Neuvoston direktiivi 80/181/ETY, annettu 20 päivänä joulukuuta 1979, mittayksikköjä koskevan jäsenvaltioiden lainsäädännön lähentämisestä ja direktiivin 71/354/ETY kumoamisesta"@fi .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/bul/fmx4>
+        a       <http://data.europa.eu/eli/ontology#Format> ;
+        <http://data.europa.eu/eli/ontology#embodies>
+                <http://data.europa.eu/eli/dir/1980/181/oj/bul> ;
+        <http://data.europa.eu/eli/ontology#format>
+                <http://www.iana.org/assignments/media-types/application/xml> ;
+        <http://data.europa.eu/eli/ontology#is_exemplified_by>
+                <http://publications.europa.eu/resource/celex/31980L0181.BUL.fmx4.L_1980039BG.01004301.xml> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.fmx4.L_1980039BG.01004001.xml> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.fmx4.L_1980039BG.01004001.doc.xml> ;
+        <http://data.europa.eu/eli/ontology#publisher_agent>
+                <http://publications.europa.eu/resource/authority/corporate-body/PUBL> .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/eng>
+        a       <http://data.europa.eu/eli/ontology#LegalExpression> ;
+        <http://data.europa.eu/eli/ontology#is_embodied_by>
+                <http://data.europa.eu/eli/dir/1980/181/oj/eng/print> , <http://data.europa.eu/eli/dir/1980/181/oj/eng/pdfa1b> , <http://data.europa.eu/eli/dir/1980/181/oj/eng/html> ;
+        <http://data.europa.eu/eli/ontology#language>
+                <http://publications.europa.eu/resource/authority/language/ENG> ;
+        <http://data.europa.eu/eli/ontology#realizes>
+                <http://data.europa.eu/eli/dir/1980/181/oj> ;
+        <http://data.europa.eu/eli/ontology#title>
+                "Council Directive 80/181/EEC of 20 December 1979 on the approximation of the laws of the Member States relating to units of measurement and on the repeal of Directive 71/354/EEC"@en .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/lav>
+        a       <http://data.europa.eu/eli/ontology#LegalExpression> ;
+        <http://data.europa.eu/eli/ontology#is_embodied_by>
+                <http://data.europa.eu/eli/dir/1980/181/oj/lav/print> , <http://data.europa.eu/eli/dir/1980/181/oj/lav/pdf> , <http://data.europa.eu/eli/dir/1980/181/oj/lav/html> ;
+        <http://data.europa.eu/eli/ontology#language>
+                <http://publications.europa.eu/resource/authority/language/LAV> ;
+        <http://data.europa.eu/eli/ontology#realizes>
+                <http://data.europa.eu/eli/dir/1980/181/oj> ;
+        <http://data.europa.eu/eli/ontology#title>
+                "Padomes Direktīva (1979. gada 20. decembris) par dalībvalstu tiesību aktu tuvināšanu attiecībā uz mērvienībām un par Direktīvas 71/354/EEK atcelšanu"@lv .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/dan/print>
+        a       <http://data.europa.eu/eli/ontology#Format> ;
+        <http://data.europa.eu/eli/ontology#embodies>
+                <http://data.europa.eu/eli/dir/1980/181/oj/dan> ;
+        <http://data.europa.eu/eli/ontology#format>
+                <http://www.w3.org/1999/02/print> ;
+        <http://data.europa.eu/eli/ontology#publisher_agent>
+                <http://publications.europa.eu/resource/authority/corporate-body/PUBL> .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/ell>
+        a       <http://data.europa.eu/eli/ontology#LegalExpression> ;
+        <http://data.europa.eu/eli/ontology#is_embodied_by>
+                <http://data.europa.eu/eli/dir/1980/181/oj/ell/print> , <http://data.europa.eu/eli/dir/1980/181/oj/ell/pdfa1b> , <http://data.europa.eu/eli/dir/1980/181/oj/ell/html> ;
+        <http://data.europa.eu/eli/ontology#language>
+                <http://publications.europa.eu/resource/authority/language/ELL> ;
+        <http://data.europa.eu/eli/ontology#realizes>
+                <http://data.europa.eu/eli/dir/1980/181/oj> ;
+        <http://data.europa.eu/eli/ontology#title>
+                "Οδηγία 80/181/ΕΟΚ του Συμβουλίου της 20ής Δεκεμβρίου 1979 περί προσεγγίσεως των νομοθεσιών των κρατών μελών των αναφερομένων στις μονάδες μετρήσεως και καταργήσεως της οδηγίας 71/354/ΕΟΚ"@el .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/slv/print>
+        a       <http://data.europa.eu/eli/ontology#Format> ;
+        <http://data.europa.eu/eli/ontology#embodies>
+                <http://data.europa.eu/eli/dir/1980/181/oj/slv> ;
+        <http://data.europa.eu/eli/ontology#format>
+                <http://www.w3.org/1999/02/print> ;
+        <http://data.europa.eu/eli/ontology#publisher_agent>
+                <http://publications.europa.eu/resource/authority/corporate-body/PUBL> .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/ron/pdf>
+        a       <http://data.europa.eu/eli/ontology#Format> ;
+        <http://data.europa.eu/eli/ontology#embodies>
+                <http://data.europa.eu/eli/dir/1980/181/oj/ron> ;
+        <http://data.europa.eu/eli/ontology#format>
+                <http://www.iana.org/assignments/media-types/application/pdf> ;
+        <http://data.europa.eu/eli/ontology#is_exemplified_by>
+                <http://publications.europa.eu/resource/celex/31980L0181.RON.pdf.31980L0181_RO.pdf> ;
+        <http://data.europa.eu/eli/ontology#publisher_agent>
+                <http://publications.europa.eu/resource/authority/corporate-body/PUBL> .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/ces>
+        a       <http://data.europa.eu/eli/ontology#LegalExpression> ;
+        <http://data.europa.eu/eli/ontology#is_embodied_by>
+                <http://data.europa.eu/eli/dir/1980/181/oj/ces/print> , <http://data.europa.eu/eli/dir/1980/181/oj/ces/pdf> , <http://data.europa.eu/eli/dir/1980/181/oj/ces/html> ;
+        <http://data.europa.eu/eli/ontology#language>
+                <http://publications.europa.eu/resource/authority/language/CES> ;
+        <http://data.europa.eu/eli/ontology#realizes>
+                <http://data.europa.eu/eli/dir/1980/181/oj> ;
+        <http://data.europa.eu/eli/ontology#title>
+                "Směrnice Rady ze dne 20. prosince 1979 o sbližování právních předpisů členských států týkajících se jednotek měření a o zrušení směrnice 71/354/EHS"@cs .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/hun/pdf>
+        a       <http://data.europa.eu/eli/ontology#Format> ;
+        <http://data.europa.eu/eli/ontology#embodies>
+                <http://data.europa.eu/eli/dir/1980/181/oj/hun> ;
+        <http://data.europa.eu/eli/ontology#format>
+                <http://www.iana.org/assignments/media-types/application/pdf> ;
+        <http://data.europa.eu/eli/ontology#is_exemplified_by>
+                <http://publications.europa.eu/resource/celex/31980L0181.HUN.pdf.31980L0181_HU.pdf> ;
+        <http://data.europa.eu/eli/ontology#publisher_agent>
+                <http://publications.europa.eu/resource/authority/corporate-body/PUBL> .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/ces/print>
+        a       <http://data.europa.eu/eli/ontology#Format> ;
+        <http://data.europa.eu/eli/ontology#embodies>
+                <http://data.europa.eu/eli/dir/1980/181/oj/ces> ;
+        <http://data.europa.eu/eli/ontology#format>
+                <http://www.w3.org/1999/02/print> ;
+        <http://data.europa.eu/eli/ontology#publisher_agent>
+                <http://publications.europa.eu/resource/authority/corporate-body/PUBL> .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/bul>
+        a       <http://data.europa.eu/eli/ontology#LegalExpression> ;
+        <http://data.europa.eu/eli/ontology#is_embodied_by>
+                <http://data.europa.eu/eli/dir/1980/181/oj/bul/xhtml> , <http://data.europa.eu/eli/dir/1980/181/oj/bul/print> , <http://data.europa.eu/eli/dir/1980/181/oj/bul/pdf> , <http://data.europa.eu/eli/dir/1980/181/oj/bul/html> , <http://data.europa.eu/eli/dir/1980/181/oj/bul/fmx4> ;
+        <http://data.europa.eu/eli/ontology#language>
+                <http://publications.europa.eu/resource/authority/language/BUL> ;
+        <http://data.europa.eu/eli/ontology#realizes>
+                <http://data.europa.eu/eli/dir/1980/181/oj> ;
+        <http://data.europa.eu/eli/ontology#title>
+                "Директива на Съвета от 20 декември 1979 година за сближаване на законодателствата на държавите-членки относно мерните единици и за отмяна на Директива 71/354/ЕИО"@bg .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/hrv/fmx4>
+        a       <http://data.europa.eu/eli/ontology#Format> ;
+        <http://data.europa.eu/eli/ontology#embodies>
+                <http://data.europa.eu/eli/dir/1980/181/oj/hrv> ;
+        <http://data.europa.eu/eli/ontology#format>
+                <http://www.iana.org/assignments/media-types/application/xml> ;
+        <http://data.europa.eu/eli/ontology#is_exemplified_by>
+                <http://publications.europa.eu/resource/celex/31980L0181.HRV.fmx4.L_1980039HR.01004301.xml> , <http://publications.europa.eu/resource/celex/31980L0181.HRV.fmx4.L_1980039HR.01004001.doc.xml> , <http://publications.europa.eu/resource/celex/31980L0181.HRV.fmx4.L_1980039HR.01004001.xml> ;
+        <http://data.europa.eu/eli/ontology#publisher_agent>
+                <http://publications.europa.eu/resource/authority/corporate-body/PUBL> .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/ita/html>
+        a       <http://data.europa.eu/eli/ontology#Format> ;
+        <http://data.europa.eu/eli/ontology#embodies>
+                <http://data.europa.eu/eli/dir/1980/181/oj/ita> ;
+        <http://data.europa.eu/eli/ontology#format>
+                <http://www.iana.org/assignments/media-types/text/html> ;
+        <http://data.europa.eu/eli/ontology#is_exemplified_by>
+                <http://publications.europa.eu/resource/celex/31980L0181.ITA.html.31980L0181it.html> ;
+        <http://data.europa.eu/eli/ontology#publisher_agent>
+                <http://publications.europa.eu/resource/authority/corporate-body/PUBL> .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/dan/html>
+        a       <http://data.europa.eu/eli/ontology#Format> ;
+        <http://data.europa.eu/eli/ontology#embodies>
+                <http://data.europa.eu/eli/dir/1980/181/oj/dan> ;
+        <http://data.europa.eu/eli/ontology#format>
+                <http://www.iana.org/assignments/media-types/text/html> ;
+        <http://data.europa.eu/eli/ontology#is_exemplified_by>
+                <http://publications.europa.eu/resource/celex/31980L0181.DAN.html.31980L0181da.html> ;
+        <http://data.europa.eu/eli/ontology#publisher_agent>
+                <http://publications.europa.eu/resource/authority/corporate-body/PUBL> .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/lav/print>
+        a       <http://data.europa.eu/eli/ontology#Format> ;
+        <http://data.europa.eu/eli/ontology#embodies>
+                <http://data.europa.eu/eli/dir/1980/181/oj/lav> ;
+        <http://data.europa.eu/eli/ontology#format>
+                <http://www.w3.org/1999/02/print> ;
+        <http://data.europa.eu/eli/ontology#publisher_agent>
+                <http://publications.europa.eu/resource/authority/corporate-body/PUBL> .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/hrv/xhtml>
+        a       <http://data.europa.eu/eli/ontology#Format> ;
+        <http://data.europa.eu/eli/ontology#embodies>
+                <http://data.europa.eu/eli/dir/1980/181/oj/hrv> ;
+        <http://data.europa.eu/eli/ontology#format>
+                <http://www.iana.org/assignments/media-types/application/xhtml+xml> ;
+        <http://data.europa.eu/eli/ontology#is_exemplified_by>
+                <http://publications.europa.eu/resource/celex/31980L0181.HRV.xhtml.FOR-L_1980039HR.01004301.notes.0005.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.HRV.xhtml.FOR-L_2013060HR.01009401.notes.0003.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.HRV.xhtml.FOR-L_2008024HR.01003201.notes.0001.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.HRV.xhtml.FOR-L_1980039HR.01004301.notes.0002.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.HRV.xhtml.FOR-L_1980039HR.01004301.notes.0004.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.HRV.xhtml.FOR-L_2013060HR.01009401.notes.0004.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.HRV.xhtml.FOR-L_1980039HR.01004301.notes.0001.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.HRV.xhtml.FOR-L_2013060HR.01009401.notes.0002.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.HRV.xhtml.FOR-L_1980039HR.01004301.notes.0003.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.HRV.xhtml.FOR-L_2013056HR.01000901.notes.0001.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.HRV.xhtml.FOR-L_2013060HR.01009401.notes.0001.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.HRV.xhtml.L_1980039HR.01004001.doc.html> ;
+        <http://data.europa.eu/eli/ontology#publisher_agent>
+                <http://publications.europa.eu/resource/authority/corporate-body/PUBL> .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/nld>
+        a       <http://data.europa.eu/eli/ontology#LegalExpression> ;
+        <http://data.europa.eu/eli/ontology#is_embodied_by>
+                <http://data.europa.eu/eli/dir/1980/181/oj/nld/print> , <http://data.europa.eu/eli/dir/1980/181/oj/nld/pdfa1b> , <http://data.europa.eu/eli/dir/1980/181/oj/nld/html> ;
+        <http://data.europa.eu/eli/ontology#language>
+                <http://publications.europa.eu/resource/authority/language/NLD> ;
+        <http://data.europa.eu/eli/ontology#realizes>
+                <http://data.europa.eu/eli/dir/1980/181/oj> ;
+        <http://data.europa.eu/eli/ontology#title>
+                "Richtlijn 80/181/EEG van de Raad van 20 december 1979 inzake de onderlinge aanpassing van de wetgevingen der Lid-Staten op het gebied van de meeteenheden, en tot intrekking van Richtlijn 71/354/EEG"@nl .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/ita/print>
+        a       <http://data.europa.eu/eli/ontology#Format> ;
+        <http://data.europa.eu/eli/ontology#embodies>
+                <http://data.europa.eu/eli/dir/1980/181/oj/ita> ;
+        <http://data.europa.eu/eli/ontology#format>
+                <http://www.w3.org/1999/02/print> ;
+        <http://data.europa.eu/eli/ontology#publisher_agent>
+                <http://publications.europa.eu/resource/authority/corporate-body/PUBL> .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/spa/html>
+        a       <http://data.europa.eu/eli/ontology#Format> ;
+        <http://data.europa.eu/eli/ontology#embodies>
+                <http://data.europa.eu/eli/dir/1980/181/oj/spa> ;
+        <http://data.europa.eu/eli/ontology#format>
+                <http://www.iana.org/assignments/media-types/text/html> ;
+        <http://data.europa.eu/eli/ontology#is_exemplified_by>
+                <http://publications.europa.eu/resource/celex/31980L0181.SPA.html.31980L0181es.html> ;
+        <http://data.europa.eu/eli/ontology#publisher_agent>
+                <http://publications.europa.eu/resource/authority/corporate-body/PUBL> .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/lit/print>
+        a       <http://data.europa.eu/eli/ontology#Format> ;
+        <http://data.europa.eu/eli/ontology#embodies>
+                <http://data.europa.eu/eli/dir/1980/181/oj/lit> ;
+        <http://data.europa.eu/eli/ontology#format>
+                <http://www.w3.org/1999/02/print> ;
+        <http://data.europa.eu/eli/ontology#publisher_agent>
+                <http://publications.europa.eu/resource/authority/corporate-body/PUBL> .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/mlt/pdf>
+        a       <http://data.europa.eu/eli/ontology#Format> ;
+        <http://data.europa.eu/eli/ontology#embodies>
+                <http://data.europa.eu/eli/dir/1980/181/oj/mlt> ;
+        <http://data.europa.eu/eli/ontology#format>
+                <http://www.iana.org/assignments/media-types/application/pdf> ;
+        <http://data.europa.eu/eli/ontology#is_exemplified_by>
+                <http://publications.europa.eu/resource/celex/31980L0181.MLT.pdf.31980L0181_MT.pdf> ;
+        <http://data.europa.eu/eli/ontology#publisher_agent>
+                <http://publications.europa.eu/resource/authority/corporate-body/PUBL> .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/ell/html>
+        a       <http://data.europa.eu/eli/ontology#Format> ;
+        <http://data.europa.eu/eli/ontology#embodies>
+                <http://data.europa.eu/eli/dir/1980/181/oj/ell> ;
+        <http://data.europa.eu/eli/ontology#format>
+                <http://www.iana.org/assignments/media-types/text/html> ;
+        <http://data.europa.eu/eli/ontology#is_exemplified_by>
+                <http://publications.europa.eu/resource/celex/31980L0181.ELL.html.31980L0181el.html> ;
+        <http://data.europa.eu/eli/ontology#publisher_agent>
+                <http://publications.europa.eu/resource/authority/corporate-body/PUBL> .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/ita>
+        a       <http://data.europa.eu/eli/ontology#LegalExpression> ;
+        <http://data.europa.eu/eli/ontology#is_embodied_by>
+                <http://data.europa.eu/eli/dir/1980/181/oj/ita/print> , <http://data.europa.eu/eli/dir/1980/181/oj/ita/pdfa1b> , <http://data.europa.eu/eli/dir/1980/181/oj/ita/html> ;
+        <http://data.europa.eu/eli/ontology#language>
+                <http://publications.europa.eu/resource/authority/language/ITA> ;
+        <http://data.europa.eu/eli/ontology#realizes>
+                <http://data.europa.eu/eli/dir/1980/181/oj> ;
+        <http://data.europa.eu/eli/ontology#title>
+                "Direttiva 80/181/CEE del Consiglio, del 20 dicembre 1979, per il ravvicinamento delle legislazioni degli Stati Membri relative alle unità di misura che abroga la direttiva 71/354/CEE"@it .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/fra>
+        a       <http://data.europa.eu/eli/ontology#LegalExpression> ;
+        <http://data.europa.eu/eli/ontology#is_embodied_by>
+                <http://data.europa.eu/eli/dir/1980/181/oj/fra/print> , <http://data.europa.eu/eli/dir/1980/181/oj/fra/pdfa1b> , <http://data.europa.eu/eli/dir/1980/181/oj/fra/html> ;
+        <http://data.europa.eu/eli/ontology#language>
+                <http://publications.europa.eu/resource/authority/language/FRA> ;
+        <http://data.europa.eu/eli/ontology#realizes>
+                <http://data.europa.eu/eli/dir/1980/181/oj> ;
+        <http://data.europa.eu/eli/ontology#title>
+                "Directive 80/181/CEE du Conseil, du 20 décembre 1979, concernant le rapprochement des législations des États membres relatives aux unités de mesure et abrogeant la directive 71/354/CEE"@fr .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/eng/print>
+        a       <http://data.europa.eu/eli/ontology#Format> ;
+        <http://data.europa.eu/eli/ontology#embodies>
+                <http://data.europa.eu/eli/dir/1980/181/oj/eng> ;
+        <http://data.europa.eu/eli/ontology#format>
+                <http://www.w3.org/1999/02/print> ;
+        <http://data.europa.eu/eli/ontology#publisher_agent>
+                <http://publications.europa.eu/resource/authority/corporate-body/PUBL> .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/por>
+        a       <http://data.europa.eu/eli/ontology#LegalExpression> ;
+        <http://data.europa.eu/eli/ontology#is_embodied_by>
+                <http://data.europa.eu/eli/dir/1980/181/oj/por/print> , <http://data.europa.eu/eli/dir/1980/181/oj/por/pdfa1b> , <http://data.europa.eu/eli/dir/1980/181/oj/por/html> ;
+        <http://data.europa.eu/eli/ontology#language>
+                <http://publications.europa.eu/resource/authority/language/POR> ;
+        <http://data.europa.eu/eli/ontology#realizes>
+                <http://data.europa.eu/eli/dir/1980/181/oj> ;
+        <http://data.europa.eu/eli/ontology#title>
+                "Directiva 80/181/CEE do Conselho, de 20 de Dezembro de 1979, relativa à aproximação das legislações dos Estados-Membros respeitantes às unidades de medida e que revoga a Directiva 71/354/CEE"@pt .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/slk/print>
+        a       <http://data.europa.eu/eli/ontology#Format> ;
+        <http://data.europa.eu/eli/ontology#embodies>
+                <http://data.europa.eu/eli/dir/1980/181/oj/slk> ;
+        <http://data.europa.eu/eli/ontology#format>
+                <http://www.w3.org/1999/02/print> ;
+        <http://data.europa.eu/eli/ontology#publisher_agent>
+                <http://publications.europa.eu/resource/authority/corporate-body/PUBL> .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/est/html>
+        a       <http://data.europa.eu/eli/ontology#Format> ;
+        <http://data.europa.eu/eli/ontology#embodies>
+                <http://data.europa.eu/eli/dir/1980/181/oj/est> ;
+        <http://data.europa.eu/eli/ontology#format>
+                <http://www.iana.org/assignments/media-types/text/html> ;
+        <http://data.europa.eu/eli/ontology#is_exemplified_by>
+                <http://publications.europa.eu/resource/celex/31980L0181.EST.html.31980L0181et.html> ;
+        <http://data.europa.eu/eli/ontology#publisher_agent>
+                <http://publications.europa.eu/resource/authority/corporate-body/PUBL> .
+
+<http://data.europa.eu/eli/dir/1980/181/oj>
+        a       <http://data.europa.eu/eli/ontology#LegalResource> ;
+        <http://data.europa.eu/eli/ontology#based_on>
+                <http://publications.europa.eu/resource/authority/treaty/TEEC_1957> ;
+        <http://data.europa.eu/eli/ontology#changed_by>
+                <http://data.europa.eu/eli/dir/2019/1258/oj> , <http://data.europa.eu/eli/dir/1985/1/oj> , <http://publications.europa.eu/resource/celex/32009L0003> , <http://data.europa.eu/eli/dir/1989/617/oj> , <http://data.europa.eu/eli/dir/1999/103/oj> ;
+        <http://data.europa.eu/eli/ontology#changes>
+                <http://data.europa.eu/eli/dir/1971/354/oj> ;
+        <http://data.europa.eu/eli/ontology#cites>
+                <http://data.europa.eu/eli/dir/1976/770/oj> ;
+        <http://data.europa.eu/eli/ontology#consolidated_by>
+                <http://data.europa.eu/eli/dir/1980/181/2009-05-27> , <http://data.europa.eu/eli/dir/1980/181/2000-02-09> , <http://data.europa.eu/eli/dir/1980/181/1984-12-20> , <http://data.europa.eu/eli/dir/1980/181/1979-12-21> , <http://data.europa.eu/eli/dir/1980/181/1989-11-30> ;
+        <http://data.europa.eu/eli/ontology#date_document>
+                "1979-12-20"^^<http://www.w3.org/2001/XMLSchema#date> ;
+        <http://data.europa.eu/eli/ontology#date_publication>
+                "1980-02-15"^^<http://www.w3.org/2001/XMLSchema#date> ;
+        <http://data.europa.eu/eli/ontology#first_date_entry_in_force>
+                "1979-12-21"^^<http://www.w3.org/2001/XMLSchema#date> ;
+        <http://data.europa.eu/eli/ontology#id_local>
+                "31980L0181" ;
+        <http://data.europa.eu/eli/ontology#in_force>
+                <http://data.europa.eu/eli/ontology#InForce-inForce> ;
+        <http://data.europa.eu/eli/ontology#is_about>
+                <http://eurovoc.europa.eu/1896> , <http://eurovoc.europa.eu/2159> , <http://eurovoc.europa.eu/2897> ;
+        <http://data.europa.eu/eli/ontology#is_realized_by>
+                <http://data.europa.eu/eli/dir/1980/181/oj/ell> , <http://data.europa.eu/eli/dir/1980/181/oj/eng> , <http://data.europa.eu/eli/dir/1980/181/oj/slv> , <http://data.europa.eu/eli/dir/1980/181/oj/mlt> , <http://data.europa.eu/eli/dir/1980/181/oj/por> , <http://data.europa.eu/eli/dir/1980/181/oj/fin> , <http://data.europa.eu/eli/dir/1980/181/oj/swe> , <http://data.europa.eu/eli/dir/1980/181/oj/ron> , <http://data.europa.eu/eli/dir/1980/181/oj/lit> , <http://data.europa.eu/eli/dir/1980/181/oj/hun> , <http://data.europa.eu/eli/dir/1980/181/oj/bul> , <http://data.europa.eu/eli/dir/1980/181/oj/pol> , <http://data.europa.eu/eli/dir/1980/181/oj/fra> , <http://data.europa.eu/eli/dir/1980/181/oj/deu> , <http://data.europa.eu/eli/dir/1980/181/oj/ces> , <http://data.europa.eu/eli/dir/1980/181/oj/ita> , <http://data.europa.eu/eli/dir/1980/181/oj/nld> , <http://data.europa.eu/eli/dir/1980/181/oj/slk> , <http://data.europa.eu/eli/dir/1980/181/oj/dan> , <http://data.europa.eu/eli/dir/1980/181/oj/est> , <http://data.europa.eu/eli/dir/1980/181/oj/spa> , <http://data.europa.eu/eli/dir/1980/181/oj/hrv> , <http://data.europa.eu/eli/dir/1980/181/oj/lav> ;
+        <http://data.europa.eu/eli/ontology#passed_by>
+                <http://publications.europa.eu/resource/authority/corporate-body/CONSIL> ;
+        <http://data.europa.eu/eli/ontology#related_to>
+                <http://publications.europa.eu/resource/celex/51980FC0181> ;
+        <http://data.europa.eu/eli/ontology#responsibility_of>
+                "DG03/D/04"@en ;
+        <http://data.europa.eu/eli/ontology#transposed_by>
+                <http://publications.europa.eu/resource/celex/71971L0317POL_30692> , <http://publications.europa.eu/resource/celex/71980L0181GBR_56668> , <http://publications.europa.eu/resource/celex/71980L0181PRT_56635> , <http://publications.europa.eu/resource/celex/71980L0181PRT_56637> , <http://publications.europa.eu/resource/celex/71985L0001CYP_28163> , <http://publications.europa.eu/resource/celex/71983L0575LVA_31142> , <http://publications.europa.eu/resource/celex/71980L0181GBR_56670> , <http://publications.europa.eu/resource/celex/71980L0181ITA_56643> , <http://publications.europa.eu/resource/celex/71980L0181FIN_56682> , <http://publications.europa.eu/resource/celex/71980L0181PRT_56638> , <http://publications.europa.eu/resource/celex/71989L0617SVN_23138> , <http://publications.europa.eu/resource/celex/71971L0316HUN_24480> , <http://publications.europa.eu/resource/celex/71980L0181AUT_56680> , <http://publications.europa.eu/resource/celex/71980L0181GBR_56652> , <http://publications.europa.eu/resource/celex/71980L0181GBR_56654> , <http://publications.europa.eu/resource/celex/71980L0181NLD_56631> , <http://publications.europa.eu/resource/celex/71980L0181GBR_56663> , <http://publications.europa.eu/resource/celex/71980L0181PRT_56633> , <http://publications.europa.eu/resource/celex/71980L0181GBR_56666> , <http://publications.europa.eu/resource/celex/71980L0181GBR_56665> , <http://publications.europa.eu/resource/celex/71987L0355POL_30691> , <http://publications.europa.eu/resource/celex/71980L0181SWE_56679> , <http://publications.europa.eu/resource/celex/71980L0181SWE_56677> , <http://publications.europa.eu/resource/celex/71980L0181DEU_56674> , <http://publications.europa.eu/resource/celex/71980L0181GBR_56655> , <http://publications.europa.eu/resource/celex/71980L0181ITA_56642> , <http://publications.europa.eu/resource/celex/71980L0181BGR_136832> , <http://publications.europa.eu/resource/celex/71980L0181BGR_136833> , <http://publications.europa.eu/resource/celex/71985L0001CYP_28167> , <http://publications.europa.eu/resource/celex/71971L0319SVN_23305> , <http://publications.europa.eu/resource/celex/71980L0181GBR_56657> , <http://publications.europa.eu/resource/celex/71980L0181FIN_56683> , <http://publications.europa.eu/resource/celex/71980L0181DNK_56647> , <http://publications.europa.eu/resource/celex/71989L0617CYP_28263> , <http://publications.europa.eu/resource/celex/71980L0181GBR_56671> , <http://publications.europa.eu/resource/celex/71980L0181GBR_56673> , <http://publications.europa.eu/resource/celex/71980L0181AUT_56681> , <http://publications.europa.eu/resource/celex/72009L0003HUN_24478> , <http://publications.europa.eu/resource/celex/71980L0181SWE_56678> , <http://publications.europa.eu/resource/celex/71989L0617ROU_135029> , <http://publications.europa.eu/resource/celex/71980L0181GBR_56656> , <http://publications.europa.eu/resource/celex/71980L0181GBR_56667> , <http://publications.europa.eu/resource/celex/71971L0347LVA_20115> , <http://publications.europa.eu/resource/celex/71971L0318POL_122900> , <http://publications.europa.eu/resource/celex/71980L0181DEU_56676> , <http://publications.europa.eu/resource/celex/71980L0181DEU_56675> , <http://publications.europa.eu/resource/celex/71980L0181BEL_56645> , <http://publications.europa.eu/resource/celex/71980L0181ESP_56639> , <http://publications.europa.eu/resource/celex/71985L0001HUN_29146> , <http://publications.europa.eu/resource/celex/71980L0181PRT_56634> , <http://publications.europa.eu/resource/celex/71980L0181PRT_56636> , <http://publications.europa.eu/resource/celex/71980L0181EST_27723> , <http://publications.europa.eu/resource/celex/71980L0181GBR_56658> , <http://publications.europa.eu/resource/celex/71980L0181GBR_56669> , <http://publications.europa.eu/resource/celex/71980L0181NLD_56630> , <http://publications.europa.eu/resource/celex/71980L0181GBR_56660> , <http://publications.europa.eu/resource/celex/71980L0181GBR_56662> , <http://publications.europa.eu/resource/celex/71980L0181GBR_56661> , <http://publications.europa.eu/resource/celex/71980L0181DNK_56648> , <http://publications.europa.eu/resource/celex/71980L0181GBR_56664> , <http://publications.europa.eu/resource/celex/71980L0181LVA_168129> , <http://publications.europa.eu/resource/celex/71980L0181ESP_56640> , <http://publications.europa.eu/resource/celex/71980L0181GBR_56672> , <http://publications.europa.eu/resource/celex/71980L0181GRC_56641> , <http://publications.europa.eu/resource/celex/71980L0181GBR_56659> , <http://publications.europa.eu/resource/celex/71976L0211SVK_22308> , <http://publications.europa.eu/resource/celex/71980L0181FRA_56644> , <http://publications.europa.eu/resource/celex/71980L0181GBR_56651> , <http://publications.europa.eu/resource/celex/71999L0103POL_140242> , <http://publications.europa.eu/resource/celex/71980L0181GBR_56653> , <http://publications.europa.eu/resource/celex/71980L0181PRT_56632> , <http://publications.europa.eu/resource/celex/71974L0331POL_23377> , <http://publications.europa.eu/resource/celex/71971L0348POL_30693> ;
+        <http://data.europa.eu/eli/ontology#type_document>
+                <http://publications.europa.eu/resource/authority/resource-type/DIR> ;
+        <http://data.europa.eu/eli/ontology#uri_schema>
+                <http://data.europa.eu/eli/%7Btypedoc%7D/%7Byear%7D/%7Bnatural_number%7D/oj> .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/pol>
+        a       <http://data.europa.eu/eli/ontology#LegalExpression> ;
+        <http://data.europa.eu/eli/ontology#is_embodied_by>
+                <http://data.europa.eu/eli/dir/1980/181/oj/pol/print> , <http://data.europa.eu/eli/dir/1980/181/oj/pol/pdf> , <http://data.europa.eu/eli/dir/1980/181/oj/pol/html> ;
+        <http://data.europa.eu/eli/ontology#language>
+                <http://publications.europa.eu/resource/authority/language/POL> ;
+        <http://data.europa.eu/eli/ontology#realizes>
+                <http://data.europa.eu/eli/dir/1980/181/oj> ;
+        <http://data.europa.eu/eli/ontology#title>
+                "Dyrektywa Rady z dnia 20 grudnia 1979 r. w sprawie zbliżenia ustawodawstw Państw Członkowskich odnoszących się do jednostek miar i uchylająca dyrektywę 71/354/EWG"@pl .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/slk/pdf>
+        a       <http://data.europa.eu/eli/ontology#Format> ;
+        <http://data.europa.eu/eli/ontology#embodies>
+                <http://data.europa.eu/eli/dir/1980/181/oj/slk> ;
+        <http://data.europa.eu/eli/ontology#format>
+                <http://www.iana.org/assignments/media-types/application/pdf> ;
+        <http://data.europa.eu/eli/ontology#is_exemplified_by>
+                <http://publications.europa.eu/resource/celex/31980L0181.SLK.pdf.31980L0181_SK.pdf> ;
+        <http://data.europa.eu/eli/ontology#publisher_agent>
+                <http://publications.europa.eu/resource/authority/corporate-body/PUBL> .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/fin/html>
+        a       <http://data.europa.eu/eli/ontology#Format> ;
+        <http://data.europa.eu/eli/ontology#embodies>
+                <http://data.europa.eu/eli/dir/1980/181/oj/fin> ;
+        <http://data.europa.eu/eli/ontology#format>
+                <http://www.iana.org/assignments/media-types/text/html> ;
+        <http://data.europa.eu/eli/ontology#is_exemplified_by>
+                <http://publications.europa.eu/resource/celex/31980L0181.FIN.html.31980L0181fi.html> ;
+        <http://data.europa.eu/eli/ontology#publisher_agent>
+                <http://publications.europa.eu/resource/authority/corporate-body/PUBL> .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/est/print>
+        a       <http://data.europa.eu/eli/ontology#Format> ;
+        <http://data.europa.eu/eli/ontology#embodies>
+                <http://data.europa.eu/eli/dir/1980/181/oj/est> ;
+        <http://data.europa.eu/eli/ontology#format>
+                <http://www.w3.org/1999/02/print> ;
+        <http://data.europa.eu/eli/ontology#publisher_agent>
+                <http://publications.europa.eu/resource/authority/corporate-body/PUBL> .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/slv/html>
+        a       <http://data.europa.eu/eli/ontology#Format> ;
+        <http://data.europa.eu/eli/ontology#embodies>
+                <http://data.europa.eu/eli/dir/1980/181/oj/slv> ;
+        <http://data.europa.eu/eli/ontology#format>
+                <http://www.iana.org/assignments/media-types/text/html> ;
+        <http://data.europa.eu/eli/ontology#is_exemplified_by>
+                <http://publications.europa.eu/resource/celex/31980L0181.SLV.html.31980L0181sl.html> ;
+        <http://data.europa.eu/eli/ontology#publisher_agent>
+                <http://publications.europa.eu/resource/authority/corporate-body/PUBL> .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/bul/xhtml>
+        a       <http://data.europa.eu/eli/ontology#Format> ;
+        <http://data.europa.eu/eli/ontology#embodies>
+                <http://data.europa.eu/eli/dir/1980/181/oj/bul> ;
+        <http://data.europa.eu/eli/ontology#format>
+                <http://www.iana.org/assignments/media-types/application/xhtml+xml> ;
+        <http://data.europa.eu/eli/ontology#is_exemplified_by>
+                <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1980254BG.01003701.notes.0002.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1981257BG.01000501.notes.0002.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1980213BG.01004301.notes.0002.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1981257BG.01000501.notes.0005.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1980254BG.01003701.notes.0003.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1981257BG.01000501.notes.0003.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1980383BG.01002801.notes.0003.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1981167BG.01000701.notes.0006.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.L_1980039BG.01004001.doc.html> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1979239BG.01001701.notes.0008.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1980039BG.01004301.notes.0005.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1981257BG.01000501.notes.0010.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1980375BG.01003801.notes.0005.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1980383BG.01002801.notes.0006.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1980375BG.01003801.notes.0001.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1981257BG.01000501.notes.0009.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1979239BG.01002701.notes.0002.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1980383BG.01002801.notes.0007.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1980375BG.01003801.notes.0004.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1980039BG.01004301.notes.0003.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1980375BG.01003801.notes.0002.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1981167BG.01000701.notes.0001.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1979239BG.01002701.notes.0003.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1981167BG.01000701.notes.0005.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1980213BG.01004301.notes.0008.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1980383BG.01002801.notes.0002.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1979239BG.01001501.notes.0001.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1979239BG.01002701.notes.0006.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1980383BG.01002801.notes.0010.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1980254BG.01003701.notes.0004.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1979239BG.01001701.notes.0007.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1980254BG.01003701.notes.0005.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1980213BG.01004301.notes.0004.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1979239BG.01001701.notes.0003.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1980254BG.01003701.notes.0001.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1980213BG.01004301.notes.0006.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1980039BG.01004301.notes.0002.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1981257BG.01000501.notes.0012.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1980375BG.01003801.notes.0003.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1979239BG.01000301.notes.0005.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1980383BG.01002801.notes.0004.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1979239BG.01000301.notes.0003.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1980213BG.01004301.notes.0001.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1980213BG.01004301.notes.0007.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1979239BG.01001701.notes.0004.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1981257BG.01000501.notes.0011.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1980383BG.01002801.notes.0009.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1981257BG.01000501.notes.0007.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1980375BG.01004801.notes.0003.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1980213BG.01004301.notes.0003.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1981257BG.01000501.notes.0004.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1979239BG.01000301.notes.0004.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1980383BG.01002801.notes.0005.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1981167BG.01000701.notes.0008.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1980375BG.01004801.notes.0001.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1979239BG.01002701.notes.0009.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1981167BG.01000701.notes.0004.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1981167BG.01000701.notes.0003.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1980375BG.01004801.notes.0002.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1980383BG.01002801.notes.0008.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1980375BG.01003801.notes.0007.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1979239BG.01002701.notes.0004.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1981167BG.01000701.notes.0002.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1979239BG.01001701.notes.0005.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1979239BG.01000301.notes.0001.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1980375BG.01003801.notes.0006.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1980383BG.01002801.notes.0001.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1981257BG.01000501.notes.0008.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1980039BG.01004301.notes.0004.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1981257BG.01000501.notes.0001.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1979239BG.01001701.notes.0001.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1979239BG.01002701.notes.0007.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1981257BG.01000501.notes.0006.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1979239BG.01000301.notes.0002.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1979239BG.01002701.notes.0005.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1981167BG.01000701.notes.0007.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1979239BG.01001701.notes.0006.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1980254BG.01003701.notes.0006.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1980213BG.01004301.notes.0005.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1980039BG.01004301.notes.0001.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1980254BG.01003701.notes.0007.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1979239BG.01002701.notes.0001.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1979239BG.01001701.notes.0002.xml.jpg> , <http://publications.europa.eu/resource/celex/31980L0181.BUL.xhtml.FOR-L_1979239BG.01002701.notes.0008.xml.jpg> ;
+        <http://data.europa.eu/eli/ontology#publisher_agent>
+                <http://publications.europa.eu/resource/authority/corporate-body/PUBL> .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/lit/html>
+        a       <http://data.europa.eu/eli/ontology#Format> ;
+        <http://data.europa.eu/eli/ontology#embodies>
+                <http://data.europa.eu/eli/dir/1980/181/oj/lit> ;
+        <http://data.europa.eu/eli/ontology#format>
+                <http://www.iana.org/assignments/media-types/text/html> ;
+        <http://data.europa.eu/eli/ontology#is_exemplified_by>
+                <http://publications.europa.eu/resource/celex/31980L0181.LIT.html.31980L0181lt.html> ;
+        <http://data.europa.eu/eli/ontology#publisher_agent>
+                <http://publications.europa.eu/resource/authority/corporate-body/PUBL> .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/mlt>
+        a       <http://data.europa.eu/eli/ontology#LegalExpression> ;
+        <http://data.europa.eu/eli/ontology#is_embodied_by>
+                <http://data.europa.eu/eli/dir/1980/181/oj/mlt/print> , <http://data.europa.eu/eli/dir/1980/181/oj/mlt/pdf> , <http://data.europa.eu/eli/dir/1980/181/oj/mlt/html> ;
+        <http://data.europa.eu/eli/ontology#language>
+                <http://publications.europa.eu/resource/authority/language/MLT> ;
+        <http://data.europa.eu/eli/ontology#realizes>
+                <http://data.europa.eu/eli/dir/1980/181/oj> ;
+        <http://data.europa.eu/eli/ontology#title>
+                "Id-Direttiva tal-Kunsill ta' l-20 ta' Diċembru 1979 dwar l-approssimazzjoni tal-liġijiet ta' l-Istati Membri dwar l-unitajiet ta' kejl u dwar l-irrevokar tad-Direttiva 71/354/KEE"@mt .
+
+<http://data.europa.eu/eli/dir/1980/181/oj/fin/print>
+        a       <http://data.europa.eu/eli/ontology#Format> ;
+        <http://data.europa.eu/eli/ontology#embodies>
+                <http://data.europa.eu/eli/dir/1980/181/oj/fin> ;
+        <http://data.europa.eu/eli/ontology#format>
+                <http://www.w3.org/1999/02/print> ;
+        <http://data.europa.eu/eli/ontology#publisher_agent>
+                <http://publications.europa.eu/resource/authority/corporate-body/PUBL> .

@@ -1,0 +1,37 @@
+PREFIX shacl:   <http://www.w3.org/ns/shacl#>
+
+SELECT ?sourceShape ?sourceConstraintComponentPretty ?resultSeverityPretty ?resultPath ?message (COUNT(?nodeUri) AS ?count) (SAMPLE(?focusNode) AS ?sampleFocusNode) (SAMPLE(?value) AS ?sampleValue)
+WHERE {
+	?s a shacl:ValidationResult;
+		shacl:focusNode ?nodeUri;
+		shacl:resultSeverity ?resultSeverity;
+		shacl:sourceConstraintComponent ?sourceConstraintComponent;
+		shacl:sourceShape ?sourceShape .	
+	
+	# resultPath is not here on AndConstraintComponent
+	OPTIONAL { ?s shacl:resultPath ?resultPath; }
+	# result message is not here on AndConstraintComponent
+	OPTIONAL { ?s shacl:resultMessage ?message; }
+
+	
+	# Nicer severity
+	BIND(IF(
+		STRSTARTS(STR(?resultSeverity), "http://www.w3.org/ns/shacl#"),
+		STRAFTER(STR(?resultSeverity), "http://www.w3.org/ns/shacl#"),
+		STR(?resultSeverity)
+	) AS ?resultSeverityPretty)
+	
+	# Nicer ConstraintComponent
+	BIND(IF(
+		STRSTARTS(STR(?sourceConstraintComponent), "http://www.w3.org/ns/shacl#"),
+		STRAFTER(STR(?sourceConstraintComponent), "http://www.w3.org/ns/shacl#"),
+		STR(?sourceConstraintComponent)
+	) AS ?sourceConstraintComponentPretty)
+	
+	?s shacl:focusNode ?focusNode .
+	# value is not present for min cardinality violations
+	OPTIONAL { ?s shacl:value ?value. }
+	
+}
+GROUP BY ?sourceShape ?sourceConstraintComponentPretty ?resultSeverityPretty ?resultPath ?message
+ORDER BY DESC(?count)

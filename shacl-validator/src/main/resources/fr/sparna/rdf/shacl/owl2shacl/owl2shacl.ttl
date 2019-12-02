@@ -1,0 +1,942 @@
+# baseURI: http://datashapes.org/owl2shacl
+# imports: http://datashapes.org/dash
+# prefix: owl2shacl
+
+@prefix dash: <http://datashapes.org/dash#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix owl2shacl: <http://datashapes.org/owl2shacl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix swa: <http://topbraid.org/swa#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://datashapes.org/owl2shacl>
+  rdf:type owl:Ontology ;
+  rdfs:comment """A collection of SHACL rules that take an RDFS/OWL ontology as input and produce corresponding SHACL statements, essentially adding closed-world semantics on top of the classes.
+
+Many rules produce mapping metadata that can be used to track which of the anonymous superclasses have been converted and could be removed from the OWL model.""" ;
+  owl:imports <http://datashapes.org/dash> ;
+  sh:declare [
+      rdf:type sh:PrefixDeclaration ;
+      sh:namespace "http://datashapes.org/owl2shacl#"^^xsd:anyURI ;
+      sh:prefix "owl2shacl" ;
+    ] ;
+.
+owl2shacl:ClassShape
+  rdf:type sh:NodeShape ;
+  rdfs:comment "Creates SHACL constraints from RDFS and OWL restrictions attached to the given classes." ;
+  sh:rule owl2shacl:CopyEquivalentIntersection ;
+  # sh:rule owl2shacl:CreatePropertyShapesFromMatchingDomains ;
+  # sh:rule owl2shacl:CreatePropertyShapesFromRestrictions ;
+  sh:rule owl2shacl:FlattenIntersectionOf ;
+  sh:rule owl2shacl:owlAllValuesFrom2shClassOrDatatype ;
+  sh:rule owl2shacl:owlAllValuesFromUnion2shClassOrDatatype ;
+  sh:rule owl2shacl:owlFunctionalProperty2shMaxCount1 ;
+  
+  # sh:rule owl2shacl:owlMaxCardinality2shMaxCount ;
+  # sh:rule owl2shacl:owlMaxQualifiedCardinalityOnClass2shMaxCount ;
+  # sh:rule owl2shacl:owlMaxQualifiedCardinalityOnClass2shQualifiedMaxCount ;
+  # sh:rule owl2shacl:owlMaxQualifiedCardinalityOnDataRange2shQualifiedMaxCount ;
+  # sh:rule owl2shacl:owlMinCardinality2shMinCount ;
+  # sh:rule owl2shacl:owlMinQualifiedCardinalityOnClass2shMinCount ;
+  # sh:rule owl2shacl:owlMinQualifiedCardinalityOnClass2shQualifiedMinCount ;
+  # sh:rule owl2shacl:owlMinQualifiedCardinalityOnDataRange2shQualifiedMinCount ;
+  # sh:rule owl2shacl:owlQualifiedCardinalityOnClass2shMinMaxCount ;
+  # sh:rule owl2shacl:owlQualifiedCardinalityOnClass2shQualifiedMinMaxCount ;
+  # sh:rule owl2shacl:owlQualifiedCardinalityOnDataRange2shQualifiedMinMaxCount ;
+  # sh:rule owl2shacl:owlHasValue2shHasValue ;
+  # sh:rule owl2shacl:owlSomeValuesFrom2shMinCount1 ;
+  # sh:rule owl2shacl:owlSomeValuesFromAllValuesFrom2dashHasValueWithClass ;
+  # sh:rule owl2shacl:owlSomeValuesFromIRI2dashHasValueWithClass ;
+  # sh:rule owl2shacl:owlSomeValuesFromUnion2dashHasValueWithClass ;
+  sh:rule owl2shacl:owlUnionOfIRIs2rdfsSubClassOf ;
+  # sh:rule owl2shacl:rdfsRange2shClassOrDatatype ;
+  # sh:rule owl2shacl:shPropertyShapeCleanUp ;
+  sh:target [
+      rdf:type sh:SPARQLTarget ;
+      rdfs:comment "Targets all named classes, skipping blank nodes such as owl:Restrictions and system namespace classes" ;
+      sh:prefixes <http://datashapes.org/owl2shacl> ;
+      sh:select """SELECT ?this
+WHERE {
+	{
+		?type rdfs:subClassOf* rdfs:Class .
+    	?this a ?type .
+		FILTER isIRI(?this) .
+	}
+	FILTER (afn:namespace(?this) NOT IN (
+		\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\",
+		\"http://www.w3.org/2000/01/rdf-schema#\",
+		\"http://www.w3.org/2002/07/owl#\"))
+}""" ;
+    ] ;
+.
+owl2shacl:CopyEquivalentIntersection
+  rdf:type sh:SPARQLRule ;
+  rdfs:comment "Copies any intersections within owl:equivalentClass into the host class itself so that subsequent rules convert them further." ;
+  rdfs:label "Copy owl:intersectionOfs from owl:equivalentClass" ;
+  sh:construct """CONSTRUCT {
+	$this owl:intersectionOf ?inter .
+}
+WHERE {
+	$this owl:equivalentClass ?equi .
+	FILTER isBlank(?equi) .
+	?equi owl:intersectionOf ?inter .
+}""" ;
+  sh:order -1 ;
+  sh:prefixes <http://datashapes.org/owl2shacl> ;
+.
+owl2shacl:CreatePropertyShapesFromMatchingDomains
+  rdf:type sh:SPARQLRule ;
+  rdfs:comment "Creates a sh:property shape for each property with matching rdfs:domain." ;
+  rdfs:label "rdfs:domain to sh:property" ;
+  sh:construct """
+			CONSTRUCT {
+				$this a sh:NodeShape .
+    			$this sh:property ?propertyShape .
+				?propertyShape sh:path ?property .
+			}
+			WHERE {
+				{
+    				?property rdfs:domain $this .
+				}
+				UNION {
+					?property rdfs:domain/owl:unionOf ?unionOf .
+					?unionOf rdf:rest*/rdf:first $this .
+				}
+				BIND (owl2shacl:getPropertyShape(?property, $this) AS ?propertyShape) .
+			}
+			""" ;
+  sh:order 2 ;
+  sh:prefixes <http://datashapes.org/owl2shacl> ;
+.
+owl2shacl:CreatePropertyShapesFromRestrictions
+  rdf:type sh:SPARQLRule ;
+  rdfs:comment "Creates a sh:property shape for each property that is mentioned in an owl:Restriction." ;
+  rdfs:label "owl:onProperty to sh:property" ;
+  sh:construct """
+			CONSTRUCT {
+				$this a sh:NodeShape .
+    			$this sh:property ?propertyShape .
+				?propertyShape sh:path ?property .
+			}
+			WHERE {
+				$this rdfs:subClassOf/owl:onProperty ?property .
+				BIND (owl2shacl:getPropertyShape(?property, $this) AS ?propertyShape) .
+			}
+			""" ;
+  sh:order 1 ;
+  sh:prefixes <http://datashapes.org/owl2shacl> ;
+.
+owl2shacl:FlattenIntersectionOf
+  rdf:type sh:SPARQLRule ;
+  rdfs:comment "Copies the members of an owl:intersectionOf list as superclasses into the host class itself. Subsequent rules then apply." ;
+  rdfs:label "Flatten owl:intersectionOf" ;
+  sh:construct """CONSTRUCT {
+	$this rdfs:subClassOf ?superClass .
+}
+WHERE {
+	$this owl:intersectionOf ?list .
+	?list rdf:rest*/rdf:first ?superClass .
+	FILTER isBlank(?superClass) .
+}""" ;
+  sh:order 0 ;
+  sh:prefixes <http://datashapes.org/owl2shacl> ;
+.
+owl2shacl:OWL2SHACLJSLibrary
+  rdf:type sh:JSLibrary ;
+  sh:jsLibrary dash:DASHJSLibrary ;
+  sh:jsLibraryURL "http://TopBraid/SHACL/owl2shacl.js"^^xsd:anyURI ;
+.
+owl2shacl:createPropertyShapeURIs
+  rdf:type rdf:Property ;
+  rdfs:comment "A flag that informs the engine as to whether it should create property shape URIs. Needs to be set to true for any subject in the shapes graph." ;
+  rdfs:label "create property shape URIs" ;
+  rdfs:range xsd:boolean ;
+.
+owl2shacl:createPropertyShapeURIsWithPrefixes
+  rdf:type rdf:Property ;
+  rdfs:comment "A flag that informs the engine as to whether it should include a namespace prefix into the property shape URIs." ;
+  rdfs:label "create property shape URIs with prefixes" ;
+  rdfs:range xsd:boolean ;
+.
+owl2shacl:getPropertyShape
+  rdf:type sh:SPARQLFunction ;
+  dash:private "true"^^xsd:boolean ;
+  rdfs:comment "Gets an existing sh:PropertyShape for a given property at a given shape. If none is found, return a new blank node that will be reused by future calls." ;
+  rdfs:label "get property shape" ;
+  sh:parameter [
+      sh:path owl2shacl:predicate ;
+      sh:class rdf:Property ;
+      sh:description "The predicate to match." ;
+    ] ;
+  sh:parameter [
+      sh:path owl2shacl:shape ;
+      sh:class sh:Shape ;
+      sh:description "The shape hosting the constraint." ;
+    ] ;
+  sh:prefixes <http://datashapes.org/owl2shacl> ;
+  sh:returnType sh:PropertyShape ;
+  sh:select """
+		SELECT ?result
+		WHERE {
+			{
+				?shape sh:property ?result .
+				?result sh:path ?predicate .
+			}
+			UNION
+			{
+				BIND (IF(isIRI($shape) && EXISTS { ?any owl2shacl:createPropertyShapeURIs true },
+					IRI(CONCAT(str($shape), \"-\", IF(EXISTS { ?any owl2shacl:createPropertyShapeURIsWithPrefixes true }, spif:replaceAll(smf:qname(?predicate), \":\", \"_\"), afn:localname(?predicate)))),
+					BNODE()) AS ?result) .
+			}
+		}
+		""" ;
+.
+owl2shacl:isDatatypeRange
+  rdf:type sh:SPARQLFunction ;
+  sh:ask """
+		ASK WHERE {
+    		FILTER bound(?range) .
+    		FILTER ((?range = rdfs:Literal) || EXISTS {
+				GRAPH <http://datashapes.org/owl2shacl> {
+        			?range a rdfs:Datatype .
+				}
+    		}) .
+		}
+		""" ;
+  sh:parameter [
+      sh:path owl2shacl:range ;
+      sh:class rdfs:Class ;
+      sh:description "The range to test." ;
+    ] ;
+  sh:prefixes <http://datashapes.org/owl2shacl> ;
+  sh:returnType xsd:boolean ;
+.
+owl2shacl:mappedTo
+  rdf:type rdf:Property ;
+  rdfs:comment "Associates an OWL/RDFS subject with one or more SHACL subjects that have been produced by the mapping rules. Statements that have been mapped to others can in principle be deleted. This is currently only used to flag blank nodes that appear in rdfs:subClassOf triples." ;
+  rdfs:label "mapped to" ;
+.
+owl2shacl:owlAllValuesFrom2shClassOrDatatype
+  rdf:type sh:SPARQLRule ;
+  rdfs:comment "For each owl:allValuesFrom restriction, create a corresponding sh:class or sh:datatype constraint." ;
+  rdfs:label "owl:allValuesFrom with IRI to sh:class or sh:datatype" ;
+  sh:construct """
+			CONSTRUCT {
+				?propertyShape ?parameter ?allValuesFrom .
+				?restriction owl2shacl:mappedTo ?propertyShape .
+			}
+			WHERE {
+				{
+					$this rdfs:subClassOf ?restriction .
+					?restriction a owl:Restriction .
+					FILTER isBlank(?restriction) .
+				}
+				?restriction owl:onProperty ?property .
+				?restriction owl:allValuesFrom ?allValuesFrom .
+				FILTER isIRI(?allValuesFrom) .
+				BIND (owl2shacl:getPropertyShape(?property, $this) AS ?propertyShape) .
+				BIND (IF(owl2shacl:isDatatypeRange(?allValuesFrom), sh:datatype, sh:class) AS ?parameter) .
+			}
+""" ;
+  sh:order 4 ;
+  sh:prefixes <http://datashapes.org/owl2shacl> ;
+.
+owl2shacl:owlAllValuesFromUnion2shClassOrDatatype
+  rdf:type sh:JSRule ;
+  rdfs:comment "For each owl:allValuesFrom that has an owl:unionOf as its value, create a sh:or of sh:class or sh:datatype shapes." ;
+  rdfs:label "owl:allValuesFrom with union to sh:or of sh:class or sh:datatype" ;
+  sh:jsFunctionName "owlAllValuesFromUnion2shClassOrDatatype" ;
+  sh:jsLibrary owl2shacl:OWL2SHACLJSLibrary ;
+  sh:order "4"^^xsd:decimal ;
+.
+owl2shacl:owlFunctionalProperty2shMaxCount1
+  rdf:type sh:SPARQLRule ;
+  rdfs:comment "For each relevant property that is owl:FunctionalProperty, create sh:maxCount of 1 (unless there is an OWL cardinality restriction)." ;
+  rdfs:label "owl:FunctionalProperty to sh:maxCount 1" ;
+  sh:construct """
+			CONSTRUCT {
+				?propertyShape sh:maxCount 1 .
+			}
+			WHERE {
+				$this sh:property ?propertyShape .
+				?propertyShape sh:path ?property .
+				?property a owl:FunctionalProperty .
+				FILTER NOT EXISTS {
+					$this rdfs:subClassOf* ?class .
+					?class rdfs:subClassOf ?restriction .
+					?restriction a owl:Restriction .
+					?restriction owl:maxCardinality|owl:cardinality ?any .
+				}
+			}
+			""" ;
+  sh:order 3 ;
+  sh:prefixes <http://datashapes.org/owl2shacl> ;
+.
+owl2shacl:owlHasValue2shHasValue
+  rdf:type sh:SPARQLRule ;
+  rdfs:comment "For each owl:hasValue restriction, create a corresponding sh:hasValue constraint." ;
+  rdfs:label "owl:hasValue to sh:hasValue" ;
+  sh:construct """
+			CONSTRUCT {
+				?propertyShape sh:hasValue ?hasValue .
+				?restriction owl2shacl:mappedTo ?propertyShape .
+			}
+			WHERE {
+				{
+					$this rdfs:subClassOf ?restriction .
+					?restriction a owl:Restriction .
+					FILTER isBlank(?restriction) .
+				}
+				?restriction owl:onProperty ?property .
+				?restriction owl:hasValue ?hasValue .
+				BIND (owl2shacl:getPropertyShape(?property, $this) AS ?propertyShape) .
+			}
+""" ;
+  sh:order 8 ;
+  sh:prefixes <http://datashapes.org/owl2shacl> ;
+.
+owl2shacl:owlMaxCardinality2shMaxCount
+  rdf:type sh:SPARQLRule ;
+  rdfs:comment "For each owl:maxCardinality restriction, create a corresponding sh:maxCount constraint." ;
+  rdfs:label "owl:maxCardinality to sh:maxCount" ;
+  sh:construct """
+			CONSTRUCT {
+				?propertyShape sh:maxCount ?maxCount .
+				?restriction owl2shacl:mappedTo ?propertyShape .
+			}
+			WHERE {
+				$this rdfs:subClassOf ?restriction .
+				?restriction a owl:Restriction .
+				FILTER isBlank(?restriction) .
+				?restriction owl:onProperty ?property .
+				?restriction owl:maxCardinality|owl:cardinality ?raw .
+				BIND (xsd:integer(?raw) AS ?maxCount) .
+				BIND (owl2shacl:getPropertyShape(?property, $this) AS ?propertyShape) .
+			}
+			""" ;
+  sh:order 6 ;
+  sh:prefixes <http://datashapes.org/owl2shacl> ;
+.
+owl2shacl:owlMaxQualifiedCardinalityOnClass2shMaxCount
+  rdf:type sh:SPARQLRule ;
+  rdfs:comment "For each owl:maxQualifiedCardinality restriction on an IRI class, create a corresponding sh:maxCount constraint, if the owl:onClass is identical to the rdfs:range of the property." ;
+  rdfs:label "owl:maxQualifiedCardinality with owl:onClass to sh:maxCount" ;
+  sh:construct """
+			CONSTRUCT {
+				?propertyShape sh:maxCount ?maxCount .
+				?restriction owl2shacl:mappedTo ?propertyShape .
+			}
+			WHERE {
+				{
+					$this rdfs:subClassOf ?restriction .
+					?restriction a owl:Restriction .
+					FILTER isBlank(?restriction) .
+				}
+				?restriction owl:maxQualifiedCardinality ?raw .
+				?restriction owl:onProperty ?property .
+				?restriction owl:onClass ?onClass .
+				FILTER isIRI(?onClass) .
+				FILTER EXISTS { ?property rdfs:range ?onClass } .
+				BIND (xsd:integer(?raw) AS ?maxCount) .
+				BIND (owl2shacl:getPropertyShape(?property, $this) AS ?propertyShape) .
+			}
+			""" ;
+  sh:order 6 ;
+  sh:prefixes <http://datashapes.org/owl2shacl> ;
+.
+owl2shacl:owlMaxQualifiedCardinalityOnClass2shQualifiedMaxCount
+  rdf:type sh:SPARQLRule ;
+  rdfs:comment "For each owl:maxQualifiedCardinality restriction on an IRI class, create a corresponding (new) sh:qualifiedMaxCount constraint, unless the owl:onClass is identical to the rdfs:range of the property." ;
+  rdfs:label "owl:maxQualifiedCardinality with owl:onClass to sh:qualifiedMaxCount" ;
+  sh:construct """
+			CONSTRUCT {
+				$this sh:property ?propertyShape .
+				?propertyShape sh:path ?property .
+				?propertyShape sh:qualifiedMaxCount ?maxCount .
+				?propertyShape sh:qualifiedValueShape ?valueShape .
+				?valueShape sh:class ?onClass .
+				?restriction owl2shacl:mappedTo ?propertyShape .
+			}
+			WHERE {
+				{
+					$this rdfs:subClassOf ?restriction .
+					?restriction a owl:Restriction .
+					FILTER isBlank(?restriction) .
+				}
+				?restriction owl:maxQualifiedCardinality ?raw .
+				?restriction owl:onProperty ?property .
+				?restriction owl:onClass ?onClass .
+				FILTER isIRI(?onClass) .
+				FILTER NOT EXISTS { ?property rdfs:range ?onClass } .
+				BIND (xsd:integer(?raw) AS ?maxCount) .
+				BIND (BNODE() AS ?propertyShape) .
+				BIND (BNODE() AS ?valueShape) .
+			}
+			""" ;
+  sh:order 6 ;
+  sh:prefixes <http://datashapes.org/owl2shacl> ;
+.
+owl2shacl:owlMaxQualifiedCardinalityOnDataRange2shQualifiedMaxCount
+  rdf:type sh:SPARQLRule ;
+  rdfs:comment "For each owl:maxQualifiedCardinality restriction on an IRI datatype, create a corresponding (new) sh:qualifiedMaxCount constraint." ;
+  rdfs:label "owl:maxQualifiedCardinality with owl:onDataRange to sh:qualifiedMaxCount" ;
+  sh:construct """
+			CONSTRUCT {
+				$this sh:property ?propertyShape .
+				?propertyShape sh:path ?property .
+				?propertyShape sh:qualifiedMaxCount ?maxCount .
+				?propertyShape sh:qualifiedValueShape ?valueShape .
+				?valueShape sh:datatype ?onDataRange .
+				?restriction owl2shacl:mappedTo ?propertyShape .
+			}
+			WHERE {
+				{
+					$this rdfs:subClassOf ?restriction .
+					?restriction a owl:Restriction .
+					FILTER isBlank(?restriction) .
+				}
+				?restriction owl:maxQualifiedCardinality ?raw .
+				?restriction owl:onProperty ?property .
+				?restriction owl:onDataRange ?onDataRange .
+				FILTER isIRI(?onDataRange) .
+				BIND (xsd:integer(?raw) AS ?maxCount) .
+				BIND (BNODE() AS ?propertyShape) .
+				BIND (BNODE() AS ?valueShape) .
+			}
+			""" ;
+  sh:order 6 ;
+  sh:prefixes <http://datashapes.org/owl2shacl> ;
+.
+owl2shacl:owlMinCardinality2shMinCount
+  rdf:type sh:SPARQLRule ;
+  rdfs:comment "For each owl:minCardinality restriction, create a corresponding sh:minCount constraint." ;
+  rdfs:label "owl:minCardinality to sh:minCount" ;
+  sh:construct """
+			CONSTRUCT {
+				?propertyShape sh:minCount ?maxCount .
+				?restriction owl2shacl:mappedTo ?propertyShape .
+			}
+			WHERE {
+				{
+					$this rdfs:subClassOf ?restriction .
+					?restriction a owl:Restriction .
+					FILTER isBlank(?restriction) .
+				}
+				?restriction owl:minCardinality|owl:cardinality ?raw .
+				?restriction owl:onProperty ?property .
+				BIND (xsd:integer(?raw) AS ?maxCount) .
+				BIND (owl2shacl:getPropertyShape(?property, $this) AS ?propertyShape) .
+			}
+			""" ;
+  sh:order 4 ;
+  sh:prefixes <http://datashapes.org/owl2shacl> ;
+.
+owl2shacl:owlMinQualifiedCardinalityOnClass2shMinCount
+  rdf:type sh:SPARQLRule ;
+  rdfs:comment "For each owl:minQualifiedCardinality restriction on an IRI class, create a corresponding sh:minCount constraint, if the owl:onClass is identical to the rdfs:range of the property." ;
+  rdfs:label "owl:minQualifiedCardinality with owl:onClass to sh:minCount" ;
+  sh:construct """
+			CONSTRUCT {
+				?propertyShape sh:minCount ?minCount .
+				?restriction owl2shacl:mappedTo ?propertyShape .
+			}
+			WHERE {
+				{
+					$this rdfs:subClassOf ?restriction .
+					?restriction a owl:Restriction .
+					FILTER isBlank(?restriction) .
+				}
+				?restriction owl:minQualifiedCardinality ?raw .
+				?restriction owl:onClass ?onClass .
+				?restriction owl:onProperty ?property .
+				FILTER isIRI(?onClass) .
+				FILTER EXISTS { ?property rdfs:range ?onClass } .
+				BIND (xsd:integer(?raw) AS ?minCount) .
+				BIND (owl2shacl:getPropertyShape(?property, $this) AS ?propertyShape) .
+			}
+			""" ;
+  sh:order 6 ;
+  sh:prefixes <http://datashapes.org/owl2shacl> ;
+.
+owl2shacl:owlMinQualifiedCardinalityOnClass2shQualifiedMinCount
+  rdf:type sh:SPARQLRule ;
+  rdfs:comment "For each owl:minQualifiedCardinality restriction on an IRI class, create a corresponding (new) sh:qualifiedMinCount constraint, unless the owl:onClass is identical to the rdfs:range of the property." ;
+  rdfs:label "owl:minQualifiedCardinality with owl:onClass to sh:qualifiedMinCount" ;
+  sh:construct """
+			CONSTRUCT {
+				$this sh:property ?propertyShape .
+				?propertyShape sh:path ?property .
+				?propertyShape sh:qualifiedMinCount ?minCount .
+				?propertyShape sh:qualifiedValueShape ?valueShape .
+				?valueShape sh:class ?onClass .
+				?restriction owl2shacl:mappedTo ?propertyShape .
+			}
+			WHERE {
+				{
+					$this rdfs:subClassOf ?restriction .
+					?restriction a owl:Restriction .
+					FILTER isBlank(?restriction) .
+				}
+				?restriction owl:minQualifiedCardinality ?raw .
+				?restriction owl:onClass ?onClass .
+				?restriction owl:onProperty ?property .
+				FILTER isIRI(?onClass) .
+				FILTER NOT EXISTS { ?property rdfs:range ?onClass } .
+				BIND (xsd:integer(?raw) AS ?minCount) .
+				BIND (BNODE() AS ?propertyShape) .
+				BIND (BNODE() AS ?valueShape) .
+			}
+			""" ;
+  sh:order 6 ;
+  sh:prefixes <http://datashapes.org/owl2shacl> ;
+.
+owl2shacl:owlMinQualifiedCardinalityOnDataRange2shQualifiedMinCount
+  rdf:type sh:SPARQLRule ;
+  rdfs:comment "For each owl:minQualifiedCardinality restriction on an IRI datatype, create a corresponding (new) sh:qualifiedMinCount constraint." ;
+  rdfs:label "owl:minQualifiedCardinality with owl:onDataRange to sh:qualifiedMinCount" ;
+  sh:construct """
+			CONSTRUCT {
+				$this sh:property ?propertyShape .
+				?propertyShape sh:path ?property .
+				?propertyShape sh:qualifiedMinCount ?minCount .
+				?propertyShape sh:qualifiedValueShape ?valueShape .
+				?valueShape sh:datatype ?onDataRange .
+				?restriction owl2shacl:mappedTo ?propertyShape .
+			}
+			WHERE {
+				{
+					$this rdfs:subClassOf ?restriction .
+					?restriction a owl:Restriction .
+					FILTER isBlank(?restriction) .
+				}
+				?restriction owl:minQualifiedCardinality ?raw .
+				?restriction owl:onDataRange ?onDataRange .
+				?restriction owl:onProperty ?property .
+				FILTER isIRI(?onDataRange) .
+				BIND (xsd:integer(?raw) AS ?minCount) .
+				BIND (BNODE() AS ?propertyShape) .
+				BIND (BNODE() AS ?valueShape) .
+			}
+			""" ;
+  sh:order 6 ;
+  sh:prefixes <http://datashapes.org/owl2shacl> ;
+.
+owl2shacl:owlQualifiedCardinalityOnClass2shMinMaxCount
+  rdf:type sh:SPARQLRule ;
+  rdfs:comment "For each owl:qualifiedCardinality restriction on an IRI class, create corresponding sh:max/minCount constraints, if the owl:onClass is identical to the rdfs:range of the property." ;
+  rdfs:label "owl:qualifiedCardinality with owl:onClass to sh:max/minCount" ;
+  sh:construct """
+			CONSTRUCT {
+				?propertyShape sh:maxCount ?count .
+				?propertyShape sh:minCount ?count .
+				?restriction owl2shacl:mappedTo ?propertyShape .
+			}
+			WHERE {
+				{
+					$this rdfs:subClassOf ?restriction .
+					?restriction a owl:Restriction .
+					FILTER isBlank(?restriction) .
+				}
+				?restriction owl:qualifiedCardinality ?raw .
+				?restriction owl:onClass ?onClass .
+				?restriction owl:onProperty ?property .
+				FILTER isIRI(?onClass) .
+				FILTER EXISTS { ?property rdfs:range ?onClass } .
+				BIND (xsd:integer(?raw) AS ?count) .
+				BIND (owl2shacl:getPropertyShape(?property, $this) AS ?propertyShape) .
+			}
+			""" ;
+  sh:order 6 ;
+  sh:prefixes <http://datashapes.org/owl2shacl> ;
+.
+owl2shacl:owlQualifiedCardinalityOnClass2shQualifiedMinMaxCount
+  rdf:type sh:SPARQLRule ;
+  rdfs:comment "For each owl:qualifiedCardinality restriction on an IRI class, create a corresponding (new) sh:qualifiedMax/MinCount constraint, unless the owl:onClass is identical to the rdfs:range of the property." ;
+  rdfs:label "owl:qualifiedCardinality with owl:onClass to sh:qualifiedMax/MinCount" ;
+  sh:construct """
+			CONSTRUCT {
+				$this sh:property ?propertyShape .
+				?propertyShape sh:path ?property .
+				?propertyShape sh:qualifiedMaxCount ?count .
+				?propertyShape sh:qualifiedMinCount ?count .
+				?propertyShape sh:qualifiedValueShape ?valueShape .
+				?valueShape sh:class ?onClass .
+				?restriction owl2shacl:mappedTo ?propertyShape .
+			}
+			WHERE {
+				{
+					$this rdfs:subClassOf ?restriction .
+					?restriction a owl:Restriction .
+					FILTER isBlank(?restriction) .
+				}
+				?restriction owl:qualifiedCardinality ?raw .
+				?restriction owl:onClass ?onClass .
+				?restriction owl:onProperty ?property .
+				FILTER isIRI(?onClass) .
+				FILTER NOT EXISTS { ?property rdfs:range ?onClass } .
+				BIND (xsd:integer(?raw) AS ?count) .
+				BIND (BNODE() AS ?propertyShape) .
+				BIND (BNODE() AS ?valueShape) .
+			}
+			""" ;
+  sh:order 6 ;
+  sh:prefixes <http://datashapes.org/owl2shacl> ;
+.
+owl2shacl:owlQualifiedCardinalityOnDataRange2shQualifiedMinMaxCount
+  rdf:type sh:SPARQLRule ;
+  rdfs:comment "For each owl:qualifiedCardinality restriction on an IRI datatype, create a corresponding (new) sh:qualifiedMax/MinCount constraint." ;
+  rdfs:label "owl:qualifiedCardinality with owl:onDataRange to sh:qualifiedMax/MinCount" ;
+  sh:construct """
+			CONSTRUCT {
+				$this sh:property ?propertyShape .
+				?propertyShape sh:path ?property .
+				?propertyShape sh:qualifiedMaxCount ?count .
+				?propertyShape sh:qualifiedMinCount ?count .
+				?propertyShape sh:qualifiedValueShape ?valueShape .
+				?valueShape sh:datatype ?onDataRange .
+				?restriction owl2shacl:mappedTo ?propertyShape .
+			}
+			WHERE {
+				{
+					$this rdfs:subClassOf ?restriction .
+					?restriction a owl:Restriction .
+					FILTER isBlank(?restriction) .
+				}
+				?restriction owl:qualifiedCardinality ?raw .
+				?restriction owl:onDataRange ?onDataRange .
+				?restriction owl:onProperty ?property .
+				FILTER isIRI(?onDataRange) .
+				BIND (xsd:integer(?raw) AS ?count) .
+				BIND (BNODE() AS ?propertyShape) .
+				BIND (BNODE() AS ?valueShape) .
+			}
+			""" ;
+  sh:order 6 ;
+  sh:prefixes <http://datashapes.org/owl2shacl> ;
+.
+owl2shacl:owlSomeValuesFrom2shMinCount1
+  rdf:type sh:SPARQLRule ;
+  rdfs:comment "For each owl:someValuesFrom restriction, create a corresponding sh:minCount 1 constraint." ;
+  rdfs:label "owl:someValuesFrom to sh:minCount 1" ;
+  sh:construct """
+			CONSTRUCT {
+				?propertyShape sh:minCount 1 .
+				?restriction owl2shacl:mappedTo ?propertyShape .
+			}
+			WHERE {
+				$this rdfs:subClassOf ?restriction .
+				?restriction a owl:Restriction .
+				?restriction owl:someValuesFrom ?someValuesFrom .
+				?restriction owl:onProperty ?property .
+				BIND (owl2shacl:getPropertyShape(?property, $this) AS ?propertyShape) .
+			}
+""" ;
+  sh:order 4 ;
+  sh:prefixes <http://datashapes.org/owl2shacl> ;
+.
+owl2shacl:owlSomeValuesFromAllValuesFrom2dashHasValueWithClass
+  rdf:type sh:SPARQLRule ;
+  rdfs:comment """For each owl:someValuesFrom restriction combined with an owl:allValuesFrom on an IRI, create a corresponding dash:hasValueWithClass constraint using a path expression.
+
+For example:
+
+ex:ConstitutionalOwner
+	a owl:Class ;
+	rdfs:subClassOf [
+		a owl:Restriction ;
+		owl:onProperty ex:isPlayedBy ;
+		owl:someValuesFrom [
+			a owl:Restriction ;
+			owl:allValuesFrom ex:StockholdersEquity ;
+			owl:onProperty ex:holdsEquityIn ;
+		] ;
+	] .
+
+becomes
+
+ex:ConstitutionalOwner
+	a sh:NodeShape ;
+	sh:property [
+		sh:path ( ex:isPlayedBy ex:holdsEquityIn ) ;
+		dash:hasValueWithClass ex:StockholdersEquity ;
+	] .""" ;
+  rdfs:label "owl:someValuesFrom with IRI to dash:hasValueWithClass" ;
+  sh:construct """
+			CONSTRUCT {
+				$this sh:property ?propertyShape .
+				?propertyShape dash:hasValueWithClass ?allValuesFrom .
+				?propertyShape sh:path ?firstNode .
+				?firstNode rdf:first ?property .
+				?firstNode rdf:rest ?secondNode .
+				?secondNode rdf:first ?allValuesFromProperty .
+				?secondNode rdf:rest rdf:nil .
+				?restriction owl2shacl:mappedTo ?propertyShape .
+			}
+			WHERE {
+				{
+					{
+						$this rdfs:subClassOf ?restriction .
+						?restriction a owl:Restriction .
+						FILTER isBlank(?restriction) .
+					}
+					?restriction owl:someValuesFrom ?someValuesFrom .
+					?someValuesFrom owl:allValuesFrom ?allValuesFrom .
+					FILTER isIRI(?allValuesFrom) .
+                	FILTER (!owl2shacl:isDatatypeRange(?allValuesFrom)) .
+					FILTER isBlank(?someValuesFrom) .
+				}
+				?restriction owl:onProperty ?property .
+				?someValuesFrom owl:onProperty ?allValuesFromProperty .
+				BIND (BNODE() AS ?propertyShape) .
+				BIND (BNODE() AS ?firstNode) .
+				BIND (BNODE() AS ?secondNode) .
+			}
+""" ;
+  sh:order 7 ;
+  sh:prefixes <http://datashapes.org/owl2shacl> ;
+.
+owl2shacl:owlSomeValuesFromIRI2dashHasValueWithClass
+  rdf:type sh:SPARQLRule ;
+  rdfs:comment "For each owl:someValuesFrom restriction with an IRI, create a corresponding dash:hasValueWithClass constraint." ;
+  rdfs:label "owl:someValuesFrom with IRI to dash:hasValueWithClass" ;
+  sh:construct """
+			CONSTRUCT {
+				?propertyShape dash:hasValueWithClass ?someValuesFrom .
+				?restriction owl2shacl:mappedTo ?propertyShape .
+			}
+			WHERE {
+				{
+					$this rdfs:subClassOf ?restriction .
+					?restriction a owl:Restriction .
+					FILTER isBlank(?restriction) .
+				}
+				?restriction owl:someValuesFrom ?someValuesFrom .
+				?restriction owl:onProperty ?property .
+                FILTER (isIRI(?someValuesFrom) && !owl2shacl:isDatatypeRange(?someValuesFrom)) .
+				FILTER NOT EXISTS { ?property rdfs:range ?someValuesFrom } .
+				BIND (owl2shacl:getPropertyShape(?property, $this) AS ?propertyShape) .
+			}
+""" ;
+  sh:order 4 ;
+  sh:prefixes <http://datashapes.org/owl2shacl> ;
+.
+owl2shacl:owlSomeValuesFromUnion2dashHasValueWithClass
+  rdf:type sh:JSRule ;
+  rdfs:comment "For each owl:someValuesFrom that has an owl:unionOf as its value, create a sh:or of dash:hasValueWithClass shapes." ;
+  rdfs:label "owl:someValuesFrom with union to sh:or of dash:hasValueWithClass" ;
+  sh:condition [
+      rdf:type sh:NodeShape ;
+      sh:sparql [
+          rdfs:comment "Don't perform this rule if any of the members of the nested rdf:List are not IRIs." ;
+          sh:prefixes <http://datashapes.org/owl2shacl> ;
+          sh:select """SELECT $this
+WHERE {
+	$this rdfs:subClassOf/owl:someValuesFrom/owl:unionOf ?union .
+	?union rdf:rest*/rdf:first ?member .
+	FILTER (isBlank(?member) || owl2shacl:isDatatypeRange(?member)) .
+}""" ;
+        ] ;
+    ] ;
+  sh:jsFunctionName "owlSomeValuesFromUnion2dashHasValueWithClass" ;
+  sh:jsLibrary owl2shacl:OWL2SHACLJSLibrary ;
+  sh:order "4"^^xsd:decimal ;
+.
+owl2shacl:owlUnionOfIRIs2rdfsSubClassOf
+  rdf:type sh:SPARQLRule ;
+  rdfs:comment "For each owl:unionOf that only consists of named classes, move these classes into \"normal\" rdfs:subClassOf triples." ;
+  rdfs:label "owl:unionOf IRIs to rdfs:subClassOf" ;
+  sh:construct """
+			CONSTRUCT {
+				$this rdfs:subClassOf ?class .
+				?union owl2shacl:mappedTo $this .
+			}
+			WHERE {
+				{
+					$this rdfs:subClassOf ?union .
+					?union owl:unionOf ?unionOf .
+					FILTER isBlank(?union) .
+				}
+				FILTER NOT EXISTS {
+					?unionOf rdf:rest*/rdf:first ?member .
+					FILTER (!isIRI(?member)) .
+				} .
+				?unionOf rdf:rest*/rdf:first ?class .
+			}
+""" ;
+  sh:order "4"^^xsd:decimal ;
+  sh:prefixes <http://datashapes.org/owl2shacl> ;
+.
+owl2shacl:propertyShapeLocalName
+  rdf:type rdf:Property ;
+  rdfs:comment "Populated in a pre-processing step, this adds a triple to each property that has a duplicate local name with another property. The suggested value is using the prefix of the namespace where possible." ;
+  rdfs:label "property shape local name" ;
+.
+owl2shacl:rdfsRange2shClassOrDatatype
+  rdf:type sh:SPARQLRule ;
+  rdfs:comment "For each relevant property that has an rdfs:range, create sh:class or sh:datatype constraint unless it already exists (from a restriction)." ;
+  rdfs:label "rdfs:range with IRI to sh:class or sh:datatype" ;
+  sh:construct """
+			CONSTRUCT {
+				?propertyShape ?parameter ?range .
+			}
+			WHERE {
+				{
+					$this sh:property ?propertyShape .
+					FILTER NOT EXISTS { ?propertyShape sh:class|sh:datatype ?any } .
+				}
+				?propertyShape sh:path ?property .
+				?property rdfs:range ?range .
+				FILTER isIRI(?range) .
+				BIND (IF(owl2shacl:isDatatypeRange(?range), sh:datatype, sh:class) AS ?parameter) .
+			}
+			""" ;
+  sh:order 5 ;
+  sh:prefixes <http://datashapes.org/owl2shacl> ;
+.
+owl2shacl:shPropertyShapeCleanUp
+  rdf:type sh:SPARQLRule ;
+  rdfs:comment "For each value of sh:property, add a rdf:type sh:PropertyShape triple." ;
+  rdfs:label "sh:property shape clean up" ;
+  sh:construct """CONSTRUCT {
+    ?propertyShape a sh:PropertyShape .
+}
+WHERE {
+    ?shape sh:property ?propertyShape .
+}""" ;
+  sh:order "100"^^xsd:decimal ;
+  sh:prefixes <http://datashapes.org/owl2shacl> ;
+.
+rdf:HTML
+  rdf:type rdfs:Datatype ;
+.
+rdf:XMLLiteral
+  rdf:type rdfs:Datatype ;
+.
+xsd:ENTITY
+  rdf:type rdfs:Datatype ;
+.
+xsd:ID
+  rdf:type rdfs:Datatype ;
+.
+xsd:IDREF
+  rdf:type rdfs:Datatype ;
+.
+xsd:NCName
+  rdf:type rdfs:Datatype ;
+.
+xsd:NMTOKEN
+  rdf:type rdfs:Datatype ;
+.
+xsd:NOTATION
+  rdf:type rdfs:Datatype ;
+.
+xsd:Name
+  rdf:type rdfs:Datatype ;
+.
+xsd:QName
+  rdf:type rdfs:Datatype ;
+.
+xsd:anySimpleType
+  rdf:type rdfs:Datatype ;
+.
+xsd:anyURI
+  rdf:type rdfs:Datatype ;
+.
+xsd:base64Binary
+  rdf:type rdfs:Datatype ;
+.
+xsd:boolean
+  rdf:type rdfs:Datatype ;
+.
+xsd:byte
+  rdf:type rdfs:Datatype ;
+.
+xsd:date
+  rdf:type rdfs:Datatype ;
+.
+xsd:dateTime
+  rdf:type rdfs:Datatype ;
+.
+xsd:decimal
+  rdf:type rdfs:Datatype ;
+.
+xsd:double
+  rdf:type rdfs:Datatype ;
+.
+xsd:duration
+  rdf:type rdfs:Datatype ;
+.
+xsd:float
+  rdf:type rdfs:Datatype ;
+.
+xsd:gDay
+  rdf:type rdfs:Datatype ;
+.
+xsd:gMonth
+  rdf:type rdfs:Datatype ;
+.
+xsd:gMonthDay
+  rdf:type rdfs:Datatype ;
+.
+xsd:gYear
+  rdf:type rdfs:Datatype ;
+.
+xsd:gYearMonth
+  rdf:type rdfs:Datatype ;
+.
+xsd:hexBinary
+  rdf:type rdfs:Datatype ;
+.
+xsd:int
+  rdf:type rdfs:Datatype ;
+.
+xsd:integer
+  rdf:type rdfs:Datatype ;
+.
+xsd:language
+  rdf:type rdfs:Datatype ;
+.
+xsd:long
+  rdf:type rdfs:Datatype ;
+.
+xsd:negativeInteger
+  rdf:type rdfs:Datatype ;
+.
+xsd:nonNegativeInteger
+  rdf:type rdfs:Datatype ;
+.
+xsd:nonPositiveInteger
+  rdf:type rdfs:Datatype ;
+.
+xsd:normalizedString
+  rdf:type rdfs:Datatype ;
+.
+xsd:positiveInteger
+  rdf:type rdfs:Datatype ;
+.
+xsd:short
+  rdf:type rdfs:Datatype ;
+.
+xsd:string
+  rdf:type rdfs:Datatype ;
+.
+xsd:time
+  rdf:type rdfs:Datatype ;
+.
+xsd:token
+  rdf:type rdfs:Datatype ;
+.
+xsd:unsignedByte
+  rdf:type rdfs:Datatype ;
+.
+xsd:unsignedInt
+  rdf:type rdfs:Datatype ;
+.
+xsd:unsignedLong
+  rdf:type rdfs:Datatype ;
+.
+xsd:unsignedShort
+  rdf:type rdfs:Datatype ;
+.

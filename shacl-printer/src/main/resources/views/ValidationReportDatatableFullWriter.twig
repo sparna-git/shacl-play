@@ -1,0 +1,31 @@
+				<table id="resultTable" class="table table-striped">
+					<thead>
+						<tr>
+							<th><font>Focus Node</font></th>
+							<th><font>Message</font></th>
+							<th><font>Path</font></th>
+							<th><font>Severity</font></th>
+							<th><font>Constraint Component</font></th>
+							<th><font>Source Shape</font></th>
+							<th><font>Value</font></th>
+						</tr>
+					</thead>
+					<tbody>	
+							{% for result in  data %}
+								<tr >
+									<td><a class="link" href="{{result.focusNode}}" target="_blank">{{result.focusNode}}</a></td>
+									<td>{{result.message|escape('html')}}</td>
+									<td>{{result.resultPath}}</td>
+									<td>{{result.resultSeverity}}</td>
+									<td>{{result.sourceConstraintComponent}}</td>
+									<td>
+										{{result.sourceShape}}
+									</td>
+									<td>
+										{{result.value}}
+									</td>
+								</tr>
+							{% endfor %}			
+				
+					</tbody>
+				</table>

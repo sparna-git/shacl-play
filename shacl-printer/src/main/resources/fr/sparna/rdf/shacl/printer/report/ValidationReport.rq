@@ -1,0 +1,22 @@
+PREFIX shacl:   <http://www.w3.org/ns/shacl#>
+
+SELECT ?sourceShape ?sourceConstraintComponent ?resultSeverity ?resultPath ?message (COUNT(?nodeUri) AS ?count) (SAMPLE(?focusNode) AS ?sampleFocusNode) (SAMPLE(?value) AS ?sampleValue)
+WHERE {
+	?s a shacl:ValidationResult;
+		shacl:focusNode ?nodeUri;
+		shacl:resultSeverity ?resultSeverity;
+		shacl:sourceConstraintComponent ?sourceConstraintComponent;
+		shacl:sourceShape ?sourceShape .	
+	
+	# resultPath is not here on AndConstraintComponent
+	OPTIONAL { ?s shacl:resultPath ?resultPath; }
+	# result message is not here on AndConstraintComponent
+	OPTIONAL { ?s shacl:resultMessage ?message; }
+	
+	?s shacl:focusNode ?focusNode .
+	# value is not present for min cardinality violations
+	OPTIONAL { ?s shacl:value ?value. }
+	
+}
+GROUP BY ?sourceShape ?sourceConstraintComponent ?resultSeverity ?resultPath ?message
+ORDER BY DESC(?count)

@@ -1,0 +1,1227 @@
+@prefix col:   <http://www.nakala.fr/collection/11280/> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ns3:   <http://www.nakala.fr/scheme/11280/> .
+@prefix ns5:   <http://www.nakala.fr/account/11280/> .
+@prefix ns13:  <https://www.nakala.fr/nakala/data/11280/> .
+@prefix dct:   <http://purl.org/dc/terms/> .
+@prefix ns12:  <http://www.nakala.fr/user/> .
+@prefix dat:   <http://www.nakala.fr/data/11280/> .
+@prefix ns17:  <http://purl.org/poi/crdo.vjf.cnrs.fr/> .
+@prefix ns16:  <https://www.nakala.fr/data/11280/> .
+@prefix ns15:  <http://www.iiac.cnrs.fr/CentreEdgarMorin/spip.php?> .
+@prefix ns14:  <http://medihal.archives-ouvertes.fr/> .
+@prefix ns19:  <http://lexvo.org/id/iso639-3/> .
+@prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+@prefix ns18:  <https:www.nakala.fr/data/11280/> .
+@prefix res:   <http://www.nakala.fr/resource/11280/> .
+@prefix ore:   <http://www.openarchives.org/ore/terms/> .
+@prefix ns20:  <http://www.lexvo.org/id/iso639-3/> .
+@prefix ns24:  <http://demomed.org/> .
+@prefix ns23:  <http://iremam.cnrs.fr/spip.php?> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ns22:  <http://dumas.ccsd.cnrs.fr/> .
+@prefix vcard2006: <http://www.w3.org/2006/vcard/ns#> .
+@prefix ns21:  <https://docramses.hypotheses.org/> .
+@prefix ns28:  <https://www.nakala.fr/nakala/data/> .
+@prefix ns27:  <http://purl.org/dc/dcmitype/> .
+@prefix ns26:  <http://inspire.ec.europa.eu/theme/> .
+@prefix ns25:  <http://catalogue.bnf.fr/ark:/12148/> .
+@prefix ns29:  <http://nakala.fr/schema#> .
+
+[ a       <http://www.w3.org/ns/shacl#ValidationReport> ;
+  <http://www.w3.org/ns/shacl#conforms>
+          false ;
+  <http://www.w3.org/ns/shacl#result>
+          [ a       <http://www.w3.org/ns/shacl#ValidationResult> ;
+            <http://www.w3.org/ns/shacl#focusNode>
+                    res:a64befe2 ;
+            <http://www.w3.org/ns/shacl#resultMessage>
+                    "Value does not have datatype xsd:long" ;
+            <http://www.w3.org/ns/shacl#resultPath>
+                    dct:extent ;
+            <http://www.w3.org/ns/shacl#resultSeverity>
+                    <http://www.w3.org/ns/shacl#Violation> ;
+            <http://www.w3.org/ns/shacl#sourceConstraintComponent>
+                    <http://www.w3.org/ns/shacl#DatatypeConstraintComponent> ;
+            <http://www.w3.org/ns/shacl#sourceShape>
+                    _:b0 ;
+            <http://www.w3.org/ns/shacl#value>
+                    1072279648
+          ] ;
+  <http://www.w3.org/ns/shacl#result>
+          [ a       <http://www.w3.org/ns/shacl#ValidationResult> ;
+            <http://www.w3.org/ns/shacl#focusNode>
+                    res:4285fdd9 ;
+            <http://www.w3.org/ns/shacl#resultMessage>
+                    "Value does not have class skos:Concept" ;
+            <http://www.w3.org/ns/shacl#resultPath>
+                    ore:isAggregatedBy ;
+            <http://www.w3.org/ns/shacl#resultSeverity>
+                    <http://www.w3.org/ns/shacl#Violation> ;
+            <http://www.w3.org/ns/shacl#sourceConstraintComponent>
+                    <http://www.w3.org/ns/shacl#ClassConstraintComponent> ;
+            <http://www.w3.org/ns/shacl#sourceShape>
+                    _:b1 ;
+            <http://www.w3.org/ns/shacl#value>
+                    col:102d5aea
+          ] ;
+  <http://www.w3.org/ns/shacl#result>
+          [ a       <http://www.w3.org/ns/shacl#ValidationResult> ;
+            <http://www.w3.org/ns/shacl#focusNode>
+                    res:2cca3b0a ;
+            <http://www.w3.org/ns/shacl#resultMessage>
+                    "Predicate dct:isVersionOf is not allowed (closed shape)" ;
+            <http://www.w3.org/ns/shacl#resultPath>
+                    dct:isVersionOf ;
+            <http://www.w3.org/ns/shacl#resultSeverity>
+                    <http://www.w3.org/ns/shacl#Violation> ;
+            <http://www.w3.org/ns/shacl#sourceConstraintComponent>
+                    <http://www.w3.org/ns/shacl#ClosedConstraintComponent> ;
+            <http://www.w3.org/ns/shacl#sourceShape>
+                    <http://www.nakala.fr/shapes/NoticeShape> ;
+            <http://www.w3.org/ns/shacl#value>
+                    dat:9213349d
+          ] ;
+  <http://www.w3.org/ns/shacl#result>
+          [ a       <http://www.w3.org/ns/shacl#ValidationResult> ;
+            <http://www.w3.org/ns/shacl#focusNode>
+                    res:4285fdd9 ;
+            <http://www.w3.org/ns/shacl#resultMessage>
+                    "ore:isAggregatedBy does not have its corresponding inverse ore:aggregates" ;
+            <http://www.w3.org/ns/shacl#resultPath>
+                    ore:isAggregatedBy ;
+            <http://www.w3.org/ns/shacl#resultSeverity>
+                    <http://www.w3.org/ns/shacl#Violation> ;
+            <http://www.w3.org/ns/shacl#sourceConstraintComponent>
+                    <http://www.nakala.fr/shapes/InverseConstraintComponent> ;
+            <http://www.w3.org/ns/shacl#sourceShape>
+                    _:b1 ;
+            <http://www.w3.org/ns/shacl#value>
+                    col:102d5aea
+          ] ;
+  <http://www.w3.org/ns/shacl#result>
+          [ a       <http://www.w3.org/ns/shacl#ValidationResult> ;
+            <http://www.w3.org/ns/shacl#focusNode>
+                    res:871add2e ;
+            <http://www.w3.org/ns/shacl#resultMessage>
+                    "ore:isAggregatedBy does not have its corresponding inverse ore:aggregates" ;
+            <http://www.w3.org/ns/shacl#resultPath>
+                    ore:isAggregatedBy ;
+            <http://www.w3.org/ns/shacl#resultSeverity>
+                    <http://www.w3.org/ns/shacl#Violation> ;
+            <http://www.w3.org/ns/shacl#sourceConstraintComponent>
+                    <http://www.nakala.fr/shapes/InverseConstraintComponent> ;
+            <http://www.w3.org/ns/shacl#sourceShape>
+                    _:b1 ;
+            <http://www.w3.org/ns/shacl#value>
+                    col:5c11a5fa
+          ] ;
+  <http://www.w3.org/ns/shacl#result>
+          [ a       <http://www.w3.org/ns/shacl#ValidationResult> ;
+            <http://www.w3.org/ns/shacl#focusNode>
+                    res:84eb503a ;
+            <http://www.w3.org/ns/shacl#resultMessage>
+                    "Predicate dct:isVersionOf is not allowed (closed shape)" ;
+            <http://www.w3.org/ns/shacl#resultPath>
+                    dct:isVersionOf ;
+            <http://www.w3.org/ns/shacl#resultSeverity>
+                    <http://www.w3.org/ns/shacl#Violation> ;
+            <http://www.w3.org/ns/shacl#sourceConstraintComponent>
+                    <http://www.w3.org/ns/shacl#ClosedConstraintComponent> ;
+            <http://www.w3.org/ns/shacl#sourceShape>
+                    <http://www.nakala.fr/shapes/NoticeShape> ;
+            <http://www.w3.org/ns/shacl#value>
+                    dat:9213349d
+          ] ;
+  <http://www.w3.org/ns/shacl#result>
+          [ a       <http://www.w3.org/ns/shacl#ValidationResult> ;
+            <http://www.w3.org/ns/shacl#focusNode>
+                    res:d500f15f ;
+            <http://www.w3.org/ns/shacl#resultMessage>
+                    "Value does not have class skos:Concept" ;
+            <http://www.w3.org/ns/shacl#resultPath>
+                    ore:isAggregatedBy ;
+            <http://www.w3.org/ns/shacl#resultSeverity>
+                    <http://www.w3.org/ns/shacl#Violation> ;
+            <http://www.w3.org/ns/shacl#sourceConstraintComponent>
+                    <http://www.w3.org/ns/shacl#ClassConstraintComponent> ;
+            <http://www.w3.org/ns/shacl#sourceShape>
+                    _:b1 ;
+            <http://www.w3.org/ns/shacl#value>
+                    col:102d5aea
+          ] ;
+  <http://www.w3.org/ns/shacl#result>
+          [ a       <http://www.w3.org/ns/shacl#ValidationResult> ;
+            <http://www.w3.org/ns/shacl#focusNode>
+                    res:3daf1d0f ;
+            <http://www.w3.org/ns/shacl#resultMessage>
+                    "Value does not have class skos:Concept" ;
+            <http://www.w3.org/ns/shacl#resultPath>
+                    ore:isAggregatedBy ;
+            <http://www.w3.org/ns/shacl#resultSeverity>
+                    <http://www.w3.org/ns/shacl#Violation> ;
+            <http://www.w3.org/ns/shacl#sourceConstraintComponent>
+                    <http://www.w3.org/ns/shacl#ClassConstraintComponent> ;
+            <http://www.w3.org/ns/shacl#sourceShape>
+                    _:b1 ;
+            <http://www.w3.org/ns/shacl#value>
+                    col:102d5aea
+          ] ;
+  <http://www.w3.org/ns/shacl#result>
+          [ a       <http://www.w3.org/ns/shacl#ValidationResult> ;
+            <http://www.w3.org/ns/shacl#focusNode>
+                    res:66875eca ;
+            <http://www.w3.org/ns/shacl#resultMessage>
+                    "Predicate dct:isRequiredBy is not allowed (closed shape)" ;
+            <http://www.w3.org/ns/shacl#resultPath>
+                    dct:isRequiredBy ;
+            <http://www.w3.org/ns/shacl#resultSeverity>
+                    <http://www.w3.org/ns/shacl#Violation> ;
+            <http://www.w3.org/ns/shacl#sourceConstraintComponent>
+                    <http://www.w3.org/ns/shacl#ClosedConstraintComponent> ;
+            <http://www.w3.org/ns/shacl#sourceShape>
+                    <http://www.nakala.fr/shapes/NoticeShape> ;
+            <http://www.w3.org/ns/shacl#value>
+                    dat:9213349d
+          ] ;
+  <http://www.w3.org/ns/shacl#result>
+          [ a       <http://www.w3.org/ns/shacl#ValidationResult> ;
+            <http://www.w3.org/ns/shacl#focusNode>
+                    res:2cca3b0a ;
+            <http://www.w3.org/ns/shacl#resultMessage>
+                    "Predicate dct:isRequiredBy is not allowed (closed shape)" ;
+            <http://www.w3.org/ns/shacl#resultPath>
+                    dct:isRequiredBy ;
+            <http://www.w3.org/ns/shacl#resultSeverity>
+                    <http://www.w3.org/ns/shacl#Violation> ;
+            <http://www.w3.org/ns/shacl#sourceConstraintComponent>
+                    <http://www.w3.org/ns/shacl#ClosedConstraintComponent> ;
+            <http://www.w3.org/ns/shacl#sourceShape>
+                    <http://www.nakala.fr/shapes/NoticeShape> ;
+            <http://www.w3.org/ns/shacl#value>
+                    dat:9213349d
+          ] ;
+  <http://www.w3.org/ns/shacl#result>
+          [ a       <http://www.w3.org/ns/shacl#ValidationResult> ;
+            <http://www.w3.org/ns/shacl#focusNode>
+                    res:e8f89bb5 ;
+            <http://www.w3.org/ns/shacl#resultMessage>
+                    "Value does not have class skos:Concept" ;
+            <http://www.w3.org/ns/shacl#resultPath>
+                    ore:isAggregatedBy ;
+            <http://www.w3.org/ns/shacl#resultSeverity>
+                    <http://www.w3.org/ns/shacl#Violation> ;
+            <http://www.w3.org/ns/shacl#sourceConstraintComponent>
+                    <http://www.w3.org/ns/shacl#ClassConstraintComponent> ;
+            <http://www.w3.org/ns/shacl#sourceShape>
+                    _:b1 ;
+            <http://www.w3.org/ns/shacl#value>
+                    col:102d5aea
+          ] ;
+  <http://www.w3.org/ns/shacl#result>
+          [ a       <http://www.w3.org/ns/shacl#ValidationResult> ;
+            <http://www.w3.org/ns/shacl#focusNode>
+                    res:e348e7c2 ;
+            <http://www.w3.org/ns/shacl#resultMessage>
+                    "Predicate dct:isRequiredBy is not allowed (closed shape)" ;
+            <http://www.w3.org/ns/shacl#resultPath>
+                    dct:isRequiredBy ;
+            <http://www.w3.org/ns/shacl#resultSeverity>
+                    <http://www.w3.org/ns/shacl#Violation> ;
+            <http://www.w3.org/ns/shacl#sourceConstraintComponent>
+                    <http://www.w3.org/ns/shacl#ClosedConstraintComponent> ;
+            <http://www.w3.org/ns/shacl#sourceShape>
+                    <http://www.nakala.fr/shapes/NoticeShape> ;
+            <http://www.w3.org/ns/shacl#value>
+                    dat:9213349d
+          ] ;
+  <http://www.w3.org/ns/shacl#result>
+          [ a       <http://www.w3.org/ns/shacl#ValidationResult> ;
+            <http://www.w3.org/ns/shacl#focusNode>
+                    res:66875eca ;
+            <http://www.w3.org/ns/shacl#resultMessage>
+                    "Predicate dct:isVersionOf is not allowed (closed shape)" ;
+            <http://www.w3.org/ns/shacl#resultPath>
+                    dct:isVersionOf ;
+            <http://www.w3.org/ns/shacl#resultSeverity>
+                    <http://www.w3.org/ns/shacl#Violation> ;
+            <http://www.w3.org/ns/shacl#sourceConstraintComponent>
+                    <http://www.w3.org/ns/shacl#ClosedConstraintComponent> ;
+            <http://www.w3.org/ns/shacl#sourceShape>
+                    <http://www.nakala.fr/shapes/NoticeShape> ;
+            <http://www.w3.org/ns/shacl#value>
+                    dat:9213349d
+          ] ;
+  <http://www.w3.org/ns/shacl#result>
+          [ a       <http://www.w3.org/ns/shacl#ValidationResult> ;
+            <http://www.w3.org/ns/shacl#focusNode>
+                    res:5823f96e ;
+            <http://www.w3.org/ns/shacl#resultMessage>
+                    "ore:isAggregatedBy does not have its corresponding inverse ore:aggregates" ;
+            <http://www.w3.org/ns/shacl#resultPath>
+                    ore:isAggregatedBy ;
+            <http://www.w3.org/ns/shacl#resultSeverity>
+                    <http://www.w3.org/ns/shacl#Violation> ;
+            <http://www.w3.org/ns/shacl#sourceConstraintComponent>
+                    <http://www.nakala.fr/shapes/InverseConstraintComponent> ;
+            <http://www.w3.org/ns/shacl#sourceShape>
+                    _:b1 ;
+            <http://www.w3.org/ns/shacl#value>
+                    col:5c11a5fa
+          ] ;
+  <http://www.w3.org/ns/shacl#result>
+          [ a       <http://www.w3.org/ns/shacl#ValidationResult> ;
+            <http://www.w3.org/ns/shacl#focusNode>
+                    res:740c104b ;
+            <http://www.w3.org/ns/shacl#resultMessage>
+                    "Predicate dct:isVersionOf is not allowed (closed shape)" ;
+            <http://www.w3.org/ns/shacl#resultPath>
+                    dct:isVersionOf ;
+            <http://www.w3.org/ns/shacl#resultSeverity>
+                    <http://www.w3.org/ns/shacl#Violation> ;
+            <http://www.w3.org/ns/shacl#sourceConstraintComponent>
+                    <http://www.w3.org/ns/shacl#ClosedConstraintComponent> ;
+            <http://www.w3.org/ns/shacl#sourceShape>
+                    <http://www.nakala.fr/shapes/NoticeShape> ;
+            <http://www.w3.org/ns/shacl#value>
+                    dat:9213349d
+          ] ;
+  <http://www.w3.org/ns/shacl#result>
+          [ a       <http://www.w3.org/ns/shacl#ValidationResult> ;
+            <http://www.w3.org/ns/shacl#focusNode>
+                    res:b542458a ;
+            <http://www.w3.org/ns/shacl#resultMessage>
+                    "ore:isAggregatedBy does not have its corresponding inverse ore:aggregates" ;
+            <http://www.w3.org/ns/shacl#resultPath>
+                    ore:isAggregatedBy ;
+            <http://www.w3.org/ns/shacl#resultSeverity>
+                    <http://www.w3.org/ns/shacl#Violation> ;
+            <http://www.w3.org/ns/shacl#sourceConstraintComponent>
+                    <http://www.nakala.fr/shapes/InverseConstraintComponent> ;
+            <http://www.w3.org/ns/shacl#sourceShape>
+                    _:b1 ;
+            <http://www.w3.org/ns/shacl#value>
+                    col:5c11a5fa
+          ] ;
+  <http://www.w3.org/ns/shacl#result>
+          [ a       <http://www.w3.org/ns/shacl#ValidationResult> ;
+            <http://www.w3.org/ns/shacl#focusNode>
+                    res:98dc7040 ;
+            <http://www.w3.org/ns/shacl#resultMessage>
+                    "Value does not have datatype xsd:long" ;
+            <http://www.w3.org/ns/shacl#resultPath>
+                    dct:extent ;
+            <http://www.w3.org/ns/shacl#resultSeverity>
+                    <http://www.w3.org/ns/shacl#Violation> ;
+            <http://www.w3.org/ns/shacl#sourceConstraintComponent>
+                    <http://www.w3.org/ns/shacl#DatatypeConstraintComponent> ;
+            <http://www.w3.org/ns/shacl#sourceShape>
+                    _:b0 ;
+            <http://www.w3.org/ns/shacl#value>
+                    111961810
+          ] ;
+  <http://www.w3.org/ns/shacl#result>
+          [ a       <http://www.w3.org/ns/shacl#ValidationResult> ;
+            <http://www.w3.org/ns/shacl#focusNode>
+                    res:aad63098 ;
+            <http://www.w3.org/ns/shacl#resultMessage>
+                    "Value does not have datatype xsd:long" ;
+            <http://www.w3.org/ns/shacl#resultPath>
+                    dct:extent ;
+            <http://www.w3.org/ns/shacl#resultSeverity>
+                    <http://www.w3.org/ns/shacl#Violation> ;
+            <http://www.w3.org/ns/shacl#sourceConstraintComponent>
+                    <http://www.w3.org/ns/shacl#DatatypeConstraintComponent> ;
+            <http://www.w3.org/ns/shacl#sourceShape>
+                    _:b0 ;
+            <http://www.w3.org/ns/shacl#value>
+                    7982784
+          ] ;
+  <http://www.w3.org/ns/shacl#result>
+          [ a       <http://www.w3.org/ns/shacl#ValidationResult> ;
+            <http://www.w3.org/ns/shacl#focusNode>
+                    res:0020bccd ;
+            <http://www.w3.org/ns/shacl#resultMessage>
+                    "Predicate dct:isRequiredBy is not allowed (closed shape)" ;
+            <http://www.w3.org/ns/shacl#resultPath>
+                    dct:isRequiredBy ;
+            <http://www.w3.org/ns/shacl#resultSeverity>
+                    <http://www.w3.org/ns/shacl#Violation> ;
+            <http://www.w3.org/ns/shacl#sourceConstraintComponent>
+                    <http://www.w3.org/ns/shacl#ClosedConstraintComponent> ;
+            <http://www.w3.org/ns/shacl#sourceShape>
+                    <http://www.nakala.fr/shapes/NoticeShape> ;
+            <http://www.w3.org/ns/shacl#value>
+                    dat:9213349d
+          ] ;
+  <http://www.w3.org/ns/shacl#result>
+          [ a       <http://www.w3.org/ns/shacl#ValidationResult> ;
+            <http://www.w3.org/ns/shacl#focusNode>
+                    res:583b3ec0 ;
+            <http://www.w3.org/ns/shacl#resultMessage>
+                    "Value does not have datatype xsd:long" ;
+            <http://www.w3.org/ns/shacl#resultPath>
+                    dct:extent ;
+            <http://www.w3.org/ns/shacl#resultSeverity>
+                    <http://www.w3.org/ns/shacl#Violation> ;
+            <http://www.w3.org/ns/shacl#sourceConstraintComponent>
+                    <http://www.w3.org/ns/shacl#DatatypeConstraintComponent> ;
+            <http://www.w3.org/ns/shacl#sourceShape>
+                    _:b0 ;
+            <http://www.w3.org/ns/shacl#value>
+                    485599906
+          ] ;
+  <http://www.w3.org/ns/shacl#result>
+          [ a       <http://www.w3.org/ns/shacl#ValidationResult> ;
+            <http://www.w3.org/ns/shacl#focusNode>
+                    res:740c104b ;
+            <http://www.w3.org/ns/shacl#resultMessage>
+                    "Predicate dct:isRequiredBy is not allowed (closed shape)" ;
+            <http://www.w3.org/ns/shacl#resultPath>
+                    dct:isRequiredBy ;
+            <http://www.w3.org/ns/shacl#resultSeverity>
+                    <http://www.w3.org/ns/shacl#Violation> ;
+            <http://www.w3.org/ns/shacl#sourceConstraintComponent>
+                    <http://www.w3.org/ns/shacl#ClosedConstraintComponent> ;
+            <http://www.w3.org/ns/shacl#sourceShape>
+                    <http://www.nakala.fr/shapes/NoticeShape> ;
+            <http://www.w3.org/ns/shacl#value>
+                    dat:9213349d
+          ] ;
+  <http://www.w3.org/ns/shacl#result>
+          [ a       <http://www.w3.org/ns/shacl#ValidationResult> ;
+            <http://www.w3.org/ns/shacl#focusNode>
+                    res:49e9396c ;
+            <http://www.w3.org/ns/shacl#resultMessage>
+                    "Predicate dct:isRequiredBy is not allowed (closed shape)" ;
+            <http://www.w3.org/ns/shacl#resultPath>
+                    dct:isRequiredBy ;
+            <http://www.w3.org/ns/shacl#resultSeverity>
+                    <http://www.w3.org/ns/shacl#Violation> ;
+            <http://www.w3.org/ns/shacl#sourceConstraintComponent>
+                    <http://www.w3.org/ns/shacl#ClosedConstraintComponent> ;
+            <http://www.w3.org/ns/shacl#sourceShape>
+                    <http://www.nakala.fr/shapes/NoticeShape> ;
+            <http://www.w3.org/ns/shacl#value>
+                    dat:9213349d
+          ] ;
+  <http://www.w3.org/ns/shacl#result>
+          [ a       <http://www.w3.org/ns/shacl#ValidationResult> ;
+            <http://www.w3.org/ns/shacl#focusNode>
+                    res:ae8666e3 ;
+            <http://www.w3.org/ns/shacl#resultMessage>
+                    "ore:isAggregatedBy does not have its corresponding inverse ore:aggregates" ;
+            <http://www.w3.org/ns/shacl#resultPath>
+                    ore:isAggregatedBy ;
+            <http://www.w3.org/ns/shacl#resultSeverity>
+                    <http://www.w3.org/ns/shacl#Violation> ;
+            <http://www.w3.org/ns/shacl#sourceConstraintComponent>
+                    <http://www.nakala.fr/shapes/InverseConstraintComponent> ;
+            <http://www.w3.org/ns/shacl#sourceShape>
+                    _:b1 ;
+            <http://www.w3.org/ns/shacl#value>
+                    col:102d5aea
+          ] ;
+  <http://www.w3.org/ns/shacl#result>
+          [ a       <http://www.w3.org/ns/shacl#ValidationResult> ;
+            <http://www.w3.org/ns/shacl#focusNode>
+                    res:51c3bc8f ;
+            <http://www.w3.org/ns/shacl#resultMessage>
+                    "Value does not have datatype xsd:long" ;
+            <http://www.w3.org/ns/shacl#resultPath>
+                    dct:extent ;
+            <http://www.w3.org/ns/shacl#resultSeverity>
+                    <http://www.w3.org/ns/shacl#Violation> ;
+            <http://www.w3.org/ns/shacl#sourceConstraintComponent>
+                    <http://www.w3.org/ns/shacl#DatatypeConstraintComponent> ;
+            <http://www.w3.org/ns/shacl#sourceShape>
+                    _:b0 ;
+            <http://www.w3.org/ns/shacl#value>
+                    54811577
+          ] ;
+  <http://www.w3.org/ns/shacl#result>
+          [ a       <http://www.w3.org/ns/shacl#ValidationResult> ;
+            <http://www.w3.org/ns/shacl#focusNode>
+                    res:b67af808 ;
+            <http://www.w3.org/ns/shacl#resultMessage>
+                    "Value does not have datatype xsd:long" ;
+            <http://www.w3.org/ns/shacl#resultPath>
+                    dct:extent ;
+            <http://www.w3.org/ns/shacl#resultSeverity>
+                    <http://www.w3.org/ns/shacl#Violation> ;
+            <http://www.w3.org/ns/shacl#sourceConstraintComponent>
+                    <http://www.w3.org/ns/shacl#DatatypeConstraintComponent> ;
+            <http://www.w3.org/ns/shacl#sourceShape>
+                    _:b0 ;
+            <http://www.w3.org/ns/shacl#value>
+                    25533257
+          ] ;
+  <http://www.w3.org/ns/shacl#result>
+          [ a       <http://www.w3.org/ns/shacl#ValidationResult> ;
+            <http://www.w3.org/ns/shacl#focusNode>
+                    res:0d8fb2dc ;
+            <http://www.w3.org/ns/shacl#resultMessage>
+                    "ore:isAggregatedBy does not have its corresponding inverse ore:aggregates" ;
+            <http://www.w3.org/ns/shacl#resultPath>
+                    ore:isAggregatedBy ;
+            <http://www.w3.org/ns/shacl#resultSeverity>
+                    <http://www.w3.org/ns/shacl#Violation> ;
+            <http://www.w3.org/ns/shacl#sourceConstraintComponent>
+                    <http://www.nakala.fr/shapes/InverseConstraintComponent> ;
+            <http://www.w3.org/ns/shacl#sourceShape>
+                    _:b1 ;
+            <http://www.w3.org/ns/shacl#value>
+                    col:5c11a5fa
+          ] ;
+  <http://www.w3.org/ns/shacl#result>
+          [ a       <http://www.w3.org/ns/shacl#ValidationResult> ;
+            <http://www.w3.org/ns/shacl#focusNode>
+                    res:e348e7c2 ;
+            <http://www.w3.org/ns/shacl#resultMessage>
+                    "Predicate dct:isVersionOf is not allowed (closed shape)" ;
+            <http://www.w3.org/ns/shacl#resultPath>
+                    dct:isVersionOf ;
+            <http://www.w3.org/ns/shacl#resultSeverity>
+                    <http://www.w3.org/ns/shacl#Violation> ;
+            <http://www.w3.org/ns/shacl#sourceConstraintComponent>
+                    <http://www.w3.org/ns/shacl#ClosedConstraintComponent> ;
+            <http://www.w3.org/ns/shacl#sourceShape>
+                    <http://www.nakala.fr/shapes/NoticeShape> ;
+            <http://www.w3.org/ns/shacl#value>
+                    dat:9213349d
+          ] ;
+  <http://www.w3.org/ns/shacl#result>
+          [ a       <http://www.w3.org/ns/shacl#ValidationResult> ;
+            <http://www.w3.org/ns/shacl#focusNode>
+                    res:f9b3964e ;
+            <http://www.w3.org/ns/shacl#resultMessage>
+                    "Value does not have datatype xsd:long" ;
+            <http://www.w3.org/ns/shacl#resultPath>
+                    dct:extent ;
+            <http://www.w3.org/ns/shacl#resultSeverity>
+                    <http://www.w3.org/ns/shacl#Violation> ;
+            <http://www.w3.org/ns/shacl#sourceConstraintComponent>
+                    <http://www.w3.org/ns/shacl#DatatypeConstraintComponent> ;
+            <http://www.w3.org/ns/shacl#sourceShape>
+                    _:b0 ;
+            <http://www.w3.org/ns/shacl#value>
+                    352657796
+          ] ;
+  <http://www.w3.org/ns/shacl#result>
+          [ a       <http://www.w3.org/ns/shacl#ValidationResult> ;
+            <http://www.w3.org/ns/shacl#focusNode>
+                    res:d9950d23 ;
+            <http://www.w3.org/ns/shacl#resultMessage>
+                    "ore:isAggregatedBy does not have its corresponding inverse ore:aggregates" ;
+            <http://www.w3.org/ns/shacl#resultPath>
+                    ore:isAggregatedBy ;
+            <http://www.w3.org/ns/shacl#resultSeverity>
+                    <http://www.w3.org/ns/shacl#Violation> ;
+            <http://www.w3.org/ns/shacl#sourceConstraintComponent>
+                    <http://www.nakala.fr/shapes/InverseConstraintComponent> ;
+            <http://www.w3.org/ns/shacl#sourceShape>
+                    _:b1 ;
+            <http://www.w3.org/ns/shacl#value>
+                    col:102d5aea
+          ] ;
+  <http://www.w3.org/ns/shacl#result>
+          [ a       <http://www.w3.org/ns/shacl#ValidationResult> ;
+            <http://www.w3.org/ns/shacl#focusNode>
+                    res:37007b06 ;
+            <http://www.w3.org/ns/shacl#resultMessage>
+                    "Value does not have datatype xsd:long" ;
+            <http://www.w3.org/ns/shacl#resultPath>
+                    dct:extent ;
+            <http://www.w3.org/ns/shacl#resultSeverity>
+                    <http://www.w3.org/ns/shacl#Violation> ;
+            <http://www.w3.org/ns/shacl#sourceConstraintComponent>
+                    <http://www.w3.org/ns/shacl#DatatypeConstraintComponent> ;
+            <http://www.w3.org/ns/shacl#sourceShape>
+                    _:b0 ;
+            <http://www.w3.org/ns/shacl#value>
+                    133600236
+          ] ;
+  <http://www.w3.org/ns/shacl#result>
+          [ a       <http://www.w3.org/ns/shacl#ValidationResult> ;
+            <http://www.w3.org/ns/shacl#focusNode>
+                    res:beb5ea39 ;
+            <http://www.w3.org/ns/shacl#resultMessage>
+                    "Value does not have datatype xsd:long" ;
+            <http://www.w3.org/ns/shacl#resultPath>
+                    dct:extent ;
+            <http://www.w3.org/ns/shacl#resultSeverity>
+                    <http://www.w3.org/ns/shacl#Violation> ;
+            <http://www.w3.org/ns/shacl#sourceConstraintComponent>
+                    <http://www.w3.org/ns/shacl#DatatypeConstraintComponent> ;
+            <http://www.w3.org/ns/shacl#sourceShape>
+                    _:b0 ;
+            <http://www.w3.org/ns/shacl#value>
+                    15830727
+          ] ;
+  <http://www.w3.org/ns/shacl#result>
+          [ a       <http://www.w3.org/ns/shacl#ValidationResult> ;
+            <http://www.w3.org/ns/shacl#focusNode>
+                    res:45109422 ;
+            <http://www.w3.org/ns/shacl#resultMessage>
+                    "ore:isAggregatedBy does not have its corresponding inverse ore:aggregates" ;
+            <http://www.w3.org/ns/shacl#resultPath>
+                    ore:isAggregatedBy ;
+            <http://www.w3.org/ns/shacl#resultSeverity>
+                    <http://www.w3.org/ns/shacl#Violation> ;
+            <http://www.w3.org/ns/shacl#sourceConstraintComponent>
+                    <http://www.nakala.fr/shapes/InverseConstraintComponent> ;
+            <http://www.w3.org/ns/shacl#sourceShape>
+                    _:b1 ;
+            <http://www.w3.org/ns/shacl#value>
+                    col:102d5aea
+          ] ;
+  <http://www.w3.org/ns/shacl#result>
+          [ a       <http://www.w3.org/ns/shacl#ValidationResult> ;
+            <http://www.w3.org/ns/shacl#focusNode>
+                    res:7f678a8a ;
+            <http://www.w3.org/ns/shacl#resultMessage>
+                    "Value does not have datatype xsd:long" ;
+            <http://www.w3.org/ns/shacl#resultPath>
+                    dct:extent ;
+            <http://www.w3.org/ns/shacl#resultSeverity>
+                    <http://www.w3.org/ns/shacl#Violation> ;
+            <http://www.w3.org/ns/shacl#sourceConstraintComponent>
+                    <http://www.w3.org/ns/shacl#DatatypeConstraintComponent> ;
+            <http://www.w3.org/ns/shacl#sourceShape>
+                    _:b0 ;
+            <http://www.w3.org/ns/shacl#value>
+                    127111507
+          ] ;
+  <http://www.w3.org/ns/shacl#result>
+          [ a       <http://www.w3.org/ns/shacl#ValidationResult> ;
+            <http://www.w3.org/ns/shacl#focusNode>
+                    res:8431d87d ;
+            <http://www.w3.org/ns/shacl#resultMessage>
+                    "Value does not have class skos:Concept" ;
+            <http://www.w3.org/ns/shacl#resultPath>
+                    ore:isAggregatedBy ;
+            <http://www.w3.org/ns/shacl#resultSeverity>
+                    <http://www.w3.org/ns/shacl#Violation> ;
+            <http://www.w3.org/ns/shacl#sourceConstraintComponent>
+                    <http://www.w3.org/ns/shacl#ClassConstraintComponent> ;
+            <http://www.w3.org/ns/shacl#sourceShape>
+                    _:b1 ;
+            <http://www.w3.org/ns/shacl#value>
+                    col:5c11a5fa
+          ] ;
+  <http://www.w3.org/ns/shacl#result>
+          [ a       <http://www.w3.org/ns/shacl#ValidationResult> ;
+            <http://www.w3.org/ns/shacl#focusNode>
+                    res:24b1fb39 ;
+            <http://www.w3.org/ns/shacl#resultMessage>
+                    "Value does not have datatype xsd:long" ;
+            <http://www.w3.org/ns/shacl#resultPath>
+                    dct:extent ;
+            <http://www.w3.org/ns/shacl#resultSeverity>
+                    <http://www.w3.org/ns/shacl#Violation> ;
+            <http://www.w3.org/ns/shacl#sourceConstraintComponent>
+                    <http://www.w3.org/ns/shacl#DatatypeConstraintComponent> ;
+            <http://www.w3.org/ns/shacl#sourceShape>
+                    _:b0 ;
+            <http://www.w3.org/ns/shacl#value>
+                    4260
+          ] ;
+  <http://www.w3.org/ns/shacl#result>
+          [ a       <http://www.w3.org/ns/shacl#ValidationResult> ;
+            <http://www.w3.org/ns/shacl#focusNode>
+                    res:bc855c74 ;
+            <http://www.w3.org/ns/shacl#resultMessage>
+                    "Predicate dct:isVersionOf is not allowed (closed shape)" ;
+            <http://www.w3.org/ns/shacl#resultPath>
+                    dct:isVersionOf ;
+            <http://www.w3.org/ns/shacl#resultSeverity>
+                    <http://www.w3.org/ns/shacl#Violation> ;
+            <http://www.w3.org/ns/shacl#sourceConstraintComponent>
+                    <http://www.w3.org/ns/shacl#ClosedConstraintComponent> ;
+            <http://www.w3.org/ns/shacl#sourceShape>
+                    <http://www.nakala.fr/shapes/NoticeShape> ;
+            <http://www.w3.org/ns/shacl#value>
+                    dat:9213349d
+          ] ;
+  <http://www.w3.org/ns/shacl#result>
+          [ a       <http://www.w3.org/ns/shacl#ValidationResult> ;
+            <http://www.w3.org/ns/shacl#focusNode>
+                    res:398fe14a ;
+            <http://www.w3.org/ns/shacl#resultMessage>
+                    "Value does not have class skos:Concept" ;
+            <http://www.w3.org/ns/shacl#resultPath>
+                    ore:isAggregatedBy ;
+            <http://www.w3.org/ns/shacl#resultSeverity>
+                    <http://www.w3.org/ns/shacl#Violation> ;
+            <http://www.w3.org/ns/shacl#sourceConstraintComponent>
+                    <http://www.w3.org/ns/shacl#ClassConstraintComponent> ;
+            <http://www.w3.org/ns/shacl#sourceShape>
+                    _:b1 ;
+            <http://www.w3.org/ns/shacl#value>
+                    col:102d5aea
+          ] ;
+  <http://www.w3.org/ns/shacl#result>
+          [ a       <http://www.w3.org/ns/shacl#ValidationResult> ;
+            <http://www.w3.org/ns/shacl#focusNode>
+                    res:4d37c1ce ;
+            <http://www.w3.org/ns/shacl#resultMessage>
+                    "Value does not have datatype xsd:long" ;
+            <http://www.w3.org/ns/shacl#resultPath>
+                    dct:extent ;
+            <http://www.w3.org/ns/shacl#resultSeverity>
+                    <http://www.w3.org/ns/shacl#Violation> ;
+            <http://www.w3.org/ns/shacl#sourceConstraintComponent>
+                    <http://www.w3.org/ns/shacl#DatatypeConstraintComponent> ;
+            <http://www.w3.org/ns/shacl#sourceShape>
+                    _:b0 ;
+            <http://www.w3.org/ns/shacl#value>
+                    967
+          ] ;
+  <http://www.w3.org/ns/shacl#result>
+          [ a       <http://www.w3.org/ns/shacl#ValidationResult> ;
+            <http://www.w3.org/ns/shacl#focusNode>
+                    res:bc855c74 ;
+            <http://www.w3.org/ns/shacl#resultMessage>
+                    "Predicate dct:isRequiredBy is not allowed (closed shape)" ;
+            <http://www.w3.org/ns/shacl#resultPath>
+                    dct:isRequiredBy ;
+            <http://www.w3.org/ns/shacl#resultSeverity>
+                    <http://www.w3.org/ns/shacl#Violation> ;
+            <http://www.w3.org/ns/shacl#sourceConstraintComponent>
+                    <http://www.w3.org/ns/shacl#ClosedConstraintComponent> ;
+            <http://www.w3.org/ns/shacl#sourceShape>
+                    <http://www.nakala.fr/shapes/NoticeShape> ;
+            <http://www.w3.org/ns/shacl#value>
+                    dat:9213349d
+          ] ;
+  <http://www.w3.org/ns/shacl#result>
+          [ a       <http://www.w3.org/ns/shacl#ValidationResult> ;
+            <http://www.w3.org/ns/shacl#focusNode>
+                    res:e8f89bb5 ;
+            <http://www.w3.org/ns/shacl#resultMessage>
+                    "ore:isAggregatedBy does not have its corresponding inverse ore:aggregates" ;
+            <http://www.w3.org/ns/shacl#resultPath>
+                    ore:isAggregatedBy ;
+            <http://www.w3.org/ns/shacl#resultSeverity>
+                    <http://www.w3.org/ns/shacl#Violation> ;
+            <http://www.w3.org/ns/shacl#sourceConstraintComponent>
+                    <http://www.nakala.fr/shapes/InverseConstraintComponent> ;
+            <http://www.w3.org/ns/shacl#sourceShape>
+                    _:b1 ;
+            <http://www.w3.org/ns/shacl#value>
+                    col:102d5aea
+          ] ;
+  <http://www.w3.org/ns/shacl#result>
+          [ a       <http://www.w3.org/ns/shacl#ValidationResult> ;
+            <http://www.w3.org/ns/shacl#focusNode>
+                    res:72725091 ;
+            <http://www.w3.org/ns/shacl#resultMessage>
+                    "Value does not have datatype xsd:long" ;
+            <http://www.w3.org/ns/shacl#resultPath>
+                    dct:extent ;
+            <http://www.w3.org/ns/shacl#resultSeverity>
+                    <http://www.w3.org/ns/shacl#Violation> ;
+            <http://www.w3.org/ns/shacl#sourceConstraintComponent>
+                    <http://www.w3.org/ns/shacl#DatatypeConstraintComponent> ;
+            <http://www.w3.org/ns/shacl#sourceShape>
+                    _:b0 ;
+            <http://www.w3.org/ns/shacl#value>
+                    2340
+          ] ;
+  <http://www.w3.org/ns/shacl#result>
+          [ a       <http://www.w3.org/ns/shacl#ValidationResult> ;
+            <http://www.w3.org/ns/shacl#focusNode>
+                    res:d500f15f ;
+            <http://www.w3.org/ns/shacl#resultMessage>
+                    "ore:isAggregatedBy does not have its corresponding inverse ore:aggregates" ;
+            <http://www.w3.org/ns/shacl#resultPath>
+                    ore:isAggregatedBy ;
+            <http://www.w3.org/ns/shacl#resultSeverity>
+                    <http://www.w3.org/ns/shacl#Violation> ;
+            <http://www.w3.org/ns/shacl#sourceConstraintComponent>
+                    <http://www.nakala.fr/shapes/InverseConstraintComponent> ;
+            <http://www.w3.org/ns/shacl#sourceShape>
+                    _:b1 ;
+            <http://www.w3.org/ns/shacl#value>
+                    col:102d5aea
+          ] ;
+  <http://www.w3.org/ns/shacl#result>
+          [ a       <http://www.w3.org/ns/shacl#ValidationResult> ;
+            <http://www.w3.org/ns/shacl#focusNode>
+                    res:8ebf683d ;
+            <http://www.w3.org/ns/shacl#resultMessage>
+                    "Predicate dct:isRequiredBy is not allowed (closed shape)" ;
+            <http://www.w3.org/ns/shacl#resultPath>
+                    dct:isRequiredBy ;
+            <http://www.w3.org/ns/shacl#resultSeverity>
+                    <http://www.w3.org/ns/shacl#Violation> ;
+            <http://www.w3.org/ns/shacl#sourceConstraintComponent>
+                    <http://www.w3.org/ns/shacl#ClosedConstraintComponent> ;
+            <http://www.w3.org/ns/shacl#sourceShape>
+                    <http://www.nakala.fr/shapes/NoticeShape> ;
+            <http://www.w3.org/ns/shacl#value>
+                    dat:9213349d
+          ] ;
+  <http://www.w3.org/ns/shacl#result>
+          [ a       <http://www.w3.org/ns/shacl#ValidationResult> ;
+            <http://www.w3.org/ns/shacl#focusNode>
+                    res:c5e9e019 ;
+            <http://www.w3.org/ns/shacl#resultMessage>
+                    "Value does not have class skos:Concept" ;
+            <http://www.w3.org/ns/shacl#resultPath>
+                    ore:isAggregatedBy ;
+            <http://www.w3.org/ns/shacl#resultSeverity>
+                    <http://www.w3.org/ns/shacl#Violation> ;
+            <http://www.w3.org/ns/shacl#sourceConstraintComponent>
+                    <http://www.w3.org/ns/shacl#ClassConstraintComponent> ;
+            <http://www.w3.org/ns/shacl#sourceShape>
+                    _:b1 ;
+            <http://www.w3.org/ns/shacl#value>
+                    col:102d5aea
+          ] ;
+  <http://www.w3.org/ns/shacl#result>
+          [ a       <http://www.w3.org/ns/shacl#ValidationResult> ;
+            <http://www.w3.org/ns/shacl#focusNode>
+                    res:5823f96e ;
+            <http://www.w3.org/ns/shacl#resultMessage>
+                    "Value does not have class skos:Concept" ;
+            <http://www.w3.org/ns/shacl#resultPath>
+                    ore:isAggregatedBy ;
+            <http://www.w3.org/ns/shacl#resultSeverity>
+                    <http://www.w3.org/ns/shacl#Violation> ;
+            <http://www.w3.org/ns/shacl#sourceConstraintComponent>
+                    <http://www.w3.org/ns/shacl#ClassConstraintComponent> ;
+            <http://www.w3.org/ns/shacl#sourceShape>
+                    _:b1 ;
+            <http://www.w3.org/ns/shacl#value>
+                    col:5c11a5fa
+          ] ;
+  <http://www.w3.org/ns/shacl#result>
+          [ a       <http://www.w3.org/ns/shacl#ValidationResult> ;
+            <http://www.w3.org/ns/shacl#focusNode>
+                    res:398fe14a ;
+            <http://www.w3.org/ns/shacl#resultMessage>
+                    "ore:isAggregatedBy does not have its corresponding inverse ore:aggregates" ;
+            <http://www.w3.org/ns/shacl#resultPath>
+                    ore:isAggregatedBy ;
+            <http://www.w3.org/ns/shacl#resultSeverity>
+                    <http://www.w3.org/ns/shacl#Violation> ;
+            <http://www.w3.org/ns/shacl#sourceConstraintComponent>
+                    <http://www.nakala.fr/shapes/InverseConstraintComponent> ;
+            <http://www.w3.org/ns/shacl#sourceShape>
+                    _:b1 ;
+            <http://www.w3.org/ns/shacl#value>
+                    col:102d5aea
+          ] ;
+  <http://www.w3.org/ns/shacl#result>
+          [ a       <http://www.w3.org/ns/shacl#ValidationResult> ;
+            <http://www.w3.org/ns/shacl#focusNode>
+                    res:d9950d23 ;
+            <http://www.w3.org/ns/shacl#resultMessage>
+                    "Value does not have class skos:Concept" ;
+            <http://www.w3.org/ns/shacl#resultPath>
+                    ore:isAggregatedBy ;
+            <http://www.w3.org/ns/shacl#resultSeverity>
+                    <http://www.w3.org/ns/shacl#Violation> ;
+            <http://www.w3.org/ns/shacl#sourceConstraintComponent>
+                    <http://www.w3.org/ns/shacl#ClassConstraintComponent> ;
+            <http://www.w3.org/ns/shacl#sourceShape>
+                    _:b1 ;
+            <http://www.w3.org/ns/shacl#value>
+                    col:102d5aea
+          ] ;
+  <http://www.w3.org/ns/shacl#result>
+          [ a       <http://www.w3.org/ns/shacl#ValidationResult> ;
+            <http://www.w3.org/ns/shacl#focusNode>
+                    res:45109422 ;
+            <http://www.w3.org/ns/shacl#resultMessage>
+                    "Value does not have class skos:Concept" ;
+            <http://www.w3.org/ns/shacl#resultPath>
+                    ore:isAggregatedBy ;
+            <http://www.w3.org/ns/shacl#resultSeverity>
+                    <http://www.w3.org/ns/shacl#Violation> ;
+            <http://www.w3.org/ns/shacl#sourceConstraintComponent>
+                    <http://www.w3.org/ns/shacl#ClassConstraintComponent> ;
+            <http://www.w3.org/ns/shacl#sourceShape>
+                    _:b1 ;
+            <http://www.w3.org/ns/shacl#value>
+                    col:102d5aea
+          ] ;
+  <http://www.w3.org/ns/shacl#result>
+          [ a       <http://www.w3.org/ns/shacl#ValidationResult> ;
+            <http://www.w3.org/ns/shacl#focusNode>
+                    res:49e9396c ;
+            <http://www.w3.org/ns/shacl#resultMessage>
+                    "Predicate dct:isVersionOf is not allowed (closed shape)" ;
+            <http://www.w3.org/ns/shacl#resultPath>
+                    dct:isVersionOf ;
+            <http://www.w3.org/ns/shacl#resultSeverity>
+                    <http://www.w3.org/ns/shacl#Violation> ;
+            <http://www.w3.org/ns/shacl#sourceConstraintComponent>
+                    <http://www.w3.org/ns/shacl#ClosedConstraintComponent> ;
+            <http://www.w3.org/ns/shacl#sourceShape>
+                    <http://www.nakala.fr/shapes/NoticeShape> ;
+            <http://www.w3.org/ns/shacl#value>
+                    dat:9213349d
+          ] ;
+  <http://www.w3.org/ns/shacl#result>
+          [ a       <http://www.w3.org/ns/shacl#ValidationResult> ;
+            <http://www.w3.org/ns/shacl#focusNode>
+                    res:0d8fb2dc ;
+            <http://www.w3.org/ns/shacl#resultMessage>
+                    "Value does not have class skos:Concept" ;
+            <http://www.w3.org/ns/shacl#resultPath>
+                    ore:isAggregatedBy ;
+            <http://www.w3.org/ns/shacl#resultSeverity>
+                    <http://www.w3.org/ns/shacl#Violation> ;
+            <http://www.w3.org/ns/shacl#sourceConstraintComponent>
+                    <http://www.w3.org/ns/shacl#ClassConstraintComponent> ;
+            <http://www.w3.org/ns/shacl#sourceShape>
+                    _:b1 ;
+            <http://www.w3.org/ns/shacl#value>
+                    col:5c11a5fa
+          ] ;
+  <http://www.w3.org/ns/shacl#result>
+          [ a       <http://www.w3.org/ns/shacl#ValidationResult> ;
+            <http://www.w3.org/ns/shacl#focusNode>
+                    res:c9863d27 ;
+            <http://www.w3.org/ns/shacl#resultMessage>
+                    "Predicate dct:isVersionOf is not allowed (closed shape)" ;
+            <http://www.w3.org/ns/shacl#resultPath>
+                    dct:isVersionOf ;
+            <http://www.w3.org/ns/shacl#resultSeverity>
+                    <http://www.w3.org/ns/shacl#Violation> ;
+            <http://www.w3.org/ns/shacl#sourceConstraintComponent>
+                    <http://www.w3.org/ns/shacl#ClosedConstraintComponent> ;
+            <http://www.w3.org/ns/shacl#sourceShape>
+                    <http://www.nakala.fr/shapes/NoticeShape> ;
+            <http://www.w3.org/ns/shacl#value>
+                    dat:9213349d
+          ] ;
+  <http://www.w3.org/ns/shacl#result>
+          [ a       <http://www.w3.org/ns/shacl#ValidationResult> ;
+            <http://www.w3.org/ns/shacl#focusNode>
+                    res:84eb503a ;
+            <http://www.w3.org/ns/shacl#resultMessage>
+                    "Predicate dct:isRequiredBy is not allowed (closed shape)" ;
+            <http://www.w3.org/ns/shacl#resultPath>
+                    dct:isRequiredBy ;
+            <http://www.w3.org/ns/shacl#resultSeverity>
+                    <http://www.w3.org/ns/shacl#Violation> ;
+            <http://www.w3.org/ns/shacl#sourceConstraintComponent>
+                    <http://www.w3.org/ns/shacl#ClosedConstraintComponent> ;
+            <http://www.w3.org/ns/shacl#sourceShape>
+                    <http://www.nakala.fr/shapes/NoticeShape> ;
+            <http://www.w3.org/ns/shacl#value>
+                    dat:9213349d
+          ] ;
+  <http://www.w3.org/ns/shacl#result>
+          [ a       <http://www.w3.org/ns/shacl#ValidationResult> ;
+            <http://www.w3.org/ns/shacl#focusNode>
+                    res:8431d87d ;
+            <http://www.w3.org/ns/shacl#resultMessage>
+                    "ore:isAggregatedBy does not have its corresponding inverse ore:aggregates" ;
+            <http://www.w3.org/ns/shacl#resultPath>
+                    ore:isAggregatedBy ;
+            <http://www.w3.org/ns/shacl#resultSeverity>
+                    <http://www.w3.org/ns/shacl#Violation> ;
+            <http://www.w3.org/ns/shacl#sourceConstraintComponent>
+                    <http://www.nakala.fr/shapes/InverseConstraintComponent> ;
+            <http://www.w3.org/ns/shacl#sourceShape>
+                    _:b1 ;
+            <http://www.w3.org/ns/shacl#value>
+                    col:5c11a5fa
+          ] ;
+  <http://www.w3.org/ns/shacl#result>
+          [ a       <http://www.w3.org/ns/shacl#ValidationResult> ;
+            <http://www.w3.org/ns/shacl#focusNode>
+                    res:c5e9e019 ;
+            <http://www.w3.org/ns/shacl#resultMessage>
+                    "ore:isAggregatedBy does not have its corresponding inverse ore:aggregates" ;
+            <http://www.w3.org/ns/shacl#resultPath>
+                    ore:isAggregatedBy ;
+            <http://www.w3.org/ns/shacl#resultSeverity>
+                    <http://www.w3.org/ns/shacl#Violation> ;
+            <http://www.w3.org/ns/shacl#sourceConstraintComponent>
+                    <http://www.nakala.fr/shapes/InverseConstraintComponent> ;
+            <http://www.w3.org/ns/shacl#sourceShape>
+                    _:b1 ;
+            <http://www.w3.org/ns/shacl#value>
+                    col:102d5aea
+          ] ;
+  <http://www.w3.org/ns/shacl#result>
+          [ a       <http://www.w3.org/ns/shacl#ValidationResult> ;
+            <http://www.w3.org/ns/shacl#focusNode>
+                    res:66afa892 ;
+            <http://www.w3.org/ns/shacl#resultMessage>
+                    "Predicate dct:isRequiredBy is not allowed (closed shape)" ;
+            <http://www.w3.org/ns/shacl#resultPath>
+                    dct:isRequiredBy ;
+            <http://www.w3.org/ns/shacl#resultSeverity>
+                    <http://www.w3.org/ns/shacl#Violation> ;
+            <http://www.w3.org/ns/shacl#sourceConstraintComponent>
+                    <http://www.w3.org/ns/shacl#ClosedConstraintComponent> ;
+            <http://www.w3.org/ns/shacl#sourceShape>
+                    <http://www.nakala.fr/shapes/NoticeShape> ;
+            <http://www.w3.org/ns/shacl#value>
+                    dat:9213349d
+          ] ;
+  <http://www.w3.org/ns/shacl#result>
+          [ a       <http://www.w3.org/ns/shacl#ValidationResult> ;
+            <http://www.w3.org/ns/shacl#focusNode>
+                    res:1706f4cb ;
+            <http://www.w3.org/ns/shacl#resultMessage>
+                    "Value does not have datatype xsd:long" ;
+            <http://www.w3.org/ns/shacl#resultPath>
+                    dct:extent ;
+            <http://www.w3.org/ns/shacl#resultSeverity>
+                    <http://www.w3.org/ns/shacl#Violation> ;
+            <http://www.w3.org/ns/shacl#sourceConstraintComponent>
+                    <http://www.w3.org/ns/shacl#DatatypeConstraintComponent> ;
+            <http://www.w3.org/ns/shacl#sourceShape>
+                    _:b0 ;
+            <http://www.w3.org/ns/shacl#value>
+                    662651601
+          ] ;
+  <http://www.w3.org/ns/shacl#result>
+          [ a       <http://www.w3.org/ns/shacl#ValidationResult> ;
+            <http://www.w3.org/ns/shacl#focusNode>
+                    res:3daf1d0f ;
+            <http://www.w3.org/ns/shacl#resultMessage>
+                    "ore:isAggregatedBy does not have its corresponding inverse ore:aggregates" ;
+            <http://www.w3.org/ns/shacl#resultPath>
+                    ore:isAggregatedBy ;
+            <http://www.w3.org/ns/shacl#resultSeverity>
+                    <http://www.w3.org/ns/shacl#Violation> ;
+            <http://www.w3.org/ns/shacl#sourceConstraintComponent>
+                    <http://www.nakala.fr/shapes/InverseConstraintComponent> ;
+            <http://www.w3.org/ns/shacl#sourceShape>
+                    _:b1 ;
+            <http://www.w3.org/ns/shacl#value>
+                    col:102d5aea
+          ] ;
+  <http://www.w3.org/ns/shacl#result>
+          [ a       <http://www.w3.org/ns/shacl#ValidationResult> ;
+            <http://www.w3.org/ns/shacl#focusNode>
+                    res:b542458a ;
+            <http://www.w3.org/ns/shacl#resultMessage>
+                    "Value does not have class skos:Concept" ;
+            <http://www.w3.org/ns/shacl#resultPath>
+                    ore:isAggregatedBy ;
+            <http://www.w3.org/ns/shacl#resultSeverity>
+                    <http://www.w3.org/ns/shacl#Violation> ;
+            <http://www.w3.org/ns/shacl#sourceConstraintComponent>
+                    <http://www.w3.org/ns/shacl#ClassConstraintComponent> ;
+            <http://www.w3.org/ns/shacl#sourceShape>
+                    _:b1 ;
+            <http://www.w3.org/ns/shacl#value>
+                    col:5c11a5fa
+          ] ;
+  <http://www.w3.org/ns/shacl#result>
+          [ a       <http://www.w3.org/ns/shacl#ValidationResult> ;
+            <http://www.w3.org/ns/shacl#focusNode>
+                    res:c9863d27 ;
+            <http://www.w3.org/ns/shacl#resultMessage>
+                    "Predicate dct:isRequiredBy is not allowed (closed shape)" ;
+            <http://www.w3.org/ns/shacl#resultPath>
+                    dct:isRequiredBy ;
+            <http://www.w3.org/ns/shacl#resultSeverity>
+                    <http://www.w3.org/ns/shacl#Violation> ;
+            <http://www.w3.org/ns/shacl#sourceConstraintComponent>
+                    <http://www.w3.org/ns/shacl#ClosedConstraintComponent> ;
+            <http://www.w3.org/ns/shacl#sourceShape>
+                    <http://www.nakala.fr/shapes/NoticeShape> ;
+            <http://www.w3.org/ns/shacl#value>
+                    dat:9213349d
+          ] ;
+  <http://www.w3.org/ns/shacl#result>
+          [ a       <http://www.w3.org/ns/shacl#ValidationResult> ;
+            <http://www.w3.org/ns/shacl#focusNode>
+                    res:73aec544 ;
+            <http://www.w3.org/ns/shacl#resultMessage>
+                    "Value does not have datatype xsd:long" ;
+            <http://www.w3.org/ns/shacl#resultPath>
+                    dct:extent ;
+            <http://www.w3.org/ns/shacl#resultSeverity>
+                    <http://www.w3.org/ns/shacl#Violation> ;
+            <http://www.w3.org/ns/shacl#sourceConstraintComponent>
+                    <http://www.w3.org/ns/shacl#DatatypeConstraintComponent> ;
+            <http://www.w3.org/ns/shacl#sourceShape>
+                    _:b0 ;
+            <http://www.w3.org/ns/shacl#value>
+                    785889145
+          ] ;
+  <http://www.w3.org/ns/shacl#result>
+          [ a       <http://www.w3.org/ns/shacl#ValidationResult> ;
+            <http://www.w3.org/ns/shacl#focusNode>
+                    res:8ebf683d ;
+            <http://www.w3.org/ns/shacl#resultMessage>
+                    "Predicate dct:isVersionOf is not allowed (closed shape)" ;
+            <http://www.w3.org/ns/shacl#resultPath>
+                    dct:isVersionOf ;
+            <http://www.w3.org/ns/shacl#resultSeverity>
+                    <http://www.w3.org/ns/shacl#Violation> ;
+            <http://www.w3.org/ns/shacl#sourceConstraintComponent>
+                    <http://www.w3.org/ns/shacl#ClosedConstraintComponent> ;
+            <http://www.w3.org/ns/shacl#sourceShape>
+                    <http://www.nakala.fr/shapes/NoticeShape> ;
+            <http://www.w3.org/ns/shacl#value>
+                    dat:9213349d
+          ] ;
+  <http://www.w3.org/ns/shacl#result>
+          [ a       <http://www.w3.org/ns/shacl#ValidationResult> ;
+            <http://www.w3.org/ns/shacl#focusNode>
+                    res:ef25cf5d ;
+            <http://www.w3.org/ns/shacl#resultMessage>
+                    "Value does not have datatype xsd:long" ;
+            <http://www.w3.org/ns/shacl#resultPath>
+                    dct:extent ;
+            <http://www.w3.org/ns/shacl#resultSeverity>
+                    <http://www.w3.org/ns/shacl#Violation> ;
+            <http://www.w3.org/ns/shacl#sourceConstraintComponent>
+                    <http://www.w3.org/ns/shacl#DatatypeConstraintComponent> ;
+            <http://www.w3.org/ns/shacl#sourceShape>
+                    _:b0 ;
+            <http://www.w3.org/ns/shacl#value>
+                    12599
+          ] ;
+  <http://www.w3.org/ns/shacl#result>
+          [ a       <http://www.w3.org/ns/shacl#ValidationResult> ;
+            <http://www.w3.org/ns/shacl#focusNode>
+                    res:1c9b5fe8 ;
+            <http://www.w3.org/ns/shacl#resultMessage>
+                    "Value does not have datatype xsd:long" ;
+            <http://www.w3.org/ns/shacl#resultPath>
+                    dct:extent ;
+            <http://www.w3.org/ns/shacl#resultSeverity>
+                    <http://www.w3.org/ns/shacl#Violation> ;
+            <http://www.w3.org/ns/shacl#sourceConstraintComponent>
+                    <http://www.w3.org/ns/shacl#DatatypeConstraintComponent> ;
+            <http://www.w3.org/ns/shacl#sourceShape>
+                    _:b0 ;
+            <http://www.w3.org/ns/shacl#value>
+                    158392145
+          ] ;
+  <http://www.w3.org/ns/shacl#result>
+          [ a       <http://www.w3.org/ns/shacl#ValidationResult> ;
+            <http://www.w3.org/ns/shacl#focusNode>
+                    res:ae8666e3 ;
+            <http://www.w3.org/ns/shacl#resultMessage>
+                    "Value does not have class skos:Concept" ;
+            <http://www.w3.org/ns/shacl#resultPath>
+                    ore:isAggregatedBy ;
+            <http://www.w3.org/ns/shacl#resultSeverity>
+                    <http://www.w3.org/ns/shacl#Violation> ;
+            <http://www.w3.org/ns/shacl#sourceConstraintComponent>
+                    <http://www.w3.org/ns/shacl#ClassConstraintComponent> ;
+            <http://www.w3.org/ns/shacl#sourceShape>
+                    _:b1 ;
+            <http://www.w3.org/ns/shacl#value>
+                    col:102d5aea
+          ] ;
+  <http://www.w3.org/ns/shacl#result>
+          [ a       <http://www.w3.org/ns/shacl#ValidationResult> ;
+            <http://www.w3.org/ns/shacl#focusNode>
+                    res:987fb825 ;
+            <http://www.w3.org/ns/shacl#resultMessage>
+                    "Value does not have datatype xsd:long" ;
+            <http://www.w3.org/ns/shacl#resultPath>
+                    dct:extent ;
+            <http://www.w3.org/ns/shacl#resultSeverity>
+                    <http://www.w3.org/ns/shacl#Violation> ;
+            <http://www.w3.org/ns/shacl#sourceConstraintComponent>
+                    <http://www.w3.org/ns/shacl#DatatypeConstraintComponent> ;
+            <http://www.w3.org/ns/shacl#sourceShape>
+                    _:b0 ;
+            <http://www.w3.org/ns/shacl#value>
+                    15279477
+          ] ;
+  <http://www.w3.org/ns/shacl#result>
+          [ a       <http://www.w3.org/ns/shacl#ValidationResult> ;
+            <http://www.w3.org/ns/shacl#focusNode>
+                    res:3fa22dcc ;
+            <http://www.w3.org/ns/shacl#resultMessage>
+                    "Value does not have datatype xsd:long" ;
+            <http://www.w3.org/ns/shacl#resultPath>
+                    dct:extent ;
+            <http://www.w3.org/ns/shacl#resultSeverity>
+                    <http://www.w3.org/ns/shacl#Violation> ;
+            <http://www.w3.org/ns/shacl#sourceConstraintComponent>
+                    <http://www.w3.org/ns/shacl#DatatypeConstraintComponent> ;
+            <http://www.w3.org/ns/shacl#sourceShape>
+                    _:b0 ;
+            <http://www.w3.org/ns/shacl#value>
+                    2234
+          ] ;
+  <http://www.w3.org/ns/shacl#result>
+          [ a       <http://www.w3.org/ns/shacl#ValidationResult> ;
+            <http://www.w3.org/ns/shacl#focusNode>
+                    res:66afa892 ;
+            <http://www.w3.org/ns/shacl#resultMessage>
+                    "Predicate dct:isVersionOf is not allowed (closed shape)" ;
+            <http://www.w3.org/ns/shacl#resultPath>
+                    dct:isVersionOf ;
+            <http://www.w3.org/ns/shacl#resultSeverity>
+                    <http://www.w3.org/ns/shacl#Violation> ;
+            <http://www.w3.org/ns/shacl#sourceConstraintComponent>
+                    <http://www.w3.org/ns/shacl#ClosedConstraintComponent> ;
+            <http://www.w3.org/ns/shacl#sourceShape>
+                    <http://www.nakala.fr/shapes/NoticeShape> ;
+            <http://www.w3.org/ns/shacl#value>
+                    dat:9213349d
+          ] ;
+  <http://www.w3.org/ns/shacl#result>
+          [ a       <http://www.w3.org/ns/shacl#ValidationResult> ;
+            <http://www.w3.org/ns/shacl#focusNode>
+                    res:bbfea730 ;
+            <http://www.w3.org/ns/shacl#resultMessage>
+                    "Value does not have datatype xsd:long" ;
+            <http://www.w3.org/ns/shacl#resultPath>
+                    dct:extent ;
+            <http://www.w3.org/ns/shacl#resultSeverity>
+                    <http://www.w3.org/ns/shacl#Violation> ;
+            <http://www.w3.org/ns/shacl#sourceConstraintComponent>
+                    <http://www.w3.org/ns/shacl#DatatypeConstraintComponent> ;
+            <http://www.w3.org/ns/shacl#sourceShape>
+                    _:b0 ;
+            <http://www.w3.org/ns/shacl#value>
+                    12854011
+          ] ;
+  <http://www.w3.org/ns/shacl#result>
+          [ a       <http://www.w3.org/ns/shacl#ValidationResult> ;
+            <http://www.w3.org/ns/shacl#focusNode>
+                    res:0020bccd ;
+            <http://www.w3.org/ns/shacl#resultMessage>
+                    "Predicate dct:isVersionOf is not allowed (closed shape)" ;
+            <http://www.w3.org/ns/shacl#resultPath>
+                    dct:isVersionOf ;
+            <http://www.w3.org/ns/shacl#resultSeverity>
+                    <http://www.w3.org/ns/shacl#Violation> ;
+            <http://www.w3.org/ns/shacl#sourceConstraintComponent>
+                    <http://www.w3.org/ns/shacl#ClosedConstraintComponent> ;
+            <http://www.w3.org/ns/shacl#sourceShape>
+                    <http://www.nakala.fr/shapes/NoticeShape> ;
+            <http://www.w3.org/ns/shacl#value>
+                    dat:9213349d
+          ] ;
+  <http://www.w3.org/ns/shacl#result>
+          [ a       <http://www.w3.org/ns/shacl#ValidationResult> ;
+            <http://www.w3.org/ns/shacl#focusNode>
+                    res:871add2e ;
+            <http://www.w3.org/ns/shacl#resultMessage>
+                    "Value does not have class skos:Concept" ;
+            <http://www.w3.org/ns/shacl#resultPath>
+                    ore:isAggregatedBy ;
+            <http://www.w3.org/ns/shacl#resultSeverity>
+                    <http://www.w3.org/ns/shacl#Violation> ;
+            <http://www.w3.org/ns/shacl#sourceConstraintComponent>
+                    <http://www.w3.org/ns/shacl#ClassConstraintComponent> ;
+            <http://www.w3.org/ns/shacl#sourceShape>
+                    _:b1 ;
+            <http://www.w3.org/ns/shacl#value>
+                    col:5c11a5fa
+          ]
+] .

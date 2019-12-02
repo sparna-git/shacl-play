@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title> </title>
+	
+	<!-- Bootstrap -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<!-- Datatable style with bootstrap -->
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
+	  
+	  <!-- JQuery -->
+	  <script
+				  src="http://code.jquery.com/jquery-3.4.1.slim.min.js"
+				  integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8="
+				  crossorigin="anonymous"></script>
+	  
+	<!-- Datatables -->
+	<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+	<!-- Datatable with bootstrap -->
+	<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+	
+	<!-- fontawesome -->
+	<link href="fa/css/all.min.css" rel="stylesheet"> <!--load all styles -->
+</head>
+
+<body>
+	<div class="container-fluid">
+		<div class="row" style="padding-top:1em;">
+			<div class="col">
+				{% include contentTemplate %}
+			</div>
+		</div>
+	</div>
+</body>
+<script>
+	$(document).ready(function() {
+    	var table = $('#resultTable').DataTable();
+	});
+</script>
+</html>

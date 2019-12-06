@@ -54,6 +54,7 @@ simple-owl2sh:ClassShape
   # Create base PropertyShapes
   sh:rule simple-owl2sh:CreateNodeShapesAndPropertyShapesFromRestrictions ;
   sh:rule simple-owl2sh:CreateNodeShapesAndPropertyShapesFromMatchingDomains ;
+  sh:rule simple-owl2sh:CreateNodeShapesAndPropertyShapesFromEquivalentClassHasValue ;
   # properties characteristics stuff
   sh:rule simple-owl2sh:owlFunctionalProperty2shMaxCount1 ;
   # cardinality stuff
@@ -82,6 +83,7 @@ simple-owl2sh:ClassShape
   # Don't quite understand this one
   sh:rule simple-owl2sh:owlUnionOfIRIs2rdfsSubClassOf ;
   # range stuff
+  sh:rule simple-owl2sh:rdfsRange2shNode ;
   sh:rule simple-owl2sh:rdfsRange2shClassOrDatatype ;
   sh:rule simple-owl2sh:rdfsRangeLiteral2shNodeKind ;
   sh:rule simple-owl2sh:shPropertyShapeCleanUp ;
@@ -166,6 +168,31 @@ simple-owl2sh:CreateNodeShapesAndPropertyShapesFromRestrictions
   sh:prefixes <http://sparna.fr/ontologies/simple-owl2sh> ;
 .
 
+simple-owl2sh:CreateNodeShapesAndPropertyShapesFromEquivalentClassHasValue
+  rdf:type sh:SPARQLRule ;
+  rdfs:comment "Creates a sh:property shape for each property that is mentioned in an owl:Restriction." ;
+  rdfs:label "owl:equivalentClass/owl:hasValue to sh:NodeShape with sh:hasValue" ;
+  sh:construct """
+      CONSTRUCT {
+        $this a sh:NodeShape .
+        $this a rdfs:Class .
+        $this sh:property ?propertyShape .
+        ?propertyShape sh:path ?propertyProbablySkosInScheme .
+        ?propertyShape sh:hasValue ?somethingProbablyAConceptScheme .
+      }
+      WHERE {
+        $this owl:equivalentClass ?restriction .
+        FILTER(isBlank(?restriction)) .
+        ?restriction owl:hasValue ?somethingProbablyAConceptScheme .
+        ?restriction owl:onProperty ?propertyProbablySkosInScheme .
+
+        BIND (simple-owl2sh:getPropertyShape(?propertyProbablySkosInScheme, $this) AS ?propertyShape) .
+      }
+      """ ;
+  sh:order 1 ;
+  sh:prefixes <http://sparna.fr/ontologies/simple-owl2sh> ;
+.
+
 simple-owl2sh:CreateNodeShapesAndPropertyShapesFromMatchingDomains
   rdf:type sh:SPARQLRule ;
   rdfs:comment "Creates a sh:property shape for each property with matching rdfs:domain." ;
@@ -194,6 +221,8 @@ simple-owl2sh:CreateNodeShapesAndPropertyShapesFromMatchingDomains
 .
 
 
+
+
 simple-owl2sh:owlFunctionalProperty2shMaxCount1
   rdf:type sh:SPARQLRule ;
   rdfs:comment "For each relevant property that is owl:FunctionalProperty, create sh:maxCount of 1 (unless there is an OWL cardinality restriction)." ;
@@ -219,6 +248,29 @@ simple-owl2sh:owlFunctionalProperty2shMaxCount1
 .
 
 
+simple-owl2sh:rdfsRange2shNode
+  rdf:type sh:SPARQLRule ;
+  rdfs:comment "For each relevant property that has an rdfs:range, creates an sh:node if the range yielded a NodeShape that has an sh:hasValue constraint, instead of an sh:class" ;
+  rdfs:label "rdfs:range with IRI to sh:class or sh:datatype" ;
+  sh:construct """
+      CONSTRUCT {
+        ?propertyShape sh:node ?range .
+      }
+      WHERE {
+        {
+          $this sh:property ?propertyShape .
+        }
+        ?propertyShape sh:path ?property .
+        ?property rdfs:range ?range .
+        ?range sh:property ?propertyWithHasValue .
+        ?propertyWithHasValue sh:hasValue ?anything .
+      }
+      """ ;
+  sh:order 4 ;
+  sh:prefixes <http://sparna.fr/ontologies/simple-owl2sh> ;
+.
+
+
 simple-owl2sh:rdfsRange2shClassOrDatatype
   rdf:type sh:SPARQLRule ;
   rdfs:comment "For each relevant property that has an rdfs:range, create sh:class or sh:datatype constraint unless it already exists (from a restriction)." ;
@@ -230,7 +282,8 @@ simple-owl2sh:rdfsRange2shClassOrDatatype
 			WHERE {
 				{
 					$this sh:property ?propertyShape .
-					FILTER NOT EXISTS { ?propertyShape sh:class|sh:datatype ?any } .
+          # exclude cases where the range of the property was already interpreted as sh:class or sh:node
+					FILTER NOT EXISTS { ?propertyShape sh:class|sh:datatype|sh:node ?any } .
 				}
 				?propertyShape sh:path ?property .
 				?property rdfs:range ?range .

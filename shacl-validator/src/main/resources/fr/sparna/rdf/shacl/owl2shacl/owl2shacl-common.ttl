@@ -1,0 +1,104 @@
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix swa: <http://topbraid.org/swa#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl2sh: <http://sparna.fr/ontologies/owl2sh#> .
+
+
+<http://sparna.fr/ontologies/owl2sh>
+  rdf:type owl:Ontology ;
+  sh:declare [
+      rdf:type sh:PrefixDeclaration ;
+      sh:namespace "http://sparna.fr/ontologies/owl2sh#"^^xsd:anyURI ;
+      sh:prefix "owl2sh" ;
+    ] ;
+  sh:declare [
+      rdf:type sh:PrefixDeclaration ;
+      sh:namespace "http://www.w3.org/2000/01/rdf-schema#"^^xsd:anyURI ;
+      sh:prefix "rdfs" ;
+    ] ;
+  sh:declare [
+      rdf:type sh:PrefixDeclaration ;
+      sh:namespace "http://www.w3.org/2002/07/owl#"^^xsd:anyURI ;
+      sh:prefix "owl" ;
+    ] ;
+   sh:declare [
+      rdf:type sh:PrefixDeclaration ;
+      sh:namespace "http://www.w3.org/ns/shacl#"^^xsd:anyURI ;
+      sh:prefix "sh" ;
+    ] ;
+  sh:declare [
+      rdf:type sh:PrefixDeclaration ;
+      sh:namespace "http://www.w3.org/2001/XMLSchema#"^^xsd:anyURI ;
+      sh:prefix "xsd" ;
+    ] ;
+   sh:declare [
+      rdf:type sh:PrefixDeclaration ;
+      sh:namespace "http://www.w3.org/1999/02/22-rdf-syntax-ns#"^^xsd:anyURI ;
+      sh:prefix "rdf" ;
+    ] ;
+    sh:declare [
+      rdf:type sh:PrefixDeclaration ;
+      sh:namespace "http://datashapes.org/dash#"^^xsd:anyURI ;
+      sh:prefix "dash" ;
+    ] ;
+.
+
+owl2sh:mappedTo
+  rdf:type rdf:Property ;
+  rdfs:comment "Associates an OWL/RDFS subject with one or more SHACL subjects that have been produced by the mapping rules. Statements that have been mapped to others can in principle be deleted. This is currently only used to flag blank nodes that appear in rdfs:subClassOf triples." ;
+  rdfs:label "mapped to" ;
+.
+
+
+owl2sh:getPropertyShape
+  rdf:type sh:SPARQLFunction ;
+  rdfs:comment "Gets an existing sh:PropertyShape for a given property at a given shape. If none is found, return a new blank node that will be reused by future calls." ;
+  rdfs:label "get property shape" ;
+  sh:parameter [
+      sh:path simple-owl2sh:predicate ;
+      sh:class rdf:Property ;
+      sh:description "The predicate to match." ;
+    ] ;
+  sh:parameter [
+      sh:path simple-owl2sh:shape ;
+      sh:class sh:Shape ;
+      sh:description "The shape hosting the constraint." ;
+    ] ;
+  sh:prefixes <http://sparna.fr/ontologies/owl2sh> ;
+  sh:returnType sh:PropertyShape ;
+  sh:select """
+    SELECT ?result
+    WHERE {
+      {
+        ?shape sh:property ?result .
+        ?result sh:path ?predicate .
+      }
+      UNION
+      {
+
+        BIND( 
+          IF(
+            CONTAINS(STR(?predicate), '#'),
+            STRAFTER(STR(?predicate), '#'),
+            REPLACE(REPLACE(STR(?predicate), '/', '_'), ':', '_')
+          )
+          AS ?propertyLocalName
+        )
+
+        BIND (
+          IF(isIRI($shape),
+            IRI(CONCAT(
+              STR($shape),
+              \"-\", 
+              ?propertyLocalName
+            )),
+            BNODE()
+          )
+        AS ?result) .
+      }
+    }
+    """ ;
+.

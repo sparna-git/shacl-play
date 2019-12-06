@@ -4,7 +4,10 @@ import java.io.File;
 import java.util.List;
 
 import com.beust.jcommander.Parameter;
+import com.beust.jcommander.Parameters;
 
+@Parameters(commandDescription = "Serialize an RDF validation report into one or more output files. The format of the output files is determined"
+		+ "based on the file extension.")
 public class ArgumentsGenerateReport {
 
 	@Parameter(

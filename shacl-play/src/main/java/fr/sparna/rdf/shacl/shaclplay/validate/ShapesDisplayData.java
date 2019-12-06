@@ -10,7 +10,7 @@ import org.topbraid.shacl.model.SHShape;
 import org.topbraid.shacl.vocabulary.SH;
 
 import fr.sparna.rdf.shacl.printer.report.ValidationReport;
-import fr.sparna.rdf.shacl.printer.report.ValidationReportFullWriter;
+import fr.sparna.rdf.shacl.printer.report.ValidationReportHtmlWriter;
 
 
 public class ShapesDisplayData {
@@ -207,7 +207,7 @@ public class ShapesDisplayData {
 	}
 
 	public String getValidationReportFull(String lang) {
-		ValidationReportFullWriter w = new ValidationReportFullWriter(false);
+		ValidationReportHtmlWriter w = new ValidationReportHtmlWriter(false);
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		w.write(this.validationReport, baos, Locale.forLanguageTag(lang));
 		try {

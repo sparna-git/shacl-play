@@ -10,8 +10,6 @@ import fr.sparna.rdf.shacl.app.owl2shacl.ArgumentsOwl2Shacl;
 import fr.sparna.rdf.shacl.app.owl2shacl.Owl2Shacl;
 import fr.sparna.rdf.shacl.app.report.ArgumentsGenerateReport;
 import fr.sparna.rdf.shacl.app.report.GenerateReport;
-import fr.sparna.rdf.shacl.app.summary.ArgumentsGenerateSummary;
-import fr.sparna.rdf.shacl.app.summary.GenerateSummary;
 import fr.sparna.rdf.shacl.app.validate.ArgumentsValidate;
 import fr.sparna.rdf.shacl.app.validate.Validate;
 
@@ -20,7 +18,6 @@ public class Main {
 	enum COMMAND {		
 
 		REPORT(new ArgumentsGenerateReport(), new GenerateReport()),
-		SUMMARY(new ArgumentsGenerateSummary(), new GenerateSummary()),
 		INFER(new ArgumentsInfer(), new Infer()),
 		OWL2SHACL(new ArgumentsOwl2Shacl(), new Owl2Shacl()),
 		VALIDATE(new ArgumentsValidate(), new Validate());

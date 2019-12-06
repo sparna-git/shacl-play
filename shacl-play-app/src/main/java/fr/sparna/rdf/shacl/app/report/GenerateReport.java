@@ -16,9 +16,9 @@ import fr.sparna.rdf.shacl.app.CliCommandIfc;
 import fr.sparna.rdf.shacl.app.InputModelReader;
 import fr.sparna.rdf.shacl.printer.report.SimpleCSVValidationResultWriter;
 import fr.sparna.rdf.shacl.printer.report.ValidationReport;
-import fr.sparna.rdf.shacl.printer.report.ValidationReportDatatableFullWriter;
-import fr.sparna.rdf.shacl.printer.report.ValidationReportDatatableSummaryWriter;
-import fr.sparna.rdf.shacl.printer.report.ValidationReportFullWriter;
+import fr.sparna.rdf.shacl.printer.report.ValidationReportRawDatatableWriter;
+import fr.sparna.rdf.shacl.printer.report.ValidationReportSummaryDatatableWriter;
+import fr.sparna.rdf.shacl.printer.report.ValidationReportHtmlWriter;
 import fr.sparna.rdf.shacl.printer.report.ValidationReportOutputFormat;
 import fr.sparna.rdf.shacl.printer.report.ValidationReportRdfWriter;
 import fr.sparna.rdf.shacl.printer.report.ValidationReportWriterRegistry;
@@ -51,10 +51,10 @@ public class GenerateReport implements CliCommandIfc {
 		
 		
 		// print
-		ValidationReportWriterRegistry.getInstance().register(new ValidationReportDatatableFullWriter());
-		ValidationReportWriterRegistry.getInstance().register(new ValidationReportDatatableSummaryWriter());
+		ValidationReportWriterRegistry.getInstance().register(new ValidationReportRawDatatableWriter());
+		ValidationReportWriterRegistry.getInstance().register(new ValidationReportSummaryDatatableWriter());
 		ValidationReportWriterRegistry.getInstance().register(new SimpleCSVValidationResultWriter());
-		ValidationReportWriterRegistry.getInstance().register(new ValidationReportFullWriter(true));
+		ValidationReportWriterRegistry.getInstance().register(new ValidationReportHtmlWriter(true));
 		ValidationReportWriterRegistry.getInstance().register(new ValidationReportRdfWriter(Lang.TTL));
 		ValidationReportWriterRegistry.getInstance().register(new ValidationReportRdfWriter(Lang.RDFXML));
 		ValidationReportWriterRegistry.getInstance().register(new ValidationReportRdfWriter(Lang.JSONLD));

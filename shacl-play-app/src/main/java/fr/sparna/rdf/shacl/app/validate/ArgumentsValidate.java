@@ -10,12 +10,13 @@ import com.beust.jcommander.Parameters;
 
 import fr.sparna.cli.SpaceSplitter;
 
-@Parameters(commandDescription = "Validate an input RDF data against the provided SHACL file, and writes the output in the given output file")
+@Parameters(commandDescription = "Validates some input RDF data against the provided SHACL file, and writes the output in one or more output file. The format"
+		+ "of the output file(s) is determined based on its file extension.")
 public class ArgumentsValidate {
 
 	@Parameter(
 			names = { "-i", "--input" },
-			description = "Path to a local RDF file",
+			description = "Path to a local RDF file. This can be repeated to read multiple input files (e.g. data files + ontology file + vocabulary file)",
 			required = true,
 			variableArity = true
 	)
@@ -37,7 +38,10 @@ public class ArgumentsValidate {
 
 	@Parameter(
 			names = { "-o", "--output" },
-			description = "Path to the output files (possibly multiple)",
+			description = "Path to an output file. This can be repeated to serialize the report in multiple output files. The format of the file is determined based"
+					+ " on the file extension : '*.html' for the HTML report, '*-raw.html' for a raw listing of validation results, '*-summary.html' "
+					+ " for a raw rendering of a summary of validation results, '*.ttl' or '*.rdf' for an RDF serialisation of the report, in Turtle or RDF/XML,"
+					+ " '*.csv' for a CSV serilisation of the validation results \n ",
 			required = true,
 			variableArity = true
 	)

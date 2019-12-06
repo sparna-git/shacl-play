@@ -8,7 +8,7 @@ import com.beust.jcommander.Parameters;
 
 import fr.sparna.rdf.shacl.owl2shacl.Owl2Shacl.Owl2ShaclStyle;
 
-@Parameters(commandDescription = "Infer data based on the provided SHACL file containing rules, and writes the output in the given output file")
+@Parameters(commandDescription = "Converts an OWL ontology into a SHACL file, in a specified 'conversion style'")
 public class ArgumentsOwl2Shacl {
 	
 	@Parameter(

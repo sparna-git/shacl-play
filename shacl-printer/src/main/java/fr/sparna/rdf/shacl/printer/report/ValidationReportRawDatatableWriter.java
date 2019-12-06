@@ -15,7 +15,7 @@ import org.apache.jena.vocabulary.RDF;
 import org.jtwig.JtwigModel;
 import org.jtwig.JtwigTemplate;
 
-public class ValidationReportDatatableFullWriter implements ValidationReportWriter {
+public class ValidationReportRawDatatableWriter implements ValidationReportWriter {
 
 
 	@Override
@@ -32,13 +32,13 @@ public class ValidationReportDatatableFullWriter implements ValidationReportWrit
 	
 	@Override
 	public ValidationReportOutputFormat getFormat() {
-		return ValidationReportOutputFormat.HTML;
+		return ValidationReportOutputFormat.HTML_RAW;
 	}
 
 	public static void main(String... args) throws Exception {
 		File resultFile = new File(args[0]);
-		File output = new File(ValidationReportDatatableFullWriter.class.getSimpleName()+".html");
-		ValidationReportDatatableFullWriter me = new ValidationReportDatatableFullWriter();
+		File output = new File(ValidationReportRawDatatableWriter.class.getSimpleName()+".html");
+		ValidationReportRawDatatableWriter me = new ValidationReportRawDatatableWriter();
 		Model m = ModelFactory.createDefaultModel();
 		m.read(new FileInputStream(resultFile), RDF.uri, RDFLanguages.filenameToLang(resultFile.getName()).getName());
 		me.write(

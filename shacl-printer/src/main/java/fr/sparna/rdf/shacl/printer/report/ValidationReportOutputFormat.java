@@ -7,8 +7,8 @@ public enum ValidationReportOutputFormat {
 
 	RDF(Arrays.asList(new String[] { "ttl", "rdf", "jsonld" })),
 	CSV(Arrays.asList(new String[] { "csv" })),
-	HTML_SUMMARY(Arrays.asList(new String[] { "summary.html" })),
-	HTML_FULL(Arrays.asList(new String[] { "full.html" })),
+	HTML_RAW_SUMMARY(Arrays.asList(new String[] { "summary.html" })),
+	HTML_RAW(Arrays.asList(new String[] { "raw.html" })),
 	HTML(Arrays.asList(new String[] { "html" }));
 	
 	protected List<String> fileExtensions;

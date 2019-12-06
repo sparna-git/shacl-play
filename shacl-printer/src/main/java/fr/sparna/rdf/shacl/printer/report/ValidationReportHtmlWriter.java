@@ -24,15 +24,15 @@ import org.slf4j.LoggerFactory;
 
 import ch.qos.logback.classic.Logger;
 
-public class ValidationReportFullWriter implements ValidationReportWriter {
+public class ValidationReportHtmlWriter implements ValidationReportWriter {
 
 	protected boolean selfContained = true;
 	
-	public ValidationReportFullWriter() {
+	public ValidationReportHtmlWriter() {
 		super();
 	}
 
-	public ValidationReportFullWriter(boolean selfContained) {
+	public ValidationReportHtmlWriter(boolean selfContained) {
 		super();
 		this.selfContained = selfContained;
 	}	
@@ -74,15 +74,15 @@ public class ValidationReportFullWriter implements ValidationReportWriter {
 	
 	@Override
 	public ValidationReportOutputFormat getFormat() {
-		return ValidationReportOutputFormat.HTML_FULL;
+		return ValidationReportOutputFormat.HTML;
 	}
 	
 	public static void main(String... args) throws Exception {
 		((Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME)).setLevel(ch.qos.logback.classic.Level.TRACE);
 		
 		File resultFile = new File(args[0]);
-		File output = new File(ValidationReportFullWriter.class.getSimpleName()+".html");
-		ValidationReportFullWriter me = new ValidationReportFullWriter();
+		File output = new File(ValidationReportHtmlWriter.class.getSimpleName()+".html");
+		ValidationReportHtmlWriter me = new ValidationReportHtmlWriter();
 		Model m = ModelFactory.createDefaultModel();
 		m.read(new FileInputStream(resultFile), RDF.uri, RDFLanguages.filenameToLang(resultFile.getName()).getName());
 		me.write(

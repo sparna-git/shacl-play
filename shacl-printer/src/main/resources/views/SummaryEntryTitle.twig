@@ -1,23 +1,29 @@
 {% if (summaryEntry.resultSeverityLabel == "Violation") %}
-	<span title="Violation"><i class="fal fa-engine-warning"></i></span>
+	<span class="badge badge-pill badge-danger">Violation</span>
+{# 	<span title="Violation"><i class="fal fa-engine-warning"></i></span>#}
 {% elseif (summaryEntry.resultSeverityLabel == "Warning") %}
-	<span title="Warning"><i class="fal fa-exclamation-triangle"></i></span>
+	<span class="badge badge-pill badge-warning">Warning</span>
+{# 	<span title="Warning"><i class="fal fa-exclamation-triangle"></i></span>#}
 {% elseif (summaryEntry.resultSeverityLabel == "Info") %}
-	<span title="Info"><i class="fal fa-comment-alt-exclamation"></i></span>
+	<span class="badge badge-pill badge-info">Info</span>
+{# 	<span title="Info"><i class="fal fa-comment-alt-exclamation"></i></span>#}
 {% else %}
-	<span title="Other"><i class="fal fa-exclamation"></i></span>		
+	<span class="badge badge-pill badge-secondary">Other</span>
+{# 	<span title="Other"><i class="fal fa-exclamation"></i></span>		#}
 {% endif %}
-&nbsp;
 
 {% if (toc) %}
-	{{summaryEntry.count}} <em>"{{summaryEntry.message}}"</em>
-	{% if (summaryEntry.resultPath) %}
-		on {{ summaryEntry.resultPath }}
+	{{summaryEntry.count}} <em>"{{summaryEntry.message|escape}}"</em>
+	{% if not (summaryEntry.resultPath is empty) %}
+		for {{ summaryEntry.resultPath|escape }}
 	{% endif %}
-	&nbsp;<a href="#{{summaryEntry.hashCode()}}"><i class="fal fa-angle-double-down"></i></a>
+	{% if summaryEntry.shResultSummaryEntry.sourceShape.isURIResource() %}
+		on {{ summaryEntry.sourceShape|escape }}
+	{% endif %}
+	&nbsp;<small><a href="#{{summaryEntry.hashCode()}}">see details</a></small>
 {% else %}
-	{{summaryEntry.count}} <em>"{{summaryEntry.message}}"</em>
-	{% if (summaryEntry.resultPath) %}
-		on {{ summaryEntry.resultPath }}
+	{{summaryEntry.count}} <em>"{{summaryEntry.message|escape}}"</em>
+	{% if not (summaryEntry.resultPath is empty) %}
+		for {{ summaryEntry.resultPath|escape }}
 	{% endif %}
 {% endif %}

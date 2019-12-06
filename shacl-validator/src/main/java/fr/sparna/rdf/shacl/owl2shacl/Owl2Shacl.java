@@ -1,7 +1,5 @@
 package fr.sparna.rdf.shacl.owl2shacl;
 
-import java.io.FileOutputStream;
-
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.ontology.OntModelSpec;
 import org.apache.jena.rdf.model.Model;
@@ -20,6 +18,7 @@ public class Owl2Shacl {
 	
 	public static enum Owl2ShaclStyle {
 		
+		CLOSED("owl2shacl-closed.ttl"),
 		SIMPLE("owl2shacl-simple.ttl");
 		
 		private String resourcePath;
@@ -58,5 +57,7 @@ public class Owl2Shacl {
 		
 		return results;
 	}
+	
+	
 	
 }

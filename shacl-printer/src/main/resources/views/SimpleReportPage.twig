@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<title> </title>
+	<title>SHACL validation report</title>
 	
 	<!-- Bootstrap -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -27,8 +27,8 @@
 
 <body>
 	<div class="container-fluid">
-		<div class="row" style="padding-top:1em;">
-			<div class="col">
+		<div class="row justify-content-center" style="padding-top:1em;">
+			<div class="col-10">
 				{% include contentTemplate %}
 			</div>
 		</div>
@@ -37,6 +37,12 @@
 <script>
 	$(document).ready(function() {
     	var table = $('#resultTable').DataTable();
+
+    	// add the toggle link behavior
+        $( ".toggleTableLink" ).click(function(event) {
+    		$(this).parent().prev(".table-outer").toggleClass("open");
+    		return false;
+        });
 	});
 </script>
 </html>

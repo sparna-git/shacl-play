@@ -20,7 +20,7 @@
 
 <div class="report-header card">
           <div class="card-header {{ report.globalSeverity.headerCssClass }}">
-	      	<h3><i class="fal {{ report.globalSeverity.icon }}"></i>&nbsp;&nbsp;
+	      	<h3>
 	      	{% include 'classpath:/views/ReportTitle.twig' with { 
 	      	    violations: report.validationReport.numberOfViolations,
 	      	    warnings : report.validationReport.numberOfWarnings,

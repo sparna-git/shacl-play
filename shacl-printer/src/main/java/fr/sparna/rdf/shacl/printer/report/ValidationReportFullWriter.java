@@ -74,7 +74,7 @@ public class ValidationReportFullWriter implements ValidationReportWriter {
 	
 	@Override
 	public ValidationReportOutputFormat getFormat() {
-		return ValidationReportOutputFormat.HTML_SUMMARY;
+		return ValidationReportOutputFormat.HTML_FULL;
 	}
 	
 	public static void main(String... args) throws Exception {
@@ -85,7 +85,11 @@ public class ValidationReportFullWriter implements ValidationReportWriter {
 		ValidationReportFullWriter me = new ValidationReportFullWriter();
 		Model m = ModelFactory.createDefaultModel();
 		m.read(new FileInputStream(resultFile), RDF.uri, RDFLanguages.filenameToLang(resultFile.getName()).getName());
-		me.write(new ValidationReport(m), new FileOutputStream(output), Locale.forLanguageTag("fr"));
+		me.write(
+				new ValidationReport(m, m),
+				new FileOutputStream(output),
+				Locale.forLanguageTag("fr")
+		);
 	}
 
 }

@@ -87,8 +87,12 @@ simple-owl2sh:ClassShape
   sh:rule simple-owl2sh:shPropertyShapeCleanUp ;
 
   # extra NodeShapes to check domains of properties
-  sh:rule simple-owl2sh:rdfsDomain2shNodeShapeWithTargetSubjectOf;
-  
+  # sh:rule simple-owl2sh:rdfsDomain2shNodeShapeWithTargetSubjectOf;
+
+  # Flatten and Close NodeShapes
+  sh:rule simple-owl2sh:flattenNodeShapes ;
+  sh:rule simple-owl2sh:closeNodeShapes ;
+
   sh:target [
       rdf:type sh:SPARQLTarget ;
       sh:prefixes <http://sparna.fr/ontologies/simple-owl2sh> ;
@@ -147,7 +151,7 @@ WHERE {
 
 simple-owl2sh:CreateNodeShapesAndPropertyShapesFromRestrictions
   rdf:type sh:SPARQLRule ;
-  rdfs:comment "Creates a sh:property shape for each property that is mentioned in an owl:Restriction." ;
+  rdfs:comment "Creates a NodeShape and a sh:property shape for each property that is mentioned in an owl:Restriction." ;
   rdfs:label "owl:onProperty to sh:property" ;
   sh:construct """
       CONSTRUCT {
@@ -168,7 +172,7 @@ simple-owl2sh:CreateNodeShapesAndPropertyShapesFromRestrictions
 
 simple-owl2sh:CreateNodeShapesAndPropertyShapesFromMatchingDomains
   rdf:type sh:SPARQLRule ;
-  rdfs:comment "Creates a sh:property shape for each property with matching rdfs:domain." ;
+  rdfs:comment "Creates a NodeShape and a sh:property shape for each property with matching rdfs:domain." ;
   rdfs:label "rdfs:domain to sh:property" ;
   sh:construct """
 			CONSTRUCT {
@@ -217,6 +221,7 @@ simple-owl2sh:owlFunctionalProperty2shMaxCount1
   sh:order 3 ;
   sh:prefixes <http://sparna.fr/ontologies/simple-owl2sh> ;
 .
+
 
 
 simple-owl2sh:rdfsRange2shClassOrDatatype
@@ -380,6 +385,7 @@ simple-owl2sh:owlMaxQualifiedCardinalityOnDataRange2shQualifiedMaxCount
         ?restriction owl:onProperty ?property .
         ?restriction owl:onDataRange ?onDataRange .
         FILTER isIRI(?onDataRange) .
+        FILTER NOT EXISTS { ?property rdfs:range ?onDataRange } .
         BIND (xsd:integer(?raw) AS ?maxCount) .
         BIND (BNODE() AS ?propertyShape) .
         BIND (BNODE() AS ?valueShape) .
@@ -494,6 +500,7 @@ simple-owl2sh:owlMinQualifiedCardinalityOnDataRange2shQualifiedMinCount
         ?restriction owl:onDataRange ?onDataRange .
         ?restriction owl:onProperty ?property .
         FILTER isIRI(?onDataRange) .
+        FILTER NOT EXISTS { ?property rdfs:range ?onDataRange } .
         BIND (xsd:integer(?raw) AS ?minCount) .
         BIND (BNODE() AS ?propertyShape) .
         BIND (BNODE() AS ?valueShape) .
@@ -587,6 +594,7 @@ simple-owl2sh:owlQualifiedCardinalityOnDataRange2shQualifiedMinMaxCount
         ?restriction owl:onDataRange ?onDataRange .
         ?restriction owl:onProperty ?property .
         FILTER isIRI(?onDataRange) .
+        FILTER NOT EXISTS { ?property rdfs:range ?onDataRange } .
         BIND (xsd:integer(?raw) AS ?count) .
         BIND (BNODE() AS ?propertyShape) .
         BIND (BNODE() AS ?valueShape) .
@@ -789,28 +797,41 @@ simple-owl2sh:owlAllValuesFrom2shClassOrDatatype
   sh:prefixes <http://sparna.fr/ontologies/simple-owl2sh> ;
 .
 
-
-simple-owl2sh:rdfsDomain2shNodeShapeWithTargetSubjectOf
+simple-owl2sh:flattenNodeShapes
   rdf:type sh:SPARQLRule ;
-  rdfs:comment "For each rdfs:domain that is an IRI, create a NodeShape with a sh:targetSubjectsOf to this domain and a sh:class constraint." ;
-  rdfs:label "rdfs:domain with IRI to sh:NodeShape with sh:class" ;
+  rdfs:comment "" ;
+  rdfs:label "Link rdfs:subClassOf+/sh:property to flatten NodeShapes" ;
   sh:construct """
       CONSTRUCT {
-        ?propertyShape a sh:NodeShape .
-        ?propertyShape sh:targetSubjectsOf ?property .
-        ?propertyShape sh:class ?domain .
+        $this sh:property ?propertyShape .
       }
       WHERE {
-        ?property rdfs:domain ?domain .
-        FILTER isIRI(?domain) .
-
-        BIND(IRI(CONCAT(STR(?property), '-', 'shape')) AS ?propertyShape)
+        $this a sh:NodeShape .
+        $this rdfs:subClassOf+ ?ancestor .
+        ?ancestor sh:property ?propertyShape .
       }
       """ ;
-  sh:order 5 ;
+  sh:order 10 ;
   sh:prefixes <http://sparna.fr/ontologies/simple-owl2sh> ;
 .
 
+
+simple-owl2sh:closeNodeShapes
+  rdf:type sh:SPARQLRule ;
+  rdfs:comment "Make all sh:NodeShapes closed Shapes" ;
+  rdfs:label "Close NodeShapes" ;
+  sh:construct """
+      CONSTRUCT {
+        $this sh:closed true .
+        $this sh:ignoredProperties ( rdf:type ) .
+      }
+      WHERE {
+        $this a sh:NodeShape .
+      }
+      """ ;
+  sh:order 10 ;
+  sh:prefixes <http://sparna.fr/ontologies/simple-owl2sh> ;
+.
 
 
 simple-owl2sh:shPropertyShapeCleanUp

@@ -5,6 +5,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.Locale;
 
+import org.apache.jena.graph.Graph;
+import org.apache.jena.graph.compose.MultiUnion;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.ontology.OntModelSpec;
 import org.apache.jena.rdf.model.Model;
@@ -21,6 +23,8 @@ import fr.sparna.rdf.shacl.app.InputModelReader;
 import fr.sparna.rdf.shacl.printer.report.SimpleCSVValidationResultWriter;
 import fr.sparna.rdf.shacl.printer.report.ValidationReport;
 import fr.sparna.rdf.shacl.printer.report.ValidationReportDatatableFullWriter;
+import fr.sparna.rdf.shacl.printer.report.ValidationReportDatatableSummaryWriter;
+import fr.sparna.rdf.shacl.printer.report.ValidationReportFullWriter;
 import fr.sparna.rdf.shacl.printer.report.ValidationReportOutputFormat;
 import fr.sparna.rdf.shacl.printer.report.ValidationReportRdfWriter;
 import fr.sparna.rdf.shacl.printer.report.ValidationReportWriterRegistry;
@@ -36,7 +40,7 @@ public class Validate implements CliCommandIfc {
 		ArgumentsValidate a = (ArgumentsValidate)args;
 		
 		// read input file or URL
-		Model dataModel = InputModelReader.readInputModel(a.getInput());
+		Model dataModel = InputModelReader.readInputModel(a.getInput(), a.getNamespaceMappings());
 		
 		// if we are asked to copy input, copy it
 		if(a.getCopyInput() != null) {
@@ -67,17 +71,34 @@ public class Validate implements CliCommandIfc {
 		validator.setProgressMonitor(new Slf4jProgressMonitor("SHACL validator", log));
 		Model validationResults = validator.validate(dataModel);
 		
+		// union results and shapes
+		Model fullModel = ModelFactory.createModelForGraph(new MultiUnion(new Graph[] {
+				validationResults.getGraph(),
+				shapesModel.getGraph()
+		}));
+		
 		ValidationReportWriterRegistry.getInstance().register(new ValidationReportDatatableFullWriter());
+		ValidationReportWriterRegistry.getInstance().register(new ValidationReportDatatableSummaryWriter());
+		ValidationReportWriterRegistry.getInstance().register(new SimpleCSVValidationResultWriter());
+		ValidationReportWriterRegistry.getInstance().register(new ValidationReportFullWriter(true));
 		ValidationReportWriterRegistry.getInstance().register(new ValidationReportRdfWriter(Lang.TTL));
 		ValidationReportWriterRegistry.getInstance().register(new ValidationReportRdfWriter(Lang.RDFXML));
 		ValidationReportWriterRegistry.getInstance().register(new ValidationReportRdfWriter(Lang.JSONLD));
 		ValidationReportWriterRegistry.getInstance().register(new ValidationReportRdfWriter(Lang.NT));
-		ValidationReportWriterRegistry.getInstance().register(new SimpleCSVValidationResultWriter());
 		
 		for(File outputFile : a.getOutput()) {
+			
+			// create output dir if not existing
+			File outputDir = outputFile.getParentFile();
+			if(outputFile != null && !outputDir.exists()) {
+				outputDir.mkdirs();
+			}
+			
+			log.debug("Writing validation report to "+outputFile.getAbsolutePath());
+			
 			ValidationReportWriterRegistry.getInstance().getWriter(ValidationReportOutputFormat.forFileName(outputFile.getName()))
 			.orElse(new ValidationReportRdfWriter(Lang.TTL))
-			.write(new ValidationReport(validationResults), new FileOutputStream(outputFile), Locale.getDefault());
+			.write(new ValidationReport(validationResults, fullModel), new FileOutputStream(outputFile), Locale.getDefault());
 		}		
 	}
 }

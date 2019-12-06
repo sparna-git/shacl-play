@@ -24,15 +24,20 @@ import org.topbraid.shacl.vocabulary.SH;
 public class ValidationReport {
 
 	protected Model resultsModel;
+	protected Model fullModel;
 	
 	private List<SHResult> results;
 
-	public ValidationReport(Model resultsModel) {
+	public ValidationReport(Model resultsModel, Model fullModel) {
 		super();
 		this.resultsModel = resultsModel;
+		this.fullModel = fullModel;
+		
 		// ensure namespaces
 		this.resultsModel.setNsPrefix("sh", SH.BASE_URI);
 		this.resultsModel.setNsPrefix("xsd", XSD.NS);
+		this.fullModel.setNsPrefix("sh", SH.BASE_URI);
+		this.fullModel.setNsPrefix("xsd", XSD.NS);
 	}
 	
 
@@ -56,7 +61,10 @@ public class ValidationReport {
 		List<SHResultSummaryEntry> entries = new ArrayList<>();
 		QueryExecution execution = null;
 		try {
-			execution = QueryExecutionFactory.create(IOUtils.toString(this.getClass().getResource(this.getClass().getSimpleName()+".rq"), "UTF-8"), this.getResultsModel());
+			execution = QueryExecutionFactory.create(
+					IOUtils.toString(this.getClass().getResource(this.getClass().getSimpleName()+".rq"), "UTF-8"),
+					this.getFullModel()
+			);
 			ResultSet resultSet = execution.execSelect();
 			resultSet.forEachRemaining(solution -> {
 				entries.add(SHResultSummaryEntry.fromQuerySolution(solution));
@@ -80,7 +88,11 @@ public class ValidationReport {
 					&&
 					r.getResultSeverity().equals(entry.getResultSeverity())
 					&&
-					r.getPath().equals(entry.getResultPath())
+					(
+							(entry.getResultPath() == null && r.getPath() == null)
+							||
+							(entry.getResultPath() != null && r.getPath().equals(entry.getResultPath()))
+					)
 					&&
 					r.getMessage().equals(entry.getMessage())
 			);
@@ -121,6 +133,9 @@ public class ValidationReport {
 	public Model getResultsModel() {
 		return resultsModel;
 	}
-	
+
+	public Model getFullModel() {
+		return fullModel;
+	}	
 	
 }

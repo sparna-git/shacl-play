@@ -16,11 +16,19 @@ public class ArgumentsGenerateReport {
 	private List<File> input;
 
 	@Parameter(
-			names = { "-o", "--output" },
-			description = "Path to the output file",
-			required = true
+			names = { "-s", "--shapes" },
+			description = "Path to local RDF file containing shapes",
+			variableArity = true
 	)
-	private File output;
+	private List<File> shapes;
+	
+	@Parameter(
+			names = { "-o", "--output" },
+			description = "Path to the output files (possibly multiple)",
+			required = true,
+			variableArity = true
+	)
+	private List<File> output;
 
 	public List<File> getInput() {
 		return input;
@@ -30,11 +38,20 @@ public class ArgumentsGenerateReport {
 		this.input = input;
 	}
 
-	public File getOutput() {
+	public List<File> getOutput() {
 		return output;
 	}
 
-	public void setOutput(File output) {
+	public void setOutput(List<File> output) {
 		this.output = output;
 	}
+
+	public List<File> getShapes() {
+		return shapes;
+	}
+
+	public void setShapes(List<File> shapes) {
+		this.shapes = shapes;
+	}
+
 }

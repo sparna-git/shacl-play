@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -20,6 +21,10 @@ public class InputModelReader {
 	private static Logger log = LoggerFactory.getLogger(InputModelReader.class.getName());
 	
 	public static Model readInputModel(List<File> inputs) throws MalformedURLException {
+		return readInputModel(inputs, null);
+	}
+	
+	public static Model readInputModel(List<File> inputs, Map<String, String> prefixes) throws MalformedURLException {
 		Model inputModel = ModelFactory.createDefaultModel();
 		
 		for (File inputFile : inputs) {
@@ -41,6 +46,11 @@ public class InputModelReader {
 				}				
 			}
 		} 	
+		
+		// ensure prefixes
+		if(prefixes != null) {
+			prefixes.entrySet().stream().forEach(e -> inputModel.setNsPrefix(e.getKey(), e.getValue()));
+		}
 		
 		return inputModel;
 	}

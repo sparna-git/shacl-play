@@ -40,13 +40,13 @@ public class SHResultSummaryEntry {
 		// count
 		result.setCount(solution.getLiteral("count").getInt());
 		
-		// pretty sample value URI
+		// sample value URI
 		if(solution.contains("sampleValue")) {
 			RDFNode sampleValue = solution.get("sampleValue");
 			result.setSampleValue(sampleValue);
 		}
 		
-		// pretty sample focus node
+		// sample focus node
 		if(solution.contains("sampleFocusNode")) {
 			Resource sampleFocusNode = solution.getResource("sampleFocusNode");
 			result.setSampleFocusNode(sampleFocusNode);

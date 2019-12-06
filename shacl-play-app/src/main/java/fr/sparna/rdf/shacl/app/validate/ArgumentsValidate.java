@@ -1,10 +1,14 @@
 package fr.sparna.rdf.shacl.app.validate;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.Parameters;
+
+import fr.sparna.cli.SpaceSplitter;
 
 @Parameters(commandDescription = "Validate an input RDF data against the provided SHACL file, and writes the output in the given output file")
 public class ArgumentsValidate {
@@ -33,7 +37,7 @@ public class ArgumentsValidate {
 
 	@Parameter(
 			names = { "-o", "--output" },
-			description = "Path to the output file",
+			description = "Path to the output files (possibly multiple)",
 			required = true,
 			variableArity = true
 	)
@@ -50,6 +54,14 @@ public class ArgumentsValidate {
 			description = "Asks the SHACL validator to create details for OrComponent and AndComponents. Defaults to false."
 	)
 	private boolean createDetails = false;
+	
+	@Parameter(
+			names = "-ns",
+			description = "Namespace prefixes, in the form <key1>,<ns1> <key2>,<ns2> e.g. skos,http://www.w3.org/2004/02/skos/core# dct,http://purl.org/dc/terms/",
+			variableArity = true,
+			splitter = SpaceSplitter.class
+	)
+	private List<String> namespaceMappingsStrings;
 
 	public List<File> getInput() {
 		return input;
@@ -97,6 +109,17 @@ public class ArgumentsValidate {
 
 	public void setCreateDetails(boolean createDetails) {
 		this.createDetails = createDetails;
+	}
+	
+	public Map<String, String> getNamespaceMappings() {
+		if(this.namespaceMappingsStrings == null) {
+			return null;
+		}
+		Map<String, String> result = new HashMap<String, String>();
+		for (String aMappingString : this.namespaceMappingsStrings) {
+			result.put(aMappingString.split(",")[0],aMappingString.split(",")[1]);
+		}
+		return result;
 	}
 	
 }

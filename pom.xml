@@ -12,7 +12,7 @@
     <modules>
         <module>shacl-validator</module>
         <module>shacl-printer</module>
-        <module>shacl-app</module>
+        <module>shacl-play-app</module>
         <module>shacl-play</module>
     </modules>
 

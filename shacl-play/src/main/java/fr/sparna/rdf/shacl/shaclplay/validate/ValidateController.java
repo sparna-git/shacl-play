@@ -263,7 +263,7 @@ public class ValidateController {
 					displayModel,
 					new HTMLRenderer(displayModel, language),
 					shapesGraph,
-					new ValidationReport(results)
+					new ValidationReport(results, displayModel)
 			);	
 			sdd.setPermalink(permalink);
 			
@@ -307,7 +307,12 @@ public class ValidateController {
 			response.setContentType("text/csv");
 			response.setHeader("Content-Disposition", "inline; filename=\"validation-report.csv\"");
 
-			writer.write(new ValidationReport( SessionData.get(request.getSession()).getResults() ), response.getOutputStream(), null);
+			SessionData sessionData = SessionData.get(request.getSession());
+			writer.write(
+					new ValidationReport( sessionData.getResults(), sessionData.getResults().union(sessionData.getShapesGraph().getShapesModel()) ),
+					response.getOutputStream(),
+					null
+			);
 
 			response.flushBuffer();
 			return null;
@@ -398,7 +403,7 @@ public class ValidateController {
 				displayModel,
 				new HTMLRenderer(displayModel, language),
 				shapesGraph,
-				new ValidationReport(validator.getResults())
+				new ValidationReport(validator.getResults(), displayModel)
 		);	
 		
 		// TODO : always a null permalink in this case

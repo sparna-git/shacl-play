@@ -42,7 +42,11 @@ public class ValidationReportDatatableSummaryWriter implements ValidationReportW
 		ValidationReportDatatableSummaryWriter me = new ValidationReportDatatableSummaryWriter();
 		Model m = ModelFactory.createDefaultModel();
 		m.read(new FileInputStream(resultFile), RDF.uri, RDFLanguages.filenameToLang(resultFile.getName()).getName());
-		me.write(new ValidationReport(m), new FileOutputStream(output), Locale.forLanguageTag("fr"));
+		me.write(
+				new ValidationReport(m, m),
+				new FileOutputStream(output),
+				Locale.forLanguageTag("fr")
+		);
 	}
 
 }

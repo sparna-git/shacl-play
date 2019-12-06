@@ -28,7 +28,7 @@ public class ArgumentsOwl2Shacl {
 	
 	@Parameter(
 			names = { "-s", "--style" },
-			description = "Style of conversion. Defaults to 'simple'",
+			description = "Style of conversion. Can be 'simple' or 'closed'. Defaults to 'simple'",
 			required = false
 	)
 	private Owl2ShaclStyle style = Owl2ShaclStyle.SIMPLE;

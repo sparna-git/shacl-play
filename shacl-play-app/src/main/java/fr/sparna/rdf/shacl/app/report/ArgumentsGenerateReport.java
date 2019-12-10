@@ -12,7 +12,7 @@ public class ArgumentsGenerateReport {
 
 	@Parameter(
 			names = { "-i", "--input" },
-			description = "Path to local RDF file containing validation report",
+			description = "Path to local RDF file or directory containing validation report. This can be repeated to read multiple input files.",
 			required = true,
 			variableArity = true
 	)
@@ -20,7 +20,7 @@ public class ArgumentsGenerateReport {
 
 	@Parameter(
 			names = { "-s", "--shapes" },
-			description = "Path to local RDF file containing shapes",
+			description = "Path to local RDF file or directory containing shapes. This can be repeated to read multiple files.",
 			variableArity = true
 	)
 	private List<File> shapes;

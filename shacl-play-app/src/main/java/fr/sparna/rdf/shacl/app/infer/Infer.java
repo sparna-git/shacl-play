@@ -1,6 +1,5 @@
 package fr.sparna.rdf.shacl.app.infer;
 
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 
 import org.apache.jena.ontology.OntModel;
@@ -26,16 +25,13 @@ public class Infer implements CliCommandIfc {
 		ArgumentsInfer a = (ArgumentsInfer)args;
 		
 		// read input file or URL
-		Model dataModel = InputModelReader.readInputModel(a.getInput());
+		Model dataModel = ModelFactory.createDefaultModel(); 
+		InputModelReader.populateModel(dataModel, a.getInput());
 		
 		// read shapes file
 		OntModel shapesModel = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM);
-		log.debug("Reading shapes from "+a.getShapes().getAbsolutePath());
-		shapesModel.read(
-				new FileInputStream(a.getShapes()),
-				a.getShapes().toPath().toAbsolutePath().getParent().toUri().toString(),
-				RDFLanguages.filenameToLang(a.getShapes().getName(), Lang.RDFXML).getName()
-		);
+		log.debug("Reading shapes from "+a.getShapes());
+		InputModelReader.populateModel(shapesModel, a.getShapes());
 
 		// do the actual rule execution
 		Model results = RuleUtil.executeRules(

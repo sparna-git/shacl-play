@@ -33,11 +33,12 @@ public class GenerateReport implements CliCommandIfc {
 		ArgumentsGenerateReport args = (ArgumentsGenerateReport)o;		
 		
 		// read input files
-		Model validationReport = InputModelReader.readInputModel(args.getInput());
+		Model validationReport = ModelFactory.createDefaultModel(); 
+		InputModelReader.populateModel(validationReport, args.getInput());
 		
 		Model shapesModel = ModelFactory.createDefaultModel();
 		if(args.getShapes() != null) {
-			shapesModel = InputModelReader.readInputModel(args.getShapes());
+			shapesModel = InputModelReader.populateModel(shapesModel, args.getShapes());
 		}
 		
 		// union results and shapes

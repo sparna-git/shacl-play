@@ -1,7 +1,6 @@
 package fr.sparna.rdf.shacl.app.validate;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.Locale;
 
@@ -12,9 +11,6 @@ import org.apache.jena.ontology.OntModelSpec;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.riot.Lang;
-import org.apache.jena.riot.RDFDataMgr;
-import org.apache.jena.riot.RDFLanguages;
-import org.apache.jena.vocabulary.RDF;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,11 +18,11 @@ import fr.sparna.rdf.shacl.app.CliCommandIfc;
 import fr.sparna.rdf.shacl.app.InputModelReader;
 import fr.sparna.rdf.shacl.printer.report.SimpleCSVValidationResultWriter;
 import fr.sparna.rdf.shacl.printer.report.ValidationReport;
-import fr.sparna.rdf.shacl.printer.report.ValidationReportRawDatatableWriter;
-import fr.sparna.rdf.shacl.printer.report.ValidationReportSummaryDatatableWriter;
 import fr.sparna.rdf.shacl.printer.report.ValidationReportHtmlWriter;
 import fr.sparna.rdf.shacl.printer.report.ValidationReportOutputFormat;
+import fr.sparna.rdf.shacl.printer.report.ValidationReportRawDatatableWriter;
 import fr.sparna.rdf.shacl.printer.report.ValidationReportRdfWriter;
+import fr.sparna.rdf.shacl.printer.report.ValidationReportSummaryDatatableWriter;
 import fr.sparna.rdf.shacl.printer.report.ValidationReportWriterRegistry;
 import fr.sparna.rdf.shacl.validator.ShaclValidator;
 import fr.sparna.rdf.shacl.validator.Slf4jProgressMonitor;
@@ -40,7 +36,8 @@ public class Validate implements CliCommandIfc {
 		ArgumentsValidate a = (ArgumentsValidate)args;
 		
 		// read input file or URL
-		Model dataModel = InputModelReader.readInputModel(a.getInput(), a.getNamespaceMappings());
+		Model dataModel = ModelFactory.createDefaultModel(); 
+		InputModelReader.populateModel(dataModel, a.getInput(), a.getNamespaceMappings());
 		
 		// if we are asked to copy input, copy it
 		if(a.getCopyInput() != null) {
@@ -50,19 +47,14 @@ public class Validate implements CliCommandIfc {
 		
 		// read shapes file
 		OntModel shapesModel = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM);
-		log.debug("Reading shapes from "+a.getShapes().getAbsolutePath());
-		shapesModel.read(
-				new FileInputStream(a.getShapes()),
-				// so that relative URI references are found in the same directory that the shapes file
-				a.getShapes().toPath().toAbsolutePath().getParent().toUri().toString(),
-				RDFLanguages.filenameToLang(a.getShapes().getName(), Lang.RDFXML).getName()
-		);
+		log.debug("Reading shapes from "+a.getShapes());
+		InputModelReader.populateModel(shapesModel, a.getShapes(), a.getNamespaceMappings());
 		
 		// read extra model
 		Model extraModel = null;
 		if(a.getExtra() != null) {
 			extraModel = ModelFactory.createDefaultModel();
-			RDFDataMgr.read(extraModel, new FileInputStream(a.getExtra()), RDF.getURI(), RDFLanguages.filenameToLang(a.getShapes().getName(), Lang.RDFXML));
+			InputModelReader.populateModel(extraModel, a.getExtra(), a.getNamespaceMappings());
 		}
 		
 		// run the validator

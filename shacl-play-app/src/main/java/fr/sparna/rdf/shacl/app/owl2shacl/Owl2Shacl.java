@@ -3,6 +3,7 @@ package fr.sparna.rdf.shacl.app.owl2shacl;
 import java.io.FileOutputStream;
 
 import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFLanguages;
 import org.slf4j.Logger;
@@ -20,7 +21,8 @@ public class Owl2Shacl implements CliCommandIfc {
 		ArgumentsOwl2Shacl a = (ArgumentsOwl2Shacl)args;
 		
 		// read input file or URL
-		Model dataModel = InputModelReader.readInputModel(a.getInput());
+		Model dataModel = ModelFactory.createDefaultModel(); 
+		InputModelReader.populateModel(dataModel, a.getInput());
 		
 		fr.sparna.rdf.shacl.owl2shacl.Owl2Shacl owl2shacl = new fr.sparna.rdf.shacl.owl2shacl.Owl2Shacl();
 		

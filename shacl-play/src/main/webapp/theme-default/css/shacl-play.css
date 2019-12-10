@@ -18,3 +18,9 @@ footer {
     overflow: scroll;
     overflow-x: hidden;
 }
+
+/** validate-form **/
+
+.blockquote {
+	font-size: 1rem;
+}

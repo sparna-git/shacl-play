@@ -13,7 +13,7 @@ public class ArgumentsOwl2Shacl {
 	
 	@Parameter(
 			names = { "-i", "--input" },
-			description = "Path to a local RDF file",
+			description = "Path to a local RDF file or directory. This can be repeated to read multiple input files.",
 			required = true,
 			variableArity = true
 	)

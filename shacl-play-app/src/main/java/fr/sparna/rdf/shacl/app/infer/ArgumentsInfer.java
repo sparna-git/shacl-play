@@ -19,10 +19,11 @@ public class ArgumentsInfer {
 	
 	@Parameter(
 			names = { "-s", "--shapes" },
-			description = "Path to an RDF file containing the shapes definitions to use",
-			required = true
+			description = "Path to an RDF file or directory containing the shapes definitions to use, this can be repeated to merge multiple SHACL files.",
+			required = true,
+			variableArity = true
 	)
-	private File shapes;
+	private List<File> shapes;
 
 	@Parameter(
 			names = { "-o", "--output" },
@@ -47,11 +48,11 @@ public class ArgumentsInfer {
 		this.output = output;
 	}
 
-	public File getShapes() {
+	public List<File> getShapes() {
 		return shapes;
 	}
 
-	public void setShapes(File shapes) {
+	public void setShapes(List<File> shapes) {
 		this.shapes = shapes;
 	}
 	

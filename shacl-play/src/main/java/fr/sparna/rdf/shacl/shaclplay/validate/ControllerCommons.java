@@ -20,6 +20,15 @@ public class ControllerCommons {
 	
 	private static Logger log = LoggerFactory.getLogger(ControllerCommons.class.getName());
 	
+	public static Model populateModel(Model model, InputStream in, String lang) throws RiotException {
+		try {
+			model.read(in, RDF.getURI(), lang);
+			return model;
+		} finally {
+			if(in != null) { try {in.close();} catch(Exception e) {}}
+		}
+	}
+	
 	public static Model loadModel(InputStream in, String lang) throws RiotException {
 		try {
 			Model model = ModelFactory.createDefaultModel();

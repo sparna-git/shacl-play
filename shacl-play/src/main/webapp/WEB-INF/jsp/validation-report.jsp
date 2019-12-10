@@ -30,15 +30,18 @@
 		<jsp:param name="active" value="validate"/>
 	</jsp:include>
 
-	<div class="container">    
- 
-  		<div class="page-header">
-       		<h1>Validation results <small>of ${data.numberOfShapes} shapes</small></h1>
-     	</div>
-
-		${data.getValidationReportFull(lang)}
-    	
-    </div>  
+	<div class="container-fluid">
+		
+	
+		<div class="row justify-content-center" style="padding-top:1em;">
+			<div class="col-10">
+				<div class="page-header">
+		       		<h1>Validation results <small>of ${data.numberOfShapes} shapes</small></h1>
+		     	</div>
+				${data.getValidationReportFull(lang)}
+			</div>
+		</div>
+	</div>
 
 	<jsp:include page="footer.jsp" />
 

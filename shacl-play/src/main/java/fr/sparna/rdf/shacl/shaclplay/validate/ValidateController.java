@@ -3,11 +3,14 @@ package fr.sparna.rdf.shacl.shaclplay.validate;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URL;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
 import org.apache.jena.riot.RDFLanguages;
@@ -90,13 +93,13 @@ public class ValidateController {
 			// inline content if source=text
 			@RequestParam(value="inputInline", required=false) String text,
 			// uploaded file if source=file
-			@RequestParam(value="inputFile", required=false) MultipartFile file,
+			@RequestParam(value="inputFile", required=false) List<MultipartFile> files,
 			// radio box indicating type of shapes
 			@RequestParam(value="shapesSource", required=true) String shapesSourceString,
 			// reference to Shapes URL if shapeSource=sourceShape-inputShapeUrl
 			@RequestParam(value="inputShapeUrl", required=false) String shapesUrl,
 			// uploaded shapes if shapeSource=sourceShape-inputShapeFile
-			@RequestParam(value="inputShapeFile", required=false) MultipartFile shapesFile,
+			@RequestParam(value="inputShapeFile", required=false) List<MultipartFile> shapesFiles,
 			// inline Shapes if shapeSource=sourceShape-inputShapeInline
 			@RequestParam(value="inputInline", required=false) String shapesText,
 			HttpServletRequest request
@@ -115,16 +118,20 @@ public class ValidateController {
 			switch(shapesSource) {
 				case FILE: {
 					// get uploaded file
-					if(shapesFile.isEmpty()) {
+					if(shapesFiles.isEmpty()) {
 						return handleValidateFormError(request, "Uploaded shapes file is empty", null);
 					}
 					
-					log.debug("Shapes are in an uploaded file : "+shapesFile.getOriginalFilename());
+					log.debug("Shapes are in one or more uploaded file : "+shapesFiles.stream().map(f -> f.getOriginalFilename()).collect(Collectors.joining(", ")));			
 					try {
-						shapesModel = ControllerCommons.loadModel(shapesFile.getInputStream(), FileUtils.guessLang(shapesFile.getOriginalFilename(), "RDF/XML"));
+						shapesModel = ModelFactory.createDefaultModel();
+						for (MultipartFile f : shapesFiles) {
+							ControllerCommons.populateModel(shapesModel, f.getInputStream(), FileUtils.guessLang(f.getOriginalFilename(), "RDF/XML"));
+						}
 					} catch (RiotException e) {
 						return handleValidateFormError(request, e.getMessage(), e);
 					}
+
 					break;
 				}
 				case URL: {
@@ -165,13 +172,16 @@ public class ValidateController {
 			switch(source) {
 			case FILE: {
 				// get uploaded file
-				if(file.isEmpty()) {
+				if(files.isEmpty()) {
 					return handleValidateFormError(request, "Uploaded file is empty", null);
 				}
 				
-				log.debug("Data is in an uploaded file : "+file.getOriginalFilename());			
+				log.debug("Data is in one or more uploaded file : "+files.stream().map(f -> f.getOriginalFilename()).collect(Collectors.joining(", ")));			
 				try {
-					dataModel = ControllerCommons.loadModel(file.getInputStream(), FileUtils.guessLang(file.getOriginalFilename(), "RDF/XML"));
+					dataModel = ModelFactory.createDefaultModel();
+					for (MultipartFile f : files) {
+						ControllerCommons.populateModel(dataModel, f.getInputStream(), FileUtils.guessLang(f.getOriginalFilename(), "RDF/XML"));
+					}
 				} catch (RiotException e) {
 					return handleValidateFormError(request, e.getMessage(), e);
 				}

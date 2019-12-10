@@ -16,7 +16,7 @@ public class ArgumentsValidate {
 
 	@Parameter(
 			names = { "-i", "--input" },
-			description = "Path to a local RDF file. This can be repeated to read multiple input files (e.g. data files + ontology file + vocabulary file)",
+			description = "Path to a local RDF file, or directory containing multiple RDF files. This can be repeated to read multiple input files (e.g. data files + ontology file + vocabulary file)",
 			required = true,
 			variableArity = true
 	)
@@ -24,17 +24,19 @@ public class ArgumentsValidate {
 	
 	@Parameter(
 			names = { "-s", "--shapes" },
-			description = "Path to an RDF file containing the shapes definitions to use",
-			required = true
+			description = "Path to an RDF file or directory containing the shapes definitions to use, this can be repeated to merge multiple SHACL files.",
+			required = true,
+			variableArity = true
 	)
-	private File shapes;
+	private List<File> shapes;
 	
 	@Parameter(
 			names = { "-x", "--extra" },
-			description = "Extra data to use for validation - but not part of validated data itself. Typically ontology file with subClassOf predicates",
-			required = false
+			description = "Extra data to use for validation - but not part of validated data itself. Typically ontology file with subClassOf predicates. This can be repeated.",
+			required = false,
+			variableArity = true
 	)
-	private File extra;
+	private List<File> extra;
 
 	@Parameter(
 			names = { "-o", "--output" },
@@ -83,19 +85,19 @@ public class ArgumentsValidate {
 		this.output = output;
 	}
 
-	public File getShapes() {
+	public List<File> getShapes() {
 		return shapes;
 	}
 
-	public void setShapes(File shapes) {
+	public void setShapes(List<File> shapes) {
 		this.shapes = shapes;
 	}
 
-	public File getExtra() {
+	public List<File> getExtra() {
 		return extra;
 	}
 
-	public void setExtra(File extra) {
+	public void setExtra(List<File> extra) {
 		this.extra = extra;
 	}
 

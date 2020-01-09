@@ -1,0 +1,1 @@
+ssh -t admin@calliope.sparna.fr 'su -c "service tomcat8-instance1 restart"'

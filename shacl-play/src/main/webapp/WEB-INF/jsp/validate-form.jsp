@@ -209,7 +209,7 @@
 								    <div class="col-sm-9">
 								    		<select class="form-control" id="inputShapeCatalog" name="inputShapeCatalog" onchange="enabledShapeInput('inputShapeCatalog');">
 										      	<c:forEach items="${data.catalog.entries}" var="entry">
-										      		<option values="${entry.id}">${entry.title}</option>
+										      		<option value="${entry.id}">${entry.title}</option>
 										      	</c:forEach>
 										    </select>
 										    <small class="form-text text-muted">

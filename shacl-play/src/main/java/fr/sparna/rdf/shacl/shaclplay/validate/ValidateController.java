@@ -31,6 +31,7 @@ import fr.sparna.rdf.shacl.printer.report.SimpleCSVValidationResultWriter;
 import fr.sparna.rdf.shacl.printer.report.ValidationReport;
 import fr.sparna.rdf.shacl.shaclplay.ApplicationData;
 import fr.sparna.rdf.shacl.shaclplay.SessionData;
+import fr.sparna.rdf.shacl.shaclplay.catalog.CatalogEntry;
 import fr.sparna.rdf.shacl.shaclplay.catalog.CatalogService;
 import fr.sparna.rdf.shacl.shaclplay.catalog.ShapesCatalog;
 import fr.sparna.rdf.shacl.validator.ShaclValidator;
@@ -58,7 +59,8 @@ public class ValidateController {
 	private enum SHAPE_SOURCE_TYPE {
 		FILE,
 		URL,
-		INLINE
+		INLINE,
+		CATALOG
 	}
 	
 	@RequestMapping(value = {"validate"},method=RequestMethod.GET)
@@ -98,6 +100,8 @@ public class ValidateController {
 			@RequestParam(value="shapesSource", required=true) String shapesSourceString,
 			// reference to Shapes URL if shapeSource=sourceShape-inputShapeUrl
 			@RequestParam(value="inputShapeUrl", required=false) String shapesUrl,
+			// reference to Shapes Catalog ID if shapeSource=sourceShape-inputShapeCatalog
+			@RequestParam(value="inputShapeCatalog", required=false) String shapesCatalogId,
 			// uploaded shapes if shapeSource=sourceShape-inputShapeFile
 			@RequestParam(value="inputShapeFile", required=false) List<MultipartFile> shapesFiles,
 			// inline Shapes if shapeSource=sourceShape-inputShapeInline
@@ -157,6 +161,23 @@ public class ValidateController {
 					
 					if(shapesModel.size() == 0) {
 						return new ModelAndView("validate-form", ValidateFormData.KEY, ValidateFormData.error("No data could be parsed from the input shapes text."));
+					}
+
+					break;
+				}
+				case CATALOG: {
+					log.debug("Shapes are from the catalog, ID : "+shapesCatalogId);
+					
+					CatalogEntry entry = this.catalogService.getShapesCatalog().getCatalogEntryById(shapesCatalogId);
+
+					try {
+						shapesModel = ControllerCommons.loadModel(entry.getTurtleDownloadUrl());
+					} catch (RiotException e) {
+						return handleValidateFormError(request, e.getMessage(), e);
+					}
+					
+					if(shapesModel.size() == 0) {
+						return new ModelAndView("validate-form", ValidateFormData.KEY, ValidateFormData.error("No data could be fetched from "+entry.getTurtleDownloadUrl()+"."));
 					}
 
 					break;
@@ -226,7 +247,8 @@ public class ValidateController {
 			return doValidate(shapesModel, dataModel, permalink, request);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new ModelAndView("validate-form", ValidateFormData.KEY, ValidateFormData.error(e.getClass().getName()+" : "+Encode.forHtml(e.getMessage())));
+			return handleValidateFormError(request, e.getClass().getName() +" : "+e.getMessage(), e);
+			// return new ModelAndView("validate-form", ValidateFormData.KEY, ValidateFormData.error(e.getClass().getName()+" : "+Encode.forHtml(e.getMessage())));
 		}
 	}
 	
@@ -437,6 +459,10 @@ public class ValidateController {
 	) {
 		ValidateFormData vfd = new ValidateFormData();
 		vfd.setErrorMessage(Encode.forHtml(message));
+		
+		ShapesCatalog catalog = this.catalogService.getShapesCatalog();
+		vfd.setCatalog(catalog);
+		
 		if(e != null) {
 			e.printStackTrace();
 		}

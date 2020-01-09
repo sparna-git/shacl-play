@@ -61,7 +61,7 @@
                           </tr>
                         </thead>
                         <tbody>
-                          {% for result in report.getResultsFor(summaryEntry) %}
+                          {% for result in report.getLimitedResultsFor(summaryEntry) %}
                               <tr>
                                 <td><span title="{{result.shresult.focusNode}}">{{result.focusNode}}</span></td>
                                 <td><span title="{{result.shresult.path}}">{{result.resultPath}}</span></td>
@@ -71,7 +71,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div><a class="toggleTableLink" href="#"><i>show/hide all {{ summaryEntry.count }} results</i></a></div>
+                <div><a class="toggleTableLink" href="#"><i>show/hide {{ (summaryEntry.count > report.maximumResults)?report.maximumResults:summaryEntry.count }} results {% if(summaryEntry.count > report.maximumResults) %}(on a total of {{ summaryEntry.count }}){% endif %}</i></a></div>
             {% else %}
         	     <table class="table table-borderless table-sm">
                     <thead>

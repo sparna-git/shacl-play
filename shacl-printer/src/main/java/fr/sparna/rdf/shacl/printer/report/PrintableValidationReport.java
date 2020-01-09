@@ -45,6 +45,8 @@ public class PrintableValidationReport {
 	protected ValidationReport validationReport;
 	protected List<PrintableSHResultSummaryEntry> resultsSummary;
 	protected List<PrintableSHResult> results;
+	
+	protected final long maximumResults = 1000;
 
 	public PrintableValidationReport(ValidationReport validationReport) {
 		this.validationReport = validationReport;
@@ -75,8 +77,17 @@ public class PrintableValidationReport {
 	}
 	
 	public synchronized List<PrintableSHResult> getResultsFor(PrintableSHResultSummaryEntry entry) {
-		return this.validationReport.getResultsFor(entry.getShResultSummaryEntry()).stream().map(r -> new PrintableSHResult(r)).collect(Collectors.toList());
-	}	
+		return this.validationReport.getResultsFor(entry.getShResultSummaryEntry()).stream()
+				.map(r -> new PrintableSHResult(r))
+				.collect(Collectors.toList());
+	}
+	
+	public synchronized List<PrintableSHResult> getLimitedResultsFor(PrintableSHResultSummaryEntry entry) {
+		return this.validationReport.getResultsFor(entry.getShResultSummaryEntry()).stream()
+				.limit(this.maximumResults)
+				.map(r -> new PrintableSHResult(r))
+				.collect(Collectors.toList());
+	}
 
 	public SeverityDisplayLevel getGlobalSeverity() {
 		// by default this is unchecked
@@ -134,8 +145,9 @@ public class PrintableValidationReport {
 		
 		return buffer.toString();				
 	}
-	
-	public String getTest(int i) {
-		return "test "+i;
+
+	public long getMaximumResults() {
+		return maximumResults;
 	}
+	
 }

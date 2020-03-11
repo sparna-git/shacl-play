@@ -126,7 +126,8 @@
 					      	id="inputUrl"
 					      	name="inputUrl"
 					      	placeholder="<fmt:message key="validate.inputData.url.placeholder" />"
-					      	onkeypress="enabledInput('inputUrl');"	
+					      	onkeypress="enabledInput('inputUrl');"
+					      	onpaste="enabledInput('inputUrl');"
 					      />
 					      <small class="form-text text-muted">
 								  <fmt:message key="validate.inputData.url.help" />
@@ -145,7 +146,14 @@
 					    	<fmt:message key="validate.inputData.inline" />
 					    </label>
 					    <div class="col-sm-9">
-					      <textarea class="form-control" id="inputInline" rows="5" onkeypress="enabledInput('inputInline');"></textarea>
+					      <textarea 
+					      	class="form-control"
+					      	id="inputInline"
+					      	name="inputInline"
+					      	rows="5"
+					      	onkeypress="enabledInput('inputInline');"
+							onpaste="enabledInput('inputInline')"
+					      ></textarea>
 					      <small class="form-text text-muted">
 								  <fmt:message key="validate.inputData.inline.help" />
 						  </small>
@@ -231,7 +239,15 @@
 							    	<fmt:message key="validate.shapes.url" />
 							    </label>
 							    <div class="col-sm-9">
-							      <input type="text" class="form-control" id="inputShapeUrl" name="inputShapeUrl" placeholder="<fmt:message key="validate.shapes.url.placeholder" />" onkeypress="enabledShapeInput('inputShapeUrl');">
+							      <input 
+							      	type="text"
+							      	class="form-control"
+							      	id="inputShapeUrl"
+							      	name="inputShapeUrl"
+							      	placeholder="<fmt:message key="validate.shapes.url.placeholder" />"
+							      	onkeypress="enabledShapeInput('inputShapeUrl');"
+							      	onchange="enabledShapeInput('inputShapeUrl')"
+							      >
 							      <small class="form-text text-muted">
 									  <fmt:message key="validate.shapes.url.help" />
 							    </small>
@@ -249,7 +265,14 @@
 							    	<fmt:message key="validate.shapes.inline" />
 							    </label>
 							    <div class="col-sm-9">
-							      <textarea class="form-control" id="inputShapeInline" rows="5" onkeypress="enabledShapeInput('inputShapeInline');"></textarea>
+							      <textarea 
+							      	class="form-control"
+							      	id="inputShapeInline"
+							      	name="inputShapeInline"
+							      	rows="5"
+							      	onkeypress="enabledShapeInput('inputShapeInline');"
+							      	onpaste="enabledShapeInput('inputShapeInline');"
+							      ></textarea>
 							      <small class="form-text text-muted">
 									  <fmt:message key="validate.shapes.inline.help" />
 								  </small>
@@ -258,8 +281,8 @@
 					      </blockquote>
 					  </c:if>
 					  <c:if test="${not empty data.selectedShapesKey}">
-					  	<input type="hidden" name="shapesSource" value="url" />
-					  	<input type="hidden" name="inputShapeUrl" value="${data.catalog.getCatalogEntryById(data.selectedShapesKey).turtleDownloadUrl}" />
+					  	<input type="hidden" name="shapesSource" value="catalog" />
+					  	<input type="hidden" name="inputShapeCatalog" value="${data.selectedShapesKey}" />
 					  </c:if>
 					  
 				    <button type="submit" id="validate-button" class="btn btn-info btn-lg"><fmt:message key="validate.validate" /></button>			  	

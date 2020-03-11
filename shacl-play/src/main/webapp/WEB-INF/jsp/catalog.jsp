@@ -46,7 +46,9 @@
     	<div class="row justify-content-md-center">
             <div class="col-8">
             	<h1 class="display-3"><fmt:message key="catalog.title" /></h1>
-            	
+            		<div class="row">
+            			<div class="col">To see your shapes file listed here, add it to the <a href="https://github.com/sparna-git/SHACL-Catalog/blob/master/shacl-catalog.ttl">Shapes Catalog source file</a> on Github.</div>
+            		</div>
             		<div class="row">
 				        <c:forEach items="${data.catalog.entries}" var="entry">
 				        	<div class="col-4 shapes-card-container">
@@ -63,7 +65,7 @@
 	
 						          	
 						          	<div class="btn-group btn-group-lg float-right" role="group">
-									  <c:if test="${not empty entry.landingPage}"><button type="button" class="btn btn-outline-dark"><i class="fal fa-home"></i></button></c:if>
+									  <c:if test="${not empty entry.landingPage}"><a type="button" class="btn btn-outline-dark" href="${entry.landingPage}"><i class="fal fa-home"></i></a></c:if>
 									  <a type="button" class="btn btn-outline-dark" href="<c:url value="${entry.turtleDownloadUrl}" />"><i class="fal fa-download"></i></a>
 									  <a type="button" class="btn btn-outline-dark" href="<c:url value="/validate?shapes=${entry.id}" />"><i class="fal fa-play"></i></a>
 									</div>

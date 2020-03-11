@@ -17,7 +17,7 @@ public class ApplicationData {
 	protected String buildVersion;	
 	protected String buildTimestamp;
 	
-	@Value("${shaclplay.largeInput.threshold:100}")
+	@Value("${shaclplay.largeInput.threshold:100000}")
 	private int largeInputThreshold;
 	
 	@Value("${shaclplay.baseUrl:#{null}}")

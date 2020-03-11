@@ -13,6 +13,8 @@ import org.apache.jena.rdf.model.ResIterator;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.ResourceFactory;
 import org.apache.jena.rdf.model.StmtIterator;
+import org.apache.jena.util.iterator.ExtendedIterator;
+import org.apache.jena.vocabulary.OWL;
 import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.RDFS;
 import org.topbraid.shacl.vocabulary.SH;
@@ -24,8 +26,15 @@ public class ShapeTargetValidator {
 			Model data
 	) {
 		List<Resource> result = new ArrayList<Resource>();
-		// for each sh:Shape...
-		ResIterator i = shapeModel.listResourcesWithProperty(RDF.type, ResourceFactory.createResource(SH.BASE_URI+"NodeShape"));
+		// for each subject of a target predicate...
+		// ResIterator i = shapeModel.listResourcesWithProperty(RDF.type, ResourceFactory.createResource(SH.BASE_URI+"NodeShape"));
+		ExtendedIterator<Resource> i = shapeModel.listResourcesWithProperty(SH.targetNode)
+		.andThen(shapeModel.listResourcesWithProperty(SH.targetClass))
+		.andThen(shapeModel.listResourcesWithProperty(SH.targetSubjectsOf))
+		.andThen(shapeModel.listResourcesWithProperty(SH.targetObjectsOf))
+		.andThen(shapeModel.listResourcesWithProperty(RDF.type, RDFS.Class))
+		.andThen(shapeModel.listResourcesWithProperty(RDF.type, OWL.Class));
+		
 		while(i.hasNext()) {
 			Resource r = i.next();
 			boolean hasTarget = targetMatched(r, data);

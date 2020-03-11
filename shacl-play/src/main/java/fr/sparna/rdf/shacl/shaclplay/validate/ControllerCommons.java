@@ -1,6 +1,7 @@
 package fr.sparna.rdf.shacl.shaclplay.validate;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -10,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.riot.Lang;
+import org.apache.jena.riot.RDFDataMgr;
+import org.apache.jena.riot.RDFLanguages;
 import org.apache.jena.riot.RiotException;
 import org.apache.jena.vocabulary.RDF;
 import org.slf4j.Logger;
@@ -39,10 +42,20 @@ public class ControllerCommons {
 		}
 	}
 	
-	public static Model loadModel(URL url) throws RiotException {
+	public static Model loadModel(URL url) throws RiotException, IOException {
 		Model model = ModelFactory.createDefaultModel();
-		// uses conneg to determine parser or can guess it from extension
-		model.read(url.toString());
+		try {
+			// uses conneg to determine parser or can guess it from extension
+			model.read(url.toString());
+		} catch (Exception e) {
+			log.debug("Simple read() failed based on conneg, will use "+ RDFLanguages.filenameToLang(url.getFile())+" RDF language");  
+			RDFDataMgr.read(
+					model,
+					url.openConnection().getInputStream(),
+					url.toString(),
+					RDFLanguages.filenameToLang(url.getFile())
+			);
+		}
 		return model;
 	}
 	

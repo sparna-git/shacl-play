@@ -67,5 +67,15 @@
 		<property name="buildVersion" value="${build.version:unknown}" />
 		<property name="buildTimestamp" value="${build.timestamp:unknown}" />
 	</bean>
+	
+	<!-- Register applicationData in the ServletContext, so that it is accessible in JSP JSTL -->
+    <bean class="org.springframework.web.context.support.ServletContextAttributeExporter">
+	    <property name="attributes">
+	        <map>
+	            <entry key="applicationData" value-ref="applicationData" />
+	        </map>
+	    </property>
+	</bean>
+	
 
 </beans>

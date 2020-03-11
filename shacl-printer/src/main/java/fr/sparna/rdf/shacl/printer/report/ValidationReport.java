@@ -129,6 +129,10 @@ public class ValidationReport {
 	public long getNumberOfOthers() {
 		return getResults().stream().filter(vr -> !vr.getResultSeverity().equals(SH.Violation) && !vr.getResultSeverity().equals(SH.Warning) && !vr.getResultSeverity().equals(SH.Info)).count();
 	}
+	
+	public boolean isConformant() {
+		return this.resultsModel.containsLiteral(null, SH.conforms, true);
+	}
 
 	public Model getResultsModel() {
 		return resultsModel;

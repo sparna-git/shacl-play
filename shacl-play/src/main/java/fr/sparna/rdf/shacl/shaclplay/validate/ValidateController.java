@@ -2,6 +2,7 @@ package fr.sparna.rdf.shacl.shaclplay.validate;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -63,9 +64,50 @@ public class ValidateController {
 		CATALOG
 	}
 	
-	@RequestMapping(value = {"validate"},method=RequestMethod.GET)
-	public ModelAndView home(
-			@RequestParam(value="shapes", required=false) String shapesId,
+	@RequestMapping(
+			value = {"validate"},
+			params={"url", "shapes"},
+			method=RequestMethod.GET
+	)
+	public ModelAndView validate(
+			@RequestParam(value="url", required=true) String url,
+			@RequestParam(value="shapes", required=true) String shapesCatalogId,
+			HttpServletRequest request,
+			HttpServletResponse response
+	){
+		try {
+			// load shapes
+			Model shapesModel = null;
+			CatalogEntry entry = this.catalogService.getShapesCatalog().getCatalogEntryById(shapesCatalogId);
+
+			try {
+				shapesModel = ControllerCommons.loadModel(entry.getTurtleDownloadUrl());
+			} catch (RiotException e) {
+				return handleValidateFormError(request, e.getMessage(), e);
+			}
+			
+			// load data
+			URL actualUrl = new URL(url);
+			Model dataModel = ControllerCommons.loadModel(actualUrl);
+			
+			// recompute permalink
+			// compute permalink only if we can
+			String permalink = "validate?shapes="+shapesCatalogId+"&url="+url;
+			
+			return doValidate(shapesModel, dataModel, permalink, request);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return handleValidateFormError(request, e.getClass().getName() +" : "+e.getMessage(), e);
+		}
+	}
+
+	@RequestMapping(
+			value = {"validate"},
+			params={"shapes"},
+			method=RequestMethod.GET
+	)
+	public ModelAndView validate(
+			@RequestParam(value="shapes", required=true) String shapesId,
 			HttpServletRequest request,
 			HttpServletResponse response
 	){
@@ -81,6 +123,21 @@ public class ValidateController {
 		return new ModelAndView("validate-form", ValidateFormData.KEY, vfd);	
 	}
 	
+	@RequestMapping(
+			value = {"validate"},
+			method=RequestMethod.GET
+	)
+	public ModelAndView validate(
+			HttpServletRequest request,
+			HttpServletResponse response
+	){
+		ValidateFormData vfd = new ValidateFormData();
+		
+		ShapesCatalog catalog = this.catalogService.getShapesCatalog();
+		vfd.setCatalog(catalog);
+		
+		return new ModelAndView("validate-form", ValidateFormData.KEY, vfd);	
+	}
 	
 	@RequestMapping(
 			value="/validate",
@@ -105,7 +162,7 @@ public class ValidateController {
 			// uploaded shapes if shapeSource=sourceShape-inputShapeFile
 			@RequestParam(value="inputShapeFile", required=false) List<MultipartFile> shapesFiles,
 			// inline Shapes if shapeSource=sourceShape-inputShapeInline
-			@RequestParam(value="inputInline", required=false) String shapesText,
+			@RequestParam(value="inputShapeInline", required=false) String shapesText,
 			HttpServletRequest request
 	) {
 		try {
@@ -239,11 +296,20 @@ public class ValidateController {
 			log.debug("Done Loading Data to validate. Model contains "+dataModel.size()+" triples");
 			
 			// compute permalink only if we can
+			log.debug("Determining permalink...");
 			String permalink = null;
-			if(shapesSource == SHAPE_SOURCE_TYPE.URL && source == SOURCE_TYPE.URL) {
-				permalink = "validate?url="+url+"&shapes="+shapesUrl;
+			if(source == SOURCE_TYPE.URL) {
+				if(
+						shapesSource == SHAPE_SOURCE_TYPE.CATALOG
+				) {
+					permalink = "validate?shapes="+shapesCatalogId+"&url="+url;
+					log.debug("Permalink computed : "+permalink);
+				}
 			}
-
+			if(permalink == null) {
+				log.debug("No permalink can be computed.");
+			}
+			
 			return doValidate(shapesModel, dataModel, permalink, request);
 		} catch (Exception e) {
 			e.printStackTrace();

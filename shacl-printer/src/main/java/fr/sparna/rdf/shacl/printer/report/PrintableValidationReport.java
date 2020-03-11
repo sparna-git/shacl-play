@@ -93,6 +93,11 @@ public class PrintableValidationReport {
 		// by default this is unchecked
 		SeverityDisplayLevel result = SeverityDisplayLevel.UNCHECKED;
 		
+		
+		if(this.validationReport.isConformant()) {
+			result = SeverityDisplayLevel.SUCCESS;
+		}
+		
 //		// if at least one Shape was successfully checked, result is success by default
 //		for (NodeShape s : shapes.getShapes()) {
 //			if(s.hasMatchedTargets()) {

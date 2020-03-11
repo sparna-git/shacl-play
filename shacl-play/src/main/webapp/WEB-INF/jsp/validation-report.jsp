@@ -37,6 +37,10 @@
 			<div class="col-10">
 				<div class="page-header">
 		       		<h1>Validation results <small>of ${data.numberOfShapes} shapes</small></h1>
+		       		<p>Download validation report in <a href="<c:url value="/validate/report/download?lang=csv" />" class="badge badge-pill badge-light">CSV</a>&nbsp;<a href="<c:url value="/validate/report/download?lang=Turtle" />" class="badge badge-pill badge-light">Turtle</a>&nbsp;<a href="<c:url value="/validate/report/download?lang=RDF/XML" />" class="badge badge-pill badge-light">RDF/XML</a></p>
+		       		<c:if test="${not empty data.permalink}">
+		       			<p><a href="${data.permalink}"><i class="fal fa-link"></i>&nbsp;Permalink to this report</a></p>
+		       		</c:if>
 		     	</div>
 				${data.getValidationReportFull(lang)}
 			</div>

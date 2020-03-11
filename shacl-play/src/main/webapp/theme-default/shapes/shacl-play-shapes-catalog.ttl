@@ -1,0 +1,159 @@
+@prefix sh:   <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#>.
+@prefix dct:  <http://purl.org/dc/terms/>.
+@prefix dc:   <http://purl.org/dc/elements/1.1/>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix foaf: <http://xmlns.com/foaf/0.1/>.
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix :     <http://shacl-play.sparna.fr/catalog#> .
+@prefix catshapes:     <http://shacl-play.sparna.fr/catalog-shapes#> .
+
+
+catshapes:ShapeEntry a sh:NodeShape;
+  rdfs:label "SHACL Play Catalog Entry Shape"@en;
+  sh:targetClass dcat:Dataset ;
+  sh:nodeKind sh:IRI;
+  sh:property [
+  		sh:description "A catalog entry must have 1 and only 1 literal title"@en;
+  		sh:path dct:title ;
+  		sh:minCount 1 ;
+  		sh:maxCount 1 ;
+  		sh:nodeKind sh:Literal ;
+  	] ;
+  	sh:property [
+  		sh:description "A catalog entry must have 1 and only 1 literal description"@en;
+  		sh:path dct:description ;
+  		sh:minCount 1 ;
+  		sh:maxCount 1 ;
+  		sh:nodeKind sh:Literal ;
+  	] ;
+  	sh:property [
+  		sh:description "A catalog entry must have 1 and only 1 foaf:isPrimaryTopicOf, blank node, that represents the catalog notice, and contains only a dct:issued and dct:creator"@en;
+  		sh:path foaf:isPrimaryTopicOf ;
+  		sh:minCount 1 ;
+  		sh:maxCount 1 ;  		
+  		sh:node [
+  			a sh:NodeShape ;
+  			sh:nodeKind sh:BlankNode ;
+  			sh:closed true ;
+  			sh:property [
+		  		sh:description "A catalog notice entry must have 1 and only 1 dct:issued, that is an xsd:date Literal"@en;
+		  		sh:path dct:issued ;
+		  		sh:minCount 1 ;
+		  		sh:maxCount 1 ;
+		  		sh:datatype xsd:date;
+		  	];
+			sh:property [
+		  		sh:description "A catalog notice entry must have 1 and only 1 literal dct:creator"@en;
+		  		sh:path dct:creator ;
+		  		sh:minCount 1 ;
+		  		sh:maxCount 1 ;
+		  		sh:nodeKind sh:Literal ;
+		  	];		
+  		]
+  	] ;
+  	sh:property [
+  		sh:description "A catalog entry must have 1 and only 1 Turtle distribution"@en;
+  		sh:path dcat:distribution ;
+  		sh:qualifiedMinCount 1 ;
+  		sh:qualifiedMaxCount 1 ;  		
+  		sh:qualifiedValueShape [
+  			a sh:NodeShape ;
+  			sh:nodeKind sh:BlankNode ;
+  			sh:property [
+		  		sh:description "A turtle distribution must have 1 and only 1 dcat:downloadURL"@en;
+		  		sh:path dcat:downloadURL ;
+		  		sh:minCount 1 ;
+		  		sh:maxCount 1 ;
+		  		sh:nodeKind sh:IRI ;
+		  	] ;
+			sh:property [
+		  		sh:description "A turtle distribution must have 1 and only 1 dcat:mediaType with the Turtle media type"@en;
+		  		sh:path dcat:mediaType ;
+		  		sh:minCount 1 ;
+		  		sh:maxCount 1 ;
+		  		sh:hasValue <https://www.iana.org/assignments/media-types/text/turtle> ;
+		  	] ;		
+  		] ;
+  	] ;
+  	sh:property [
+  		sh:description "A catalog entry may have any number of dcat:distribution, but at least 1, and they all have a dcat:downloadURL and a dcat:mediaType"@en;
+  		sh:path dcat:distribution ;
+  		sh:minCount 1 ;	
+  		sh:node [
+  			a sh:NodeShape ;
+  			sh:nodeKind sh:BlankNode ;
+  			sh:property [
+		  		sh:description "A distribution must have 1 and only 1 dcat:downloadURL"@en;
+		  		sh:path dcat:downloadURL ;
+		  		sh:minCount 1 ;
+		  		sh:maxCount 1 ;
+		  		sh:nodeKind sh:IRI ;
+		  	] ;
+			sh:property [
+		  		sh:description "A distribution must have 1 and only 1 dcat:mediaType"@en;
+		  		sh:path dcat:mediaType ;
+		  		sh:minCount 1 ;
+		  		sh:maxCount 1 ;
+		  		sh:nodeKind sh:IRI ;
+		  		sh:pattern "^https://www.iana.org" ;
+		  	] ;
+  		] ;
+  	] ;
+  	sh:property [
+  		sh:description "A catalog entry may have a dcat:contactPoint, with mailto: URI"@en;
+  		sh:path dcat:contactPoint ;
+  		sh:maxCount 1 ;
+  		sh:nodeKind sh:IRI ;
+  		sh:pattern "^mailto:" ;
+  	] ;
+  	sh:property [
+  		sh:description "A catalog entry must have a literal dct:publisher"@en;
+  		sh:path dct:publisher ;
+  		sh:minCount 1 ;
+  		sh:maxCount 1 ;
+  		sh:nodeKind sh:Literal ;
+  	] ;
+  	sh:property [
+  		sh:description "A catalog entry may have literal dcat:keyword"@en;
+  		sh:path dcat:keyword ;
+  		sh:nodeKind sh:Literal ;
+  	] ;
+  	sh:property [
+  		sh:description "A catalog entry must have a single dct:issued, in xsd:date"@en;
+  		sh:path dct:issued ;
+  		sh:minCount 1 ;
+  		sh:maxCount 1 ;
+  		sh:datatype xsd:date ;
+  	] ;
+  	sh:property [
+  		sh:description "A catalog entry must have a single literal dct:creator"@en;
+  		sh:path dct:creator ;
+  		sh:minCount 1 ;
+  		sh:maxCount 1 ;
+  		sh:nodeKind sh:Literal ;
+  	] ;
+  	sh:property [
+  		sh:description "A catalog entry may have literal dct:language"@en;
+  		sh:path dct:language ;
+  		sh:nodeKind sh:Literal ;
+  	] ;
+  	sh:property [
+  		sh:description "A catalog entry should have a dcat:landingPage"@en;
+  		sh:path dcat:landingPage ;
+  		sh:minCount 1 ;
+  		sh:maxCount 1 ;
+  		sh:nodeKind sh:IRI ;
+  		sh:severity sh:Warning ;
+  	] ;
+  	sh:property [
+  		sh:description "A catalog entry can have dct:isRequiredBy (to indicate the application or systems that relies on these shapes)"@en;
+  		sh:path dct:isRequiredBy ;
+  	] ;
+  	sh:property [
+  		sh:description "A catalog entry can have dct:references (to indcate on which ontologies the shape relies)"@en;
+  		sh:path dct:references ;
+  		sh:nodeKind sh:IRI ;
+  	] ;
+  .

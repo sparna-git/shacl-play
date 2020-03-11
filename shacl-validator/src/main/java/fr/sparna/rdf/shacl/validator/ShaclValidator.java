@@ -188,9 +188,9 @@ public class ShaclValidator {
 		ShapeTargetValidator targetValidator = new ShapeTargetValidator();
 		List<Resource> shapesWithoutTarget = targetValidator.listShapesWithEmptyTargets(this.shapesModel, validatedModel);
 		
-		
 		Model resultModel = ModelFactory.createDefaultModel();
 		shapesWithoutTarget.forEach(aShapeWithoutTarget -> { 
+			log.debug("Shape "+aShapeWithoutTarget+" did not match any focus node");
 			resultModel.add(resultModel.createLiteralStatement(
 					aShapeWithoutTarget,
 					// TODO : this should be completely changed

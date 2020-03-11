@@ -13,3 +13,7 @@
 {% if others > 0 %}
 	{{ others }} Other{% if others > 1 %}s{% endif %}
 {% endif %}
+
+{% if violations == 0 and warnings == 0 and infos == 0 and others == 0 %}
+	<span class="badge badge-pill badge-success">Valid</span>&nbsp;Data is conformant !
+{% endif %}

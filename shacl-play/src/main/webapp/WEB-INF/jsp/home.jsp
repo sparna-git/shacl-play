@@ -25,10 +25,18 @@
 		<jsp:param name="active" value="home"/>
 	</jsp:include>
 
-	<div class="container">    
-      	
-    	
-    </div>  
+    <div class="container-fluid">
+    
+    	<div class="row justify-content-md-center">
+            <div class="col-8">
+            	<h1 class="display-3"><i class="fal fa-home"></i>&nbsp;SHACL Play!</h1>
+            	<p>Free online RDF data validation with <a href="https://www.w3.org/TR/shacl/">SHACL</a>. <a href="<c:url value="/validate" />">Start validating !</a><p>
+            	<p>SHACL Play! embeds <a href="https://github.com/TopQuadrant/shacl" target="_blank">TopBraid SHACL API</a> from <a href="https://www.topquadrant.com/" target="_blank">TopQuadrant</a>.</p>
+            </div>
+            
+        </div>
+        
+    </div> 
 
 	<jsp:include page="footer.jsp" />
 

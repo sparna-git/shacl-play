@@ -82,7 +82,7 @@ public class Validate implements CliCommandIfc {
 			
 			// create output dir if not existing
 			File outputDir = outputFile.getParentFile();
-			if(outputFile != null && !outputDir.exists()) {
+			if(outputDir != null && !outputDir.exists()) {
 				outputDir.mkdirs();
 			}
 			

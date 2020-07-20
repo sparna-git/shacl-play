@@ -39,7 +39,7 @@
 	<div class="container-fluid">
 		<div class="row" style="padding-top:1em;">
 			<div class="col">
-				{% include contentTemplate %}
+				<#include contentTemplate>
 			</div>
 		</div>
 	</div>

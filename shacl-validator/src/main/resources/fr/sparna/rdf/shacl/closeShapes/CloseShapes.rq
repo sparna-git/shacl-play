@@ -1,0 +1,30 @@
+PREFIX sh:   <http://www.w3.org/ns/shacl#>
+PREFIX rdf:	 <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+CONSTRUCT {
+	?nodeShape sh:closed true .
+	?nodeShape sh:ignoredProperties (rdf:type) .	
+} WHERE {
+
+	{
+	SELECT DISTINCT ?nodeShape
+	WHERE
+	{
+		{
+			{
+				?nodeShape a sh:NodeShape .
+			}
+			UNION
+			{
+				?nodeShape sh:targetClass|sh:targetNode|sh:targetObjectsOf|sh:targetSubjectsOf ?anything .
+			}
+		}
+			
+		FILTER NOT EXISTS {
+			?nodeShape sh:closed true . 
+		}
+	}
+	}
+	
+
+}

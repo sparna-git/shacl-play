@@ -87,12 +87,14 @@ public class ValidationReport {
 					r.getSourceConstraintComponent().equals(entry.getSourceConstraintComponent())
 					&&
 					r.getResultSeverity().equals(entry.getResultSeverity())
-					&&
-					(
-							(entry.getResultPath() == null && r.getPath() == null)
-							||
-							(entry.getResultPath() != null && r.getPath().equals(entry.getResultPath()))
-					)
+					// to work with blank nodes we deactivate comparison on resultPath
+					// for property shapes this is anyway identical to the path of the source shape
+//					&&
+//					(
+//							(entry.getResultPath() == null && r.getPath() == null)
+//							||
+//							(entry.getResultPath() != null && r.getPath().equals(entry.getResultPath()))
+//					)
 					&&
 					r.getMessage().equals(entry.getMessage())
 			);

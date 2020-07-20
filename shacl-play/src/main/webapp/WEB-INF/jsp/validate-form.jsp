@@ -70,7 +70,7 @@
 	 
 			  	<form id="upload_form" action="validate" method="POST" enctype="multipart/form-data" class="form-horizontal">
 				      
-				      <h2><i class="fal fa-share-alt"></i>&nbsp;&nbsp;<fmt:message key="validate.inputData.title" /></h2>
+				      <h2><i class="fal fa-chart-network"></i>&nbsp;&nbsp;<fmt:message key="validate.inputData.title" /></h2>
 				      <blockquote class="blockquote bq-success">
 				      <div class="form-group row">
 				      	
@@ -284,6 +284,25 @@
 					  	<input type="hidden" name="shapesSource" value="catalog" />
 					  	<input type="hidden" name="inputShapeCatalog" value="${data.selectedShapesKey}" />
 					  </c:if>
+					  
+					  
+					  
+					  <h2><i class="fal fa-tools"></i>&nbsp;&nbsp;<fmt:message key="validate.options.title" /></h2>
+				      <blockquote class="blockquote bq-warning">
+				      <div class="form-group row">
+				      	<div class="col-sm-12">
+					      	<div class="form-check">
+							  <input class="form-check-input" type="checkbox" id="closeShapes" name="closeShapes" />
+							  <label class="form-check-label" for="closeShapes">
+							    <fmt:message key="validate.options.closeShapes" />
+							  </label>
+							  <small class="form-text text-muted">
+								<fmt:message key="validate.options.closeShapes.help" />
+							  </small>
+							</div>
+						</div>
+					  </div>
+					  </blockquote>
 					  
 				    <button type="submit" id="validate-button" class="btn btn-info btn-lg"><fmt:message key="validate.validate" /></button>			  	
 			  	</form>

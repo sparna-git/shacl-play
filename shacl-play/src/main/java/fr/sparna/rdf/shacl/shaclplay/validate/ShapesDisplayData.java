@@ -1,6 +1,7 @@
 package fr.sparna.rdf.shacl.shaclplay.validate;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
@@ -206,7 +207,7 @@ public class ShapesDisplayData {
 		return validationReport;
 	}
 
-	public String getValidationReportFull(String lang) {
+	public String getValidationReportFull(String lang) throws IOException {
 		ValidationReportHtmlWriter w = new ValidationReportHtmlWriter(false);
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		w.write(this.validationReport, baos, Locale.forLanguageTag(lang));

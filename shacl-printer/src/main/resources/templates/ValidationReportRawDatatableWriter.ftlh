@@ -11,21 +11,20 @@
 						</tr>
 					</thead>
 					<tbody>	
-							{% for result in  data %}
+							<#list data as result>
 								<tr >
-									<td><a class="link" href="{{result.focusNode}}" target="_blank">{{result.focusNode}}</a></td>
-									<td>{{result.message|escape('html')}}</td>
-									<td>{{result.resultPath}}</td>
-									<td>{{result.resultSeverity}}</td>
-									<td>{{result.sourceConstraintComponent}}</td>
+									<td><a class="link" href="${result.focusNode}" target="_blank">${result.focusNode}</a></td>
+									<td>${result.message}</td>
+									<td>${result.resultPath}</td>
+									<td>${result.resultSeverity}</td>
+									<td>${result.sourceConstraintComponent}</td>
 									<td>
-										{{result.sourceShape}}
+										${result.sourceShape}
 									</td>
 									<td>
-										{{result.value}}
+										${result.value}
 									</td>
 								</tr>
-							{% endfor %}			
-				
+							</#list>
 					</tbody>
 				</table>

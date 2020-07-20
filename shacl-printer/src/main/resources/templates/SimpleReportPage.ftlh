@@ -29,7 +29,7 @@
 	<div class="container-fluid">
 		<div class="row justify-content-center" style="padding-top:1em;">
 			<div class="col-10">
-				{% include contentTemplate %}
+				<#include contentTemplate>
 			</div>
 		</div>
 	</div>

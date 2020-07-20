@@ -2,7 +2,6 @@ package fr.sparna.rdf.shacl.shaclplay.validate;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import fr.sparna.rdf.shacl.closeShapes.CloseShapes;
 import fr.sparna.rdf.shacl.printer.report.SimpleCSVValidationResultWriter;
 import fr.sparna.rdf.shacl.printer.report.ValidationReport;
 import fr.sparna.rdf.shacl.shaclplay.ApplicationData;
@@ -72,6 +72,7 @@ public class ValidateController {
 	public ModelAndView validate(
 			@RequestParam(value="url", required=true) String url,
 			@RequestParam(value="shapes", required=true) String shapesCatalogId,
+			@RequestParam(value="closeShapes", required=false) boolean closeShapes,
 			HttpServletRequest request,
 			HttpServletResponse response
 	){
@@ -91,10 +92,12 @@ public class ValidateController {
 			Model dataModel = ControllerCommons.loadModel(actualUrl);
 			
 			// recompute permalink
-			// compute permalink only if we can
 			String permalink = "validate?shapes="+shapesCatalogId+"&url="+url;
+			if(closeShapes)  {
+				permalink += "&closeShapes=true";
+			}
 			
-			return doValidate(shapesModel, dataModel, permalink, request);
+			return doValidate(shapesModel, dataModel, permalink, closeShapes, request);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return handleValidateFormError(request, e.getClass().getName() +" : "+e.getMessage(), e);
@@ -163,10 +166,13 @@ public class ValidateController {
 			@RequestParam(value="inputShapeFile", required=false) List<MultipartFile> shapesFiles,
 			// inline Shapes if shapeSource=sourceShape-inputShapeInline
 			@RequestParam(value="inputShapeInline", required=false) String shapesText,
+			// closeShapes option
+			@RequestParam(value="closeShapes", required=false) boolean closeShapes,
 			HttpServletRequest request
 	) {
 		try {
 			log.debug("validate(source='"+sourceString+"', shapeSourceString='"+shapesSourceString+"')");
+			log.debug("closeSapes ? "+closeShapes);
 			
 			// get the source type
 			SOURCE_TYPE source = SOURCE_TYPE.valueOf(sourceString.toUpperCase());		
@@ -303,6 +309,9 @@ public class ValidateController {
 						shapesSource == SHAPE_SOURCE_TYPE.CATALOG
 				) {
 					permalink = "validate?shapes="+shapesCatalogId+"&url="+url;
+					if(closeShapes)  {
+						permalink += "&closeShapes=true";
+					}
 					log.debug("Permalink computed : "+permalink);
 				}
 			}
@@ -310,7 +319,7 @@ public class ValidateController {
 				log.debug("No permalink can be computed.");
 			}
 			
-			return doValidate(shapesModel, dataModel, permalink, request);
+			return doValidate(shapesModel, dataModel, permalink, closeShapes, request);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return handleValidateFormError(request, e.getClass().getName() +" : "+e.getMessage(), e);
@@ -322,13 +331,21 @@ public class ValidateController {
 			Model shapesModel,
 			Model dataModel,
 			String permalink,
+			boolean autoCloseShapes,
 			HttpServletRequest request
 	) throws Exception {
+		
+		Model actualShapesModel = shapesModel;
+		if(autoCloseShapes) {
+			log.debug("Auto-closing shapes");
+			CloseShapes closeShapes = new CloseShapes();
+			actualShapesModel = closeShapes.closeShapes(shapesModel);
+		}
 		
 		if(dataModel.size() < applicationData.getLargeInputThreshold()) {
 			// run the validation
 			ShaclValidator validator = new ShaclValidator(
-					shapesModel,
+					actualShapesModel,
 					// additionnal ontology Model
 					null
 			);

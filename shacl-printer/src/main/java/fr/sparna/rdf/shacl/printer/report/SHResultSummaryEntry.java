@@ -8,6 +8,8 @@ public class SHResultSummaryEntry {
 
 	protected Resource sourceShape;
 	protected String message;
+	
+	// identical to the source shape path, so can be any valid SHACL property path, including blank node
 	protected Resource resultPath;
 	protected Resource resultSeverity;
 	protected Resource sourceConstraintComponent;

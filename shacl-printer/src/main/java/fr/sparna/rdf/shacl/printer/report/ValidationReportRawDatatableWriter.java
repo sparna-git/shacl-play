@@ -3,31 +3,39 @@ package fr.sparna.rdf.shacl.printer.report;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.riot.RDFLanguages;
 import org.apache.jena.vocabulary.RDF;
-import org.jtwig.JtwigModel;
-import org.jtwig.JtwigTemplate;
+
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
 
 public class ValidationReportRawDatatableWriter implements ValidationReportWriter {
 
 
 	@Override
-	public void write(ValidationReport results, OutputStream out, Locale locale) {		
+	public void write(ValidationReport results, OutputStream out, Locale locale) throws IOException {		
 		List<PrintableSHResult> displayResults = results.getResults().stream().map(r -> new PrintableSHResult(r)).collect(Collectors.toList());
 		
-		JtwigModel model = JtwigModel.newModel();
-		model.with("data", displayResults);
-		model.with("contentTemplate", "classpath:/views/"+this.getClass().getSimpleName()+".twig");
-
-		JtwigTemplate template = JtwigTemplate.classpathTemplate("/views/DatatableView.twig");
-		template.render(model, out);
+		try {
+			Template template = FreemarkerConfiguration.getConfiguration().getTemplate("DatatableView.ftlh");
+			Map<String, Object> model = new HashMap<>();
+			model.put("data", displayResults);
+			model.put("contentTemplate", this.getClass().getSimpleName()+".ftlh");
+			template.process(model, new OutputStreamWriter(out));
+		} catch (TemplateException e1) {
+			throw new RuntimeException(e1);
+		}
 	}
 	
 	@Override

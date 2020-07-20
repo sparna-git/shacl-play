@@ -1,21 +1,24 @@
-PREFIX shacl:   <http://www.w3.org/ns/shacl#>
+PREFIX sh:   <http://www.w3.org/ns/shacl#>
 
 SELECT ?sourceShape ?sourceConstraintComponent ?resultSeverity ?resultPath ?message (COUNT(?nodeUri) AS ?count) (SAMPLE(?focusNode) AS ?sampleFocusNode) (SAMPLE(?value) AS ?sampleValue)
 WHERE {
-	?s a shacl:ValidationResult;
-		shacl:focusNode ?nodeUri;
-		shacl:resultSeverity ?resultSeverity;
-		shacl:sourceConstraintComponent ?sourceConstraintComponent;
-		shacl:sourceShape ?sourceShape .	
+	?s a sh:ValidationResult;
+		sh:focusNode ?nodeUri;
+		sh:resultSeverity ?resultSeverity;
+		sh:sourceConstraintComponent ?sourceConstraintComponent;
+		sh:sourceShape ?sourceShape .	
 	
 	# resultPath is not here on AndConstraintComponent
-	OPTIONAL { ?s shacl:resultPath ?resultPath; }
+	# OPTIONAL { ?s sh:resultPath ?resultPath; }
+	# we look on the source shape directly so that we can can aggregate on the same blank node
+	# in case the sh:path is a SHACL property path
+	OPTIONAL { ?sourceShape sh:path ?resultPath . }
 	# result message is not here on AndConstraintComponent
-	OPTIONAL { ?s shacl:resultMessage ?message; }
+	OPTIONAL { ?s sh:resultMessage ?message; }
 	
-	?s shacl:focusNode ?focusNode .
+	?s sh:focusNode ?focusNode .
 	# value is not present for min cardinality violations
-	OPTIONAL { ?s shacl:value ?value. }
+	OPTIONAL { ?s sh:value ?value. }
 	
 }
 GROUP BY ?sourceShape ?sourceConstraintComponent ?resultSeverity ?resultPath ?message

@@ -27,18 +27,17 @@
             <li class="nav-item ${param.active == 'validate' ? 'active' : ''}">
                 <a class="nav-link" href="<c:url value="/validate" />"><fmt:message key="navbar.validate" />${param.active == 'validate' ? '<span class="sr-only">(current)</span>' : ''}</a>
             </li>
-            
             <li class="nav-item ${param.active == 'catalog' ? 'active' : ''}">
                 <a class="nav-link" href="<c:url value="/catalog" />"><fmt:message key="navbar.catalog" />${param.active == 'catalog' ? '<span class="sr-only">(current)</span>' : ''}</a>
             </li>
-            
             <!--
-            <li class="nav-item ${param.active == 'owl2shacl' ? 'active' : ''}">
-                <a class="nav-link" href="<c:url value="/owl2shacl" />"><fmt:message key="navbar.owl2shacl" />${param.active == 'owl2shacl' ? '<span class="sr-only">(current)</span>' : ''}</a>
+            <li class="navbar-text">|</li>
+            <li class="nav-item ${param.active == 'transform' ? 'active' : ''}">
+                <a class="nav-link" href="<c:url value="/transform" />"><fmt:message key="navbar.transform" />${param.active == 'transform' ? '<span class="sr-only">(current)</span>' : ''}</a>
             </li>
             -->
         </ul>
-        <!-- Links -->
+        <!-- /Links -->
         
         <ul class="navbar-nav ml-auto nav-flex-icons">
           <li class="nav-item dropdown">

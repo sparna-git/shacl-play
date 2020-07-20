@@ -12,18 +12,17 @@
 						</tr>
 					</thead>
 					<tbody>	
-							{% for result in  data %}
+							<#list data as result>
 								<tr >
-									<td>{{result.sourceShape}}</td>
-									<td>{{result.sourceConstraintComponent}}</td>
-									<td>{{result.resultSeverity}}</td>
-									<td>{{result.resultPath}}</td>
-									<td>{{result.message|escape('html')}}</td>
-									<td>{{result.count}}</td>
-									<td>{{result.sampleFocusNode}}</td>
-									<td>{{result.sampleValue}}</td>
+									<td>${result.sourceShape}</td>
+									<td>${result.sourceConstraintComponent}</td>
+									<td>${result.resultSeverity}</td>
+									<td>${result.resultPath}</td>
+									<td>${result.message}</td>
+									<td>${result.count}</td>
+									<td>${result.sampleFocusNode}</td>
+									<td>${result.sampleValue}</td>
 								</tr>
-							{% endfor %}			
-				
+							</#list>
 					</tbody>
 				</table>

@@ -1,28 +1,24 @@
 package fr.sparna.rdf.shacl.printer.report;
 
-import static org.jtwig.translate.configuration.TranslateConfigurationBuilder.translateConfiguration;
-import static org.jtwig.translate.message.source.cache.CachedMessageSourceFactory.cachedWith;
-import static org.jtwig.translate.message.source.cache.PersistentMessageSourceCache.persistentCache;
-import static org.jtwig.translate.message.source.factory.PropertiesMessageSourceFactoryBuilder.propertiesMessageSource;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.riot.RDFLanguages;
 import org.apache.jena.vocabulary.RDF;
-import org.jtwig.JtwigModel;
-import org.jtwig.JtwigTemplate;
-import org.jtwig.environment.EnvironmentConfiguration;
-import org.jtwig.environment.EnvironmentConfigurationBuilder;
-import org.jtwig.translate.TranslateExtension;
 import org.slf4j.LoggerFactory;
 
 import ch.qos.logback.classic.Logger;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
 
 public class ValidationReportHtmlWriter implements ValidationReportWriter {
 
@@ -38,38 +34,27 @@ public class ValidationReportHtmlWriter implements ValidationReportWriter {
 	}	
 	
 	@Override
-	public void write(ValidationReport results, OutputStream out, Locale locale) {		
+	public void write(ValidationReport results, OutputStream out, Locale locale) throws IOException {		
 		PrintableValidationReport printableReport = new PrintableValidationReport(results);
-
-        EnvironmentConfiguration configuration = EnvironmentConfigurationBuilder
-                .configuration()
-                    .extensions()
-                        .add(new TranslateExtension(translateConfiguration()
-                        		.withCurrentLocaleSupplier(() -> locale)
-                                .withMessageSourceFactory(cachedWith(
-                                        persistentCache(),
-                                        propertiesMessageSource()
-                                                .withLookupClasspath("translations")
-                                                .build()
-                                ))
-                                .build()))
-                    .and()
-                .build();
 		
-		
-        if(selfContained) {
-			JtwigModel model = JtwigModel.newModel();
-			model.with("report", printableReport);
-			model.with("contentTemplate", "classpath:/views/"+this.getClass().getSimpleName()+".twig");
-	
-			JtwigTemplate template = JtwigTemplate.classpathTemplate("/views/SimpleReportPage.twig", configuration);
-			template.render(model, out);
-        } else {
-        	JtwigModel model = JtwigModel.newModel();
-        	model.with("report", printableReport);
-        	JtwigTemplate template = JtwigTemplate.classpathTemplate("/views/"+this.getClass().getSimpleName()+".twig", configuration);
-			template.render(model, out);
-        }
+		try {
+	        if(selfContained) {        	
+	        	Template template = FreemarkerConfiguration.getConfiguration().getTemplate("SimpleReportPage.ftlh");
+				Map<String, Object> model = new HashMap<>();
+				model.put("report", printableReport);
+				model.put("contentTemplate", this.getClass().getSimpleName()+".ftlh");
+				// pour les traductions
+				// model.put("msg", new MessageResolverMethod(messageSource, locale));
+				template.process(model, new OutputStreamWriter(out));
+	        } else {        	
+	        	Template template = FreemarkerConfiguration.getConfiguration().getTemplate(this.getClass().getSimpleName()+".ftlh");
+				Map<String, Object> model = new HashMap<>();
+				model.put("report", printableReport);
+				template.process(model, new OutputStreamWriter(out));
+	        }
+		} catch (TemplateException e1) {
+			throw new RuntimeException(e1);
+		}
 	}
 	
 	@Override

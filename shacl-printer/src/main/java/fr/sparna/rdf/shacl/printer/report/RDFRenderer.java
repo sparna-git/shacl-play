@@ -1,8 +1,14 @@
 package fr.sparna.rdf.shacl.printer.report;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.apache.jena.rdf.model.Literal;
+import org.apache.jena.rdf.model.RDFList;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.util.iterator.ExtendedIterator;
+import org.topbraid.shacl.vocabulary.SH;
 
 public class RDFRenderer {
 
@@ -36,8 +42,57 @@ public class RDFRenderer {
 	
 	public static String renderBlankNode(Resource r) {
 		if(r == null) return "";
+	
+		if(isShaclPropertyPath(r)) {
+			return renderShaclPropertyPath(r);
+		} else {
+			return r.getId().getLabelString();			
+		}
+
+	}
+
+	public static String renderShaclPropertyPath(Resource r) {
+		if(r == null) return "";
+	
+		if(r.isURIResource()) {
+			return renderUri(r);
+		} else if(r.hasProperty(SH.alternativePath)) {
+			Resource alternatives = r.getPropertyResourceValue(SH.alternativePath);
+			RDFList rdfList = alternatives.as( RDFList.class );
+			List<RDFNode> pathElements = rdfList.asJavaList();
+			return pathElements.stream().map(p -> renderShaclPropertyPath((Resource)p)).collect(Collectors.joining("|"));
+		} else if(r.hasProperty(SH.inversePath)) {
+			Resource value = r.getPropertyResourceValue(SH.inversePath);
+			if(value.isURIResource()) {
+				return "^"+renderShaclPropertyPath(value);
+			} else {
+				return "^("+renderShaclPropertyPath(value)+")";
+			}
+		} else if(r.canAs( RDFList.class )) {
+			RDFList rdfList = r.as( RDFList.class );
+			List<RDFNode> pathElements = rdfList.asJavaList();
+			return pathElements.stream().map(p -> {
+				return renderShaclPropertyPath((Resource)p);
+			}).collect(Collectors.joining("/"));
+		} else {
+			return "Unsupported path";
+		}
 		
-		return r.getId().getLabelString();
+	}
+	
+	
+	public static boolean isShaclPropertyPath(Resource r) {
+		if(
+				r.hasProperty(SH.alternativePath)
+				||
+				r.hasProperty(SH.inversePath)
+				||
+				r.canAs( RDFList.class )
+		) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	public static String renderLiteral(Literal l) {

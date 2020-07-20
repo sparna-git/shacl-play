@@ -154,5 +154,11 @@ public class PrintableValidationReport {
 	public long getMaximumResults() {
 		return maximumResults;
 	}
+
+	public ValidationReport getValidationReport() {
+		return validationReport;
+	}
+	
+	
 	
 }

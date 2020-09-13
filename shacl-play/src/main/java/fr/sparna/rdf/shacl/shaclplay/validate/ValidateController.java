@@ -193,7 +193,14 @@ public class ValidateController {
 					try {
 						shapesModel = ModelFactory.createDefaultModel();
 						for (MultipartFile f : shapesFiles) {
-							ControllerCommons.populateModel(shapesModel, f.getInputStream(), FileUtils.guessLang(f.getOriginalFilename(), "RDF/XML"));
+							
+							if(f.getOriginalFilename().endsWith("zip")) {
+								log.debug("Detected a zip extension");
+								ControllerCommons.populateModelFromZip(shapesModel, f.getInputStream());
+							} else {
+								ControllerCommons.populateModel(shapesModel, f.getInputStream(), FileUtils.guessLang(f.getOriginalFilename(), "RDF/XML"));
+							}
+							
 						}
 					} catch (RiotException e) {
 						return handleValidateFormError(request, e.getMessage(), e);
@@ -264,7 +271,13 @@ public class ValidateController {
 				try {
 					dataModel = ModelFactory.createDefaultModel();
 					for (MultipartFile f : files) {
-						ControllerCommons.populateModel(dataModel, f.getInputStream(), FileUtils.guessLang(f.getOriginalFilename(), "RDF/XML"));
+						if(f.getOriginalFilename().endsWith("zip")) {
+							log.debug("Detected a zip extension");
+							ControllerCommons.populateModelFromZip(dataModel, f.getInputStream());
+						} else {
+							ControllerCommons.populateModel(dataModel, f.getInputStream(), FileUtils.guessLang(f.getOriginalFilename(), "RDF/XML"));
+						}
+						
 					}
 				} catch (RiotException e) {
 					return handleValidateFormError(request, e.getMessage(), e);

@@ -5,6 +5,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
+import java.util.zip.ZipInputStream;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -14,6 +17,7 @@ import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
 import org.apache.jena.riot.RDFLanguages;
 import org.apache.jena.riot.RiotException;
+import org.apache.jena.util.FileUtils;
 import org.apache.jena.vocabulary.RDF;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -108,5 +112,25 @@ public class ControllerCommons {
 			}
 		}		
 	}
+	
+    public static Model populateModelFromZip(Model model, InputStream in) throws RiotException, IOException {
+
+    	try(ZipInputStream zis = new ZipInputStream(in)) {
+	    	ZipEntry entry;	    	
+	    	while ((entry = zis.getNextEntry()) != null) {
+	    		if(!entry.isDirectory()) {
+	    			String lang = FileUtils.guessLang(entry.getName(), "RDF/XML");
+	    			log.debug("Processing zip entry : "+ entry.getName()+", guessed lang "+lang);
+	    			// read in temporary byte array otherwise model.read closes the stream !
+	    			byte[] buffer = zis.readAllBytes();
+	    			ByteArrayInputStream bais = new ByteArrayInputStream(buffer);
+	    			model.read(bais, RDF.getURI(), FileUtils.guessLang(entry.getName(), "RDF/XML"));
+	    			log.debug("Success");  
+	    		}            
+	        }
+    	}
+    	
+    	return model;
+    }
 	
 }

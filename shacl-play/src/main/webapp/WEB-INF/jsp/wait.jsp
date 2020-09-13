@@ -56,7 +56,7 @@
 	    	    	if(data.finished == true) {
 	    	    		window.location.href="show";
 	    	    	} else {
-	    	    		setTimeout(doPoll,1000);	
+	    	    		setTimeout(doPoll,2500);	
 	    	    	}
 	    	    }
 	    	});

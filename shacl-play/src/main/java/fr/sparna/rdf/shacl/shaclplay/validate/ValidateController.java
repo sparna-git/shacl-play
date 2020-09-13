@@ -509,7 +509,7 @@ public class ValidateController {
 			HttpServletRequest request,
 			HttpServletResponse response
 	) throws Exception {
-		log.debug("show...");
+		log.debug("showing results...");
 		ShaclValidatorAsync validator = (ShaclValidatorAsync)request.getSession().getAttribute("validator");
 
 		String language = "en";
@@ -533,6 +533,8 @@ public class ValidateController {
 				shapesGraph,
 				new ValidationReport(validator.getResults(), displayModel)
 		);	
+		
+		log.debug("Ended showing results.");
 		
 		// TODO : always a null permalink in this case
 		sdd.setPermalink(null);

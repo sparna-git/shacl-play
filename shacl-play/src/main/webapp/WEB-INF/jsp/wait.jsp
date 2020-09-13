@@ -46,15 +46,18 @@
 	    	    // data: { get_param: 'value' }, 
 	    	    dataType: 'json',
 	    	    success: function (data) {
-	    	    	console.log(data.finished);
-	    	    	if(data.finished == true) {
-	    	    		window.location.href="show";
-	    	    	}
 	    	    	if(data.logs != "") {
 		    	    	$("#tail").append(data.logs+"<br/>");
 		    	        tailScroll();
 	    	    	}
-	    	        setTimeout(doPoll,1000);
+	    	    	
+	    	    	console.log(data.finished);
+	    	    	
+	    	    	if(data.finished == true) {
+	    	    		window.location.href="show";
+	    	    	} else {
+	    	    		setTimeout(doPoll,1000);	
+	    	    	}
 	    	    }
 	    	});
 	    	

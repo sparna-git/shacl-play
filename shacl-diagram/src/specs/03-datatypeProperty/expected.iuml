@@ -1,0 +1,7 @@
+@startuml
+class "ex:MyShape"
+"ex:MyShape" : ex:prop1
+"ex:MyShape" : ex:propString : xsd:string
+hide Circle
+hide empty members
+@enduml

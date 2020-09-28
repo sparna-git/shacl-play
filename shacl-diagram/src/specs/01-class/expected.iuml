@@ -1,0 +1,5 @@
+@startuml
+class "ex:MyShape"
+hide circle
+hide empty members
+@enduml

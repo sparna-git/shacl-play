@@ -1,0 +1,8 @@
+@startuml
+class "ex:MyShape"
+
+class "ex:AnotherShape"
+"ex:MyShape" --> "ex:AnotherShape" : ex:prop1
+hide Circle
+hide empty members
+@enduml

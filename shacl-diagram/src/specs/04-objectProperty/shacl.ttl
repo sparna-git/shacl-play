@@ -1,0 +1,14 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix ex: <http://exemple.com/> .
+
+ex:MyShape a sh:NodeShape ;
+	sh:property [
+		sh:path ex:prop1 ;
+		sh:shape ex:AnotherShape ;
+	] ;
+	.
+
+ex:AnotherShape a sh:NodeShape ;

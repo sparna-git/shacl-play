@@ -4,7 +4,7 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix ex: <http://example.org/ns#> .
 
-ex:NodeKindExampleShape a sh:NodeShape ;
+ex:MyShapeNodeKind a sh:NodeShape ;
 sh:targetClass ex:Person ;
 sh:property[
   sh:path ex:knows ;

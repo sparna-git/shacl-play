@@ -22,32 +22,3 @@ end note
 hide circle
 hide empty members
 @enduml
-
-====================================================
-
-@startuml
-class "ex:MyShapeminmaxCount" 
-"ex:MyShapeminmaxCount" : knows : string
-"ex:MyShapeminmaxCount" : +minCount(int)
-"ex:MyShapeminmaxCount" : +maxCount(int)
-
-note as N1
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix schema: <http://schema.org/> .
-@prefix sh: <http://www.w3.org/ns/shacl#> .
-@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-@prefix ex: <http://example.org/> .
-
-ex:MyShapeminmaxCount a sh:NodeShape ;
-sh:targetClass ex:Person ;
-sh:property[
-  sh:path ex:knows ;
-  sh:minCount 2 ;
-  sh:maxCount 4 ;
-  sh:datatype xsd:string
-] .
-end note
-
-hide circle
-hide empty members
-@enduml

@@ -1,33 +1,22 @@
 @startuml
 class "ex:MyShapeLength"
-"ex:MyShapeLength" : ex:password : integer {int,int}
+class "<<entity>> "
+"<<entity>> " : IRI
 
-class "<<entity>> {int,int}"
-"<<entity>> {int,int}" : IRI
-
-"ex:MyShapeLength" *- "<<entity>> {int,int}" : ex:knows
-
+"ex:MyShapeLength" *- "<<entity>> " : ex:knows
 
 note as N1
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix schema: <http://schema.org/> .
 @prefix sh: <http://www.w3.org/ns/shacl#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-@prefix ex: <http://example.org/> .
+@prefix ex: <http://example.org/ns#> .
 
-ex:MyShapeLength a sh:NodeShape ;
+ex:MyShapeNodeKind a sh:NodeShape ;
 sh:targetClass ex:Person ;
-sh:property [
-   sh:path ex:password ;
-   sh:minLength 4 ;
-   sh:maxLength 8 ;
-   sh:datatype xsd:integer ;
-] ;
-sh:property [
-   sh:path ex:knows ;
-   sh:nodeKind sh:IRI ;
-   sh:minLength 3 ;
-   sh:maxLength 30 ;
+sh:property[
+  sh:path ex:knows ;
+  sh:nodeKind sh:IRI ;
 ] .
 end note
 

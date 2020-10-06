@@ -1,0 +1,21 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <http://schema.org/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix ex: <http://example.org/> .
+
+ex:Alice
+	a ex:Person ;
+	ex:name "Spa" ;
+        ex:age "19"^^xsd:integer ;
+        ex:password 1234345 .
+  
+ex:Bob
+	a ex:Person ;
+	ex:age 65 ;
+        ex:password 1234 ;
+        ex:knows "Sparna".
+
+ex:Calvin
+	a ex:Person ;
+	ex:age "30" .

@@ -1,0 +1,14 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <http://schema.org/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix ex: <http://example.org/> .
+
+ex:MyShapeminCount a sh:NodeShape ;
+sh:targetClass ex:Person ;
+sh:property[
+  sh:path ex:knows ;
+  sh:minCount 2 ;
+  sh:maxCount 4 ;
+  sh:datatype xsd:string
+] .

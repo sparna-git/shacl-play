@@ -1,0 +1,56 @@
+@startuml
+class "ex:MyShapeRange" {
+   ex:age : integer
+__
+   +minExclusive (int) 
+   +maxInclusive (int)
+}
+
+
+note as N1
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <http://schema.org/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix ex: <http://example.org/> .
+
+ex:MyShapeRange a sh:NodeShape ;
+sh:targetClass ex:Person ;
+sh:property [
+   sh:path ex:age ;
+   sh:minExclusive 18 ;
+   sh:maxInclusive 95 ;
+   sh:datatype xsd:integer ;
+] .
+end note
+
+hide circle
+@enduml
+
+=================================================
+
+@startuml
+class "ex:MyShapeRange" 
+"ex:MyShapeRange" : ex:age : integer
+"ex:MyShapeRange" : +minExclusive (int) 
+"ex:MyShapeRange" : +maxInclusive (int)
+
+note as N1
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <http://schema.org/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix ex: <http://example.org/> .
+
+ex:MyShapeRange a sh:NodeShape ;
+sh:targetClass ex:Person ;
+sh:property [
+   sh:path ex:age ;
+   sh:minExclusive 18 ;
+   sh:maxInclusive 95 ;
+   sh:datatype xsd:integer ;
+] .
+end note
+
+hide circle
+@enduml

@@ -33,6 +33,11 @@
                 <artifactId>jcommander</artifactId>
                 <version>1.72</version>
             </dependency>
+            <dependency>
+              <groupId>info.picocli</groupId>
+              <artifactId>picocli</artifactId>
+              <version>4.5.1</version>
+            </dependency>
 
             <!-- Jena -->
             <dependency>
@@ -83,6 +88,13 @@
                 <groupId>org.freemarker</groupId>
                 <artifactId>freemarker</artifactId>
                 <version>2.3.30</version>
+            </dependency>
+
+            <!-- PlantUML -->
+            <dependency>
+              <groupId>net.sourceforge.plantuml</groupId>
+              <artifactId>plantuml</artifactId>
+              <version>8059</version>
             </dependency>
 
         </dependencies>

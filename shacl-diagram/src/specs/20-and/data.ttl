@@ -1,0 +1,20 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ex:Bob
+    a ex:Person ;
+    ex:familyName "Junior" ;
+    ex:address ex:BobsAddress ;
+    ex:property "Test 1".
+
+ex:Calvin a ex:Person ;
+    ex:streetAddress "1600 Amphitheatre Pkway" ;
+    ex:property "Some value" ; 
+    ex:postalCode 9404 .
+
+ex:Alice a ex:andShape .
+
+ex:Sparna a ex:andShape ; 
+   ex:property "shape2".

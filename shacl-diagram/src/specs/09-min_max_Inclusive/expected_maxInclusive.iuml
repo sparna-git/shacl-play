@@ -1,22 +1,20 @@
 @startuml
-class "ex:MyShapeLength"
-class "<<entity>> "
-"<<entity>> " : IRI
-
-"ex:MyShapeLength" *- "<<entity>> " : ex:knows
+Class "ex:MyShapemaxInclusive"
+"ex:MyShapemaxInclusive" : age : integer(18)
 
 note as N1
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix schema: <http://schema.org/> .
 @prefix sh: <http://www.w3.org/ns/shacl#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-@prefix ex: <http://example.org/ns#> .
+@prefix ex: <http://example.org/> .
 
-ex:MyShapeNodeKind a sh:NodeShape ;
+ex:MyShapemaxInclusive a sh:NodeShape ;
 sh:targetClass ex:Person ;
-sh:property[
-  sh:path ex:knows ;
-  sh:nodeKind sh:IRI ;
+sh:property [
+   sh:path ex:age ;
+   sh:maxInclusive 18 ;
+   sh:datatype xsd:integer ;
 ] .
 end note
 

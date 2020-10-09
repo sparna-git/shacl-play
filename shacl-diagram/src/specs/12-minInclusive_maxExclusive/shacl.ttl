@@ -2,11 +2,13 @@
 @prefix schema: <http://schema.org/> .
 @prefix sh: <http://www.w3.org/ns/shacl#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-@prefix ex: <http://example.org/ns#> .
+@prefix ex: <http://example.org/> .
 
-ex:MyShapeNodeKind a sh:NodeShape ;
+ex:MyShapeRange a sh:NodeShape ;
 sh:targetClass ex:Person ;
-sh:property[
-  sh:path ex:knows ;
-  sh:nodeKind sh:IRI ;
+sh:property [
+   sh:path ex:age ;
+   sh:minInclusive 18 ;
+   sh:maxExclusive 66 ;
+   sh:datatype xsd:integer ;
 ] .

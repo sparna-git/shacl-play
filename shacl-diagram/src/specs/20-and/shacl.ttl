@@ -1,0 +1,21 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+ex:SuperShape a sh:NodeShape ;
+sh:property [
+   sh:path ex:property ;
+   sh:minCount 1 ;
+] .
+
+ex:MyShape a sh:NodeShape ;
+sh:targetClass ex:andShape ;
+sh:and (
+     ex:SuperShape
+[
+  sh:path ex:property ;
+  sh:maxCount 1 ;
+]
+) .

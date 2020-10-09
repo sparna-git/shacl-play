@@ -1,0 +1,36 @@
+
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <http://schema.org/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix ex: <http://example.org/> .
+
+ex:Alice
+	a ex:Person ;
+	ex:ssn "987-65-432A" ;
+        ex:name "Sparna" ;
+        ex:age "43"^^xsd:integer ;
+        ex:knows "Calvin", "Bob" ;
+        ex:age "19"^^xsd:integer .
+  
+ex:Bob
+	a ex:Person ;
+	ex:ssn "123-45-6789" ;
+	ex:ssn "124-35-6789" ;
+        ex:knows "Calvin" ;
+        ex:age "65 years" .
+
+  
+ex:Calvin
+	a ex:Person ;
+	ex:birthDate "1971-07-07"^^xsd:date ;
+        ex:age "30" ;
+	ex:worksFor ex:UntypedCompany ;
+        ex:knows "Alice", "Bob", "Sparna" .
+
+ex:Sparna a ex:Person ;
+   ex:knows "Alice", "Bob", "Sparna", "Calvin" .
+
+ex:Grec a ex:Person ;
+   ex:name "Tours" ; 
+   ex:age "93"^^xsd:integer.

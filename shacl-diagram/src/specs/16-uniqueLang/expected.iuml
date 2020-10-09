@@ -1,22 +1,19 @@
 @startuml
-class "ex:MyShapeLength"
-class "<<entity>> "
-"<<entity>> " : IRI
-
-"ex:MyShapeLength" *- "<<entity>> " : ex:knows
+class "ex:MyShapeuniquelang"
+"ex:MyShapeuniquelang" : ex:label : true 
 
 note as N1
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix schema: <http://schema.org/> .
 @prefix sh: <http://www.w3.org/ns/shacl#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-@prefix ex: <http://example.org/ns#> .
+@prefix ex: <http://example.org/> .
 
-ex:MyShapeNodeKind a sh:NodeShape ;
+ex:MyShapeuniquelang a sh:NodeShape ;
 sh:targetClass ex:Person ;
-sh:property[
-  sh:path ex:knows ;
-  sh:nodeKind sh:IRI ;
+sh:property [
+   sh:path ex:label ;
+   sh:uniqueLang true;
 ] .
 end note
 

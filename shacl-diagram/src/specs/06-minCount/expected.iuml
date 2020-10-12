@@ -1,6 +1,6 @@
 @startuml
 class "MyShapeminCount" 
-"MyShapeminCount" : name :string : minCount(1)
+"MyShapeminCount" : name :string : minCount[1..*]
 
 note as N1
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .

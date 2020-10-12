@@ -1,0 +1,16 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ex:Bob
+    a ex:Person ;
+   ex:profil ex:Dev .
+
+ex:Alice
+    a ex:Person ;
+    ex:profil ex:Dev .
+
+ex:Calvin
+    a ex:Person ;
+    ex:profil ex:DBA .

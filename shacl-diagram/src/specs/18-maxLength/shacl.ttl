@@ -1,25 +1,13 @@
-@startuml
-class "ex:MyShapeRange" 
-"ex:MyShapeRange" : ex:age : integer(range : [18-95])
-
-note as N1
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix schema: <http://schema.org/> .
 @prefix sh: <http://www.w3.org/ns/shacl#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix ex: <http://example.org/> .
 
-ex:MyShapeRange a sh:NodeShape ;
+ex:MyShapeLength a sh:NodeShape ;
 sh:targetClass ex:Person ;
 sh:property [
-   sh:path ex:age ;
-   sh:minInclusive 18 ;
-   sh:maxInclusive 95 ;
+   sh:path ex:password ;
+   sh:maxLength 8 ;
    sh:datatype xsd:integer ;
 ] .
-end note
-
-
-hide circle
-hide empty members
-@enduml

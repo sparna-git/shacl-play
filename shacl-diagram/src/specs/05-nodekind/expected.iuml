@@ -1,9 +1,7 @@
 @startuml
-class "ex:MyShapeLength"
-class "<<entity>> "
-"<<entity>> " : IRI
+class "ex:MyShape"
 
-"ex:MyShapeLength" *- "<<entity>> " : ex:knows
+"ex:MyShape" -() IRI : ex:knows
 
 note as N1
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
@@ -16,6 +14,7 @@ ex:MyShapeNodeKind a sh:NodeShape ;
 sh:targetClass ex:Person ;
 sh:property[
   sh:path ex:knows ;
+  sh:minCount 1;
   sh:nodeKind sh:IRI ;
 ] .
 end note

@@ -8,24 +8,22 @@ ex:Alice
   a ex:Person ;
   ex:ssn "987-65-432A" ;
         ex:name "Sparna" ;
-        ex:age "43"^^xsd:integer ;
         ex:knows "Calvin", "Bob" ;
-        ex:age "18"^^xsd:integer .
+        ex:age "15"^^xsd:integer .
   
 ex:Bob
   a ex:Person ;
   ex:ssn "123-45-6789" ;
   ex:ssn "124-35-6789" ;
         ex:knows "Calvin" ;
-        ex:age "65" .
+        ex:age 65 .
 
   
 ex:Calvin
   a ex:Person ;
   ex:birthDate "1971-07-07"^^xsd:date ;
         ex:age 30 ;
-  ex:worksFor ex:UntypedCompany ;
-        ex:knows "Alice", "Bob", "Sparna" .
+  ex:knows "Alice", "Bob", "Sparna" .
 
 ex:Sparna a ex:Person ;
    ex:knows "Alice", "Bob", "Sparna", "Calvin" .

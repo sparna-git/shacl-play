@@ -4,10 +4,13 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix ex: <http://example.org/ns#> .
 
-ex:MyShapeNodeKind a sh:NodeShape ;
-sh:targetClass ex:Person ;
-sh:property[
-  sh:path ex:knows ;
-  sh:minCount 1;
-  sh:nodeKind sh:IRI ;
-] .
+ex:Bob a ex:Person ;
+    ex:ssn "123-45-6789" ;
+    ex:knows ex:Alice .
+  
+ex:Calvin a ex:Person ;
+	ex:age "30" .
+
+ex:Alice a ex:Person ;
+  ex:name "Key" ;
+  ex:knows ex:Sparna .

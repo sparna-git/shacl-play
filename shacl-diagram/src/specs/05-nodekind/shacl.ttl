@@ -8,5 +8,6 @@ ex:MyShapeNodeKind a sh:NodeShape ;
 sh:targetClass ex:Person ;
 sh:property[
   sh:path ex:knows ;
+  sh:minCount 1;
   sh:nodeKind sh:IRI ;
 ] .

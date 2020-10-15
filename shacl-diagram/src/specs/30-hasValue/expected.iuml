@@ -1,0 +1,22 @@
+@startuml
+class "ex:MyShape"
+"ex:MyShape" : ex:profil [= ex:Dev]
+
+note as N1
+@prefix ex: <http://example.org/ns#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+ex:MyShape a sh:NodeShape ;
+sh:targetClass ex:Person ;
+sh:property[
+  sh:path ex:profil ;
+  sh:hasValue ex:Dev ;
+] .
+end note
+
+hide circle
+hide empty members
+@enduml

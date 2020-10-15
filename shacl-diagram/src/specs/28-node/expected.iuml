@@ -1,0 +1,36 @@
+@startuml
+class "ex:MyShape"
+
+class "ex:MyShapeCompany"
+  "ex:MyShapeCompany" : ex:PostalCode : integer [1..*]
+
+
+"ex:MyShape" --> "ex:MyShapeCompany" : ex:address : [1..*]
+
+note as N1
+@prefix ex: <http://example.org/ns#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+ex:MyShape a sh:NodeShape ;
+sh:targetClass ex:Person ;
+sh:property [
+  sh:path ex:address ;
+  sh:minCount 1 ;
+  sh:node ex:MyShapeCompany ;
+] .
+
+ex:MyShapeCompany a sh:NodeShape ;
+sh:property [
+  sh:path  ex:PostalCode ;
+  sh:datatype xsd:integer ;
+  sh:minCount 1;
+] .
+
+end note
+
+hide circle
+hide empty members
+@enduml

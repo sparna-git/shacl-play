@@ -4,19 +4,19 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix ex: <http://example.org/ns#> .
 
-ex:Alice
-	a ex:Person ;
-	ex:ssn "987-65-432A" ;
-        ex:name "Sparna" ;
-        ex:age "43"^^xsd:integer .
+ex:Alice a ex:Person ;
+   ex:ssn "987-65-432A" ;
+   ex:name "Sparna" ;
+   ex:age "43"^^xsd:integer .
   
-ex:Bob
-	a ex:Person ;
-	ex:ssn "123-45-6789" ;
-	ex:ssn "124-35-6789" .
+ex:Bob a ex:Person ;
+  ex:ssn "123-45-6789" ;
+  ex:name "Sparna" ;
+  ex:name "Sparna 2" ;
+  ex:name "Sparna 3" ;
+  ex:name "Sparna 4" ;
+  ex:ssn "124-35-6789" .
   
-ex:Calvin
-	a ex:Person ;
-	ex:birthDate "1971-07-07"^^xsd:date ;
-        ex:age "30" ;
-	ex:worksFor ex:UntypedCompany .
+ex:Calvin a ex:Person ;
+   ex:birthDate "1971-07-07"^^xsd:date ;
+   ex:age "30" .

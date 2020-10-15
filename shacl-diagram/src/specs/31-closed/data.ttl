@@ -1,0 +1,20 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ex:Bob a ex:Person ;
+    ex:name "Bob" ;
+    ex:name "Jhon" ;
+    ex:color ex:bleu .
+
+ex:Calvin a ex:Person ;
+    ex:property "Some value" ; 
+    ex:name "Smith" ;
+    ex:name "Michel" ;
+    ex:name "Richard" ;
+    ex:color ex:Jaune .
+
+ex:Alice a ex:Person ;
+  ex:name "Alice" ;
+  ex:color ex:bleu .

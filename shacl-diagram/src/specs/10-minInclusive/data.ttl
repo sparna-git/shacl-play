@@ -10,7 +10,7 @@ ex:Alice
         ex:name "Sparna" ;
         ex:age "43"^^xsd:integer ;
         ex:knows "Calvin", "Bob" ;
-        ex:age "18"^^xsd:integer .
+        ex:age "17"^^xsd:integer .
   
 ex:Bob
   a ex:Person ;

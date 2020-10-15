@@ -4,7 +4,7 @@
 
     <groupId>fr.sparna.rdf.shacl</groupId>
     <artifactId>shacl-play-root-pom</artifactId>
-    <version>0.2</version>
+    <version>0.3</version>
     <packaging>pom</packaging>
 
     <name>SHACL-Play root pom</name>

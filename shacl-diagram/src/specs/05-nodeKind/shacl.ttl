@@ -5,8 +5,8 @@
 @prefix ex: <http://example.org/ns#> .
 
 ex:MyShapeNodeKind a sh:NodeShape ;
-sh:targetClass ex:Person ;
-sh:property[
-  sh:path ex:knows ;
-  sh:nodeKind sh:IRI ;
-] .
+	sh:targetClass ex:Person ;
+	sh:property[
+	  sh:path ex:knows ;
+	  sh:nodeKind sh:IRI ;
+	] .

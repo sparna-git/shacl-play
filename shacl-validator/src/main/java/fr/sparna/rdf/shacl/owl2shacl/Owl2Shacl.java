@@ -1,13 +1,15 @@
 package fr.sparna.rdf.shacl.owl2shacl;
 
-import org.apache.jena.ontology.OntDocumentManager;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.ontology.OntModelSpec;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFLanguages;
-import org.apache.jena.util.FileManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.topbraid.shacl.rules.RuleUtil;
@@ -20,17 +22,22 @@ public class Owl2Shacl {
 	
 	public static enum Owl2ShaclStyle {
 		
-		CLOSED("owl2shacl-closed.ttl"),
-		SIMPLE("owl2shacl-simple.ttl");
+		CLOSED_FLATTEN("https://raw.githubusercontent.com/sparna-git/owl2shacl/main/owl2shacl-closed.ttl"),
+		CLOSED_IGNOREDPROPERTIES("https://raw.githubusercontent.com/sparna-git/owl2shacl/main/owl2shacl-closed-ignoredProperties.ttl"),
+		SIMPLE("https://raw.githubusercontent.com/sparna-git/owl2shacl/main/owl2shacl-simple.ttl");
 		
-		private String resourcePath;
+		private URL rulesUrl;
 
-		private Owl2ShaclStyle(String resourcePath) {
-			this.resourcePath = resourcePath;
+		private Owl2ShaclStyle(String url) {
+			try {
+				this.rulesUrl = new URL(url);
+			} catch (MalformedURLException ignore) {
+				ignore.printStackTrace();
+			}
 		}
 
-		public String getResourcePath() {
-			return resourcePath;
+		public URL getRulesUrl() {
+			return rulesUrl;
 		}
 		
 	}
@@ -58,11 +65,15 @@ public class Owl2Shacl {
 		
 		OntModel shapesModel = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM);
 		
-		shapesModel.read(
-				this.getClass().getResourceAsStream(style.getResourcePath()),
-				null,
-				RDFLanguages.filenameToLang(style.getResourcePath(), Lang.RDFXML).getName()
-		);
+		try {
+			shapesModel.read(
+					style.getRulesUrl().openStream(),
+					null,
+					RDFLanguages.filenameToLang(style.getRulesUrl().toString(), Lang.RDFXML).getName()
+			);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 		// do the actual rule execution
 		Model results = RuleUtil.executeRules(

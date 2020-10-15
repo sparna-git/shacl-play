@@ -2,17 +2,19 @@ package fr.sparna.rdf.shacl.shaclplay.catalog;
 
 import java.net.URI;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
-public class CatalogEntry {
+public abstract class AbstractCatalogEntry {
 
 	protected String id;
 	protected String title;
 	protected String description;
 	protected URL turtleDownloadUrl;
 	
-	protected List<Distribution> distributions;
+	protected List<Distribution> distributions = new ArrayList<Distribution>();
 	protected List<String> keywords;
 	
 	protected Agent creator;
@@ -23,6 +25,10 @@ public class CatalogEntry {
 	protected URI contactPoint;
 	protected String language;
 	protected String landingPage;
+	
+	public Distribution findDistributionByMediaType(String mediaType) {
+		return this.distributions.stream().filter(d -> d.getMediaType().equals(mediaType)).findFirst().orElse(null);
+	}
 	
 	public String[] getKeywordsArray() {
 		if(this.keywords == null) return null;
@@ -52,8 +58,8 @@ public class CatalogEntry {
 	}
 	public void setTurtleDownloadUrl(URL turtleDownloadUrl) {
 		this.turtleDownloadUrl = turtleDownloadUrl;
-	}
-	
+	}	
+
 	public List<Distribution> getDistributions() {
 		return distributions;
 	}
@@ -114,8 +120,6 @@ public class CatalogEntry {
 	public void setLandingPage(String landingPage) {
 		this.landingPage = landingPage;
 	}
-
-
 
 
 	public class Distribution {

@@ -1,6 +1,6 @@
 @startuml
-class "ex:MyShapeminmaxCount" 
-"ex:MyShapeminmaxCount" : knows : string[2:4]
+class "ex:MyShapeMinMaxCount" 
+"ex:MyShapeMinMaxCount" : knows : string[2:4]
 
 note as N1
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
@@ -9,7 +9,7 @@ note as N1
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix ex: <http://example.org/> .
 
-ex:MyShapeminmaxCount a sh:NodeShape ;
+ex:MyShapeMinMaxCount a sh:NodeShape ;
 sh:targetClass ex:Person ;
 sh:property[
   sh:path ex:knows ;

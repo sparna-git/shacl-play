@@ -27,15 +27,16 @@
             <li class="nav-item ${param.active == 'validate' ? 'active' : ''}">
                 <a class="nav-link" href="<c:url value="/validate" />"><fmt:message key="navbar.validate" />${param.active == 'validate' ? '<span class="sr-only">(current)</span>' : ''}</a>
             </li>
-            <li class="nav-item ${param.active == 'catalog' ? 'active' : ''}">
-                <a class="nav-link" href="<c:url value="/catalog" />"><fmt:message key="navbar.catalog" />${param.active == 'catalog' ? '<span class="sr-only">(current)</span>' : ''}</a>
+            <li class="nav-item ${param.active == 'convert' ? 'active' : ''}">
+                <a class="nav-link" href="<c:url value="/convert" />"><fmt:message key="navbar.convert" />${param.active == 'convert' ? '<span class="sr-only">(current)</span>' : ''}</a>
             </li>
-            <!--
             <li class="navbar-text">|</li>
-            <li class="nav-item ${param.active == 'transform' ? 'active' : ''}">
-                <a class="nav-link" href="<c:url value="/transform" />"><fmt:message key="navbar.transform" />${param.active == 'transform' ? '<span class="sr-only">(current)</span>' : ''}</a>
+            <li class="nav-item ${param.active == 'shapes-catalog' ? 'active' : ''}">
+                <a class="nav-link" href="<c:url value="/shapes-catalog" />"><fmt:message key="navbar.shapes-catalog" />${param.active == 'shapes-catalog' ? '<span class="sr-only">(current)</span>' : ''}</a>
             </li>
-            -->
+            <li class="nav-item ${param.active == 'rules-catalog' ? 'active' : ''}">
+                <a class="nav-link" href="<c:url value="/rules-catalog" />"><fmt:message key="navbar.rules-catalog" />${param.active == 'rules-catalog' ? '<span class="sr-only">(current)</span>' : ''}</a>
+            </li>
         </ul>
         <!-- /Links -->
         

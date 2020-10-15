@@ -7,7 +7,7 @@
 <fmt:setLocale value="${sessionScope['fr.sparna.rdf.shacl.shaclplay.SessionData'].userLocale.language}"/>
 <fmt:setBundle basename="fr.sparna.rdf.shacl.shaclplay.i18n.shaclplay"/>
 
-<c:set var="data" value="${requestScope['CatalogData']}" />
+<c:set var="data" value="${requestScope['ShapesCatalogData']}" />
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -38,7 +38,7 @@
 </head>
 <body>
 	<jsp:include page="navbar.jsp">
-		<jsp:param name="active" value="catalog"/>
+		<jsp:param name="active" value="shapes-catalog"/>
 	</jsp:include>
 
     <div class="container-fluid">
@@ -66,6 +66,7 @@
 						          	
 						          	<div class="btn-group btn-group-lg float-right" role="group">
 									  <c:if test="${not empty entry.landingPage}"><a type="button" class="btn btn-outline-dark" href="${entry.landingPage}"><i class="fal fa-home"></i></a></c:if>
+									  <c:if test="${not empty entry.excelDownloadUrl}"><a type="button" class="btn btn-outline-dark" href="${entry.excelDownloadUrl}"><i class="fal fa-file-excel"></i></a></c:if>
 									  <a type="button" class="btn btn-outline-dark" href="<c:url value="${entry.turtleDownloadUrl}" />"><i class="fal fa-download"></i></a>
 									  <a type="button" class="btn btn-outline-dark" href="<c:url value="/validate?shapes=${entry.id}" />"><i class="fal fa-play"></i></a>
 									</div>

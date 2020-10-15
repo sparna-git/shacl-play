@@ -1,9 +1,9 @@
 @startuml
-class "ex:MyShapeLength"
+class "ex:MyShapeNodeKind"
 class "<<entity>> "
 "<<entity>> " : IRI
 
-"ex:MyShapeLength" *- "<<entity>> " : ex:knows
+"ex:MyShapeNodeKind" *- "<<entity>> " : ex:knows
 
 note as N1
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .

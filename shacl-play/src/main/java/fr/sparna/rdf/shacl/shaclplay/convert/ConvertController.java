@@ -3,7 +3,9 @@ package fr.sparna.rdf.shacl.shaclplay.convert;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -106,11 +108,17 @@ public class ConvertController {
 			URL actualUrl = new URL(url);
 			Model dataModel = ModelFactory.createDefaultModel();
 			ControllerCommons.loadModel(dataModel, actualUrl);
+			String dataName = url.substring(url.lastIndexOf('/')+1, url.lastIndexOf('.'));
 			
 			// recompute permalink
 			String permalink = "convert?rules="+shapesCatalogId+"&url="+url;
 			
-			return doConvert(shapesModel, dataModel, permalink, response);
+			// compute output fileName
+			// compute filename by concatenating original filename and shape name
+			String dateString = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+			String outputName = dataName+"-"+shapesCatalogId+"-"+dateString;
+			
+			return doConvert(shapesModel, dataModel, permalink, outputName, response);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return handleConvertFormError(request, e.getClass().getName() +" : "+e.getMessage(), e);
@@ -193,6 +201,7 @@ public class ConvertController {
 			// initialize shapes first
 			log.debug("Determining Shapes source...");
 			Model shapesModel = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM);
+			String shapeName = "shapes";
 			switch(shapesSource) {
 				case FILE: {
 					// get uploaded file
@@ -210,7 +219,8 @@ public class ConvertController {
 							} else {
 								ControllerCommons.populateModel(shapesModel, f.getInputStream(), FileUtils.guessLang(f.getOriginalFilename(), "RDF/XML"));
 							}
-							
+							// shape name is name of file
+							shapeName = f.getOriginalFilename().substring(0, f.getOriginalFilename().lastIndexOf('.'));
 						}
 					} catch (RiotException e) {
 						return handleConvertFormError(request, e.getMessage(), e);
@@ -223,6 +233,8 @@ public class ConvertController {
 
 					URL actualUrl = new URL(shapesUrl);
 					shapesModel = ControllerCommons.loadModel(shapesModel, actualUrl);
+					// shape name is file part of URL
+					shapeName = url.substring(url.lastIndexOf('/')+1, url.lastIndexOf('.'));
 					
 					if(shapesModel.size() == 0) {
 						return new ModelAndView("convert-form", ConvertFormData.KEY, ConvertFormData.error("No data could be fetched from "+shapesUrl+"."));
@@ -235,6 +247,8 @@ public class ConvertController {
 					
 					try {
 						shapesModel = ControllerCommons.loadModel(shapesModel, shapesText);
+						// shape name is "inline-shapes"
+						shapeName = "inline-shapes";
 					} catch (RiotException e) {
 						return handleConvertFormError(request, e.getMessage(), e);
 					}
@@ -252,6 +266,8 @@ public class ConvertController {
 
 					try {
 						shapesModel = ControllerCommons.loadModel(shapesModel, entry.getTurtleDownloadUrl());
+						// shape name is key from catalog
+						shapeName = shapesCatalogId;
 					} catch (RiotException e) {
 						return handleConvertFormError(request, e.getMessage(), e);
 					}
@@ -270,6 +286,7 @@ public class ConvertController {
 			
 			log.debug("Determining Data source...");
 			Model dataModel = ModelFactory.createDefaultModel();
+			String dataName = "data";
 			switch(source) {
 			case FILE: {
 				// get uploaded file
@@ -286,7 +303,8 @@ public class ConvertController {
 						} else {
 							ControllerCommons.populateModel(dataModel, f.getInputStream(), FileUtils.guessLang(f.getOriginalFilename(), "RDF/XML"));
 						}
-						
+						// data name is name of file
+						dataName = f.getOriginalFilename().substring(0, f.getOriginalFilename().lastIndexOf('.'));
 					}
 				} catch (RiotException e) {
 					return handleConvertFormError(request, e.getMessage(), e);
@@ -298,6 +316,8 @@ public class ConvertController {
 				
 				try {
 					dataModel = ControllerCommons.loadModel(dataModel, text);
+					// data name is "inline-data"
+					dataName = "inline-data";
 				} catch (RiotException e) {
 					return handleConvertFormError(request, e.getMessage(), e);
 				}
@@ -312,6 +332,8 @@ public class ConvertController {
 				
 				URL actualUrl = new URL(url);
 				dataModel = ControllerCommons.loadModel(dataModel, actualUrl);
+				// data name is file part of URL
+				dataName = url.substring(url.lastIndexOf('/')+1, url.lastIndexOf('.'));
 				
 				if(dataModel.size() == 0) {
 					return new ModelAndView("convert-form", ConvertFormData.KEY, ConvertFormData.error("No data could be fetched from "+url+"."));
@@ -338,7 +360,11 @@ public class ConvertController {
 				log.debug("No permalink can be computed.");
 			}
 			
-			return doConvert(shapesModel, dataModel, permalink, response);
+			// compute filename by concatenating original filename and shape name
+			String dateString = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+			String outputName = dataName+"-"+shapeName+"-"+dateString;
+			
+			return doConvert(shapesModel, dataModel, permalink, outputName, response);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return handleConvertFormError(request, e.getClass().getName() +" : "+e.getMessage(), e);
@@ -349,6 +375,7 @@ public class ConvertController {
 			Model shapesModel,
 			Model dataModel,
 			String permalink,
+			String filename,
 			HttpServletResponse response
 	) throws Exception {
 		
@@ -376,7 +403,8 @@ public class ConvertController {
 			l = Lang.RDFXML;
 		}
 		// write results in response
-		ControllerCommons.serialize(results, l, "shacl-play-convert", response);
+		// ControllerCommons.serialize(results, l, "shacl-play-convert", response);
+		ControllerCommons.serialize(results, l, filename, response);
 		return null;
 	}
 	

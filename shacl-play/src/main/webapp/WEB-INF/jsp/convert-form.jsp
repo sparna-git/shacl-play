@@ -34,11 +34,11 @@
 			}
 			
 			function enabledShapeInput(selected) {
-				document.getElementById('sourceRule-' + selected).checked = true;
-				document.getElementById('inputRuleUrl').disabled = selected != 'inputRuleUrl';
-				document.getElementById('inputRuleCatalog').disabled = selected != 'inputRuleCatalog';
-				document.getElementById('inputRuleFile').disabled = selected != 'inputRuleFile';
-				document.getElementById('inputRuleInline').disabled = selected != 'inputRuleInline';
+				document.getElementById('sourceShape-' + selected).checked = true;
+				document.getElementById('inputShapeUrl').disabled = selected != 'inputShapeUrl';
+				document.getElementById('inputShapeCatalog').disabled = selected != 'inputShapeCatalog';
+				document.getElementById('inputShapeFile').disabled = selected != 'inputShapeFile';
+				document.getElementById('inputShapeInline').disabled = selected != 'inputShapeInline';
 			}
 
 	    </script>

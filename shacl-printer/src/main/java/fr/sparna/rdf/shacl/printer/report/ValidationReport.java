@@ -49,7 +49,8 @@ public class ValidationReport {
 			// Turn the results Resource objects into SHResult instances
 			this.results = new LinkedList<SHResult>();
 			for(Resource candidate : results) {
-				SHResult result = SHFactory.asResult(candidate);
+				// SHResult result = SHFactory.asResult(candidate);
+				SHResult result = candidate.as(SHResult.class);
 				this.results.add(result);
 			}
 		}
@@ -86,7 +87,7 @@ public class ValidationReport {
 					&&
 					r.getSourceConstraintComponent().equals(entry.getSourceConstraintComponent())
 					&&
-					r.getResultSeverity().equals(entry.getResultSeverity())
+					r.getSeverity().equals(entry.getResultSeverity())
 					// to work with blank nodes we deactivate comparison on resultPath
 					// for property shapes this is anyway identical to the path of the source shape
 //					&&
@@ -117,19 +118,19 @@ public class ValidationReport {
 	}	
 	
 	public long getNumberOfViolations() {
-		return getResults().stream().filter(vr -> vr.getResultSeverity().equals(SH.Violation)).count();
+		return getResults().stream().filter(vr -> vr.getSeverity().equals(SH.Violation)).count();
 	}
 	
 	public long getNumberOfWarnings() {
-		return getResults().stream().filter(vr -> vr.getResultSeverity().equals(SH.Warning)).count();
+		return getResults().stream().filter(vr -> vr.getSeverity().equals(SH.Warning)).count();
 	}
 	
 	public long getNumberOfInfos() {
-		return getResults().stream().filter(vr -> vr.getResultSeverity().equals(SH.Info)).count();
+		return getResults().stream().filter(vr -> vr.getSeverity().equals(SH.Info)).count();
 	}
 	
 	public long getNumberOfOthers() {
-		return getResults().stream().filter(vr -> !vr.getResultSeverity().equals(SH.Violation) && !vr.getResultSeverity().equals(SH.Warning) && !vr.getResultSeverity().equals(SH.Info)).count();
+		return getResults().stream().filter(vr -> !vr.getSeverity().equals(SH.Violation) && !vr.getSeverity().equals(SH.Warning) && !vr.getSeverity().equals(SH.Info)).count();
 	}
 	
 	public boolean isConformant() {

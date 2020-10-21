@@ -1,21 +1,27 @@
 package fr.sparna.rdf.shacl.diagram;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.charset.Charset;
 
 import net.sourceforge.plantuml.FileFormat;
 import net.sourceforge.plantuml.FileFormatOption;
 import net.sourceforge.plantuml.SourceStringReader;
-import net.sourceforge.plantuml.svg.SvgGraphics;
 
 public class OutFileSVGUml {
 	
-	public void outfilesvguml (String source) throws IOException {
+	protected File outputDirectory;
+	
+	public OutFileSVGUml(File outputDirectory) {
+		super();
+		this.outputDirectory = outputDirectory;
+	}
+
+
+
+	public void outfilesvguml (String source, String fileName) throws IOException {
 		
-		File myoutputfile = new File( "C:/Temp/outputsvg.svg");
+		File myoutputfile = new File( this.outputDirectory, fileName);
 		
 		if (!myoutputfile.exists()) {
 			myoutputfile.createNewFile();

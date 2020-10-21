@@ -10,10 +10,17 @@ import java.io.Writer;
 
 public class OutFileUml {
 	
+	protected File outputDirectory;
+	
+	public OutFileUml(File outputDirectory) {
+		super();
+		this.outputDirectory = outputDirectory;
+	}
+
 	public void outfileuml (String uml_code, String nameFile) throws UnsupportedEncodingException, IOException {
 		
 		
-		File myoutputfile = new File("C:/Temp/"+nameFile); 
+		File myoutputfile = new File(outputDirectory, nameFile); 
 		
 		if (!myoutputfile.exists()) {
 			myoutputfile.createNewFile();
@@ -23,8 +30,7 @@ public class OutFileUml {
 		
 		try (Writer w = new OutputStreamWriter(outfile,"UTF-8")){
 			w.write(uml_code);
-		} 
-		catch (FileNotFoundException e1) {
+		} catch (FileNotFoundException e1) {
 		    e1.printStackTrace();
 		}
 		

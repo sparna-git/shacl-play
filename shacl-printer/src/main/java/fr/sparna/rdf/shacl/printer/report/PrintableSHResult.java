@@ -28,7 +28,7 @@ public class PrintableSHResult {
 	}
 
 	public String getResultSeverity() {
-		return RDFRenderer.renderResource(shresult.getResultSeverity());
+		return RDFRenderer.renderResource(shresult.getSeverity());
 	}
 
 	public String getSourceConstraintComponent() {

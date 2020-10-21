@@ -1,4 +1,4 @@
-package fr.sparna.rdf.shacl.shaclplay.catalog;
+package fr.sparna.rdf.shacl.shaclplay.catalog.rules;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -8,14 +8,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CatalogService {
+public class RulesCatalogService {
 
 	private Logger log = LoggerFactory.getLogger(this.getClass().getName());
 	
-	public ShapesCatalog getShapesCatalog() {
+	public RulesCatalog getRulesCatalog() {
 		Model catalogModel = ModelFactory.createDefaultModel();
-		catalogModel.read("https://raw.githubusercontent.com/sparna-git/SHACL-Catalog/master/shacl-catalog.ttl", null, Lang.TURTLE.getName());
+		catalogModel.read("https://raw.githubusercontent.com/sparna-git/SHACL-Catalog/master/rules-catalog.ttl", null, Lang.TURTLE.getName());
 		
-		return new ShapesCatalogModelFactory().fromModel(catalogModel);
+		return new RulesCatalogModelFactory().fromModel(catalogModel);
 	}
 }

@@ -1,7 +1,17 @@
 @startuml
+<<<<<<< HEAD
+class "ex:MyShapeNodeKind"
+class "<<entity>> "
+"<<entity>> " : IRI
+=======
 class "ex:MyShape"
+>>>>>>> branch 'master' of https://github.com/sparna-git/shacl-play.git
 
+<<<<<<< HEAD
+"ex:MyShapeNodeKind" *- "<<entity>> " : ex:knows
+=======
 "ex:MyShape" -() IRI : ex:knows
+>>>>>>> branch 'master' of https://github.com/sparna-git/shacl-play.git
 
 note as N1
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .

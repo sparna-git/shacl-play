@@ -32,9 +32,9 @@ import fr.sparna.rdf.shacl.printer.report.SimpleCSVValidationResultWriter;
 import fr.sparna.rdf.shacl.printer.report.ValidationReport;
 import fr.sparna.rdf.shacl.shaclplay.ApplicationData;
 import fr.sparna.rdf.shacl.shaclplay.SessionData;
-import fr.sparna.rdf.shacl.shaclplay.catalog.CatalogEntry;
-import fr.sparna.rdf.shacl.shaclplay.catalog.CatalogService;
-import fr.sparna.rdf.shacl.shaclplay.catalog.ShapesCatalog;
+import fr.sparna.rdf.shacl.shaclplay.catalog.shapes.ShapesCatalog;
+import fr.sparna.rdf.shacl.shaclplay.catalog.shapes.ShapesCatalogEntry;
+import fr.sparna.rdf.shacl.shaclplay.catalog.shapes.ShapesCatalogService;
 import fr.sparna.rdf.shacl.validator.ShaclValidator;
 import fr.sparna.rdf.shacl.validator.ShaclValidatorAsync;
 import fr.sparna.rdf.shacl.validator.StringBufferProgressMonitor;
@@ -49,7 +49,7 @@ public class ValidateController {
 	protected ApplicationData applicationData;
 	
 	@Autowired
-	protected CatalogService catalogService;
+	protected ShapesCatalogService catalogService;
 	
 	private enum SOURCE_TYPE {
 		FILE,
@@ -78,18 +78,19 @@ public class ValidateController {
 	){
 		try {
 			// load shapes
-			Model shapesModel = null;
-			CatalogEntry entry = this.catalogService.getShapesCatalog().getCatalogEntryById(shapesCatalogId);
+			Model shapesModel = ModelFactory.createDefaultModel();
+			ShapesCatalogEntry entry = this.catalogService.getShapesCatalog().getCatalogEntryById(shapesCatalogId);
 
 			try {
-				shapesModel = ControllerCommons.loadModel(entry.getTurtleDownloadUrl());
+				shapesModel = ControllerCommons.loadModel(shapesModel, entry.getTurtleDownloadUrl());
 			} catch (RiotException e) {
 				return handleValidateFormError(request, e.getMessage(), e);
 			}
 			
 			// load data
 			URL actualUrl = new URL(url);
-			Model dataModel = ControllerCommons.loadModel(actualUrl);
+			Model dataModel = ModelFactory.createDefaultModel();
+			dataModel = ControllerCommons.loadModel(dataModel, actualUrl);
 			
 			// recompute permalink
 			String permalink = "validate?shapes="+shapesCatalogId+"&url="+url;
@@ -181,7 +182,7 @@ public class ValidateController {
 			
 			// initialize shapes first
 			log.debug("Determining Shapes source...");
-			Model shapesModel = null;
+			Model shapesModel = ModelFactory.createDefaultModel();
 			switch(shapesSource) {
 				case FILE: {
 					// get uploaded file
@@ -191,7 +192,6 @@ public class ValidateController {
 					
 					log.debug("Shapes are in one or more uploaded file : "+shapesFiles.stream().map(f -> f.getOriginalFilename()).collect(Collectors.joining(", ")));			
 					try {
-						shapesModel = ModelFactory.createDefaultModel();
 						for (MultipartFile f : shapesFiles) {
 							
 							if(f.getOriginalFilename().endsWith("zip")) {
@@ -212,7 +212,7 @@ public class ValidateController {
 					log.debug("Shapes are in a URL "+shapesUrl);
 
 					URL actualUrl = new URL(shapesUrl);
-					shapesModel = ControllerCommons.loadModel(actualUrl);
+					shapesModel = ControllerCommons.loadModel(shapesModel, actualUrl);
 					
 					if(shapesModel.size() == 0) {
 						return new ModelAndView("validate-form", ValidateFormData.KEY, ValidateFormData.error("No data could be fetched from "+shapesUrl+"."));
@@ -224,7 +224,7 @@ public class ValidateController {
 					log.debug("Shapes are given inline ");
 					
 					try {
-						shapesModel = ControllerCommons.loadModel(shapesText);
+						shapesModel = ControllerCommons.loadModel(shapesModel, shapesText);
 					} catch (RiotException e) {
 						return handleValidateFormError(request, e.getMessage(), e);
 					}
@@ -238,10 +238,10 @@ public class ValidateController {
 				case CATALOG: {
 					log.debug("Shapes are from the catalog, ID : "+shapesCatalogId);
 					
-					CatalogEntry entry = this.catalogService.getShapesCatalog().getCatalogEntryById(shapesCatalogId);
+					ShapesCatalogEntry entry = this.catalogService.getShapesCatalog().getCatalogEntryById(shapesCatalogId);
 
 					try {
-						shapesModel = ControllerCommons.loadModel(entry.getTurtleDownloadUrl());
+						shapesModel = ControllerCommons.loadModel(shapesModel, entry.getTurtleDownloadUrl());
 					} catch (RiotException e) {
 						return handleValidateFormError(request, e.getMessage(), e);
 					}
@@ -259,7 +259,7 @@ public class ValidateController {
 			log.debug("Done Loading Shapes. Model contains "+shapesModel.size()+" triples");
 			
 			log.debug("Determining Data source...");
-			Model dataModel = null;
+			Model dataModel = ModelFactory.createDefaultModel();
 			switch(source) {
 			case FILE: {
 				// get uploaded file
@@ -288,7 +288,7 @@ public class ValidateController {
 				log.debug("Data is in an inline text");
 				
 				try {
-					dataModel = ControllerCommons.loadModel(text);
+					dataModel = ControllerCommons.loadModel(dataModel, text);
 				} catch (RiotException e) {
 					return handleValidateFormError(request, e.getMessage(), e);
 				}
@@ -302,7 +302,7 @@ public class ValidateController {
 				log.debug("Data is in a URL "+url);
 				
 				URL actualUrl = new URL(url);
-				dataModel = ControllerCommons.loadModel(actualUrl);
+				dataModel = ControllerCommons.loadModel(dataModel, actualUrl);
 				
 				if(dataModel.size() == 0) {
 					return new ModelAndView("validate-form", ValidateFormData.KEY, ValidateFormData.error("No data could be fetched from "+url+"."));
@@ -451,24 +451,9 @@ public class ValidateController {
 				l = Lang.RDFXML;
 			}
 			// write results in response
-			serialize(SessionData.get(request.getSession()).getResults(), l, "validation-report", response);
+			ControllerCommons.serialize(SessionData.get(request.getSession()).getResults(), l, "validation-report", response);
 			return null;
 		}
-	}
-	
-	/**
-	 * Serialize the RDF Model in the given Lang in the response
-	 * @param m
-	 * @param format
-	 * @param response
-	 * @throws IOException
-	 */
-	private void serialize(Model m, Lang format, String filename, HttpServletResponse response)
-	throws IOException {
-		log.debug("Setting response content type to "+format.getContentType().getContentType());
-		response.setContentType(format.getContentType().getContentType());
-		response.setHeader("Content-Disposition", "inline; filename=\""+filename+"."+format.getFileExtensions().get(0)+"\"");
-		RDFDataMgr.write(response.getOutputStream(), m, format) ;		
 	}
 
 	/** 

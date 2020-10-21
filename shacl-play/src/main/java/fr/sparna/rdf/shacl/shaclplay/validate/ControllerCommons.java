@@ -10,6 +10,7 @@ import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -46,8 +47,7 @@ public class ControllerCommons {
 		}
 	}
 	
-	public static Model loadModel(URL url) throws RiotException, IOException {
-		Model model = ModelFactory.createDefaultModel();
+	public static Model loadModel(Model model, URL url) throws RiotException, IOException {
 		try {
 			// uses conneg to determine parser or can guess it from extension
 			model.read(url.toString());
@@ -63,9 +63,7 @@ public class ControllerCommons {
 		return model;
 	}
 	
-	public static Model loadModel(String inlineRdf) throws RiotException {
-		Model model = ModelFactory.createDefaultModel();
-		
+	public static Model loadModel(Model model, String inlineRdf) throws RiotException {
 		ByteArrayInputStream is = new ByteArrayInputStream(inlineRdf.getBytes());
 		
 		Lang[] supportedLangs = new Lang[] { Lang.TURTLE, Lang.RDFXML, Lang.NT, Lang.NQUADS, Lang.JSONLD, Lang.TRIG, Lang.TRIX };
@@ -133,4 +131,18 @@ public class ControllerCommons {
     	return model;
     }
 	
+	/**
+	 * Serialize the RDF Model in the given Lang in the response
+	 * @param m
+	 * @param format
+	 * @param response
+	 * @throws IOException
+	 */
+	public static void serialize(Model m, Lang format, String filename, HttpServletResponse response)
+	throws IOException {
+		log.debug("Setting response content type to "+format.getContentType().getContentType());
+		response.setContentType(format.getContentType().getContentType());
+		response.setHeader("Content-Disposition", "inline; filename=\""+filename+"."+format.getFileExtensions().get(0)+"\"");
+		RDFDataMgr.write(response.getOutputStream(), m, format) ;		
+	}
 }

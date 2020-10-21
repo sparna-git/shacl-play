@@ -23,7 +23,7 @@ public class SimpleCSVValidationResultWriter implements ValidationReportWriter {
 			// Shape
 			buffer.append(RDFRenderer.renderResource(vr.getSourceShape())+",");
 			// Severity
-			buffer.append(RDFRenderer.renderResource(vr.getResultSeverity())+",");
+			buffer.append(RDFRenderer.renderResource(vr.getSeverity())+",");
 			// Property
 			buffer.append(RDFRenderer.renderResource(vr.getPath())+",");
 			// Component

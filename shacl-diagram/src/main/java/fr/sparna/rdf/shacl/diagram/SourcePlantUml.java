@@ -51,14 +51,7 @@ public class SourcePlantUml {
     		if (uml_nodekind == "IRI") {
     			value = uml_shape+ " : "  +" -() "+uml_nodekind+" : "+uml_path+" "+uml_value+"\n";
     		}else {
-    			if (uml_datatype.length()>0) {
-    				uml_datatype = " : "+uml_datatype+" "+uml_literal;
-    			}else if (uml_literal.length() > 0){
-    				uml_datatype = " : "+uml_literal;
-    			} else {
-    				uml_datatype = "";
-    			}
-    			value = uml_shape+ " : "  + uml_path+" "+uml_datatype +" "+uml_value+"\n";
+    			value = uml_shape+ " : "  + uml_path+" "+uml_datatype +"\n";
     		}        		
     	}
 		this.uml_nodekind = value;
@@ -111,28 +104,19 @@ public class SourcePlantUml {
 	public String getUml_class() {
 		return uml_class;
 	}
-	public void setUml_class(String uml_class,String uml_shape) {
+	public void setUml_class(String uml_class,String uml_class_property) {
 		String value = null;
-		if (uml_class != null) {
-			value = "Class"+" "+uml_class+"<? extendes "+uml_shape+" >"+"\n";
-		}		
+			
 		this.uml_class = value;
 	}
 	
 	public String getUml_class_property() {
 		return uml_class_property;
 	}
-	public void setUml_class_property(String uml_class,String uml_class_property ,String uml_shape,String uml_datatype, String uml_literal) {
+	public void setUml_class_property(String uml_class_property ,String uml_shape,String uml_path) {
 		String value = null;
-		if (uml_class != null & uml_class_property != null) {
-			if (uml_datatype.length()>0) {
-				uml_datatype = " : "+uml_datatype+" "+uml_literal;
-			}else if (uml_literal.length() > 0){
-				uml_datatype = " : "+uml_literal;
-			} else {
-				uml_datatype = "";
-			}
-			value =  uml_shape+"--> "+"\""+uml_class_property+"\""+" : "+uml_class_property+uml_datatype+"\n";
+		if (uml_class_property != null) {
+			value =  uml_shape+" --> "+"\""+uml_class_property+"\""+" : "+uml_path+"\n";
 			
 		}
 		this.uml_class_property = value;
@@ -147,8 +131,8 @@ public class SourcePlantUml {
 		this.setUml_nodekind(plantUmlproperty.getValue_nodeKind(), this.uml_shape, this.uml_path, this.uml_datatype, this.uml_literal);
 		this.setUml_pattern(plantUmlproperty.getValue_pattern(),this.uml_shape, plantUmlproperty.getValue_path());
 		this.setUml_uniquelang(plantUmlproperty.getValue_uniquelang(),this.uml_shape, this.uml_path);
-		this.setUml_class(plantUmlproperty.getValue_class(),this.uml_shape);
-		this.setUml_class_property(plantUmlproperty.getValue_class(),plantUmlproperty.getValue_class_property(),this.uml_shape,this.uml_datatype, this.uml_literal);
+		this.setUml_class(plantUmlproperty.getValue_class(),plantUmlproperty.getValue_class_property());
+		this.setUml_class_property(plantUmlproperty.getValue_class_property(),this.uml_shape,this.uml_path);
 		
 		
 	}

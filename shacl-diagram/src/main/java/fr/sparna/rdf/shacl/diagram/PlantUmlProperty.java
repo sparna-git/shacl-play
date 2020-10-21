@@ -231,27 +231,17 @@ public class PlantUmlProperty {
 	}
 	public void setValue_class_property(Resource constraint) {
 		String value = null;
+		
 		if (constraint.hasProperty(SH.class_)) {
 			valuedata.setValueconstraint(constraint, SH.class_);
 			Resource idclass = constraint.getProperty(SH.class_).getResource();
-			List<Resource> nodetarget = constraint.getModel().listResourcesWithProperty(SH.targetClass,idclass).toList();
-			for(Resource nodeTarget : nodetarget) {
-				List<Statement> propertyStatementsclass = nodeTarget.listProperties(SH.property).toList();
-				for (Statement aPropertyStatement : propertyStatementsclass) {
-					RDFNode object = aPropertyStatement.getObject();
-					
-					if(object.isLiteral()) {
-						System.out.println("Problem !");
-						}
-					
-					Resource propertyclass = object.asResource();
-					
-					ConstraintValue valueclass = new ConstraintValue();
-					
-					valueclass.setValueconstraint(propertyclass, SH.path);
-					value = valueclass.getValueconstraint();
-						
+			List<Resource> nodetargets = constraint.getModel().listResourcesWithProperty(SH.targetClass,idclass).toList();
+			for(Resource nodeTarget : nodetargets) {
+				if(value != null) {
+					System.out.println("Problem !");
 				}
+				value = nodeTarget.getLocalName();
+				
 			}
 		}	
 		this.value_class_property = value;

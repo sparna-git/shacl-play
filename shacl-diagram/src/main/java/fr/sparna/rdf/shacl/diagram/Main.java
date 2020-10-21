@@ -66,9 +66,7 @@ public class Main {
 				attribute = codeuml.getUml_node();
 			}
 			
-			if(codeuml.getUml_class() != null) {
-				attribute = codeuml.getUml_class();
-				sourceuml.add(attribute);
+			if(codeuml.getUml_class_property() != null) {
 				attribute = codeuml.getUml_class_property();
 				
 			}
@@ -80,11 +78,11 @@ public class Main {
        
        OutFileUml outfile = new OutFileUml();
        String source = "@startuml\n";
+       
        for (String code : sourceuml) {
     	   source += code;
-       }
-       source += "hide circle\n";
-        source += "@enduml\n";
+       }       
+       source += "@enduml\n";
        
        outfile.outfileuml(source, "out_uml");
        

@@ -1,0 +1,20 @@
+@prefix ex: <http://example.org/ns#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix : <http://example.org/> .
+
+
+:alice a :Person ;
+       schema:worksFor :aCompany .
+
+:bob   a :Person ;     
+       schema:worksFor :aUniversity .
+
+:carol a :Person ;
+       schema:worksFor :Unknown .
+
+:aCompany    a              :Organization .
+:aUniversity a              :University .
+:University rdfs:subClassOf :Organization .

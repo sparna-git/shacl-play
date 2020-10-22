@@ -1,5 +1,6 @@
 package fr.sparna.rdf.shacl.app;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -7,10 +8,14 @@ import java.net.MalformedURLException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.riot.RDFDataMgr;
 import org.apache.jena.riot.RDFLanguages;
+import org.apache.jena.util.FileUtils;
+import org.apache.jena.vocabulary.RDF;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,6 +48,22 @@ public class InputModelReader {
 								RDFLanguages.filenameToLang(inputFile.getName())
 						);
 					} catch (FileNotFoundException ignore) {
+						ignore.printStackTrace();
+					}
+				} else if(inputFile.getName().endsWith("zip")) {
+					try(ZipInputStream zis = new ZipInputStream(new FileInputStream(inputFile))) {
+				    	ZipEntry entry;	    	
+				    	while ((entry = zis.getNextEntry()) != null) {
+				    		if(!entry.isDirectory()) {
+				    			log.debug("Reading zip entry : "+entry.getName());  
+				    			String lang = FileUtils.guessLang(entry.getName(), "RDF/XML");
+				    			// read in temporary byte array otherwise model.read closes the stream !
+				    			byte[] buffer = zis.readAllBytes();
+				    			ByteArrayInputStream bais = new ByteArrayInputStream(buffer);
+				    			model.read(bais, RDF.getURI(), lang);
+				    		}            
+				        }
+			    	} catch (Exception ignore) {
 						ignore.printStackTrace();
 					}
 				} else {

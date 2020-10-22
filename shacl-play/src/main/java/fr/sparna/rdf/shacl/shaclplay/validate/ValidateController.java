@@ -1,6 +1,5 @@
 package fr.sparna.rdf.shacl.shaclplay.validate;
 
-import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URL;
 import java.util.List;
@@ -12,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.riot.Lang;
-import org.apache.jena.riot.RDFDataMgr;
 import org.apache.jena.riot.RDFLanguages;
 import org.apache.jena.riot.RiotException;
 import org.apache.jena.util.FileUtils;
@@ -31,6 +29,7 @@ import fr.sparna.rdf.shacl.closeShapes.CloseShapes;
 import fr.sparna.rdf.shacl.printer.report.SimpleCSVValidationResultWriter;
 import fr.sparna.rdf.shacl.printer.report.ValidationReport;
 import fr.sparna.rdf.shacl.shaclplay.ApplicationData;
+import fr.sparna.rdf.shacl.shaclplay.ControllerCommons;
 import fr.sparna.rdf.shacl.shaclplay.SessionData;
 import fr.sparna.rdf.shacl.shaclplay.catalog.shapes.ShapesCatalog;
 import fr.sparna.rdf.shacl.shaclplay.catalog.shapes.ShapesCatalogEntry;
@@ -72,6 +71,7 @@ public class ValidateController {
 	public ModelAndView validate(
 			@RequestParam(value="url", required=true) String url,
 			@RequestParam(value="shapes", required=true) String shapesCatalogId,
+			@RequestParam(value="format", required=false) String format,
 			@RequestParam(value="closeShapes", required=false) boolean closeShapes,
 			HttpServletRequest request,
 			HttpServletResponse response
@@ -84,6 +84,7 @@ public class ValidateController {
 			try {
 				shapesModel = ControllerCommons.loadModel(shapesModel, entry.getTurtleDownloadUrl());
 			} catch (RiotException e) {
+				// TODO : return an API error
 				return handleValidateFormError(request, e.getMessage(), e);
 			}
 			
@@ -93,12 +94,33 @@ public class ValidateController {
 			dataModel = ControllerCommons.loadModel(dataModel, actualUrl);
 			
 			// recompute permalink
-			String permalink = "validate?shapes="+shapesCatalogId+"&url="+url;
-			if(closeShapes)  {
-				permalink += "&closeShapes=true";
-			}
+
 			
-			return doValidate(shapesModel, dataModel, permalink, closeShapes, request);
+			// not for a human client
+			Model results = doValidate(shapesModel, dataModel, false, closeShapes, request);		
+			
+			if(format == null || format.equals("html")) {
+				// stores results in the session to access them further when downloading, etc.
+				SessionData sd = new SessionData();
+				sd.setResults(results);
+				sd.setShapesGraph(new ShapesGraph(shapesModel));
+				sd.setValidatedData(dataModel);
+				sd.store(request.getSession());
+	
+				// prepare and return view
+				ShapesDisplayDataFactory f = new ShapesDisplayDataFactory();
+				ShapesDisplayData sdd = f.newShapesDisplayData(
+						dataModel,
+						shapesModel,
+						results,
+						new PermalinkGenerator(shapesCatalogId, url, closeShapes)
+				);
+	
+				return new ModelAndView("validation-report", ShapesDisplayData.KEY, sdd);
+			} else {
+				this.writeValidationReport(results, shapesModel, response, format);
+				return null;
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			return handleValidateFormError(request, e.getClass().getName() +" : "+e.getMessage(), e);
@@ -316,34 +338,55 @@ public class ValidateController {
 			
 			// compute permalink only if we can
 			log.debug("Determining permalink...");
-			String permalink = null;
+			PermalinkGenerator pGenerator = null;
 			if(source == SOURCE_TYPE.URL) {
 				if(
 						shapesSource == SHAPE_SOURCE_TYPE.CATALOG
 				) {
-					permalink = "validate?shapes="+shapesCatalogId+"&url="+url;
-					if(closeShapes)  {
-						permalink += "&closeShapes=true";
-					}
-					log.debug("Permalink computed : "+permalink);
+					pGenerator = new PermalinkGenerator(shapesCatalogId, url, closeShapes);
+					log.debug("Permalink computed : "+pGenerator.generatePermalink());
 				}
 			}
-			if(permalink == null) {
+			if(pGenerator == null) {
 				log.debug("No permalink can be computed.");
 			}
 			
-			return doValidate(shapesModel, dataModel, permalink, closeShapes, request);
+			// trigger validation
+			if(dataModel.size() < applicationData.getLargeInputThreshold()) {
+				Model results = doValidate(shapesModel, dataModel, false, closeShapes, request);		
+				
+				// stores results in the session to access them further when downloading, etc.
+				SessionData sd = new SessionData();
+				sd.setResults(results);
+				sd.setShapesGraph(new ShapesGraph(shapesModel));
+				sd.setValidatedData(dataModel);
+				sd.store(request.getSession());
+	
+				// prepare and return view
+				ShapesDisplayDataFactory f = new ShapesDisplayDataFactory();
+				ShapesDisplayData sdd = f.newShapesDisplayData(
+						dataModel,
+						shapesModel,
+						results,
+						pGenerator
+				);
+	
+				return new ModelAndView("validation-report", ShapesDisplayData.KEY, sdd);
+			} else {
+				doValidate(shapesModel, dataModel, true, closeShapes, request);
+				return new ModelAndView("wait");
+			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			return handleValidateFormError(request, e.getClass().getName() +" : "+e.getMessage(), e);
-			// return new ModelAndView("validate-form", ValidateFormData.KEY, ValidateFormData.error(e.getClass().getName()+" : "+Encode.forHtml(e.getMessage())));
 		}
 	}
 	
-	private ModelAndView doValidate(
+	private Model doValidate(
 			Model shapesModel,
 			Model dataModel,
-			String permalink,
+			boolean async,
 			boolean autoCloseShapes,
 			HttpServletRequest request
 	) throws Exception {
@@ -355,7 +398,9 @@ public class ValidateController {
 			actualShapesModel = closeShapes.closeShapes(shapesModel);
 		}
 		
-		if(dataModel.size() < applicationData.getLargeInputThreshold()) {
+		if(
+				!async		
+		) {
 			// run the validation
 			ShaclValidator validator = new ShaclValidator(
 					actualShapesModel,
@@ -363,40 +408,12 @@ public class ValidateController {
 					null
 			);
 			validator.setProgressMonitor(new StringBufferProgressMonitor("SHACL validator"));
+			validator.setValidateShapesTargets(true);
 			
 			Model results = validator.validate(dataModel);
 			// results.write(new LogWriter(log), "Turtle");
 			
-			Model shapesTargetValidation = validator.validateShapesTargets(dataModel, results);
-			
-			// create a Model with the Union of the results and the shapes
-			Model displayModel = validator.getShapesModel().union(results).union(shapesTargetValidation);		
-			
-			// log.debug(validator.getProgressMonitor().getBuffer().toString());
-			
-			String language = "en";
-			
-			// parse the shapes to data model
-			ShapesGraph shapesGraph = new ShapesGraph(shapesModel);
-			
-			// stores results in the session to access them further when downloading, etc.
-			SessionData sd = new SessionData();
-			sd.setResults(results);
-			sd.setShapesGraph(shapesGraph);
-			sd.setValidatedData(dataModel);
-			sd.store(request.getSession());
-			
-			// stores everything in the request/session, and forward to view
-			ShapesDisplayData sdd = new ShapesDisplayData(
-					displayModel,
-					new HTMLRenderer(displayModel, language),
-					shapesGraph,
-					new ValidationReport(results, displayModel)
-			);	
-			sdd.setPermalink(permalink);
-			
-			sdd.setDataModel(dataModel);
-			return new ModelAndView("validation-report", ShapesDisplayData.KEY, sdd);			
+			return results;
 		} else {
 			// run the validation asynchronously for large amount of data
 			ShaclValidatorAsync validator = new ShaclValidatorAsync(
@@ -406,11 +423,13 @@ public class ValidateController {
 					null
 			);
 			validator.setProgressMonitor(new StringBufferProgressMonitor("SHACL validator"));
+			validator.setValidateShapesTargets(true);
 			
 			Thread thread = new Thread(validator);
 			thread.start();
 			request.getSession().setAttribute("validator", validator);
-			return new ModelAndView("wait");
+			return null;
+			// return new ModelAndView("wait");
 		}	
 	}
 
@@ -418,7 +437,7 @@ public class ValidateController {
 	 * Download the validation report in an RDF variant or in CSV
 	 * @param request
 	 * @param response
-	 * @param langName
+	 * @param format
 	 * @return
 	 * @throws Exception
 	 */
@@ -426,33 +445,52 @@ public class ValidateController {
 	public ModelAndView validationReport(
 			HttpServletRequest request,
 			HttpServletResponse response,
-			@RequestParam(value="lang", required=true) String langName
+			@RequestParam(value="format", required=true) String format
 	) throws Exception {
-		log.debug("validationReport(lang='"+langName+"')");
-		if(langName.equalsIgnoreCase("CSV")) {
+		log.debug("validationReport(format='"+format+"')");
+		
+		SessionData sessionData = SessionData.get(request.getSession());
+		Model results = sessionData.getResults();
+		Model shapesModel = sessionData.getShapesGraph().getShapesModel();
+		
+		writeValidationReport(results, shapesModel, response, format);
+		return null;
+	}
+	
+	private void writeValidationReport(
+		Model results,
+		Model shapesModel,
+		HttpServletResponse response,
+		String format
+	) throws Exception {
+		if(format.equalsIgnoreCase("csv")) {
 			SimpleCSVValidationResultWriter writer = new SimpleCSVValidationResultWriter();
 			
 			response.setContentType("text/csv");
 			response.setHeader("Content-Disposition", "inline; filename=\"validation-report.csv\"");
 
-			SessionData sessionData = SessionData.get(request.getSession());
 			writer.write(
-					new ValidationReport( sessionData.getResults(), sessionData.getResults().union(sessionData.getShapesGraph().getShapesModel()) ),
+					new ValidationReport( results, results.union(shapesModel)),
 					response.getOutputStream(),
 					null
 			);
 
 			response.flushBuffer();
-			return null;
+
+		} else if (format.equalsIgnoreCase("shields.io")) {
+			response.addHeader("Content-Encoding", "UTF-8");	
+			response.setContentType("application/json");
+			ShieldsIoOutputFactory f = new ShieldsIoOutputFactory(results);
+			ShieldsIoOutput soOutput = f.build();
+			ControllerCommons.writeJson(soOutput, response.getWriter());
 		} else {
 			// determine language
-			Lang l = RDFLanguages.nameToLang(langName);
+			Lang l = RDFLanguages.nameToLang(format);
 			if(l == null) {
 				l = Lang.RDFXML;
 			}
 			// write results in response
-			ControllerCommons.serialize(SessionData.get(request.getSession()).getResults(), l, "validation-report", response);
-			return null;
+			ControllerCommons.serialize(results, l, "validation-report", response);
 		}
 	}
 
@@ -497,34 +535,24 @@ public class ValidateController {
 		log.debug("showing results...");
 		ShaclValidatorAsync validator = (ShaclValidatorAsync)request.getSession().getAttribute("validator");
 
-		String language = "en";
-		
-		Model displayModel = validator.getShapesModel().union(validator.getResults());
-		
-		// parse the shapes to data model
-		ShapesGraph shapesGraph = new ShapesGraph(validator.getShapesModel());
-		
+		ShapesDisplayDataFactory f = new ShapesDisplayDataFactory();
+		ShapesDisplayData sdd = f.newShapesDisplayData(
+				validator.getDataModel(),
+				validator.getShapesModel(),
+				validator.getResults(),
+				// TODO : always a null permalink in this case
+				null
+		);
+				
 		// stores results in the session to access them further when downloading, etc.
 		SessionData sd = new SessionData();
 		sd.setResults(validator.getResults());
-		sd.setShapesGraph(shapesGraph);
+		sd.setShapesGraph(new ShapesGraph(validator.getShapesModel()));
 		sd.setValidatedData(validator.getDataModel());
 		sd.store(request.getSession());
 		
-		// stores everything in the request/session, and forward to view
-		ShapesDisplayData sdd = new ShapesDisplayData(
-				displayModel,
-				new HTMLRenderer(displayModel, language),
-				shapesGraph,
-				new ValidationReport(validator.getResults(), displayModel)
-		);	
-		
 		log.debug("Ended showing results.");
-		
-		// TODO : always a null permalink in this case
-		sdd.setPermalink(null);
-		
-		sdd.setDataModel(validator.getDataModel());
+
 		return new ModelAndView("validation-report", ShapesDisplayData.KEY, sdd);
 	}
 	

@@ -37,6 +37,8 @@ import org.topbraid.shacl.validation.sparql.AbstractSPARQLExecutor;
 import org.topbraid.shacl.vocabulary.SH;
 import org.topbraid.shacl.vocabulary.TOSH;
 
+import fr.sparna.rdf.shacl.SHP;
+
 /**
  * A wrapper around the Shapes API
  * @author Thomas Francart
@@ -52,7 +54,7 @@ public class ShaclValidator {
 	protected Model shapesModel;
 	
 	/**
-	 * The additionnal data to add to the validated before validation
+	 * The additionnal data to add to the validated data before validation
 	 */
 	protected Model complimentaryModel;
 	
@@ -65,6 +67,11 @@ public class ShaclValidator {
 	 * A ProgressMonitor (that will store all progress logs in a StringBuffer, or log them in a log stream)
 	 */
 	protected ProgressMonitor progressMonitor;
+	
+	/**
+	 * Whether to add a step to validate that each shapes actually matched some focus nodes
+	 */
+	protected boolean validateShapesTargets = false;
 	
 	/**
 	 * Create more details for OrComponent and AndComponent ?
@@ -87,8 +94,6 @@ public class ShaclValidator {
 	public Model validate(Model dataModel) throws ShaclValidatorException {
 		log.info("Validating data with "+dataModel.size()+" triples...");
 		
-		// Create Dataset that contains both the main query model and the shapes model
-		// (here, using a temporary URI for the shapes graph)		
 		Model validatedModel;
 		if(this.complimentaryModel != null) {
 			log.info("Addind a complimentary model of "+complimentaryModel.size()+" triples...");
@@ -165,6 +170,10 @@ public class ShaclValidator {
 			// Number of validation results : results.listSubjectsWithProperty(RDF.type, SH.ValidationResult).toList().size()
 			log.info("Done validating data with "+dataModel.size()+" triples. Validation results contains "+results.size()+" triples.");
 			
+			if(this.validateShapesTargets) {
+				results.add(validateShapesTargets(dataModel));
+			}
+			
 			return results;			
 			
 		} catch (InterruptedException e) {
@@ -172,7 +181,7 @@ public class ShaclValidator {
 		}
 	}
 	
-	public Model validateShapesTargets(Model dataModel, Model validationResultsModel) throws ShaclValidatorException {
+	public Model validateShapesTargets(Model dataModel) throws ShaclValidatorException {
 		
 		// recreate complete model by adding complimentary Model
 		Model validatedModel;
@@ -193,8 +202,7 @@ public class ShaclValidator {
 			log.debug("Shape "+aShapeWithoutTarget+" did not match any focus node");
 			resultModel.add(resultModel.createLiteralStatement(
 					aShapeWithoutTarget,
-					// TODO : this should be completely changed
-					SH.target,
+					resultModel.createProperty(SHP.TARGET_MATCHED),
 					false
 			));
 		});
@@ -220,6 +228,14 @@ public class ShaclValidator {
 
 	public void setCreateDetails(boolean createDetails) {
 		this.createDetails = createDetails;
+	}
+
+	public boolean isValidateShapesTargets() {
+		return validateShapesTargets;
+	}
+
+	public void setValidateShapesTargets(boolean validateShapesTargets) {
+		this.validateShapesTargets = validateShapesTargets;
 	}
 
 	public static void main(String...strings) throws Exception {

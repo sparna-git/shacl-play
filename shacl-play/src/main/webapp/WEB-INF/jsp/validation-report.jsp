@@ -37,11 +37,41 @@
 			<div class="col-10">
 				<div class="page-header">
 		       		<h1>Validation results <small>of ${data.numberOfShapes} shapes</small></h1>
-		       		<p>Download validation report in <a href="<c:url value="/validate/report/download?lang=csv" />" class="badge badge-pill badge-light">CSV</a>&nbsp;<a href="<c:url value="/validate/report/download?lang=Turtle" />" class="badge badge-pill badge-light">Turtle</a>&nbsp;<a href="<c:url value="/validate/report/download?lang=RDF/XML" />" class="badge badge-pill badge-light">RDF/XML</a></p>
+		       		<p>Download validation report in <a href="<c:url value="/validate/report/download?format=csv" />" class="badge badge-pill badge-light">CSV</a>&nbsp;<a href="<c:url value="/validate/report/download?format=Turtle" />" class="badge badge-pill badge-light">Turtle</a>&nbsp;<a href="<c:url value="/validate/report/download?format=RDF/XML" />" class="badge badge-pill badge-light">RDF/XML</a></p>
 		       		<c:if test="${not empty data.permalink}">
 		       			<p><a href="${data.permalink}"><i class="fal fa-link"></i>&nbsp;Permalink to this report</a></p>
 		       		</c:if>
-		     	</div>
+		       		<c:if test="${not empty data.permalink}">
+		       			<c:url value="https://img.shields.io/endpoint" var="url">
+						  <c:param name="url" value="${data.permalink}&format=shields.io" />
+						</c:url>
+		       			<p><a href="#" data-toggle="modal" data-target="#mdModal"><i class="fal fa-badge-check"></i>&nbsp;Get your SHACL Play badge code</a> in Markdown or HTML. Or get the <a href="${url}">direct link to the badge</a> (this will trigger a new validation).</p>
+		       			
+		       			<div class="modal fade" id="mdModal" tabindex="-1" role="dialog" aria-labelledby="mdModalLabel" aria-hidden="true">
+						  <div class="modal-dialog" role="document">
+						    <div class="modal-content">
+						      <div class="modal-header">
+						        <h5 class="modal-title" id="exampleModalLabel">SHACL Play Badge</h5>
+						        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						          <span aria-hidden="true">&times;</span>
+						        </button>
+						      </div>
+						      <div class="modal-body">
+						      	<h6>Markdown code</h6>
+						      	<pre style="white-space: pre-wrap;">[![SHACL Play Badge](${url})](${data.permalink})</pre>
+						      	<h6>HTML code</h6>
+						      	<pre style="white-space: pre-wrap;">&lt;a href="${data.permalink}"&gt;&lt;img src="${url}" /&gt;&lt;/a&gt;</pre>
+						      	<h6>JSON endpoint</h6>
+						      	Link to <a href="${data.permalink}&format=shields.io">validation results for shields.io in JSON</a>
+						      </div>
+						      <div class="modal-footer">
+						        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+						      </div>
+						    </div>
+						  </div>
+						</div>
+		       		</c:if>
+		     	</div>	     	
 				${data.getValidationReportFull(lang)}
 			</div>
 		</div>

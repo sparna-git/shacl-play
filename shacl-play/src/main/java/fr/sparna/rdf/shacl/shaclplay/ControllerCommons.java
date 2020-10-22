@@ -1,12 +1,12 @@
-package fr.sparna.rdf.shacl.shaclplay.validate;
+package fr.sparna.rdf.shacl.shaclplay;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +22,12 @@ import org.apache.jena.util.FileUtils;
 import org.apache.jena.vocabulary.RDF;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
 
 public class ControllerCommons {
@@ -52,12 +58,12 @@ public class ControllerCommons {
 			// uses conneg to determine parser or can guess it from extension
 			model.read(url.toString());
 		} catch (Exception e) {
-			log.debug("Simple read() failed based on conneg, will use "+ RDFLanguages.filenameToLang(url.getFile())+" RDF language");  
+			log.debug("Simple read() failed based on conneg, will use "+ RDFLanguages.filenameToLang(url.getFile(), Lang.TURTLE)+" RDF language");  
 			RDFDataMgr.read(
 					model,
 					url.openConnection().getInputStream(),
 					url.toString(),
-					RDFLanguages.filenameToLang(url.getFile())
+					RDFLanguages.filenameToLang(url.getFile(), Lang.TURTLE)
 			);
 		}
 		return model;
@@ -144,5 +150,12 @@ public class ControllerCommons {
 		response.setContentType(format.getContentType().getContentType());
 		response.setHeader("Content-Disposition", "inline; filename=\""+filename+"."+format.getFileExtensions().get(0)+"\"");
 		RDFDataMgr.write(response.getOutputStream(), m, format) ;		
+	}
+	
+	public static void writeJson(Object o, PrintWriter out) throws JsonGenerationException, JsonMappingException, IOException {
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.setSerializationInclusion(Include.NON_NULL);
+		mapper.enable(SerializationFeature.INDENT_OUTPUT);
+		mapper.writeValue(out, o);
 	}
 }

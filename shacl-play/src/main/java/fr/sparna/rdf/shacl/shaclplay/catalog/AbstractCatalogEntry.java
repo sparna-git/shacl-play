@@ -35,6 +35,10 @@ public abstract class AbstractCatalogEntry {
 		return this.keywords.toArray(new String[] {});
 	}
 	
+	public String getDescriptionHtml() {
+		return description.replaceAll("\n", "<br />\n");
+	}
+	
 	public String getId() {
 		return id;
 	}

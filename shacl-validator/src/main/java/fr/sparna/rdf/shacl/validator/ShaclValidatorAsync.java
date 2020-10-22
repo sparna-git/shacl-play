@@ -30,7 +30,7 @@ public class ShaclValidatorAsync extends ShaclValidator implements Runnable {
 	public Model getResults() {
 		return results;
 	}
-	
+
 	public boolean isFinished() {
 		return this.getResults() != null;
 	}

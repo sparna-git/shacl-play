@@ -21,6 +21,7 @@
         <java.version>1.8</java.version>
         <jena.version>3.11.0</jena.version>
         <jtwig.version>5.87.0.RELEASE</jtwig.version>
+        <jackson.version>2.9.3</jackson.version>
         <!-- library versions -->
     </properties>
 
@@ -95,6 +96,18 @@
               <groupId>net.sourceforge.plantuml</groupId>
               <artifactId>plantuml</artifactId>
               <version>8059</version>
+            </dependency>
+
+            <!-- Jackson -->
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-core</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson.version}</version>
             </dependency>
 
         </dependencies>

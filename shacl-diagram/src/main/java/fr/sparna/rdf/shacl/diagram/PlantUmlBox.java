@@ -5,12 +5,15 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.jena.graph.Node;
+import org.apache.jena.rdf.listeners.NullListener;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.RDFList;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
+import org.apache.jena.util.Metadata;
 import org.apache.jena.util.iterator.ExtendedIterator;
 import org.apache.jena.vocabulary.RDFS;
 import org.topbraid.shacl.vocabulary.SH;
@@ -21,7 +24,6 @@ public class PlantUmlBox {
 	protected String nameshape;
 	List<PlantUmlProperty> shacl_value = new ArrayList<>();
 	protected String nametargetclass; 
-	protected String rdfs_class;
 	
 	public String getNameshape() {
 		return nameshape;
@@ -54,12 +56,14 @@ public class PlantUmlBox {
 		
 		}		
 		
-		//shacl_value.sort(Comparator.comparing(PlantUmlProperty::getValue_order_shacl));
-		shacl_value.sort(Comparator.comparing(PlantUmlProperty::getValue_path));
+		
+		Comparator<PlantUmlProperty> a = Comparator.comparing(PlantUmlProperty::getValue_order_shacl)
+				.thenComparing(PlantUmlProperty::getValue_path);
+		
 		this.shacl_value = shacl_value;	
 	}	
-
 	
+		
 	public String getNametargetclass() {
 		return nametargetclass;
 	}
@@ -69,26 +73,16 @@ public class PlantUmlBox {
 		this.nametargetclass = constargetclass.readValueconstraint(nodeShape, SH.targetClass);
 	}
 	
-	public String getRdfs_class() {
-		return rdfs_class;
-	}
-
-	public void setRdfs_class(Resource nodeShape) {
-	//	boolean result = nodeShape.hasProperty(RDF.type, RDFS.Class);
-		
-		//Resource list = nodeShape.getModel().getRDFNode(RDFS.Class);
-	  //  RDFList rdfList = list.as(RDFList.class);
-	   // ExtendedIterator<RDFNode> items = rdfList.iterator();		
-			
-		this.rdfs_class = rdfs_class;
-	}
 
 	public PlantUmlBox(Resource nodeShape) {  
 	    
 		this.setNameshape(nodeShape.getLocalName());
 		this.setNametargetclass(nodeShape);
-		//this.setRdfs_class(nodeShape);
 		this.setProperties(nodeShape);		
 		
 		}	
+	
+	
+	
+	
 }

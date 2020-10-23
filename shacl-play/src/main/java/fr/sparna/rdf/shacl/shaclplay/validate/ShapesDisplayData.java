@@ -74,11 +74,10 @@ public class ShapesDisplayData {
 	 * Indicates if we are displaying validation results or just displaying a shape file without validation
 	 */
 	private boolean displayValidationResults = true;
-
 	/**
 	 * 
 	 */
-	private String permalink;
+	private PermalinkGenerator permalinkGenerator;
 	
 	public ShapesDisplayData(Model displayModel, HTMLRenderer renderer, ShapesGraph shapesGraph, ValidationReport validationReport) {
 		super();
@@ -141,11 +140,11 @@ public class ShapesDisplayData {
 	}
 	
 	public String getPermalink() {
-		return permalink;
+		return (this.permalinkGenerator != null)?this.permalinkGenerator.generatePermalink():null;
 	}
 
-	public void setPermalink(String permalink) {
-		this.permalink = permalink;
+	public void setPermalinkGenerator(PermalinkGenerator permalinkGenerator) {
+		this.permalinkGenerator = permalinkGenerator;
 	}
 
 	public SeverityDisplayLevel getDisplayLevel(SHShape shape) {

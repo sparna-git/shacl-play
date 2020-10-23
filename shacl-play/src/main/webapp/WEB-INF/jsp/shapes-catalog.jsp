@@ -55,7 +55,7 @@
 			            		<div class="card" id="eli-shapes">
 						          <div class="card-body">
 						          	<h4 class="card-title catalog-title" title="${entry.id}">${entry.title}</h4>
-						          	<p class="card-text catalog-description">${entry.description}</p>
+						          	<p class="card-text catalog-description">${entry.descriptionHtml}</p>
 						          		<ul style="list-style: none;" class="card-text">
 						          			<c:if test="${not empty entry.keywords}"><li title="dcat:keywords"><i class="fal fa-tag"></i>&nbsp;&nbsp; ${fn:join(entry.keywordsArray, ', ')}</li></c:if>
 						          			<c:if test="${not empty entry.publisher.label}"><li title="dct:publisher"><i class="fal fa-building"></i>&nbsp;&nbsp;${entry.publisher.label}</li></c:if>

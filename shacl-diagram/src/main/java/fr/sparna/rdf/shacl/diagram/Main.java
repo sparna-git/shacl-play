@@ -3,9 +3,10 @@ package fr.sparna.rdf.shacl.diagram;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.nio.file.attribute.UserPrincipalNotFoundException;
 
 //import org.apache.jena.datatypes.RDFDatatype;
-import org.apache.jena.rdf.model.Model;   /* Creation et manipulation de RDF */
+import org.apache.jena.rdf.model.Model; 
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.util.FileUtils;
 import org.apache.jena.vocabulary.RDF;
@@ -13,7 +14,7 @@ import org.apache.jena.vocabulary.RDF;
 public class Main {
 
 	public static void main(String[] args) throws Exception {
-
+		
 		String shaclFile = args[0];
 		Model shaclGraph = ModelFactory.createDefaultModel();
 
@@ -22,7 +23,7 @@ public class Main {
 		ShaclPlantUmlWriter writer = new ShaclPlantUmlWriter();
 		String output = writer.writeInPlantUml(shaclGraph);
 		
-		String outputDirectory = args[1];
+		String outputDirectory ="C:/Temp" ; //args[1];
 		
 		// determine output filename
 		File inputFile = new File(shaclFile);

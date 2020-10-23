@@ -1,9 +1,11 @@
 package fr.sparna.rdf.shacl.diagram;
 
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.jena.graph.Node;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.RDFList;
@@ -29,33 +31,33 @@ public class PlantUmlProperty {
 	protected String value_node;
 	protected String value_class;
 	protected String value_class_property;
+	protected String value_order_shacl;
+	protected String value_hasValue;
 	
 	
-	ConstraintValue valuedata = new ConstraintValue(); 
+	ConstraintValueReader constraintValueReader = new ConstraintValueReader(); 
 	//Value Type Constraint Components
 
 	public String getValue_path() {
 		return value_path;
 	}
-	public void setValue_path(Resource constraint,Property property) {
-		valuedata.setValueconstraint(constraint,property);
-		this.value_path = valuedata.getValueconstraint();
+	
+	public void setValue_path(Resource constraint) {		
+		this.value_path = constraintValueReader.readValueconstraint(constraint,SH.path);
 	}
 		
 	public String getValue_datatype() {
 		return value_datatype;
 	}
 		
-	public void setValue_datatype(Resource constraint,Property property) {
-		valuedata.setValueconstraint(constraint, property);
-		this.value_datatype = valuedata.getValueconstraint();
+	public void setValue_datatype(Resource constraint) {
+		this.value_datatype = constraintValueReader.readValueconstraint(constraint, SH.datatype);
 	}
 	public String getValue_nodeKind() {
 		return value_nodeKind;
 	}
-	public void setValue_nodeKind(Resource constraint,Property property) {
-		valuedata.setValueconstraint(constraint,property);
-		this.value_nodeKind = valuedata.getValueconstraint();
+	public void setValue_nodeKind(Resource constraint) {
+		this.value_nodeKind = constraintValueReader.readValueconstraint(constraint,SH.nodeKind);
 	}
 	
 	//Cardinality Constraint Components
@@ -68,13 +70,11 @@ public class PlantUmlProperty {
 		String value_maxCount ="*";
 		String uml_code =null;
 		if (constraint.hasProperty(SH.minCount)){
-			valuedata.setValueconstraint(constraint, SH.minCount);
-			value_minCount = valuedata.getValueconstraint();
+			value_minCount = constraintValueReader.readValueconstraint(constraint, SH.minCount);
 			if (value_minCount == ""){value_minCount = "0";}
 		}
 		if (constraint.hasProperty(SH.maxCount)) {
-			valuedata.setValueconstraint(constraint, SH.maxCount);
-			value_maxCount = valuedata.getValueconstraint();
+			value_maxCount = constraintValueReader.readValueconstraint(constraint, SH.maxCount);
 			if (value_maxCount == "") {value_maxCount = "*";}
 		}
 		if ((constraint.hasProperty(SH.minCount)) || (constraint.hasProperty(SH.maxCount))){
@@ -104,23 +104,19 @@ public class PlantUmlProperty {
 		
 		if (constraint.hasProperty(SH.minInclusive)) {
 			a1 = true;
-			valuedata.setValueconstraint(constraint, SH.minInclusive);
-			value_minIn = "(range : ["+valuedata.getValueconstraint()+"-";			
+			value_minIn = "(range : ["+constraintValueReader.readValueconstraint(constraint, SH.minInclusive)+"-";			
 		} 
 		if (constraint.hasProperty(SH.maxInclusive)){
 			a2 = true;
-			valuedata.setValueconstraint(constraint, SH.maxInclusive);
-			value_maxIn = "-"+valuedata.getValueconstraint()+"])";			
+			value_maxIn = "-"+constraintValueReader.readValueconstraint(constraint, SH.maxInclusive)+"])";			
 		} 
 		if (constraint.hasProperty(SH.minExclusive)){
 			a3 = true;
-			valuedata.setValueconstraint(constraint,SH.minExclusive);
-			value_minEx = "(range : ]"+valuedata.getValueconstraint()+"-";			
+			value_minEx = "(range : ]"+constraintValueReader.readValueconstraint(constraint,SH.minExclusive)+"-";			
 		} 
 		if(constraint.hasProperty(SH.maxExclusive)) {
 			a4 = true;
-			valuedata.setValueconstraint(constraint, SH.maxExclusive);
-			value_maxEx = "-"+valuedata.getValueconstraint()+"[)";	
+			value_maxEx = "-"+constraintValueReader.readValueconstraint(constraint, SH.maxExclusive)+"[)";	
 		}
 		
 		if ((a1) & (!a2)) {
@@ -152,12 +148,10 @@ public class PlantUmlProperty {
 		String uml_code = null;
 		
 		if(constraint.hasProperty(SH.maxLength)){
-			valuedata.setValueconstraint(constraint, SH.maxLength);
-			value_maxLength = valuedata.getValueconstraint();			
+			value_maxLength = constraintValueReader.readValueconstraint(constraint, SH.maxLength);			
 		}				
 		if (constraint.hasProperty(SH.minLength)){
-			valuedata.setValueconstraint(constraint, SH.minLength);
-			value_minLength = valuedata.getValueconstraint(); 			
+			value_minLength = constraintValueReader.readValueconstraint(constraint, SH.minLength); 			
 		}
 		if ((constraint.hasProperty(SH.maxLength)) || (constraint.hasProperty(SH.minLength))){
 			if(value_minLength=="") { value_minLength = "0"; }
@@ -170,22 +164,17 @@ public class PlantUmlProperty {
 	public String getValue_pattern() {
 		return value_pattern;
 	}
-	public void setValue_pattern(Resource constraint,Property property) {
-		String value_pattern ="";
-		
-		valuedata.setValueconstraint(constraint, property);
-		value_pattern = valuedata.getValueconstraint();
-		
-		this.value_pattern = value_pattern;
+	public void setValue_pattern(Resource constraint) {
+		this.value_pattern = constraintValueReader.readValueconstraint(constraint, SH.pattern);
 	}
 	
 	public String getValue_language() {
 		return value_language;
 	}	
-	public void setValue_language(Resource constraint,Property property) {
+	public void setValue_language(Resource constraint) {
 		String value = null;
-		if (constraint.hasProperty(property)) {
-			Resource list = constraint.getProperty(property).getList().asResource();		
+		if (constraint.hasProperty(SH.languageIn)) {
+			Resource list = constraint.getProperty(SH.languageIn).getList().asResource();		
 		    RDFList rdfList = list.as(RDFList.class);
 		    ExtendedIterator<RDFNode> items = rdfList.iterator();
 		    value = "";
@@ -201,11 +190,10 @@ public class PlantUmlProperty {
 	public String getValue_uniquelang() {
 		return value_uniquelang;
 	}
-	public void setValue_uniquelang(Resource constraint,Property property) {
+	public void setValue_uniquelang(Resource constraint) {
 		String value = null;
-		if (constraint.hasProperty(property)) {
-			valuedata.setValueconstraint(constraint, property);
-			value_uniquelang = valuedata.getValueconstraint();
+		if (constraint.hasProperty(SH.uniqueLang)) {			
+			value_uniquelang = constraintValueReader.readValueconstraint(constraint, SH.uniqueLang);
 			if (!value_uniquelang.isBlank()) {
 				value = "uniqueLang";			
 			} else {value_uniquelang = null;}
@@ -220,10 +208,8 @@ public class PlantUmlProperty {
 		return value_node;
 	}
 	
-	public void setValue_node(Resource constraint,Property property) {
-		
-		valuedata.setValueconstraint(constraint, property);
-		this.value_node = valuedata.getValueconstraint();
+	public void setValue_node(Resource constraint) {
+		this.value_node = constraintValueReader.readValueconstraint(constraint, SH.node);
 	}
 	
 	public String getValue_class_property() {
@@ -233,15 +219,19 @@ public class PlantUmlProperty {
 		String value = null;
 		
 		if (constraint.hasProperty(SH.class_)) {
-			valuedata.setValueconstraint(constraint, SH.class_);
 			Resource idclass = constraint.getProperty(SH.class_).getResource();
 			List<Resource> nodetargets = constraint.getModel().listResourcesWithProperty(SH.targetClass,idclass).toList();
 			for(Resource nodeTarget : nodetargets) {
 				if(value != null) {
 					System.out.println("Problem !");
 				}
-				value = nodeTarget.getLocalName();
-				
+				value = nodeTarget.getLocalName();				
+			}
+			
+			if(nodetargets.isEmpty()) {
+				if(idclass.hasProperty(RDF.type, RDFS.Class) && idclass.hasProperty(RDF.type, SH.NodeShape)) {
+					value = idclass.getLocalName();	
+				}
 			}
 		}	
 		this.value_class_property = value;
@@ -250,37 +240,59 @@ public class PlantUmlProperty {
 	public String getValue_class() {
 		return value_class;
 	}
+	
 	public void setValue_class(Resource constraint) {
 		String value = null;
 		if (constraint.hasProperty(SH.class_)) {
-			valuedata.setValueconstraint(constraint, SH.class_);
 			Resource idclass = constraint.getProperty(SH.class_).getResource();
 			List<Resource> nodetarget = constraint.getModel().listResourcesWithProperty(SH.targetClass,idclass).toList();
 			for(Resource nodeTarget : nodetarget) {
 				value = nodeTarget.getLocalName();
 			}
-				
-		}		
-		
+			
+		}			
 		this.value_class = value;
 	}
+	
+	
+	public String getValue_order_shacl() {
+		return value_order_shacl;
+	}
+	
+	
+	public void setValue_order_shacl(Resource constraint) {
+		this.value_order_shacl = constraintValueReader.readValueconstraint(constraint, SH.order);		
+	}
+	
+	public String getValue_hasValue() {
+		return value_hasValue;
+	}
+	
+	
+	public void setValue_hasValue(Resource constraint) {
+		this.value_hasValue = constraintValueReader.readValueconstraint(constraint, SH.hasValue);
+	}
+	
+	
 	
 	
 	// Principal
 	public PlantUmlProperty (Resource constraint) {
 		
-		this.setValue_path(constraint, SH.path);
-		this.setValue_datatype(constraint, SH.datatype);
-		this.setValue_nodeKind(constraint, SH.nodeKind);
+		this.setValue_path(constraint);
+		this.setValue_datatype(constraint);
+		this.setValue_nodeKind(constraint);
 		this.setValue_cardinality(constraint);		
 		this.setValue_range(constraint);		
 		this.setValue_length(constraint);		
-		this.setValue_pattern(constraint, SH.pattern);		
-		this.setValue_language(constraint, SH.languageIn);		
-		this.setValue_uniquelang(constraint, SH.uniqueLang);		
-		this.setValue_node(constraint, SH.node);
+		this.setValue_pattern(constraint);		
+		this.setValue_language(constraint);		
+		this.setValue_uniquelang(constraint);		
+		this.setValue_node(constraint);
 		this.setValue_class(constraint);
 		this.setValue_class_property(constraint);
+		this.setValue_order_shacl(constraint);
+		this.setValue_hasValue(constraint);
 		
 		
 	}

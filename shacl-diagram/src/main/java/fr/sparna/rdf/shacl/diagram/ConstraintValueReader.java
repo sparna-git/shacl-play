@@ -9,15 +9,9 @@ import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.topbraid.shacl.vocabulary.SH;
 
-public class ConstraintValue { 
+public class ConstraintValueReader { 
 
-	protected String valueconstraint;
-
-	public String getValueconstraint() {
-		return valueconstraint;
-	}
-
-	public void setValueconstraint(Resource constraint,Property property) {
+	public String readValueconstraint(Resource constraint,Property property) {
 		
 		String value=null;
 		try {
@@ -35,7 +29,7 @@ public class ConstraintValue {
 		} catch (Exception e) {
 			value = null;
 		}
-		this.valueconstraint = value;
+		return value;
 	}
 	
 	public static String renderShaclPropertyPath(Resource r) {

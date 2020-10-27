@@ -208,16 +208,35 @@ public class PlantUmlProperty {
 		return value_node;
 	}
 	
-	public void setValue_node(Resource constraint) {
-		this.value_node = constraintValueReader.readValueconstraint(constraint, SH.node);
+	public void setValue_node(Resource constraint, List<PlantUmlBox> allBoxes) {
+		// this.value_node = constraintValueReader.readValueconstraint(constraint, SH.node);
+		
+		// 1. Lire la valeur de sh:node
+		String nodeValue = constraintValueReader.readValueconstraint(constraint, SH.node);
+		// 2. Trouver le PlantUmlBox qui a ce nom
+		PlantUmlBox theBox = null;
+		for (PlantUmlBox plantUmlBox : allBoxes) {
+			if(plantUmlBox.getNameshape().equals(nodeValue)) {
+				theBox = plantUmlBox;
+				break;
+			}
+		}
+		
+		if(theBox == null) {
+			// on ne l'a pas trouvé, on sort la valeur de sh:node
+			this.value_node = nodeValue;
+		} else {
+			// 3. Lire le nom de la box avec son package devant
+			this.value_node = theBox.getQualifiedName();
+		}
 	}
 	
 	public String getValue_class_property() {
 		return value_class_property;
 	}
-	public void setValue_class_property(Resource constraint) {
+	public void setValue_class_property(Resource constraint, List<PlantUmlBox> allBoxes) {
 		String value = null;
-		
+		// 1. Lire la valeur de sh:node
 		if (constraint.hasProperty(SH.class_)) {
 			Resource idclass = constraint.getProperty(SH.class_).getResource();
 			List<Resource> nodetargets = constraint.getModel().listResourcesWithProperty(SH.targetClass,idclass).toList();
@@ -233,8 +252,27 @@ public class PlantUmlProperty {
 					value = idclass.getLocalName();	
 				}
 			}
-		}	
-		this.value_class_property = value;
+		}
+		
+		// 2. Trouver le PlantUmlBox qui a ce nom
+		PlantUmlBox theBox = null;
+		for (PlantUmlBox plantUmlBox : allBoxes) {
+			if(plantUmlBox.getNameshape().equals(value)) {
+				theBox = plantUmlBox;
+				break;
+			}
+		}
+
+		if(theBox == null) {
+			// on ne l'a pas trouvé, on sort la valeur de sh:node
+			this.value_node = value;
+		} else {
+			// 3. Lire le nom de la box avec son package devant
+			this.value_node = theBox.getQualifiedName();
+		}
+		
+		
+		//this.value_class_property = value;
 	}
 	
 	public String getValue_class() {
@@ -245,6 +283,7 @@ public class PlantUmlProperty {
 		String value = null;
 		if (constraint.hasProperty(SH.class_)) {
 			Resource idclass = constraint.getProperty(SH.class_).getResource();
+			
 			List<Resource> nodetarget = constraint.getModel().listResourcesWithProperty(SH.targetClass,idclass).toList();
 			for(Resource nodeTarget : nodetarget) {
 				value = nodeTarget.getLocalName();
@@ -274,10 +313,8 @@ public class PlantUmlProperty {
 	}
 	
 	
-	
-	
 	// Principal
-	public PlantUmlProperty (Resource constraint) {
+	public PlantUmlProperty (Resource constraint, List<PlantUmlBox> allBoxes) {
 		
 		this.setValue_path(constraint);
 		this.setValue_datatype(constraint);
@@ -288,9 +325,9 @@ public class PlantUmlProperty {
 		this.setValue_pattern(constraint);		
 		this.setValue_language(constraint);		
 		this.setValue_uniquelang(constraint);		
-		this.setValue_node(constraint);
+		this.setValue_node(constraint, allBoxes);
 		this.setValue_class(constraint);
-		this.setValue_class_property(constraint);
+		this.setValue_class_property(constraint, allBoxes);
 		this.setValue_order_shacl(constraint);
 		this.setValue_hasValue(constraint);
 		

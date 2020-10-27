@@ -98,8 +98,7 @@ public class SourcePlantUml {
 	}
 	public void setUml_node(String uml_node, String uml_shape, String uml_path,String uml_datatype, String uml_literal,String uml_nodekind, String uml_pattern) {
 		String value = null;
-		if (uml_node != null) { //node 
-			
+		if (uml_node != null) {  			
 			value = uml_shape+ " --> " +"\""+uml_node+"\""+" : "+uml_path+uml_datatype+" "+uml_literal+" "+uml_pattern+" "+uml_nodekind(uml_nodekind)+"\n";            		
         	}		
 		this.uml_node = value;
@@ -119,10 +118,9 @@ public class SourcePlantUml {
 	}
 	public void setUml_class_property(String uml_class_property ,String uml_shape,String uml_path, String uml_literal, String uml_nodekind, String uml_pattern) {
 		String value = null;
-		if (uml_class_property != null) {
-			
-			value =  uml_shape+" --> "+"\""+uml_class_property+"\""+" : "+uml_path+uml_literal+" "+uml_pattern+" "+uml_nodekind+"\n";
-			
+		
+		if (uml_class_property != null) {			
+			value =  uml_shape+" --> "+"\""+uml_class_property+"\""+" : "+uml_path+uml_literal+" "+uml_pattern+" "+uml_nodekind+"\n";			
 		}
 		this.uml_class_property = value;
 	}
@@ -154,6 +152,13 @@ public class SourcePlantUml {
 	}
 	
 	public void codeuml(PlantUmlProperty plantUmlproperty, String nameshape) {
+		
+		// read file package 
+		
+		
+		
+		
+		
 		this.setUml_shape(nameshape);
 		this.setUml_path(plantUmlproperty.getValue_path());
 		this.setUml_datatype(plantUmlproperty.getValue_datatype());

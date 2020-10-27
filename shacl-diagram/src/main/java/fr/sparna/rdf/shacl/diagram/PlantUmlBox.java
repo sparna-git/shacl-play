@@ -20,10 +20,21 @@ import org.topbraid.shacl.vocabulary.SH;
 
 public class PlantUmlBox {
 	
-	//private Resource nodeShape;
+	private Resource nodeShape;
 	protected String nameshape;
 	List<PlantUmlProperty> shacl_value = new ArrayList<>();
 	protected String nametargetclass; 
+	protected String packageName;
+	
+	
+
+	public PlantUmlBox(Resource nodeShape) {  
+	    this.nodeShape = nodeShape;
+		this.setNameshape(nodeShape.getLocalName());
+		this.setPackageName(nodeShape);
+		this.setNametargetclass(nodeShape);	
+		
+	}
 	
 	public String getNameshape() {
 		return nameshape;
@@ -39,7 +50,7 @@ public class PlantUmlBox {
 	}
 	
 	
-	public void setProperties(Resource nodeShape) {
+	public void readProperties(Resource nodeShape, List<PlantUmlBox> allBoxes) {
 		
 		List<Statement> propertyStatements = nodeShape.listProperties(SH.property).toList();
 		List<PlantUmlProperty> shacl_value = new ArrayList<>();
@@ -51,15 +62,15 @@ public class PlantUmlBox {
 				}
 			
 			Resource propertyShape = object.asResource();			
-			PlantUmlProperty plantvalueproperty = new PlantUmlProperty(propertyShape);			
+			PlantUmlProperty plantvalueproperty = new PlantUmlProperty(propertyShape, allBoxes);			
 			shacl_value.add(plantvalueproperty);		
 		
 		}		
 		
-		
-		Comparator<PlantUmlProperty> a = Comparator.comparing(PlantUmlProperty::getValue_order_shacl)
-				.thenComparing(PlantUmlProperty::getValue_path);
-		
+		//Comparator<PlantUmlProperty> ashacl_value = Comparator.comparing(PlantUmlProperty::getValue_order_shacl)
+			//	.thenComparing(PlantUmlProperty::getValue_path);
+		 
+		 
 		this.shacl_value = shacl_value;	
 	}	
 	
@@ -73,15 +84,34 @@ public class PlantUmlBox {
 		this.nametargetclass = constargetclass.readValueconstraint(nodeShape, SH.targetClass);
 	}
 	
-
-	public PlantUmlBox(Resource nodeShape) {  
-	    
-		this.setNameshape(nodeShape.getLocalName());
-		this.setNametargetclass(nodeShape);
-		this.setProperties(nodeShape);		
+	public String getQualifiedName() {
 		
-		}	
+		return packageName+"."+this.nameshape;
+	}
+
+	public Resource getNodeShape() {
+		return nodeShape;
+	}
+
+	public void setNodeShape(Resource nodeShape) {
+		
+		
+		this.nodeShape = nodeShape;
+	}
 	
+	public String getPackageName() {
+		return packageName;
+	}
+
+	public void setPackageName(Resource nodeShape) {
+		String idpackage = "";
+		try {
+			idpackage = nodeShape.getProperty(nodeShape.getModel().createProperty("https://shacl-play.sparna.fr/ontology#package")).getResource().getLocalName();
+		} catch (Exception e) {
+			idpackage = "";
+		}
+		this.packageName = idpackage;
+	}
 	
 	
 	

@@ -231,7 +231,7 @@ public class PlantUmlProperty {
 		}
 		
 		if(theBox == null) {
-			// on ne l'a pas trouv�, on sort la valeur de sh:node
+			// on ne l'a pas trouv�, on sort la valeur de sh:node
 			this.value_node = nodeValue;
 		} else {
 			// 3. Lire le nom de la box avec son package devant
@@ -276,7 +276,7 @@ public class PlantUmlProperty {
 		}
 
 		if(theBox == null) {
-			// on ne l'a pas trouv�, on sort la valeur de sh:node
+			// on ne l'a pas trouv�, on sort la valeur de sh:node
 			this.value_class_property = value;
 		} else {
 			// 3. Lire le nom de la box avec son package devant
@@ -333,37 +333,75 @@ public class PlantUmlProperty {
 
 	public void setValue_qualifiedvalueshape(Resource constraint, List<PlantUmlBox> allBoxes) {
 		
-		String value  = null;
-		String s = null;
-		Resource valueShape = constraint.asResource().getPropertyResourceValue(SH.qualifiedValueShape);
-		// 1. Lire la valeur de sh:qualifiedValueShape
 		if (constraint.hasProperty(SH.qualifiedValueShape)) {
-			for (Resource parent : constraint.asResource().getModel().listSubjectsWithProperty(SH.property, constraint.asResource()).toList()) {
-				for(Resource ps : JenaUtil.getResourceProperties(parent, SH.property)) {
-					value = JenaUtil.getResourceProperties(ps, SH.qualifiedValueShape).toString();
-					s = ps.getLocalName();
-					if (ps.hasProperty(SH.class_))
-						siblings.addAll(JenaUtil.getResourceProperties(ps, SH.qualifiedValueShape));
+			Resource qualifiedValueShape = constraint.getPropertyResourceValue(SH.qualifiedValueShape);
+			
+			// Cas 1. : si la valeur est directement une référence à un NodeShape
+			boolean foundAsNodeShape = false;
+			for (PlantUmlBox aBox : allBoxes) {
+				if(aBox.getNodeShape().getURI().equals(qualifiedValueShape.getURI())) {
+					foundAsNodeShape = true;
+					break;
 				}
 			}
-			siblings.remove(valueShape);
 			
-	    // 		
+			// utilisation des streams
+//			if(allBoxes.stream().filter(box -> box.getNodeShape().getURI().equals(qualifiedValueShape.getURI())).findAny().isPresent()) {
+//				
+//			}
 			
-			Resource idclass = constraint.getProperty(SH.qualifiedValueShape).getResource();
-			List<Resource> nodetargets = constraint.asResource().getModel().listResourcesWithProperty(SH.class_,idclass).toList();
-			for(Resource nodeTarget : nodetargets) {
-				if(value != null) {
-					System.out.println("Problem !");
+			if(foundAsNodeShape) {
+				this.value_qualifiedvalueshape = qualifiedValueShape.getLocalName();
+			} else {
+				// Cas 2. : si la valeur a un sh:class, on cherche la NodeShape qui a un sh:targetClass qui a la même valeur que le sh:class
+				if(qualifiedValueShape.hasProperty(SH.class_)) {
+					Resource shclassValue = qualifiedValueShape.getPropertyResourceValue(SH.class_);
+					
+					List<Resource> nodetarget = constraint.getModel().listResourcesWithProperty(SH.targetClass,shclassValue).toList();
+					// Attention, s'il y a plusieurs valeurs, on ne sait en lire qu'une seule.
+					for(Resource nodeTarget : nodetarget) {
+						this.value_qualifiedvalueshape = nodeTarget.getLocalName();
+					}
+					
 				}
-				value = nodeTarget.getLocalName();				
 			}
-			
 		}
-	
+
 		
-		
-	this.value_qualifiedvalueshape = value_qualifiedvalueshape;
+//		String value  = null;
+//		String s = null;
+//		Resource valueShape = constraint.asResource().getPropertyResourceValue(SH.qualifiedValueShape);
+//		
+//		
+//		// 1. Lire la valeur de sh:qualifiedValueShape
+//		if (constraint.hasProperty(SH.qualifiedValueShape)) {
+//			//
+//			for (Resource parent : constraint.asResource().getModel().listSubjectsWithProperty(SH.property, constraint.asResource()).toList()) {
+//				for(Resource ps : JenaUtil.getResourceProperties(parent, SH.property)) {
+//					value = JenaUtil.getResourceProperties(ps, SH.qualifiedValueShape).toString();
+//					s = ps.getLocalName();
+//					if (ps.hasProperty(SH.class_))
+//						siblings.addAll(JenaUtil.getResourceProperties(ps, SH.qualifiedValueShape));
+//				}
+//			}
+//			siblings.remove(valueShape);
+//			
+//	    // 		
+//			
+//			Resource idclass = constraint.getProperty(SH.qualifiedValueShape).getResource();
+//			List<Resource> nodetargets = constraint.asResource().getModel().listResourcesWithProperty(SH.class_,idclass).toList();
+//			for(Resource nodeTarget : nodetargets) {
+//				if(value != null) {
+//					System.out.println("Problem !");
+//				}
+//				value = nodeTarget.getLocalName();				
+//			}
+//			
+//		}
+//	
+//		
+//		
+//	this.value_qualifiedvalueshape = value_qualifiedvalueshape;
 
 	} 
 	

@@ -10,6 +10,7 @@
     <name>SHACL-Play root pom</name>
 
     <modules>
+        <module>shacl-diagram</module>
         <module>shacl-validator</module>
         <module>shacl-printer</module>
         <module>shacl-play-app</module>
@@ -18,7 +19,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>1.8</java.version>
+        <java.version>11</java.version>
         <jena.version>3.11.0</jena.version>
         <jtwig.version>5.87.0.RELEASE</jtwig.version>
         <jackson.version>2.9.3</jackson.version>

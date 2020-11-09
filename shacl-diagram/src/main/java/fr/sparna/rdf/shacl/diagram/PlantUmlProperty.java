@@ -1,8 +1,10 @@
 package fr.sparna.rdf.shacl.diagram;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.jena.graph.Node;
@@ -15,6 +17,9 @@ import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.util.iterator.ExtendedIterator;
 import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.RDFS;
+import org.topbraid.jenax.util.JenaDatatypes;
+import org.topbraid.jenax.util.JenaUtil;
+import org.topbraid.shacl.arq.functions.HasShapeFunction;
 import org.topbraid.shacl.vocabulary.SH;
 
 public class PlantUmlProperty {
@@ -33,6 +38,9 @@ public class PlantUmlProperty {
 	protected String value_class_property;
 	protected String value_order_shacl;
 	protected String value_hasValue;
+	protected String value_qualifiedvalueshape;
+	protected String value_qualifiedMaxMinCount;
+	private Set<Resource> siblings = new HashSet<>();
 	
 	
 	ConstraintValueReader constraintValueReader = new ConstraintValueReader(); 
@@ -104,7 +112,7 @@ public class PlantUmlProperty {
 		
 		if (constraint.hasProperty(SH.minInclusive)) {
 			a1 = true;
-			value_minIn = "(range : ["+constraintValueReader.readValueconstraint(constraint, SH.minInclusive)+"-";			
+			value_minIn = "{field} (range : ["+constraintValueReader.readValueconstraint(constraint, SH.minInclusive)+"-";			
 		} 
 		if (constraint.hasProperty(SH.maxInclusive)){
 			a2 = true;
@@ -112,7 +120,7 @@ public class PlantUmlProperty {
 		} 
 		if (constraint.hasProperty(SH.minExclusive)){
 			a3 = true;
-			value_minEx = "(range : ]"+constraintValueReader.readValueconstraint(constraint,SH.minExclusive)+"-";			
+			value_minEx = "{field} (range : ]"+constraintValueReader.readValueconstraint(constraint,SH.minExclusive)+"-";			
 		} 
 		if(constraint.hasProperty(SH.maxExclusive)) {
 			a4 = true;
@@ -123,13 +131,13 @@ public class PlantUmlProperty {
 			uml_range = value_minIn+"*[";					
 		}
 		else if ((a2) & (!a1)) {
-			uml_range = "(range : ]*"+value_maxIn;
+			uml_range = "{field} (range : ]*"+value_maxIn;
 		}
 		else if ((a3) & (!a4)) {
 			uml_range = value_minEx+"*[)";
 		}
 		else if ((a4) & (!a3)) {
-			uml_range = "(range : ]*"+value_maxEx;
+			uml_range = "{field} (range : ]*"+value_maxEx;
 		} else {uml_range = null;}
 		
 		this.value_range = uml_range ;
@@ -156,7 +164,7 @@ public class PlantUmlProperty {
 		if ((constraint.hasProperty(SH.maxLength)) || (constraint.hasProperty(SH.minLength))){
 			if(value_minLength=="") { value_minLength = "0"; }
 			if(value_minLength=="") { value_minLength = "*"; }
-			uml_code = "(Length ["+value_minLength +".."+value_maxLength+"])";			
+			uml_code = "{field} (Length ["+value_minLength +".."+value_maxLength+"])";			
 		}
 		this.value_length = uml_code;
 	}
@@ -236,6 +244,7 @@ public class PlantUmlProperty {
 	}
 	public void setValue_class_property(Resource constraint, List<PlantUmlBox> allBoxes) {
 		String value = null;
+		
 		// 1. Lire la valeur de sh:node
 		if (constraint.hasProperty(SH.class_)) {
 			Resource idclass = constraint.getProperty(SH.class_).getResource();
@@ -250,6 +259,9 @@ public class PlantUmlProperty {
 			if(nodetargets.isEmpty()) {
 				if(idclass.hasProperty(RDF.type, RDFS.Class) && idclass.hasProperty(RDF.type, SH.NodeShape)) {
 					value = idclass.getLocalName();	
+				} 
+				else {   // Section quand il n'y a pas une targetClass
+					value = constraint.getProperty(SH.class_).getResource().getLocalName();
 				}
 			}
 		}
@@ -265,11 +277,13 @@ public class PlantUmlProperty {
 
 		if(theBox == null) {
 			// on ne l'a pas trouvé, on sort la valeur de sh:node
-			this.value_node = value;
+			this.value_class_property = value;
 		} else {
 			// 3. Lire le nom de la box avec son package devant
-			this.value_node = theBox.getQualifiedName();
+			this.value_class_property = theBox.getQualifiedName();
 		}
+		
+		
 		
 		
 		//this.value_class_property = value;
@@ -313,6 +327,73 @@ public class PlantUmlProperty {
 	}
 	
 	
+	public String getValue_qualifiedvalueshape() {
+		return value_qualifiedvalueshape;
+	}
+
+	public void setValue_qualifiedvalueshape(Resource constraint, List<PlantUmlBox> allBoxes) {
+		
+		String value  = null;
+		String s = null;
+		Resource valueShape = constraint.asResource().getPropertyResourceValue(SH.qualifiedValueShape);
+		// 1. Lire la valeur de sh:qualifiedValueShape
+		if (constraint.hasProperty(SH.qualifiedValueShape)) {
+			for (Resource parent : constraint.asResource().getModel().listSubjectsWithProperty(SH.property, constraint.asResource()).toList()) {
+				for(Resource ps : JenaUtil.getResourceProperties(parent, SH.property)) {
+					value = JenaUtil.getResourceProperties(ps, SH.qualifiedValueShape).toString();
+					s = ps.getLocalName();
+					if (ps.hasProperty(SH.class_))
+						siblings.addAll(JenaUtil.getResourceProperties(ps, SH.qualifiedValueShape));
+				}
+			}
+			siblings.remove(valueShape);
+			
+	    // 		
+			
+			Resource idclass = constraint.getProperty(SH.qualifiedValueShape).getResource();
+			List<Resource> nodetargets = constraint.asResource().getModel().listResourcesWithProperty(SH.class_,idclass).toList();
+			for(Resource nodeTarget : nodetargets) {
+				if(value != null) {
+					System.out.println("Problem !");
+				}
+				value = nodeTarget.getLocalName();				
+			}
+			
+		}
+	
+		
+		
+	this.value_qualifiedvalueshape = value_qualifiedvalueshape;
+
+	} 
+	
+	public String getValue_qualifiedMaxMinCount() {
+		return value_qualifiedMaxMinCount;
+	}
+
+	public void setValue_qualifiedMaxMinCount(Resource constraint) {
+		String qValuesMin = "";
+		String qValuesMax = "";
+		String value = "";
+		// 1. Lire la valeur de sh:node
+		if(constraint.hasProperty(SH.qualifiedMinCount)) {
+			qValuesMin = constraintValueReader.readValueconstraint(constraint, SH.qualifiedMinCount);			
+		} else if (constraint.hasProperty(SH.qualifiedMaxCount)) {
+			qValuesMax = constraintValueReader.readValueconstraint(constraint, SH.qualifiedMaxCount);
+		}
+		
+		if (qValuesMin!="") {
+			value = "["+qValuesMin+"]";
+		}
+		if(qValuesMax!="") {
+			value = "["+qValuesMax+"]";
+		}
+		
+		this.value_qualifiedMaxMinCount = value;
+		
+		
+	}
+
 	// Principal
 	public PlantUmlProperty (Resource constraint, List<PlantUmlBox> allBoxes) {
 		
@@ -330,6 +411,8 @@ public class PlantUmlProperty {
 		this.setValue_class_property(constraint, allBoxes);
 		this.setValue_order_shacl(constraint);
 		this.setValue_hasValue(constraint);
+		this.setValue_qualifiedvalueshape(constraint, allBoxes);
+		this.setValue_qualifiedMaxMinCount(constraint);
 		
 		
 	}

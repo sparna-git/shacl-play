@@ -16,6 +16,8 @@ public class SourcePlantUml {
 	protected String uml_class_property;
 	protected String uml_nodekind_pattern_uniquelang;
 	protected String uml_hasValue;
+	protected String uml_qualifiedvalueshape;
+	protected String uml_qualifiedMaxMinCount;
 	
 	
 	public String getUml_shape() {
@@ -48,10 +50,11 @@ public class SourcePlantUml {
 		return uml_nodekind;
 	}
 	public void setUml_nodekind(String uml_nodekind) {
+		String value = "";
 		if (uml_nodekind == null) {
-			uml_nodekind = "";
+			value = "";
 		}
-		this.uml_nodekind = uml_nodekind;
+		this.uml_nodekind = value;
 	}
 	public String getUml_literal() {				
 		return uml_literal;
@@ -77,11 +80,13 @@ public class SourcePlantUml {
 		return uml_pattern;
 	}
 	public void setUml_pattern(String uml_pattern, String uml_shape, String uml_path) {
+		String value = "";
 		if (uml_pattern != null) { //value pattern
-			uml_pattern = "("+uml_pattern+")";
-	}else {uml_pattern = "";}
-		this.uml_pattern = uml_pattern;
+			value = "("+uml_pattern+")";
+		}else {value = "";}
+		this.uml_pattern = value;
 	}
+	
 	public String getUml_uniquelang() {
 		return uml_uniquelang;
 	}
@@ -151,25 +156,47 @@ public class SourcePlantUml {
 		this.uml_hasValue = value;
 	}
 	
+	
+	
+	
+	public String getUml_qualifiedvalueshape() {
+		return uml_qualifiedvalueshape;
+	}
+	public void setUml_qualifiedvalueshape(String uml_qualifiedvalueshape, String uml_shape, String uml_path,String uml_datatype, String uml_literal,String uml_nodekind, String uml_pattern,String uml_qualifiedMinMaxCount) {
+		String value = null;
+		if (uml_qualifiedvalueshape != null) {  			
+			value = uml_shape+ " --> " +"\""+uml_qualifiedvalueshape+"\""+" : "+uml_path+uml_datatype+" "+uml_literal+" "+uml_pattern+" "+uml_nodekind(uml_nodekind)+" "+uml_qualifiedMinMaxCount+"\n";            		
+        	}		
+		this.uml_qualifiedvalueshape = value;
+	}
+	
+	public String getUml_qualifiedMaxMinCount() {
+		return uml_qualifiedMaxMinCount;
+	}
+	public void setUml_qualifiedMaxMinCount(String uml_qualifiedMaxMinCount) {
+		this.uml_qualifiedMaxMinCount = uml_qualifiedMaxMinCount;
+	}
+	
+	
 	public void codeuml(PlantUmlProperty plantUmlproperty, String nameshape) {
 		
 		// read file package 
-		
-		
-		
-		
 		
 		this.setUml_shape(nameshape);
 		this.setUml_path(plantUmlproperty.getValue_path());
 		this.setUml_datatype(plantUmlproperty.getValue_datatype());
 		this.setUml_literal(plantUmlproperty.getValue_cardinality(), plantUmlproperty.getValue_range(), plantUmlproperty.getValue_length());
 		this.setUml_nodekind(plantUmlproperty.getValue_nodeKind());
-		this.setUml_node(plantUmlproperty.getValue_node(), this.uml_shape, this.uml_path, this.uml_datatype, this.uml_literal,this.uml_nodekind,this.uml_pattern);
 		this.setUml_pattern(plantUmlproperty.getValue_pattern(),this.uml_shape, plantUmlproperty.getValue_path());
 		this.setUml_uniquelang(plantUmlproperty.getValue_uniquelang(),this.uml_shape, this.uml_path);
+		this.setUml_hasValue(plantUmlproperty.getValue_hasValue());
+		this.setUml_qualifiedMaxMinCount(plantUmlproperty.getValue_qualifiedMaxMinCount());
+		
+		this.setUml_node(plantUmlproperty.getValue_node(), this.uml_shape, this.uml_path, this.uml_datatype, this.uml_literal,this.uml_nodekind, this.getUml_pattern(false));
+		this.setUml_qualifiedvalueshape(plantUmlproperty.getValue_qualifiedvalueshape(), this.uml_shape, plantUmlproperty.getValue_path(), this.getUml_datatype(), this.getUml_literal(),this.getUml_nodekind(), this.getUml_pattern(false),this.uml_qualifiedMaxMinCount);
 		this.setUml_class(plantUmlproperty.getValue_class(),plantUmlproperty.getValue_class_property());
 		this.setUml_class_property(plantUmlproperty.getValue_class_property(),this.uml_shape,this.uml_path,this.uml_literal,this.uml_nodekind,this.uml_pattern);
-		this.setUml_hasValue(plantUmlproperty.getValue_hasValue());
+		
 	}
 	
 	 

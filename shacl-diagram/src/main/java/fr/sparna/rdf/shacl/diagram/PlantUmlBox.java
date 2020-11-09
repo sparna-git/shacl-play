@@ -70,6 +70,7 @@ public class PlantUmlBox {
 		//Comparator<PlantUmlProperty> ashacl_value = Comparator.comparing(PlantUmlProperty::getValue_order_shacl)
 			//	.thenComparing(PlantUmlProperty::getValue_path);
 		 
+		
 		 
 		this.shacl_value = shacl_value;	
 	}	

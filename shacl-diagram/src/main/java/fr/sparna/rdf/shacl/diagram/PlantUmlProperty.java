@@ -40,7 +40,6 @@ public class PlantUmlProperty {
 	protected String value_hasValue;
 	protected String value_qualifiedvalueshape;
 	protected String value_qualifiedMaxMinCount;
-	private Set<Resource> siblings = new HashSet<>();
 	
 	
 	ConstraintValueReader constraintValueReader = new ConstraintValueReader(); 
@@ -282,10 +281,6 @@ public class PlantUmlProperty {
 			// 3. Lire le nom de la box avec son package devant
 			this.value_class_property = theBox.getQualifiedName();
 		}
-		
-		
-		
-		
 		//this.value_class_property = value;
 	}
 	
@@ -332,7 +327,7 @@ public class PlantUmlProperty {
 	}
 
 	public void setValue_qualifiedvalueshape(Resource constraint, List<PlantUmlBox> allBoxes) {
-		
+		String value = null;
 		if (constraint.hasProperty(SH.qualifiedValueShape)) {
 			Resource qualifiedValueShape = constraint.getPropertyResourceValue(SH.qualifiedValueShape);
 			
@@ -360,49 +355,21 @@ public class PlantUmlProperty {
 					List<Resource> nodetarget = constraint.getModel().listResourcesWithProperty(SH.targetClass,shclassValue).toList();
 					// Attention, s'il y a plusieurs valeurs, on ne sait en lire qu'une seule.
 					for(Resource nodeTarget : nodetarget) {
-						this.value_qualifiedvalueshape = nodeTarget.getLocalName();
+						value = nodeTarget.getLocalName();
 					}
 					
+					/*if(nodetarget.isEmpty()) {
+						if(shclassValue.hasProperty(RDF.type, RDFS.Class) && shclassValue.hasProperty(RDF.type, SH.NodeShape)) {
+							value = shclassValue.getLocalName();	
+							} 
+							else {   // Section quand il n'y a pas une targetClass
+								value = shclassValue.getLocalName();  //constraint.getProperty(SH.class_).getResource().getLocalName();
+							}
+						}	*/				
 				}
 			}
 		}
-
-		
-//		String value  = null;
-//		String s = null;
-//		Resource valueShape = constraint.asResource().getPropertyResourceValue(SH.qualifiedValueShape);
-//		
-//		
-//		// 1. Lire la valeur de sh:qualifiedValueShape
-//		if (constraint.hasProperty(SH.qualifiedValueShape)) {
-//			//
-//			for (Resource parent : constraint.asResource().getModel().listSubjectsWithProperty(SH.property, constraint.asResource()).toList()) {
-//				for(Resource ps : JenaUtil.getResourceProperties(parent, SH.property)) {
-//					value = JenaUtil.getResourceProperties(ps, SH.qualifiedValueShape).toString();
-//					s = ps.getLocalName();
-//					if (ps.hasProperty(SH.class_))
-//						siblings.addAll(JenaUtil.getResourceProperties(ps, SH.qualifiedValueShape));
-//				}
-//			}
-//			siblings.remove(valueShape);
-//			
-//	    // 		
-//			
-//			Resource idclass = constraint.getProperty(SH.qualifiedValueShape).getResource();
-//			List<Resource> nodetargets = constraint.asResource().getModel().listResourcesWithProperty(SH.class_,idclass).toList();
-//			for(Resource nodeTarget : nodetargets) {
-//				if(value != null) {
-//					System.out.println("Problem !");
-//				}
-//				value = nodeTarget.getLocalName();				
-//			}
-//			
-//		}
-//	
-//		
-//		
-//	this.value_qualifiedvalueshape = value_qualifiedvalueshape;
-
+		this.value_qualifiedvalueshape = value;
 	} 
 	
 	public String getValue_qualifiedMaxMinCount() {
@@ -412,7 +379,7 @@ public class PlantUmlProperty {
 	public void setValue_qualifiedMaxMinCount(Resource constraint) {
 		String qValuesMin = "";
 		String qValuesMax = "";
-		String value = "";
+		String value = null;
 		// 1. Lire la valeur de sh:node
 		if(constraint.hasProperty(SH.qualifiedMinCount)) {
 			qValuesMin = constraintValueReader.readValueconstraint(constraint, SH.qualifiedMinCount);			

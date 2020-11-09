@@ -165,7 +165,7 @@ public class SourcePlantUml {
 	public void setUml_qualifiedvalueshape(String uml_qualifiedvalueshape, String uml_shape, String uml_path,String uml_datatype, String uml_literal,String uml_nodekind, String uml_pattern,String uml_qualifiedMinMaxCount) {
 		String value = null;
 		if (uml_qualifiedvalueshape != null) {  			
-			value = uml_shape+ " --> " +"\""+uml_qualifiedvalueshape+"\""+" : "+uml_path+uml_datatype+" "+uml_literal+" "+uml_pattern+" "+uml_nodekind(uml_nodekind)+" "+uml_qualifiedMinMaxCount+"\n";            		
+			value = uml_shape+ " --> " +"\""+uml_qualifiedvalueshape+"\""+" : "+uml_path+uml_datatype+" "+uml_qualifiedMinMaxCount+"\n";     // uml_literal+" "+uml_pattern+" "+uml_nodekind(uml_nodekind)+" "+      		
         	}		
 		this.uml_qualifiedvalueshape = value;
 	}

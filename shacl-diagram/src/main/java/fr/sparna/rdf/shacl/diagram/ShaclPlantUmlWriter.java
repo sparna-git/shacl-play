@@ -77,17 +77,23 @@ public class ShaclPlantUmlWriter {
 
 				if (codeuml.getUml_node() !=null) {
 					sourceuml.add(codeuml.getUml_node());
+					attribute = "";
 				}
 
 				if(codeuml.getUml_class_property() != null) {
 					sourceuml.add(codeuml.getUml_class_property());
+					attribute = "";
 				}
 				
 				if (codeuml.getUml_qualifiedvalueshape() !=null) {
 					sourceuml.add(codeuml.getUml_qualifiedvalueshape());
+					attribute = "";
 				}
 				
-				sourceuml.add(attribute);
+				if (attribute != "") {
+					sourceuml.add(attribute);
+				}
+				
 			}
 		}
 		

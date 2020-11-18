@@ -1,0 +1,16 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix ex: <http://exemple.com/> .
+
+ex:Agent a rdfs:Class, sh:NodeShape .
+
+# a class that is also a NodeShape and subclass of another class that is also a NodeShape
+ex:Person a rdfs:Class, sh:NodeShape ;
+	rdfs:subClassOf ex:Agent .
+
+# a class that is NOT a NodeShape and subclass of another class that is also a NodeShape
+# This one should not be displayed
+ex:Organization a rdfs:Class ;
+	rdfs:subClassOf ex:Agent ;

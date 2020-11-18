@@ -1,0 +1,9 @@
+@startuml
+class "ex:Agent"
+
+class "ex:Person"
+"ex:Person" --|> "ex:Agent"
+
+hide Circle
+hide empty members
+@enduml

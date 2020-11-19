@@ -1,8 +1,5 @@
 package fr.sparna.rdf.shacl.shaclplay.catalog.rules;
 
-import java.net.URI;
-import java.net.URL;
-import java.util.Date;
 import java.util.List;
 
 import fr.sparna.rdf.shacl.shaclplay.catalog.AbstractCatalogEntry;

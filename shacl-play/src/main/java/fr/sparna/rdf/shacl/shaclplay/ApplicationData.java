@@ -23,6 +23,9 @@ public class ApplicationData {
 	@Value("${shaclplay.baseUrl:#{null}}")
 	private String applicationBaseUrl;
 	
+	@Value("${shaclplay.validation.maxInputSize:500000}")
+	private int validationMaxInputSize;
+	
 	public ApplicationData() {
 		super();	
 	}
@@ -57,6 +60,14 @@ public class ApplicationData {
 
 	public void setLargeInputThreshold(int largeInputThreshold) {
 		this.largeInputThreshold = largeInputThreshold;
+	}
+
+	public int getValidationMaxInputSize() {
+		return validationMaxInputSize;
+	}
+
+	public void setValidationMaxInputSize(int validationMaxInputSize) {
+		this.validationMaxInputSize = validationMaxInputSize;
 	}
 	
 }

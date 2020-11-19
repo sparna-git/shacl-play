@@ -24,12 +24,22 @@
           <div class="card-header ${ report.globalSeverity.headerCssClass }">
 	      	<h3>
 	      	<@title.reportTitle 
+	      		hasMatched=report.validationReport.hasMatched()
 	      		violations=report.validationReport.numberOfViolations
 	      		warnings=report.validationReport.numberOfWarnings
 	      		infos=report.validationReport.numberOfInfos
 	      		others=report.validationReport.numberOfOthers
 	      	/>
 	      	</h3>
+	      	<#if report.validationReport.hasMatched() && report.validationReport.shapesWithNoMatch?size &gt; 0>
+		      	<small>Warning, following shapes did not match anything :
+		      	<ul>
+		      		<#list report.validationReport.shapesWithNoMatch as aShapeWithNoMatch>
+		      			<li>${aShapeWithNoMatch}</li>
+		      		</#list>
+		      	</ul>
+		      	</small>
+	      	</#if>
           </div>
           <div class="card-body">
             <ul style="list-style-type: none;">

@@ -61,7 +61,7 @@
 				
 				<h1 class="display-3"><fmt:message key="view.title" /></h1>	
 	 
-			  	<form id="upload_form" action="validate" method="POST" enctype="multipart/form-data" class="form-horizontal">
+			  	<form id="upload_form" action="view" method="POST" enctype="multipart/form-data" class="form-horizontal">
 				      
 					  
 

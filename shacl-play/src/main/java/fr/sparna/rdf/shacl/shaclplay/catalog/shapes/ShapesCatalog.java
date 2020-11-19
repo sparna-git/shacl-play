@@ -3,7 +3,9 @@ package fr.sparna.rdf.shacl.shaclplay.catalog.shapes;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShapesCatalog {
+import fr.sparna.rdf.shacl.shaclplay.catalog.Catalog;
+
+public class ShapesCatalog implements Catalog<ShapesCatalogEntry> {
 
 	protected List<ShapesCatalogEntry> entries;
 

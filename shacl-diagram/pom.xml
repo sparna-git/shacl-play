@@ -8,7 +8,7 @@
   <parent>
     <groupId>fr.sparna.rdf.shacl</groupId>
     <artifactId>shacl-play-root-pom</artifactId>
-    <version>0.2</version>
+    <version>0.3</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
 
@@ -17,10 +17,9 @@
       <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.7.0</version>
+          <version>3.8.1</version>
           <configuration>
-              <source>${java.version}</source>
-              <target>${java.version}</target>
+              <release>${java.version}</release>
           </configuration>
       </plugin>
     </plugins>

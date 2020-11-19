@@ -1,13 +1,10 @@
 package fr.sparna.rdf.shacl.shaclplay.convert;
 
-import java.io.IOException;
-import java.io.OutputStream;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,10 +18,8 @@ import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.riot.Lang;
-import org.apache.jena.riot.RDFDataMgr;
 import org.apache.jena.riot.RDFLanguages;
 import org.apache.jena.riot.RiotException;
-import org.apache.jena.util.FileUtils;
 import org.apache.jena.vocabulary.OWL;
 import org.apache.jena.vocabulary.RDFS;
 import org.owasp.encoder.Encode;
@@ -40,22 +35,13 @@ import org.springframework.web.servlet.ModelAndView;
 import org.topbraid.shacl.rules.RuleUtil;
 import org.topbraid.shacl.vocabulary.SH;
 
-import fr.sparna.rdf.shacl.closeShapes.CloseShapes;
-import fr.sparna.rdf.shacl.printer.report.SimpleCSVValidationResultWriter;
-import fr.sparna.rdf.shacl.printer.report.ValidationReport;
 import fr.sparna.rdf.shacl.shaclplay.ApplicationData;
 import fr.sparna.rdf.shacl.shaclplay.ControllerCommons;
-import fr.sparna.rdf.shacl.shaclplay.SessionData;
+import fr.sparna.rdf.shacl.shaclplay.ControllerModelFactory;
 import fr.sparna.rdf.shacl.shaclplay.catalog.rules.RulesCatalog;
 import fr.sparna.rdf.shacl.shaclplay.catalog.rules.RulesCatalogEntry;
 import fr.sparna.rdf.shacl.shaclplay.catalog.rules.RulesCatalogService;
-import fr.sparna.rdf.shacl.shaclplay.catalog.shapes.ShapesCatalog;
-import fr.sparna.rdf.shacl.shaclplay.catalog.shapes.ShapesCatalogEntry;
-import fr.sparna.rdf.shacl.shaclplay.catalog.shapes.ShapesCatalogService;
-import fr.sparna.rdf.shacl.validator.ShaclValidator;
-import fr.sparna.rdf.shacl.validator.ShaclValidatorAsync;
 import fr.sparna.rdf.shacl.validator.Slf4jProgressMonitor;
-import fr.sparna.rdf.shacl.validator.StringBufferProgressMonitor;
 
 
 @Controller
@@ -68,19 +54,6 @@ public class ConvertController {
 	
 	@Autowired
 	protected RulesCatalogService catalogService;
-	
-	private enum SOURCE_TYPE {
-		FILE,
-		URL,
-		INLINE
-	}
-	
-	private enum SHAPE_SOURCE_TYPE {
-		FILE,
-		URL,
-		INLINE,
-		CATALOG
-	}
 	
 	@RequestMapping(
 			value = {"convert"},
@@ -99,7 +72,7 @@ public class ConvertController {
 			RulesCatalogEntry entry = this.catalogService.getRulesCatalog().getCatalogEntryById(shapesCatalogId);
 
 			try {
-				shapesModel = ControllerCommons.loadModel(shapesModel, entry.getTurtleDownloadUrl());
+				shapesModel = ControllerCommons.populateModel(shapesModel, entry.getTurtleDownloadUrl());
 			} catch (RiotException e) {
 				return handleConvertFormError(request, e.getMessage(), e);
 			}
@@ -107,7 +80,7 @@ public class ConvertController {
 			// load data
 			URL actualUrl = new URL(url);
 			Model dataModel = ModelFactory.createDefaultModel();
-			ControllerCommons.loadModel(dataModel, actualUrl);
+			ControllerCommons.populateModel(dataModel, actualUrl);
 			String dataName = url.substring(url.lastIndexOf('/')+1, url.lastIndexOf('.'));
 			
 			// recompute permalink
@@ -194,163 +167,44 @@ public class ConvertController {
 			log.debug("convert(source='"+sourceString+"', shapeSourceString='"+shapesSourceString+"')");
 			
 			// get the source type
-			SOURCE_TYPE source = SOURCE_TYPE.valueOf(sourceString.toUpperCase());		
+			ControllerModelFactory.SOURCE_TYPE source = ControllerModelFactory.SOURCE_TYPE.valueOf(sourceString.toUpperCase());		
 			// get the shapes source type
-			SHAPE_SOURCE_TYPE shapesSource = SHAPE_SOURCE_TYPE.valueOf(shapesSourceString.toUpperCase());
+			ControllerModelFactory.SOURCE_TYPE shapesSource = ControllerModelFactory.SOURCE_TYPE.valueOf(shapesSourceString.toUpperCase());
 			
 			// initialize shapes first
 			log.debug("Determining Shapes source...");
 			Model shapesModel = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM);
-			String shapeName = "shapes";
-			switch(shapesSource) {
-				case FILE: {
-					// get uploaded file
-					if(shapesFiles.isEmpty()) {
-						return handleConvertFormError(request, "Uploaded shapes file is empty", null);
-					}
-					
-					log.debug("Shapes are in one or more uploaded file : "+shapesFiles.stream().map(f -> f.getOriginalFilename()).collect(Collectors.joining(", ")));			
-					try {
-						for (MultipartFile f : shapesFiles) {
-							
-							if(f.getOriginalFilename().endsWith("zip")) {
-								log.debug("Detected a zip extension");
-								ControllerCommons.populateModelFromZip(shapesModel, f.getInputStream());
-							} else {
-								ControllerCommons.populateModel(shapesModel, f.getInputStream(), FileUtils.guessLang(f.getOriginalFilename(), "RDF/XML"));
-							}
-							// shape name is name of file
-							shapeName = f.getOriginalFilename().substring(0, f.getOriginalFilename().lastIndexOf('.'));
-						}
-					} catch (RiotException e) {
-						return handleConvertFormError(request, e.getMessage(), e);
-					}
-
-					break;
-				}
-				case URL: {
-					log.debug("Shapes are in a URL "+shapesUrl);
-
-					URL actualUrl = new URL(shapesUrl);
-					shapesModel = ControllerCommons.loadModel(shapesModel, actualUrl);
-					// shape name is file part of URL
-					shapeName = url.substring(url.lastIndexOf('/')+1, url.lastIndexOf('.'));
-					
-					if(shapesModel.size() == 0) {
-						return new ModelAndView("convert-form", ConvertFormData.KEY, ConvertFormData.error("No data could be fetched from "+shapesUrl+"."));
-					}
-					
-					break;
-				}
-				case INLINE: {
-					log.debug("Shapes are given inline ");
-					
-					try {
-						shapesModel = ControllerCommons.loadModel(shapesModel, shapesText);
-						// shape name is "inline-shapes"
-						shapeName = "inline-shapes";
-					} catch (RiotException e) {
-						return handleConvertFormError(request, e.getMessage(), e);
-					}
-					
-					if(shapesModel.size() == 0) {
-						return new ModelAndView("convert-form", ConvertFormData.KEY, ConvertFormData.error("No data could be parsed from the input shapes text."));
-					}
-
-					break;
-				}
-				case CATALOG: {
-					log.debug("Shapes are from the catalog, ID : "+shapesCatalogId);
-					
-					RulesCatalogEntry entry = this.catalogService.getRulesCatalog().getCatalogEntryById(shapesCatalogId);
-
-					try {
-						shapesModel = ControllerCommons.loadModel(shapesModel, entry.getTurtleDownloadUrl());
-						// shape name is key from catalog
-						shapeName = shapesCatalogId;
-					} catch (RiotException e) {
-						return handleConvertFormError(request, e.getMessage(), e);
-					}
-					
-					if(shapesModel.size() == 0) {
-						return new ModelAndView("convert-form", ConvertFormData.KEY, ConvertFormData.error("No data could be fetched from "+entry.getTurtleDownloadUrl()+"."));
-					}
-
-					break;
-				}
-				default: {
-					return handleConvertFormError(request, "Cannot determine the source for shapes to use.", null);	
-				}
-			}
+			ControllerModelFactory modelPopulator = new ControllerModelFactory(this.catalogService.getRulesCatalog());
+			modelPopulator.populateModel(
+					shapesModel,
+					shapesSource,
+					shapesUrl,
+					shapesText,
+					shapesFiles,
+					shapesCatalogId
+			);			
+			String shapeName = modelPopulator.getSourceName();
 			log.debug("Done Loading Shapes. Model contains "+shapesModel.size()+" triples");
 			
 			log.debug("Determining Data source...");
 			Model dataModel = ModelFactory.createDefaultModel();
-			String dataName = "data";
-			switch(source) {
-			case FILE: {
-				// get uploaded file
-				if(files.isEmpty()) {
-					return handleConvertFormError(request, "Uploaded file is empty", null);
-				}
-				
-				log.debug("Data is in one or more uploaded file : "+files.stream().map(f -> f.getOriginalFilename()).collect(Collectors.joining(", ")));			
-				try {
-					for (MultipartFile f : files) {
-						if(f.getOriginalFilename().endsWith("zip")) {
-							log.debug("Detected a zip extension");
-							ControllerCommons.populateModelFromZip(dataModel, f.getInputStream());
-						} else {
-							ControllerCommons.populateModel(dataModel, f.getInputStream(), FileUtils.guessLang(f.getOriginalFilename(), "RDF/XML"));
-						}
-						// data name is name of file
-						dataName = f.getOriginalFilename().substring(0, f.getOriginalFilename().lastIndexOf('.'));
-					}
-				} catch (RiotException e) {
-					return handleConvertFormError(request, e.getMessage(), e);
-				}
-				break;
-			}
-			case INLINE: {
-				log.debug("Data is in an inline text");
-				
-				try {
-					dataModel = ControllerCommons.loadModel(dataModel, text);
-					// data name is "inline-data"
-					dataName = "inline-data";
-				} catch (RiotException e) {
-					return handleConvertFormError(request, e.getMessage(), e);
-				}
-				
-				if(dataModel.size() == 0) {
-					return new ModelAndView("convert-form", ConvertFormData.KEY, ConvertFormData.error("No data could be parsed from the input text."));
-				}
-				break;
-			}
-			case URL: {
-				log.debug("Data is in a URL "+url);
-				
-				URL actualUrl = new URL(url);
-				dataModel = ControllerCommons.loadModel(dataModel, actualUrl);
-				// data name is file part of URL
-				dataName = url.substring(url.lastIndexOf('/')+1, url.lastIndexOf('.'));
-				
-				if(dataModel.size() == 0) {
-					return new ModelAndView("convert-form", ConvertFormData.KEY, ConvertFormData.error("No data could be fetched from "+url+"."));
-				}
-				break;
-			}
-			default:
-				return handleConvertFormError(request, "Cannot determine the source for data to validate", null);	
-			}
+			modelPopulator.populateModel(
+					dataModel,
+					source,
+					url,
+					text,
+					files,
+					null
+			);
+			String dataName = modelPopulator.getSourceName();
 			log.debug("Done Loading Data to validate. Model contains "+dataModel.size()+" triples");
 			
 			// compute permalink only if we can
 			log.debug("Determining permalink...");
 			String permalink = null;
-			if(source == SOURCE_TYPE.URL) {
+			if(source == ControllerModelFactory.SOURCE_TYPE.URL) {
 				if(
-						shapesSource == SHAPE_SOURCE_TYPE.CATALOG
+						shapesSource == ControllerModelFactory.SOURCE_TYPE.CATALOG
 				) {
 					permalink = "convert?rules="+shapesCatalogId+"&url="+url;
 					log.debug("Permalink computed : "+permalink);

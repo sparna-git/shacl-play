@@ -7,11 +7,10 @@ import org.apache.jena.query.Query;
 import org.apache.jena.query.QueryExecution;
 import org.apache.jena.query.QueryExecutionFactory;
 import org.apache.jena.query.QueryFactory;
+import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.RDFNode;
-import org.apache.jena.rdf.model.ResIterator;
 import org.apache.jena.rdf.model.Resource;
-import org.apache.jena.rdf.model.ResourceFactory;
 import org.apache.jena.rdf.model.StmtIterator;
 import org.apache.jena.util.iterator.ExtendedIterator;
 import org.apache.jena.vocabulary.OWL;
@@ -21,30 +20,54 @@ import org.topbraid.shacl.vocabulary.SH;
 
 public class ShapeTargetValidator {
 	
-	public List<Resource> listShapesWithEmptyTargets(
-			Model shapeModel,
-			Model data
-	) {
-		List<Resource> result = new ArrayList<Resource>();
+	protected Model shapeModel;
+	protected Model data;
+	
+	private List<Resource> shapesWithEmptyTarget;
+	private boolean hasMatched = false;
+	
+	
+	
+	public ShapeTargetValidator(Model shapeModel, Model data) {
+		super();
+		this.shapeModel = shapeModel;
+		this.data = data;
+	}
+	
+	public void validate() {
+		
+		this.shapesWithEmptyTarget = new ArrayList<Resource>();
+		
 		// for each subject of a target predicate...
 		// ResIterator i = shapeModel.listResourcesWithProperty(RDF.type, ResourceFactory.createResource(SH.BASE_URI+"NodeShape"));
-		ExtendedIterator<Resource> i = shapeModel.listResourcesWithProperty(SH.targetNode)
+		List<Resource> shapes = shapeModel.listResourcesWithProperty(SH.targetNode)
 		.andThen(shapeModel.listResourcesWithProperty(SH.targetClass))
 		.andThen(shapeModel.listResourcesWithProperty(SH.targetSubjectsOf))
 		.andThen(shapeModel.listResourcesWithProperty(SH.targetObjectsOf))
 		.andThen(shapeModel.listResourcesWithProperty(RDF.type, RDFS.Class))
-		.andThen(shapeModel.listResourcesWithProperty(RDF.type, OWL.Class));
+		.andThen(shapeModel.listResourcesWithProperty(RDF.type, OWL.Class))
+		// generic SPARQL-based targets
+		.andThen(shapeModel.listResourcesWithProperty(SH.target)).toList();
 		
-		while(i.hasNext()) {
-			Resource r = i.next();
+		for (Resource r : shapes) {
 			boolean hasTarget = targetMatched(r, data);
 			if(!hasTarget) {
-				result.add(r);
+				shapesWithEmptyTarget.add(r);
+			} else {
+				// found at least one match, set flag to true
+				this.hasMatched = true;
 			}
 		}
-		return result;
 	}
 	
+	public List<Resource> getShapesWithEmptyTarget() {
+		return shapesWithEmptyTarget;
+	}
+
+	public boolean isHasMatched() {
+		return hasMatched;
+	}
+
 	private boolean targetMatched(Resource shape, Model data) {
 		Boolean hasTarget = false;
 		
@@ -87,6 +110,17 @@ public class ShapeTargetValidator {
 			}
 		}
 		
+		// * sh:target
+		it = shape.listProperties(SH.target);
+		while(it.hasNext()) {
+			Resource shTargetValue = it.next().getObject().asResource();
+			if(shTargetValue.hasProperty(SH.select)) {
+				if(findTargetSparql(shTargetValue.getProperty(SH.select).getObject().asLiteral().getLexicalForm(), data)) {
+					hasTarget = true;
+				}
+			}
+		}
+		
 		return hasTarget;
 	}
 
@@ -117,6 +151,17 @@ public class ShapeTargetValidator {
 	
 	private boolean findTargetObjectsOf(Resource targetObjectsOf, Model data) {
 		return data.contains(null, data.createProperty(targetObjectsOf.getURI()), (RDFNode)null);
+	}
+	
+	private boolean findTargetSparql(String sparql, Model data) {
+		Query query = QueryFactory.create(sparql) ;
+		try(QueryExecution qexec = QueryExecutionFactory.create(query, data)){
+			ResultSet result = qexec.execSelect();
+			return result.hasNext();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 	
 }

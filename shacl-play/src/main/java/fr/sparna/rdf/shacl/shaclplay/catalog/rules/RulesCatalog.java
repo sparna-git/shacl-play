@@ -3,7 +3,9 @@ package fr.sparna.rdf.shacl.shaclplay.catalog.rules;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RulesCatalog {
+import fr.sparna.rdf.shacl.shaclplay.catalog.Catalog;
+
+public class RulesCatalog implements Catalog<RulesCatalogEntry> {
 
 	protected List<RulesCatalogEntry> entries;
 

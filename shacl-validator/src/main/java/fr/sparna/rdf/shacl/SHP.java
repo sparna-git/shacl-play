@@ -6,4 +6,6 @@ public class SHP {
 	
 	public static final String TARGET_MATCHED = NAMESPACE+"targetMatched";
 	
+	public static final String HAS_MATCHED = NAMESPACE+"hasMatched";
+	
 }

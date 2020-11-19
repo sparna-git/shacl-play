@@ -19,6 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,6 +31,8 @@ import fr.sparna.rdf.shacl.printer.report.SimpleCSVValidationResultWriter;
 import fr.sparna.rdf.shacl.printer.report.ValidationReport;
 import fr.sparna.rdf.shacl.shaclplay.ApplicationData;
 import fr.sparna.rdf.shacl.shaclplay.ControllerCommons;
+import fr.sparna.rdf.shacl.shaclplay.ControllerModelException;
+import fr.sparna.rdf.shacl.shaclplay.ControllerModelFactory;
 import fr.sparna.rdf.shacl.shaclplay.SessionData;
 import fr.sparna.rdf.shacl.shaclplay.catalog.shapes.ShapesCatalog;
 import fr.sparna.rdf.shacl.shaclplay.catalog.shapes.ShapesCatalogEntry;
@@ -50,17 +53,35 @@ public class ValidateController {
 	@Autowired
 	protected ShapesCatalogService catalogService;
 	
-	private enum SOURCE_TYPE {
-		FILE,
-		URL,
-		INLINE
+	@RequestMapping(
+			value = {"{shapes}/badge"},
+			params={"url"},
+			method=RequestMethod.GET
+	)
+	public ModelAndView badge(
+			@RequestParam(value="url", required=true) String url,
+			@PathVariable("shapes") String shapesCatalogId,
+			@RequestParam(value="closeShapes", required=false) boolean closeShapes,
+			HttpServletRequest request,
+			HttpServletResponse response
+	){
+		return this.validate(url, shapesCatalogId, "badge", closeShapes, request, response);
 	}
 	
-	private enum SHAPE_SOURCE_TYPE {
-		FILE,
-		URL,
-		INLINE,
-		CATALOG
+	
+	@RequestMapping(
+			value = {"{shapes}/report"},
+			params={"url"},
+			method=RequestMethod.GET
+	)
+	public ModelAndView report(
+			@RequestParam(value="url", required=true) String url,
+			@PathVariable("shapes") String shapesCatalogId,
+			@RequestParam(value="closeShapes", required=false) boolean closeShapes,
+			HttpServletRequest request,
+			HttpServletResponse response
+	){
+		return this.validate(url, shapesCatalogId, null, closeShapes, request, response);
 	}
 	
 	@RequestMapping(
@@ -82,7 +103,7 @@ public class ValidateController {
 			ShapesCatalogEntry entry = this.catalogService.getShapesCatalog().getCatalogEntryById(shapesCatalogId);
 
 			try {
-				shapesModel = ControllerCommons.loadModel(shapesModel, entry.getTurtleDownloadUrl());
+				shapesModel = ControllerCommons.populateModel(shapesModel, entry.getTurtleDownloadUrl());
 			} catch (RiotException e) {
 				// TODO : return an API error
 				return handleValidateFormError(request, e.getMessage(), e);
@@ -91,7 +112,7 @@ public class ValidateController {
 			// load data
 			URL actualUrl = new URL(url);
 			Model dataModel = ModelFactory.createDefaultModel();
-			dataModel = ControllerCommons.loadModel(dataModel, actualUrl);
+			dataModel = ControllerCommons.populateModel(dataModel, actualUrl);
 			
 			// recompute permalink
 
@@ -127,6 +148,19 @@ public class ValidateController {
 		}
 	}
 
+	@RequestMapping(
+			value = {"{shapes}/validate"},
+			method=RequestMethod.GET
+	)
+	public ModelAndView validateFromShapeId(
+			@PathVariable("shapes") String shapesId,
+			HttpServletRequest request,
+			HttpServletResponse response
+	){
+		return this.validate(shapesId, request, response);
+	}
+	
+	
 	@RequestMapping(
 			value = {"validate"},
 			params={"shapes"},
@@ -198,150 +232,42 @@ public class ValidateController {
 			log.debug("closeSapes ? "+closeShapes);
 			
 			// get the source type
-			SOURCE_TYPE source = SOURCE_TYPE.valueOf(sourceString.toUpperCase());		
+			ControllerModelFactory.SOURCE_TYPE source = ControllerModelFactory.SOURCE_TYPE.valueOf(sourceString.toUpperCase());		
 			// get the shapes source type
-			SHAPE_SOURCE_TYPE shapesSource = SHAPE_SOURCE_TYPE.valueOf(shapesSourceString.toUpperCase());
+			ControllerModelFactory.SOURCE_TYPE shapesSource = ControllerModelFactory.SOURCE_TYPE.valueOf(shapesSourceString.toUpperCase());
 			
 			// initialize shapes first
 			log.debug("Determining Shapes source...");
 			Model shapesModel = ModelFactory.createDefaultModel();
-			switch(shapesSource) {
-				case FILE: {
-					// get uploaded file
-					if(shapesFiles.isEmpty()) {
-						return handleValidateFormError(request, "Uploaded shapes file is empty", null);
-					}
-					
-					log.debug("Shapes are in one or more uploaded file : "+shapesFiles.stream().map(f -> f.getOriginalFilename()).collect(Collectors.joining(", ")));			
-					try {
-						for (MultipartFile f : shapesFiles) {
-							
-							if(f.getOriginalFilename().endsWith("zip")) {
-								log.debug("Detected a zip extension");
-								ControllerCommons.populateModelFromZip(shapesModel, f.getInputStream());
-							} else {
-								ControllerCommons.populateModel(shapesModel, f.getInputStream(), FileUtils.guessLang(f.getOriginalFilename(), "RDF/XML"));
-							}
-							
-						}
-					} catch (RiotException e) {
-						return handleValidateFormError(request, e.getMessage(), e);
-					}
-
-					break;
-				}
-				case URL: {
-					log.debug("Shapes are in a URL "+shapesUrl);
-
-					URL actualUrl = new URL(shapesUrl);
-					shapesModel = ControllerCommons.loadModel(shapesModel, actualUrl);
-					
-					if(shapesModel.size() == 0) {
-						return new ModelAndView("validate-form", ValidateFormData.KEY, ValidateFormData.error("No data could be fetched from "+shapesUrl+"."));
-					}
-					
-					break;
-				}
-				case INLINE: {
-					log.debug("Shapes are given inline ");
-					
-					try {
-						shapesModel = ControllerCommons.loadModel(shapesModel, shapesText);
-					} catch (RiotException e) {
-						return handleValidateFormError(request, e.getMessage(), e);
-					}
-					
-					if(shapesModel.size() == 0) {
-						return new ModelAndView("validate-form", ValidateFormData.KEY, ValidateFormData.error("No data could be parsed from the input shapes text."));
-					}
-
-					break;
-				}
-				case CATALOG: {
-					log.debug("Shapes are from the catalog, ID : "+shapesCatalogId);
-					
-					ShapesCatalogEntry entry = this.catalogService.getShapesCatalog().getCatalogEntryById(shapesCatalogId);
-
-					try {
-						shapesModel = ControllerCommons.loadModel(shapesModel, entry.getTurtleDownloadUrl());
-					} catch (RiotException e) {
-						return handleValidateFormError(request, e.getMessage(), e);
-					}
-					
-					if(shapesModel.size() == 0) {
-						return new ModelAndView("validate-form", ValidateFormData.KEY, ValidateFormData.error("No data could be fetched from "+entry.getTurtleDownloadUrl()+"."));
-					}
-
-					break;
-				}
-				default: {
-					return handleValidateFormError(request, "Cannot determine the source for shapes to use.", null);	
-				}
-			}
+			ControllerModelFactory modelPopulator = new ControllerModelFactory(this.catalogService.getShapesCatalog());
+			modelPopulator.populateModel(
+					shapesModel,
+					shapesSource,
+					shapesUrl,
+					shapesText,
+					shapesFiles,
+					shapesCatalogId
+			);
 			log.debug("Done Loading Shapes. Model contains "+shapesModel.size()+" triples");
 			
 			log.debug("Determining Data source...");
 			Model dataModel = ModelFactory.createDefaultModel();
-			switch(source) {
-			case FILE: {
-				// get uploaded file
-				if(files.isEmpty()) {
-					return handleValidateFormError(request, "Uploaded file is empty", null);
-				}
-				
-				log.debug("Data is in one or more uploaded file : "+files.stream().map(f -> f.getOriginalFilename()).collect(Collectors.joining(", ")));			
-				try {
-					dataModel = ModelFactory.createDefaultModel();
-					for (MultipartFile f : files) {
-						if(f.getOriginalFilename().endsWith("zip")) {
-							log.debug("Detected a zip extension");
-							ControllerCommons.populateModelFromZip(dataModel, f.getInputStream());
-						} else {
-							ControllerCommons.populateModel(dataModel, f.getInputStream(), FileUtils.guessLang(f.getOriginalFilename(), "RDF/XML"));
-						}
-						
-					}
-				} catch (RiotException e) {
-					return handleValidateFormError(request, e.getMessage(), e);
-				}
-				break;
-			}
-			case INLINE: {
-				log.debug("Data is in an inline text");
-				
-				try {
-					dataModel = ControllerCommons.loadModel(dataModel, text);
-				} catch (RiotException e) {
-					return handleValidateFormError(request, e.getMessage(), e);
-				}
-				
-				if(dataModel.size() == 0) {
-					return new ModelAndView("validate-form", ValidateFormData.KEY, ValidateFormData.error("No data could be parsed from the input text."));
-				}
-				break;
-			}
-			case URL: {
-				log.debug("Data is in a URL "+url);
-				
-				URL actualUrl = new URL(url);
-				dataModel = ControllerCommons.loadModel(dataModel, actualUrl);
-				
-				if(dataModel.size() == 0) {
-					return new ModelAndView("validate-form", ValidateFormData.KEY, ValidateFormData.error("No data could be fetched from "+url+"."));
-				}
-				break;
-			}
-			default:
-				return handleValidateFormError(request, "Cannot determine the source for data to validate", null);	
-			}
+			modelPopulator.populateModel(
+					dataModel,
+					source,
+					url,
+					text,
+					files,
+					null
+			);
 			log.debug("Done Loading Data to validate. Model contains "+dataModel.size()+" triples");
 			
 			// compute permalink only if we can
 			log.debug("Determining permalink...");
 			PermalinkGenerator pGenerator = null;
-			if(source == SOURCE_TYPE.URL) {
+			if(source == ControllerModelFactory.SOURCE_TYPE.URL) {
 				if(
-						shapesSource == SHAPE_SOURCE_TYPE.CATALOG
+						shapesSource == ControllerModelFactory.SOURCE_TYPE.CATALOG
 				) {
 					pGenerator = new PermalinkGenerator(shapesCatalogId, url, closeShapes);
 					log.debug("Permalink computed : "+pGenerator.generatePermalink());
@@ -390,6 +316,10 @@ public class ValidateController {
 			boolean autoCloseShapes,
 			HttpServletRequest request
 	) throws Exception {
+		
+		if(dataModel.size() > applicationData.getValidationMaxInputSize()) {
+			throw new ControllerModelException("Input file is too large ("+dataModel.size()+" triples). Online validation form is limited to "+applicationData.getValidationMaxInputSize()+" triples");
+		}
 		
 		Model actualShapesModel = shapesModel;
 		if(autoCloseShapes) {
@@ -477,7 +407,7 @@ public class ValidateController {
 
 			response.flushBuffer();
 
-		} else if (format.equalsIgnoreCase("shields.io")) {
+		} else if (format.equalsIgnoreCase("badge")) {
 			response.addHeader("Content-Encoding", "UTF-8");	
 			response.setContentType("application/json");
 			ShieldsIoOutputFactory f = new ShieldsIoOutputFactory(results);

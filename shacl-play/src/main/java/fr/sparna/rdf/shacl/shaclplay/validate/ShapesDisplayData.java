@@ -142,6 +142,10 @@ public class ShapesDisplayData {
 	public String getPermalink() {
 		return (this.permalinkGenerator != null)?this.permalinkGenerator.generatePermalink():null;
 	}
+	
+	public String getBadgeLink() {
+		return (this.permalinkGenerator != null)?this.permalinkGenerator.generateBadgeLink():null;
+	}
 
 	public void setPermalinkGenerator(PermalinkGenerator permalinkGenerator) {
 		this.permalinkGenerator = permalinkGenerator;

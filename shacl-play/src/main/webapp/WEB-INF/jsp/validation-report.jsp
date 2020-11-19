@@ -42,10 +42,11 @@
 		       			<p><a href="${data.permalink}"><i class="fal fa-link"></i>&nbsp;Permalink to this report</a></p>
 		       		</c:if>
 		       		<c:if test="${not empty data.permalink}">
-		       			<c:url value="https://img.shields.io/endpoint" var="url">
-						  <c:param name="url" value="${data.permalink}&format=shields.io" />
+		       		
+		       			<c:url value="https://img.shields.io/endpoint" var="badgeUrl">
+						  <c:param name="url" value="${data.badgeLink}" />
 						</c:url>
-		       			<p><a href="#" data-toggle="modal" data-target="#mdModal"><i class="fal fa-badge-check"></i>&nbsp;Get your SHACL Play badge code</a> in Markdown or HTML. Or get the <a href="${url}">direct link to the badge</a> (this will trigger a new validation).</p>
+		       			<p><a href="#" data-toggle="modal" data-target="#mdModal"><i class="fal fa-badge-check"></i>&nbsp;Get your SHACL Play badge code</a> in Markdown or HTML. Or get the <a href="${badgeUrl}">direct link to the badge</a> (this will trigger a new validation).</p>
 		       			
 		       			<div class="modal fade" id="mdModal" tabindex="-1" role="dialog" aria-labelledby="mdModalLabel" aria-hidden="true">
 						  <div class="modal-dialog" role="document">
@@ -58,11 +59,11 @@
 						      </div>
 						      <div class="modal-body">
 						      	<h6>Markdown code</h6>
-						      	<pre style="white-space: pre-wrap;">[![SHACL Play Badge](${url})](${data.permalink})</pre>
+						      	<pre style="white-space: pre-wrap;">[![SHACL Play Badge](${badgeUrl})](${data.permalink})</pre>
 						      	<h6>HTML code</h6>
-						      	<pre style="white-space: pre-wrap;">&lt;a href="${data.permalink}"&gt;&lt;img src="${url}" /&gt;&lt;/a&gt;</pre>
+						      	<pre style="white-space: pre-wrap;">&lt;a href="${data.permalink}"&gt;&lt;img src="${badgeUrl}" /&gt;&lt;/a&gt;</pre>
 						      	<h6>JSON endpoint</h6>
-						      	Link to <a href="${data.permalink}&format=shields.io">validation results for shields.io in JSON</a>
+						      	Link to <a href="${data.badgeLink}">validation results for shields.io in JSON</a>
 						      </div>
 						      <div class="modal-footer">
 						        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

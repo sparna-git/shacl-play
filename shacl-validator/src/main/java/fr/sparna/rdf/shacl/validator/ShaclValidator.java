@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.apache.commons.compress.archivers.dump.DumpArchiveEntry.TYPE;
 import org.apache.jena.graph.Graph;
 import org.apache.jena.graph.compose.MultiUnion;
 import org.apache.jena.ontology.OntDocumentManager;
@@ -171,7 +172,7 @@ public class ShaclValidator {
 			log.info("Done validating data with "+dataModel.size()+" triples. Validation results contains "+results.size()+" triples.");
 			
 			if(this.validateShapesTargets) {
-				results.add(validateShapesTargets(dataModel));
+				validateShapesTargets(dataModel, results);
 			}
 			
 			return results;			
@@ -181,7 +182,7 @@ public class ShaclValidator {
 		}
 	}
 	
-	public Model validateShapesTargets(Model dataModel) throws ShaclValidatorException {
+	public void validateShapesTargets(Model dataModel, Model existingValidationReport) throws ShaclValidatorException {
 		
 		// recreate complete model by adding complimentary Model
 		Model validatedModel;
@@ -194,20 +195,25 @@ public class ShaclValidator {
 			validatedModel = dataModel;
 		}
 		
-		ShapeTargetValidator targetValidator = new ShapeTargetValidator();
-		List<Resource> shapesWithoutTarget = targetValidator.listShapesWithEmptyTargets(this.shapesModel, validatedModel);
+		ShapeTargetValidator targetValidator = new ShapeTargetValidator(this.shapesModel, validatedModel);
+		targetValidator.validate();
+		List<Resource> shapesWithoutTarget = targetValidator.getShapesWithEmptyTarget();
 		
-		Model resultModel = ModelFactory.createDefaultModel();
 		shapesWithoutTarget.forEach(aShapeWithoutTarget -> { 
 			log.debug("Shape "+aShapeWithoutTarget+" did not match any focus node");
-			resultModel.add(resultModel.createLiteralStatement(
+			existingValidationReport.add(existingValidationReport.createLiteralStatement(
 					aShapeWithoutTarget,
-					resultModel.createProperty(SHP.TARGET_MATCHED),
+					existingValidationReport.createProperty(SHP.TARGET_MATCHED),
 					false
 			));
 		});
 		
-		return resultModel;
+		existingValidationReport.add(existingValidationReport.createLiteralStatement(
+				existingValidationReport.listResourcesWithProperty(RDF.type, SH.ValidationReport).next(),
+				existingValidationReport.createProperty(SHP.HAS_MATCHED),
+				targetValidator.isHasMatched()
+		));
+		
 	}
 
 	public ProgressMonitor getProgressMonitor() {

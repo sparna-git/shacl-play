@@ -1,5 +1,6 @@
 package fr.sparna.rdf.shacl.shaclplay.view;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,11 +23,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import fr.sparna.rdf.shacl.diagram.OutFileSVGUml;
+import fr.sparna.rdf.shacl.diagram.ShaclPlantUmlWriter;
 import fr.sparna.rdf.shacl.shaclplay.ApplicationData;
 import fr.sparna.rdf.shacl.shaclplay.ControllerCommons;
+import fr.sparna.rdf.shacl.shaclplay.ControllerModelFactory;
 import fr.sparna.rdf.shacl.shaclplay.catalog.shapes.ShapesCatalog;
 import fr.sparna.rdf.shacl.shaclplay.catalog.shapes.ShapesCatalogEntry;
 import fr.sparna.rdf.shacl.shaclplay.catalog.shapes.ShapesCatalogService;
+import fr.sparna.rdf.shacl.shaclplay.validate.ValidateFormData;
+import net.sourceforge.plantuml.FileFormat;
+import net.sourceforge.plantuml.FileFormatOption;
+import net.sourceforge.plantuml.SourceStringReader;
 
 
 @Controller
@@ -39,13 +47,6 @@ public class ViewController {
 	
 	@Autowired
 	protected ShapesCatalogService catalogService;
-	
-	private enum SHAPE_SOURCE_TYPE {
-		FILE,
-		URL,
-		INLINE,
-		CATALOG
-	}
 
 	@RequestMapping(
 			value = {"view"},
@@ -60,15 +61,39 @@ public class ViewController {
 		ShapesCatalog catalog = this.catalogService.getShapesCatalog();
 		vfd.setCatalog(catalog);
 		
-		return new ModelAndView("validate-form", ViewFormData.KEY, vfd);	
+		return new ModelAndView("view-form", ViewFormData.KEY, vfd);	
+	}
+	
+	@RequestMapping(
+			value = {"view"},
+			params={"url"},
+			method=RequestMethod.GET
+	)
+	public ModelAndView viewUrl(
+			@RequestParam(value="url", required=true) String shapesUrl,
+			HttpServletRequest request,
+			HttpServletResponse response
+	){
+		try {
+			log.debug("viewUrl(shapesUrl='"+shapesUrl+"')");
+			Model shapesModel = ModelFactory.createDefaultModel();
+			ControllerModelFactory modelPopulator = new ControllerModelFactory(this.catalogService.getShapesCatalog());
+			modelPopulator.populateModelFromUrl(shapesModel, shapesUrl);
+			log.debug("Done Loading Shapes. Model contains "+shapesModel.size()+" triples");
+			doOutputDiagram(shapesModel, response);
+			return null;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return handleViewFormError(request, e.getClass().getName() +" : "+e.getMessage(), e);
+		}
 	}
 	
 	@RequestMapping(
 			value="/view",
-			params={"source"},
+			params={"shapesSource"},
 			method = RequestMethod.POST
 	)
-	public ModelAndView validate(
+	public ModelAndView view(
 			// radio box indicating type of shapes
 			@RequestParam(value="shapesSource", required=true) String shapesSourceString,
 			// reference to Shapes URL if shapeSource=sourceShape-inputShapeUrl
@@ -79,98 +104,50 @@ public class ViewController {
 			@RequestParam(value="inputShapeFile", required=false) List<MultipartFile> shapesFiles,
 			// inline Shapes if shapeSource=sourceShape-inputShapeInline
 			@RequestParam(value="inputShapeInline", required=false) String shapesText,
-			HttpServletRequest request
+			HttpServletRequest request,
+			HttpServletResponse response
 	) {
 		try {
 			log.debug("view(shapeSourceString='"+shapesSourceString+"')");
 			
 			// get the shapes source type
-			SHAPE_SOURCE_TYPE shapesSource = SHAPE_SOURCE_TYPE.valueOf(shapesSourceString.toUpperCase());
+			ControllerModelFactory.SOURCE_TYPE shapesSource = ControllerModelFactory.SOURCE_TYPE.valueOf(shapesSourceString.toUpperCase());
 			
 			// initialize shapes first
 			log.debug("Determining Shapes source...");
 			Model shapesModel = ModelFactory.createDefaultModel();
-			switch(shapesSource) {
-				case FILE: {
-					// get uploaded file
-					if(shapesFiles.isEmpty()) {
-						return handleViewFormError(request, "Uploaded shapes file is empty", null);
-					}
-					
-					log.debug("Shapes are in one or more uploaded file : "+shapesFiles.stream().map(f -> f.getOriginalFilename()).collect(Collectors.joining(", ")));			
-					try {
-						for (MultipartFile f : shapesFiles) {
-							
-							if(f.getOriginalFilename().endsWith("zip")) {
-								log.debug("Detected a zip extension");
-								ControllerCommons.populateModelFromZip(shapesModel, f.getInputStream());
-							} else {
-								ControllerCommons.populateModel(shapesModel, f.getInputStream(), FileUtils.guessLang(f.getOriginalFilename(), "RDF/XML"));
-							}
-							
-						}
-					} catch (RiotException e) {
-						return handleViewFormError(request, e.getMessage(), e);
-					}
-
-					break;
-				}
-				case URL: {
-					log.debug("Shapes are in a URL "+shapesUrl);
-
-					URL actualUrl = new URL(shapesUrl);
-					shapesModel = ControllerCommons.loadModel(shapesModel, actualUrl);
-					
-					if(shapesModel.size() == 0) {
-						return new ModelAndView("validate-form", ViewFormData.KEY, ViewFormData.error("No data could be fetched from "+shapesUrl+"."));
-					}
-					
-					break;
-				}
-				case INLINE: {
-					log.debug("Shapes are given inline ");
-					
-					try {
-						shapesModel = ControllerCommons.loadModel(shapesModel, shapesText);
-					} catch (RiotException e) {
-						return handleViewFormError(request, e.getMessage(), e);
-					}
-					
-					if(shapesModel.size() == 0) {
-						return new ModelAndView("validate-form", ViewFormData.KEY, ViewFormData.error("No data could be parsed from the input shapes text."));
-					}
-
-					break;
-				}
-				case CATALOG: {
-					log.debug("Shapes are from the catalog, ID : "+shapesCatalogId);
-					
-					ShapesCatalogEntry entry = this.catalogService.getShapesCatalog().getCatalogEntryById(shapesCatalogId);
-
-					try {
-						shapesModel = ControllerCommons.loadModel(shapesModel, entry.getTurtleDownloadUrl());
-					} catch (RiotException e) {
-						return handleViewFormError(request, e.getMessage(), e);
-					}
-					
-					if(shapesModel.size() == 0) {
-						return new ModelAndView("validate-form", ViewFormData.KEY, ViewFormData.error("No data could be fetched from "+entry.getTurtleDownloadUrl()+"."));
-					}
-
-					break;
-				}
-				default: {
-					return handleViewFormError(request, "Cannot determine the source for shapes to use.", null);	
-				}
-			}
+			ControllerModelFactory modelPopulator = new ControllerModelFactory(this.catalogService.getShapesCatalog());
+			modelPopulator.populateModel(
+					shapesModel,
+					shapesSource,
+					shapesUrl,
+					shapesText,
+					shapesFiles,
+					shapesCatalogId
+			);
 			log.debug("Done Loading Shapes. Model contains "+shapesModel.size()+" triples");
 			
+			doOutputDiagram(shapesModel, response);
 			return null;
+			
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 			return handleViewFormError(request, e.getClass().getName() +" : "+e.getMessage(), e);
 		}
+	}
+	
+	protected void doOutputDiagram(
+			Model shapesModel,
+			HttpServletResponse response
+	) throws IOException {
+		ShaclPlantUmlWriter writer = new ShaclPlantUmlWriter();
+		String plantumlString = writer.writeInPlantUml(shapesModel);
+		
+		response.setContentType("image/svg+xml");
+		
+		SourceStringReader reader = new SourceStringReader(plantumlString);
+		reader.generateImage(response.getOutputStream(), new FileFormatOption(FileFormat.SVG));
 	}
 		
 	/**

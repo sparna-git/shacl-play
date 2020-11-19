@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -13,7 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
 import org.apache.jena.riot.RDFLanguages;
@@ -22,6 +22,8 @@ import org.apache.jena.util.FileUtils;
 import org.apache.jena.vocabulary.RDF;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonGenerationException;
@@ -32,7 +34,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 
 public class ControllerCommons {
 	
-	private static Logger log = LoggerFactory.getLogger(ControllerCommons.class.getName());
+	private static Logger log = LoggerFactory.getLogger(ControllerCommons.class.getName());	
 	
 	public static Model populateModel(Model model, InputStream in, String lang) throws RiotException {
 		try {
@@ -43,21 +45,12 @@ public class ControllerCommons {
 		}
 	}
 	
-	public static Model loadModel(InputStream in, String lang) throws RiotException {
-		try {
-			Model model = ModelFactory.createDefaultModel();
-			model.read(in, RDF.getURI(), lang);
-			return model;
-		} finally {
-			if(in != null) { try {in.close();} catch(Exception e) {}}
-		}
-	}
-	
-	public static Model loadModel(Model model, URL url) throws RiotException, IOException {
+	public static Model populateModel(Model model, URL url) throws RiotException, IOException {
 		try {
 			// uses conneg to determine parser or can guess it from extension
 			model.read(url.toString());
 		} catch (Exception e) {
+			// default to Turtle to be able to parse catalog entries without ttl extension at the end
 			log.debug("Simple read() failed based on conneg, will use "+ RDFLanguages.filenameToLang(url.getFile(), Lang.TURTLE)+" RDF language");  
 			RDFDataMgr.read(
 					model,
@@ -69,7 +62,7 @@ public class ControllerCommons {
 		return model;
 	}
 	
-	public static Model loadModel(Model model, String inlineRdf) throws RiotException {
+	public static Model populateModel(Model model, String inlineRdf) throws RiotException {
 		ByteArrayInputStream is = new ByteArrayInputStream(inlineRdf.getBytes());
 		
 		Lang[] supportedLangs = new Lang[] { Lang.TURTLE, Lang.RDFXML, Lang.NT, Lang.NQUADS, Lang.JSONLD, Lang.TRIG, Lang.TRIX };
@@ -128,8 +121,13 @@ public class ControllerCommons {
 	    			// read in temporary byte array otherwise model.read closes the stream !
 	    			byte[] buffer = zis.readAllBytes();
 	    			ByteArrayInputStream bais = new ByteArrayInputStream(buffer);
-	    			model.read(bais, RDF.getURI(), FileUtils.guessLang(entry.getName(), "RDF/XML"));
-	    			log.debug("Success");  
+	    			try {
+						model.read(bais, RDF.getURI(), FileUtils.guessLang(entry.getName(), "RDF/XML"));
+						log.debug("Success");
+					} catch (Exception e) {
+						log.warn("Failed reading zip entry : "+entry.getName()+", error is "+e.getMessage()+", skipping.");
+					}
+	    			
 	    		}            
 	        }
     	}

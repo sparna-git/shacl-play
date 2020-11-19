@@ -90,37 +90,34 @@ public class PrintableValidationReport {
 	}
 
 	public SeverityDisplayLevel getGlobalSeverity() {
-		// by default this is unchecked
 		SeverityDisplayLevel result = SeverityDisplayLevel.UNCHECKED;
 		
+		// if nothing matched this is unchecked
+		if(!this.validationReport.hasMatched()) {
+			result = SeverityDisplayLevel.UNCHECKED;
+		} else {
+			if(this.validationReport.isConformant()) {
+				result = SeverityDisplayLevel.SUCCESS;
+			}
+			
+			// first look for info
+			if(this.validationReport.resultsModel.contains(null, SH.resultSeverity, SH.Info)) {
+				result = SeverityDisplayLevel.INFO;
+			}
+			// then warning
+			if(this.validationReport.resultsModel.contains(null, SH.resultSeverity, SH.Warning)) {
+				result = SeverityDisplayLevel.WARNING;
+			}
+			// then violation
+			if(this.validationReport.resultsModel.contains(null, SH.resultSeverity, SH.Violation)) {
+				result = SeverityDisplayLevel.VIOLATION;
+			}					
+		}	
 		
-		if(this.validationReport.isConformant()) {
-			result = SeverityDisplayLevel.SUCCESS;
-		}
-		
-//		// if at least one Shape was successfully checked, result is success by default
-//		for (NodeShape s : shapes.getShapes()) {
-//			if(s.hasMatchedTargets()) {
-//				result = SeverityDisplayLevel.SUCCESS;
-//			}
-//		}
-		
-		// first look for info
-		if(this.validationReport.resultsModel.contains(null, SH.resultSeverity, SH.Info)) {
-			result = SeverityDisplayLevel.INFO;
-		}
-		if(this.validationReport.resultsModel.contains(null, SH.resultSeverity, SH.Warning)) {
-			result = SeverityDisplayLevel.WARNING;
-		}
-		if(this.validationReport.resultsModel.contains(null, SH.resultSeverity, SH.Violation)) {
-			result = SeverityDisplayLevel.VIOLATION;
-		}
-		
-		return result;		
+		return result;
 	}
 	
 	public String printHeaderLine(int numberOfViolations, int numberOfWarnings, int numberOfInfos, int numberOfOthers) {
-		System.out.println("Hop");
 		StringBuffer buffer = new StringBuffer();
 		if(numberOfViolations > 0) {
 			buffer.append(numberOfViolations+" Violation"+((numberOfViolations > 1)?"s":""));

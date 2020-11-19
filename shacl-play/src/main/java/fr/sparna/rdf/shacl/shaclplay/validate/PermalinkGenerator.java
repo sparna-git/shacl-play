@@ -26,7 +26,19 @@ public class PermalinkGenerator {
 
 	public String generatePermalink() {
 		if(this.dataUrl != null && this.shapesCatalogId != null) {
-			String permalink = "validate?shapes="+shapesCatalogId+"&url="+dataUrl;
+			String permalink = shapesCatalogId+"/report?url="+dataUrl;
+			if(closeShapes)  {
+				permalink += "&closeShapes=true";
+			}
+			return "https://shacl-play.sparna.fr/play/"+permalink;
+		} else {
+			return null;
+		}
+	}
+	
+	public String generateBadgeLink() {
+		if(this.dataUrl != null && this.shapesCatalogId != null) {
+			String permalink = shapesCatalogId+"/badge?url="+dataUrl;
 			if(closeShapes)  {
 				permalink += "&closeShapes=true";
 			}

@@ -14,3 +14,4 @@ ex:Person a rdfs:Class, sh:NodeShape ;
 # This one should not be displayed
 ex:Organization a rdfs:Class ;
 	rdfs:subClassOf ex:Agent ;
+	.

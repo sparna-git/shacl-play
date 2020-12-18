@@ -50,7 +50,8 @@
 				dom: 'Bfrtip',
 		        buttons: [
 		            'copy', 'csv'
-		        ]
+		        ],
+		        "pageLength": 100
 		} );
 	});
 </script>

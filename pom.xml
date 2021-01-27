@@ -4,7 +4,7 @@
 
     <groupId>fr.sparna.rdf.shacl</groupId>
     <artifactId>shacl-play-root-pom</artifactId>
-    <version>0.3</version>
+    <version>0.4</version>
     <packaging>pom</packaging>
 
     <name>SHACL-Play root pom</name>
@@ -19,12 +19,32 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>11</java.version>
+        <java.version>8</java.version>
         <jena.version>3.11.0</jena.version>
         <jtwig.version>5.87.0.RELEASE</jtwig.version>
         <jackson.version>2.11.3</jackson.version>
         <!-- library versions -->
     </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-eclipse-plugin</artifactId>
+                <configuration>
+                    <additionalConfig>
+                        <file>
+                            <name>.settings/org.eclipse.core.resources.prefs</name>
+                            <content><![CDATA[
+encoding/<project>=${project.build.sourceEncoding}
+eclipse.preferences.version=1
+    ]]></content>
+                        </file>
+                    </additionalConfig>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
     <dependencyManagement>
         <dependencies>

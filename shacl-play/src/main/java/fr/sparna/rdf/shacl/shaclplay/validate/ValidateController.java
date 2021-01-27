@@ -3,7 +3,6 @@ package fr.sparna.rdf.shacl.shaclplay.validate;
 import java.io.OutputStream;
 import java.net.URL;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,7 +12,6 @@ import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFLanguages;
 import org.apache.jena.riot.RiotException;
-import org.apache.jena.util.FileUtils;
 import org.owasp.encoder.Encode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,14 +56,14 @@ public class ValidateController {
 			params={"url"},
 			method=RequestMethod.GET
 	)
-	public ModelAndView badge(
+	public ModelAndView badgeFromShapeId(
 			@RequestParam(value="url", required=true) String url,
 			@PathVariable("shapes") String shapesCatalogId,
 			@RequestParam(value="closeShapes", required=false) boolean closeShapes,
 			HttpServletRequest request,
 			HttpServletResponse response
 	){
-		return this.validate(url, shapesCatalogId, "badge", closeShapes, request, response);
+		return this.validateFromFromShapesId(url, shapesCatalogId, "badge", closeShapes, request, response);
 	}
 	
 	
@@ -74,22 +72,54 @@ public class ValidateController {
 			params={"url"},
 			method=RequestMethod.GET
 	)
-	public ModelAndView report(
+	public ModelAndView reportFromShapeId(
 			@RequestParam(value="url", required=true) String url,
 			@PathVariable("shapes") String shapesCatalogId,
 			@RequestParam(value="closeShapes", required=false) boolean closeShapes,
 			HttpServletRequest request,
 			HttpServletResponse response
 	){
-		return this.validate(url, shapesCatalogId, null, closeShapes, request, response);
+		return this.validateFromFromShapesId(url, shapesCatalogId, null, closeShapes, request, response);
+	}	
+
+	@RequestMapping(
+			value = {"{shapes}/validate"},
+			method=RequestMethod.GET
+	)
+	public ModelAndView validateFromShapeId(
+			@PathVariable("shapes") String shapesId,
+			HttpServletRequest request,
+			HttpServletResponse response
+	){
+		return this.validate(shapesId, request, response);
 	}
 	
+	
+	@RequestMapping(
+			value = {"/badge"},
+			params={"url", "shapesUrl"},
+			method=RequestMethod.GET
+	)
+	public ModelAndView badgeFromShapeUrl(
+			@RequestParam(value="url", required=true) String url,
+			@RequestParam("shapesUrl") String shapesUrl,
+			@RequestParam(value="closeShapes", required=false) boolean closeShapes,
+			HttpServletRequest request,
+			HttpServletResponse response
+	){
+		return this.validateFromFromShapesUrl(url, shapesUrl, "badge", closeShapes, request, response);
+	}
+	
+	
+	/**
+	 * Permalink to validation report. Triggers validation synchroniously. Called by other API methods
+	 */
 	@RequestMapping(
 			value = {"validate"},
 			params={"url", "shapes"},
 			method=RequestMethod.GET
 	)
-	public ModelAndView validate(
+	public ModelAndView validateFromFromShapesId(
 			@RequestParam(value="url", required=true) String url,
 			@RequestParam(value="shapes", required=true) String shapesCatalogId,
 			@RequestParam(value="format", required=false) String format,
@@ -113,13 +143,18 @@ public class ValidateController {
 			URL actualUrl = new URL(url);
 			Model dataModel = ModelFactory.createDefaultModel();
 			dataModel = ControllerCommons.populateModel(dataModel, actualUrl);
-			
-			// recompute permalink
 
+			// do actual validation, _not_ asynchronously
+			Model results = doValidate(
+					shapesModel,
+					dataModel,
+					// asynchronous flag
+					false,
+					closeShapes,
+					request
+			);		
 			
-			// not for a human client
-			Model results = doValidate(shapesModel, dataModel, false, closeShapes, request);		
-			
+			// if for a human client...
 			if(format == null || format.equals("html")) {
 				// stores results in the session to access them further when downloading, etc.
 				SessionData sd = new SessionData();
@@ -134,11 +169,12 @@ public class ValidateController {
 						dataModel,
 						shapesModel,
 						results,
-						new PermalinkGenerator(shapesCatalogId, url, closeShapes)
+						new PermalinkGenerator(shapesCatalogId, actualUrl, closeShapes)
 				);
 	
 				return new ModelAndView("validation-report", ShapesDisplayData.KEY, sdd);
 			} else {
+				// not for a human client
 				this.writeValidationReport(results, shapesModel, response, format);
 				return null;
 			}
@@ -148,19 +184,84 @@ public class ValidateController {
 		}
 	}
 
+	
+	/**
+	 * Permalink to validation report from a shapesUrl. Triggers validation synchroniously. Called by other API methods
+	 */
 	@RequestMapping(
-			value = {"{shapes}/validate"},
+			value = {"validate"},
+			params={"url", "shapesUrl"},
 			method=RequestMethod.GET
 	)
-	public ModelAndView validateFromShapeId(
-			@PathVariable("shapes") String shapesId,
+	public ModelAndView validateFromFromShapesUrl(
+			@RequestParam(value="url", required=true) String url,
+			@RequestParam(value="shapesUrl", required=true) String shapesUrl,
+			@RequestParam(value="format", required=false) String format,
+			@RequestParam(value="closeShapes", required=false) boolean closeShapes,
 			HttpServletRequest request,
 			HttpServletResponse response
 	){
-		return this.validate(shapesId, request, response);
+		try {
+			// load shapes
+			Model shapesModel = ModelFactory.createDefaultModel();
+			
+			try {
+				shapesModel = ControllerCommons.populateModel(shapesModel, new URL(shapesUrl));
+			} catch (RiotException e) {
+				// TODO : return an API error
+				return handleValidateFormError(request, e.getMessage(), e);
+			}
+			
+			// load data
+			URL actualUrl = new URL(url);
+			Model dataModel = ModelFactory.createDefaultModel();
+			dataModel = ControllerCommons.populateModel(dataModel, actualUrl);
+
+			// do actual validation, _not_ asynchronously
+			Model results = doValidate(
+					shapesModel,
+					dataModel,
+					// asynchronous flag
+					false,
+					closeShapes,
+					request
+			);		
+			
+			// if for a human client...
+			if(format == null || format.equals("html")) {
+				// stores results in the session to access them further when downloading, etc.
+				SessionData sd = new SessionData();
+				sd.setResults(results);
+				sd.setShapesGraph(new ShapesGraph(shapesModel));
+				sd.setValidatedData(dataModel);
+				sd.store(request.getSession());
+	
+				// prepare and return view
+				ShapesDisplayDataFactory f = new ShapesDisplayDataFactory();
+				ShapesDisplayData sdd = f.newShapesDisplayData(
+						dataModel,
+						shapesModel,
+						results,
+						new PermalinkGenerator(new URL(shapesUrl), actualUrl, closeShapes)
+				);
+	
+				return new ModelAndView("validation-report", ShapesDisplayData.KEY, sdd);
+			} else {
+				// not for a human client
+				this.writeValidationReport(results, shapesModel, response, format);
+				return null;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return handleValidateFormError(request, e.getClass().getName() +" : "+e.getMessage(), e);
+		}
 	}
+
 	
 	
+	/**
+	 * Opens validation form with a given shape from the catalog
+	 */
 	@RequestMapping(
 			value = {"validate"},
 			params={"shapes"},
@@ -183,6 +284,9 @@ public class ValidateController {
 		return new ModelAndView("validate-form", ValidateFormData.KEY, vfd);	
 	}
 	
+	/**
+	 * Opens validation form
+	 */
 	@RequestMapping(
 			value = {"validate"},
 			method=RequestMethod.GET
@@ -199,6 +303,9 @@ public class ValidateController {
 		return new ModelAndView("validate-form", ValidateFormData.KEY, vfd);	
 	}
 	
+	/**
+	 * Process validation form submission
+	 */
 	@RequestMapping(
 			value="/validate",
 			params={"source"},
@@ -266,15 +373,16 @@ public class ValidateController {
 			log.debug("Determining permalink...");
 			PermalinkGenerator pGenerator = null;
 			if(source == ControllerModelFactory.SOURCE_TYPE.URL) {
-				if(
-						shapesSource == ControllerModelFactory.SOURCE_TYPE.CATALOG
-				) {
-					pGenerator = new PermalinkGenerator(shapesCatalogId, url, closeShapes);
-					log.debug("Permalink computed : "+pGenerator.generatePermalink());
+				if(shapesSource == ControllerModelFactory.SOURCE_TYPE.CATALOG) {
+					pGenerator = new PermalinkGenerator(shapesCatalogId, new URL(url), closeShapes);
+				} else if(shapesSource == ControllerModelFactory.SOURCE_TYPE.URL) {
+					pGenerator = new PermalinkGenerator(new URL(shapesUrl), new URL(url), closeShapes);
 				}
 			}
 			if(pGenerator == null) {
 				log.debug("No permalink can be computed.");
+			} else {
+				log.debug("Permalink computed : "+pGenerator.generatePermalink());
 			}
 			
 			// trigger validation

@@ -201,7 +201,7 @@ public class PlantUmlProperty {
 		String value = null;
 		if (constraint.hasProperty(SH.uniqueLang)) {			
 			value_uniquelang = constraintValueReader.readValueconstraint(constraint, SH.uniqueLang);
-			if (!value_uniquelang.isBlank()) {
+			if (value_uniquelang != null && !value_uniquelang.equals("")) {
 				value = "uniqueLang";			
 			} else {value_uniquelang = null;}
 			

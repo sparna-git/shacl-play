@@ -80,7 +80,7 @@ public class ViewController {
 			ControllerModelFactory modelPopulator = new ControllerModelFactory(this.catalogService.getShapesCatalog());
 			modelPopulator.populateModelFromUrl(shapesModel, shapesUrl);
 			log.debug("Done Loading Shapes. Model contains "+shapesModel.size()+" triples");
-			doOutputDiagram(shapesModel, response);
+			doOutputDiagram(shapesModel, modelPopulator.getSourceName(), response);
 			return null;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -127,7 +127,11 @@ public class ViewController {
 			);
 			log.debug("Done Loading Shapes. Model contains "+shapesModel.size()+" triples");
 			
-			doOutputDiagram(shapesModel, response);
+			doOutputDiagram(
+					shapesModel,
+					modelPopulator.getSourceName(),
+					response
+			);
 			return null;
 			
 			
@@ -139,6 +143,7 @@ public class ViewController {
 	
 	protected void doOutputDiagram(
 			Model shapesModel,
+			String filename,
 			HttpServletResponse response
 	) throws IOException {
 		ShaclPlantUmlWriter writer = new ShaclPlantUmlWriter();

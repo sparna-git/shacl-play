@@ -25,32 +25,37 @@ public class ShieldsIoOutputFactory {
 	
 	private String buildMessage() {
 		ValidationReport r = new ValidationReport(results, results);
-		
-		if(r.isConformant()) {
-			return "Conformant";
-		}
-		
+				
 		StringBuffer sb = new StringBuffer();
-		if(r.getNumberOfViolations() > 0) {
-			sb.append(r.getNumberOfViolations()+" violation"+((r.getNumberOfViolations() > 1)?"s":""));
-			if(r.getNumberOfWarnings() > 0 || r.getNumberOfInfos() > 0 || r.getNumberOfOthers() > 0) {
-				sb.append(" ");
+		
+		if(!r.hasMatched()) {
+			sb.append("No targets found");
+		} else {
+			if(r.isConformant()) {
+				return "Conformant";
 			}
-		}
-		if(r.getNumberOfWarnings() > 0) {
-			sb.append(r.getNumberOfWarnings()+" warning"+((r.getNumberOfWarnings() > 1)?"s":""));
-			if(r.getNumberOfInfos() > 0 || r.getNumberOfOthers() > 0) {
-				sb.append(" ");
+			
+			if(r.getNumberOfViolations() > 0) {
+				sb.append(r.getNumberOfViolations()+" violation"+((r.getNumberOfViolations() > 1)?"s":""));
+				if(r.getNumberOfWarnings() > 0 || r.getNumberOfInfos() > 0 || r.getNumberOfOthers() > 0) {
+					sb.append(" ");
+				}
 			}
-		}
-		if(r.getNumberOfInfos() > 0) {
-			sb.append(r.getNumberOfInfos()+" info"+((r.getNumberOfInfos() > 1)?"s":""));
+			if(r.getNumberOfWarnings() > 0) {
+				sb.append(r.getNumberOfWarnings()+" warning"+((r.getNumberOfWarnings() > 1)?"s":""));
+				if(r.getNumberOfInfos() > 0 || r.getNumberOfOthers() > 0) {
+					sb.append(" ");
+				}
+			}
+			if(r.getNumberOfInfos() > 0) {
+				sb.append(r.getNumberOfInfos()+" info"+((r.getNumberOfInfos() > 1)?"s":""));
+				if(r.getNumberOfOthers() > 0) {
+					sb.append(" ");
+				}
+			}
 			if(r.getNumberOfOthers() > 0) {
-				sb.append(" ");
+				sb.append(r.getNumberOfOthers()+" other"+((r.getNumberOfOthers() > 1)?"s":""));
 			}
-		}
-		if(r.getNumberOfOthers() > 0) {
-			sb.append(r.getNumberOfOthers()+" other"+((r.getNumberOfOthers() > 1)?"s":""));
 		}
 		
 		return sb.toString();
@@ -58,7 +63,9 @@ public class ShieldsIoOutputFactory {
 	
 	private String buildColor() {
 		ValidationReport r = new ValidationReport(results, results);
-		if(r.getNumberOfViolations() > 0) {
+		if(!r.hasMatched()) {
+			return "blueviolet";
+		} else if(r.getNumberOfViolations() > 0) {
 			return "red";
 		}else if(r.getNumberOfWarnings() > 0) {
 			return "orange";

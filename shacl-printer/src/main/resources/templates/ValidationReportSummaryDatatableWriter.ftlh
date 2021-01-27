@@ -19,7 +19,7 @@
 									<td>${result.resultSeverity}</td>
 									<td>${result.resultPath}</td>
 									<td>${result.message}</td>
-									<td>${result.count}</td>
+									<td>${result.count?c}</td>
 									<td>${result.sampleFocusNode}</td>
 									<td>${result.sampleValue}</td>
 								</tr>

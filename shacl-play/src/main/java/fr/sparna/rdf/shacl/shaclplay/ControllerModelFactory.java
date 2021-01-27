@@ -98,7 +98,7 @@ public class ControllerModelFactory {
 			try {
 				ControllerCommons.populateModel(model, text);
 				// shape name is "inline-rdf"
-				this.sourceName = "inline-rdf";
+				this.sourceName = "inline-data";
 			} catch (RiotException e) {
 				throw new ControllerModelException(e.getMessage(), e);
 			}

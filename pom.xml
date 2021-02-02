@@ -11,6 +11,7 @@
 
     <modules>
         <module>shacl-diagram</module>
+        <module>shacl-doc</module>
         <module>shacl-validator</module>
         <module>shacl-printer</module>
         <module>shacl-play-app</module>

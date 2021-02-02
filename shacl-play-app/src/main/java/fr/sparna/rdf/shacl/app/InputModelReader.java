@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.riot.RDFDataMgr;
 import org.apache.jena.riot.RDFLanguages;
@@ -58,9 +59,15 @@ public class InputModelReader {
 				    			log.debug("Reading zip entry : "+entry.getName());  
 				    			String lang = FileUtils.guessLang(entry.getName(), "RDF/XML");
 				    			// read in temporary byte array otherwise model.read closes the stream !
-				    			byte[] buffer = zis.readAllBytes();
+				    			// not available in Java 8
+				    			// byte[] buffer = zis.readAllBytes();
+				    			byte[] buffer = IOUtils.toByteArray(zis);
 				    			ByteArrayInputStream bais = new ByteArrayInputStream(buffer);
-				    			model.read(bais, RDF.getURI(), lang);
+				    			try {
+				    				model.read(bais, RDF.getURI(), lang);
+				    			} catch (Exception ignore) {
+									ignore.printStackTrace();
+								}
 				    		}            
 				        }
 			    	} catch (Exception ignore) {

@@ -13,6 +13,7 @@ import java.util.zip.ZipInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
@@ -119,7 +120,9 @@ public class ControllerCommons {
 	    			String lang = FileUtils.guessLang(entry.getName(), "RDF/XML");
 	    			log.debug("Processing zip entry : "+ entry.getName()+", guessed lang "+lang);
 	    			// read in temporary byte array otherwise model.read closes the stream !
-	    			byte[] buffer = zis.readAllBytes();
+	    			// not available in Java 8
+	    			// byte[] buffer = zis.readAllBytes();
+	    			byte[] buffer = IOUtils.toByteArray(zis);
 	    			ByteArrayInputStream bais = new ByteArrayInputStream(buffer);
 	    			try {
 						model.read(bais, RDF.getURI(), FileUtils.guessLang(entry.getName(), "RDF/XML"));

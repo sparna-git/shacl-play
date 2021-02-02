@@ -1,5 +1,7 @@
 package fr.sparna.rdf.shacl.shaclplay.validate;
 
+import java.net.URL;
+
 public class PermalinkGenerator {
 
 	/**
@@ -10,42 +12,69 @@ public class PermalinkGenerator {
 	/**
 	 * Data URL to compute permalink
 	 */
-	private String dataUrl;
+	private URL dataUrl;
 
+	/**
+	 * Shapes URL
+	 */
+	private URL shapesUrl;
+	
 	/**
 	 * Whether to close shapes
 	 */
 	private boolean closeShapes;
 	
-	public PermalinkGenerator(String shapesCatalogId, String dataUrl, boolean closeShapes) {
+	public PermalinkGenerator(String shapesCatalogId, URL dataUrl, boolean closeShapes) {
 		super();
 		this.shapesCatalogId = shapesCatalogId;
 		this.dataUrl = dataUrl;
 		this.closeShapes = closeShapes;
 	}
+	
+	public PermalinkGenerator(URL shapesUrl, URL dataUrl, boolean closeShapes) {
+		super();
+		this.shapesUrl = shapesUrl;
+		this.dataUrl = dataUrl;
+		this.closeShapes = closeShapes;
+	}
 
 	public String generatePermalink() {
-		if(this.dataUrl != null && this.shapesCatalogId != null) {
-			String permalink = shapesCatalogId+"/report?url="+dataUrl;
-			if(closeShapes)  {
-				permalink += "&closeShapes=true";
+		String permalink = null;
+		if(this.dataUrl != null) {
+			if(this.shapesCatalogId != null) {
+				permalink = shapesCatalogId+"/report?url="+dataUrl;
+			} else if(this.shapesUrl != null) {
+				permalink = "validate?url="+dataUrl+"&shapesUrl="+this.shapesUrl;				
 			}
-			return "https://shacl-play.sparna.fr/play/"+permalink;
-		} else {
-			return null;
+			
+			if(permalink != null) {
+				if(closeShapes)  {
+					permalink += "&closeShapes=true";
+				}
+				permalink = "https://shacl-play.sparna.fr/play/"+permalink;
+			}
 		}
+		return permalink;
 	}
 	
 	public String generateBadgeLink() {
-		if(this.dataUrl != null && this.shapesCatalogId != null) {
-			String permalink = shapesCatalogId+"/badge?url="+dataUrl;
-			if(closeShapes)  {
-				permalink += "&closeShapes=true";
+		
+		String permalink = null;
+		if(this.dataUrl != null) {
+			if(this.shapesCatalogId != null) {
+				permalink = shapesCatalogId+"/badge?url="+dataUrl;
+			} else if(this.shapesUrl != null) {
+				permalink = "badge?url="+dataUrl+"&shapesUrl="+this.shapesUrl;				
 			}
-			return "https://shacl-play.sparna.fr/play/"+permalink;
-		} else {
-			return null;
+			
+			if(permalink != null) {
+				if(closeShapes)  {
+					permalink += "&closeShapes=true";
+				}
+				permalink = "https://shacl-play.sparna.fr/play/"+permalink;
+			}
 		}
+		return permalink;
 	}
 
 	public String getShapesCatalogId() {
@@ -56,11 +85,11 @@ public class PermalinkGenerator {
 		this.shapesCatalogId = shapesCatalogId;
 	}
 
-	public String getDataUrl() {
+	public URL getDataUrl() {
 		return dataUrl;
 	}
 
-	public void setDataUrl(String dataUrl) {
+	public void setDataUrl(URL dataUrl) {
 		this.dataUrl = dataUrl;
 	}
 

@@ -26,7 +26,7 @@ public class ShaclPlantUmlWriter {
 			planumlvalue.add(dbShacl);
 		} 
 		
-		// 2. Une fois qu'on a toute la liste, lire les propriétés
+		// 2. Une fois qu'on a toute la liste, lire les proprietes
 		for (PlantUmlBox aBox : planumlvalue) {
 			aBox.readProperties(aBox.getNodeShape(), planumlvalue);
 		}
@@ -104,7 +104,7 @@ public class ShaclPlantUmlWriter {
 		String source = "@startuml\n";
 		source +="!define LIGHTORANGE\n";
 		
-		//skinparam linetype ortho        // l'instruction créer des lignes droits  
+		//skinparam linetype ortho        // l'instruction crï¿½er des lignes droits  
 		//source +="!includeurl https://raw.githubusercontent.com/Drakemor/RedDress-PlantUML/master/style.puml\n\n";
 		
 		source += "skinparam componentStyle uml2\n";

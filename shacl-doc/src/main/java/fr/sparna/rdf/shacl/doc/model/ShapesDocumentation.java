@@ -7,8 +7,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 public class ShapesDocumentation {
 
-	public String title;
-	
+	public String title;	
 	@JacksonXmlElementWrapper(localName="sections")
 	@JacksonXmlProperty(localName = "section")
 	public List<ShapesDocumentationSection> sections;
@@ -26,6 +25,7 @@ public class ShapesDocumentation {
 	public void setSections(List<ShapesDocumentationSection> sections) {
 		this.sections = sections;
 	}
+	
 	
 	
 	

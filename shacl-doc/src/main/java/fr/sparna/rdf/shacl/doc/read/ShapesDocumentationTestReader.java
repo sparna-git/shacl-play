@@ -19,14 +19,15 @@ public class ShapesDocumentationTestReader implements ShapesDocumentationReaderI
 		
 		ShapesDocumentationSection section1 = new ShapesDocumentationSection();
 		section1.setTitle("MEP Vote");
+		
 		PropertyShapeDocumentation propDoc1 = new PropertyShapeDocumentation();
-		propDoc1.setPath("http://test.fr");
+		/*propDoc1.setPath("http://test.fr");
 		propDoc1.setLabel("my property");
 		propDoc1.setCardinalities("0..n");
 		propDoc1.setExpectedValue("xsd:string");
 		propDoc1.setDescription("This is a definition");
 		section1.setPropertySections(Arrays.asList(new PropertyShapeDocumentation[] { propDoc1 }));
-		
+		*/
 		ShapesDocumentationSection section2 = new ShapesDocumentationSection();
 		section2.setTitle("Vote");
 		

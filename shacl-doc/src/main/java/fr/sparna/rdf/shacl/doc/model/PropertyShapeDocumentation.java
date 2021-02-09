@@ -1,19 +1,43 @@
 package fr.sparna.rdf.shacl.doc.model;
 
+
+
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 import fr.sparna.rdf.shacl.doc.ShaclProperty;
 
-
 public class PropertyShapeDocumentation {
-
+    
 	private String output_propriete;
 	private String output_uri;
 	private String output_valeur_attendus;
 	private String output_patterns;
 	private String output_Cardinalite;
 	private String output_description;
+	private String output_language;
+	private String output_shin;
 	
+	
+	public String getOutput_shin() {
+		return output_shin;
+	}
+
+	public void setOutput_shin(String output_shin) {
+		String value = null;
+		if (output_shin != null) {
+			value = output_shin.substring(0, output_shin.length()-2);
+		}		
+		this.output_shin = value;
+	}
+
+	public String getOutput_language() {
+		return output_language;
+	}
+
+	public void setOutput_language(String output_language) {
+		this.output_language = output_language;
+	}
+
 	public String getOutput_patterns() {
 		return output_patterns;
 	}
@@ -50,7 +74,14 @@ public class PropertyShapeDocumentation {
 	}
 
 	public void setOutput_Cardinalite(String output_valeur_Cardinalite) {
-		this.output_Cardinalite = output_valeur_Cardinalite;
+		String value = null;
+		if(output_valeur_Cardinalite == null || output_valeur_Cardinalite == "") {
+			value = "0..*";
+		}else {
+			value = output_valeur_Cardinalite;
+		}
+		
+		this.output_Cardinalite = value;
 	}
 
 	public String getOutput_propriete() {
@@ -60,7 +91,8 @@ public class PropertyShapeDocumentation {
 	public void setOutput_propriete(String output_propriete,String shLabel) {
 		String Value = null;
 		if (output_propriete != null) {
-			Value = output_propriete;
+			String[] sName = output_propriete.split("@");
+			Value = sName[0];
 		} else {
 			Value = shLabel;
 		}
@@ -99,7 +131,13 @@ public class PropertyShapeDocumentation {
 			value = Value_node;
 		} // Type de noeud seulement : sh:nodeKind
 		else if (Value_nodeKind != null && Value_node == null) {
-			value = Value_nodeKind;
+			if (Value_nodeKind.equals("sh:IRI")) {
+				String[] ssplit = Value_nodeKind.split(":");
+				value = ssplit[ssplit.length-1];			
+			}else {
+				value = Value_nodeKind;
+			}
+			//value = Value_nodeKind;
 		} else if (Value_nodeKind != null && Value_node != null) {
 			value = Value_node;
 		}
@@ -116,8 +154,9 @@ public class PropertyShapeDocumentation {
 		if (output_description != null) {
 			Value = output_description;
 		} else {
-			Value = shComment;
+			Value = null;
 		}
 		this.output_description = Value;
-	}	
+	} 
+	
 }

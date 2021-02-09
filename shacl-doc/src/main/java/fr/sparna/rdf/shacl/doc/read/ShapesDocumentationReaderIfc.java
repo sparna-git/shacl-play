@@ -6,6 +6,6 @@ import fr.sparna.rdf.shacl.doc.model.ShapesDocumentation;
 
 public interface ShapesDocumentationReaderIfc {
 
-	public ShapesDocumentation readShapesDocumentation(InputStream input, String fileName);
+	public ShapesDocumentation readShapesDocumentation(InputStream input, InputStream inputOWL,String fileName);
 	
 }

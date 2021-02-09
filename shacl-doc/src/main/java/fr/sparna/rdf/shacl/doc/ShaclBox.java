@@ -128,8 +128,15 @@ public class ShaclBox {
 			ShaclProperty plantvalueproperty = new ShaclProperty(propertyShape, allBoxes);
 			shacl_value.add(plantvalueproperty);
 		}
-		
+		shacl_value.sort(Comparator.comparing(ShaclProperty::getShOrder));
 		this.shacl_value = shacl_value;
 	}
+	
+	
+	public static List<RDFNode> asJavaList( Resource resource )
+	  {
+	  return (resource.as( RDFList.class )).asJavaList();
+	  }
+	
 
 }

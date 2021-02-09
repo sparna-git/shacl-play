@@ -15,21 +15,18 @@ public class Main {
 	public static void main(String[] args) throws Exception {
 		
 		String shaclFile = args[0];
+		String shaclFileOWL = args[1];
 		
 		// 1. read input SHACL
 	    //ShapesDocumentationReaderIfc reader = new ShapesDocumentationTestReader();
 		// uncomment for read SHACL parsing
 		ShapesDocumentationReaderIfc reader = new ShapesDocumentationModelReader();
-		ShapesDocumentation doc = reader.readShapesDocumentation(new FileInputStream(shaclFile), shaclFile);
+		ShapesDocumentation doc = reader.readShapesDocumentation(new FileInputStream(shaclFile), new FileInputStream(shaclFileOWL), shaclFile);
 		
 		
 		// 2. write Documentation structure to XML
 		ShapesDocumentationWriterIfc writer = new ShapesDocumentationJacksonXsltWriter();
 		writer.write(doc, System.out);
-		
-		
-		
-		
 		
 	}
 	

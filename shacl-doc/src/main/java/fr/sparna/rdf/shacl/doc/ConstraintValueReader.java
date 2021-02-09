@@ -17,10 +17,14 @@ public class ConstraintValueReader {
 		try {
 			if (constraint.hasProperty(property)) {
 				if (constraint.getProperty(property).getObject().isURIResource()) {
+					  //value = constraint.getProperty(property).getResource().getLocalName();
 					value = constraint.getModel().shortForm(constraint.getProperty(property).getResource().getURI());
+					
 				}
 				else if (constraint.getProperty(property).getObject().isLiteral()) {
-					value = constraint.getProperty(property).getObject().asLiteral().getString();				
+					value = constraint.getProperty(property).getObject().asLiteral().toString();
+					//value = constraint.getProperty(property).getLiteral().toString();
+					
 				} else if (constraint.getProperty(property).getObject().isAnon()) {
 					value = renderShaclPropertyPath(constraint.getProperty(property).getObject().asResource());
 					
@@ -59,4 +63,12 @@ public class ConstraintValueReader {
 			return "Unsupported path";
 		}
 	}	
+	
+	public static List<RDFNode> asJavaList( Resource resource )
+	  {
+	  return (resource.as( RDFList.class )).asJavaList();
+	  }
+	
+	
+	
 }

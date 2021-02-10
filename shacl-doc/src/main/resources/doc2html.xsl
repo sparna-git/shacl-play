@@ -11,15 +11,6 @@
 
 	<xsl:template match="ShapesDocumentation">
 		<html lang="en">
-			<br />
-			<h1 style="color:DarkRed;text-align:center;">
-				<xsl:value-of select="title" />
-			</h1>
-			<p style="text-align:center;">
-				<xsl:value-of select="subtitle" />
-			</p>
-			<br />
-			<br />
 			<head>
 				<link rel="stylesheet"
 					href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
@@ -27,19 +18,37 @@
 					crossorigin="anonymous" />
 			</head>
 			<body>
-				<ul class="nav justify-content-center">
-					<div>
-						<!-- Table de matiers -->
-						<xsl:for-each select="sections/section">
-							<xsl:variable name="TitleNodeSapetab" select="dURI" />
-							<xsl:variable name="Title" select="title" />
-							<a href="{concat('#',$TitleNodeSapetab)}">
-								<xsl:value-of select="$Title" />
-							</a>
-							<br />
-						</xsl:for-each>
-					</div>
-				</ul>
+				<div class="container-md">
+					<br />
+					<h1>
+						<center>
+							<xsl:value-of select="title" />
+						</center>
+					</h1>
+					<br />
+					<br />
+					<ul class="nav justify-content-left">
+						<div>
+							<!-- Table de matiers -->
+							<xsl:if
+								test="properties/property[output_language = 'en'] ">
+								<h1>Table of Content:</h1>
+							</xsl:if>
+							<xsl:if
+								test="properties/property[output_language = 'fr'] ">
+								<h1>Table des matières:</h1>
+							</xsl:if>
+							<xsl:for-each select="sections/section">
+								<xsl:variable name="TitleNodeSapetab" select="dURI" />
+								<xsl:variable name="Title" select="title" />
+								<a href="{concat('#',$TitleNodeSapetab)}">
+									<xsl:value-of select="$Title" />
+								</a>
+								<br />
+							</xsl:for-each>
+						</div>
+					</ul>
+				</div>
 				<br />
 				<br />
 				<xsl:apply-templates />

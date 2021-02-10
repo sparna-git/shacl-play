@@ -18,6 +18,8 @@ import org.apache.jena.util.iterator.ExtendedIterator;
 import org.apache.jena.vocabulary.RDFS;
 import org.topbraid.shacl.vocabulary.SH;
 
+import fr.sparna.rdf.shacl.diagram.*;;
+
 public class PlantUmlBox {
 	
 	private Resource nodeShape;
@@ -70,7 +72,7 @@ public class PlantUmlBox {
 		//Comparator<PlantUmlProperty> ashacl_value = Comparator.comparing(PlantUmlProperty::getValue_order_shacl)
 			//	.thenComparing(PlantUmlProperty::getValue_path);
 		 
-		
+		shacl_value.sort(Comparator.comparing(PlantUmlProperty::getValue_order_shacl));
 		 
 		this.shacl_value = shacl_value;	
 	}	

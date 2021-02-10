@@ -36,7 +36,7 @@ public class PlantUmlProperty {
 	protected String value_node;
 	protected String value_class;
 	protected String value_class_property;
-	protected String value_order_shacl;
+	protected Integer value_order_shacl;
 	protected String value_hasValue;
 	protected String value_qualifiedvalueshape;
 	protected String value_qualifiedMaxMinCount;
@@ -303,13 +303,13 @@ public class PlantUmlProperty {
 	}
 	
 	
-	public String getValue_order_shacl() {
+	public Integer getValue_order_shacl() {
 		return value_order_shacl;
 	}
 	
 	
 	public void setValue_order_shacl(Resource constraint) {
-		this.value_order_shacl = constraintValueReader.readValueconstraint(constraint, SH.order);		
+		this.value_order_shacl = Integer.parseInt(constraintValueReader.readValueconstraint(constraint, SH.order));		
 	}
 	
 	public String getValue_hasValue() {

@@ -31,12 +31,16 @@
 						<div>
 							<!-- Table de matiers -->
 							<xsl:if
-								test="properties/property[output_language = 'en'] ">
-								<h1>Table of Content:</h1>
+								test="sections/section/properties/property[output_language = 'en'] ">
+								<div>
+									<a>Table of Content:</a>
+								</div>
 							</xsl:if>
 							<xsl:if
-								test="properties/property[output_language = 'fr'] ">
-								<h1>Table des matières:</h1>
+								test="sections/section/properties/property[output_language = 'fr'] ">
+								<div>
+									<a>Table des matières:</a>
+								</div>
 							</xsl:if>
 							<xsl:for-each select="sections/section">
 								<xsl:variable name="TitleNodeSapetab" select="dURI" />

@@ -21,6 +21,13 @@ public class ArgumentsDoc {
 			variableArity = true
 	)
 	private List<File> input;
+	
+	@Parameter(
+			names = { "-w", "--owl" },
+			description = "Path to a input OWL ontology file, or directory containing multiple files.",
+			variableArity = true
+	)
+	private List<File> ontologies;
 
 	@Parameter(
 			names = { "-o", "--output" },
@@ -58,6 +65,14 @@ public class ArgumentsDoc {
 
 	public void setLanguage(String language) {
 		this.language = language;
+	}
+
+	public List<File> getOntologies() {
+		return ontologies;
+	}
+
+	public void setOntologies(List<File> ontologies) {
+		this.ontologies = ontologies;
 	}
 	
 }

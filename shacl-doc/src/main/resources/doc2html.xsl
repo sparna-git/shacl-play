@@ -5,6 +5,36 @@
 	<!-- controls output style -->
 	<xsl:output indent="yes" method="xml" />
 
+	<!-- Language parameter to the XSLT -->
+	<xsl:param name="LANG">en</xsl:param>
+
+	<!--  french labels -->
+	<xsl:variable name="LABELS_FR">
+		<labels>
+			<entry key="TOC" label="Table des Matières" />
+			<entry key="COLUMN_PROPERTY" label="Nom de la propriété" />
+			<entry key="COLUMN_URI" label="URI" />
+			<entry key="COLUMN_EXPECTED_VALUE" label="Valeur attendue" />
+			<entry key="COLUMN_CARD" label="Card." />
+			<entry key="COLUMN_DESCRIPTION" label="Description" />
+		</labels>
+	</xsl:variable>
+	
+	<!-- English labels -->
+	<xsl:variable name="LABELS_EN">
+		<labels>
+			<entry key="TOC" label="Table des Matières" />
+			<entry key="COLUMN_PROPERTY" label="Property name" />
+			<entry key="COLUMN_URI" label="URI" />
+			<entry key="COLUMN_EXPECTED_VALUE" label="Expected value" />
+			<entry key="COLUMN_CARD" label="Card." />
+			<entry key="COLUMN_DESCRIPTION" label="Description" />
+		</labels>
+	</xsl:variable>
+	
+	<!-- Select labels based on language param -->
+	<xsl:variable name="LABELS" select="if($LANG = 'fr') then $LABELS_FR else $LABELS_EN" />
+
 	<xsl:template match="/">
 		<xsl:apply-templates />
 	</xsl:template>
@@ -29,19 +59,8 @@
 					<br />
 					<ul class="nav justify-content-left">
 						<div>
-							<!-- Table de matiers -->
-							<xsl:if
-								test="sections/section/properties/property[output_language = 'en'] ">
-								<div>
-									<a>Table of Content:</a>
-								</div>
-							</xsl:if>
-							<xsl:if
-								test="sections/section/properties/property[output_language = 'fr'] ">
-								<div>
-									<a>Table des matières:</a>
-								</div>
-							</xsl:if>
+							<!-- Table de matieres -->
+							<h2><xsl:value-of select="$LABELS/labels/entry[@key='TOC']/@label" /></h2>
 							<xsl:for-each select="sections/section">
 								<xsl:variable name="TitleNodeSapetab" select="dURI" />
 								<xsl:variable name="Title" select="title" />
@@ -73,11 +92,11 @@
 
 	<xsl:template match="section">
 		<xsl:variable name="TitleNodeSape" select="dURI" />
-		<div class="container-md">
+		<div class="container-md" id="{$TitleNodeSape}">
 			<lefth>
-				<h1>
+				<h2>
 					<xsl:value-of select="title" />
-				</h1>
+				</h2>
 				<xsl:if test="comments != ''">
 					<p>
 						<em>
@@ -87,25 +106,15 @@
 				</xsl:if>
 
 			</lefth>
-			<table id="{$TitleNodeSape}" class="table table-striped"
+			<table class="table table-striped"
 				style="width:100%">
 				<thead>
 					<tr>
-						<xsl:if test="properties/property[output_language = 'en'] ">
-							<th>Property Name</th>
-							<th>Uri Name</th>
-							<th>Expected Value</th>
-							<th>Cardinality</th>
-							<th>Description</th>
-						</xsl:if>
-						<xsl:if
-							test="properties/property[output_language = 'fr'] or properties/property[output_language = null]">
-							<th>Nom de la Propriété</th>
-							<th>Nom de l'URI</th>
-							<th>Valeur Attendue</th>
-							<th>Cardinalité</th>
-							<th>Description</th>
-						</xsl:if>
+							<th><xsl:value-of select="$LABELS/labels/entry[@key='COLUMN_PROPERTY']/@label" /> </th>
+							<th><xsl:value-of select="$LABELS/labels/entry[@key='COLUMN_URI']/@label" /></th>
+							<th><xsl:value-of select="$LABELS/labels/entry[@key='COLUMN_EXPECTED_VALUE']/@label" /></th>
+							<th><xsl:value-of select="$LABELS/labels/entry[@key='COLUMN_CARD']/@label" /></th>
+							<th><xsl:value-of select="$LABELS/labels/entry[@key='COLUMN_DESCRIPTION']/@label" /></th>
 					</tr>
 				</thead>
 				<tbody>

@@ -1,8 +1,8 @@
 package fr.sparna.rdf.shacl.doc.read;
 
-import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Arrays;
+
+import org.apache.jena.rdf.model.Model;
 
 import fr.sparna.rdf.shacl.doc.model.PropertyShapeDocumentation;
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentation;
@@ -11,7 +11,7 @@ import fr.sparna.rdf.shacl.doc.model.ShapesDocumentationSection;
 public class ShapesDocumentationTestReader implements ShapesDocumentationReaderIfc {
 
 	@Override
-	public ShapesDocumentation readShapesDocumentation(InputStream input,InputStream inputOWL ,String fileName) {
+	public ShapesDocumentation readShapesDocumentation(Model shaclGraph, Model owlGraph, String lang , String fileName) {
 		ShapesDocumentation shapesDocumentation = new ShapesDocumentation();
 		
 		// HERE : READ Model and populate shapesDocumentation

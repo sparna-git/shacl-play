@@ -37,13 +37,7 @@ import fr.sparna.rdf.shacl.doc.model.ShapesDocumentationSection;
 public class ShapesDocumentationModelReader implements ShapesDocumentationReaderIfc {
 
 	@Override
-	public ShapesDocumentation readShapesDocumentation(InputStream input,InputStream inputOWL, String fileName) {
-
-		Model shaclGraph = ModelFactory.createDefaultModel();
-		shaclGraph.read(input, RDF.uri, FileUtils.guessLang(fileName, "RDF/XML"));
-		
-		Model owlGraph = ModelFactory.createDefaultModel();
-		owlGraph.read(inputOWL, RDF.uri, FileUtils.guessLang(fileName, "RDF/XML"));
+	public ShapesDocumentation readShapesDocumentation(Model shaclGraph, Model owlGraph, String lang, String fileName) {
 
 		// Recuperation de prefix et  Namespace
 		Map<String, String> map = shaclGraph.getNsPrefixMap();		

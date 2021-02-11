@@ -1,5 +1,6 @@
 package fr.sparna.rdf.shacl.app.draw.doc;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 
@@ -29,19 +30,36 @@ public class Doc implements CliCommandIfc {
 		Model shapesModel = ModelFactory.createDefaultModel(); 
 		InputModelReader.populateModel(shapesModel, a.getInput(), null);
 		
+		// read ontology file
+		Model owlModel = ModelFactory.createDefaultModel(); 
+		if(a.getOntologies() != null) {
+			InputModelReader.populateModel(owlModel, a.getOntologies(), null);
+		}
+		
+		// create output dir if not existing
+		File outputDir = a.getOutput().getParentFile();
+		if(outputDir != null && !outputDir.exists()) {
+			outputDir.mkdirs();
+		}
+		
 		// generate doc
 		ShapesDocumentationReaderIfc reader = new ShapesDocumentationModelReader();
-		ShapesDocumentation doc = reader.readShapesDocumentation(new FileInputStream(a.getInput().get(0)), a.getInput().get(0).getName());
-		
-		// 2. write Documentation structure to XML
+		ShapesDocumentation doc = reader.readShapesDocumentation(
+				shapesModel,
+				owlModel,
+				a.getLanguage(),
+				a.getInput().get(0).getName()
+		);
 		
 		FileOutputStream out = new FileOutputStream(a.getOutput());
 		if(a.getOutput().getName().endsWith(".xml")) {
+			// 2. write Documentation structure to XML
 			ShapesDocumentationWriterIfc writer = new ShapesDocumentationXmlWriter();
-			writer.write(doc, out);
+			writer.write(doc, a.getLanguage(), out);
 		} else {
+			// 2. write Documentation structure to HTML
 			ShapesDocumentationWriterIfc writer = new ShapesDocumentationJacksonXsltWriter();
-			writer.write(doc, out);
+			writer.write(doc, a.getLanguage(), out);
 		}
 		out.close();
 	

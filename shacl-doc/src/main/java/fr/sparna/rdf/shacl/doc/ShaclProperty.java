@@ -66,7 +66,14 @@ public class ShaclProperty {
 			value = "";
 			while (items.hasNext()) {
 				RDFNode item = items.next();
-				value += item.toString() + " ,";
+				String valueString;
+				if(item.isURIResource()) {
+					valueString = item.getModel().shortForm(((Resource)item).getURI());
+				} else {
+					valueString = item.toString();
+				}
+				
+				value += valueString + " ,";
 			}
 			value.substring(0,(value.length()-2));
 		}

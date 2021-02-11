@@ -1,11 +1,11 @@
 package fr.sparna.rdf.shacl.doc.read;
 
-import java.io.InputStream;
+import org.apache.jena.rdf.model.Model;
 
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentation;
 
 public interface ShapesDocumentationReaderIfc {
 
-	public ShapesDocumentation readShapesDocumentation(InputStream input, InputStream inputOWL,String fileName);
+	public ShapesDocumentation readShapesDocumentation(Model shaclGraph, Model owlGraph, String lang, String fileName);
 	
 }

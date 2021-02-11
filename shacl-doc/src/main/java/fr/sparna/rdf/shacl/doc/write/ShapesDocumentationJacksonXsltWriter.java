@@ -31,7 +31,7 @@ import fr.sparna.rdf.shacl.doc.model.ShapesDocumentation;
 public class ShapesDocumentationJacksonXsltWriter implements ShapesDocumentationWriterIfc {
 
 	@Override
-	public void write(ShapesDocumentation documentation, OutputStream output) throws IOException {
+	public void write(ShapesDocumentation documentation, String outputLang, OutputStream output) throws IOException {
 		Document xmlDocument;
 		XMLStreamWriter xmlStreamWriter;
 		try {
@@ -48,19 +48,24 @@ public class ShapesDocumentationJacksonXsltWriter implements ShapesDocumentation
 			mapper.writerFor(ShapesDocumentation.class).writeValue(xmlGenerator, documentation);
 			
 			// debug XML to console
-			System.out.println(printToString(xmlDocument));
+			// System.out.println(printToString(xmlDocument));
 			
 			
 			// 3. Apply stylesheet to produce XHTML
 			Source xmlInput = new DOMSource(xmlDocument);
 	        StreamResult xmlOutput = new StreamResult(output);
-	        TransformerFactory transformerFactory = TransformerFactory.newInstance();
-	        transformerFactory.setAttribute("indent-number", 2);
+	        // force Saxon
+	        TransformerFactory transformerFactory = TransformerFactory.newInstance("net.sf.saxon.TransformerFactoryImpl", this.getClass().getClassLoader());
+	        // transformerFactory.setAttribute("indent-number", 2);
 	        
 	        Source xsltInput = new StreamSource(ClassLoader.getSystemResourceAsStream("doc2html.xsl"));
 	        
 	        Transformer transformer = transformerFactory.newTransformer(xsltInput); 
 	        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+	        
+	        // pass in the output language
+	        transformer.setParameter("LANG", outputLang);
+	        
 	        transformer.transform(xmlInput, xmlOutput);
 			
 		} catch (ParserConfigurationException e) {

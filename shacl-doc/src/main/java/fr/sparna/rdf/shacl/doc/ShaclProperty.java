@@ -108,7 +108,8 @@ public class ShaclProperty {
 		return name;
 	}
 
-	public void setname(Resource constraint) {
+	public void setname(Resource constraint, String lang) {
+		// here : read value in specified language, or without language if not found
 		this.name = constraintValueReader.readValueconstraint(constraint, SH.name);
 	}
 
@@ -275,7 +276,7 @@ public class ShaclProperty {
 	}
 	
 	// Principal
-	public ShaclProperty(Resource constraint, List<ShaclBox> allBoxes) {
+	public ShaclProperty(Resource constraint, List<ShaclBox> allBoxes, String lang) {
 		
 		String sLanguage = null;
 
@@ -288,7 +289,7 @@ public class ShaclProperty {
 		this.setclass(constraint);
 		this.setclass_property(constraint, allBoxes); // Returne la valeur de TargetClass
 		this.setdescription(constraint);
-		this.setname(constraint);			
+		this.setname(constraint, lang);			
 		this.setShin(constraint);
 		this.setShLanguage(this.getname(), this.getdescription());
 		this.setShOrder(constraint);

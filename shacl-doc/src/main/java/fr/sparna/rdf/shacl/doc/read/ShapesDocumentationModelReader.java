@@ -47,13 +47,13 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 		// 1. Lire toutes les classes
 		ArrayList<ShaclBox> Shaclvalue = new ArrayList<>();
 		for (Resource nodeShape : nodeShapes) {
-			ShaclBox dbShacl = new ShaclBox(nodeShape);
+			ShaclBox dbShacl = new ShaclBox(nodeShape, lang);
 			Shaclvalue.add(dbShacl);
 		}
 
 		// 2. Lire les propriétés
 		for (ShaclBox aBox : Shaclvalue) {
-			aBox.readProperties(aBox.getNodeShape(), Shaclvalue);
+			aBox.readProperties(aBox.getNodeShape(), Shaclvalue, lang);
 		}	
 		
 		

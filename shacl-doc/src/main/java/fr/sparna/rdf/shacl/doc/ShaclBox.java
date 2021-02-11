@@ -32,7 +32,7 @@ public class ShaclBox {
 	protected String rdfsComment;
 	protected String rdfslabel;
 
-	public ShaclBox(Resource nodeShape) {
+	public ShaclBox(Resource nodeShape, String lang) {
 		this.nodeShape = nodeShape;
 		this.setNameshape(nodeShape.getLocalName());
 		this.setNametargetclass(nodeShape);
@@ -112,7 +112,7 @@ public class ShaclBox {
 		this.nodeShape = nodeShape;
 	}
 	
-	public void readProperties(Resource nodeShape, List<ShaclBox> allBoxes) {
+	public void readProperties(Resource nodeShape, List<ShaclBox> allBoxes, String lang) {
 		String value_pattern_nodeshape;
 
 		List<Statement> propertyStatements = nodeShape.listProperties(SH.property).toList();
@@ -125,7 +125,7 @@ public class ShaclBox {
 			}
 
 			Resource propertyShape = object.asResource();
-			ShaclProperty plantvalueproperty = new ShaclProperty(propertyShape, allBoxes);
+			ShaclProperty plantvalueproperty = new ShaclProperty(propertyShape, allBoxes, lang);
 			shacl_value.add(plantvalueproperty);
 		}
 		shacl_value.sort(Comparator.comparing(ShaclProperty::getShOrder));

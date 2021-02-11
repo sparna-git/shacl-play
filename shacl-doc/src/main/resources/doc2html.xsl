@@ -23,7 +23,7 @@
 	<!-- English labels -->
 	<xsl:variable name="LABELS_EN">
 		<labels>
-			<entry key="TOC" label="Table des Matières" />
+			<entry key="TOC" label="Table of Content" />
 			<entry key="COLUMN_PROPERTY" label="Property name" />
 			<entry key="COLUMN_URI" label="URI" />
 			<entry key="COLUMN_EXPECTED_VALUE" label="Expected value" />

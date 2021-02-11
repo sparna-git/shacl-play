@@ -37,18 +37,18 @@ public class ShaclProperty {
 	protected String description;
 	protected String shin;
 	protected String shLanguage;
-	protected String shOrder;
+	protected Integer shOrder;
 	
 	ConstraintValueReader constraintValueReader = new ConstraintValueReader();
 	
-	public String getShOrder() {
+	public Integer getShOrder() {
 		return shOrder;
 	}
 
 	public void setShOrder(Resource constraint) {
-		String value = null;
+		Integer value = null;
 		if(constraint.hasProperty(SH.order)) {
-			value = constraint.getProperty(SH.order).getLiteral().getString();
+			value = Integer.parseInt(constraint.getProperty(SH.order).getLiteral().getString());
 		}
 		this.shOrder = value;
 	}

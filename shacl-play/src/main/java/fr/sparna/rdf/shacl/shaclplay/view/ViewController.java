@@ -1,17 +1,14 @@
 package fr.sparna.rdf.shacl.shaclplay.view;
 
 import java.io.IOException;
-import java.net.URL;
+import java.net.URLEncoder;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
-import org.apache.jena.riot.RiotException;
-import org.apache.jena.util.FileUtils;
 import org.owasp.encoder.Encode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,15 +20,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import fr.sparna.rdf.shacl.diagram.OutFileSVGUml;
 import fr.sparna.rdf.shacl.diagram.ShaclPlantUmlWriter;
 import fr.sparna.rdf.shacl.shaclplay.ApplicationData;
-import fr.sparna.rdf.shacl.shaclplay.ControllerCommons;
 import fr.sparna.rdf.shacl.shaclplay.ControllerModelFactory;
+import fr.sparna.rdf.shacl.shaclplay.ControllerModelFactory.SOURCE_TYPE;
 import fr.sparna.rdf.shacl.shaclplay.catalog.shapes.ShapesCatalog;
-import fr.sparna.rdf.shacl.shaclplay.catalog.shapes.ShapesCatalogEntry;
 import fr.sparna.rdf.shacl.shaclplay.catalog.shapes.ShapesCatalogService;
-import fr.sparna.rdf.shacl.shaclplay.validate.ValidateFormData;
 import net.sourceforge.plantuml.FileFormat;
 import net.sourceforge.plantuml.FileFormatOption;
 import net.sourceforge.plantuml.SourceStringReader;
@@ -47,6 +41,24 @@ public class ViewController {
 	
 	@Autowired
 	protected ShapesCatalogService catalogService;
+	
+	enum FORMAT {
+		
+		SVG("image/svg+xml", FileFormat.SVG, "svg"),
+		PNG("image/png", FileFormat.PNG, "png");
+		
+		protected String mimeType;
+		protected FileFormat plantUmlFileFormat;
+		protected String extension;
+		
+		private FORMAT(String mimeType, FileFormat plantUmlFileFormat, String extension) {
+			this.mimeType = mimeType;
+			this.plantUmlFileFormat = plantUmlFileFormat;
+			this.extension = extension;
+		}
+
+		
+	}
 
 	@RequestMapping(
 			value = {"view"},
@@ -71,16 +83,25 @@ public class ViewController {
 	)
 	public ModelAndView viewUrl(
 			@RequestParam(value="url", required=true) String shapesUrl,
+			@RequestParam(value="format", required=false, defaultValue = "svg") String format,
 			HttpServletRequest request,
 			HttpServletResponse response
 	){
 		try {
-			log.debug("viewUrl(shapesUrl='"+shapesUrl+"')");
+			log.debug("viewUrl(shapesUrl='"+shapesUrl+"')");		
+
+			// read format
+			FORMAT fmt = FORMAT.valueOf(format.toUpperCase());
+			
 			Model shapesModel = ModelFactory.createDefaultModel();
 			ControllerModelFactory modelPopulator = new ControllerModelFactory(this.catalogService.getShapesCatalog());
 			modelPopulator.populateModelFromUrl(shapesModel, shapesUrl);
 			log.debug("Done Loading Shapes. Model contains "+shapesModel.size()+" triples");
-			doOutputDiagram(shapesModel, modelPopulator.getSourceName(), response);
+			doOutputDiagram(
+					shapesModel,
+					modelPopulator.getSourceName(),
+					fmt,
+					response);
 			return null;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -104,6 +125,8 @@ public class ViewController {
 			@RequestParam(value="inputShapeFile", required=false) List<MultipartFile> shapesFiles,
 			// inline Shapes if shapeSource=sourceShape-inputShapeInline
 			@RequestParam(value="inputShapeInline", required=false) String shapesText,
+			// output format svg / png
+			@RequestParam(value="format", required=false, defaultValue = "svg") String format,
 			HttpServletRequest request,
 			HttpServletResponse response
 	) {
@@ -112,6 +135,15 @@ public class ViewController {
 			
 			// get the shapes source type
 			ControllerModelFactory.SOURCE_TYPE shapesSource = ControllerModelFactory.SOURCE_TYPE.valueOf(shapesSourceString.toUpperCase());
+			
+			// read format
+			FORMAT fmt = FORMAT.valueOf(format.toUpperCase());
+			
+			// if source is a ULR, redirect to the API
+			if(shapesSource == SOURCE_TYPE.URL) {
+				return new ModelAndView("redirect:/view?format="+fmt.name().toLowerCase()+"&url="+URLEncoder.encode(shapesUrl, "UTF-8"));
+			}
+			
 			
 			// initialize shapes first
 			log.debug("Determining Shapes source...");
@@ -130,6 +162,7 @@ public class ViewController {
 			doOutputDiagram(
 					shapesModel,
 					modelPopulator.getSourceName(),
+					fmt,
 					response
 			);
 			return null;
@@ -144,15 +177,17 @@ public class ViewController {
 	protected void doOutputDiagram(
 			Model shapesModel,
 			String filename,
+			FORMAT format,
 			HttpServletResponse response
 	) throws IOException {
 		ShaclPlantUmlWriter writer = new ShaclPlantUmlWriter();
 		String plantumlString = writer.writeInPlantUml(shapesModel);
 		
-		response.setContentType("image/svg+xml");
-		
+		response.setContentType(format.mimeType);
+		response.setHeader("Content-Disposition", "inline; filename=\""+filename+"."+format.extension+"\"");
+
 		SourceStringReader reader = new SourceStringReader(plantumlString);
-		reader.generateImage(response.getOutputStream(), new FileFormatOption(FileFormat.SVG));
+		reader.generateImage(response.getOutputStream(), new FileFormatOption(format.plantUmlFileFormat));
 	}
 		
 	/**

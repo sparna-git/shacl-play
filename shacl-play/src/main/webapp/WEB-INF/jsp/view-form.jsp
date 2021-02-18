@@ -187,9 +187,17 @@
 					  <h2><i class="fal fa-tools"></i>&nbsp;&nbsp;<fmt:message key="view.options.title" /></h2>
 				      <blockquote class="blockquote bq-warning">
 				      <div class="form-group row">
-				      	<div class="col-sm-12">
 
-						</div>
+							<label for="inputShapeCatalog" class="col-sm-3 col-form-label">
+								<fmt:message key="view.options.format" />					    
+							</label>
+						    <div class="col-sm-9">
+					    		<select class="form-control" id="format" name="format" >
+					    			<option value="svg">SVG</option>
+					    			<option value="png">PNG</option>
+							    </select>
+						    </div>
+								    
 					  </div>
 					  </blockquote>
 					  

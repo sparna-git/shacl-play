@@ -137,6 +137,13 @@ eclipse.preferences.version=1
                 <version>${jackson.version}</version>
             </dependency>
 
+            <!-- Saxon -->
+            <dependency>
+              <groupId>net.sf.saxon</groupId>
+              <artifactId>Saxon-HE</artifactId>
+              <version>10.3</version>
+            </dependency>
+
 
         </dependencies>
     </dependencyManagement>

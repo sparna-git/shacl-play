@@ -44,6 +44,7 @@
         <artifactId>logback-classic</artifactId>
     </dependency>
 
+    <!-- Jena -->
   	<dependency>
   		<groupId>org.apache.jena</groupId>
   		<artifactId>jena-core</artifactId>
@@ -53,16 +54,19 @@
       <artifactId>jena-arq</artifactId>
     </dependency>
 
+    <!-- SHACL -->
     <dependency>
       <groupId>org.topbraid</groupId>
       <artifactId>shacl</artifactId>
     </dependency>
 
+    <!-- picocli - not used -->
     <dependency>
       <groupId>info.picocli</groupId>
       <artifactId>picocli</artifactId>
     </dependency>
 
+    <!-- Jackson for XML serialisation -->
     <dependency>
         <groupId>com.fasterxml.jackson.core</groupId>
         <artifactId>jackson-core</artifactId>
@@ -76,10 +80,19 @@
         <artifactId>jackson-dataformat-xml</artifactId>
     </dependency>
 
+    <!-- Saxon -->
     <dependency>
       <groupId>net.sf.saxon</groupId>
       <artifactId>Saxon-HE</artifactId>
     </dependency>
-            
+          
+    <!-- Diagram printing -->
+    <dependency>
+      <groupId>fr.sparna.rdf.shacl</groupId>
+      <artifactId>shacl-doc</artifactId>
+      <version>0.4</version>
+    </dependency>
+
+
 	</dependencies>
 </project>

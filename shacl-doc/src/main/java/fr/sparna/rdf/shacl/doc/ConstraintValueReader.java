@@ -11,23 +11,34 @@ import org.topbraid.shacl.vocabulary.SH;
 
 public class ConstraintValueReader { 
 
-	public String readValueconstraint(Resource constraint,Property property) {
+	public String readValueconstraint(Resource constraint,Property property, String lang) {
 		
 		String value=null;
 		try {
 			if (constraint.hasProperty(property)) {
 				if (constraint.getProperty(property).getObject().isURIResource()) {
-					  //value = constraint.getProperty(property).getResource().getLocalName();
 					value = constraint.getModel().shortForm(constraint.getProperty(property).getResource().getURI());
-					
-				}
-				else if (constraint.getProperty(property).getObject().isLiteral()) {
+				} else if (
+						lang != null
+						&&
+						constraint.listProperties(property, lang).toList().size() > 0
+				) {
+					value = constraint.listProperties(property, lang).toList().stream()
+							.map(s -> s.getObject().asLiteral().getLexicalForm())
+							.collect(Collectors.joining(", "));
+					// value = constraint.getProperty(property).getObject().asLiteral().toString();
+				} else if (lang != null
+						) {
 					value = constraint.getProperty(property).getObject().asLiteral().toString();
-					//value = constraint.getProperty(property).getLiteral().toString();
-					
-				} else if (constraint.getProperty(property).getObject().isAnon()) {
+				} else if (
+						lang == null
+						&&
+						constraint.getProperty(property).getObject().isLiteral()
+				) {
+					value = constraint.getProperty(property).getObject().asLiteral().toString();
+				} 
+				else if (constraint.getProperty(property).getObject().isAnon()) {
 					value = renderShaclPropertyPath(constraint.getProperty(property).getObject().asResource());
-					
 				}
 			}
 		} catch (Exception e) {
@@ -35,6 +46,10 @@ public class ConstraintValueReader {
 		}
 		return value;
 	}
+	
+//	public String readValueconstraint(Resource constraint,Property property) {
+//		return readValueconstraint(constraint,property, null);
+//	}
 	
 	public static String renderShaclPropertyPath(Resource r) {
 		if(r == null) return "";

@@ -36,17 +36,30 @@ public class ShaclProperty {
 	protected String name;
 	protected String description;
 	protected String shin;
-	protected String shLanguage;
 	protected Integer shOrder;
+	protected String shValue;
 	
 	ConstraintValueReader constraintValueReader = new ConstraintValueReader();
 	
+	
+	public String getShValue() {
+		return shValue;
+	}
+
+	public void setShValue(Resource constraint) {
+		String value = null;
+		if(constraint.hasProperty(SH.value)) {
+			value = constraint.getProperty(SH.value).getLiteral().getString();
+		}
+		this.shValue = value;
+	}
+
 	public Integer getShOrder() {
 		return shOrder;
 	}
 
 	public void setShOrder(Resource constraint) {
-		Integer value = null;
+		Integer value = 0;
 		if(constraint.hasProperty(SH.order)) {
 			value = Integer.parseInt(constraint.getProperty(SH.order).getLiteral().getString());
 		}
@@ -80,46 +93,28 @@ public class ShaclProperty {
 		this.shin = value;
 	}
 	
-	
-	
-	
-	
-	
-
-	public String getShLanguage() {
-		return shLanguage;
-	}
-
-	public void setShLanguage(String sh_name, String sh_description) {
-		String value = null;
-		
-		if(sh_name != null) {
-			String[] getLanguage = sh_name.split("@");
-			value = getLanguage[getLanguage.length-1];	
-		}else if(sh_description != null) {
-			String[] getLanguage = sh_description.split("@");
-			value = getLanguage[getLanguage.length-1];	
-		}
-		
-		this.shLanguage = value;
-	}
-
 	public String getname() {
 		return name;
 	}
 
 	public void setname(Resource constraint, String lang) {
-		// here : read value in specified language, or without language if not found
-		this.name = constraintValueReader.readValueconstraint(constraint, SH.name);
+		String value = null;
+		if(constraint.hasProperty(SH.name)) {
+			value = constraintValueReader.readValueconstraint(constraint,SH.name,lang);
+		}
+		this.name = value;
 	}
 
 	public String getdescription() {
 		return description;
 	}
 
-	public void setdescription(Resource constraint) {
-		this.description = constraintValueReader.readValueconstraint(constraint, SH.description);
-		;
+	public void setdescription(Resource constraint,String lang) {
+		String value = null;
+		if(constraint.hasProperty(SH.description)) {
+			value = constraintValueReader.readValueconstraint(constraint, SH.description, null);
+		}
+		this.description = value;		
 	}
 
 	public String getpath() {
@@ -127,7 +122,7 @@ public class ShaclProperty {
 	}
 
 	public void setpath(Resource constraint) {
-		this.path = constraintValueReader.readValueconstraint(constraint, SH.path);
+		this.path = constraintValueReader.readValueconstraint(constraint, SH.path,null);		
 	}
 
 	public String getdatatype() {
@@ -135,7 +130,7 @@ public class ShaclProperty {
 	}
 
 	public void setdatatype(Resource constraint) {
-		this.datatype = constraintValueReader.readValueconstraint(constraint, SH.datatype);
+		this.datatype = constraintValueReader.readValueconstraint(constraint, SH.datatype,null);
 	}
 
 	public String getnodeKind() {
@@ -143,7 +138,7 @@ public class ShaclProperty {
 	}
 
 	public void setnodeKind(Resource constraint) {
-		this.nodeKind = constraintValueReader.readValueconstraint(constraint, SH.nodeKind);
+		this.nodeKind = constraintValueReader.readValueconstraint(constraint, SH.nodeKind,null);
 	}
 
 	// Cardinality Constraint Components
@@ -183,8 +178,7 @@ public class ShaclProperty {
 	}
 
 	public void setpattern(Resource constraint) {
-
-		this.pattern = constraintValueReader.readValueconstraint(constraint, SH.pattern);
+		this.pattern = constraintValueReader.readValueconstraint(constraint, SH.pattern,null);
 	}
 
 	// Shape-based Constraint Components
@@ -197,20 +191,22 @@ public class ShaclProperty {
 		// this.node = constraintValueReader.readValueconstraint(constraint, SH.node);
 
 		// 1. Lire la valeur de sh:node
-		String nodeValue = constraintValueReader.readValueconstraint(constraint, SH.node);
+		String nodeValue = constraintValueReader.readValueconstraint(constraint, SH.node,null);
 		// 2. Trouver le PlantUmlBox qui a ce nom
-		ShaclBox theBox = null;
-		for (ShaclBox plantUmlBox : allBoxes) {
-			if (plantUmlBox.getNameshape().equals(nodeValue)) {
-				theBox = plantUmlBox;
-				break;
+		if(nodeValue != null) {
+			ShaclBox theBox = null;
+			for (ShaclBox plantUmlBox : allBoxes) {
+				if (plantUmlBox.getNameshape().equals(nodeValue)) {
+					theBox = plantUmlBox;
+					break;
+				}
 			}
-		}
 
-		if (theBox == null) {
-			// on ne l'a pas trouv�, on sort la valeur de sh:node
-			this.node = nodeValue;
-		}
+			if (theBox == null) {
+				// on ne l'a pas trouv�, on sort la valeur de sh:node
+				this.node = nodeValue;
+			}	
+		}		
 	}
 
 	public String getclass_property() {
@@ -278,8 +274,6 @@ public class ShaclProperty {
 	// Principal
 	public ShaclProperty(Resource constraint, List<ShaclBox> allBoxes, String lang) {
 		
-		String sLanguage = null;
-
 		this.setpath(constraint);
 		this.setdatatype(constraint);
 		this.setnodeKind(constraint);
@@ -288,10 +282,10 @@ public class ShaclProperty {
 		this.setpattern(constraint);
 		this.setclass(constraint);
 		this.setclass_property(constraint, allBoxes); // Returne la valeur de TargetClass
-		this.setdescription(constraint);
+		this.setdescription(constraint, lang);
 		this.setname(constraint, lang);			
 		this.setShin(constraint);
-		this.setShLanguage(this.getname(), this.getdescription());
+		this.setShValue(constraint);
 		this.setShOrder(constraint);
 
 	}

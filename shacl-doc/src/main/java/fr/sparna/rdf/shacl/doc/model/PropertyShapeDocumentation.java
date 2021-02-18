@@ -14,10 +14,18 @@ public class PropertyShapeDocumentation {
 	private String output_patterns;
 	private String output_Cardinalite;
 	private String output_description;
-	private String output_language;
 	private String output_shin;
+	private String output_shvalue;
 	
-	
+		
+	public String getOutput_shvalue() {
+		return output_shvalue;
+	}
+
+	public void setOutput_shvalue(String output_shvalue) {
+		this.output_shvalue = output_shvalue;
+	}
+
 	public String getOutput_shin() {
 		return output_shin;
 	}
@@ -28,14 +36,6 @@ public class PropertyShapeDocumentation {
 			value = output_shin.substring(0, output_shin.length()-2);
 		}		
 		this.output_shin = value;
-	}
-
-	public String getOutput_language() {
-		return output_language;
-	}
-
-	public void setOutput_language(String output_language) {
-		this.output_language = output_language;
 	}
 
 	public String getOutput_patterns() {

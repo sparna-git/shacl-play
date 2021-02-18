@@ -9,6 +9,8 @@ public class ShapesDocumentation {
 
 	public String title;	
 	public String subtitle;
+	public String commentOntology;
+	public String VersionOntology;
 	@JacksonXmlElementWrapper(localName="shnamespaces")
 	@JacksonXmlProperty(localName = "shnamespace")
 	public List<NamespaceSections> shnamespace;
@@ -17,6 +19,19 @@ public class ShapesDocumentation {
 	public List<ShapesDocumentationSection> sections;
 	
 	
+	public String getCommentOntology() {
+		return commentOntology;
+	}
+	public void setCommentOntology(String commentOntology) {
+		this.commentOntology = commentOntology;
+	}
+	
+	public String getVersionOntology() {
+		return VersionOntology;
+	}
+	public void setVersionOntology(String versionOntology) {
+		VersionOntology = versionOntology;
+	}
 	public String getTitle() {
 		return title;
 	}

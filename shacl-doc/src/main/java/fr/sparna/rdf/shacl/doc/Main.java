@@ -13,6 +13,7 @@ import fr.sparna.rdf.shacl.doc.read.ShapesDocumentationReaderIfc;
 import fr.sparna.rdf.shacl.doc.read.ShapesDocumentationTestReader;
 import fr.sparna.rdf.shacl.doc.write.ShapesDocumentationJacksonXsltWriter;
 import fr.sparna.rdf.shacl.doc.write.ShapesDocumentationWriterIfc;
+import fr.sparna.rdf.shacl.doc.write.ShapesDocumentationXmlWriter;
 
 public class Main {
 
@@ -38,7 +39,8 @@ public class Main {
 		
 		
 		// 2. write Documentation structure to XML
-		ShapesDocumentationWriterIfc writer = new ShapesDocumentationJacksonXsltWriter();
+		//ShapesDocumentationWriterIfc writer = new ShapesDocumentationJacksonXsltWriter();
+		ShapesDocumentationXmlWriter writer = new ShapesDocumentationXmlWriter();
 		writer.write(doc, outputLang, System.out);
 		
 	}

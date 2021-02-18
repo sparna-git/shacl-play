@@ -66,7 +66,7 @@ public class ShapesDocumentationXmlWriter implements ShapesDocumentationWriterIf
 			Source xmlInput = new DOMSource(newDoc);
 	        StreamResult xmlOutput = new StreamResult(out);
 	        TransformerFactory transformerFactory = TransformerFactory.newInstance();
-	        transformerFactory.setAttribute("indent-number", 2);
+	        //transformerFactory.setAttribute("indent-number", 2);
 	        Transformer transformer = transformerFactory.newTransformer(); 
 	        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 	        transformer.transform(xmlInput, xmlOutput);

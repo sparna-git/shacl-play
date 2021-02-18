@@ -6,9 +6,11 @@
 	<xsl:output indent="yes" method="xml" />
 
 	<!-- Language parameter to the XSLT -->
-	<xsl:param name="LANG">en</xsl:param>
+	<xsl:param name="LANG">
+		en
+	</xsl:param>
 
-	<!--  french labels -->
+	<!-- french labels -->
 	<xsl:variable name="LABELS_FR">
 		<labels>
 			<entry key="TOC" label="Table des Matières" />
@@ -19,7 +21,7 @@
 			<entry key="COLUMN_DESCRIPTION" label="Description" />
 		</labels>
 	</xsl:variable>
-	
+
 	<!-- English labels -->
 	<xsl:variable name="LABELS_EN">
 		<labels>
@@ -31,9 +33,50 @@
 			<entry key="COLUMN_DESCRIPTION" label="Description" />
 		</labels>
 	</xsl:variable>
+
+	<!-- french labels prefix -->
+	<xsl:variable name="LABELS_FR_prefix">
+		<labels>
+			<entry key="TOC_PREFIX" label="Table des Prefix" />
+			<entry key="COLUMN_PREFIX" label="Namespace" />
+			<entry key="COLUMN_URI" label="URI" />
+		</labels>
+	</xsl:variable>
+	<!-- English labels prefix -->
+	<xsl:variable name="LABELS_EN_prefix">
+		<labels>
+			<entry key="TOC_PREFIX" label="Table of Prefix" />
+			<entry key="COLUMN_PREFIX" label="Namespace" />
+			<entry key="COLUMN_URI" label="URI" />
+		</labels>
+	</xsl:variable>
+	
+	<!-- Liste de description -->
+	<xsl:variable name="LABELS_EN_Description">
+	   <labels>
+	     <entry key="COMMENTS" label="The comments:"/>
+	     <entry key="DATE" label="Update Date:"/>
+	     <entry key="VERSION" label="Version:"/>	     
+	   </labels>
+	</xsl:variable>
+	
+	<xsl:variable name="LABELS_FR_Description">
+	   <labels>
+	     <entry key="COMMENTS" label="Le commentaire:"/>
+	     <entry key="DATE" label="Date de dernière modification "/>
+	     <entry key="VERSION" label="Numèro de Version"/>	     
+	   </labels>
+	</xsl:variable>
 	
 	<!-- Select labels based on language param -->
-	<xsl:variable name="LABELS" select="if($LANG = 'fr') then $LABELS_FR else $LABELS_EN" />
+	<xsl:variable name="LABELS_prefix"
+		select="if($LANG = 'fr') then $LABELS_FR_prefix else $LABELS_EN_prefix" />
+	<xsl:variable name="LABELS"
+		select="if($LANG = 'fr') then $LABELS_FR else $LABELS_EN" />
+    <xsl:variable name="LABELS_description"
+		select="if($LANG = 'fr') then $LABELS_FR_Description else $LABELS_EN_Description" />
+    
+    <!-- Principal  -->
 
 	<xsl:template match="/">
 		<xsl:apply-templates />
@@ -56,11 +99,29 @@
 						</center>
 					</h1>
 					<br />
+					<dl>
+					   <dt><xsl:value-of select="$LABELS_description/labels/entry[@key='COMMENTS']/@label"/></dt>
+					   <dd class=""><xsl:value-of select="commentOntology"/></dd>
+					   <dt><xsl:value-of select="$LABELS_description/labels/entry[@key='DATE']/@label"/></dt>
+					   <dd><xsl:value-of select="VersionOntology"/></dd>
+					   <dt><xsl:value-of select="$LABELS_description/labels/entry[@key='VERSION']/@label"/></dt>
+					   <dd><xsl:value-of select="VersionOntology"/></dd>
+					</dl>					
+					<br />
+					<ul class="nav justify-content-center">
+						<div>
+
+						</div>
+					</ul>
+					<br />
 					<br />
 					<ul class="nav justify-content-left">
 						<div>
 							<!-- Table de matieres -->
-							<h2><xsl:value-of select="$LABELS/labels/entry[@key='TOC']/@label" /></h2>
+							<h2>
+								<xsl:value-of
+									select="$LABELS/labels/entry[@key='TOC']/@label" />
+							</h2>
 							<xsl:for-each select="sections/section">
 								<xsl:variable name="TitleNodeSapetab" select="dURI" />
 								<xsl:variable name="Title" select="title" />
@@ -79,12 +140,47 @@
 		</html>
 	</xsl:template>
 
-	<!-- <xsl:template match="shnamespaces"> <div class="container-md"> <table 
-		id="TNamespace" class="table table-striped" style="width:100%"> <thead> <tr> 
-		<th>Prefix</th> <th>NameSpace</th> </tr> </thead> <tbody> <xsl:apply-templates 
-		select="shnamespace" /> </tbody> </table> </div> </xsl:template> <xsl:template 
-		match="shnamespace"> <tr> <td> <xsl:value-of select="output_prefix" /> </td> 
-		<td> <xsl:value-of select="output_namespace" /> </td> </tr> </xsl:template> -->
+	<xsl:template match="shnamespaces">
+	  <div class="container-md">
+		<ul class="nav justify-content-left">
+			<div class="container-md">
+				<h2>
+					<xsl:value-of
+						select="$LABELS_prefix/labels/entry[@key='TOC_PREFIX']/@label" />
+				</h2>
+				<table class="table table-striped" style="width:80%">
+					<thead>
+						<tr>
+							<th>
+								<xsl:value-of
+									select="$LABELS_prefix/labels/entry[@key='COLUMN_PREFIX']/@label" />
+							</th>
+							<th>
+								<xsl:value-of
+									select="$LABELS_prefix/labels/entry[@key='COLUMN_URI']/@label" />
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<xsl:apply-templates />
+					</tbody>
+				</table>
+			</div>
+		</ul>
+		</div>
+		<br/>
+	</xsl:template>
+
+	<xsl:template match="shnamespace">
+		<tr>
+			<td>
+				<xsl:value-of select="output_prefix" />
+			</td>
+			<td>
+				<xsl:value-of select="output_namespace" />
+			</td>
+		</tr>
+	</xsl:template>
 
 	<xsl:template match="sections">
 		<xsl:apply-templates />
@@ -106,15 +202,29 @@
 				</xsl:if>
 
 			</lefth>
-			<table class="table table-striped"
-				style="width:100%">
+			<table class="table table-striped" style="width:100%">
 				<thead>
 					<tr>
-							<th><xsl:value-of select="$LABELS/labels/entry[@key='COLUMN_PROPERTY']/@label" /> </th>
-							<th><xsl:value-of select="$LABELS/labels/entry[@key='COLUMN_URI']/@label" /></th>
-							<th><xsl:value-of select="$LABELS/labels/entry[@key='COLUMN_EXPECTED_VALUE']/@label" /></th>
-							<th><xsl:value-of select="$LABELS/labels/entry[@key='COLUMN_CARD']/@label" /></th>
-							<th><xsl:value-of select="$LABELS/labels/entry[@key='COLUMN_DESCRIPTION']/@label" /></th>
+						<th>
+							<xsl:value-of
+								select="$LABELS/labels/entry[@key='COLUMN_PROPERTY']/@label" />
+						</th>
+						<th>
+							<xsl:value-of
+								select="$LABELS/labels/entry[@key='COLUMN_URI']/@label" />
+						</th>
+						<th>
+							<xsl:value-of
+								select="$LABELS/labels/entry[@key='COLUMN_EXPECTED_VALUE']/@label" />
+						</th>
+						<th>
+							<xsl:value-of
+								select="$LABELS/labels/entry[@key='COLUMN_CARD']/@label" />
+						</th>
+						<th>
+							<xsl:value-of
+								select="$LABELS/labels/entry[@key='COLUMN_DESCRIPTION']/@label" />
+						</th>
 					</tr>
 				</thead>
 				<tbody>

@@ -12,12 +12,38 @@ public class ShapesDocumentationSection {
 	private String title;
 	private String dURI;
 	private String comments;
+	private String patternNS;
+	private String NodeKindNS;
+	private String CloseNS;
 	@JacksonXmlElementWrapper(localName="properties")
 	@JacksonXmlProperty(localName = "property")
 	public List<PropertyShapeDocumentation> propertySections;
 	
-	
 		
+	public String getPatternNS() {
+		return patternNS;
+	}
+
+	public void setPatternNS(String patternNS) {
+		this.patternNS = patternNS;
+	}
+
+	public String getNodeKindNS() {
+		return NodeKindNS;
+	}
+
+	public void setNodeKindNS(String nodeKindNS) {
+		NodeKindNS = nodeKindNS;
+	}
+
+	public String getCloseNS() {
+		return CloseNS;
+	}
+
+	public void setCloseNS(String closeNS) {
+		CloseNS = closeNS;
+	}
+
 	public String getdURI() {
 		return dURI;
 	}

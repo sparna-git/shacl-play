@@ -48,18 +48,16 @@ public class ShapesDocumentationJacksonXsltWriter implements ShapesDocumentation
 			mapper.writerFor(ShapesDocumentation.class).writeValue(xmlGenerator, documentation);
 			
 			// debug XML to console
-			// System.out.println(printToString(xmlDocument));
-			
-			
+			System.out.println(printToString(xmlDocument));
+						
 			// 3. Apply stylesheet to produce XHTML
 			Source xmlInput = new DOMSource(xmlDocument);
 	        StreamResult xmlOutput = new StreamResult(output);
 	        // force Saxon
 	        TransformerFactory transformerFactory = TransformerFactory.newInstance("net.sf.saxon.TransformerFactoryImpl", this.getClass().getClassLoader());
-	        // transformerFactory.setAttribute("indent-number", 2);
+	        //TransformerFactory.setAttribute("indent-number", 2);
 	        
 	        Source xsltInput = new StreamSource(ClassLoader.getSystemResourceAsStream("doc2html.xsl"));
-	        
 	        Transformer transformer = transformerFactory.newTransformer(xsltInput); 
 	        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 	        
@@ -88,7 +86,7 @@ public class ShapesDocumentationJacksonXsltWriter implements ShapesDocumentation
 	        StringWriter stringWriter = new StringWriter();
 	        StreamResult xmlOutput = new StreamResult(stringWriter);
 	        TransformerFactory transformerFactory = TransformerFactory.newInstance();
-	        transformerFactory.setAttribute("indent-number", 2);
+	        // transformerFactory.setAttribute("indent-number", 2);
 	        Transformer transformer = transformerFactory.newTransformer(); 
 	        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 	        transformer.transform(xmlInput, xmlOutput);

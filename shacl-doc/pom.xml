@@ -89,7 +89,7 @@
     <!-- Diagram printing -->
     <dependency>
       <groupId>fr.sparna.rdf.shacl</groupId>
-      <artifactId>shacl-doc</artifactId>
+      <artifactId>shacl-diagram</artifactId>
       <version>0.4</version>
     </dependency>
 

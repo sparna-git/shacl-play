@@ -48,7 +48,7 @@ public class ShapesDocumentationJacksonXsltWriter implements ShapesDocumentation
 			mapper.writerFor(ShapesDocumentation.class).writeValue(xmlGenerator, documentation);
 			
 			// debug XML to console
-			System.out.println(printToString(xmlDocument));
+			// System.out.println(printToString(xmlDocument));
 						
 			// 3. Apply stylesheet to produce XHTML
 			Source xmlInput = new DOMSource(xmlDocument);

@@ -309,7 +309,9 @@ public class PlantUmlProperty {
 	
 	
 	public void setValue_order_shacl(Resource constraint) {
-		this.value_order_shacl = Integer.parseInt(constraintValueReader.readValueconstraint(constraint, SH.order));		
+		String v = constraintValueReader.readValueconstraint(constraint, SH.order);
+		
+		this.value_order_shacl = (v != null)?Integer.parseInt(v):null;		
 	}
 	
 	public String getValue_hasValue() {

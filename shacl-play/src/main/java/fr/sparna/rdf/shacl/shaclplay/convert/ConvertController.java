@@ -70,7 +70,7 @@ public class ConvertController {
 			// load shapes
 			Model shapesModel = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM);
 			RulesCatalogEntry entry = this.catalogService.getRulesCatalog().getCatalogEntryById(shapesCatalogId);
-
+			
 			try {
 				shapesModel = ControllerCommons.populateModel(shapesModel, entry.getTurtleDownloadUrl());
 			} catch (RiotException e) {

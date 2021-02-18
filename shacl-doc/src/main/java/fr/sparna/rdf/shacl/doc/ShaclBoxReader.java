@@ -73,6 +73,9 @@ public class ShaclBoxReader {
 	}
 
 	public List<ShaclProperty> readProperties(Resource nodeShape, List<ShaclBox> allBoxes) {
+		
+		ShaclPropertyReader propertyReader = new ShaclPropertyReader(this.lang, allBoxes);
+		
 		List<Statement> propertyStatements = nodeShape.listProperties(SH.property).toList();
 		List<ShaclProperty> propertyShapes = new ArrayList<>();
 		for (Statement aPropertyStatement : propertyStatements) {
@@ -82,8 +85,8 @@ public class ShaclBoxReader {
 				System.out.println("Problem !");
 			}
 
-			Resource propertyShape = object.asResource();
-			ShaclProperty plantvalueproperty = new ShaclProperty(propertyShape, allBoxes, this.lang);
+			Resource propertyShape = object.asResource();			
+			ShaclProperty plantvalueproperty = propertyReader.read(propertyShape);
 			propertyShapes.add(plantvalueproperty);			
 		}
 		
@@ -100,18 +103,18 @@ public class ShaclBoxReader {
 					return 1;
 				} else {
 					// both sh:order are null, try with sh:name
-					if(ps1.getname() != null) {
-						if(ps2.getname() != null) {
-							return ps1.getname().compareTo(ps2.getname());
+					if(ps1.getName() != null) {
+						if(ps2.getName() != null) {
+							return ps1.getName().compareTo(ps2.getName());
 						} else {
 							return -1;
 						}
 					} else {
-						if(ps2.getname() != null) {
+						if(ps2.getName() != null) {
 							return 1;
 						} else {
 							// both sh:name are null, try with sh:path
-							return ps1.getpath().compareToIgnoreCase(ps2.getpath());
+							return ps1.getPath().compareToIgnoreCase(ps2.getPath());
 						}
 					}
 				}
@@ -121,19 +124,22 @@ public class ShaclBoxReader {
 		return propertyShapes;
 	}	
 	
-	public List<ShaclPrefix> readPropertiesPrefix(Resource nodeShape) {
+	public List<String> readPrefixes(Resource nodeShape) {
+		ShaclPrefixReader reader = new ShaclPrefixReader();
+		List<String> prefixes = new ArrayList<>();
+		
+		// read prefixes on node shape
+		prefixes.addAll(reader.readPrefixes(nodeShape));
+		
 		List<Statement> propertyStatements = nodeShape.listProperties(SH.property).toList();
-		List<ShaclPrefix> shaclprefix = new ArrayList<>();
 		for (Statement aPropertyStatement : propertyStatements) {
 			RDFNode object = aPropertyStatement.getObject();
-			if (object.isLiteral()) {
-				System.out.println("Problem !");
+			if(object.isResource()) {
+				Resource propertyShape = object.asResource();
+				prefixes.addAll(reader.readPrefixes(propertyShape));
 			}
-			Resource propertyShapePrefix = object.asResource();
-			ShaclPrefix plantvalueproperty = new ShaclPrefix(propertyShapePrefix);
-			shaclprefix.add(plantvalueproperty);			
 		}
-		return shaclprefix;
+		return prefixes;
 	}
 
 }

@@ -1,24 +1,12 @@
 package fr.sparna.rdf.shacl.diagram;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
-import org.apache.commons.lang3.ObjectUtils;
-import org.apache.jena.graph.Node;
-import org.apache.jena.rdf.listeners.NullListener;
-import org.apache.jena.rdf.model.Property;
-import org.apache.jena.rdf.model.RDFList;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
-import org.apache.jena.util.Metadata;
-import org.apache.jena.util.iterator.ExtendedIterator;
-import org.apache.jena.vocabulary.RDFS;
-import org.topbraid.shacl.vocabulary.SH;
-
-import fr.sparna.rdf.shacl.diagram.*;;
+import org.topbraid.shacl.vocabulary.SH;;
 
 public class PlantUmlBox {
 	
@@ -68,11 +56,23 @@ public class PlantUmlBox {
 			shacl_value.add(plantvalueproperty);		
 		
 		}		
-		
-		//Comparator<PlantUmlProperty> ashacl_value = Comparator.comparing(PlantUmlProperty::getValue_order_shacl)
-			//	.thenComparing(PlantUmlProperty::getValue_path);
-		 
-		shacl_value.sort(Comparator.comparing(PlantUmlProperty::getValue_order_shacl));
+
+		shacl_value.sort((PlantUmlProperty ps1, PlantUmlProperty ps2) -> {
+			if(ps1.getValue_order_shacl() != null) {
+				if(ps2.getValue_order_shacl() != null) {
+					return ps1.getValue_order_shacl() - ps2.getValue_order_shacl();
+				} else {
+					return -1;
+				}
+			} else {
+				if(ps2.getValue_order_shacl() != null) {
+					return 1;
+				} else {
+					// both sh:order are null, try with sh:path
+					return ps1.getValue_path().compareTo(ps2.getValue_path());
+				}
+			}
+		});
 		 
 		this.shacl_value = shacl_value;	
 	}	

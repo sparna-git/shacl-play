@@ -26,7 +26,6 @@ import fr.sparna.rdf.shacl.diagram.ShaclPlantUmlWriter;
 import fr.sparna.rdf.shacl.doc.ConstraintValueReader;
 import fr.sparna.rdf.shacl.doc.ShaclBox;
 import fr.sparna.rdf.shacl.doc.ShaclBoxReader;
-import fr.sparna.rdf.shacl.doc.ShaclPrefix;
 import fr.sparna.rdf.shacl.doc.ShaclProperty;
 import fr.sparna.rdf.shacl.doc.model.NamespaceSections;
 import fr.sparna.rdf.shacl.doc.model.PropertyShapeDocumentation;
@@ -87,42 +86,12 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 			aBox.setShacl_value(reader.readProperties(aBox.getNodeShape(), Shaclvalue));
 		}
 
-		// Lire les proprietes et récuperer les prefix a utilisé
-		List<String> aPrefix = new ArrayList<>();
+		// 3. Lire les prefixes
+		HashSet<String> gatheredPrefixes = new HashSet<>();
 		for (ShaclBox aBox : Shaclvalue) {
-			List<ShaclPrefix> prefixes = reader.readPropertiesPrefix(aBox.getNodeShape());
-		    for(ShaclPrefix shprefix : prefixes) {
-		    	String value = null;
-		    	if(shprefix.getPrefix_shClass() != null) {
-		    		value = shprefix.getPrefix_shClass(); 
-		    		aPrefix.add(value.split(":")[0]);
-		    	}
-		    	if(shprefix.getPrefix_shdatatype() != null) {
-		    		value = shprefix.getPrefix_shdatatype();
-		    		aPrefix.add(value.split(":")[0]);
-		    	}
-		    	if(shprefix.getPrefix_shhasvalue() != null) {
-		    		value = shprefix.getPrefix_shhasvalue(); 
-		    		aPrefix.add(value.split(":")[0]);
-		    	}
-		    	if(shprefix.getPrefix_shin() != null) {
-		    		value = shprefix.getPrefix_shin(); 
-		    		aPrefix.add(value.split(":")[0]);
-		    	}
-		    	if(shprefix.getPrefix_shpath() != null) {
-		    		value = shprefix.getPrefix_shpath();
-		    		aPrefix.add(value.split(":")[0]);
-		    	}
-		    	if(shprefix.getPrefix_shTargetClass() != null) {
-		    		value = shprefix.getPrefix_shTargetClass();
-		    		aPrefix.add(value.split(":")[0]);
-		    	}
-		    }
+			List<String> prefixes = reader.readPrefixes(aBox.getNodeShape());
+			gatheredPrefixes.addAll(prefixes);
 		}
-		
-		
-		
-		
 		
 		// Lecture de OWL
 		ConstraintValueReader ReadValue = new ConstraintValueReader();
@@ -146,13 +115,13 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 		
 		// for pour afficher l'information des prefix et namespace
 		List<NamespaceSections> namespaceSections = new ArrayList<>();
-		HashSet<String> aPrefixsh = new HashSet(aPrefix);
+
 		// Recuperation de prefix et Namespace
 		Map<String, String> allPrefixes = shaclGraph.getNsPrefixMap();
 		// Les prefix et namespace
-		for (String aPrefixp : aPrefixsh) {
+		for (String aPrefix : gatheredPrefixes) {
 			for (Map.Entry<String, String> me : allPrefixes.entrySet()) {				
-				if (me.getKey().equals(aPrefixp)) {		
+				if (me.getKey().equals(aPrefix)) {		
 					NamespaceSections tPrefix = new NamespaceSections();
 					tPrefix.setOutput_prefix(me.getKey());
 					tPrefix.setOutput_namespace(me.getValue());
@@ -187,9 +156,9 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 				List<PropertyShapeDocumentation> ListPropriete = new ArrayList<>();
 				for (ShaclProperty propriete : datanodeshape.getShacl_value()) {
 					// Récuperation du pattern si le node est une NodeShape
-					if (propriete.getnode() != null) {
+					if (propriete.getNode() != null) {
 						for (ShaclBox pattern_other_nodeshape : Shaclvalue) {
-							if (propriete.getnode().contains(pattern_other_nodeshape.getNameshape())) {
+							if (propriete.getNode().contains(pattern_other_nodeshape.getNameshape())) {
 								pattern_node_nodeshape = pattern_other_nodeshape.getShpatternNodeShape();
 								break;
 							}
@@ -198,17 +167,17 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 					//
 					PropertyShapeDocumentation proprieteDoc = new PropertyShapeDocumentation();
 					//
-					proprieteDoc.setOutput_propriete(propriete.getname(), null);
-					proprieteDoc.setOutput_uri(propriete.getpath());
-					proprieteDoc.setOutput_valeur_attendus(propriete.getclass(), propriete.getnode(),
-							propriete.getclass_property(), propriete.getdatatype(), propriete.getnodeKind(),
-							propriete.getpath());
-					proprieteDoc.setOutput_patterns(propriete.getpattern(), datanodeshape.getShpatternNodeShape(),
-							pattern_node_nodeshape, propriete.getclass(), propriete.getnode(),
-							propriete.getclass_property(), propriete.getdatatype(), propriete.getnodeKind(),
-							propriete.getpath());
-					proprieteDoc.setOutput_Cardinalite(propriete.getcardinality());
-					proprieteDoc.setOutput_description(propriete.getdescription(), datanodeshape.getRdfsComment());
+					proprieteDoc.setOutput_propriete(propriete.getName(), null);
+					proprieteDoc.setOutput_uri(propriete.getPath());
+					proprieteDoc.setOutput_valeur_attendus(propriete.getClass_node(), propriete.getNode(),
+							propriete.getClass_property(), propriete.getDatatype(), propriete.getNodeKind(),
+							propriete.getPath());
+					proprieteDoc.setOutput_patterns(propriete.getPattern(), datanodeshape.getShpatternNodeShape(),
+							pattern_node_nodeshape, propriete.getClass_node(), propriete.getNode(),
+							propriete.getClass_property(), propriete.getDatatype(), propriete.getNodeKind(),
+							propriete.getPath());
+					proprieteDoc.setOutput_Cardinalite(propriete.getCardinality());
+					proprieteDoc.setOutput_description(propriete.getDescription(), datanodeshape.getRdfsComment());
 					proprieteDoc.setOutput_shin(propriete.getShin());
 					proprieteDoc.setOutput_shvalue(propriete.getShValue());
 

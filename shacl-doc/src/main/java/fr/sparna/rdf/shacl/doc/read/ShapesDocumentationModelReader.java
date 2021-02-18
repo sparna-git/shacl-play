@@ -25,6 +25,7 @@ import org.topbraid.shacl.vocabulary.SH;
 import fr.sparna.rdf.shacl.diagram.ShaclPlantUmlWriter;
 import fr.sparna.rdf.shacl.doc.ConstraintValueReader;
 import fr.sparna.rdf.shacl.doc.ShaclBox;
+import fr.sparna.rdf.shacl.doc.ShaclBoxReader;
 import fr.sparna.rdf.shacl.doc.ShaclPrefix;
 import fr.sparna.rdf.shacl.doc.ShaclProperty;
 import fr.sparna.rdf.shacl.doc.model.NamespaceSections;
@@ -40,39 +41,57 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 	@Override
 	public ShapesDocumentation readShapesDocumentation(Model shaclGraph, Model owlGraph, String lang, String fileName) {
 
-		// Recuperation de prefix et Namespace
-		Map<String, String> map = shaclGraph.getNsPrefixMap();
-
 		List<Resource> nodeShapes = shaclGraph.listResourcesWithProperty(RDF.type, SH.NodeShape).toList();
 
 		// 1. Lire toutes les classes
 		ArrayList<ShaclBox> Shaclvalue = new ArrayList<>();
-		for (Resource nodeShape : nodeShapes) {
-			ShaclBox dbShacl = new ShaclBox(nodeShape, lang);
+		ShaclBoxReader reader = new ShaclBoxReader(lang);
+		for (Resource nodeShape : nodeShapes) {			
+			ShaclBox dbShacl = reader.read(nodeShape);
 			Shaclvalue.add(dbShacl);
 		}
-
-		List aContent = new ArrayList<>();
-		for (ShaclBox shOrder : Shaclvalue) {
-			aContent.add(shOrder.getShOrder());
-		}
-
-		if (aContent.contains(0)) {
-			Collections.sort(Shaclvalue, Comparator.comparing(ShaclBox::getNameshape));
-		} else {
-			Collections.sort(Shaclvalue, Comparator.comparing(ShaclBox::getShOrder));
-		}
+		
+		// sort node shapes
+		Shaclvalue.sort((ShaclBox ns1, ShaclBox ns2) -> {
+			if(ns1.getShOrder() != null) {
+				if(ns2.getShOrder() != null) {
+					return ns1.getShOrder() - ns2.getShOrder();
+				} else {
+					return -1;
+				}
+			} else {
+				if(ns2.getShOrder() != null) {
+					return 1;
+				} else {
+					// both sh:order are null, try with sh:name
+					if(ns1.getNameshape() != null) {
+						if(ns2.getNameshape() != null) {
+							return ns1.getNameshape().compareTo(ns2.getNameshape());
+						} else {
+							return -1;
+						}
+					} else {
+						if(ns2.getNameshape() != null) {
+							return 1;
+						} else {
+							// both sh:name are null, try with URI
+							return ns1.getNodeShape().toString().compareTo(ns2.getNodeShape().toString());
+						}
+					}
+				}
+			}
+		});
 
 		// 2. Lire les propriétés
 		for (ShaclBox aBox : Shaclvalue) {
-			aBox.readProperties(aBox.getNodeShape(), Shaclvalue, lang);
+			aBox.setShacl_value(reader.readProperties(aBox.getNodeShape(), Shaclvalue));
 		}
 
 		// Lire les proprietes et récuperer les prefix a utilisé
 		List<String> aPrefix = new ArrayList<>();
 		for (ShaclBox aBox : Shaclvalue) {
-		    aBox.readPropertiesPrefix(aBox.getNodeShape());
-		    for(ShaclPrefix shprefix : aBox.getShacl_prefix()) {
+			List<ShaclPrefix> prefixes = reader.readPropertiesPrefix(aBox.getNodeShape());
+		    for(ShaclPrefix shprefix : prefixes) {
 		    	String value = null;
 		    	if(shprefix.getPrefix_shClass() != null) {
 		    		value = shprefix.getPrefix_shClass(); 
@@ -101,7 +120,10 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 		    }
 		}
 		
-		HashSet<String> aPrefixsh = new HashSet(aPrefix);
+		
+		
+		
+		
 		// Lecture de OWL
 		ConstraintValueReader ReadValue = new ConstraintValueReader();
 		List<Resource> sOWL = shaclGraph.listResourcesWithProperty(RDF.type, OWL.Ontology).toList();
@@ -121,16 +143,20 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 		shapesDocumentation.setCommentOntology(sOWLComment);
 		shapesDocumentation.setVersionOntology(sOWLVersionInfo);
 		String pattern_node_nodeshape = null;
+		
 		// for pour afficher l'information des prefix et namespace
-		List<NamespaceSections> tPrefixPropriete = new ArrayList<>();
+		List<NamespaceSections> namespaceSections = new ArrayList<>();
+		HashSet<String> aPrefixsh = new HashSet(aPrefix);
+		// Recuperation de prefix et Namespace
+		Map<String, String> allPrefixes = shaclGraph.getNsPrefixMap();
 		// Les prefix et namespace
 		for (String aPrefixp : aPrefixsh) {
-			for (Map.Entry<String, String> me : map.entrySet()) {
-				NamespaceSections tPrefix = new NamespaceSections();
-				if (me.getKey().equals(aPrefixp)) {					
+			for (Map.Entry<String, String> me : allPrefixes.entrySet()) {				
+				if (me.getKey().equals(aPrefixp)) {		
+					NamespaceSections tPrefix = new NamespaceSections();
 					tPrefix.setOutput_prefix(me.getKey());
 					tPrefix.setOutput_namespace(me.getValue());
-					tPrefixPropriete.add(tPrefix);
+					namespaceSections.add(tPrefix);
 					break;
 				}				
 			}
@@ -143,7 +169,7 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 		
 		//
 
-		shapesDocumentation.setShnamespace(tPrefixPropriete);
+		shapesDocumentation.setShnamespace(namespaceSections);
 		// Property NodeShape
 		for (ShaclBox datanodeshape : Shaclvalue) {
 			if (datanodeshape.getNametargetclass() != null) {
@@ -159,7 +185,7 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 				// Information de l'Ontology
 
 				List<PropertyShapeDocumentation> ListPropriete = new ArrayList<>();
-				for (ShaclProperty propriete : datanodeshape.getProperties()) {
+				for (ShaclProperty propriete : datanodeshape.getShacl_value()) {
 					// Récuperation du pattern si le node est une NodeShape
 					if (propriete.getnode() != null) {
 						for (ShaclBox pattern_other_nodeshape : Shaclvalue) {

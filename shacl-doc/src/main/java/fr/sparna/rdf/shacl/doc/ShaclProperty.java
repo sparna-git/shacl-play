@@ -25,6 +25,8 @@ import org.topbraid.shacl.vocabulary.SH;
 
 public class ShaclProperty {
 
+	private Resource propertyShape;
+	
 	protected String path;
 	protected String datatype;
 	protected String nodeKind;
@@ -271,8 +273,16 @@ public class ShaclProperty {
 		this.class_node = value;
 	}
 	
+	
+	
+	public Resource getPropertyShape() {
+		return propertyShape;
+	}
+
 	// Principal
 	public ShaclProperty(Resource constraint, List<ShaclBox> allBoxes, String lang) {
+		
+		this.propertyShape = constraint;
 		
 		this.setpath(constraint);
 		this.setdatatype(constraint);

@@ -56,21 +56,21 @@ public class ShaclPrefix {
 		Prefix_shhasvalue = Value;
 	}
 	
-	public static String validateuri(Resource nodeShape,Property property) {
-		if(nodeShape.hasProperty(property)) {
-			return  nodeShape.getModel().qnameFor(nodeShape.getProperty(property).getObject().asNode().getURI());			
+	public static String validateuri(Resource resource,Property property) {
+		if(resource.hasProperty(property)) {
+			return  resource.getModel().qnameFor(resource.getProperty(property).getObject().asNode().getURI());			
 		}else {
 			return null;
 		}
 	}
 	
-	public ShaclPrefix(Resource nodeShape) {
-		this.setPrefix_shpath(nodeShape);
-		this.setPrefix_shdatatype(nodeShape);
-		this.setPrefix_shhasvalue(nodeShape);
-		this.setPrefix_shin(nodeShape);
-		this.setPrefix_shClass(nodeShape);
-		this.setPrefix_shTargetClass(nodeShape);
+	public ShaclPrefix(Resource resource) {
+		this.setPrefix_shpath(resource);
+		this.setPrefix_shdatatype(resource);
+		this.setPrefix_shhasvalue(resource);
+		this.setPrefix_shin(resource);
+		this.setPrefix_shClass(resource);
+		this.setPrefix_shTargetClass(resource);
 		
 	}
 }

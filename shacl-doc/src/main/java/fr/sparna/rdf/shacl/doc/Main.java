@@ -39,8 +39,8 @@ public class Main {
 		
 		
 		// 2. write Documentation structure to XML
-		//ShapesDocumentationWriterIfc writer = new ShapesDocumentationJacksonXsltWriter();
-		ShapesDocumentationXmlWriter writer = new ShapesDocumentationXmlWriter();
+		ShapesDocumentationWriterIfc writer = new ShapesDocumentationJacksonXsltWriter();
+		// ShapesDocumentationXmlWriter writer = new ShapesDocumentationXmlWriter();
 		writer.write(doc, outputLang, System.out);
 		
 	}

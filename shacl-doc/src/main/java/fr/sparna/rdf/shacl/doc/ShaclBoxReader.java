@@ -121,19 +121,22 @@ public class ShaclBoxReader {
 		return propertyShapes;
 	}	
 	
-	public List<ShaclPrefix> readPropertiesPrefix(Resource nodeShape) {
+	public List<String> readPrefixes(Resource nodeShape) {
+		ShaclPrefixReader reader = new ShaclPrefixReader();
+		List<String> prefixes = new ArrayList<>();
+		
+		// read prefixes on node shape
+		prefixes.addAll(reader.readPrefixes(nodeShape));
+		
 		List<Statement> propertyStatements = nodeShape.listProperties(SH.property).toList();
-		List<ShaclPrefix> shaclprefix = new ArrayList<>();
 		for (Statement aPropertyStatement : propertyStatements) {
 			RDFNode object = aPropertyStatement.getObject();
-			if (object.isLiteral()) {
-				System.out.println("Problem !");
+			if(object.isResource()) {
+				Resource propertyShape = object.asResource();
+				prefixes.addAll(reader.readPrefixes(propertyShape));
 			}
-			Resource propertyShapePrefix = object.asResource();
-			ShaclPrefix plantvalueproperty = new ShaclPrefix(propertyShapePrefix);
-			shaclprefix.add(plantvalueproperty);			
 		}
-		return shaclprefix;
+		return prefixes;
 	}
 
 }

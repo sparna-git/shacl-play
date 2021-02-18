@@ -73,6 +73,9 @@ public class ShaclBoxReader {
 	}
 
 	public List<ShaclProperty> readProperties(Resource nodeShape, List<ShaclBox> allBoxes) {
+		
+		ShaclPropertyReader propertyReader = new ShaclPropertyReader(this.lang, allBoxes);
+		
 		List<Statement> propertyStatements = nodeShape.listProperties(SH.property).toList();
 		List<ShaclProperty> propertyShapes = new ArrayList<>();
 		for (Statement aPropertyStatement : propertyStatements) {
@@ -82,8 +85,8 @@ public class ShaclBoxReader {
 				System.out.println("Problem !");
 			}
 
-			Resource propertyShape = object.asResource();
-			ShaclProperty plantvalueproperty = new ShaclProperty(propertyShape, allBoxes, this.lang);
+			Resource propertyShape = object.asResource();			
+			ShaclProperty plantvalueproperty = propertyReader.read(propertyShape);
 			propertyShapes.add(plantvalueproperty);			
 		}
 		
@@ -100,18 +103,18 @@ public class ShaclBoxReader {
 					return 1;
 				} else {
 					// both sh:order are null, try with sh:name
-					if(ps1.getname() != null) {
-						if(ps2.getname() != null) {
-							return ps1.getname().compareTo(ps2.getname());
+					if(ps1.getName() != null) {
+						if(ps2.getName() != null) {
+							return ps1.getName().compareTo(ps2.getName());
 						} else {
 							return -1;
 						}
 					} else {
-						if(ps2.getname() != null) {
+						if(ps2.getName() != null) {
 							return 1;
 						} else {
 							// both sh:name are null, try with sh:path
-							return ps1.getpath().compareToIgnoreCase(ps2.getpath());
+							return ps1.getPath().compareToIgnoreCase(ps2.getPath());
 						}
 					}
 				}

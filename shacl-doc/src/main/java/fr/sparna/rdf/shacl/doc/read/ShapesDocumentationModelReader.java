@@ -156,9 +156,9 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 				List<PropertyShapeDocumentation> ListPropriete = new ArrayList<>();
 				for (ShaclProperty propriete : datanodeshape.getShacl_value()) {
 					// Récuperation du pattern si le node est une NodeShape
-					if (propriete.getnode() != null) {
+					if (propriete.getNode() != null) {
 						for (ShaclBox pattern_other_nodeshape : Shaclvalue) {
-							if (propriete.getnode().contains(pattern_other_nodeshape.getNameshape())) {
+							if (propriete.getNode().contains(pattern_other_nodeshape.getNameshape())) {
 								pattern_node_nodeshape = pattern_other_nodeshape.getShpatternNodeShape();
 								break;
 							}
@@ -167,17 +167,17 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 					//
 					PropertyShapeDocumentation proprieteDoc = new PropertyShapeDocumentation();
 					//
-					proprieteDoc.setOutput_propriete(propriete.getname(), null);
-					proprieteDoc.setOutput_uri(propriete.getpath());
-					proprieteDoc.setOutput_valeur_attendus(propriete.getclass(), propriete.getnode(),
-							propriete.getclass_property(), propriete.getdatatype(), propriete.getnodeKind(),
-							propriete.getpath());
-					proprieteDoc.setOutput_patterns(propriete.getpattern(), datanodeshape.getShpatternNodeShape(),
-							pattern_node_nodeshape, propriete.getclass(), propriete.getnode(),
-							propriete.getclass_property(), propriete.getdatatype(), propriete.getnodeKind(),
-							propriete.getpath());
-					proprieteDoc.setOutput_Cardinalite(propriete.getcardinality());
-					proprieteDoc.setOutput_description(propriete.getdescription(), datanodeshape.getRdfsComment());
+					proprieteDoc.setOutput_propriete(propriete.getName(), null);
+					proprieteDoc.setOutput_uri(propriete.getPath());
+					proprieteDoc.setOutput_valeur_attendus(propriete.getClass_node(), propriete.getNode(),
+							propriete.getClass_property(), propriete.getDatatype(), propriete.getNodeKind(),
+							propriete.getPath());
+					proprieteDoc.setOutput_patterns(propriete.getPattern(), datanodeshape.getShpatternNodeShape(),
+							pattern_node_nodeshape, propriete.getClass_node(), propriete.getNode(),
+							propriete.getClass_property(), propriete.getDatatype(), propriete.getNodeKind(),
+							propriete.getPath());
+					proprieteDoc.setOutput_Cardinalite(propriete.getCardinality());
+					proprieteDoc.setOutput_description(propriete.getDescription(), datanodeshape.getRdfsComment());
 					proprieteDoc.setOutput_shin(propriete.getShin());
 					proprieteDoc.setOutput_shvalue(propriete.getShValue());
 

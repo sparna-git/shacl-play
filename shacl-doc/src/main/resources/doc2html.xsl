@@ -50,33 +50,50 @@
 			<entry key="COLUMN_URI" label="URI" />
 		</labels>
 	</xsl:variable>
-	
+
 	<!-- Liste de description -->
 	<xsl:variable name="LABELS_EN_Description">
-	   <labels>
-	     <entry key="COMMENTS" label="The comments:"/>
-	     <entry key="DATE" label="Update Date:"/>
-	     <entry key="VERSION" label="Version:"/>	     
-	   </labels>
+		<labels>
+			<entry key="COMMENTS" label="The comments:" />
+			<entry key="DATE" label="Update Date:" />
+			<entry key="VERSION" label="Version:" />
+		</labels>
 	</xsl:variable>
-	
+
 	<xsl:variable name="LABELS_FR_Description">
-	   <labels>
-	     <entry key="COMMENTS" label="Le commentaire:"/>
-	     <entry key="DATE" label="Date de dernière modification "/>
-	     <entry key="VERSION" label="Numèro de Version"/>	     
-	   </labels>
+		<labels>
+			<entry key="COMMENTS" label="Le commentaire:" />
+			<entry key="DATE" label="Date de dernière modification " />
+			<entry key="VERSION" label="Numèro de Version" />
+		</labels>
 	</xsl:variable>
-	
+
+	<!-- Diagramme -->
+	<xsl:variable name="LABELS_FR_Digramme">
+		<labels>
+			<entry key="DIAGRAMME" label="Le Diagramme:" />
+		</labels>
+	</xsl:variable>
+
+	<xsl:variable name="LABELS_EN_Digramme">
+		<labels>
+			<entry key="DIAGRAMME" label="Shape Diagram" />
+		</labels>
+	</xsl:variable>
+
+
 	<!-- Select labels based on language param -->
 	<xsl:variable name="LABELS_prefix"
 		select="if($LANG = 'fr') then $LABELS_FR_prefix else $LABELS_EN_prefix" />
 	<xsl:variable name="LABELS"
 		select="if($LANG = 'fr') then $LABELS_FR else $LABELS_EN" />
-    <xsl:variable name="LABELS_description"
+	<xsl:variable name="LABELS_description"
 		select="if($LANG = 'fr') then $LABELS_FR_Description else $LABELS_EN_Description" />
-    
-    <!-- Principal  -->
+	<xsl:variable name="LABELS_Diagramme"
+		select="if($LANG = 'fr') then $LABELS_FR_Digramme else $LABELS_EN_Digramme" />
+
+
+	<!-- Principal -->
 
 	<xsl:template match="/">
 		<xsl:apply-templates />
@@ -89,6 +106,18 @@
 					href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
 					integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
 					crossorigin="anonymous" />
+				<style type="text/css">
+					hr { display: block;
+					unicode-bidi: isolate;
+					margin-block-start: 0.9em;
+					margin-block-end: 0.9em;
+					margin-inline-start: auto;
+					margin-inline-end: auto;
+					border-style:
+					inset;
+					border-width: 1px;}
+
+				</style>
 			</head>
 			<body>
 				<div class="container-md">
@@ -100,20 +129,41 @@
 					</h1>
 					<br />
 					<dl>
-					   <dt><xsl:value-of select="$LABELS_description/labels/entry[@key='COMMENTS']/@label"/></dt>
-					   <dd class=""><xsl:value-of select="commentOntology"/></dd>
-					   <dt><xsl:value-of select="$LABELS_description/labels/entry[@key='DATE']/@label"/></dt>
-					   <dd><xsl:value-of select="VersionOntology"/></dd>
-					   <dt><xsl:value-of select="$LABELS_description/labels/entry[@key='VERSION']/@label"/></dt>
-					   <dd><xsl:value-of select="VersionOntology"/></dd>
-					</dl>					
-					<br />
-					<ul class="nav justify-content-center">
-						<div>
-
-						</div>
-					</ul>
-					<br />
+						<xsl:if test="VersionOntology != null">
+							<dt>
+								<xsl:value-of
+									select="$LABELS_description/labels/entry[@key='DATE']/@label" />
+							</dt>
+							<dd>
+								<xsl:value-of select="VersionOntology" />
+							</dd>
+						</xsl:if>
+						<xsl:if test="VersionOntology != null">
+							<dt>
+								<xsl:value-of
+									select="$LABELS_description/labels/entry[@key='VERSION']/@label" />
+							</dt>
+							<dd>
+								<xsl:value-of select="VersionOntology" />
+							</dd>
+							<br />
+						</xsl:if>
+					</dl>
+					<dl>
+						<xsl:if test="commentOntology != ''">
+							<br />
+							<br />
+							<hr />
+							<br />
+							<dt>
+								<xsl:value-of
+									select="$LABELS_description/labels/entry[@key='COMMENTS']/@label" />
+							</dt>
+							<dd class="">
+								<xsl:value-of select="commentOntology" />
+							</dd>
+						</xsl:if>
+					</dl>
 					<br />
 					<ul class="nav justify-content-left">
 						<div>
@@ -122,6 +172,17 @@
 								<xsl:value-of
 									select="$LABELS/labels/entry[@key='TOC']/@label" />
 							</h2>
+							<xsl:if test="drawnImagenXML != ''">
+							    <xsl:variable name="TableDiagramme">
+							       <xsl:value-of
+									select="$LABELS_Diagramme/labels/entry[@key='DIAGRAMME']/@label" />
+							    </xsl:variable>
+							    <a href="{concat('#',$TableDiagramme)}">
+							    <xsl:value-of
+									select="$TableDiagramme" />
+								</a>
+								<br />	
+							</xsl:if>
 							<xsl:for-each select="sections/section">
 								<xsl:variable name="TitleNodeSapetab" select="dURI" />
 								<xsl:variable name="Title" select="title" />
@@ -140,35 +201,51 @@
 		</html>
 	</xsl:template>
 
+	<xsl:template match="drawnImagenXML">
+		<xsl:if test=". != ''">
+			<ul class="nav justify-content-center">
+				<div class="container-md">
+					<h2>
+						<xsl:value-of
+							select="$LABELS_Diagramme/labels/entry[@key='DIAGRAMME']/@label" />
+					</h2>
+					<br />
+					<xsl:value-of select="." disable-output-escaping="yes" />
+				</div>
+			</ul>
+			<br />
+		</xsl:if>
+	</xsl:template>
+
 	<xsl:template match="shnamespaces">
-	  <div class="container-md">
-		<ul class="nav justify-content-left">
-			<div class="container-md">
-				<h2>
-					<xsl:value-of
-						select="$LABELS_prefix/labels/entry[@key='TOC_PREFIX']/@label" />
-				</h2>
-				<table class="table table-striped" style="width:80%">
-					<thead>
-						<tr>
-							<th>
-								<xsl:value-of
-									select="$LABELS_prefix/labels/entry[@key='COLUMN_PREFIX']/@label" />
-							</th>
-							<th>
-								<xsl:value-of
-									select="$LABELS_prefix/labels/entry[@key='COLUMN_URI']/@label" />
-							</th>
-						</tr>
-					</thead>
-					<tbody>
-						<xsl:apply-templates />
-					</tbody>
-				</table>
-			</div>
-		</ul>
+		<div class="container-md">
+			<ul class="nav justify-content-left">
+				<div class="container-md">
+					<h2>
+						<xsl:value-of
+							select="$LABELS_prefix/labels/entry[@key='TOC_PREFIX']/@label" />
+					</h2>
+					<table class="table table-striped" style="width:80%">
+						<thead>
+							<tr>
+								<th>
+									<xsl:value-of
+										select="$LABELS_prefix/labels/entry[@key='COLUMN_PREFIX']/@label" />
+								</th>
+								<th>
+									<xsl:value-of
+										select="$LABELS_prefix/labels/entry[@key='COLUMN_URI']/@label" />
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							<xsl:apply-templates />
+						</tbody>
+					</table>
+				</div>
+			</ul>
 		</div>
-		<br/>
+		<br />
 	</xsl:template>
 
 	<xsl:template match="shnamespace">

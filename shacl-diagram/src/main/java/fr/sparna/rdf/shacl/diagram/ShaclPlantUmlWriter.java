@@ -31,8 +31,6 @@ public class ShaclPlantUmlWriter {
 			aBox.readProperties(aBox.getNodeShape(), planumlvalue);
 		}
 
-		String attribute = "";
-		SourcePlantUml codeuml = new SourcePlantUml();
 		List<String> sourceuml = new ArrayList<>();
 		String Auxpackage = "";
 		boolean  close_package=false;
@@ -61,39 +59,9 @@ public class ShaclPlantUmlWriter {
 				}
 			}
 			
-			
-			
+			PlantUmlRenderer renderer = new PlantUmlRenderer(plantUmlBox.getNameshape());
 			for (PlantUmlProperty plantUmlproperty : plantUmlBox.getProperties()) {
-
-				codeuml.codeuml(plantUmlproperty,plantUmlBox.getNameshape());
-				
-				attribute = codeuml.getUml_shape()+" : "+codeuml.getUml_path()+" "+codeuml.getUml_datatype()+" "+codeuml.getUml_literal()+" "+codeuml.getUml_pattern(true)+codeuml.getUml_uniquelang()+" "+codeuml.getUml_hasValue()+"\n";
-				
-				if (codeuml.getUml_nodekind() != null ) {
-					if (codeuml.getUml_nodekind() == "IRI") {
-						attribute = codeuml.getUml_shape()+" : "  +" -() "+codeuml.getUml_nodekind()+" : "+codeuml.getUml_path()+" "+codeuml.getUml_datatype()+" "+codeuml.getUml_literal()+"\n";
-					}
-				}
-
-				if (codeuml.getUml_node() !=null) {
-					sourceuml.add(codeuml.getUml_node());
-					attribute = "";
-				}
-
-				if(codeuml.getUml_class_property() != null) {
-					sourceuml.add(codeuml.getUml_class_property());
-					attribute = "";
-				}
-				
-				if (codeuml.getUml_qualifiedvalueshape() !=null) {
-					sourceuml.add(codeuml.getUml_qualifiedvalueshape());
-					attribute = "";
-				}
-				
-				if (attribute != "") {
-					sourceuml.add(attribute);
-				}
-				
+				sourceuml.add(renderer.render(plantUmlproperty));
 			}
 		}
 		

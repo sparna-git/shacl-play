@@ -44,6 +44,7 @@ public class PlantUmlBox {
 		
 		List<Statement> propertyStatements = nodeShape.listProperties(SH.property).toList();
 		List<PlantUmlProperty> shacl_value = new ArrayList<>();
+		PlantUmlPropertyReader propertyReader = new PlantUmlPropertyReader(allBoxes);
 		for (Statement aPropertyStatement : propertyStatements) {
 			RDFNode object = aPropertyStatement.getObject();
 			
@@ -52,7 +53,7 @@ public class PlantUmlBox {
 				}
 			
 			Resource propertyShape = object.asResource();			
-			PlantUmlProperty plantvalueproperty = new PlantUmlProperty(propertyShape, allBoxes);			
+			PlantUmlProperty plantvalueproperty = propertyReader.readPlantUmlProperty(propertyShape);
 			shacl_value.add(plantvalueproperty);		
 		
 		}		

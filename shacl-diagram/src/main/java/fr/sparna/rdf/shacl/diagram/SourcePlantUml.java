@@ -12,7 +12,6 @@ public class SourcePlantUml {
 	protected String uml_pattern;
 	protected String uml_uniquelang;
 	protected String uml_node;
-	protected String uml_class;
 	protected String uml_class_property;
 	protected String uml_nodekind_pattern_uniquelang;
 	protected String uml_hasValue;
@@ -109,15 +108,6 @@ public class SourcePlantUml {
 		this.uml_node = value;
 	}
 	
-	public String getUml_class() {
-		return uml_class;
-	}
-	public void setUml_class(String uml_class,String uml_class_property) {
-		String value = null;
-			
-		this.uml_class = value;
-	}
-	
 	public String getUml_class_property() {
 		return uml_class_property;
 	}
@@ -194,7 +184,6 @@ public class SourcePlantUml {
 		
 		this.setUml_node(plantUmlproperty.getValue_node(), this.uml_shape, this.uml_path, this.uml_datatype, this.uml_literal,this.uml_nodekind, this.getUml_pattern(false));
 		this.setUml_qualifiedvalueshape(plantUmlproperty.getValue_qualifiedvalueshape(), this.uml_shape, plantUmlproperty.getValue_path(), this.getUml_datatype(), this.getUml_literal(),this.getUml_nodekind(), this.getUml_pattern(false),this.uml_qualifiedMaxMinCount);
-		this.setUml_class(plantUmlproperty.getValue_class(),plantUmlproperty.getValue_class_property());
 		this.setUml_class_property(plantUmlproperty.getValue_class_property(),this.uml_shape,this.uml_path,this.uml_literal,this.uml_nodekind,this.uml_pattern);
 		
 	}

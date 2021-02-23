@@ -19,6 +19,20 @@
 			<entry key="COLUMN_EXPECTED_VALUE" label="Valeur attendue" />
 			<entry key="COLUMN_CARD" label="Card." />
 			<entry key="COLUMN_DESCRIPTION" label="Description" />
+			
+			<entry key="PREFIXES.TITLE" label="Liste de préfixes" />
+			<entry key="PREFIXES.COLUMN.PREFIX" label="Namespace" />
+			<entry key="PREFIXES.COLUMN.URI" label="URI" />
+			
+			<entry key="METADATA.INTRODUCTION" label="Présentation:" />
+			<entry key="METADATA.DATE" label="Date de dernière modification " />
+			<entry key="METADATA.VERSION" label="Numèro de Version" />
+			
+			<entry key="DIAGRAM.TITLE" label="Diagramme du dataset" />
+			
+			<entry key="LABEL_NODEKIND" label="Types de noeud : " />
+			<entry key="LABEL_PATTERNS" label="Structure des URIs : " />
+			<entry key="LABEL_CLOSE" label="Shape fermée" />
 		</labels>
 	</xsl:variable>
 
@@ -31,84 +45,27 @@
 			<entry key="COLUMN_EXPECTED_VALUE" label="Expected value" />
 			<entry key="COLUMN_CARD" label="Card." />
 			<entry key="COLUMN_DESCRIPTION" label="Description" />
-		</labels>
-	</xsl:variable>
-
-	<!-- french labels prefix -->
-	<xsl:variable name="LABELS_FR_prefix">
-		<labels>
-			<entry key="TOC_PREFIX" label="Table des Prefix" />
-			<entry key="COLUMN_PREFIX" label="Namespace" />
-			<entry key="COLUMN_URI" label="URI" />
-		</labels>
-	</xsl:variable>
-	<!-- English labels prefix -->
-	<xsl:variable name="LABELS_EN_prefix">
-		<labels>
-			<entry key="TOC_PREFIX" label="Table of Prefix" />
-			<entry key="COLUMN_PREFIX" label="Namespace" />
-			<entry key="COLUMN_URI" label="URI" />
-		</labels>
-	</xsl:variable>
-
-	<!-- Liste de description -->
-	<xsl:variable name="LABELS_EN_Description">
-		<labels>
-			<entry key="COMMENTS" label="Introduction:" />
-			<entry key="DATE" label="Update Date:" />
-			<entry key="VERSION" label="Version:" />
-		</labels>
-	</xsl:variable>
-
-	<xsl:variable name="LABELS_FR_Description">
-		<labels>
-			<entry key="COMMENTS" label="Présentation:" />
-			<entry key="DATE" label="Date de dernière modification " />
-			<entry key="VERSION" label="Numèro de Version" />
-		</labels>
-	</xsl:variable>
-
-	<!-- Diagramme -->
-	<xsl:variable name="LABELS_FR_Digramme">
-		<labels>
-			<entry key="DIAGRAMME" label="Le Diagramme" />
-		</labels>
-	</xsl:variable>
-
-	<xsl:variable name="LABELS_EN_Digramme">
-		<labels>
-			<entry key="DIAGRAMME" label="Shape Diagram" />
-		</labels>
-	</xsl:variable>
-
-	<!-- Variables sin Target -->
-	<xsl:variable name="LABELS_FR_sans_properties">
-		<labels>
-			<entry key="LABEL_NODEKIND" label="Le node sont: " />
-			<entry key="LABEL_PATTERNS" label="L'URI pattern: " />
-			<entry key="LABEL_CLOSE" label="Fermé " />
-		</labels>
-	</xsl:variable>
-	<xsl:variable name="LABELS_EN_sans_properties">
-		<labels>
-			<entry key="LABEL_NODEKIND" label="Nodes are: " />
+			
+			<entry key="PREFIXES.TITLE" label="Prefixes" />
+			<entry key="PREFIXES.COLUMN.PREFIX" label="Namespace" />
+			<entry key="PREFIXES.COLUMN.URI" label="URI" />
+			
+			<entry key="METADATA.INTRODUCTION" label="Introduction:" />
+			<entry key="METADATA.DATE" label="Last updated:" />
+			<entry key="METADATA.VERSION" label="Version:" />
+			
+			<entry key="DIAGRAM.TITLE" label="Dataset diagram" />
+			
+			<entry key="LABEL_NODEKIND" label="Nodes: " />
 			<entry key="LABEL_PATTERNS" label="URI pattern: " />
-			<entry key="LABEL_CLOSE" label="closed " />
+			<entry key="LABEL_CLOSE" label="Closed shape" />
 		</labels>
 	</xsl:variable>
 
 
 	<!-- Select labels based on language param -->
-	<xsl:variable name="LABELS_prefix"
-		select="if($LANG = 'fr') then $LABELS_FR_prefix else $LABELS_EN_prefix" />
 	<xsl:variable name="LABELS"
 		select="if($LANG = 'fr') then $LABELS_FR else $LABELS_EN" />
-	<xsl:variable name="LABELS_description"
-		select="if($LANG = 'fr') then $LABELS_FR_Description else $LABELS_EN_Description" />
-	<xsl:variable name="LABELS_Diagramme"
-		select="if($LANG = 'fr') then $LABELS_FR_Digramme else $LABELS_EN_Digramme" />
-	<xsl:variable name="LABELS_Properties"
-		select="if($LANG = 'fr') then $LABELS_FR_sans_properties else $LABELS_EN_sans_properties" />
 
 
 	<!-- Principal -->
@@ -148,12 +105,12 @@
 					<br />
 					<xsl:if test="VersionOntology != null">
 						<xsl:value-of
-							select="$LABELS_description/labels/entry[@key='DATE']/@label" />
+							select="$LABELS/labels/entry[@key='METADATA.DATE']/@label" />
 						<xsl:value-of select="VersionOntology" />
 					</xsl:if>
 					<xsl:if test="VersionOntology != null">
 						<xsl:value-of
-							select="$LABELS_description/labels/entry[@key='VERSION']/@label" />
+							select="$LABELS/labels/entry[@key='METADATA.VERSION']/@label" />
 						<xsl:value-of select="VersionOntology" />
 						<br />
 					</xsl:if>
@@ -163,7 +120,7 @@
 						<br />
 						<h2>
 							<xsl:value-of
-								select="$LABELS_description/labels/entry[@key='COMMENTS']/@label" />
+								select="$LABELS/labels/entry[@key='METADATA.INTRODUCTION']/@label" />
 						</h2>
 						<xsl:value-of select="commentOntology" />
 						<br />
@@ -179,7 +136,7 @@
 							<xsl:if test="drawnImagenXML != ''">
 								<xsl:variable name="TableDiagramme">
 									<xsl:value-of
-										select="$LABELS_Diagramme/labels/entry[@key='DIAGRAMME']/@label" />
+										select="$LABELS/labels/entry[@key='DIAGRAM.TITLE']/@label" />
 								</xsl:variable>
 								<a href="{concat('#',$TableDiagramme)}">
 									<xsl:value-of select="$TableDiagramme" />
@@ -213,10 +170,12 @@
 				<div class="container-md">
 					<h2>
 						<xsl:value-of
-							select="$LABELS_Diagramme/labels/entry[@key='DIAGRAMME']/@label" />
+							select="$LABELS/labels/entry[@key='DIAGRAM.TITLE']/@label" />
 					</h2>
-					<br />
-					<xsl:value-of select="." disable-output-escaping="yes" />
+					<div style="text-align:center;">
+						<!-- @disable-output-escaping prints the raw XML string as XML in the document and removes XML-encoding of the characters -->
+						<xsl:value-of select="." disable-output-escaping="yes" />
+					</div>
 				</div>
 			</ul>
 			<br />
@@ -228,18 +187,18 @@
 			<div class="container-md">
 				<h2>
 					<xsl:value-of
-						select="$LABELS_prefix/labels/entry[@key='TOC_PREFIX']/@label" />
+						select="$LABELS/labels/entry[@key='PREFIXES.TITLE']/@label" />
 				</h2>
 				<table class="table table-striped" style="width:80%">
 					<thead>
 						<tr>
 							<th>
 								<xsl:value-of
-									select="$LABELS_prefix/labels/entry[@key='COLUMN_PREFIX']/@label" />
+									select="$LABELS/labels/entry[@key='PREFIXES.COLUMN.PREFIX']/@label" />
 							</th>
 							<th>
 								<xsl:value-of
-									select="$LABELS_prefix/labels/entry[@key='COLUMN_URI']/@label" />
+									select="$LABELS/labels/entry[@key='PREFIXES.COLUMN.URI']/@label" />
 							</th>
 						</tr>
 					</thead>
@@ -270,104 +229,68 @@
 	<xsl:template match="section">
 		<xsl:variable name="TitleNodeSape" select="dURI" />
 		<div class="container-md" id="{$TitleNodeSape}">
-			<lefth>
-				<h2>
-					<xsl:value-of select="title" />
-				</h2>
-			</lefth>
-			<xsl:choose>
-				<xsl:when test="count(properties/property)>0">
-					<lefth>
-						<xsl:if test="comments != ''">
-							<em>
-								<xsl:value-of select="comments" />
-							</em>
-						</xsl:if>
-						<xsl:if test="nodeKindNS != ''">
-							<li>
+			<h2>
+				<xsl:value-of select="title" />
+			</h2>
+		
+			<xsl:if test="comments != ''">
+				<em>
+					<xsl:value-of select="comments" />
+				</em>
+			</xsl:if>
+			<ul>
+				<xsl:if test="nodeKindNS != ''">
+					<li>
+						<xsl:value-of
+							select="$LABELS/labels/entry[@key='LABEL_NODEKIND']/@label" />
+						<xsl:value-of select="nodeKindNS" />
+					</li>
+				</xsl:if>
+				<xsl:if test="patternNS != ''">
+					<li>
+						<xsl:value-of
+							select="$LABELS/labels/entry[@key='LABEL_PATTERNS']/@label" />
+						<xsl:value-of select="patternNS" />
+					</li>
+				</xsl:if>
+				<xsl:if test="closeNS != '' and closeNS='true'">
+					<li>
+						<xsl:value-of
+							select="$LABELS/labels/entry[@key='LABEL_CLOSE']/@label" />
+					</li>
+				</xsl:if>
+			</ul>
+			<xsl:if test="count(properties/property)>0">
+				<table class="table table-striped" style="width:100%">
+					<thead>
+						<tr>
+							<th>
 								<xsl:value-of
-									select="$LABELS_Properties/labels/entry[@key='LABEL_NODEKIND']/@label" />
-								<xsl:value-of select="nodeKindNS" />
-							</li>
-						</xsl:if>
-						<xsl:if test="patternNS != ''">
-							<li>
+									select="$LABELS/labels/entry[@key='COLUMN_PROPERTY']/@label" />
+							</th>
+							<th>
 								<xsl:value-of
-									select="$LABELS_Properties/labels/entry[@key='LABEL_PATTERNS']/@label" />
-								<xsl:value-of select="patternNS" />
-							</li>
-						</xsl:if>
-						<xsl:if test="closeNS != '' and closeNS='true'">
-							<li>
+									select="$LABELS/labels/entry[@key='COLUMN_URI']/@label" />
+							</th>
+							<th>
 								<xsl:value-of
-									select="$LABELS_Properties/labels/entry[@key='LABEL_CLOSE']/@label" />
-							</li>
-							<br />
-						</xsl:if>
-					</lefth>
-					<table class="table table-striped" style="width:100%">
-						<thead>
-							<tr>
-								<th>
-									<xsl:value-of
-										select="$LABELS/labels/entry[@key='COLUMN_PROPERTY']/@label" />
-								</th>
-								<th>
-									<xsl:value-of
-										select="$LABELS/labels/entry[@key='COLUMN_URI']/@label" />
-								</th>
-								<th>
-									<xsl:value-of
-										select="$LABELS/labels/entry[@key='COLUMN_EXPECTED_VALUE']/@label" />
-								</th>
-								<th>
-									<xsl:value-of
-										select="$LABELS/labels/entry[@key='COLUMN_CARD']/@label" />
-								</th>
-								<th>
-									<xsl:value-of
-										select="$LABELS/labels/entry[@key='COLUMN_DESCRIPTION']/@label" />
-								</th>
-							</tr>
-						</thead>
-						<tbody>
-							<xsl:apply-templates />
-						</tbody>
-					</table>
-				</xsl:when>
-				<xsl:otherwise>
-					<lefth>
-						<xsl:if test="comments != ''">
-							<em>
-								<xsl:value-of select="comments" />
-							</em>
-						</xsl:if>
-						<ul>
-							<xsl:if test="nodeKindNS != ''">
-								<li>
-									<xsl:value-of
-										select="$LABELS_Properties/labels/entry[@key='LABEL_NODEKIND']/@label" />
-									<xsl:value-of select="nodeKindNS" />
-								</li>
-							</xsl:if>
-							<xsl:if test="patternNS != ''">
-								<li>
-									<xsl:value-of
-										select="$LABELS_Properties/labels/entry[@key='LABEL_PATTERNS']/@label" />
-									<xsl:value-of select="patternNS" />
-								</li>
-							</xsl:if>
-							<xsl:if test="closeNS != '' and closeNS = 'true'">
-								<li>
-									<xsl:value-of
-										select="$LABELS_Properties/labels/entry[@key='LABEL_CLOSE']/@label" />
-								</li>
-								<br />
-							</xsl:if>
-						</ul>
-					</lefth>
-				</xsl:otherwise>
-			</xsl:choose>
+									select="$LABELS/labels/entry[@key='COLUMN_EXPECTED_VALUE']/@label" />
+							</th>
+							<th>
+								<xsl:value-of
+									select="$LABELS/labels/entry[@key='COLUMN_CARD']/@label" />
+							</th>
+							<th>
+								<xsl:value-of
+									select="$LABELS/labels/entry[@key='COLUMN_DESCRIPTION']/@label" />
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<xsl:apply-templates />
+					</tbody>
+				</table>
+			</xsl:if>
 		</div>
 		<br />
 	</xsl:template>

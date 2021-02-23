@@ -123,7 +123,7 @@ public class ShaclPropertyReader {
 	}
 
 	public String readNodeKind(Resource constraint) {
-		return constraint.getModel().shortForm(constraintValueReader.readValueconstraint(constraint, SH.nodeKind,null));
+		return constraintValueReader.readValueconstraint(constraint, SH.nodeKind,null);
 	}
 
 	// Cardinality Constraint Components

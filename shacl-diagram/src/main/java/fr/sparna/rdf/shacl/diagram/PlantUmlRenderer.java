@@ -39,7 +39,6 @@ public class PlantUmlRenderer {
 		}
 		output += "\n";
 		
-		System.out.println(output);
 		return output;
 	}
 	

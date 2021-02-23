@@ -92,8 +92,8 @@ public class PropertyShapeDocumentation {
 		} else if (Value_Target != null) { // La valeur d'un Node vers une NodeShape qui a sh:targetClass
 			value = PatternoNodeShape;
 		} else if (Value_node != null) {
-			value = PatternoNodeShape;
-		} // Datatype : sh:datatype
+			//value = PatternoNodeShape;
+		} 
 		else if (Value_datatype != null) {
 			value = Value_pattern_propriete;
 		} else if (Value_datatype != null && Value_node != null) {

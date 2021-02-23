@@ -7,18 +7,27 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 public class ShapesDocumentation {
 
-	public String title;	
-	public String subtitle;
-	public String commentOntology;
-	public String VersionOntology;
+	protected String title;	
+	protected String subtitle;
+	protected String commentOntology;
+	protected String VersionOntology;
+	protected String drawnImagenXML;
+	
 	@JacksonXmlElementWrapper(localName="shnamespaces")
 	@JacksonXmlProperty(localName = "shnamespace")
-	public List<NamespaceSections> shnamespace;
+	protected List<NamespaceSections> shnamespace;
 	@JacksonXmlElementWrapper(localName="sections")
 	@JacksonXmlProperty(localName = "section")
-	public List<ShapesDocumentationSection> sections;
+	protected List<ShapesDocumentationSection> sections;
 	
 	
+	
+	public String getDrawnImagenXML() {
+		return drawnImagenXML;
+	}
+	public void setDrawnImagenXML(String drawnImagenXML) {
+		this.drawnImagenXML = drawnImagenXML;
+	}
 	public String getCommentOntology() {
 		return commentOntology;
 	}

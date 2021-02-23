@@ -68,7 +68,7 @@ public class ShaclPropertyReader {
 	}
 
 	public Integer readShOrder(Resource constraint) {
-		Integer value = 0;
+		Integer value = null;
 		if(constraint.hasProperty(SH.order)) {
 			value = Integer.parseInt(constraint.getProperty(SH.order).getLiteral().getString());
 		}
@@ -123,7 +123,7 @@ public class ShaclPropertyReader {
 	}
 
 	public String readNodeKind(Resource constraint) {
-		return constraintValueReader.readValueconstraint(constraint, SH.nodeKind,null);
+		return constraint.getModel().shortForm(constraintValueReader.readValueconstraint(constraint, SH.nodeKind,null));
 	}
 
 	// Cardinality Constraint Components

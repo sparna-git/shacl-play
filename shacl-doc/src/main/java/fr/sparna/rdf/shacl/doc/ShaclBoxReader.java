@@ -21,7 +21,7 @@ public class ShaclBoxReader {
 		ShaclBox box = new ShaclBox();
 		
 		box.setNodeShape(nodeShape);
-		
+		box.setNodeShapeBox(nodeShape);
 		box.setNameshape(nodeShape.getLocalName());
 		box.setNametargetclass(this.readNametargetclass(nodeShape));
 		box.setRdfsComment(this.readRdfsComment(nodeShape));
@@ -29,23 +29,22 @@ public class ShaclBoxReader {
 		box.setShpatternNodeShape(this.readShpatternNodeShape(nodeShape));
 		box.setShnodeKind(this.readShnodeKind(nodeShape));
 		box.setShClose(this.readShClose(nodeShape));
-		box.setShOrder(this.readShOrder(nodeShape));
-		
+		box.setShOrder(this.readShOrder(nodeShape));		
 		return box;
 	}
 	
 	public String readShnodeKind(Resource nodeShape) {
 		ConstraintValueReader constarget = new ConstraintValueReader();
-		return constarget.readValueconstraint(nodeShape, SH.nodeKind, null);
+		return nodeShape.getModel().shortForm(constarget.readValueconstraint(nodeShape, SH.nodeKind, null));
 	}
 
-	public String readShClose(Resource nodeShape) {
-		ConstraintValueReader constarget = new ConstraintValueReader();
-		return constarget.readValueconstraint(nodeShape, SH.closed, null);
+	public Boolean readShClose(Resource nodeShape) {
+		ConstraintValueReader constarget = new ConstraintValueReader();		
+		return Boolean.parseBoolean(constarget.readValueconstraint(nodeShape, SH.closed, null));
 	}
 
 	public Integer readShOrder(Resource nodeShape) {
-		Integer value = 0;
+		Integer value = null;
 		if(nodeShape.hasProperty(SH.order)) {
 			value = Integer.parseInt(nodeShape.getProperty(SH.order).getLiteral().getString());
 		} 

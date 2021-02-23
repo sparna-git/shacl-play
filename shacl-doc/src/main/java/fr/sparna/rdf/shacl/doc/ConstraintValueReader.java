@@ -35,7 +35,8 @@ public class ConstraintValueReader {
 						&&
 						constraint.getProperty(property).getObject().isLiteral()
 				) {
-					value = constraint.getProperty(property).getObject().asLiteral().toString();
+					//value = constraint.getProperty(property).getObject().asLiteral().toString();
+					value = constraint.getModel().shortForm(constraint.getProperty(property).getLiteral().getString());
 				} 
 				else if (constraint.getProperty(property).getObject().isAnon()) {
 					value = renderShaclPropertyPath(constraint.getProperty(property).getObject().asResource());

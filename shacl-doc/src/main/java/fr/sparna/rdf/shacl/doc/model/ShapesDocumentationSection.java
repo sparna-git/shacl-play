@@ -14,7 +14,7 @@ public class ShapesDocumentationSection {
 	private String comments;
 	private String patternNS;
 	private String NodeKindNS;
-	private String CloseNS;
+	private Boolean CloseNS;
 	@JacksonXmlElementWrapper(localName="properties")
 	@JacksonXmlProperty(localName = "property")
 	public List<PropertyShapeDocumentation> propertySections;
@@ -33,14 +33,18 @@ public class ShapesDocumentationSection {
 	}
 
 	public void setNodeKindNS(String nodeKindNS) {
-		NodeKindNS = nodeKindNS;
+		String value =null;
+		if(nodeKindNS != null) {
+			value = nodeKindNS.split(":")[1];
+		}
+		NodeKindNS = value;
 	}
 
-	public String getCloseNS() {
+	public Boolean getCloseNS() {
 		return CloseNS;
 	}
 
-	public void setCloseNS(String closeNS) {
+	public void setCloseNS(Boolean closeNS) {
 		CloseNS = closeNS;
 	}
 

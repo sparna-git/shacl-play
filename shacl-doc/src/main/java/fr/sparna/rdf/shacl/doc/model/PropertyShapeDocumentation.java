@@ -11,13 +11,35 @@ public class PropertyShapeDocumentation {
 	private String output_propriete;
 	private String output_uri;
 	private String output_valeur_attendus;
+	private String ouput_relnodeShape;
 	private String output_patterns;
 	private String output_Cardinalite;
 	private String output_description;
 	private String output_shin;
 	private String output_shvalue;
+	private String output_lieNodeshape;
 	
-		
+	
+	
+			
+	
+
+	public String getOutput_lieNodeshape() {
+		return output_lieNodeshape;
+	}
+
+	public void setOutput_lieNodeshape(String output_lieNodeshape) {
+		this.output_lieNodeshape = output_lieNodeshape;
+	}
+
+	public String getOuput_relnodeShape() {
+		return ouput_relnodeShape;
+	}
+
+	public void setOuput_relnodeShape(String ouput_relnodeShape) {
+		this.ouput_relnodeShape = ouput_relnodeShape;
+	}
+
 	public String getOutput_shvalue() {
 		return output_shvalue;
 	}

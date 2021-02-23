@@ -20,13 +20,13 @@
 			<entry key="COLUMN_CARD" label="Card." />
 			<entry key="COLUMN_DESCRIPTION" label="Description" />
 			
-			<entry key="PREFIXES.TITLE" label="Liste de préfixes" />
-			<entry key="PREFIXES.COLUMN.PREFIX" label="Namespace" />
-			<entry key="PREFIXES.COLUMN.URI" label="URI" />
+			<entry key="PREFIXES.TITLE" label="Espaces de nom" />
+			<entry key="PREFIXES.COLUMN.PREFIX" label="Préfixe" />
+			<entry key="PREFIXES.COLUMN.URI" label="Espace de nom" />
 			
-			<entry key="METADATA.INTRODUCTION" label="Présentation:" />
-			<entry key="METADATA.DATE" label="Date de dernière modification " />
-			<entry key="METADATA.VERSION" label="Numèro de Version" />
+			<entry key="METADATA.INTRODUCTION" label="Introduction :" />
+			<entry key="METADATA.DATE" label="Dernière modification :" />
+			<entry key="METADATA.VERSION" label="Version : " />
 			
 			<entry key="DIAGRAM.TITLE" label="Diagramme du dataset" />
 			
@@ -46,9 +46,9 @@
 			<entry key="COLUMN_CARD" label="Card." />
 			<entry key="COLUMN_DESCRIPTION" label="Description" />
 			
-			<entry key="PREFIXES.TITLE" label="Prefixes" />
-			<entry key="PREFIXES.COLUMN.PREFIX" label="Namespace" />
-			<entry key="PREFIXES.COLUMN.URI" label="URI" />
+			<entry key="PREFIXES.TITLE" label="Namespaces" />
+			<entry key="PREFIXES.COLUMN.PREFIX" label="Prefix" />
+			<entry key="PREFIXES.COLUMN.URI" label="Namespace" />
 			
 			<entry key="METADATA.INTRODUCTION" label="Introduction:" />
 			<entry key="METADATA.DATE" label="Last updated:" />
@@ -82,7 +82,8 @@
 					integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
 					crossorigin="anonymous" />
 				<style type="text/css">
-					hr { display: block;
+					hr { 
+					display: block;
 					unicode-bidi: isolate;
 					margin-block-start: 0.9em;
 					margin-block-end: 0.9em;
@@ -126,7 +127,7 @@
 						<br />
 					</xsl:if>
 					<br />
-					<ul class="nav justify-content-left">
+
 						<div>
 							<!-- Table de matieres -->
 							<h2>
@@ -134,15 +135,11 @@
 									select="$LABELS/labels/entry[@key='TOC']/@label" />
 							</h2>
 							<xsl:if test="drawnImagenXML != ''">
-								<xsl:variable name="TableDiagramme">
-									<xsl:value-of
-										select="$LABELS/labels/entry[@key='DIAGRAM.TITLE']/@label" />
-								</xsl:variable>
-								<a href="{concat('#',$TableDiagramme)}">
-									<xsl:value-of select="$TableDiagramme" />
-								</a>
+								<a href="#diagram"><xsl:value-of select="$LABELS/labels/entry[@key='DIAGRAM.TITLE']/@label" /></a>
 								<br />
 							</xsl:if>
+							<a href="#namespaces"><xsl:value-of select="$LABELS/labels/entry[@key='PREFIXES.TITLE']/@label" /></a>
+							<br/>
 							<xsl:for-each select="sections/section">
 								<xsl:if test="count(properties/property)>0">
 									<xsl:variable name="TitleNodeSapetab"
@@ -155,60 +152,55 @@
 								</xsl:if>
 							</xsl:for-each>
 						</div>
-					</ul>
+						<br />
+						<xsl:apply-templates />
+
 				</div>
-				<br />
-				<br />
-				<xsl:apply-templates />
 			</body>
 		</html>
 	</xsl:template>
 
 	<xsl:template match="drawnImagenXML">
 		<xsl:if test=". != ''">
-			<ul class="nav justify-content-center">
-				<div class="container-md">
-					<h2>
-						<xsl:value-of
-							select="$LABELS/labels/entry[@key='DIAGRAM.TITLE']/@label" />
-					</h2>
-					<div style="text-align:center;">
-						<!-- @disable-output-escaping prints the raw XML string as XML in the document and removes XML-encoding of the characters -->
-						<xsl:value-of select="." disable-output-escaping="yes" />
-					</div>
+			<div id="diagram">
+				<h2>
+					<xsl:value-of
+						select="$LABELS/labels/entry[@key='DIAGRAM.TITLE']/@label" />
+				</h2>
+				<div style="text-align:center;">
+					<!-- @disable-output-escaping prints the raw XML string as XML in the document and removes XML-encoding of the characters -->
+					<xsl:value-of select="." disable-output-escaping="yes" />
 				</div>
-			</ul>
+			</div>
 			<br />
 		</xsl:if>
 	</xsl:template>
 
 	<xsl:template match="shnamespaces">
-		<ul class="nav justify-content-left">
-			<div class="container-md">
-				<h2>
-					<xsl:value-of
-						select="$LABELS/labels/entry[@key='PREFIXES.TITLE']/@label" />
-				</h2>
-				<table class="table table-striped" style="width:80%">
-					<thead>
-						<tr>
-							<th>
-								<xsl:value-of
-									select="$LABELS/labels/entry[@key='PREFIXES.COLUMN.PREFIX']/@label" />
-							</th>
-							<th>
-								<xsl:value-of
-									select="$LABELS/labels/entry[@key='PREFIXES.COLUMN.URI']/@label" />
-							</th>
-						</tr>
-					</thead>
-					<tbody>
-						<xsl:apply-templates />
-					</tbody>
-				</table>
-			</div>
-		</ul>
-		<br />
+		<div id="namespaces">
+			<h2>
+				<xsl:value-of
+					select="$LABELS/labels/entry[@key='PREFIXES.TITLE']/@label" />
+			</h2>
+			<table class="table table-striped table-sm" style="width:60%">
+				<thead>
+					<tr>
+						<th>
+							<xsl:value-of
+								select="$LABELS/labels/entry[@key='PREFIXES.COLUMN.PREFIX']/@label" />
+						</th>
+						<th>
+							<xsl:value-of
+								select="$LABELS/labels/entry[@key='PREFIXES.COLUMN.URI']/@label" />
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					<xsl:apply-templates />
+				</tbody>
+			</table>
+		</div>
+		<br/>
 	</xsl:template>
 
 	<xsl:template match="shnamespace">
@@ -228,7 +220,7 @@
 
 	<xsl:template match="section">
 		<xsl:variable name="TitleNodeSape" select="dURI" />
-		<div class="container-md" id="{$TitleNodeSape}">
+		<div id="{$TitleNodeSape}">
 			<h2>
 				<xsl:value-of select="title" />
 			</h2>

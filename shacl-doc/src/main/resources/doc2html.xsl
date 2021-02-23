@@ -71,7 +71,7 @@
 	<!-- Diagramme -->
 	<xsl:variable name="LABELS_FR_Digramme">
 		<labels>
-			<entry key="DIAGRAMME" label="Le Diagramme:" />
+			<entry key="DIAGRAMME" label="Le Diagramme" />
 		</labels>
 	</xsl:variable>
 
@@ -393,7 +393,7 @@
 					<xsl:when test="ouput_relnodeShape != ''">
 						<a href="{concat('#',ouput_relnodeShape)}">
 							<!--  <xsl:value-of select="output_valeur_attendus" /> -->
-							<xsl:value-of select="ouput_relnodeShape" />
+							<xsl:value-of select="ouput_relnodenameShape" />
 						</a>
 					</xsl:when>
 					<xsl:otherwise>

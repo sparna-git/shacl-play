@@ -40,7 +40,7 @@ import net.sourceforge.plantuml.SourceStringReader;
 public class ShapesDocumentationModelReader implements ShapesDocumentationReaderIfc {
 
 	@Override
-	public ShapesDocumentation readShapesDocumentation(Model shaclGraph, Model owlGraph, String lang, String fileName) {
+	public ShapesDocumentation readShapesDocumentation(Model shaclGraph, Model owlGraph, String lang, String fileName, Boolean outDiagram) {
 
 		List<Resource> nodeShapes = shaclGraph.listResourcesWithProperty(RDF.type, SH.NodeShape).toList();
 
@@ -94,15 +94,19 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 			List<String> prefixes = reader.readPrefixes(aBox.getNodeShape());
 			gatheredPrefixes.addAll(prefixes);
 		}
-
-		GenerateImgSVG gImgSvg = new GenerateImgSVG();
-		try {
-			gImgSvg.setImgSvg(shaclGraph);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		String sImgDiagramme = gImgSvg.getImgSvg();
+		
+		// Option pour créer le diagramme
+		String sImgDiagramme = null;
+		if (outDiagram) {
+			GenerateImgSVG gImgSvg = new GenerateImgSVG();
+			try {
+				gImgSvg.setImgSvg(shaclGraph);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			sImgDiagramme = gImgSvg.getImgSvg();			
+		}		
 
 		// Lecture de OWL
 		ConstraintValueReader ReadValue = new ConstraintValueReader();
@@ -208,7 +212,8 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 					for(ShaclBox getNodeShape : Shaclvalue) {
 						if(getNodeShape.getNametargetclass() != null) {
 							if(getNodeShape.getNametargetclass().equals(propriete.getClass_node())) {
-								proprieteDoc.setOuput_relnodeShape(getNodeShape.getRdfslabel());
+								proprieteDoc.setOuput_relnodeShape(getNodeShape.getNameshape());
+								proprieteDoc.setOuput_relnodenameShape(getNodeShape.getRdfslabel());
 								break;
 							}
 						}

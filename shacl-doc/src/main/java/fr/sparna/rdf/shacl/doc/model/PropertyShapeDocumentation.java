@@ -12,6 +12,7 @@ public class PropertyShapeDocumentation {
 	private String output_uri;
 	private String output_valeur_attendus;
 	private String ouput_relnodeShape;
+	private String ouput_relnodenameShape;
 	private String output_patterns;
 	private String output_Cardinalite;
 	private String output_description;
@@ -21,6 +22,16 @@ public class PropertyShapeDocumentation {
 	private String output_lieNameShape;
 	
 	
+	
+	
+	public String getOuput_relnodenameShape() {
+		return ouput_relnodenameShape;
+	}
+
+	public void setOuput_relnodenameShape(String ouput_relnodenameShape) {
+		this.ouput_relnodenameShape = ouput_relnodenameShape;
+	}
+
 	public String getOutput_lieNameShape() {
 		return output_lieNameShape;
 	}

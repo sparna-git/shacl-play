@@ -22,7 +22,8 @@ public class Main {
 		String shaclFile = args[0];
 		String shaclFileOWL = args[1];
 		String outputLang = args[2];
-		
+		boolean outDiagram = Boolean.parseBoolean(args[3]);
+				
 		Model shaclGraph = ModelFactory.createDefaultModel();
 		shaclGraph.read(new FileInputStream(shaclFile), RDF.uri, FileUtils.guessLang(shaclFile, "RDF/XML"));
 		
@@ -35,7 +36,7 @@ public class Main {
 	    //ShapesDocumentationReaderIfc reader = new ShapesDocumentationTestReader();
 		// uncomment for read SHACL parsing
 		ShapesDocumentationReaderIfc reader = new ShapesDocumentationModelReader();
-		ShapesDocumentation doc = reader.readShapesDocumentation(shaclGraph, owlGraph, outputLang, shaclFile);
+		ShapesDocumentation doc = reader.readShapesDocumentation(shaclGraph, owlGraph, outputLang, shaclFile, outDiagram);
 		
 		
 		// 2. write Documentation structure to XML

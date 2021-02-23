@@ -24,7 +24,7 @@ public class ArgumentsDraw {
 
 	@Parameter(
 			names = { "-o", "--output" },
-			description = "Path to an output file, with extension *.png or *.svg or *.pdf. Can be repeated to generate multiple outputs.",
+			description = "Path to an output file, with extension *.png or *.svg or *.pdf or *.iuml. Can be repeated to generate multiple outputs.",
 			required = true,
 			variableArity = true
 	)

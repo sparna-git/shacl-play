@@ -35,8 +35,8 @@ public class Main {
 		// 1. read input SHACL
 	    //ShapesDocumentationReaderIfc reader = new ShapesDocumentationTestReader();
 		// uncomment for read SHACL parsing
-		ShapesDocumentationReaderIfc reader = new ShapesDocumentationModelReader();
-		ShapesDocumentation doc = reader.readShapesDocumentation(shaclGraph, owlGraph, outputLang, shaclFile, outDiagram);
+		ShapesDocumentationReaderIfc reader = new ShapesDocumentationModelReader(outDiagram);
+		ShapesDocumentation doc = reader.readShapesDocumentation(shaclGraph, owlGraph, outputLang, shaclFile);
 		
 		
 		// 2. write Documentation structure to XML

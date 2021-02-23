@@ -1,29 +1,18 @@
 package fr.sparna.rdf.shacl.doc.read;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.ModelFactory;
-import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.Resource;
-import org.apache.jena.rdf.model.Statement;
-import org.apache.jena.riot.RDFDataMgr;
-import org.apache.jena.util.FileManager;
-import org.apache.jena.util.FileUtils;
 import org.apache.jena.vocabulary.OWL;
 import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.RDFS;
 import org.topbraid.shacl.vocabulary.SH;
 
-import fr.sparna.rdf.shacl.diagram.ShaclPlantUmlWriter;
 import fr.sparna.rdf.shacl.doc.ConstraintValueReader;
 import fr.sparna.rdf.shacl.doc.GenerateImgSVG;
 import fr.sparna.rdf.shacl.doc.ShaclBox;
@@ -33,14 +22,18 @@ import fr.sparna.rdf.shacl.doc.model.NamespaceSections;
 import fr.sparna.rdf.shacl.doc.model.PropertyShapeDocumentation;
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentation;
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentationSection;
-import net.sourceforge.plantuml.FileFormat;
-import net.sourceforge.plantuml.FileFormatOption;
-import net.sourceforge.plantuml.SourceStringReader;
 
 public class ShapesDocumentationModelReader implements ShapesDocumentationReaderIfc {
 
+	protected boolean readDiagram = true;
+
+	public ShapesDocumentationModelReader(boolean readDiagram) {
+		super();
+		this.readDiagram = readDiagram;
+	}
+
 	@Override
-	public ShapesDocumentation readShapesDocumentation(Model shaclGraph, Model owlGraph, String lang, String fileName, Boolean outDiagram) {
+	public ShapesDocumentation readShapesDocumentation(Model shaclGraph, Model owlGraph, String lang, String fileName) {
 
 		List<Resource> nodeShapes = shaclGraph.listResourcesWithProperty(RDF.type, SH.NodeShape).toList();
 
@@ -97,7 +90,7 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 		
 		// Option pour créer le diagramme
 		String sImgDiagramme = null;
-		if (outDiagram) {
+		if (this.readDiagram) {
 			GenerateImgSVG gImgSvg = new GenerateImgSVG();
 			try {
 				gImgSvg.setImgSvg(shaclGraph);

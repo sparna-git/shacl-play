@@ -1,7 +1,6 @@
 package fr.sparna.rdf.shacl.app.draw.doc;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 
 import org.apache.jena.rdf.model.Model;
@@ -43,7 +42,8 @@ public class Doc implements CliCommandIfc {
 		}
 		
 		// generate doc
-		ShapesDocumentationReaderIfc reader = new ShapesDocumentationModelReader();
+		// true to read diagram
+		ShapesDocumentationReaderIfc reader = new ShapesDocumentationModelReader(true);
 		ShapesDocumentation doc = reader.readShapesDocumentation(
 				shapesModel,
 				owlModel,

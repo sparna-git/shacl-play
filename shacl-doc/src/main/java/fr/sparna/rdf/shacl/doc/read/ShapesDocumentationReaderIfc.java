@@ -6,6 +6,6 @@ import fr.sparna.rdf.shacl.doc.model.ShapesDocumentation;
 
 public interface ShapesDocumentationReaderIfc {
 
-	public ShapesDocumentation readShapesDocumentation(Model shaclGraph, Model owlGraph, String lang, String fileName, Boolean outDiagram);
+	public ShapesDocumentation readShapesDocumentation(Model shaclGraph, Model owlGraph, String lang, String fileName);
 	
 }

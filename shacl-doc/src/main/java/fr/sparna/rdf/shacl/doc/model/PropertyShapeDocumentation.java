@@ -18,11 +18,16 @@ public class PropertyShapeDocumentation {
 	private String output_shin;
 	private String output_shvalue;
 	private String output_lieNodeshape;
+	private String output_lieNameShape;
 	
 	
-	
-			
-	
+	public String getOutput_lieNameShape() {
+		return output_lieNameShape;
+	}
+
+	public void setOutput_lieNameShape(String output_lieNameShape) {
+		this.output_lieNameShape = output_lieNameShape;
+	}
 
 	public String getOutput_lieNodeshape() {
 		return output_lieNodeshape;

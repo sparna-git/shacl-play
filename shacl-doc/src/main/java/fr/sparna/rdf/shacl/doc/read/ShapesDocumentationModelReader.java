@@ -184,11 +184,20 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 				PropertyShapeDocumentation proprieteDoc = new PropertyShapeDocumentation();
 				//
 				proprieteDoc.setOutput_propriete(propriete.getName(), null);
-				for(ShaclBox aName : Shaclvalue) {
-					if(aName.getNodeShapeBox().equals(propriete.getNode())) {
-						proprieteDoc.setOutput_lieNodeshape(aName.getNameshape());
+				if(propriete.getNode() != null) {
+					for(ShaclBox aName : Shaclvalue) {
+						if(aName.getNodeShapeBox().equals(propriete.getNode())) {
+							proprieteDoc.setOutput_lieNodeshape(aName.getNameshape());
+							if(aName.getRdfslabel() == null) {
+								proprieteDoc.setOutput_lieNameShape(aName.getNodeShapeBox());
+							}else {
+								proprieteDoc.setOutput_lieNameShape(aName.getRdfslabel());
+							}
+							
+						}
 					}
 				}
+				
 				proprieteDoc.setOutput_uri(propriete.getPath());
 				proprieteDoc.setOutput_valeur_attendus(propriete.getClass_node(), propriete.getNode(),
 						propriete.getClass_property(), propriete.getDatatype(), propriete.getNodeKind(),
@@ -199,7 +208,7 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 					for(ShaclBox getNodeShape : Shaclvalue) {
 						if(getNodeShape.getNametargetclass() != null) {
 							if(getNodeShape.getNametargetclass().equals(propriete.getClass_node())) {
-								proprieteDoc.setOuput_relnodeShape(getNodeShape.getNameshape());
+								proprieteDoc.setOuput_relnodeShape(getNodeShape.getRdfslabel());
 								break;
 							}
 						}

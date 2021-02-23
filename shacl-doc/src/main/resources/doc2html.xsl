@@ -400,7 +400,7 @@
 						<xsl:choose>
 						  <xsl:when test="output_lieNodeshape != ''">
 						     <a href="{concat('#',output_lieNodeshape)}">
-						     <xsl:value-of select="output_lieNodeshape" />
+						     <xsl:value-of select="output_lieNameShape" />
 						     </a>						     
 						  </xsl:when>
 						  <xsl:otherwise>

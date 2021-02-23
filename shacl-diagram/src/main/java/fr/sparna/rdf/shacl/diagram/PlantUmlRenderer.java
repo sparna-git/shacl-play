@@ -15,7 +15,7 @@ public class PlantUmlRenderer {
 		} else if(property.getValue_class_property() != null) {
 			return renderAsClassReference(property);
 		} else if(property.getValue_qualifiedvalueshape() != null) {
-			return renderAsClassReference(property);
+			return renderAsQualifiedShapeReference(property);
 		} else {
 			return renderDefault(property);
 		}
@@ -23,7 +23,7 @@ public class PlantUmlRenderer {
 	
 	// uml_shape+ " --> " +"\""+uml_node+"\""+" : "+uml_path+uml_datatype+" "+uml_literal+" "+uml_pattern+" "+uml_nodekind(uml_nodekind)+"\n";  
 	public String renderAsNodeReference(PlantUmlProperty property) {
-		String output = nameshape+" --> \""+property.getValue_class_property()+"\" : "+property.getValue_path();
+		String output = nameshape+" --> \""+property.getValue_node()+"\" : "+property.getValue_path();
 		
 		if(property.getValue_datatype() != null) {		
 			output += " : "+property.getValue_datatype()+" ";
@@ -39,11 +39,12 @@ public class PlantUmlRenderer {
 		}
 		output += "\n";
 		
+		System.out.println(output);
 		return output;
 	}
 	
 	// value = uml_shape+ " --> " +"\""+uml_qualifiedvalueshape+"\""+" : "+uml_path+uml_datatype+" "+uml_qualifiedMinMaxCount+"\n";
-	public String renderAsClassReference(PlantUmlProperty property) {
+	public String renderAsQualifiedShapeReference(PlantUmlProperty property) {
 		String output = nameshape+" --> \""+property.getValue_qualifiedvalueshape()+"\" : "+property.getValue_path();
 		
 		if(property.getValue_datatype() != null) {		
@@ -59,8 +60,8 @@ public class PlantUmlRenderer {
 	}
 	
 	// value =  uml_shape+" --> "+"\""+uml_class_property+"\""+" : "+uml_path+uml_literal+" "+uml_pattern+" "+uml_nodekind+"\n";
-	public String renderAsQualifiedShapeReference(PlantUmlProperty property) {
-		String output = nameshape+" --> \""+property.getValue_node()+"\" : "+property.getValue_path();
+	public String renderAsClassReference(PlantUmlProperty property) {
+		String output = nameshape+" --> \""+property.getValue_class_property()+"\" : "+property.getValue_path();
 		
 		if(property.getValue_datatype() != null) {		
 			output += " : "+property.getValue_datatype()+" ";

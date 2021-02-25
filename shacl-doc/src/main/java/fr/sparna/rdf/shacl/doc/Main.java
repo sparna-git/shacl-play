@@ -1,6 +1,8 @@
 package fr.sparna.rdf.shacl.doc;
 
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -41,9 +43,12 @@ public class Main {
 		
 		// 2. write Documentation structure to XML
 		ShapesDocumentationWriterIfc writer = new ShapesDocumentationJacksonXsltWriter();
-		//ShapesDocumentationXmlWriter writer = new ShapesDocumentationXmlWriter();
+		ShapesDocumentationXmlWriter writerXml = new ShapesDocumentationXmlWriter();
 		writer.write(doc, outputLang, System.out);
+		writer.write(doc, outputLang, new FileOutputStream(new File("/tmp/output.html")));
 		
+		writerXml.write(doc, outputLang, System.out);
+		writerXml.write(doc, outputLang, new FileOutputStream(new File("/tmp/output.xml")));
 	}
 	
 

@@ -22,16 +22,16 @@
 			
 			<entry key="PREFIXES.TITLE" label="Espaces de nom" />
 			<entry key="PREFIXES.COLUMN.PREFIX" label="Préfixe" />
-			<entry key="PREFIXES.COLUMN.URI" label="Espace de nom" />
+			<entry key="PREFIXES.COLUMN.URI" label="Espace de nom" />			
 			
-			<entry key="METADATA.INTRODUCTION" label="Introduction :" />
 			<entry key="METADATA.DATE" label="Dernière modification :" />
 			<entry key="METADATA.VERSION" label="Version : " />
+			<entry key="METADATA.INTRODUCTION" label="Introduction" />
 			
 			<entry key="DIAGRAM.TITLE" label="Diagramme du dataset" />
 			
 			<entry key="LABEL_NODEKIND" label="Types de noeud : " />
-			<entry key="LABEL_PATTERNS" label="Structure des URIs : " />
+			<entry key="LABEL_PATTERNS" label="URIs : " />
 			<entry key="LABEL_CLOSE" label="Shape fermée" />
 		</labels>
 	</xsl:variable>
@@ -48,16 +48,16 @@
 			
 			<entry key="PREFIXES.TITLE" label="Namespaces" />
 			<entry key="PREFIXES.COLUMN.PREFIX" label="Prefix" />
-			<entry key="PREFIXES.COLUMN.URI" label="Namespace" />
+			<entry key="PREFIXES.COLUMN.URI" label="Namespace" />			
 			
-			<entry key="METADATA.INTRODUCTION" label="Introduction:" />
 			<entry key="METADATA.DATE" label="Last updated:" />
 			<entry key="METADATA.VERSION" label="Version:" />
+			<entry key="METADATA.INTRODUCTION" label="Abstract" />
 			
 			<entry key="DIAGRAM.TITLE" label="Dataset diagram" />
 			
 			<entry key="LABEL_NODEKIND" label="Nodes: " />
-			<entry key="LABEL_PATTERNS" label="URI pattern: " />
+			<entry key="LABEL_PATTERNS" label="URI: " />
 			<entry key="LABEL_CLOSE" label="Closed shape" />
 		</labels>
 	</xsl:variable>
@@ -81,18 +81,15 @@
 					href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
 					integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
 					crossorigin="anonymous" />
+					
 				<style type="text/css">
-					hr { 
-					display: block;
-					unicode-bidi: isolate;
-					margin-block-start: 0.9em;
-					margin-block-end: 0.9em;
-					margin-inline-start: auto;
-					margin-inline-end: auto;
-					border-style:
-					inset;
-					border-width: 1px;}
-
+					.anchor {
+					    float: left;
+					    padding-right: 4px;
+					    margin-left: -20px;
+					    line-height: 1;
+					    padding-top:12px;
+					}
 				</style>
 			</head>
 			<body>
@@ -115,10 +112,10 @@
 						<xsl:value-of select="VersionOntology" />
 						<br />
 					</xsl:if>
+					<br />
+					<hr />
+					<br />
 					<xsl:if test="commentOntology != ''">
-						<br />
-						<hr />
-						<br />
 						<h2>
 							<xsl:value-of
 								select="$LABELS/labels/entry[@key='METADATA.INTRODUCTION']/@label" />
@@ -221,14 +218,13 @@
 	<xsl:template match="section">
 		<xsl:variable name="TitleNodeSape" select="dURI" />
 		<div id="{$TitleNodeSape}">
-			<h2>
-				<xsl:value-of select="title" />
-			</h2>
+			<!--
+			<a class="anchor" href="#{$TitleNodeSape}"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>
+			-->
+			<h2><xsl:value-of select="title" /></h2>
 		
 			<xsl:if test="comments != ''">
-				<em>
-					<xsl:value-of select="comments" />
-				</em>
+				<em><xsl:value-of select="comments" /></em>
 			</xsl:if>
 			<ul>
 				<xsl:if test="nodeKindNS != ''">
@@ -239,11 +235,9 @@
 					</li>
 				</xsl:if>
 				<xsl:if test="patternNS != ''">
-					<li>
-						<xsl:value-of
+					<li><xsl:value-of
 							select="$LABELS/labels/entry[@key='LABEL_PATTERNS']/@label" />
-						<xsl:value-of select="patternNS" />
-					</li>
+						<span style="font-family: monospace"><xsl:value-of select="patternNS" /></span></li>
 				</xsl:if>
 				<xsl:if test="closeNS != '' and closeNS='true'">
 					<li>
@@ -327,20 +321,22 @@
 				</xsl:choose>
 
 				<br />
-				<p class="text-break">
-					<small>
-						<xsl:value-of select="output_patterns" />
-					</small>
-				</p>
-				<xsl:if test="output_shin != null or output_shin != ''">
+				<xsl:if test="output_patterns/text()">
 					<p class="text-break">
+						<small>
+							<xsl:value-of select="output_patterns" />
+						</small>
+					</p>
+				</xsl:if>
+				<xsl:if test="output_shin/text()">
+					<p>
 						<small>
 							<xsl:value-of select="concat('(',output_shin,')')" />
 						</small>
 					</p>
 				</xsl:if>
-				<xsl:if test="output_shvalue != null or output_shvalue != ''">
-					<p class="text-break">
+				<xsl:if test="output_shvalue/text()">
+					<p>
 						<small>
 							<xsl:value-of select="output_shvalue" />
 						</small>
@@ -348,10 +344,9 @@
 				</xsl:if>
 			</td>
 			<td>
-				<center />
 				<xsl:value-of select="output_Cardinalite" />
 			</td>
-			<td class="text-break">
+			<td>
 				<xsl:value-of select="output_description" />
 			</td>
 		</tr>

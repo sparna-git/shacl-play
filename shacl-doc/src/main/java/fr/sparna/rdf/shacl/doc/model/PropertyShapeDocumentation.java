@@ -69,11 +69,7 @@ public class PropertyShapeDocumentation {
 	}
 
 	public void setOutput_shin(String output_shin) {
-		String value = null;
-		if (output_shin != null) {
-			value = output_shin.substring(0, output_shin.length()-2);
-		}		
-		this.output_shin = value;
+		this.output_shin = output_shin;
 	}
 
 	public String getOutput_patterns() {

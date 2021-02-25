@@ -79,21 +79,15 @@ public class ShaclPropertyReader {
 		String value = null;
 		if (constraint.hasProperty(SH.in)) {
 			Resource list = constraint.getProperty(SH.in).getList().asResource();
-			RDFList rdflist = list.as(RDFList.class);
-			ExtendedIterator<RDFNode> items = rdflist.iterator();
-			value = "";
-			while (items.hasNext()) {
-				RDFNode item = items.next();
-				String valueString;
+			
+			List<RDFNode> rdflist = list.as(RDFList.class).asJavaList();
+			value = rdflist.stream().map(item -> {
 				if(item.isURIResource()) {
-					valueString = item.getModel().shortForm(((Resource)item).getURI());
+					return item.getModel().shortForm(((Resource)item).getURI());
 				} else {
-					valueString = item.toString();
+					return item.toString();
 				}
-				
-				value += valueString + " ,";
-			}
-			value.substring(0,(value.length()-2));
+			}).collect(Collectors.joining(", "));
 		}
 		return value;
 	}

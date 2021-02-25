@@ -27,8 +27,7 @@ public class ConstraintValueReader {
 							.map(s -> s.getObject().asLiteral().getLexicalForm())
 							.collect(Collectors.joining(", "));
 					// value = constraint.getProperty(property).getObject().asLiteral().toString();
-				} else if (lang != null
-						) {
+				} else if (lang != null) {
 					value = constraint.getProperty(property).getObject().asLiteral().toString();
 				} else if (
 						lang == null

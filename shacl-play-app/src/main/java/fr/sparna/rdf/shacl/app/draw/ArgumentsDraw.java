@@ -30,6 +30,13 @@ public class ArgumentsDraw {
 	)
 	private List<File> output;
 
+	@Parameter(
+			names = { "-s", "--sub" },
+			description = "Set this option to include subClassOf links in the diagram, from rdfs:subClassOf assertions. Defaults to false",
+			required = false
+	)
+	private boolean includeSubclasses = false;
+	
 	public List<File> getInput() {
 		return input;
 	}
@@ -44,6 +51,14 @@ public class ArgumentsDraw {
 
 	public void setOutput(List<File> output) {
 		this.output = output;
+	}
+
+	public boolean isIncludeSubclasses() {
+		return includeSubclasses;
+	}
+
+	public void setIncludeSubclasses(boolean includeSubclasses) {
+		this.includeSubclasses = includeSubclasses;
 	}
 	
 }

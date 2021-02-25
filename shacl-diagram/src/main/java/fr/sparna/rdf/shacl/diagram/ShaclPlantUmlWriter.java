@@ -1,6 +1,5 @@
 package fr.sparna.rdf.shacl.diagram;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -12,31 +11,40 @@ import org.topbraid.shacl.vocabulary.SH;
 
 public class ShaclPlantUmlWriter {
 
+	protected boolean includeSubclassLinks = true;
+	
+	public ShaclPlantUmlWriter(boolean includeSubclassLinks) {
+		super();
+		this.includeSubclassLinks = includeSubclassLinks;
+	}
 
 	public String writeInPlantUml(Model shaclGraph) {
 
 		List<Resource> nodeShapes = shaclGraph.listResourcesWithProperty(RDF.type, SH.NodeShape).toList();
 
 		// 1. Lire toutes les box
-		ArrayList<PlantUmlBox> planumlvalue = new ArrayList<>();
-		ArrayList<String> shaclnode = new ArrayList<>();
+		PlantUmlBoxReader nodeShapeReader = new PlantUmlBoxReader();
+		ArrayList<PlantUmlBox> plantUmlBoxes = new ArrayList<>();
+		
 		for (Resource nodeShape : nodeShapes) {
-			shaclnode.add(nodeShape.getLocalName());
-			PlantUmlBox dbShacl = new PlantUmlBox(nodeShape);
-			planumlvalue.add(dbShacl);
+			PlantUmlBox box = nodeShapeReader.read(nodeShape);
+			plantUmlBoxes.add(box);
 		} 
 		
 		// 2. Une fois qu'on a toute la liste, lire les proprietes
-		for (PlantUmlBox aBox : planumlvalue) {
-			aBox.readProperties(aBox.getNodeShape(), planumlvalue);
+		for (PlantUmlBox aBox : plantUmlBoxes) {
+			aBox.setProperties(nodeShapeReader.readProperties(aBox.getNodeShape(), plantUmlBoxes));
+			if(includeSubclassLinks) {
+				aBox.setSuperClasses(nodeShapeReader.readSuperClasses(aBox.getNodeShape(), plantUmlBoxes));
+			}
 		}
 
 		List<String> sourceuml = new ArrayList<>();
 		String Auxpackage = "";
 		boolean  close_package=false;
-		planumlvalue.sort(Comparator.comparing(PlantUmlBox::getPackageName));
+		plantUmlBoxes.sort(Comparator.comparing(PlantUmlBox::getPackageName));
 		
-		for (PlantUmlBox plantUmlBox : planumlvalue) {
+		for (PlantUmlBox plantUmlBox : plantUmlBoxes) {
 			
 			if (plantUmlBox.getPackageName() != "" & !Auxpackage.equals(plantUmlBox.getPackageName())) {
 				if (close_package) {
@@ -46,17 +54,9 @@ public class ShaclPlantUmlWriter {
 				Auxpackage = plantUmlBox.getPackageName();
 				
 				close_package = true;
-				if (plantUmlBox.getNametargetclass() != null) {
-					sourceuml.add("Class"+" "+"\""+plantUmlBox.getNameshape()+"\""+" "+"<"+plantUmlBox.getNametargetclass()+">"+"\n");
-				}else {
-					sourceuml.add("Class"+" "+"\""+plantUmlBox.getNameshape()+"\""+"\n");
-				}
+				sourceuml.add(plantUmlBox.toPlantUml());
 			} else {
-				if (plantUmlBox.getNametargetclass() != null) {
-					sourceuml.add("Class"+" "+"\""+plantUmlBox.getNameshape()+"\""+" "+"<"+plantUmlBox.getNametargetclass()+">"+"\n");
-				}else {
-					sourceuml.add("Class"+" "+"\""+plantUmlBox.getNameshape()+"\""+"\n");
-				}
+				sourceuml.add(plantUmlBox.toPlantUml());
 			}
 			
 			PlantUmlRenderer renderer = new PlantUmlRenderer(plantUmlBox.getNameshape());

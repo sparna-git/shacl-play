@@ -180,7 +180,8 @@ public class ViewController {
 			FORMAT format,
 			HttpServletResponse response
 	) throws IOException {
-		ShaclPlantUmlWriter writer = new ShaclPlantUmlWriter();
+		// includes the subClassOf links in the generated diagram
+		ShaclPlantUmlWriter writer = new ShaclPlantUmlWriter(true);
 		String plantumlString = writer.writeInPlantUml(shapesModel);
 		
 		response.setContentType(format.mimeType);

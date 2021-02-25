@@ -24,8 +24,8 @@ public class GenerateImgSVG {
 	@SuppressWarnings("deprecation")
 	public void setImgSvg(Model shapesModel) throws IOException {
 
-		// draw
-		ShaclPlantUmlWriter writer = new ShaclPlantUmlWriter();
+		// draw - without subclasses links
+		ShaclPlantUmlWriter writer = new ShaclPlantUmlWriter(false);
 		String plantUmlString = writer.writeInPlantUml(shapesModel);
 
 		SourceStringReader reader = new SourceStringReader(plantUmlString);

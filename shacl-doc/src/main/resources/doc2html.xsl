@@ -51,8 +51,8 @@
 			<entry key="PREFIXES.COLUMN.PREFIX" label="Prefix" />
 			<entry key="PREFIXES.COLUMN.URI" label="Namespace" />			
 			
-			<entry key="METADATA.DATE" label="Last updated:" />
-			<entry key="METADATA.VERSION" label="Version:" />
+			<entry key="METADATA.DATE" label="Last updated: " />
+			<entry key="METADATA.VERSION" label="Version: " />
 			<entry key="METADATA.INTRODUCTION" label="Abstract" />
 			
 			<entry key="DIAGRAM.TITLE" label="Dataset diagram" />
@@ -109,15 +109,17 @@
 						</center>
 					</h1>
 					<br />
-					<xsl:if test="VersionOntology != null">
-						<xsl:value-of
-							select="$LABELS/labels/entry[@key='METADATA.DATE']/@label" />
-						<xsl:value-of select="VersionOntology" />
+					<xsl:if test="dateModification != ''">
+						<b><xsl:value-of
+							select="$LABELS/labels/entry[@key='METADATA.DATE']/@label" /></b>
+						<xsl:value-of select="dateModification" />
+						<br/>
 					</xsl:if>
-					<xsl:if test="VersionOntology != null">
-						<xsl:value-of
+					<xsl:if test="versionOntology !=''">
+						<b><xsl:value-of
 							select="$LABELS/labels/entry[@key='METADATA.VERSION']/@label" />
-						<xsl:value-of select="VersionOntology" />
+						</b>
+						<xsl:value-of select="versionOntology" />
 						<br />
 					</xsl:if>
 					<br />

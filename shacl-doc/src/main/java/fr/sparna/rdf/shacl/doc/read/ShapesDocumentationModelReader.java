@@ -11,6 +11,7 @@ import java.util.TreeSet;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.vocabulary.DCTerms;
 import org.apache.jena.vocabulary.OWL;
 import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.RDFS;
@@ -25,6 +26,7 @@ import fr.sparna.rdf.shacl.doc.model.NamespaceSections;
 import fr.sparna.rdf.shacl.doc.model.PropertyShapeDocumentation;
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentation;
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentationSection;
+import net.sourceforge.plantuml.webp.IDCT;
 
 public class ShapesDocumentationModelReader implements ShapesDocumentationReaderIfc {
 
@@ -112,13 +114,18 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 		for (Resource rOntology : sOWL) {
 			sOWLlabel = ReadValue.readValueconstraint(rOntology, RDFS.label, lang);
 			sOWLComment = ReadValue.readValueconstraint(rOntology, RDFS.comment, lang);
+			sOWLVersionInfo = ReadValue.readValueconstraint(rOntology,OWL.versionInfo, null);		
+			sOWLDateModified = ReadValue.readValueconstraint(rOntology,DCTerms.modified, null);
 		}
+		
+		
 
 		// Code XML
 		List<ShapesDocumentationSection> ListTitle = new ArrayList<>();
 		ShapesDocumentation shapesDocumentation = new ShapesDocumentation();
 		shapesDocumentation.setTitle(sOWLlabel);
 		shapesDocumentation.setCommentOntology(sOWLComment);
+		shapesDocumentation.setDateModification(sOWLDateModified);
 		shapesDocumentation.setVersionOntology(sOWLVersionInfo);
 		shapesDocumentation.setDrawnImagenXML(sImgDiagramme);
 		String pattern_node_nodeshape = null;
@@ -127,6 +134,7 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 		List<NamespaceSections> namespaceSections = new ArrayList<>();
 		// Recuperation de prefix et Namespace
 		Map<String, String> allPrefixes = shaclGraph.getNsPrefixMap();
+		//
 		Set<String> o_gatheredPrefixes = new TreeSet<String>(gatheredPrefixes);
 		// Les prefix et namespace
 		for (String aPrefix : o_gatheredPrefixes) {

@@ -17,7 +17,7 @@ import org.apache.jena.vocabulary.RDFS;
 import org.topbraid.shacl.vocabulary.SH;
 
 import fr.sparna.rdf.shacl.doc.ConstraintValueReader;
-import fr.sparna.rdf.shacl.doc.GenerateImgSVG;
+import fr.sparna.rdf.shacl.doc.SVGGenerator;
 import fr.sparna.rdf.shacl.doc.ShaclBox;
 import fr.sparna.rdf.shacl.doc.ShaclBoxReader;
 import fr.sparna.rdf.shacl.doc.ShaclProperty;
@@ -94,14 +94,12 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 		// Option pour créer le diagramme
 		String sImgDiagramme = null;
 		if (this.readDiagram) {
-			GenerateImgSVG gImgSvg = new GenerateImgSVG();
+			SVGGenerator gImgSvg = new SVGGenerator();
 			try {
-				gImgSvg.setImgSvg(shaclGraph);
+				sImgDiagramme = gImgSvg.generateSvgDiagram(shaclGraph);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
-			sImgDiagramme = gImgSvg.getImgSvg();			
+			}			
 		}		
 
 		// Lecture de OWL

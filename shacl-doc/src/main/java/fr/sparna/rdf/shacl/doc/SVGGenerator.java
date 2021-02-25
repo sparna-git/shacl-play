@@ -13,20 +13,16 @@ import net.sourceforge.plantuml.FileFormatOption;
 import net.sourceforge.plantuml.SourceStringReader;
 
 
-public class GenerateImgSVG {
-
-	protected String ImgSvg;
-
-	public String getImgSvg() {
-		return ImgSvg;
-	}
+public class SVGGenerator {
 
 	@SuppressWarnings("deprecation")
-	public void setImgSvg(Model shapesModel) throws IOException {
+	public String generateSvgDiagram(Model shapesModel) throws IOException {
 
 		// draw - without subclasses links
-		ShaclPlantUmlWriter writer = new ShaclPlantUmlWriter(false);
+		ShaclPlantUmlWriter writer = new ShaclPlantUmlWriter(false, true);
 		String plantUmlString = writer.writeInPlantUml(shapesModel);
+		
+		System.out.println(plantUmlString);
 
 		SourceStringReader reader = new SourceStringReader(plantUmlString);
 		final ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -37,7 +33,7 @@ public class GenerateImgSVG {
 		// The XML is stored into svg
 		String svg = new String(out.toByteArray(), Charset.forName("UTF-8"));
 
-		this.ImgSvg = svg;
+		return svg;
 	}
 
 }

@@ -66,16 +66,16 @@ public class PlantUmlPropertyReader {
 		String uml_code =null;
 		if (constraint.hasProperty(SH.minCount)){
 			value_minCount = constraintValueReader.readValueconstraint(constraint, SH.minCount);
-			if (value_minCount == ""){value_minCount = "0";}
 		}
 		if (constraint.hasProperty(SH.maxCount)) {
 			value_maxCount = constraintValueReader.readValueconstraint(constraint, SH.maxCount);
-			if (value_maxCount == "") {value_maxCount = "*";}
 		}
+		
 		if ((constraint.hasProperty(SH.minCount)) || (constraint.hasProperty(SH.maxCount))){
 			uml_code = "["+ value_minCount +".."+ value_maxCount +"]";
+		} else {
+			uml_code = null;
 		}
-		else {uml_code = null;}
 		
 		return uml_code;
 	}
@@ -316,24 +316,25 @@ public class PlantUmlPropertyReader {
 	} 
 
 	public String readShQualifiedMinCountQualifiedMaxCount(Resource constraint) {
-		String qValuesMin = "";
-		String qValuesMax = "";
-		String value = null;
-		// 1. Lire la valeur de sh:node
-		if(constraint.hasProperty(SH.qualifiedMinCount)) {
-			qValuesMin = constraintValueReader.readValueconstraint(constraint, SH.qualifiedMinCount);			
-		} else if (constraint.hasProperty(SH.qualifiedMaxCount)) {
-			qValuesMax = constraintValueReader.readValueconstraint(constraint, SH.qualifiedMaxCount);
+		String value_minCount = "0";
+		String value_maxCount ="*";
+		String uml_code =null;
+		
+		if (constraint.hasProperty(SH.qualifiedMinCount)){
+			value_minCount = constraintValueReader.readValueconstraint(constraint, SH.minCount);
+		}
+		if (constraint.hasProperty(SH.qualifiedMaxCount)) {
+			value_maxCount = constraintValueReader.readValueconstraint(constraint, SH.maxCount);
 		}
 		
-		if (qValuesMin!="") {
-			value = "["+qValuesMin+"]";
-		}
-		if(qValuesMax!="") {
-			value = "["+qValuesMax+"]";
+		if ((constraint.hasProperty(SH.qualifiedMinCount)) || (constraint.hasProperty(SH.qualifiedMaxCount))){
+			uml_code = "["+ value_minCount +".."+ value_maxCount +"]";
+		} else {
+			uml_code = null;
 		}
 		
-		return value;
+		return uml_code;
+		
 	}
 
 	

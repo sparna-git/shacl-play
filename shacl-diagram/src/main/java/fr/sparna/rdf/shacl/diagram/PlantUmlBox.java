@@ -68,13 +68,4 @@ public class PlantUmlBox {
 		this.superClasses = superClasses;
 	}
 
-	public String toPlantUml() {
-		String declaration = "Class"+" "+"\""+this.getNameshape()+"\""+((this.getNametargetclass() != null)?" "+"<"+this.getNametargetclass()+">":"")+"\n";
-		if(this.superClasses != null) {
-			for (PlantUmlBox aSuperClass : this.superClasses) {
-				declaration += "\""+this.getNameshape()+"\"" + "--|>" + "\""+aSuperClass.getNameshape()+"\"" + "\n";
-			}
-		}
-		return declaration;
-	}
 }

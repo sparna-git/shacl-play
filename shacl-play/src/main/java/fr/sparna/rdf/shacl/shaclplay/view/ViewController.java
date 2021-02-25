@@ -181,7 +181,8 @@ public class ViewController {
 			HttpServletResponse response
 	) throws IOException {
 		// includes the subClassOf links in the generated diagram
-		ShaclPlantUmlWriter writer = new ShaclPlantUmlWriter(true);
+		// don't generate hyperlinks
+		ShaclPlantUmlWriter writer = new ShaclPlantUmlWriter(true, false);
 		String plantumlString = writer.writeInPlantUml(shapesModel);
 		
 		response.setContentType(format.mimeType);

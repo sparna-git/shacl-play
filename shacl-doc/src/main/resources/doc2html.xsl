@@ -29,6 +29,7 @@
 			<entry key="METADATA.INTRODUCTION" label="Introduction" />
 			
 			<entry key="DIAGRAM.TITLE" label="Diagramme du dataset" />
+			<entry key="DIAGRAM.HELP" label="Cliquez sur le diagramme pour naviguer vers la section correspondante" />
 			
 			<entry key="LABEL_NODEKIND" label="Types de noeud : " />
 			<entry key="LABEL_PATTERNS" label="URIs : " />
@@ -55,6 +56,8 @@
 			<entry key="METADATA.INTRODUCTION" label="Abstract" />
 			
 			<entry key="DIAGRAM.TITLE" label="Dataset diagram" />
+			<entry key="DIAGRAM.HELP" label="Click diagram to navigate to corresponding section" />
+			
 			
 			<entry key="LABEL_NODEKIND" label="Nodes: " />
 			<entry key="LABEL_PATTERNS" label="URI: " />
@@ -89,6 +92,11 @@
 					    margin-left: -20px;
 					    line-height: 1;
 					    padding-top:12px;
+					}
+					
+					.monospace {
+					  font-family: SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+					  font-size: 87.5%;
 					}
 				</style>
 			</head>
@@ -168,6 +176,7 @@
 					<!-- @disable-output-escaping prints the raw XML string as XML in the document and removes XML-encoding of the characters -->
 					<xsl:value-of select="." disable-output-escaping="yes" />
 				</div>
+				<small class="form-text text-muted"><xsl:value-of select="$LABELS/labels/entry[@key='DIAGRAM.HELP']/@label" /></small>
 			</div>
 			<br />
 		</xsl:if>
@@ -237,7 +246,7 @@
 				<xsl:if test="patternNS != ''">
 					<li><xsl:value-of
 							select="$LABELS/labels/entry[@key='LABEL_PATTERNS']/@label" />
-						<span style="font-family: monospace"><xsl:value-of select="patternNS" /></span></li>
+						<span class="monospace"><xsl:value-of select="patternNS" /></span></li>
 				</xsl:if>
 				<xsl:if test="closeNS != '' and closeNS='true'">
 					<li>
@@ -313,7 +322,7 @@
 						     </a>						     
 						  </xsl:when>
 						  <xsl:otherwise>
-						     <xsl:value-of select="output_valeur_attendus" />
+						     <span class="monospace"><xsl:value-of select="output_valeur_attendus" /></span>
 						  </xsl:otherwise>
 						</xsl:choose>
 						

@@ -20,7 +20,7 @@ public class Main {
 
 		shaclGraph.read(new FileInputStream(shaclFile), RDF.uri, FileUtils.guessLang(shaclFile, "RDF/XML"));
 
-		ShaclPlantUmlWriter writer = new ShaclPlantUmlWriter(true);
+		ShaclPlantUmlWriter writer = new ShaclPlantUmlWriter(true, false);
 		String output = writer.writeInPlantUml(shaclGraph);
 		
 		String outputDirectory ="C:/Temp" ; //args[1];

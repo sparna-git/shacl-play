@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.Resource;
@@ -122,13 +125,13 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 		shapesDocumentation.setDrawnImagenXML(sImgDiagramme);
 		String pattern_node_nodeshape = null;
 
-		// for pour afficher l'information des prefix et namespace
+		// pour afficher l'information des prefix et namespace
 		List<NamespaceSections> namespaceSections = new ArrayList<>();
-
 		// Recuperation de prefix et Namespace
 		Map<String, String> allPrefixes = shaclGraph.getNsPrefixMap();
+		Set<String> o_gatheredPrefixes = new TreeSet<String>(gatheredPrefixes);
 		// Les prefix et namespace
-		for (String aPrefix : gatheredPrefixes) {
+		for (String aPrefix : o_gatheredPrefixes) {
 			for (Map.Entry<String, String> me : allPrefixes.entrySet()) {
 				if (me.getKey().equals(aPrefix)) {
 					NamespaceSections tPrefix = new NamespaceSections();
@@ -139,10 +142,11 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 				}
 			}
 		}
-
+		
 		//
-
 		shapesDocumentation.setShnamespace(namespaceSections);
+		
+		
 		// Property NodeShape
 		for (ShaclBox datanodeshape : Shaclvalue) {
 			// if (datanodeshape.getNametargetclass() != null) {

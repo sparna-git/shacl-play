@@ -10,6 +10,7 @@ public class ShapesDocumentation {
 	protected String title;	
 	protected String subtitle;
 	protected String commentOntology;
+	protected String DateModification;
 	protected String VersionOntology;
 	protected String drawnImagenXML;
 	
@@ -20,8 +21,12 @@ public class ShapesDocumentation {
 	@JacksonXmlProperty(localName = "section")
 	protected List<ShapesDocumentationSection> sections;
 	
-	
-	
+	public String getDateModification() {
+		return DateModification;
+	}
+	public void setDateModification(String dateModification) {
+		DateModification = dateModification;
+	}
 	public String getDrawnImagenXML() {
 		return drawnImagenXML;
 	}

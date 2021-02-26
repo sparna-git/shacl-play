@@ -108,7 +108,6 @@
 							<xsl:value-of select="title" />
 						</center>
 					</h1>
-					<br />
 					<xsl:if test="dateModification != ''">
 						<b><xsl:value-of
 							select="$LABELS/labels/entry[@key='METADATA.DATE']/@label" /></b>
@@ -122,7 +121,6 @@
 						<xsl:value-of select="versionOntology" />
 						<br />
 					</xsl:if>
-					<br />
 					<hr />
 					<br />
 					<xsl:if test="commentOntology != ''">
@@ -237,26 +235,28 @@
 			<xsl:if test="comments != ''">
 				<em><xsl:value-of select="comments" /></em>
 			</xsl:if>
-			<ul>
-				<xsl:if test="nodeKindNS != ''">
-					<li>
-						<xsl:value-of
-							select="$LABELS/labels/entry[@key='LABEL_NODEKIND']/@label" />
-						<xsl:value-of select="nodeKindNS" />
-					</li>
-				</xsl:if>
-				<xsl:if test="patternNS != ''">
-					<li><xsl:value-of
-							select="$LABELS/labels/entry[@key='LABEL_PATTERNS']/@label" />
-						<span class="monospace"><xsl:value-of select="patternNS" /></span></li>
-				</xsl:if>
-				<xsl:if test="closeNS != '' and closeNS='true'">
-					<li>
-						<xsl:value-of
-							select="$LABELS/labels/entry[@key='LABEL_CLOSE']/@label" />
-					</li>
-				</xsl:if>
-			</ul>
+			<xsl:if test="nodeKindNS != '' or patternNS != '' or (closeNS != '' and closeNS='true')">
+				<ul>
+					<xsl:if test="nodeKindNS != ''">
+						<li>
+							<xsl:value-of
+								select="$LABELS/labels/entry[@key='LABEL_NODEKIND']/@label" />
+							<xsl:value-of select="nodeKindNS" />
+						</li>
+					</xsl:if>
+					<xsl:if test="patternNS != ''">
+						<li><xsl:value-of
+								select="$LABELS/labels/entry[@key='LABEL_PATTERNS']/@label" />
+							<span class="monospace"><xsl:value-of select="patternNS" /></span></li>
+					</xsl:if>
+					<xsl:if test="closeNS != '' and closeNS='true'">
+						<li>
+							<xsl:value-of
+								select="$LABELS/labels/entry[@key='LABEL_CLOSE']/@label" />
+						</li>
+					</xsl:if>
+				</ul>
+			</xsl:if>
 			<xsl:if test="count(properties/property)>0">
 				<table class="table table-striped" style="width:100%">
 					<thead>

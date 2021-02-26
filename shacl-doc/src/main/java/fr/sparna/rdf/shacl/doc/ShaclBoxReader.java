@@ -12,7 +12,6 @@ import org.topbraid.shacl.vocabulary.SH;
 public class ShaclBoxReader {
 
 	private String lang;
-	private ConstraintValueReader valueReader = new ConstraintValueReader();
 
 	public ShaclBoxReader(String lang) {
 		this.lang = lang;
@@ -34,16 +33,14 @@ public class ShaclBoxReader {
 		return box;
 	}
 	
-	public String readShnodeKind(Resource nodeShape) {	
-		String value = valueReader.readValueconstraint(nodeShape, SH.nodeKind, null);
-		if(value != null) {
-			value = nodeShape.getModel().shortForm(value);
-		}
-		return value;
+	public String readShnodeKind(Resource nodeShape) {
+		ConstraintValueReader constarget = new ConstraintValueReader();
+		return nodeShape.getModel().shortForm(constarget.readValueconstraint(nodeShape, SH.nodeKind, null));
 	}
 
-	public Boolean readShClose(Resource nodeShape) {	
-		return Boolean.parseBoolean(valueReader.readValueconstraint(nodeShape, SH.closed, null));
+	public Boolean readShClose(Resource nodeShape) {
+		ConstraintValueReader constarget = new ConstraintValueReader();		
+		return Boolean.parseBoolean(constarget.readValueconstraint(nodeShape, SH.closed, null));
 	}
 
 	public Integer readShOrder(Resource nodeShape) {
@@ -55,19 +52,23 @@ public class ShaclBoxReader {
 	}
 
 	public String readShpatternNodeShape(Resource nodeShape) {
-		return valueReader.readValueconstraint(nodeShape, SH.pattern, null);
+		ConstraintValueReader constraintValueReader = new ConstraintValueReader();
+		return constraintValueReader.readValueconstraint(nodeShape, SH.pattern, null);
 	}
 
 	public String readRdfslabel(Resource nodeShape) {
-		return valueReader.readValueconstraint(nodeShape, RDFS.label, this.lang);
+		ConstraintValueReader constraintValue = new ConstraintValueReader();
+		return constraintValue.readValueconstraint(nodeShape, RDFS.label, this.lang);
 	}
 
 	public String readRdfsComment(Resource nodeShape) {
-		return valueReader.readValueconstraint(nodeShape, RDFS.comment, this.lang);
+		ConstraintValueReader constraintValue = new ConstraintValueReader();
+		return constraintValue.readValueconstraint(nodeShape, RDFS.comment, this.lang);
 	}
 
 	public String readNametargetclass(Resource nodeShape) {
-		return valueReader.readValueconstraint(nodeShape, SH.targetClass, null);
+		ConstraintValueReader constargetclass = new ConstraintValueReader();
+		return constargetclass.readValueconstraint(nodeShape, SH.targetClass, null);
 	}
 
 	public List<ShaclProperty> readProperties(Resource nodeShape, List<ShaclBox> allBoxes) {
@@ -79,12 +80,13 @@ public class ShaclBoxReader {
 		for (Statement aPropertyStatement : propertyStatements) {
 			RDFNode object = aPropertyStatement.getObject();
 
-			if (object.isResource()) {
-				Resource propertyShape = object.asResource();			
-				ShaclProperty plantvalueproperty = propertyReader.read(propertyShape);
-				propertyShapes.add(plantvalueproperty);	
+			if (object.isLiteral()) {
+				System.out.println("Problem !");
 			}
-					
+
+			Resource propertyShape = object.asResource();			
+			ShaclProperty plantvalueproperty = propertyReader.read(propertyShape);
+			propertyShapes.add(plantvalueproperty);			
 		}
 		
 		// sort property shapes

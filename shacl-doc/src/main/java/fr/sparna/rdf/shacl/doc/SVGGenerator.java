@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 
 import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Resource;
 
 import fr.sparna.rdf.shacl.diagram.ShaclPlantUmlWriter;
@@ -17,17 +16,13 @@ import net.sourceforge.plantuml.SourceStringReader;
 public class SVGGenerator {
 
 	@SuppressWarnings("deprecation")
-	public String generateSvgDiagram(Model shapesModel, Model owlModel) throws IOException {
+	public String generateSvgDiagram(Model shapesModel) throws IOException {
 
 		// draw - without subclasses links
-		// set first parameter to true to draw subclassOf links
 		ShaclPlantUmlWriter writer = new ShaclPlantUmlWriter(false, true);
-		Model finalModel = ModelFactory.createDefaultModel();
-		finalModel.add(shapesModel);
-		finalModel.add(owlModel);
-		String plantUmlString = writer.writeInPlantUml(finalModel);
+		String plantUmlString = writer.writeInPlantUml(shapesModel);
 		
-		// System.out.println(plantUmlString);
+		System.out.println(plantUmlString);
 
 		SourceStringReader reader = new SourceStringReader(plantUmlString);
 		final ByteArrayOutputStream out = new ByteArrayOutputStream();

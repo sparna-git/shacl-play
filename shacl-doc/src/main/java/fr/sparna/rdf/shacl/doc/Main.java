@@ -27,19 +27,11 @@ public class Main {
 		boolean outDiagram = Boolean.parseBoolean(args[3]);
 				
 		Model shaclGraph = ModelFactory.createDefaultModel();
-		if(shaclFile.startsWith("http")) {
-			shaclGraph.read(shaclFile, RDF.uri, FileUtils.guessLang(shaclFile, "Turtle"));
-		} else {
-			shaclGraph.read(new FileInputStream(shaclFile), RDF.uri, FileUtils.guessLang(shaclFile, "RDF/XML"));
-		}
+		shaclGraph.read(new FileInputStream(shaclFile), RDF.uri, FileUtils.guessLang(shaclFile, "RDF/XML"));
 		
 		Model owlGraph = ModelFactory.createDefaultModel();
 		if(shaclFileOWL != null) {
-			if(shaclFileOWL.startsWith("http")) {
-				owlGraph.read(shaclFileOWL, RDF.uri, FileUtils.guessLang(shaclFileOWL, "Turtle"));
-			} else {
-				owlGraph.read(new FileInputStream(shaclFileOWL), RDF.uri, FileUtils.guessLang(shaclFileOWL, "RDF/XML"));
-			}			
+			owlGraph.read(new FileInputStream(shaclFileOWL), RDF.uri, FileUtils.guessLang(shaclFileOWL, "RDF/XML"));
 		}
 		
 		// 1. read input SHACL

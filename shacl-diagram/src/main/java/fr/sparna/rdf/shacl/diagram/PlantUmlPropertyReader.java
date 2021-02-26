@@ -50,7 +50,7 @@ public class PlantUmlPropertyReader {
 	}
 		
 	public String readShDatatype(Resource constraint) {
-		return constraintValueReader.readValueconstraintAsShortForm(constraint, SH.datatype);
+		return constraintValueReader.readValueconstraint(constraint, SH.datatype);
 	}
 
 	public String readShNodeKind(Resource constraint) {

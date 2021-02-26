@@ -84,9 +84,6 @@ public class ShaclPropertyReader {
 			value = rdflist.stream().map(item -> {
 				if(item.isURIResource()) {
 					return item.getModel().shortForm(((Resource)item).getURI());
-				} if(item.isLiteral() && item.asLiteral().getDatatype() != null) {
-					// nicely prints datatypes with their short form
-					return "\""+item.asLiteral().getLexicalForm()+"\"^^"+item.getModel().shortForm(item.asLiteral().getDatatype().getURI());
 				} else {
 					return item.toString();
 				}

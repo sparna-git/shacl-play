@@ -55,7 +55,7 @@ public class ConstraintValueReader {
 		if(r == null) return "";
 		
 		if(r.isURIResource()) {
-			return r.getModel().shortForm(r.getURI());
+			return r.getLocalName();
 		} else if(r.hasProperty(SH.alternativePath)) {
 			Resource alternatives = r.getPropertyResourceValue(SH.alternativePath);
 			RDFList rdfList = alternatives.as( RDFList.class );
@@ -74,26 +74,10 @@ public class ConstraintValueReader {
 			List<RDFNode> pathElements = rdfList.asJavaList();
 			return pathElements.stream().map(p -> {
 				return renderShaclPropertyPath((Resource)p);}).collect(Collectors.joining("/"));
-		} else if(r.hasProperty(SH.zeroOrMorePath)) {
-			Resource value = r.getPropertyResourceValue(SH.zeroOrMorePath);
-			if(value.isURIResource()) {
-				return renderShaclPropertyPath(value)+"*";
-			}
-			else {
-				return "("+renderShaclPropertyPath(value)+")*";
-			}
-		} else if(r.hasProperty(SH.oneOrMorePath)) {
-			Resource value = r.getPropertyResourceValue(SH.oneOrMorePath);
-			if(value.isURIResource()) {
-				return renderShaclPropertyPath(value)+"+";
-			}
-			else {
-				return "("+renderShaclPropertyPath(value)+")+";
-			}
 		} else {
 			return "Unsupported path";
 		}
-	}
+	}	
 	
 	public static List<RDFNode> asJavaList( Resource resource )
 	  {

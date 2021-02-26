@@ -32,23 +32,6 @@ public class ConstraintValueReader {
 		return value;
 	}
 	
-	public String readValueconstraintAsShortForm(Resource constraint,Property property) {
-		
-		String value=null;
-		try {
-			if (constraint.hasProperty(property)) {
-				if (constraint.getProperty(property).getObject().isURIResource()) {
-					  value = constraint.getProperty(property).getResource().getModel().shortForm(constraint.getProperty(property).getResource().getURI());			
-				} else {
-					return readValueconstraint(constraint, property);
-				}
-			}
-		} catch (Exception e) {
-			value = null;
-		}
-		return value;
-	}
-	
 	public static String renderShaclPropertyPath(Resource r) {
 		if(r == null) return "";
 		
@@ -72,22 +55,6 @@ public class ConstraintValueReader {
 			List<RDFNode> pathElements = rdfList.asJavaList();
 			return pathElements.stream().map(p -> {
 				return renderShaclPropertyPath((Resource)p);}).collect(Collectors.joining("/"));
-		} else if(r.hasProperty(SH.zeroOrMorePath)) {
-			Resource value = r.getPropertyResourceValue(SH.zeroOrMorePath);
-			if(value.isURIResource()) {
-				return renderShaclPropertyPath(value)+"*";
-			}
-			else {
-				return "("+renderShaclPropertyPath(value)+")*";
-			}
-		} else if(r.hasProperty(SH.oneOrMorePath)) {
-			Resource value = r.getPropertyResourceValue(SH.oneOrMorePath);
-			if(value.isURIResource()) {
-				return renderShaclPropertyPath(value)+"+";
-			}
-			else {
-				return "("+renderShaclPropertyPath(value)+")+";
-			}
 		} else {
 			return "Unsupported path";
 		}

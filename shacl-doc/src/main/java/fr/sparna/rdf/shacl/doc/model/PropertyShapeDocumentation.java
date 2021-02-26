@@ -11,6 +11,7 @@ public class PropertyShapeDocumentation {
 	private String output_propriete;
 	private String output_uri;
 	private String output_valeur_attendus;
+	private String output_linkvaleurattendus;
 	private String ouput_relnodeShape;
 	private String ouput_relnodenameShape;
 	private String output_patterns;
@@ -24,6 +25,14 @@ public class PropertyShapeDocumentation {
 	
 	
 	
+	public String getOutput_linkvaleurattendus() {
+		return output_linkvaleurattendus;
+	}
+
+	public void setOutput_linkvaleurattendus(String output_linkvaleurattendus) {
+		this.output_linkvaleurattendus = output_linkvaleurattendus;
+	}
+
 	public String getOuput_relnodenameShape() {
 		return ouput_relnodenameShape;
 	}

@@ -12,6 +12,8 @@ public class ShapesDocumentationSection {
 	private String title;
 	private String dURI;
 	private String comments;
+	private String pTargetClass;
+	private String linkTargetClass;
 	private String patternNS;
 	private String NodeKindNS;
 	private Boolean CloseNS;
@@ -19,7 +21,24 @@ public class ShapesDocumentationSection {
 	@JacksonXmlProperty(localName = "property")
 	public List<PropertyShapeDocumentation> propertySections;
 	
-		
+	
+	
+	public String getLinkTargetClass() {
+		return linkTargetClass;
+	}
+
+	public void setLinkTargetClass(String linkTargetClass) {
+		this.linkTargetClass = linkTargetClass;
+	}
+
+	public String getpTargetClass() {
+		return pTargetClass;
+	}
+
+	public void setpTargetClass(String pTargetClass) {
+		this.pTargetClass = pTargetClass;
+	}
+
 	public String getPatternNS() {
 		return patternNS;
 	}

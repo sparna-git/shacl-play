@@ -167,6 +167,15 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 			}
 			sectionPrincipal.setdURI(datanodeshape.getNameshape());
 			sectionPrincipal.setComments(datanodeshape.getRdfsComment());
+			sectionPrincipal.setpTargetClass(datanodeshape.getNametargetclass());
+			if(datanodeshape.getNametargetclass() != null) {
+				for(NamespaceSections sPrefix : namespaceSections) {
+					if(sPrefix.getOutput_prefix().equals(datanodeshape.getNametargetclass().split(":")[0])) {
+						sectionPrincipal.setLinkTargetClass(sPrefix.getOutput_namespace()+datanodeshape.getNametargetclass().split(":")[1]);
+						break;
+					}
+				}
+			}
 			sectionPrincipal.setPatternNS(datanodeshape.getShpatternNodeShape());
 			sectionPrincipal.setNodeKindNS(datanodeshape.getShnodeKind());
 			if(datanodeshape.getShClose()) {
@@ -193,7 +202,7 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 				proprieteDoc.setOutput_propriete(propriete.getName(), null);
 				if(propriete.getNode() != null) {
 					for(ShaclBox aName : Shaclvalue) {
-						if(aName.getNodeShapeBox().equals(propriete.getNode())) {
+						if(aName.getNodeShapeBox().contains(propriete.getNode())) {
 							proprieteDoc.setOutput_lieNodeshape(aName.getNameshape());
 							if(aName.getRdfslabel() == null) {
 								proprieteDoc.setOutput_lieNameShape(aName.getNodeShapeBox());
@@ -209,6 +218,7 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 				proprieteDoc.setOutput_valeur_attendus(propriete.getClass_node(), propriete.getNode(),
 						propriete.getClass_property(), propriete.getDatatype(), propriete.getNodeKind(),
 						propriete.getPath());
+				
 				// Identifier le lien avec une node vers la Propriete
 				
 				if(propriete.getClass_node() != null) {
@@ -229,7 +239,16 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 						pattern_node_nodeshape, propriete.getClass_node(), propriete.getNode(),
 						propriete.getClass_property(), propriete.getDatatype(), propriete.getNodeKind(),
 						propriete.getPath());
-
+				if(proprieteDoc.getOutput_valeur_attendus()!=null) {
+					if(proprieteDoc.getOutput_valeur_attendus().contains(":")) {
+						for(NamespaceSections sPrefix : namespaceSections) {
+							if(sPrefix.getOutput_prefix().equals(proprieteDoc.getOutput_valeur_attendus().split(":")[0])) {
+								proprieteDoc.setOutput_linkvaleurattendus(sPrefix.getOutput_namespace()+proprieteDoc.getOutput_valeur_attendus().split(":")[1]);
+							    break;
+							}
+						}
+					}
+				}
 				proprieteDoc.setOutput_Cardinalite(propriete.getCardinality());
 				proprieteDoc.setOutput_description(propriete.getDescription(), datanodeshape.getRdfsComment());
 				proprieteDoc.setOutput_shin(propriete.getShin());

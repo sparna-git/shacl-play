@@ -43,12 +43,17 @@ public class Main {
 		
 		// 2. write Documentation structure to XML
 		ShapesDocumentationWriterIfc writer = new ShapesDocumentationJacksonXsltWriter();
+		OutFilePDF writerPDF = new OutFilePDF();
 		ShapesDocumentationXmlWriter writerXml = new ShapesDocumentationXmlWriter();
 		writer.write(doc, outputLang, System.out);
 		writer.write(doc, outputLang, new FileOutputStream(new File("/tmp/output.html")));
 		
 		writerXml.write(doc, outputLang, System.out);
 		writerXml.write(doc, outputLang, new FileOutputStream(new File("/tmp/output.xml")));
+		
+		// 3. write pdf file
+		writerPDF.generatePDFFromHTML("/tmp/output.html");
+		
 	}
 	
 

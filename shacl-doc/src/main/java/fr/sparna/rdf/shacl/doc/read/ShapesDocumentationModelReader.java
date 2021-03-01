@@ -26,7 +26,7 @@ import fr.sparna.rdf.shacl.doc.model.NamespaceSections;
 import fr.sparna.rdf.shacl.doc.model.PropertyShapeDocumentation;
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentation;
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentationSection;
-import net.sourceforge.plantuml.webp.IDCT;
+//import net.sourceforge.plantuml.webp.IDCT;
 
 public class ShapesDocumentationModelReader implements ShapesDocumentationReaderIfc {
 

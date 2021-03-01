@@ -172,7 +172,6 @@
 					</div>
 					<br />
 					<xsl:apply-templates />
-
 				</div>
 			</body>
 		</html>
@@ -343,7 +342,9 @@
 			<td class="text-break">
 				<xsl:if test="output_uri != null or output_uri != ''">
 					<code>
-						<xsl:value-of select="output_uri" />
+						<a href="{output_linkvaleurattendus}">
+							<xsl:value-of select="output_uri" />
+						</a>
 					</code>
 				</xsl:if>
 			</td>
@@ -364,21 +365,10 @@
 							</xsl:when>
 							<xsl:otherwise>
 								<span class="monospace">
-									<xsl:choose>
-										<xsl:when test="output_linkvaleurattendus != ''">
-											<a href="{output_linkvaleurattendus}">
-												<xsl:value-of select="output_valeur_attendus" />
-											</a>
-										</xsl:when>
-										<xsl:otherwise>
-											<xsl:value-of select="output_valeur_attendus" />
-										</xsl:otherwise>
-									</xsl:choose>
-
+									<xsl:value-of select="output_valeur_attendus" />
 								</span>
 							</xsl:otherwise>
 						</xsl:choose>
-
 					</xsl:otherwise>
 				</xsl:choose>
 

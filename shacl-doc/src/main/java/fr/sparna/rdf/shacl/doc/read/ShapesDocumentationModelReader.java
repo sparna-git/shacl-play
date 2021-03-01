@@ -211,18 +211,27 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 								proprieteDoc.setOutput_lieNameShape(aName.getShortForm());
 							}else {
 								proprieteDoc.setOutput_lieNameShape(aName.getRdfslabel());
-							}
-							
+							}							
 						}
 					}
 				}
 				
 				proprieteDoc.setOutput_uri(propriete.getPath());
+				// Identifier le lien avec une node vers la Propriete
+				if(proprieteDoc.getOutput_uri()!=null) {
+					if(proprieteDoc.getOutput_uri().contains(":")) {
+						for(NamespaceSections sPrefix : namespaceSections) {
+							if(sPrefix.getOutput_prefix().equals(proprieteDoc.getOutput_uri().split(":")[0])) {
+								proprieteDoc.setOutput_linkvaleurattendus(sPrefix.getOutput_namespace()+proprieteDoc.getOutput_uri().split(":")[1]);
+							    break;
+							}
+						}
+					}
+				}
+				
 				proprieteDoc.setOutput_valeur_attendus(propriete.getClass_node(), propriete.getNode(),
 						propriete.getClass_property(), propriete.getDatatype(), propriete.getNodeKind(),
 						propriete.getPath());
-				
-				// Identifier le lien avec une node vers la Propriete
 				
 				if(propriete.getClass_node() != null) {
 					for(ShaclBox getNodeShape : Shaclvalue) {
@@ -232,8 +241,7 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 								proprieteDoc.setOuput_relnodenameShape(getNodeShape.getRdfslabel());
 								break;
 							}
-						}
-						
+						}						
 					}					
 				}
 				
@@ -242,16 +250,6 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 						pattern_node_nodeshape, propriete.getClass_node(), propriete.getNode(),
 						propriete.getClass_property(), propriete.getDatatype(), propriete.getNodeKind(),
 						propriete.getPath());
-				if(proprieteDoc.getOutput_valeur_attendus()!=null) {
-					if(proprieteDoc.getOutput_valeur_attendus().contains(":")) {
-						for(NamespaceSections sPrefix : namespaceSections) {
-							if(sPrefix.getOutput_prefix().equals(proprieteDoc.getOutput_valeur_attendus().split(":")[0])) {
-								proprieteDoc.setOutput_linkvaleurattendus(sPrefix.getOutput_namespace()+proprieteDoc.getOutput_valeur_attendus().split(":")[1]);
-							    break;
-							}
-						}
-					}
-				}
 				proprieteDoc.setOutput_Cardinalite(propriete.getCardinality());
 				proprieteDoc.setOutput_description(propriete.getDescription(), datanodeshape.getRdfsComment());
 				proprieteDoc.setOutput_shin(propriete.getShin());

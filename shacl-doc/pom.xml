@@ -27,6 +27,12 @@
 		</plugins>
 	</build>
 
+	<properties>
+		<!-- Define the version of OPEN HTML TO PDF in the properties section of 
+			your POM. -->
+		<openhtml.version>1.0.6</openhtml.version>
+	</properties>
+
 
 	<dependencies>
 
@@ -99,38 +105,29 @@
 
 		<!-- PDF -->
 
+
 		<dependency>
-			<groupId>org.apache.pdfbox</groupId>
-			<artifactId>pdfbox-tools</artifactId>
-			<version>2.0.22</version>
+			<!-- Required for PDF output. -->
+			<groupId>com.openhtmltopdf</groupId>
+			<artifactId>openhtmltopdf-pdfbox</artifactId>
+			<version>${openhtml.version}</version>
 		</dependency>
 
 		<dependency>
-			<groupId>net.sf.cssbox</groupId>
-			<artifactId>pdf2dom</artifactId>
-			<version>1.9</version>
+			<!-- Required for image output only. -->
+			<groupId>com.openhtmltopdf</groupId>
+			<artifactId>openhtmltopdf-java2d</artifactId>
+			<version>${openhtml.version}</version>
 		</dependency>
 
 		<dependency>
-			<groupId>com.itextpdf</groupId>
-			<artifactId>itextpdf</artifactId>
-			<version>5.5.10</version>
+			<!-- ALWAYS required, usually included transitively. -->
+			<groupId>com.openhtmltopdf</groupId>
+			<artifactId>openhtmltopdf-core</artifactId>
+			<version>${openhtml.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>com.itextpdf.tool</groupId>
-			<artifactId>xmlworker</artifactId>
-			<version>5.5.10</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.poi</groupId>
-			<artifactId>poi-ooxml</artifactId>
-			<version>3.15</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.poi</groupId>
-			<artifactId>poi-scratchpad</artifactId>
-			<version>3.15</version>
-		</dependency>
+
+
 
 	</dependencies>
 </project>

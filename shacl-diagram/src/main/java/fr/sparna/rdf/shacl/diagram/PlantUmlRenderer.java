@@ -3,6 +3,7 @@ package fr.sparna.rdf.shacl.diagram;
 public class PlantUmlRenderer {
 
 	protected boolean generateAnchorHyperlink = false;
+	protected boolean displayPatterns = false;
 
 
 	public String render(PlantUmlProperty property, String boxName) {
@@ -24,7 +25,7 @@ public class PlantUmlRenderer {
 		if(property.getValue_cardinality() != null) {
 			output += " "+property.getValue_cardinality()+" ";
 		}
-		if(property.getValue_pattern() != null) {
+		if(property.getValue_pattern() != null && this.displayPatterns) {
 			output += "("+property.getValue_pattern()+")"+" ";
 		}
 		if(property.getValue_nodeKind() != null && !property.getValue_nodeKind().equals("IRI")) {
@@ -55,7 +56,7 @@ public class PlantUmlRenderer {
 		if(property.getValue_cardinality() != null) {
 			output += " "+property.getValue_cardinality()+" ";
 		}
-		if(property.getValue_pattern() != null) {
+		if(property.getValue_pattern() != null && this.displayPatterns) {
 			output += "("+property.getValue_pattern()+")"+" ";
 		}
 		if(property.getValue_nodeKind() != null && !property.getValue_nodeKind().equals("IRI")) {
@@ -76,7 +77,7 @@ public class PlantUmlRenderer {
 		if(property.getValue_cardinality() != null) {		
 			output += " "+property.getValue_cardinality()+" ";
 		}
-		if(property.getValue_pattern() != null) {
+		if(property.getValue_pattern() != null && this.displayPatterns) {
 			output += "{field}"+" "+"("+property.getValue_pattern()+")"+" ";
 		}
 		if(property.getValue_uniquelang() != null) {
@@ -114,6 +115,13 @@ public class PlantUmlRenderer {
 	public void setGenerateAnchorHyperlink(boolean generateAnchorHyperlink) {
 		this.generateAnchorHyperlink = generateAnchorHyperlink;
 	}
-	
+
+	public boolean isDisplayPatterns() {
+		return displayPatterns;
+	}
+
+	public void setDisplayPatterns(boolean displayPatterns) {
+		this.displayPatterns = displayPatterns;
+	}
 	
 }

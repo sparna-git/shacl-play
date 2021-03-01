@@ -6,7 +6,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
 import java.util.TreeSet;
 
 import org.apache.jena.rdf.model.Model;
@@ -26,7 +25,6 @@ import fr.sparna.rdf.shacl.doc.model.NamespaceSections;
 import fr.sparna.rdf.shacl.doc.model.PropertyShapeDocumentation;
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentation;
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentationSection;
-//import net.sourceforge.plantuml.webp.IDCT;
 
 public class ShapesDocumentationModelReader implements ShapesDocumentationReaderIfc {
 
@@ -38,7 +36,12 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 	}
 
 	@Override
-	public ShapesDocumentation readShapesDocumentation(Model shaclGraph, Model owlGraph, String lang, String fileName) {
+	public ShapesDocumentation readShapesDocumentation(
+			Model shaclGraph,
+			Model owlGraph,
+			String lang,
+			String fileName
+	) {
 
 		List<Resource> nodeShapes = shaclGraph.listResourcesWithProperty(RDF.type, SH.NodeShape).toList();
 
@@ -98,7 +101,7 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 		if (this.readDiagram) {
 			SVGGenerator gImgSvg = new SVGGenerator();
 			try {
-				sImgDiagramme = gImgSvg.generateSvgDiagram(shaclGraph);
+				sImgDiagramme = gImgSvg.generateSvgDiagram(shaclGraph, owlGraph);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}			

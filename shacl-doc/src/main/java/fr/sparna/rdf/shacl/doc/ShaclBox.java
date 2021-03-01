@@ -10,8 +10,6 @@ import org.apache.jena.rdf.model.Resource;
 public class ShaclBox {
 
 	private Resource nodeShape;
-	private String nodeShapeBox;
-	protected String nameshape;
 	List<ShaclProperty> shacl_value = new ArrayList<>();
 	protected String shpatternNodeShape;
 	protected String nametargetclass;
@@ -20,19 +18,9 @@ public class ShaclBox {
 	protected Integer shOrder;
 	protected String shnodeKind;
 	protected Boolean shClose;
-	
-		
-	public String getNodeShapeBox() {
-		return nodeShapeBox;
-	}
 
-	public void setNodeShapeBox(Resource nodeShape) {
-		String value = null;
-		value = nodeShape.getModel().shortForm(nodeShape.getURI());
-		this.nodeShapeBox = value;
-	}
-
-	public ShaclBox() {
+	public ShaclBox(Resource nodeShape) {
+		this.nodeShape = nodeShape;
 	}
 
 	public static List<RDFNode> asJavaList(Resource resource) {
@@ -41,18 +29,6 @@ public class ShaclBox {
 
 	public Resource getNodeShape() {
 		return nodeShape;
-	}
-
-	public void setNodeShape(Resource nodeShape) {		
-		this.nodeShape = nodeShape;
-	}
-
-	public String getNameshape() {
-		return nameshape;
-	}
-
-	public void setNameshape(String nameshape) {
-		this.nameshape = nameshape;
 	}
 
 	public List<ShaclProperty> getShacl_value() {
@@ -117,6 +93,14 @@ public class ShaclBox {
 
 	public void setShClose(Boolean shClose) {
 		this.shClose = shClose;
+	}
+	
+	public String getShortForm() {
+		return this.getNodeShape().getModel().shortForm(this.getNodeShape().getURI());
+	}
+	
+	public String getLocalName() {
+		return this.getNodeShape().getLocalName();
 	}
 
 }

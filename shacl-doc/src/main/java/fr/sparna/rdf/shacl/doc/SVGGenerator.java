@@ -23,7 +23,9 @@ public class SVGGenerator {
 		ShaclPlantUmlWriter writer = new ShaclPlantUmlWriter(false, true);
 		Model finalModel = ModelFactory.createDefaultModel();
 		finalModel.add(shapesModel);
-		finalModel.add(owlModel);
+		if(owlModel != null) {
+			finalModel.add(owlModel);
+		}
 		String plantUmlString = writer.writeInPlantUml(finalModel);
 		
 		// System.out.println(plantUmlString);

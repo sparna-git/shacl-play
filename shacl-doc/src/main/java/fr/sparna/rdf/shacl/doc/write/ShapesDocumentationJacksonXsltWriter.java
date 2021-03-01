@@ -57,7 +57,7 @@ public class ShapesDocumentationJacksonXsltWriter implements ShapesDocumentation
 	        TransformerFactory transformerFactory = TransformerFactory.newInstance("net.sf.saxon.TransformerFactoryImpl", this.getClass().getClassLoader());
 	        //TransformerFactory.setAttribute("indent-number", 2);
 	        
-	        Source xsltInput = new StreamSource(ClassLoader.getSystemResourceAsStream("doc2html.xsl"));
+	        Source xsltInput = new StreamSource(this.getClass().getClassLoader().getResourceAsStream("doc2html.xsl"));
 	        Transformer transformer = transformerFactory.newTransformer(xsltInput); 
 	        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 	        

@@ -1,4 +1,4 @@
-package fr.sparna.rdf.shacl.shaclplay.view;
+package fr.sparna.rdf.shacl.shaclplay.draw;
 
 import java.io.IOException;
 import java.net.URLEncoder;
@@ -24,6 +24,7 @@ import fr.sparna.rdf.shacl.diagram.ShaclPlantUmlWriter;
 import fr.sparna.rdf.shacl.shaclplay.ApplicationData;
 import fr.sparna.rdf.shacl.shaclplay.ControllerModelFactory;
 import fr.sparna.rdf.shacl.shaclplay.ControllerModelFactory.SOURCE_TYPE;
+import fr.sparna.rdf.shacl.shaclplay.catalog.AbstractCatalogEntry;
 import fr.sparna.rdf.shacl.shaclplay.catalog.shapes.ShapesCatalog;
 import fr.sparna.rdf.shacl.shaclplay.catalog.shapes.ShapesCatalogService;
 import net.sourceforge.plantuml.FileFormat;
@@ -32,7 +33,7 @@ import net.sourceforge.plantuml.SourceStringReader;
 
 
 @Controller
-public class ViewController {
+public class DrawController {
 
 	private Logger log = LoggerFactory.getLogger(this.getClass().getName());
 
@@ -61,34 +62,34 @@ public class ViewController {
 	}
 
 	@RequestMapping(
-			value = {"view"},
+			value = {"draw"},
 			method=RequestMethod.GET
 	)
 	public ModelAndView validate(
 			HttpServletRequest request,
 			HttpServletResponse response
 	){
-		ViewFormData vfd = new ViewFormData();
+		DrawFormData vfd = new DrawFormData();
 		
 		ShapesCatalog catalog = this.catalogService.getShapesCatalog();
 		vfd.setCatalog(catalog);
 		
-		return new ModelAndView("view-form", ViewFormData.KEY, vfd);	
+		return new ModelAndView("draw-form", DrawFormData.KEY, vfd);	
 	}
 	
 	@RequestMapping(
-			value = {"view"},
+			value = {"draw"},
 			params={"url"},
 			method=RequestMethod.GET
 	)
-	public ModelAndView viewUrl(
+	public ModelAndView drawUrl(
 			@RequestParam(value="url", required=true) String shapesUrl,
 			@RequestParam(value="format", required=false, defaultValue = "svg") String format,
 			HttpServletRequest request,
 			HttpServletResponse response
 	){
 		try {
-			log.debug("viewUrl(shapesUrl='"+shapesUrl+"')");		
+			log.debug("drawUrl(shapesUrl='"+shapesUrl+"')");		
 
 			// read format
 			FORMAT fmt = FORMAT.valueOf(format.toUpperCase());
@@ -110,11 +111,11 @@ public class ViewController {
 	}
 	
 	@RequestMapping(
-			value="/view",
+			value="/draw",
 			params={"shapesSource"},
 			method = RequestMethod.POST
 	)
-	public ModelAndView view(
+	public ModelAndView draw(
 			// radio box indicating type of shapes
 			@RequestParam(value="shapesSource", required=true) String shapesSourceString,
 			// reference to Shapes URL if shapeSource=sourceShape-inputShapeUrl
@@ -131,7 +132,7 @@ public class ViewController {
 			HttpServletResponse response
 	) {
 		try {
-			log.debug("view(shapeSourceString='"+shapesSourceString+"')");
+			log.debug("draw(shapeSourceString='"+shapesSourceString+"')");
 			
 			// get the shapes source type
 			ControllerModelFactory.SOURCE_TYPE shapesSource = ControllerModelFactory.SOURCE_TYPE.valueOf(shapesSourceString.toUpperCase());
@@ -141,7 +142,10 @@ public class ViewController {
 			
 			// if source is a ULR, redirect to the API
 			if(shapesSource == SOURCE_TYPE.URL) {
-				return new ModelAndView("redirect:/view?format="+fmt.name().toLowerCase()+"&url="+URLEncoder.encode(shapesUrl, "UTF-8"));
+				return new ModelAndView("redirect:/draw?format="+fmt.name().toLowerCase()+"&url="+URLEncoder.encode(shapesUrl, "UTF-8"));
+			} else if (shapesSource == SOURCE_TYPE.CATALOG) {
+				AbstractCatalogEntry entry = this.catalogService.getShapesCatalog().getCatalogEntryById(shapesCatalogId);
+				return new ModelAndView("redirect:/draw?format="+fmt.name().toLowerCase()+"&url="+URLEncoder.encode(entry.getTurtleDownloadUrl().toString(), "UTF-8"));
 			}
 			
 			
@@ -204,7 +208,7 @@ public class ViewController {
 			String message,
 			Exception e
 	) {
-		ViewFormData vfd = new ViewFormData();
+		DrawFormData vfd = new DrawFormData();
 		vfd.setErrorMessage(Encode.forHtml(message));
 		
 		ShapesCatalog catalog = this.catalogService.getShapesCatalog();
@@ -213,7 +217,7 @@ public class ViewController {
 		if(e != null) {
 			e.printStackTrace();
 		}
-		return new ModelAndView("view-form", ViewFormData.KEY, vfd);
+		return new ModelAndView("draw-form", DrawFormData.KEY, vfd);
 	}
 	
 }

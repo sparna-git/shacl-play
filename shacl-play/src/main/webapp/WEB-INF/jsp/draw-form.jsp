@@ -7,7 +7,7 @@
 <fmt:setLocale value="${sessionScope['fr.sparna.rdf.shacl.shaclplay.SessionData'].userLocale.language}"/>
 <fmt:setBundle basename="fr.sparna.rdf.shacl.shaclplay.i18n.shaclplay"/>
 
-<c:set var="data" value="${requestScope['ViewFormData']}" />
+<c:set var="data" value="${requestScope['DrawFormData']}" />
 
 <html>
 	<head>
@@ -41,7 +41,7 @@
 	<body>
 
 	<jsp:include page="navbar.jsp">
-		<jsp:param name="active" value="view"/>
+		<jsp:param name="active" value="draw"/>
 	</jsp:include>
 
     <div class="container-fluid">
@@ -59,13 +59,13 @@
 					</c:if>
 				</div>
 				
-				<h1 class="display-3"><fmt:message key="view.title" /></h1>	
+				<h1 class="display-3"><fmt:message key="draw.title" /></h1>	
 	 
-			  	<form id="upload_form" action="view" method="POST" enctype="multipart/form-data" class="form-horizontal">
+			  	<form id="upload_form" action="draw" method="POST" enctype="multipart/form-data" class="form-horizontal">
 				      
 					  
 
-						  <h2><i class="fal fa-shapes"></i>&nbsp;&nbsp;<fmt:message key="view.shapes.title" /></h2>
+						  <h2><i class="fal fa-shapes"></i>&nbsp;&nbsp;<fmt:message key="draw.shapes.title" /></h2>
 						  <blockquote class="blockquote bq-primary">		  
 						  
 						      <div class="form-group row">
@@ -79,7 +79,7 @@
 											value="file"
 											checked="checked"
 											onchange="enabledShapeInput('inputShapeFile')" />
-							    	<fmt:message key="view.shapes.upload" />
+							    	<fmt:message key="draw.shapes.upload" />
 							    
 							    </label>
 							    <div class="col-sm-9">
@@ -89,18 +89,18 @@
 										  </div>
 										  <span class="input-group-append">
 										    <span class="input-group-text fileinput-exists" data-dismiss="fileinput">
-										      <fmt:message key="view.shapes.upload.remove" />
+										      <fmt:message key="draw.shapes.upload.remove" />
 										    </span>
 										
 										    <span class="input-group-text btn-file">
-										      <span class="fileinput-new"><fmt:message key="view.shapes.upload.select" /></span>
-										      <span class="fileinput-exists"><fmt:message key="view.shapes.upload.change" /></span>
+										      <span class="fileinput-new"><fmt:message key="draw.shapes.upload.select" /></span>
+										      <span class="fileinput-exists"><fmt:message key="draw.shapes.upload.change" /></span>
 										      <input type="file" name="inputShapeFile" multiple onchange="enabledShapeInput('inputShapeFile')">
 										    </span>
 										  </span>
 										</div>
 										<small class="form-text text-muted">
-											  <fmt:message key="view.shapes.upload.help" />
+											  <fmt:message key="draw.shapes.upload.help" />
 									  </small>
 							    </div>
 							  </div>
@@ -115,7 +115,7 @@
 												id="sourceShape-inputShapeCatalog"
 												value="catalog"
 												onchange="enabledShapeInput('inputShapeCatalog')" />
-								    	<fmt:message key="view.shapes.catalog" />					    
+								    	<fmt:message key="draw.shapes.catalog" />					    
 								    </label>
 								    <div class="col-sm-9">
 								    		<select class="form-control" id="inputShapeCatalog" name="inputShapeCatalog" onchange="enabledShapeInput('inputShapeCatalog');">
@@ -124,7 +124,7 @@
 										      	</c:forEach>
 										    </select>
 										    <small class="form-text text-muted">
-												  <fmt:message key="view.shapes.catalog.help" />
+												  <fmt:message key="draw.shapes.catalog.help" />
 										    </small>
 								    </div>
 								  </div>
@@ -139,7 +139,7 @@
 											id="sourceShape-inputShapeUrl"
 											value="url"
 											onchange="enabledShapeInput('inputShapeUrl')" />
-							    	<fmt:message key="view.shapes.url" />
+							    	<fmt:message key="draw.shapes.url" />
 							    </label>
 							    <div class="col-sm-9">
 							      <input 
@@ -147,12 +147,12 @@
 							      	class="form-control"
 							      	id="inputShapeUrl"
 							      	name="inputShapeUrl"
-							      	placeholder="<fmt:message key="view.shapes.url.placeholder" />"
+							      	placeholder="<fmt:message key="draw.shapes.url.placeholder" />"
 							      	onkeypress="enabledShapeInput('inputShapeUrl');"
 							      	onchange="enabledShapeInput('inputShapeUrl')"
 							      >
 							      <small class="form-text text-muted">
-									  <fmt:message key="view.shapes.url.help" />
+									  <fmt:message key="draw.shapes.url.help" />
 							    </small>
 							    </div>
 							  </div>
@@ -165,7 +165,7 @@
 											id="sourceShape-inputShapeInline"
 											value="inline"
 											onchange="enabledShapeInput('inputShapeInline')" />
-							    	<fmt:message key="view.shapes.inline" />
+							    	<fmt:message key="draw.shapes.inline" />
 							    </label>
 							    <div class="col-sm-9">
 							      <textarea 
@@ -177,19 +177,19 @@
 							      	onpaste="enabledShapeInput('inputShapeInline');"
 							      ></textarea>
 							      <small class="form-text text-muted">
-									  <fmt:message key="view.shapes.inline.help" />
+									  <fmt:message key="draw.shapes.inline.help" />
 								  </small>
 							    </div>	
 						      </div>
 					      </blockquote>					  
 					  
 					  
-					  <h2><i class="fal fa-tools"></i>&nbsp;&nbsp;<fmt:message key="view.options.title" /></h2>
+					  <h2><i class="fal fa-tools"></i>&nbsp;&nbsp;<fmt:message key="draw.options.title" /></h2>
 				      <blockquote class="blockquote bq-warning">
 				      <div class="form-group row">
 
 							<label for="inputShapeCatalog" class="col-sm-3 col-form-label">
-								<fmt:message key="view.options.format" />					    
+								<fmt:message key="draw.options.format" />					    
 							</label>
 						    <div class="col-sm-9">
 					    		<select class="form-control" id="format" name="format" >
@@ -201,7 +201,7 @@
 					  </div>
 					  </blockquote>
 					  
-				    <button type="submit" id="validate-button" class="btn btn-info btn-lg"><fmt:message key="view.submit" /></button>			  	
+				    <button type="submit" id="validate-button" class="btn btn-info btn-lg"><fmt:message key="draw.submit" /></button>			  	
 			  	</form>
  		
 			</div>

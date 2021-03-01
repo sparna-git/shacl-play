@@ -147,6 +147,12 @@
           <version>0.4</version>
         </dependency>
 
+        <dependency>
+          <groupId>fr.sparna.rdf.shacl</groupId>
+          <artifactId>shacl-doc</artifactId>
+          <version>0.4</version>
+        </dependency>
+
         <!-- Jackson -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>

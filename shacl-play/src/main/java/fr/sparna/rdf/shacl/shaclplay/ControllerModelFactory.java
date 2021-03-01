@@ -81,7 +81,16 @@ public class ControllerModelFactory {
 				URL actualUrl = new URL(url);
 				ControllerCommons.populateModel(model, actualUrl);
 				// shape name is file part of URL
-				this.sourceName = url.substring(url.lastIndexOf('/')+1, url.lastIndexOf('.'));
+				if(actualUrl.getPath().contains(".")) {
+					try {
+						this.sourceName = url.substring(url.lastIndexOf('/')+1, url.lastIndexOf('.'));
+					} catch (Exception e) {
+						this.sourceName = url.substring(url.lastIndexOf('/')+1, url.length());
+					}
+				} else {
+					// no file format in URL, like for shacl-shacl
+					this.sourceName = url.substring(url.lastIndexOf('/')+1, url.length());
+				}
 			} catch (Exception e) {
 				throw new ControllerModelException(e.getMessage(), e);
 			}

@@ -6,9 +6,7 @@
 	<xsl:output indent="yes" method="xml" />
 
 	<!-- Language parameter to the XSLT -->
-	<xsl:param name="LANG">
-		en
-	</xsl:param>
+	<xsl:param name="LANG">en</xsl:param>
 
 	<!-- french labels -->
 	<xsl:variable name="LABELS_FR">
@@ -262,6 +260,7 @@
 					<xsl:value-of select="comments" />
 				</em>
 			</xsl:if>
+			<xsl:if test="pTargetClass != '' or nodeKindNS != '' or patternNS != '' or (closeNS != '' and closeNS='true')">
 			<ul>
 				<xsl:if test="pTargetClass != ''">
 					<li>
@@ -296,6 +295,7 @@
 					</li>
 				</xsl:if>
 			</ul>
+			</xsl:if>
 			<xsl:if test="count(properties/property)>0">
 				<table class="table table-striped" style="width:100%">
 					<thead>
@@ -414,7 +414,7 @@
 		</tr>
 	</xsl:template>
 
-	<!-- fin de format -->
+	<!-- don't print what was not matched -->
 	<xsl:template match="text()"></xsl:template>
 
 

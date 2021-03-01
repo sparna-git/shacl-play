@@ -19,11 +19,8 @@ public class ShaclBoxReader {
 	}
 	
 	public ShaclBox read(Resource nodeShape) {
-		ShaclBox box = new ShaclBox();
-		
-		box.setNodeShape(nodeShape);
-		box.setNodeShapeBox(nodeShape);
-		box.setNameshape(nodeShape.getLocalName());
+		ShaclBox box = new ShaclBox(nodeShape);
+
 		box.setNametargetclass(this.readNametargetclass(nodeShape));
 		box.setRdfsComment(this.readRdfsComment(nodeShape));
 		box.setRdfslabel(this.readRdfslabel(nodeShape));

@@ -65,15 +65,15 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 				if (ns2.getShOrder() != null) {
 					return 1;
 				} else {
-					// both sh:order are null, try with sh:name
-					if (ns1.getNameshape() != null) {
-						if (ns2.getNameshape() != null) {
-							return ns1.getNameshape().compareTo(ns2.getNameshape());
+					// both sh:order are null, try with label
+					if (ns1.getRdfslabel() != null) {
+						if (ns2.getRdfslabel() != null) {
+							return ns1.getRdfslabel().compareTo(ns2.getRdfslabel());
 						} else {
 							return -1;
 						}
 					} else {
-						if (ns2.getNameshape() != null) {
+						if (ns2.getRdfslabel() != null) {
 							return 1;
 						} else {
 							// both sh:name are null, try with URI
@@ -164,11 +164,11 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 			ShapesDocumentationSection sectionPrincipal = new ShapesDocumentationSection();
 			//
 			if(datanodeshape.getRdfslabel() == null) {
-				sectionPrincipal.setTitle(datanodeshape.getNodeShapeBox());
+				sectionPrincipal.setTitle(datanodeshape.getShortForm());
 			}else {
 				sectionPrincipal.setTitle(datanodeshape.getRdfslabel());
 			}
-			sectionPrincipal.setdURI(datanodeshape.getNameshape());
+			sectionPrincipal.setdURI(datanodeshape.getLocalName());
 			sectionPrincipal.setComments(datanodeshape.getRdfsComment());
 			sectionPrincipal.setpTargetClass(datanodeshape.getNametargetclass());
 			if(datanodeshape.getNametargetclass() != null) {
@@ -193,7 +193,7 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 				// Récuperation du pattern si le node est une NodeShape
 				if (propriete.getNode() != null) {
 					for (ShaclBox pattern_other_nodeshape : Shaclvalue) {
-						if (propriete.getNode().contains(pattern_other_nodeshape.getNameshape())) {
+						if (propriete.getNode().contains(pattern_other_nodeshape.getLocalName())) {
 							pattern_node_nodeshape = pattern_other_nodeshape.getShpatternNodeShape();
 							break;
 						}
@@ -205,10 +205,10 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 				proprieteDoc.setOutput_propriete(propriete.getName(), null);
 				if(propriete.getNode() != null) {
 					for(ShaclBox aName : Shaclvalue) {
-						if(aName.getNodeShapeBox().contains(propriete.getNode())) {
-							proprieteDoc.setOutput_lieNodeshape(aName.getNameshape());
+						if(aName.getShortForm().contains(propriete.getNode())) {
+							proprieteDoc.setOutput_lieNodeshape(aName.getLocalName());
 							if(aName.getRdfslabel() == null) {
-								proprieteDoc.setOutput_lieNameShape(aName.getNodeShapeBox());
+								proprieteDoc.setOutput_lieNameShape(aName.getShortForm());
 							}else {
 								proprieteDoc.setOutput_lieNameShape(aName.getRdfslabel());
 							}
@@ -228,7 +228,7 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 					for(ShaclBox getNodeShape : Shaclvalue) {
 						if(getNodeShape.getNametargetclass() != null) {
 							if(getNodeShape.getNametargetclass().equals(propriete.getClass_node())) {
-								proprieteDoc.setOuput_relnodeShape(getNodeShape.getNameshape());
+								proprieteDoc.setOuput_relnodeShape(getNodeShape.getLocalName());
 								proprieteDoc.setOuput_relnodenameShape(getNodeShape.getRdfslabel());
 								break;
 							}

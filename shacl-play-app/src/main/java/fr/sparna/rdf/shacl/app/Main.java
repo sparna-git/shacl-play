@@ -4,10 +4,10 @@ import com.beust.jcommander.JCommander;
 import com.beust.jcommander.MissingCommandException;
 import com.beust.jcommander.ParameterException;
 
+import fr.sparna.rdf.shacl.app.doc.ArgumentsDoc;
+import fr.sparna.rdf.shacl.app.doc.Doc;
 import fr.sparna.rdf.shacl.app.draw.ArgumentsDraw;
 import fr.sparna.rdf.shacl.app.draw.Draw;
-import fr.sparna.rdf.shacl.app.draw.doc.ArgumentsDoc;
-import fr.sparna.rdf.shacl.app.draw.doc.Doc;
 import fr.sparna.rdf.shacl.app.infer.ArgumentsInfer;
 import fr.sparna.rdf.shacl.app.infer.Infer;
 import fr.sparna.rdf.shacl.app.owl2shacl.ArgumentsOwl2Shacl;

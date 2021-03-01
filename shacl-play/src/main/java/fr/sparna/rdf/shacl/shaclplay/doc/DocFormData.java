@@ -1,10 +1,10 @@
-package fr.sparna.rdf.shacl.shaclplay.view;
+package fr.sparna.rdf.shacl.shaclplay.doc;
 
 import fr.sparna.rdf.shacl.shaclplay.catalog.shapes.ShapesCatalog;
 
-public class ViewFormData {
+public class DocFormData {
 
-	public static final String KEY = ViewFormData.class.getSimpleName();
+	public static final String KEY = DocFormData.class.getSimpleName();
 	
 	protected String errorMessage;
 	
@@ -13,12 +13,12 @@ public class ViewFormData {
 	protected String selectedShapesKey;
 
 	/**
-	 * Creates a new ValidateFormData instance suitable for displaying the given error message.
+	 * Creates a new DocFormData instance suitable for displaying the given error message.
 	 * @param message
 	 * @return
 	 */
-	public static ViewFormData error(String message) {
-		ViewFormData data = new ViewFormData();
+	public static DocFormData error(String message) {
+		DocFormData data = new DocFormData();
 		data.setErrorMessage(message);
 		return data;
 	}	

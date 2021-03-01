@@ -28,13 +28,18 @@ public class ShaclPrefixReader {
 		if(resource.hasProperty(property)) {
 			if(resource.getProperty(property).getObject().isURIResource()) {
 				String qname = resource.getModel().qnameFor(resource.getProperty(property).getObject().asNode().getURI());
-				prefixes.add(qname.split(":")[0]);
+				// can be null if cannot be abbreviated
+				if(qname != null) {
+					prefixes.add(qname.split(":")[0]);
+				}
 			} else if(resource.getProperty(property).getObject().canAs(RDFList.class)) {
 				List<RDFNode> nodes = resource.getProperty(property).getObject().as(RDFList.class).asJavaList();
 				for (RDFNode aNode : nodes) {
 					if(aNode.isURIResource()) {
 						String qname = resource.getModel().qnameFor(aNode.asResource().getURI());
-						prefixes.add(qname.split(":")[0]);
+						if(qname != null) {
+							prefixes.add(qname.split(":")[0]);
+						}
 					}
 				}
 			}

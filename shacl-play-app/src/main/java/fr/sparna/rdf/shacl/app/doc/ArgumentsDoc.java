@@ -1,4 +1,4 @@
-package fr.sparna.rdf.shacl.app.draw.doc;
+package fr.sparna.rdf.shacl.app.doc;
 
 import java.io.File;
 import java.util.HashMap;

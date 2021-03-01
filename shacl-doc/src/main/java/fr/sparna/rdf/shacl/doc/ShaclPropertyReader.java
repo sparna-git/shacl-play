@@ -192,10 +192,8 @@ public class ShaclPropertyReader {
 			Resource idclass = constraint.getProperty(SH.class_).getResource();
 			List<Resource> nodetargets = constraint.getModel().listResourcesWithProperty(SH.targetClass, idclass)
 					.toList();
+			
 			for (Resource nodeTarget : nodetargets) {
-				if (value != null) {
-					System.out.println("Problem !");
-				}
 				value = nodeTarget.getLocalName();
 			}
 
@@ -208,21 +206,7 @@ public class ShaclPropertyReader {
 			}
 		}
 
-		// 2. Trouver le PlantUmlBox qui a ce nom
-		ShaclBox theBox = null;
-		for (ShaclBox plantUmlBox : allBoxes) {
-			if (plantUmlBox.getNameshape().equals(value)) {
-				theBox = plantUmlBox;
-				break;
-			}
-		}
-
-		if (theBox == null) {
-			// on ne l'a pas trouv�, on sort la valeur de sh:node
-			return value;
-		}
-		
-		return null;
+		return value;
 	}
 	
 	

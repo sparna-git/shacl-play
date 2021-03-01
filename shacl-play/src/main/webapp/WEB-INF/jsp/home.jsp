@@ -56,11 +56,11 @@
 				  	</div>
 				  	<div class="col-4" style="margin-bottom: 2em;">
 					  <div class="card">
-					    <a href="<c:url value="/view" />"><img src="<c:url value="/resources/img/home-uml.png" />" class="card-img-top" alt="SHACL Play report"></a>
+					    <a href="<c:url value="/draw" />"><img src="<c:url value="/resources/img/home-uml.png" />" class="card-img-top" alt="SHACL Play report"></a>
 					    <div class="card-body">
 					      <h5 class="card-title">Draw UML diagrams from Shapes</h5>
 					      <p class="card-text">Looking for something more visual ? Generate UML diagrams in SVG from your SHACL file ! Works with <a href="https://plantuml.com/">PlantUML</a></p>
-					      <a href="<c:url value="/view" />" class="btn btn-primary">Start drawing</a>
+					      <a href="<c:url value="/draw" />" class="btn btn-primary">Start drawing</a>
 					    </div>
 					  </div>
 					</div>

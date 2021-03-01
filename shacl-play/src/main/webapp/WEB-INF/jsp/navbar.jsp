@@ -30,8 +30,11 @@
             <li class="nav-item ${param.active == 'convert' ? 'active' : ''}">
                 <a class="nav-link" href="<c:url value="/convert" />"><fmt:message key="navbar.convert" />${param.active == 'convert' ? '<span class="sr-only">(current)</span>' : ''}</a>
             </li>
-            <li class="nav-item ${param.active == 'view' ? 'active' : ''}">
-                <a class="nav-link" href="<c:url value="/view" />"><fmt:message key="navbar.view" />${param.active == 'view' ? '<span class="sr-only">(current)</span>' : ''}</a>
+            <li class="nav-item ${param.active == 'draw' ? 'active' : ''}">
+                <a class="nav-link" href="<c:url value="/draw" />"><fmt:message key="navbar.draw" />${param.active == 'draw' ? '<span class="sr-only">(current)</span>' : ''}</a>
+            </li>
+            <li class="nav-item ${param.active == 'doc' ? 'active' : ''}">
+                <a class="nav-link" href="<c:url value="/doc" />"><fmt:message key="navbar.doc" />${param.active == 'doc' ? '<span class="sr-only">(current)</span>' : ''}</a>
             </li>
             <li class="navbar-text">|</li>
             <li class="nav-item ${param.active == 'shapes-catalog' ? 'active' : ''}">

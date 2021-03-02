@@ -10,80 +10,18 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 public class ShapesDocumentationSection {
 
 	private String title;
-	
-	// RENAME : uri
-	private String dURI;
-	// RENAME : description
-	private String comments;
-	// RENAME : targetClassLabel
-	private String pTargetClass;
-	// RENAME : targetClassUri
-	private String linkTargetClass;
-	// RENAME : pattern
-	private String patternNS;
-	// RENAME : nodeKind
-	private String NodeKindNS;
-	// RENAME : closed
-	private Boolean CloseNS;
+	private String uri;
+	private String description;
+	private String targetClassLabel;
+	private String targetClassUri;
+	private String pattern;
+	private String nodeKind;
+	private Boolean closed;
 	
 	@JacksonXmlElementWrapper(localName="properties")
 	@JacksonXmlProperty(localName = "property")
 	public List<PropertyShapeDocumentation> propertySections;
 	
-	
-	
-	public String getLinkTargetClass() {
-		return linkTargetClass;
-	}
-
-	public void setLinkTargetClass(String linkTargetClass) {
-		this.linkTargetClass = linkTargetClass;
-	}
-
-	public String getpTargetClass() {
-		return pTargetClass;
-	}
-
-	public void setpTargetClass(String pTargetClass) {
-		this.pTargetClass = pTargetClass;
-	}
-
-	public String getPatternNS() {
-		return patternNS;
-	}
-
-	public void setPatternNS(String patternNS) {
-		this.patternNS = patternNS;
-	}
-
-	public String getNodeKindNS() {
-		return NodeKindNS;
-	}
-
-	public void setNodeKindNS(String nodeKindNS) {
-		String value =null;
-		if(nodeKindNS != null) {
-			value = nodeKindNS.split(":")[1];
-		}
-		NodeKindNS = value;
-	}
-
-	public Boolean getCloseNS() {
-		return CloseNS;
-	}
-
-	public void setCloseNS(Boolean closeNS) {
-		CloseNS = closeNS;
-	}
-
-	public String getdURI() {
-		return dURI;
-	}
-
-	public void setdURI(String dURI) {
-		this.dURI = dURI;
-	}
-
 	public String getTitle() {
 		return title;		
 	}
@@ -91,12 +29,66 @@ public class ShapesDocumentationSection {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	public String getComments() {
-		return comments;
+	
+	public String getUri() {
+		return uri;
 	}
-	public void setComments(String comments) {
-		this.comments = comments;
-	}	
+
+	public void setUri(String uri) {
+		this.uri = uri;
+	}
+	
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	
+	public String getTargetClassLabel() {
+		return targetClassLabel;
+	}
+
+	public void setTargetClassLabel(String targetClassLabel) {
+		this.targetClassLabel = targetClassLabel;
+	}
+	
+	public String getTargetClassUri() {
+		return targetClassUri;
+	}
+
+	public void setTargetClassUri(String targetClassUri) {
+		this.targetClassUri = targetClassUri;
+	}
+	
+	public String getPattern() {
+		return pattern;
+	}
+
+	public void setPattern(String pattern) {
+		this.pattern = pattern;
+	}
+	
+	public String getNodeKind() {
+		return nodeKind;
+	}
+
+	public void setNodeKind(String nodeKind) {
+		String value =null;
+		if(nodeKind != null) {
+			value = nodeKind.split(":")[1];
+		}
+		this.nodeKind = nodeKind;
+	}
+
+	public Boolean getClosed() {
+		return closed;
+	}
+
+	public void setClosed(Boolean closed) {
+		this.closed = closed;
+	}
 	
 	public List<PropertyShapeDocumentation> getPropertySections() {
 		return propertySections;

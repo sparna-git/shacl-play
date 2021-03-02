@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html lang="en">
+   <head>
+      <link rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+            integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
+            crossorigin="anonymous"/>
+      <style type="text/css">
+					.anchor {
+					float: left;
+					padding-right: 4px;
+					margin-left: -20px;
+					line-height: 1;
+					padding-top:12px;
+					}
+
+					.monospace {
+					font-family: SFMono-Regular,Menlo,Monaco,Consolas,"Liberation
+					Mono","Courier
+					New",monospace;
+					font-size: 87.5%;
+					}
+				</style>
+   </head>
+   <body>
+      <div class="container-md">
+         <br/>
+         <h1>
+            <center>Votes</center>
+         </h1>
+         <br/>
+         <b>Last updated: </b>24/02/2021<br/>
+         <b>Version: </b>1.2.3.4<br/>
+         <br/>
+         <hr/>
+         <br/>
+         <h2>Abstract</h2>Votes Parlements<br/>
+         <br/>
+         <div>
+            <h2>Table of Content</h2>
+            <a href="#diagram">Dataset diagram</a>
+            <br/>
+            <a href="#namespaces">Namespaces</a>
+            <br/>
+            <a href="#Vote">Vote</a>
+            <br/>
+            <a href="#MEPVote">MEP Vote</a>
+            <br/>
+         </div>
+         <br/>
+         <div id="diagram">
+            <h2>Dataset diagram</h2>
+            <div style="text-align:center;"><?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="291px" preserveAspectRatio="none" style="width:929px;height:291px;" version="1.1" viewBox="0 0 929 291" width="929px" zoomAndPan="magnify"><defs><filter height="300%" id="fhb28lx" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--class PoliticalGroup--><a target="_top" xlink:actuate="onRequest" xlink:href="#PoliticalGroup" xlink:show="new" xlink:title="#PoliticalGroup" xlink:type="simple"><rect fill="#FEFECE" filter="url(#fhb28lx)" height="27.6094" style="stroke: #A80036; stroke-width: 1.5;" width="94" x="6" y="131.5"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="88" x="9" y="151.0332">PoliticalGroup</text></a><!--class MEP--><a target="_top" xlink:actuate="onRequest" xlink:href="#MEP" xlink:show="new" xlink:title="#MEP" xlink:type="simple"><rect fill="#FEFECE" filter="url(#fhb28lx)" height="27.6094" style="stroke: #A80036; stroke-width: 1.5;" width="35" x="245.5" y="131.5"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="29" x="248.5" y="151.0332">MEP</text></a><!--class MEPVote--><a target="_top" xlink:actuate="onRequest" xlink:href="#MEPVote" xlink:show="new" xlink:title="#MEPVote" xlink:type="simple"><rect fill="#FEFECE" filter="url(#fhb28lx)" height="27.6094" style="stroke: #A80036; stroke-width: 1.5;" width="64" x="375" y="8"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="58" x="378" y="27.5332">MEPVote</text></a><!--class VotePosition--><a target="_top" xlink:actuate="onRequest" xlink:href="#VotePosition" xlink:show="new" xlink:title="#VotePosition" xlink:type="simple"><rect fill="#FEFECE" filter="url(#fhb28lx)" height="27.6094" style="stroke: #A80036; stroke-width: 1.5;" width="85" x="364.5" y="131.5"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="79" x="367.5" y="151.0332">VotePosition</text></a><!--class Vote--><a target="_top" xlink:actuate="onRequest" xlink:href="#Vote" xlink:show="new" xlink:title="#Vote" xlink:type="simple"><rect fill="#FEFECE" filter="url(#fhb28lx)" height="63.2813" style="stroke: #A80036; stroke-width: 1.5;" width="170" x="593" y="114"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="29" x="663.5" y="133.5332">Vote</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="594" x2="762" y1="141.6094" y2="141.6094"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="153" x="599" y="157.0283">prefLabel  : rdf:langString  [1..1]</text><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="158" x="599" y="170.8643">voteIdentifier  : xsd:integer  [1..1]</text></a><!--class PlenarySitting--><a target="_top" xlink:actuate="onRequest" xlink:href="#PlenarySitting" xlink:show="new" xlink:title="#PlenarySitting" xlink:type="simple"><rect fill="#FEFECE" filter="url(#fhb28lx)" height="27.6094" style="stroke: #A80036; stroke-width: 1.5;" width="93" x="631.5" y="255"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="87" x="634.5" y="274.5332">PlenarySitting</text></a><path d="M374.75,27.57 C349.22,32.77 314.26,43.65 292,66 C275.74,82.32 268.5,108.55 265.34,126.14 " fill="none" style="stroke: #800000; stroke-width: 1.0;"/><polygon fill="#800000" points="264.48,131.31,269.8897,123.0799,265.2927,126.3765,261.9961,121.7795,264.48,131.31" style="stroke: #800000; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="102" x="293" y="80.4951">voteByMEP [1..1]</text><path d="M405.84,36.16 C405.15,44.67 404.35,55.98 404,66 C403.28,86.7 404.47,110.46 405.56,126.37 " fill="none" style="stroke: #800000; stroke-width: 1.0;"/><polygon fill="#800000" points="405.92,131.44,409.2667,122.1772,405.5627,126.4528,401.2872,122.7488,405.92,131.44" style="stroke: #800000; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="104" x="405" y="80.4951">votePosition [1..1]</text><path d="M374.75,24.14 C305.77,27.13 146.55,37.04 102,66 C80.08,80.25 66.23,108.09 59.05,126.5 " fill="none" style="stroke: #800000; stroke-width: 1.0;"/><polygon fill="#800000" points="57.2,131.42,64.1242,124.416,58.9681,126.7431,56.641,121.587,57.2,131.42" style="stroke: #800000; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="168" x="103" y="80.4951">voteFromPoliticalGroup [1..1]</text><path d="M439.12,35.12 C460.52,43.39 489.17,54.83 514,66 C530.31,73.34 533.91,76.18 550,84 C568.75,93.12 589.12,102.83 607.99,111.75 " fill="none" style="stroke: #800000; stroke-width: 1.0;"/><polygon fill="#800000" points="612.75,114,606.3257,106.5349,608.2304,111.8614,602.9039,113.7662,612.75,114" style="stroke: #800000; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="191" x="551" y="80.4951">MEPVoteFormsPartOfVote [1..1]</text><path d="M729.83,113.91 C748.06,99.39 760.92,81.79 747,66 C727.2,43.54 528.34,29.82 444.24,24.98 " fill="none" style="stroke: #800000; stroke-width: 1.0;"/><polygon fill="#800000" points="439.11,24.68,447.8664,29.1884,444.1018,24.9661,448.3241,21.2015,439.11,24.68" style="stroke: #800000; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="175" x="753" y="80.4951">voteConsistsOfMEPVote [1..*]</text><path d="M678,177.16 C678,200.04 678,230.53 678,249.71 " fill="none" style="stroke: #800000; stroke-width: 1.0;"/><polygon fill="#800000" points="678,254.81,682,245.81,678,249.81,674,245.81,678,254.81" style="stroke: #800000; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="212" x="679" y="221.4951">voteFormsPartOfPlenarySitting [1..1]</text></g></svg><img style="border:1px solid red;"
+                    src="/Temp/Dataset2_MEP-Shapes.svg"
+                    alt="Chef Flow"/>
+            </div>
+            <small class="form-text text-muted">Click diagram to navigate to corresponding section</small>
+         </div>
+         <br/>
+         <div id="namespaces">
+            <h2>Namespaces</h2>
+            <table class="table table-striped table-sm" style="width:60%">
+               <thead>
+                  <tr>
+                     <th>Prefix</th>
+                     <th>Namespace</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr>
+                     <td>eponto</td>
+                     <td>http://data.europarl.europa.eu/ontology/ep#</td>
+                  </tr>
+                  <tr>
+                     <td>position</td>
+                     <td>http://data.europarl.europa.eu/authority/votePosition/</td>
+                  </tr>
+                  <tr>
+                     <td>rdf</td>
+                     <td>http://www.w3.org/1999/02/22-rdf-syntax-ns#</td>
+                  </tr>
+                  <tr>
+                     <td>skos</td>
+                     <td>http://www.w3.org/2004/02/skos/core#</td>
+                  </tr>
+                  <tr>
+                     <td>xsd</td>
+                     <td>http://www.w3.org/2001/XMLSchema#</td>
+                  </tr>
+               </tbody>
+            </table>
+         </div>
+         <br/>
+         <div id="Vote">
+            <h2>Vote</h2>
+            <em>A Vote that took place within a sitting, identified with a vote number. Example URI \"/eli/dl/iPlMeeting/20191219/3\"</em>
+            <ul>
+               <li>Target Class: <a href="http://data.europarl.europa.eu/ontology/ep#Vote">eponto:Vote</a>
+               </li>
+               <li>Nodes: IRI</li>
+               <li>URI: <span class="monospace">^http://data.europarl.europa.eu/eli/dl/iPlMeeting/[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]/[0-9][0-9]?$</span>
+               </li>
+               <li>Closed shape</li>
+            </ul>
+            <table class="table table-striped" style="width:100%">
+               <thead>
+                  <tr>
+                     <th>Property name</th>
+                     <th>URI</th>
+                     <th>Expected value</th>
+                     <th>Card.</th>
+                     <th>Description</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr>
+                     <td>preferred label</td>
+                     <td class="text-break">
+                        <code>
+                           <a href="http://www.w3.org/2004/02/skos/core#prefLabel">skos:prefLabel</a>
+                        </code>
+                     </td>
+                     <td>
+                        <span class="monospace">rdf:langString</span>
+                        <br/>
+                     </td>
+                     <td>1..1</td>
+                     <td/>
+                  </tr>
+                  <tr>
+                     <td>vote identifier</td>
+                     <td class="text-break">
+                        <code>
+                           <a href="http://data.europarl.europa.eu/ontology/ep#voteIdentifier">eponto:voteIdentifier</a>
+                        </code>
+                     </td>
+                     <td>
+                        <span class="monospace">xsd:integer</span>
+                        <br/>
+                     </td>
+                     <td>1..1</td>
+                     <td/>
+                  </tr>
+                  <tr>
+                     <td>consists of MEP vote</td>
+                     <td class="text-break">
+                        <code>
+                           <a href="http://data.europarl.europa.eu/ontology/ep#voteConsistsOfMEPVote">eponto:voteConsistsOfMEPVote</a>
+                        </code>
+                     </td>
+                     <td>
+                        <a href="#MEPVote">MEP Vote</a>
+                        <br/>
+                     </td>
+                     <td>1..*</td>
+                     <td/>
+                  </tr>
+                  <tr>
+                     <td>preferred labellenary sitting</td>
+                     <td class="text-break">
+                        <code>
+                           <a href="http://data.europarl.europa.eu/ontology/ep#voteFormsPartOfPlenarySitting">eponto:voteFormsPartOfPlenarySitting</a>
+                        </code>
+                     </td>
+                     <td>
+                        <a href="#PlenarySitting">epsh:PlenarySitting</a>
+                        <br/>
+                     </td>
+                     <td>1..1</td>
+                     <td/>
+                  </tr>
+               </tbody>
+            </table>
+         </div>
+         <br/>
+         <div id="MEPVote">
+            <h2>MEP Vote</h2>
+            <em>Represents the vote of a single MEP within a Vote. This is identified by the Vote number and the MEP ID. Example URI \"/eli/dl/iPlMeeting/20191219/3/MEP_342\"</em>
+            <ul>
+               <li>Target Class: <a href="http://data.europarl.europa.eu/ontology/ep#MEPVote">eponto:MEPVote</a>
+               </li>
+               <li>Nodes: IRI</li>
+               <li>URI: <span class="monospace">^http://data.europarl.europa.eu/eli/dl/iPlMeeting/[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]/[0-9][0-9]?/MEP_.*$</span>
+               </li>
+               <li>Closed shape</li>
+            </ul>
+            <table class="table table-striped" style="width:100%">
+               <thead>
+                  <tr>
+                     <th>Property name</th>
+                     <th>URI</th>
+                     <th>Expected value</th>
+                     <th>Card.</th>
+                     <th>Description</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr>
+                     <td>mep</td>
+                     <td class="text-break">
+                        <code>
+                           <a href="http://data.europarl.europa.eu/ontology/ep#voteByMEP">eponto:voteByMEP</a>
+                        </code>
+                     </td>
+                     <td>
+                        <a href="#MEP">epsh:MEP</a>
+                        <br/>
+                     </td>
+                     <td>1..1</td>
+                     <td/>
+                  </tr>
+                  <tr>
+                     <td>position</td>
+                     <td class="text-break">
+                        <code>
+                           <a href="http://data.europarl.europa.eu/ontology/ep#votePosition">eponto:votePosition</a>
+                        </code>
+                     </td>
+                     <td>
+                        <a href="#VotePosition">epsh:VotePosition</a>
+                        <br/>
+                        <p>
+                           <small>(position:for, position:against, position:abstention)</small>
+                        </p>
+                     </td>
+                     <td>1..1</td>
+                     <td/>
+                  </tr>
+                  <tr>
+                     <td>political group</td>
+                     <td class="text-break">
+                        <code>
+                           <a href="http://data.europarl.europa.eu/ontology/ep#voteFromPoliticalGroup">eponto:voteFromPoliticalGroup</a>
+                        </code>
+                     </td>
+                     <td>
+                        <a href="#PoliticalGroup">epsh:PoliticalGroup</a>
+                        <br/>
+                     </td>
+                     <td>1..1</td>
+                     <td/>
+                  </tr>
+                  <tr>
+                     <td>forms part of vote</td>
+                     <td class="text-break">
+                        <code>
+                           <a href="http://data.europarl.europa.eu/ontology/ep#MEPVoteFormsPartOfVote">eponto:MEPVoteFormsPartOfVote</a>
+                        </code>
+                     </td>
+                     <td>
+                        <a href="#Vote">Vote</a>
+                        <br/>
+                     </td>
+                     <td>1..1</td>
+                     <td/>
+                  </tr>
+               </tbody>
+            </table>
+         </div>
+         <br/>
+         <div id="MEP">
+            <h2>epsh:MEP</h2>
+            <em>A reference to an MEP</em>
+            <ul>
+               <li>Nodes: IRI</li>
+               <li>URI: <span class="monospace">^http://data.europarl.europa.eu/person/MEP_.*$</span>
+               </li>
+            </ul>
+         </div>
+         <br/>
+         <div id="PlenarySitting">
+            <h2>epsh:PlenarySitting</h2>
+            <em>A plenary sitting</em>
+            <ul>
+               <li>Nodes: IRI</li>
+               <li>URI: <span class="monospace">^http://data.europarl.europa.eu/eli/dl/iPlMeeting/[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]$</span>
+               </li>
+            </ul>
+         </div>
+         <br/>
+         <div id="PoliticalGroup">
+            <h2>epsh:PoliticalGroup</h2>
+            <em>A reference to a Political Group</em>
+            <ul>
+               <li>Nodes: IRI</li>
+               <li>URI: <span class="monospace">^http://data.europarl.europa.eu/org/group/.*$</span>
+               </li>
+            </ul>
+         </div>
+         <br/>
+         <div id="VotePosition">
+            <h2>epsh:VotePosition</h2>
+            <em>A reference to a vote position (for, against, abstention)</em>
+            <ul>
+               <li>Nodes: IRI</li>
+            </ul>
+         </div>
+         <br/>
+      </div>
+   </body>
+</html>

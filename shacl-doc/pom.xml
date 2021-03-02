@@ -30,7 +30,7 @@
 	<properties>
 		<!-- Define the version of OPEN HTML TO PDF in the properties section of 
 			your POM. -->
-		<openhtml.version>1.0.6</openhtml.version>
+		<openhtml.version>1.0.4</openhtml.version>
 	</properties>
 
 
@@ -127,6 +127,30 @@
 			<version>${openhtml.version}</version>
 		</dependency>
 
+		<dependency>
+			<!-- Optional, leave out if you do not need SVG support. -->
+			<groupId>com.openhtmltopdf</groupId>
+			<artifactId>openhtmltopdf-svg-support</artifactId>
+			<version>${openhtml.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jsoup</groupId>
+			<artifactId>jsoup</artifactId>
+			<version>1.11.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.xmlgraphics</groupId>
+			<artifactId>batik-codec</artifactId>
+			<version>1.9</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.openhtmltopdf</groupId>
+			<artifactId>openhtmltopdf-objects</artifactId>
+			<version>0.0.1-RC19</version>
+		</dependency>
 
 
 	</dependencies>

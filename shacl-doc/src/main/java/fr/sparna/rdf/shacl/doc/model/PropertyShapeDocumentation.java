@@ -8,172 +8,63 @@ import fr.sparna.rdf.shacl.doc.ShaclProperty;
 
 public class PropertyShapeDocumentation {
     
-	// RENAME : label ?
-	private String output_propriete;
+	private String label;
+	private String shortForm;
+	private String shortFormUri;
+	private String expectedValueLabel;
 	
-	// RENAME : shortForm
-	private String output_uri;
-	// RENAME : expectedValueLabel
-	private String output_valeur_attendus;
-	// RENAME : uri
-	private String output_linkvaleurattendus;
+	private String expectedValueAdditionnalInfoPattern;
+	private String expectedValueAdditionnalInfoIn;
+	private String expectedValueAdditionnalInfoValue;
 	
-	// RENAME : expectedValueLink à la place de ouput_relnodeShape / ouput_relnodenameShape / output_lieNodeshape / output_lieNameShape
-	private String ouput_relnodeShape;
-	private String ouput_relnodenameShape;
-	
-	// RENAME : expectedValueAdditionnalInfo
-	private String output_patterns;
-	// RENAME : cardinality
-	private String output_Cardinalite;
-	// RENAME : description
-	private String output_description;
-	// RENAME : in
-	private String output_shin;
-	// RENAME : value
-	private String output_shvalue;
-	
-	
-	private String output_lieNodeshape;
-	private String output_lieNameShape;
-	
-	
-	
-	
-	public String getOutput_linkvaleurattendus() {
-		return output_linkvaleurattendus;
-	}
-
-	public void setOutput_linkvaleurattendus(String output_linkvaleurattendus) {
-		this.output_linkvaleurattendus = output_linkvaleurattendus;
-	}
-
-	public String getOuput_relnodenameShape() {
-		return ouput_relnodenameShape;
-	}
-
-	public void setOuput_relnodenameShape(String ouput_relnodenameShape) {
-		this.ouput_relnodenameShape = ouput_relnodenameShape;
-	}
-
-	public String getOutput_lieNameShape() {
-		return output_lieNameShape;
-	}
-
-	public void setOutput_lieNameShape(String output_lieNameShape) {
-		this.output_lieNameShape = output_lieNameShape;
-	}
-
-	public String getOutput_lieNodeshape() {
-		return output_lieNodeshape;
-	}
-
-	public void setOutput_lieNodeshape(String output_lieNodeshape) {
-		this.output_lieNodeshape = output_lieNodeshape;
-	}
-
-	public String getOuput_relnodeShape() {
-		return ouput_relnodeShape;
-	}
-
-	public void setOuput_relnodeShape(String ouput_relnodeShape) {
-		this.ouput_relnodeShape = ouput_relnodeShape;
-	}
-
-	public String getOutput_shvalue() {
-		return output_shvalue;
-	}
-
-	public void setOutput_shvalue(String output_shvalue) {
-		this.output_shvalue = output_shvalue;
-	}
-
-	public String getOutput_shin() {
-		return output_shin;
-	}
-
-	public void setOutput_shin(String output_shin) {
-		this.output_shin = output_shin;
-	}
-
-	public String getOutput_patterns() {
-		return output_patterns;
-	}
-
-	public void setOutput_patterns(String Value_pattern_propriete,String PatternNodeShape, String PatternoNodeShape,
-			String Valeu_class,  String Value_node,
-			String Value_Target, String Value_datatype, String Value_nodeKind, String URI) {
-		String value = null;
+	private String cardinalite;
+	private String description;
 		
-		// Classe
-
-		if (Valeu_class != null) { //
-			value = Value_pattern_propriete;
-		} else if (Value_Target != null) { // La valeur d'un Node vers une NodeShape qui a sh:targetClass
-			value = PatternoNodeShape;
-		} else if (Value_node != null) {
-			//value = PatternoNodeShape;
-		} 
-		else if (Value_datatype != null) {
-			value = Value_pattern_propriete;
-		} else if (Value_datatype != null && Value_node != null) {
-			value = PatternoNodeShape;
-		} // Type de noeud seulement : sh:nodeKind
-		else if (Value_nodeKind != null && Value_node == null) {
-			value = Value_pattern_propriete;
-		} else if (Value_nodeKind != null && Value_node != null) {
-			value = PatternoNodeShape;
-		}	    
-		this.output_patterns = value;
+	private String linknameNodeShape;
+	private String linknameNodeShapeuri;
+	private String linkNodeShape;
+	private String linkNodeShapeUri;
+	
+	
+	public String getLabel() {
+		return label;
 	}
 
-	public String getOutput_Cardinalite() {
-		return output_Cardinalite;
-	}
-
-	public void setOutput_Cardinalite(String output_valeur_Cardinalite) {
-		String value = null;
-		if(output_valeur_Cardinalite == null || output_valeur_Cardinalite == "") {
-			value = "0..*";
-		}else {
-			value = output_valeur_Cardinalite;
-		}
-		
-		this.output_Cardinalite = value;
-	}
-
-	public String getOutput_propriete() {
-		return output_propriete;
-	}
-
-	public void setOutput_propriete(String output_propriete,String shLabel) {
+	public void setLabel(String output_propriete,String shLabel) {
 		String Value = null;
 		if (output_propriete != null) {
-			String[] sName = output_propriete.split("@");
-			Value = sName[0];
+			Value = output_propriete.split("@")[0];
 		} else {
 			Value = shLabel;
 		}
-		this.output_propriete = Value;
+		this.label = Value;
 	}
-
-	public String getOutput_uri() {
-		return output_uri;
-	}
-
-	public void setOutput_uri(String output_uri) {
-		this.output_uri = output_uri;
-	}
-
-	public String getOutput_valeur_attendus() {
-		return output_valeur_attendus;
-	}
-
-	public void setOutput_valeur_attendus(String Valeu_class,  String Value_node,
-			String Value_Target, String Value_datatype, String Value_nodeKind, String URI) {
-
-		String value = null;
 	
+	public String getShortForm() {
+		return shortForm;
+	}
+
+	public void setShortForm(String shortForm) {
+		this.shortForm = shortForm;
+	}
+
+	public String getShortFormUri() {
+		return shortFormUri;
+	}
+
+	public void setShortFormUri(String shortFormUri) {
+		this.shortFormUri = shortFormUri;
+	}
+	
+	
+	public String getExpectedValueLabel() {
+		return expectedValueLabel;
+	}
+
+	public void setExpectedValueLabel(String Valeu_class,  String Value_node,
+			String Value_Target, String Value_datatype, String Value_nodeKind, String URI) {
+		String value = null;
+		
 		// Classe
 
 		if (Valeu_class != null) { //
@@ -199,22 +90,110 @@ public class PropertyShapeDocumentation {
 		} else if (Value_nodeKind != null && Value_node != null) {
 			value = Value_node;
 		}
-
-		this.output_valeur_attendus = value;
+		this.expectedValueLabel = value;
 	}
 
-	public String getOutput_description() {
-		return output_description;
+	public String getExpectedValueAdditionnalInfoPattern() {
+		return expectedValueAdditionnalInfoPattern;
 	}
 
-	public void setOutput_description(String output_description, String shComment) {
-		String Value = null;
-		if (output_description != null) {
-			Value = output_description;
-		} else {
-			Value = null;
+	public void setExpectedValueAdditionnalInfoPattern(String Value_pattern_propriete,String PatternNodeShape, String PatternoNodeShape,
+			String Valeu_class,  String Value_node,
+			String Value_Target, String Value_datatype, String Value_nodeKind, String URI) {
+		String value = null;
+		
+		// Classe
+
+		if (Valeu_class != null) { //
+			value = Value_pattern_propriete;
+		} else if (Value_Target != null) { // La valeur d'un Node vers une NodeShape qui a sh:targetClass
+			value = PatternoNodeShape;
+		} else if (Value_node != null) {
+			//value = PatternoNodeShape;
+		} 
+		else if (Value_datatype != null) {
+			value = Value_pattern_propriete;
+		} else if (Value_datatype != null && Value_node != null) {
+			value = PatternoNodeShape;
+		} // Type de noeud seulement : sh:nodeKind
+		else if (Value_nodeKind != null && Value_node == null) {
+			value = Value_pattern_propriete;
+		} else if (Value_nodeKind != null && Value_node != null) {
+			value = PatternoNodeShape;
+		}	   
+		this.expectedValueAdditionnalInfoPattern = expectedValueAdditionnalInfoPattern;
+	}
+
+	public String getExpectedValueAdditionnalInfoIn() {
+		return expectedValueAdditionnalInfoIn;
+	}
+
+	public void setExpectedValueAdditionnalInfoIn(String expectedValueAdditionnalInfoIn) {
+		this.expectedValueAdditionnalInfoIn = expectedValueAdditionnalInfoIn;
+	}
+
+	public String getExpectedValueAdditionnalInfoValue() {
+		return expectedValueAdditionnalInfoValue;
+	}
+
+	public void setExpectedValueAdditionnalInfoValue(String expectedValueAdditionnalInfoValue) {
+		this.expectedValueAdditionnalInfoValue = expectedValueAdditionnalInfoValue;
+	}
+
+	public String getCardinalite() {
+		return cardinalite;
+	}
+
+	public void setCardinalite(String cardinalite) {
+		String value = null;
+		if(cardinalite == null || cardinalite == "") {
+			value = "0..*";
+		}else {
+			value = cardinalite;
 		}
-		this.output_description = Value;
-	} 
+		this.cardinalite = value;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
 	
+	
+	public String getLinkNodeShape() {
+		return linkNodeShape;
+	}
+
+	public void setLinkNodeShape(String linkNodeShape) {
+		this.linkNodeShape = linkNodeShape;
+	}
+
+	public String getLinkNodeShapeUri() {
+		return linkNodeShapeUri;
+	}
+
+	public void setLinkNodeShapeUri(String linkNodeShapeUri) {
+		this.linkNodeShapeUri = linkNodeShapeUri;
+	}
+
+	public String getLinknameNodeShape() {
+		return linknameNodeShape;
+	}
+
+	public void setLinknameNodeShape(String linknameNodeShape) {
+		this.linknameNodeShape = linknameNodeShape;
+	}
+
+	public String getLinknameNodeShapeuri() {
+		return linknameNodeShapeuri;
+	}
+
+	public void setLinknameNodeShapeuri(String linknameNodeShapeuri) {
+		this.linknameNodeShapeuri = linknameNodeShapeuri;
+	}
+		
 }

@@ -12,7 +12,6 @@ import org.apache.jena.vocabulary.RDF;
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentation;
 import fr.sparna.rdf.shacl.doc.read.ShapesDocumentationModelReader;
 import fr.sparna.rdf.shacl.doc.read.ShapesDocumentationReaderIfc;
-import fr.sparna.rdf.shacl.doc.read.ShapesDocumentationTestReader;
 import fr.sparna.rdf.shacl.doc.write.ShapesDocumentationJacksonXsltWriter;
 import fr.sparna.rdf.shacl.doc.write.ShapesDocumentationWriterIfc;
 import fr.sparna.rdf.shacl.doc.write.ShapesDocumentationXmlWriter;
@@ -25,6 +24,7 @@ public class Main {
 		String shaclFileOWL = args[1];
 		String outputLang = args[2];
 		boolean outDiagram = Boolean.parseBoolean(args[3]);
+		boolean outPdf = Boolean.parseBoolean(args[4]);
 				
 		Model shaclGraph = ModelFactory.createDefaultModel();
 		if(shaclFile.startsWith("http")) {
@@ -60,7 +60,10 @@ public class Main {
 		writerXml.write(doc, outputLang, new FileOutputStream(new File("/tmp/output.xml")));
 		
 		// 3. write pdf file
-		writerPDF.generatePDFFromHTML("/tmp/output.html");
+		if(outPdf) {
+			writerPDF.outfilepdf("/tmp/output.html");	
+		}
+		
 		
 	}
 	

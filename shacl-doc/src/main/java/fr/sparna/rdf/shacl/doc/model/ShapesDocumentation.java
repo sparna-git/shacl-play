@@ -8,50 +8,45 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 public class ShapesDocumentation {
 
 	protected String title;	
-	// RENAME : à supprimer
-	protected String subtitle;
-	// RENAME : comment
-	protected String commentOntology;
-	// RENAME : modifiedDate
-	protected String DateModification;
-	// RENAME : versionInfo
-	protected String VersionOntology;
-	// RENAME : svgDiagram
-	protected String drawnImagenXML;
+	protected String comment;
+	protected String modifiedDate;
+	protected String versionInfo;
+	protected String svgDiagram;
 	
 	// RENAME : prefixes
-	@JacksonXmlElementWrapper(localName="shnamespaces")
-	@JacksonXmlProperty(localName = "shnamespace")
-	protected List<NamespaceSections> shnamespace;
+	@JacksonXmlElementWrapper(localName="prefixes")
+	@JacksonXmlProperty(localName = "prefixe")
+	protected List<NamespaceSection> prefixe;
 	
 	@JacksonXmlElementWrapper(localName="sections")
 	@JacksonXmlProperty(localName = "section")
 	protected List<ShapesDocumentationSection> sections;
 	
-	public String getDateModification() {
-		return DateModification;
+	public String getModifiedDate() {
+		return modifiedDate;
 	}
-	public void setDateModification(String dateModification) {
-		DateModification = dateModification;
-	}
-	public String getDrawnImagenXML() {
-		return drawnImagenXML;
-	}
-	public void setDrawnImagenXML(String drawnImagenXML) {
-		this.drawnImagenXML = drawnImagenXML;
-	}
-	public String getCommentOntology() {
-		return commentOntology;
-	}
-	public void setCommentOntology(String commentOntology) {
-		this.commentOntology = commentOntology;
+	public void setModifiedDate(String modifiedDate) {
+		this.modifiedDate = modifiedDate;
 	}
 	
-	public String getVersionOntology() {
-		return VersionOntology;
+	public String getSvgDiagram() {
+		return svgDiagram;
 	}
-	public void setVersionOntology(String versionOntology) {
-		VersionOntology = versionOntology;
+	public void setSvgDiagram(String svgDiagram) {
+		this.svgDiagram = svgDiagram;
+	}
+	public String getComment() {
+		return comment;
+	}
+	public void setComment(String commentOntology) {
+		this.comment = commentOntology;
+	}
+	
+	public String getVersionInfo() {
+		return versionInfo;
+	}
+	public void setVersionInfo(String versionInfo) {
+		this.versionInfo = versionInfo;
 	}
 	public String getTitle() {
 		return title;
@@ -60,23 +55,20 @@ public class ShapesDocumentation {
 		this.title = title;
 	}
 	
-	public String getSubtitle() {
-		return subtitle;
-	}
-	public void setSubtitle(String subtitle) {
-		this.subtitle = subtitle;
-	}
 	public List<ShapesDocumentationSection> getSections() {
 		return sections;
 	}
 	public void setSections(List<ShapesDocumentationSection> sections) {
 		this.sections = sections;
 	}
-	public List<NamespaceSections> getShnamespace() {
-		return shnamespace;
+	
+	public List<NamespaceSection> getPrefixe() {
+		return prefixe;
 	}
-	public void setShnamespace(List<NamespaceSections> shnamespace) {
-		this.shnamespace = shnamespace;
+	public void setPrefixe(List<NamespaceSection> prefixe) {
+		this.prefixe = prefixe;
 	}
+	
+	
 	
 }

@@ -112,31 +112,31 @@
 						</center>
 					</h1>
 					<br />
-					<xsl:if test="dateModification != ''">
+					<xsl:if test="modifiedDate != ''">
 						<b>
 							<xsl:value-of
 								select="$LABELS/labels/entry[@key='METADATA.DATE']/@label" />
 						</b>
-						<xsl:value-of select="dateModification" />
+						<xsl:value-of select="modifiedDate" />
 						<br />
 					</xsl:if>
-					<xsl:if test="versionOntology !=''">
+					<xsl:if test="versionInfo !=''">
 						<b>
 							<xsl:value-of
 								select="$LABELS/labels/entry[@key='METADATA.VERSION']/@label" />
 						</b>
-						<xsl:value-of select="versionOntology" />
+						<xsl:value-of select="versionInfo" />
 						<br />
 					</xsl:if>
 					<br />
 					<hr />
 					<br />
-					<xsl:if test="commentOntology != ''">
+					<xsl:if test="comment != ''">
 						<h2>
 							<xsl:value-of
 								select="$LABELS/labels/entry[@key='METADATA.INTRODUCTION']/@label" />
 						</h2>
-						<xsl:value-of select="commentOntology" />
+						<xsl:value-of select="comment" />
 						<br />
 					</xsl:if>
 					<br />
@@ -147,14 +147,14 @@
 							<xsl:value-of
 								select="$LABELS/labels/entry[@key='TOC']/@label" />
 						</h2>
-						<xsl:if test="drawnImagenXML != ''">
+						<xsl:if test="svgDiagram != ''">
 							<a href="#diagram">
 								<xsl:value-of
 									select="$LABELS/labels/entry[@key='DIAGRAM.TITLE']/@label" />
 							</a>
 							<br />
 						</xsl:if>
-						<a href="#namespaces">
+						<a href="#prefixes">
 							<xsl:value-of
 								select="$LABELS/labels/entry[@key='PREFIXES.TITLE']/@label" />
 						</a>
@@ -177,7 +177,7 @@
 		</html>
 	</xsl:template>
 
-	<xsl:template match="drawnImagenXML">
+	<xsl:template match="svgDiagram">
 		<xsl:if test=". != ''">
 			<div id="diagram">
 				<h2>
@@ -187,7 +187,7 @@
 				<div style="text-align:center;">
 					<!-- @disable-output-escaping prints the raw XML string as XML in the 
 						document and removes XML-encoding of the characters -->
-					<xsl:value-of select="." disable-output-escaping="yes" />
+					<xsl:value-of select="." disable-output-escaping="yes" />				
 				</div>
 				<small class="form-text text-muted">
 					<xsl:value-of
@@ -198,8 +198,8 @@
 		</xsl:if>
 	</xsl:template>
 
-	<xsl:template match="shnamespaces">
-		<div id="namespaces">
+	<xsl:template match="prefixes">
+		<div id="prefixes">
 			<h2>
 				<xsl:value-of
 					select="$LABELS/labels/entry[@key='PREFIXES.TITLE']/@label" />
@@ -225,13 +225,13 @@
 		<br />
 	</xsl:template>
 
-	<xsl:template match="shnamespace">
+	<xsl:template match="prefixe">
 		<tr>
 			<td>
-				<xsl:value-of select="output_prefix" />
+				<xsl:value-of select="prefix" />
 			</td>
 			<td>
-				<xsl:value-of select="output_namespace" />
+				<xsl:value-of select="namespace" />
 			</td>
 		</tr>
 	</xsl:template>
@@ -241,7 +241,7 @@
 	</xsl:template>
 
 	<xsl:template match="section">
-		<xsl:variable name="TitleNodeSape" select="dURI" />
+		<xsl:variable name="TitleNodeSape" select="uri" />
 		<div id="{$TitleNodeSape}">
 			<!-- <a class="anchor" href="#{$TitleNodeSape}"><svg class="octicon octicon-link" 
 				viewBox="0 0 16 16" version="1.1" width="16" height="16"><path fill-rule="evenodd" 
@@ -254,40 +254,40 @@
 				<xsl:value-of select="title" />
 			</h2>
 
-			<xsl:if test="comments != ''">
+			<xsl:if test="description != ''">
 				<em>
-					<xsl:value-of select="comments" />
+					<xsl:value-of select="description" />
 				</em>
 			</xsl:if>
-			<xsl:if test="pTargetClass != '' or nodeKindNS != '' or patternNS != '' or (closeNS != '' and closeNS='true')">
+			<xsl:if test="targetClassLabel != '' or nodeKind != '' or pattern != '' or (closed != '' and closed='true')">
 			<ul>
-				<xsl:if test="pTargetClass != ''">
+				<xsl:if test="targetClassLabel != ''">
 					<li>
 						<xsl:value-of
 							select="$LABELS/labels/entry[@key='LABEL_TARGETCLASS']/@label" />
-						<a href="{linkTargetClass}">
-							<xsl:value-of select="pTargetClass" />
+						<a href="{targetClassUri}">
+							<xsl:value-of select="targetClassLabel" />
 						</a>
 					</li>
 				</xsl:if>
-				<xsl:if test="nodeKindNS != ''">
+				<xsl:if test="nodeKind != ''">
 					<li>
 						<xsl:value-of
 							select="$LABELS/labels/entry[@key='LABEL_NODEKIND']/@label" />
-						<xsl:value-of select="nodeKindNS" />
+						<xsl:value-of select="nodeKind" />
 					</li>
 				</xsl:if>
 
-				<xsl:if test="patternNS != ''">
+				<xsl:if test="pattern != ''">
 					<li>
 						<xsl:value-of
 							select="$LABELS/labels/entry[@key='LABEL_PATTERNS']/@label" />
 						<span class="monospace">
-							<xsl:value-of select="patternNS" />
+							<xsl:value-of select="pattern" />
 						</span>
 					</li>
 				</xsl:if>
-				<xsl:if test="closeNS != '' and closeNS='true'">
+				<xsl:if test="closeNS != '' and closed='true'">
 					<li>
 						<xsl:value-of
 							select="$LABELS/labels/entry[@key='LABEL_CLOSE']/@label" />
@@ -337,35 +337,35 @@
 	<xsl:template match="property">
 		<tr>
 			<td>
-				<xsl:value-of select="output_propriete" />
+				<xsl:value-of select="label" />
 			</td>
 			<td class="text-break">
-				<xsl:if test="output_uri != null or output_uri != ''">
+				<xsl:if test="shortForm != null or shortForm != ''">
 					<code>
-						<a href="{output_linkvaleurattendus}">
-							<xsl:value-of select="output_uri" />
+						<a href="{shortFormUri}">
+							<xsl:value-of select="shortForm" />
 						</a>
 					</code>
 				</xsl:if>
 			</td>
 			<td>
 				<xsl:choose>
-					<xsl:when test="ouput_relnodeShape != ''">
-						<a href="{concat('#',ouput_relnodeShape)}">
+					<xsl:when test="linknameNodeShape != ''">
+						<a href="{concat('#',linknameNodeShapeuri)}">
 							<!-- <xsl:value-of select="output_valeur_attendus" /> -->
-							<xsl:value-of select="ouput_relnodenameShape" />
+							<xsl:value-of select="linknameNodeShape" />
 						</a>
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:choose>
-							<xsl:when test="output_lieNodeshape != ''">
-								<a href="{concat('#',output_lieNodeshape)}">
-									<xsl:value-of select="output_lieNameShape" />
+							<xsl:when test="linkNodeShape != ''">
+								<a href="{concat('#',linkNodeShapeUri)}">
+									<xsl:value-of select="linkNodeShape" />
 								</a>
 							</xsl:when>
 							<xsl:otherwise>
 								<span class="monospace">
-									<xsl:value-of select="output_valeur_attendus" />
+									<xsl:value-of select="expectedValueLabel" />
 								</span>
 							</xsl:otherwise>
 						</xsl:choose>
@@ -373,33 +373,33 @@
 				</xsl:choose>
 
 				<br />
-				<xsl:if test="output_patterns/text()">
+				<xsl:if test="expectedValueAdditionnalInfoPattern/text()">
 					<p class="text-break">
 						<small>
-							<xsl:value-of select="output_patterns" />
+							<xsl:value-of select="expectedValueAdditionnalInfoPattern" />
 						</small>
 					</p>
 				</xsl:if>
-				<xsl:if test="output_shin/text()">
+				<xsl:if test="expectedValueAdditionnalInfoIn/text()">
 					<p>
 						<small>
-							<xsl:value-of select="concat('(',output_shin,')')" />
+							<xsl:value-of select="concat('(',expectedValueAdditionnalInfoIn,')')" />
 						</small>
 					</p>
 				</xsl:if>
-				<xsl:if test="output_shvalue/text()">
+				<xsl:if test="expectedValueAdditionnalInfoValue/text()">
 					<p>
 						<small>
-							<xsl:value-of select="output_shvalue" />
+							<xsl:value-of select="expectedValueAdditionnalInfoValue" />
 						</small>
 					</p>
 				</xsl:if>
 			</td>
 			<td>
-				<xsl:value-of select="output_Cardinalite" />
+				<xsl:value-of select="cardinalite" />
 			</td>
 			<td>
-				<xsl:value-of select="output_description" />
+				<xsl:value-of select="description" />
 			</td>
 		</tr>
 	</xsl:template>

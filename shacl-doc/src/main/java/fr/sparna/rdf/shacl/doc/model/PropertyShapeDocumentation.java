@@ -8,17 +8,32 @@ import fr.sparna.rdf.shacl.doc.ShaclProperty;
 
 public class PropertyShapeDocumentation {
     
+	// RENAME : label ?
 	private String output_propriete;
+	
+	// RENAME : shortForm
 	private String output_uri;
+	// RENAME : expectedValueLabel
 	private String output_valeur_attendus;
+	// RENAME : uri
 	private String output_linkvaleurattendus;
+	
+	// RENAME : expectedValueLink à la place de ouput_relnodeShape / ouput_relnodenameShape / output_lieNodeshape / output_lieNameShape
 	private String ouput_relnodeShape;
 	private String ouput_relnodenameShape;
+	
+	// RENAME : expectedValueAdditionnalInfo
 	private String output_patterns;
+	// RENAME : cardinality
 	private String output_Cardinalite;
+	// RENAME : description
 	private String output_description;
+	// RENAME : in
 	private String output_shin;
+	// RENAME : value
 	private String output_shvalue;
+	
+	
 	private String output_lieNodeshape;
 	private String output_lieNameShape;
 	

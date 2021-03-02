@@ -1,13 +1,18 @@
 package fr.sparna.rdf.shacl.doc;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.RDFList;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.topbraid.shacl.vocabulary.SH;
+
+import fr.sparna.rdf.shacl.doc.model.NamespaceSections;
 
 public class ShaclPrefixReader {
 	
@@ -44,6 +49,20 @@ public class ShaclPrefixReader {
 				}
 			}
 		}
+	}
+	
+	public static Map<String, String> gatherNecessaryPrefixes(Map<String, String> allPrefixes, Set<String> necessaryPrefixes) {
+		
+		HashMap<String, String> result = new HashMap<>();
+		
+		for (String aPrefix : necessaryPrefixes) {
+			String uri = allPrefixes.get(aPrefix);
+			if(uri != null) {
+				result.put(aPrefix, uri);
+			}
+		}
+		
+		return result;
 	}
 
 }

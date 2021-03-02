@@ -10,13 +10,22 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 public class ShapesDocumentationSection {
 
 	private String title;
+	
+	// RENAME : uri
 	private String dURI;
+	// RENAME : description
 	private String comments;
+	// RENAME : targetClassLabel
 	private String pTargetClass;
+	// RENAME : targetClassUri
 	private String linkTargetClass;
+	// RENAME : pattern
 	private String patternNS;
+	// RENAME : nodeKind
 	private String NodeKindNS;
+	// RENAME : closed
 	private Boolean CloseNS;
+	
 	@JacksonXmlElementWrapper(localName="properties")
 	@JacksonXmlProperty(localName = "property")
 	public List<PropertyShapeDocumentation> propertySections;

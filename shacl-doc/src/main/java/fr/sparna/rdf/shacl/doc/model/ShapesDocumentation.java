@@ -8,15 +8,22 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 public class ShapesDocumentation {
 
 	protected String title;	
+	// RENAME : à supprimer
 	protected String subtitle;
+	// RENAME : comment
 	protected String commentOntology;
+	// RENAME : modifiedDate
 	protected String DateModification;
+	// RENAME : versionInfo
 	protected String VersionOntology;
+	// RENAME : svgDiagram
 	protected String drawnImagenXML;
 	
+	// RENAME : prefixes
 	@JacksonXmlElementWrapper(localName="shnamespaces")
 	@JacksonXmlProperty(localName = "shnamespace")
 	protected List<NamespaceSections> shnamespace;
+	
 	@JacksonXmlElementWrapper(localName="sections")
 	@JacksonXmlProperty(localName = "section")
 	protected List<ShapesDocumentationSection> sections;

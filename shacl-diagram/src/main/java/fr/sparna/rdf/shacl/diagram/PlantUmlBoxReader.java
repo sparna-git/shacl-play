@@ -16,7 +16,6 @@ public class PlantUmlBoxReader {
 	public PlantUmlBox read(Resource nodeShape) {
 		PlantUmlBox box = new PlantUmlBox(nodeShape);
 		
-		box.setNameshape(nodeShape.getLocalName());
 		box.setPackageName(this.readPackageName(nodeShape));
 		box.setNametargetclass(this.readNametargetclass(nodeShape));
 		

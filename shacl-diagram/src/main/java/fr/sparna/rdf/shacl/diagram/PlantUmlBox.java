@@ -8,7 +8,6 @@ import org.apache.jena.rdf.model.Resource;;
 public class PlantUmlBox {
 	
 	private Resource nodeShape;
-	protected String nameshape;
 	
 	protected String nametargetclass; 
 	protected String packageName;	
@@ -20,12 +19,8 @@ public class PlantUmlBox {
 	    this.nodeShape = nodeShape;		
 	}
 	
-	public String getNameshape() {
-		return nameshape;
-	}
-
-	public void setNameshape(String nameshape) {		
-		this.nameshape = nameshape;
+	public String getLabel() {
+		return (nodeShape.isURIResource())?nodeShape.getLocalName():nodeShape.toString();
 	}	
 	
 	public List<PlantUmlProperty> getProperties() {	
@@ -41,7 +36,7 @@ public class PlantUmlBox {
 	}
 	
 	public String getQualifiedName() {		
-		return packageName+"."+this.nameshape;
+		return packageName+"."+this.getLabel();
 	}
 
 	public Resource getNodeShape() {

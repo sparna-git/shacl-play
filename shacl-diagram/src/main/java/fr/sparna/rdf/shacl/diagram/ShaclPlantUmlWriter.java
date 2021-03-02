@@ -6,6 +6,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.vocabulary.RDF;
 import org.topbraid.shacl.vocabulary.SH;
@@ -23,16 +24,24 @@ public class ShaclPlantUmlWriter {
 
 	public String writeInPlantUml(Model shaclGraph) {
 
+		// read everything typed as NodeShape
 		List<Resource> nodeShapes = shaclGraph.listResourcesWithProperty(RDF.type, SH.NodeShape).toList();
-
-		// 1. Lire toutes les box
-		PlantUmlBoxReader nodeShapeReader = new PlantUmlBoxReader();
-		ArrayList<PlantUmlBox> plantUmlBoxes = new ArrayList<>();
+		// also read everything object of an sh:node or sh:qualifiedValueShape, that maybe does not have an explicit rdf:type sh:NodeShape
+		List<RDFNode> nodesAndQualifedValueShapesValues = shaclGraph.listStatements(null, SH.node, (RDFNode)null)
+		.andThen(shaclGraph.listStatements(null, SH.qualifiedValueShape, (RDFNode)null))
+		.toList().stream().map(s -> s.getObject()).collect(Collectors.toList());
 		
-		for (Resource nodeShape : nodeShapes) {
-			PlantUmlBox box = nodeShapeReader.read(nodeShape);
-			plantUmlBoxes.add(box);
-		} 
+		// add those to our list
+		for (RDFNode n : nodesAndQualifedValueShapesValues) {
+			if(n.isResource() && !nodeShapes.contains(n)) {
+				nodeShapes.add(n.asResource());
+			}
+		}
+		
+		
+		// 1. Lire toutes les box
+		PlantUmlBoxReader nodeShapeReader = new PlantUmlBoxReader();		
+		List<PlantUmlBox> plantUmlBoxes = nodeShapes.stream().map(res -> nodeShapeReader.read(res)).collect(Collectors.toList());
 		
 		// 2. Une fois qu'on a toute la liste, lire les proprietes
 		for (PlantUmlBox aBox : plantUmlBoxes) {
@@ -41,47 +50,44 @@ public class ShaclPlantUmlWriter {
 				aBox.setSuperClasses(nodeShapeReader.readSuperClasses(aBox.getNodeShape(), plantUmlBoxes));
 			}
 		}
-
-		Set<String> packages = plantUmlBoxes.stream().map(b -> b.getPackageName()).collect(Collectors.toSet());
 		
-		List<String> sourceuml = new ArrayList<>();
-		PlantUmlRenderer renderer = new PlantUmlRenderer();
-		renderer.setGenerateAnchorHyperlink(this.generateAnchorHyperlink);
-		for(String aPackage : packages ) {
-			if(!aPackage.equals("")) {
-				sourceuml.add("namespace "+aPackage+" "+"{\n");
-			}
-		
-			for (PlantUmlBox plantUmlBox : plantUmlBoxes.stream().filter(b -> b.getPackageName().equals(aPackage)).collect(Collectors.toList())) {
-				sourceuml.add(renderer.renderNodeShape(plantUmlBox));
-			}
-			if(!aPackage.equals("")) {
-				sourceuml.add("}\n");
-			}
-		}
-		
-		String source = "@startuml\n";
-		source += "skinparam classFontSize 14"+"\n";
-		source += "!define LIGHTORANGE\n";
+		StringBuffer sourceuml = new StringBuffer();
+		sourceuml.append("@startuml\n");
+		sourceuml.append("skinparam classFontSize 14"+"\n");
+		sourceuml.append("!define LIGHTORANGE\n");
 		
 		//skinparam linetype ortho        // l'instruction cr�er des lignes droits  
 		//source +="!includeurl https://raw.githubusercontent.com/Drakemor/RedDress-PlantUML/master/style.puml\n\n";
 		
-		source += "skinparam componentStyle uml2\n";
-		source += "skinparam wrapMessageWidth 100\n";
-		source += "skinparam ArrowColor #Maroon\n\n";
+		sourceuml.append("skinparam componentStyle uml2\n");
+		sourceuml.append("skinparam wrapMessageWidth 100\n");
+		sourceuml.append("skinparam ArrowColor #Maroon\n\n");
 
-		for (String code : sourceuml) {
-			source += code;
+		PlantUmlRenderer renderer = new PlantUmlRenderer();
+		renderer.setGenerateAnchorHyperlink(this.generateAnchorHyperlink);
+		// retrieve all package declaration
+		Set<String> packages = plantUmlBoxes.stream().map(b -> b.getPackageName()).collect(Collectors.toSet());
+		for(String aPackage : packages ) {
+			if(!aPackage.equals("")) {
+				sourceuml.append("namespace "+aPackage+" "+"{\n");
+			}
+		
+			for (PlantUmlBox plantUmlBox : plantUmlBoxes.stream().filter(b -> b.getPackageName().equals(aPackage)).collect(Collectors.toList())) {
+				sourceuml.append(renderer.renderNodeShape(plantUmlBox));
+			}
+			if(!aPackage.equals("")) {
+				sourceuml.append("}\n");
+			}			
 		}
-		source += "hide circle\n";
+		
+		sourceuml.append("hide circle\n");
 		// source += "hide methods\n";
-		source += "hide methods\n";
-		source += "hide empty members\n";
-		source += "@enduml\n";
+		sourceuml.append("hide methods\n");
+		sourceuml.append("hide empty members\n");
+		sourceuml.append("@enduml\n");
 
 
-		return source;
+		return sourceuml.toString();
 	}
 
 }

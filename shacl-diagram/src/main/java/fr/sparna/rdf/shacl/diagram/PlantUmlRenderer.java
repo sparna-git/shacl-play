@@ -20,7 +20,7 @@ public class PlantUmlRenderer {
 	
 	// uml_shape+ " --> " +"\""+uml_node+"\""+" : "+uml_path+uml_datatype+" "+uml_literal+" "+uml_pattern+" "+uml_nodekind(uml_nodekind)+"\n";  
 	public String renderAsNodeReference(PlantUmlProperty property, String boxName) {
-		String output = boxName+" --> \""+property.getValue_node()+"\" : "+property.getValue_path();
+		String output = boxName+" --> \""+property.getValue_node().getLabel()+"\" : "+property.getValue_path();
 		
 		if(property.getValue_cardinality() != null) {
 			output += " "+property.getValue_cardinality()+" ";
@@ -38,7 +38,7 @@ public class PlantUmlRenderer {
 	
 	// value = uml_shape+ " --> " +"\""+uml_qualifiedvalueshape+"\""+" : "+uml_path+uml_datatype+" "+uml_qualifiedMinMaxCount+"\n";
 	public String renderAsQualifiedShapeReference(PlantUmlProperty property, String boxName) {
-		String output = boxName+" --> \""+property.getValue_qualifiedvalueshape()+"\" : "+property.getValue_path();
+		String output = boxName+" --> \""+property.getValue_qualifiedvalueshape().getLabel()+"\" : "+property.getValue_path();
 		
 		if(property.getValue_qualifiedMaxMinCount() != null) {
 			output += " "+property.getValue_qualifiedMaxMinCount()+" ";
@@ -93,16 +93,16 @@ public class PlantUmlRenderer {
 
 	public String renderNodeShape(PlantUmlBox box) {
 		// String declaration = "Class"+" "+"\""+box.getNameshape()+"\""+((box.getNametargetclass() != null)?" "+"<"+box.getNametargetclass()+">":"");
-		String declaration = "Class"+" "+"\""+box.getNameshape()+"\"";
-		declaration += (this.generateAnchorHyperlink)?"[[#"+box.getNameshape()+"]]"+"\n":"\n";
+		String declaration = "Class"+" "+"\""+box.getLabel()+"\"";
+		declaration += (this.generateAnchorHyperlink)?"[[#"+box.getLabel()+"]]"+"\n":"\n";
 		if(box.getSuperClasses() != null) {
 			for (PlantUmlBox aSuperClass : box.getSuperClasses()) {
-				declaration += "\""+box.getNameshape()+"\"" + "--|>" + "\""+aSuperClass.getNameshape()+"\"" + "\n";
+				declaration += "\""+box.getLabel()+"\"" + "--|>" + "\""+aSuperClass.getLabel()+"\"" + "\n";
 			}
 		}
 		
 		for (PlantUmlProperty plantUmlproperty : box.getProperties()) {
-			declaration += this.render(plantUmlproperty, box.getNameshape());
+			declaration += this.render(plantUmlproperty, box.getLabel());
 		}
 		
 		return declaration;

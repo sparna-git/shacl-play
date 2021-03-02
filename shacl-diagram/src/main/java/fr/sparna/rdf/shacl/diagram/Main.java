@@ -18,7 +18,11 @@ public class Main {
 		String shaclFile = args[0];
 		Model shaclGraph = ModelFactory.createDefaultModel();
 
-		shaclGraph.read(new FileInputStream(shaclFile), RDF.uri, FileUtils.guessLang(shaclFile, "RDF/XML"));
+		if(shaclFile.startsWith("http")) {
+			shaclGraph.read(shaclFile, RDF.uri, FileUtils.guessLang(shaclFile, "Turtle"));
+		} else {
+			shaclGraph.read(new FileInputStream(shaclFile), RDF.uri, FileUtils.guessLang(shaclFile, "RDF/XML"));
+		}
 
 		ShaclPlantUmlWriter writer = new ShaclPlantUmlWriter(true, false);
 		String output = writer.writeInPlantUml(shaclGraph);

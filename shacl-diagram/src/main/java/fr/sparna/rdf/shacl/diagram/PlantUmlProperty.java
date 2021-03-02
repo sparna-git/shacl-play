@@ -35,11 +35,11 @@ public class PlantUmlProperty {
 	protected String value_pattern;
 	protected String value_language;
 	protected String value_uniquelang;
-	protected String value_node;
+	protected PlantUmlBox value_node;
 	protected String value_class_property;
 	protected Integer value_order_shacl;
 	protected String value_hasValue;
-	protected String value_qualifiedvalueshape;
+	protected PlantUmlBox value_qualifiedvalueshape;
 	protected String value_qualifiedMaxMinCount;
 	
 	public PlantUmlProperty(Resource propertyShape) {
@@ -119,11 +119,11 @@ public class PlantUmlProperty {
 		this.value_uniquelang = value_uniquelang;
 	}
 
-	public String getValue_node() {
+	public PlantUmlBox getValue_node() {
 		return value_node;
 	}
 
-	public void setValue_node(String value_node) {
+	public void setValue_node(PlantUmlBox value_node) {
 		this.value_node = value_node;
 	}
 
@@ -151,11 +151,11 @@ public class PlantUmlProperty {
 		this.value_hasValue = value_hasValue;
 	}
 
-	public String getValue_qualifiedvalueshape() {
+	public PlantUmlBox getValue_qualifiedvalueshape() {
 		return value_qualifiedvalueshape;
 	}
 
-	public void setValue_qualifiedvalueshape(String value_qualifiedvalueshape) {
+	public void setValue_qualifiedvalueshape(PlantUmlBox value_qualifiedvalueshape) {
 		this.value_qualifiedvalueshape = value_qualifiedvalueshape;
 	}
 

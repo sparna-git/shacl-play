@@ -22,11 +22,11 @@ public class ConstraintValueReader {
 				else if (constraint.getProperty(property).getObject().isLiteral()) {
 					value = constraint.getProperty(property).getObject().asLiteral().getString();				
 				} else if (constraint.getProperty(property).getObject().isAnon()) {
-					value = renderShaclPropertyPath(constraint.getProperty(property).getObject().asResource());
-					
+					value = renderShaclPropertyPath(constraint.getProperty(property).getObject().asResource());					
 				}
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			value = null;
 		}
 		return value;
@@ -89,7 +89,8 @@ public class ConstraintValueReader {
 				return "("+renderShaclPropertyPath(value)+")+";
 			}
 		} else {
-			return "Unsupported path";
+			// if anonymous, return anonymous ID
+			return r.toString();
 		}
 	}	
 }

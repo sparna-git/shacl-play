@@ -190,27 +190,22 @@ public class PlantUmlPropertyReader {
 	// Shape-based Constraint Components
 
 	
-	public String readShNode(Resource constraint) {
-		// this.value_node = constraintValueReader.readValueconstraint(constraint, SH.node);
-		
+	public PlantUmlBox readShNode(Resource constraint) {
 		// 1. Lire la valeur de sh:node
 		String nodeValue = constraintValueReader.readValueconstraint(constraint, SH.node);
+		
 		// 2. Trouver le PlantUmlBox qui a ce nom
 		PlantUmlBox theBox = null;
-		for (PlantUmlBox plantUmlBox : allBoxes) {
-			if(plantUmlBox.getNameshape().equals(nodeValue)) {
-				theBox = plantUmlBox;
-				break;
+		if (nodeValue != null) {
+			for (PlantUmlBox plantUmlBox : allBoxes) {
+				if(plantUmlBox.getLabel().equals(nodeValue)) {
+					theBox = plantUmlBox;
+					break;
+				}
 			}
 		}
 		
-		if(theBox == null) {
-			// on ne l'a pas trouv�, on sort la valeur de sh:node
-			return nodeValue;
-		} else {
-			// 3. Lire le nom de la box avec son package devant
-			return theBox.getQualifiedName();
-		}
+		return theBox;
 	}
 	
 
@@ -241,7 +236,7 @@ public class PlantUmlPropertyReader {
 		// 2. Trouver le PlantUmlBox qui a ce nom
 		PlantUmlBox theBox = null;
 		for (PlantUmlBox plantUmlBox : allBoxes) {
-			if(plantUmlBox.getNameshape().equals(value)) {
+			if(plantUmlBox.getLabel().equals(value)) {
 				theBox = plantUmlBox;
 				break;
 			}
@@ -268,51 +263,23 @@ public class PlantUmlPropertyReader {
 		return constraintValueReader.readValueconstraint(constraint, SH.hasValue);
 	}
 
-	public String readShQualifiedValueShape(Resource constraint) {
-		String value = null;
-		if (constraint.hasProperty(SH.qualifiedValueShape)) {
-			Resource qualifiedValueShape = constraint.getPropertyResourceValue(SH.qualifiedValueShape);
-			
-			// Cas 1. : si la valeur est directement une référence à un NodeShape
-			boolean foundAsNodeShape = false;
-			for (PlantUmlBox aBox : allBoxes) {
-				if(aBox.getNodeShape().getURI().equals(qualifiedValueShape.getURI())) {
-					foundAsNodeShape = true;
+	public PlantUmlBox readShQualifiedValueShape(Resource constraint) {
+		
+		// 1. Lire la valeur de sh:node
+		String nodeValue = constraintValueReader.readValueconstraint(constraint, SH.qualifiedValueShape);
+		
+		// 2. Trouver le PlantUmlBox qui a ce nom
+		PlantUmlBox theBox = null;
+		if (nodeValue != null) {
+			for (PlantUmlBox plantUmlBox : allBoxes) {
+				if(plantUmlBox.getLabel().equals(nodeValue)) {
+					theBox = plantUmlBox;
 					break;
-				}
-			}
-			
-			// utilisation des streams
-//			if(allBoxes.stream().filter(box -> box.getNodeShape().getURI().equals(qualifiedValueShape.getURI())).findAny().isPresent()) {
-//				
-//			}
-			
-			if(foundAsNodeShape) {
-				value = qualifiedValueShape.getLocalName();
-			} else {
-				// Cas 2. : si la valeur a un sh:class, on cherche la NodeShape qui a un sh:targetClass qui a la même valeur que le sh:class
-				if(qualifiedValueShape.hasProperty(SH.class_)) {
-					Resource shclassValue = qualifiedValueShape.getPropertyResourceValue(SH.class_);
-					
-					List<Resource> nodetarget = constraint.getModel().listResourcesWithProperty(SH.targetClass,shclassValue).toList();
-					// Attention, s'il y a plusieurs valeurs, on ne sait en lire qu'une seule.
-					for(Resource nodeTarget : nodetarget) {
-						value = nodeTarget.getLocalName();
-					}
-					
-					/*if(nodetarget.isEmpty()) {
-						if(shclassValue.hasProperty(RDF.type, RDFS.Class) && shclassValue.hasProperty(RDF.type, SH.NodeShape)) {
-							value = shclassValue.getLocalName();	
-							} 
-							else {   // Section quand il n'y a pas une targetClass
-								value = shclassValue.getLocalName();  //constraint.getProperty(SH.class_).getResource().getLocalName();
-							}
-						}	*/				
 				}
 			}
 		}
 		
-		return value;
+		return theBox;
 	} 
 
 	public String readShQualifiedMinCountQualifiedMaxCount(Resource constraint) {
@@ -321,10 +288,10 @@ public class PlantUmlPropertyReader {
 		String uml_code =null;
 		
 		if (constraint.hasProperty(SH.qualifiedMinCount)){
-			value_minCount = constraintValueReader.readValueconstraint(constraint, SH.minCount);
+			value_minCount = constraintValueReader.readValueconstraint(constraint, SH.qualifiedMinCount);
 		}
 		if (constraint.hasProperty(SH.qualifiedMaxCount)) {
-			value_maxCount = constraintValueReader.readValueconstraint(constraint, SH.maxCount);
+			value_maxCount = constraintValueReader.readValueconstraint(constraint, SH.qualifiedMaxCount);
 		}
 		
 		if ((constraint.hasProperty(SH.qualifiedMinCount)) || (constraint.hasProperty(SH.qualifiedMaxCount))){

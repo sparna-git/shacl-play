@@ -96,10 +96,8 @@
 					}
 
 					.monospace {
-					font-family: SFMono-Regular,Menlo,Monaco,Consolas,"Liberation
-					Mono","Courier
-					New",monospace;
-					font-size: 87.5%;
+					  font-family: SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+					  font-size: 87.5%;
 					}
 				</style>
 			</head>

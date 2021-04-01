@@ -17,6 +17,7 @@ import org.apache.jena.vocabulary.RDFS;
 import org.topbraid.shacl.vocabulary.SH;
 
 import fr.sparna.rdf.shacl.doc.ConstraintValueReader;
+import fr.sparna.rdf.shacl.doc.PlantUmlSourceGenerator;
 import fr.sparna.rdf.shacl.doc.SVGGenerator;
 import fr.sparna.rdf.shacl.doc.ShaclBox;
 import fr.sparna.rdf.shacl.doc.ShaclBoxReader;
@@ -92,10 +93,13 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 		
 		// Option pour créer le diagramme
 		String sImgDiagramme = null;
+		String plantUmlSourceDiagram = null;
 		if (this.readDiagram) {
 			SVGGenerator gImgSvg = new SVGGenerator();
+			PlantUmlSourceGenerator sourceGenerator = new PlantUmlSourceGenerator();
 			try {
 				sImgDiagramme = gImgSvg.generateSvgDiagram(shaclGraph, owlGraph);
+				plantUmlSourceDiagram = sourceGenerator.generatePlantUmlDiagram(shaclGraph, owlGraph);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}			
@@ -124,6 +128,7 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 		shapesDocumentation.setModifiedDate(sOWLDateModified);
 		shapesDocumentation.setVersionInfo(sOWLVersionInfo);
 		shapesDocumentation.setSvgDiagram(sImgDiagramme);
+		shapesDocumentation.setPlantumlSource(plantUmlSourceDiagram);
 		String pattern_node_nodeshape = null;
 
 		// 3. Lire les prefixes

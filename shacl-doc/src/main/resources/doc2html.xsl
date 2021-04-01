@@ -195,6 +195,15 @@
 			<br />
 		</xsl:if>
 	</xsl:template>
+	
+		<xsl:template match="plantumlSource">
+		<xsl:if test=". != ''">
+			<xsl:comment>Below is the PlantUML source code, that you can give as input to http://www.plantuml.com</xsl:comment>
+			<xsl:comment>
+				<xsl:value-of select="." disable-output-escaping="yes" />
+			</xsl:comment>
+		</xsl:if>
+	</xsl:template>
 
 	<xsl:template match="prefixes">
 		<div id="prefixes">

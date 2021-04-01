@@ -12,8 +12,8 @@ public class ShapesDocumentation {
 	protected String modifiedDate;
 	protected String versionInfo;
 	protected String svgDiagram;
+	protected String plantumlSource;
 	
-	// RENAME : prefixes
 	@JacksonXmlElementWrapper(localName="prefixes")
 	@JacksonXmlProperty(localName = "prefixe")
 	protected List<NamespaceSection> prefixe;
@@ -67,6 +67,12 @@ public class ShapesDocumentation {
 	}
 	public void setPrefixe(List<NamespaceSection> prefixe) {
 		this.prefixe = prefixe;
+	}
+	public String getPlantumlSource() {
+		return plantumlSource;
+	}
+	public void setPlantumlSource(String plantumlSource) {
+		this.plantumlSource = plantumlSource;
 	}
 	
 	

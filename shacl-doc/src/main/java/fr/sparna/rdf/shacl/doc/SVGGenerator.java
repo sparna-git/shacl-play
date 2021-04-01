@@ -6,7 +6,6 @@ import java.nio.charset.Charset;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
-import org.apache.jena.rdf.model.Resource;
 
 import fr.sparna.rdf.shacl.diagram.ShaclPlantUmlWriter;
 import net.sourceforge.plantuml.FileFormat;
@@ -15,7 +14,6 @@ import net.sourceforge.plantuml.SourceStringReader;
 
 public class SVGGenerator {
 
-	@SuppressWarnings("deprecation")
 	public String generateSvgDiagram(Model shapesModel, Model owlModel) throws IOException {
 
 		// draw - without subclasses links

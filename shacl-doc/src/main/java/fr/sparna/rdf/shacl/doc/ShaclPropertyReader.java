@@ -15,6 +15,7 @@ import org.apache.jena.rdf.model.RDFList;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
+import org.apache.jena.rdf.model.StmtIterator;
 import org.apache.jena.util.iterator.ExtendedIterator;
 import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.RDFS;
@@ -55,10 +56,35 @@ public class ShaclPropertyReader {
 		shaclProperty.setShin(this.readShin(constraint));
 		shaclProperty.setShValue(this.readShValue(constraint));
 		shaclProperty.setShOrder(this.readShOrder(constraint));
+		shaclProperty.setShOr(this.readShOr(constraint));
 
 		return shaclProperty;
 	}
 
+	
+	public String readShOr(Resource constraint) {
+		String value = null;
+		if(constraint.hasProperty(SH.or)) {
+			Resource list = constraint.getProperty(SH.or).getList().asResource();		
+		    RDFList rdfList = list.as(RDFList.class);
+		    ExtendedIterator<RDFNode> items = rdfList.iterator();
+		    value = "";
+		    while(items.hasNext()) {
+		    	RDFNode item = items.next();
+		    	StmtIterator sli = item.asResource().listProperties();
+		    	while(sli.hasNext()) {
+		    		Statement stmt = sli.nextStatement();
+		    		RDFNode object = stmt.getObject();
+		    		if(object instanceof Resource) {
+		    			value += object.asResource().getLocalName()+",";
+		    		}		    		
+		    	}
+		    }			
+		}		
+		return value;
+	}
+	
+	
 	public String readShValue(Resource constraint) {
 		String value = null;
 		if(constraint.hasProperty(SH.value)) {

@@ -67,20 +67,12 @@ public class PlantUmlPropertyReader {
 		    		//Resource subject = stmt.getSubject();
 		    		//Property predicate = stmt.getPredicate();
 		    		RDFNode object = stmt.getObject();
-		    		//System.out.print(subject.toString());
-		    		//System.out.print(" " + predicate.toString() + " ");
 		    		if (object instanceof Resource) {
-		    			//System.out.print(object.toString());	
 		    			value += object.asResource().getLocalName()+" ,"; //.getModel().shortForm(object.toString()).toString()
-		    		}
-		    		else {
-			    		System.out.print(" \"" + object.toString() + "\"");
-		    		}
-			    	//System.out.println(" .");
-		    		
+		    		}    		
 		    	}		    	
 		    }
-		    value.substring(0,(value.length()-1));
+		    //value.substring(0,(value.length()-1));
 		}
 		return value;
 	}		

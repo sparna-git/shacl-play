@@ -78,7 +78,7 @@ public class PlantUmlRenderer {
 		output += boxName+" . diamond";		
 		for(String valueOr : value_Or) {
 			output+="\n";			
-			output += "diamond -"+"\""+"to"+property.getValue_cardinality()+"\""+' '+valueOr;
+			output += "diamond --> "+"\""+"to"+property.getValue_cardinality()+"\""+' '+valueOr;
 			
 			/*
 			if(property.getValue_cardinality() != null) {

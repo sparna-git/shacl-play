@@ -6,7 +6,9 @@
 	<xsl:output indent="yes" method="xml" />
 
 	<!-- Language parameter to the XSLT -->
-	<xsl:param name="LANG">en</xsl:param>
+	<xsl:param name="LANG">
+		en
+	</xsl:param>
 
 	<!-- french labels -->
 	<xsl:variable name="LABELS_FR">
@@ -96,13 +98,15 @@
 					}
 
 					.monospace {
-					  font-family: SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
-					  font-size: 87.5%;
+					font-family: SFMono-Regular,Menlo,Monaco,Consolas,"Liberation
+					Mono","Courier New",monospace;
+					font-size: 87.5%;
 					}
 				</style>
 			</head>
 			<body>
-				<div class="container-md">
+				<!--  <div class="container-md">-->
+				<div>
 					<br />
 					<h1>
 						<center>
@@ -185,7 +189,7 @@
 				<div style="text-align:center;">
 					<!-- @disable-output-escaping prints the raw XML string as XML in the 
 						document and removes XML-encoding of the characters -->
-					<xsl:value-of select="." disable-output-escaping="yes" />				
+					<xsl:value-of select="." disable-output-escaping="yes" />
 				</div>
 				<small class="form-text text-muted">
 					<xsl:value-of
@@ -195,8 +199,8 @@
 			<br />
 		</xsl:if>
 	</xsl:template>
-	
-		<xsl:template match="plantumlSource">
+
+	<xsl:template match="plantumlSource">
 		<xsl:if test=". != ''">
 			<xsl:comment>Below is the PlantUML source code, that you can give as input to http://www.plantuml.com</xsl:comment>
 			<xsl:comment>
@@ -250,13 +254,6 @@
 	<xsl:template match="section">
 		<xsl:variable name="TitleNodeSape" select="uri" />
 		<div id="{$TitleNodeSape}">
-			<!-- <a class="anchor" href="#{$TitleNodeSape}"><svg class="octicon octicon-link" 
-				viewBox="0 0 16 16" version="1.1" width="16" height="16"><path fill-rule="evenodd" 
-				d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 
-				2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 
-				00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 
-				.75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 
-				0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a> -->
 			<h2>
 				<xsl:value-of select="title" />
 			</h2>
@@ -266,41 +263,42 @@
 					<xsl:value-of select="description" />
 				</em>
 			</xsl:if>
-			<xsl:if test="targetClassLabel != '' or nodeKind != '' or pattern != '' or (closed != '' and closed='true')">
-			<ul>
-				<xsl:if test="targetClassLabel != ''">
-					<li>
-						<xsl:value-of
-							select="$LABELS/labels/entry[@key='LABEL_TARGETCLASS']/@label" />
-						<a href="{targetClassUri}">
-							<xsl:value-of select="targetClassLabel" />
-						</a>
-					</li>
-				</xsl:if>
-				<xsl:if test="nodeKind != ''">
-					<li>
-						<xsl:value-of
-							select="$LABELS/labels/entry[@key='LABEL_NODEKIND']/@label" />
-						<xsl:value-of select="nodeKind" />
-					</li>
-				</xsl:if>
+			<xsl:if
+				test="targetClassLabel != '' or nodeKind != '' or pattern != '' or (closed != '' and closed='true')">
+				<ul>
+					<xsl:if test="targetClassLabel != ''">
+						<li>
+							<xsl:value-of
+								select="$LABELS/labels/entry[@key='LABEL_TARGETCLASS']/@label" />
+							<a href="{targetClassUri}">
+								<xsl:value-of select="targetClassLabel" />
+							</a>
+						</li>
+					</xsl:if>
+					<xsl:if test="nodeKind != ''">
+						<li>
+							<xsl:value-of
+								select="$LABELS/labels/entry[@key='LABEL_NODEKIND']/@label" />
+							<xsl:value-of select="nodeKind" />
+						</li>
+					</xsl:if>
 
-				<xsl:if test="pattern != ''">
-					<li>
-						<xsl:value-of
-							select="$LABELS/labels/entry[@key='LABEL_PATTERNS']/@label" />
-						<span class="monospace">
-							<xsl:value-of select="pattern" />
-						</span>
-					</li>
-				</xsl:if>
-				<xsl:if test="closeNS != '' and closed='true'">
-					<li>
-						<xsl:value-of
-							select="$LABELS/labels/entry[@key='LABEL_CLOSE']/@label" />
-					</li>
-				</xsl:if>
-			</ul>
+					<xsl:if test="pattern != ''">
+						<li>
+							<xsl:value-of
+								select="$LABELS/labels/entry[@key='LABEL_PATTERNS']/@label" />
+							<span class="monospace">
+								<xsl:value-of select="pattern" />
+							</span>
+						</li>
+					</xsl:if>
+					<xsl:if test="closeNS != '' and closed='true'">
+						<li>
+							<xsl:value-of
+								select="$LABELS/labels/entry[@key='LABEL_CLOSE']/@label" />
+						</li>
+					</xsl:if>
+				</ul>
 			</xsl:if>
 			<xsl:if test="count(properties/property)>0">
 				<table class="table table-striped" style="width:100%">
@@ -371,9 +369,22 @@
 								</a>
 							</xsl:when>
 							<xsl:otherwise>
-								<span class="monospace">
-									<xsl:value-of select="expectedValueLabel" />
-								</span>
+								<xsl:choose>
+									<xsl:when test="string-length(or) > 0">
+										<xsl:for-each select="tokenize(or,',')">
+											<xsl:variable name="sDataOrg" select="." />
+											<a href="{concat('#',$sDataOrg)}">
+												<xsl:value-of
+													select="concat('[',$sDataOrg,']')" />
+											</a>
+										</xsl:for-each>
+									</xsl:when>
+									<xsl:otherwise>
+										<span class="monospace">
+											<xsl:value-of select="expectedValueLabel" />
+										</span>
+									</xsl:otherwise>
+								</xsl:choose>
 							</xsl:otherwise>
 						</xsl:choose>
 					</xsl:otherwise>
@@ -383,21 +394,24 @@
 				<xsl:if test="expectedValueAdditionnalInfoPattern/text()">
 					<p class="text-break">
 						<small>
-							<xsl:value-of select="expectedValueAdditionnalInfoPattern" />
+							<xsl:value-of
+								select="expectedValueAdditionnalInfoPattern" />
 						</small>
 					</p>
 				</xsl:if>
 				<xsl:if test="expectedValueAdditionnalInfoIn/text()">
 					<p>
 						<small>
-							<xsl:value-of select="concat('(',expectedValueAdditionnalInfoIn,')')" />
+							<xsl:value-of
+								select="concat('(',expectedValueAdditionnalInfoIn,')')" />
 						</small>
 					</p>
 				</xsl:if>
 				<xsl:if test="expectedValueAdditionnalInfoValue/text()">
 					<p>
 						<small>
-							<xsl:value-of select="expectedValueAdditionnalInfoValue" />
+							<xsl:value-of
+								select="expectedValueAdditionnalInfoValue" />
 						</small>
 					</p>
 				</xsl:if>

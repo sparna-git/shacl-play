@@ -104,28 +104,9 @@ public class PropertyShapeDocumentation {
 		} // Type de noeud seulement : sh:nodeKind
 		else if (Value_nodeKind != null && Value_node == null) {
 			if (Value_nodeKind.equals("sh:IRI")) {
-				if(Value_Or != null) {
-					String valueData = "";
-					Value_Or.substring(0, (Value_Or.length()-1));
-					String[] valueOr = Value_Or.split(",");
-					for(String sData : valueOr) {
-						for(ShaclBox box : shacValue) {
-							if(box.getRdfslabel().equals(sData)) {
-								valueData += sData+",";
-								//proprieteDoc.setLinknameNodeShapeuri(sData);
-								//proprieteDoc.setLinknameNodeShape(box.getRdfslabel());
-								break;
-							}
-						}
-					}
-					value = valueData.substring(0,(valueData.length()-1));					
-				}
-				else {
 					String[] ssplit = Value_nodeKind.split(":");
 					value = ssplit[ssplit.length-1];	
-				}
-						
-			}else {
+				}else {
 				value = Value_nodeKind;
 			}
 			//value = Value_nodeKind;
@@ -163,8 +144,8 @@ public class PropertyShapeDocumentation {
 		} else if (Value_nodeKind != null && Value_node != null) {
 			value = PatternoNodeShape;
 		}	   
-		//this.expectedValueAdditionnalInfoPattern = expectedValueAdditionnalInfoPattern;
-		this.expectedValueAdditionnalInfoPattern = value;
+		this.expectedValueAdditionnalInfoPattern = expectedValueAdditionnalInfoPattern;
+		//this.expectedValueAdditionnalInfoPattern = value;
 		
 	}
 
@@ -206,7 +187,7 @@ public class PropertyShapeDocumentation {
 		this.description = description;
 	}
 
-	
+
 	
 	public String getLinkNodeShape() {
 		return linkNodeShape;

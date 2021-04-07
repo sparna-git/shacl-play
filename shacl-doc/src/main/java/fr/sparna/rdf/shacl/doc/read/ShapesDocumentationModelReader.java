@@ -216,7 +216,7 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 					}
 				}
 				
-				//proprieteDoc.setOr(propriete.getShOr(),Shaclvalue);
+				
 				proprieteDoc.setExpectedValueLabel(propriete.getClass_node(), propriete.getNode(),
 						propriete.getClass_property(), propriete.getDatatype(), propriete.getNodeKind(),
 						propriete.getPath(), propriete.getShOr(),Shaclvalue,proprieteDoc);
@@ -241,7 +241,7 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 				proprieteDoc.setExpectedValueAdditionnalInfoValue(propriete.getShValue());
 				proprieteDoc.setCardinalite(propriete.getCardinality());
 				proprieteDoc.setDescription(propriete.getDescription());				
-				
+				proprieteDoc.setOr(propriete.getShOr(),Shaclvalue);
 				ListPropriete.add(proprieteDoc);
 			}
 			

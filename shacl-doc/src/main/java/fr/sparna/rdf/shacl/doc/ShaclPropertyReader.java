@@ -74,10 +74,12 @@ public class ShaclPropertyReader {
 		    	StmtIterator sli = item.asResource().listProperties();
 		    	while(sli.hasNext()) {
 		    		Statement stmt = sli.nextStatement();
-		    		RDFNode object = stmt.getObject();
-		    		if(object instanceof Resource) {
-		    			value += object.asResource().getLocalName()+",";
-		    		}		    		
+		    		if(stmt.getPredicate().equals(SH.node)) {
+		    			RDFNode object = stmt.getObject();
+			    		if(object instanceof Resource) {
+			    			value += object.asResource().getLocalName()+",";
+			    		}
+		    		}		    				    		
 		    	}
 		    }			
 		}		

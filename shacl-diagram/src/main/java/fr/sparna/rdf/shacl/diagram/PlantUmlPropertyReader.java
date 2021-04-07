@@ -65,11 +65,13 @@ public class PlantUmlPropertyReader {
 		    	while(sli.hasNext()) {
 		    		Statement stmt = sli.nextStatement();
 		    		//Resource subject = stmt.getSubject();
-		    		//Property predicate = stmt.getPredicate();
-		    		RDFNode object = stmt.getObject();
-		    		if (object instanceof Resource) {
-		    			value += object.asResource().getLocalName()+" ,"; //.getModel().shortForm(object.toString()).toString()
-		    		}    		
+		    		Property predicate = stmt.getPredicate();
+		    		if(predicate.equals(SH.node)) {
+		    			RDFNode object = stmt.getObject();
+			    		if (object instanceof Resource) {
+			    			value += object.asResource().getLocalName()+" ,"; //.getModel().shortForm(object.toString()).toString()
+			    		}
+		    		}		    		    		
 		    	}		    	
 		    }
 		    //value.substring(0,(value.length()-1));

@@ -1,26 +1,6 @@
 package fr.sparna.rdf.shacl.diagram;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-import org.apache.jena.graph.Node;
-import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.Property;
-import org.apache.jena.rdf.model.RDFList;
-import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
-import org.apache.jena.rdf.model.Statement;
-import org.apache.jena.util.iterator.ExtendedIterator;
-import org.apache.jena.vocabulary.RDF;
-import org.apache.jena.vocabulary.RDFS;
-import org.topbraid.jenax.util.JenaDatatypes;
-import org.topbraid.jenax.util.JenaUtil;
-import org.topbraid.shacl.arq.functions.HasShapeFunction;
-import org.topbraid.shacl.vocabulary.SH;
 
 public class PlantUmlProperty {
 

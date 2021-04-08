@@ -1,14 +1,20 @@
 package fr.sparna.rdf.shacl.diagram;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
+import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.RDFList;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.Statement;
+import org.apache.jena.rdf.model.StmtIterator;
 import org.apache.jena.util.iterator.ExtendedIterator;
 import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.RDFS;
 import org.topbraid.shacl.vocabulary.SH;
+
 
 public class PlantUmlPropertyReader {
 	
@@ -41,9 +47,38 @@ public class PlantUmlPropertyReader {
 		p.setValue_hasValue(this.readShHasValue(constraint));
 		p.setValue_qualifiedvalueshape(this.readShQualifiedValueShape(constraint));
 		p.setValue_qualifiedMaxMinCount(this.readShQualifiedMinCountQualifiedMaxCount(constraint));
+		p.setValue_or(this.readShOr(constraint));
 		
 		return p;
 	}
+	
+	public String readShOr(Resource constraint) {		
+		String value =null;
+		if(constraint.hasProperty(SH.or)) {
+			Resource list = constraint.getProperty(SH.or).getList().asResource();		
+		    RDFList rdfList = list.as(RDFList.class);
+		    ExtendedIterator<RDFNode> items = rdfList.iterator();
+		    value = "";
+		    while ( items.hasNext() ) {
+		    	RDFNode item = items.next();
+		    	StmtIterator sli = item.asResource().listProperties();
+		    	while(sli.hasNext()) {
+		    		Statement stmt = sli.nextStatement();
+		    		//Resource subject = stmt.getSubject();
+		    		Property predicate = stmt.getPredicate();
+		    		if(predicate.equals(SH.node)) {
+		    			RDFNode object = stmt.getObject();
+			    		if (object instanceof Resource) {
+			    			value += object.asResource().getLocalName()+" ,"; //.getModel().shortForm(object.toString()).toString()
+			    		}
+		    		}		    		    		
+		    	}		    	
+		    }
+		    //value.substring(0,(value.length()-1));
+		}
+		return value;
+	}		
+	
 	
 	public String readShPath(Resource constraint) {		
 		return constraintValueReader.readValueconstraint(constraint,SH.path);
@@ -303,6 +338,8 @@ public class PlantUmlPropertyReader {
 		return uml_code;
 		
 	}
+	
+	
 
 	
 }

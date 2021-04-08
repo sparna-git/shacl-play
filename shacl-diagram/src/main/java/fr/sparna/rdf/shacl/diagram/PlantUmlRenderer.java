@@ -13,6 +13,8 @@ public class PlantUmlRenderer {
 			return renderAsClassReference(property, boxName);
 		} else if(property.getValue_qualifiedvalueshape() != null) {
 			return renderAsQualifiedShapeReference(property, boxName);
+		} else if(property.getValue_or() != null) {
+			return renderAsOr(property, boxName);
 		} else {
 			return renderDefault(property, boxName);
 		}
@@ -64,6 +66,34 @@ public class PlantUmlRenderer {
 		}
 		output += "\n";
 		
+		return output;
+	}
+	
+	// value =  uml_shape+" --> "+"\""+uml_or;
+	public String renderAsOr(PlantUmlProperty property, String boxName) {
+		String sValueOr = property.getValue_or().substring(0, (property.getValue_or().length()-1));
+		String[] value_Or = sValueOr.split(",");
+		String output="<> diamond";	
+		output += "\n";
+		output += boxName+" . diamond";		
+		for(String valueOr : value_Or) {
+			output+="\n";			
+			output += "diamond --> "+"\""+"to"+property.getValue_cardinality()+"\""+' '+valueOr;
+			
+			/*
+			if(property.getValue_cardinality() != null) {
+				output += " "+property.getValue_cardinality()+" ";
+			}
+			if(property.getValue_pattern() != null && this.displayPatterns) {
+				output += "("+property.getValue_pattern()+")"+" ";
+			}
+			if(property.getValue_nodeKind() != null && !property.getValue_nodeKind().equals("IRI")) {
+				output += property.getValue_nodeKind()+" ";
+			}
+			*/
+			//
+		}	
+		output += "\n";
 		return output;
 	}
 	

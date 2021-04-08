@@ -40,10 +40,20 @@ public class ShaclProperty {
 	protected String shin;
 	protected Integer shOrder;
 	protected String shValue;
+	protected String shOr;
 	
 	
 	
 	
+	
+	public String getShOr() {
+		return shOr;
+	}
+
+	public void setShOr(String shOr) {
+		this.shOr = shOr;
+	}
+
 	public ShaclProperty(Resource resource) {
 		super();
 		this.resource = resource;

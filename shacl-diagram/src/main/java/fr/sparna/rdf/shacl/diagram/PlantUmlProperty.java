@@ -21,10 +21,21 @@ public class PlantUmlProperty {
 	protected String value_hasValue;
 	protected PlantUmlBox value_qualifiedvalueshape;
 	protected String value_qualifiedMaxMinCount;
+	protected String value_or;
 	
 	public PlantUmlProperty(Resource propertyShape) {
 		super();
 		this.propertyShape = propertyShape;
+	}
+	
+	
+
+	public String getValue_or() {
+		return value_or;
+	}
+
+	public void setValue_or(String value_or) {
+		this.value_or = value_or;
 	}
 
 	public String getValue_path() {

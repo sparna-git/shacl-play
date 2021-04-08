@@ -2,8 +2,11 @@ package fr.sparna.rdf.shacl.doc.model;
 
 
 
+import java.util.ArrayList;
+
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
+import fr.sparna.rdf.shacl.doc.ShaclBox;
 import fr.sparna.rdf.shacl.doc.ShaclProperty;
 
 public class PropertyShapeDocumentation {
@@ -19,6 +22,7 @@ public class PropertyShapeDocumentation {
 	
 	private String cardinalite;
 	private String description;
+	private String Or;
 		
 	private String linknameNodeShape;
 	private String linknameNodeShapeuri;
@@ -26,6 +30,25 @@ public class PropertyShapeDocumentation {
 	private String linkNodeShapeUri;
 	
 	
+	
+	
+	public String getOr() {
+		return Or;
+	}
+
+	public void setOr(String or,ArrayList<ShaclBox> shacValue) {
+		String  Value = null;
+		if(or != null ) {
+			Value = "";
+			or.substring(0, (or.length()-1));
+			String[] ValueOr = or.split(",");
+			for(String sdata : ValueOr) {
+				Value += sdata+",";				
+			}		
+			this.Or = Value.substring(0, (Value.length()-1));
+		}				
+	}
+
 	public String getLabel() {
 		return label;
 	}
@@ -62,7 +85,7 @@ public class PropertyShapeDocumentation {
 	}
 
 	public void setExpectedValueLabel(String Valeu_class,  String Value_node,
-			String Value_Target, String Value_datatype, String Value_nodeKind, String URI) {
+			String Value_Target, String Value_datatype, String Value_nodeKind, String URI, String Value_Or,ArrayList<ShaclBox> shacValue,PropertyShapeDocumentation proprieteDoc) {
 		String value = null;
 		
 		// Classe
@@ -81,9 +104,9 @@ public class PropertyShapeDocumentation {
 		} // Type de noeud seulement : sh:nodeKind
 		else if (Value_nodeKind != null && Value_node == null) {
 			if (Value_nodeKind.equals("sh:IRI")) {
-				String[] ssplit = Value_nodeKind.split(":");
-				value = ssplit[ssplit.length-1];			
-			}else {
+					String[] ssplit = Value_nodeKind.split(":");
+					value = ssplit[ssplit.length-1];	
+				}else {
 				value = Value_nodeKind;
 			}
 			//value = Value_nodeKind;
@@ -122,6 +145,8 @@ public class PropertyShapeDocumentation {
 			value = PatternoNodeShape;
 		}	   
 		this.expectedValueAdditionnalInfoPattern = expectedValueAdditionnalInfoPattern;
+		//this.expectedValueAdditionnalInfoPattern = value;
+		
 	}
 
 	public String getExpectedValueAdditionnalInfoIn() {
@@ -162,7 +187,7 @@ public class PropertyShapeDocumentation {
 		this.description = description;
 	}
 
-	
+
 	
 	public String getLinkNodeShape() {
 		return linkNodeShape;

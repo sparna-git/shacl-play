@@ -216,9 +216,10 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 					}
 				}
 				
+				
 				proprieteDoc.setExpectedValueLabel(propriete.getClass_node(), propriete.getNode(),
 						propriete.getClass_property(), propriete.getDatatype(), propriete.getNodeKind(),
-						propriete.getPath());
+						propriete.getPath(), propriete.getShOr(),Shaclvalue,proprieteDoc);
 				
 				if(propriete.getClass_node() != null) {
 					for(ShaclBox getNodeShape : Shaclvalue) {
@@ -231,7 +232,6 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 						}						
 					}					
 				}
-				
 
 				proprieteDoc.setExpectedValueAdditionnalInfoPattern(propriete.getPattern(), datanodeshape.getShpatternNodeShape(),
 						pattern_node_nodeshape, propriete.getClass_node(), propriete.getNode(),
@@ -240,8 +240,8 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 				proprieteDoc.setExpectedValueAdditionnalInfoIn(propriete.getShin());
 				proprieteDoc.setExpectedValueAdditionnalInfoValue(propriete.getShValue());
 				proprieteDoc.setCardinalite(propriete.getCardinality());
-				proprieteDoc.setDescription(propriete.getDescription());
-				
+				proprieteDoc.setDescription(propriete.getDescription());				
+				proprieteDoc.setOr(propriete.getShOr(),Shaclvalue);
 				ListPropriete.add(proprieteDoc);
 			}
 			

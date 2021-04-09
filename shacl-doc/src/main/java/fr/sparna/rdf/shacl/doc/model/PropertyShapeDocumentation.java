@@ -37,15 +37,8 @@ public class PropertyShapeDocumentation {
 	}
 
 	public void setOr(String or,ArrayList<ShaclBox> shacValue) {
-		String  Value = null;
 		if(or != null ) {
-			Value = "";
-			or.substring(0, (or.length()-1));
-			String[] ValueOr = or.split(",");
-			for(String sdata : ValueOr) {
-				Value += sdata+",";				
-			}		
-			this.Or = Value.substring(0, (Value.length()-1));
+			this.Or = or;
 		}				
 	}
 

@@ -72,8 +72,11 @@ public class ConstraintValueReader {
 		} else if(r.canAs( RDFList.class )) {
 			RDFList rdfList = r.as( RDFList.class );
 			List<RDFNode> pathElements = rdfList.asJavaList();
-			return pathElements.stream().map(p -> {
-				return renderShaclPropertyPath((Resource)p);}).collect(Collectors.joining("/"));
+			/*return pathElements.stream().map(p -> {
+				return renderShaclPropertyPath((Resource)p);}).collect(Collectors.joining("/"));*/
+			return pathElements.stream().map(p ->{
+				return p.asResource().listProperties().nextStatement().getObject().asResource().getLocalName();
+			}).collect(Collectors.joining(","));
 		} else if(r.hasProperty(SH.zeroOrMorePath)) {
 			Resource value = r.getPropertyResourceValue(SH.zeroOrMorePath);
 			if(value.isURIResource()) {

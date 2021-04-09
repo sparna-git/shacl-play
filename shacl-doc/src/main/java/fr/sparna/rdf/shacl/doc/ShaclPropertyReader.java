@@ -63,7 +63,10 @@ public class ShaclPropertyReader {
 
 	
 	public String readShOr(Resource constraint) {
-		String value = null;
+		// 1. Lire la valeur de sh:node
+		String orValue = constraintValueReader.readValueconstraint(constraint, SH.or,null);
+		return orValue;
+		/*
 		if(constraint.hasProperty(SH.or)) {
 			Resource list = constraint.getProperty(SH.or).getList().asResource();		
 		    RDFList rdfList = list.as(RDFList.class);
@@ -78,12 +81,13 @@ public class ShaclPropertyReader {
 		    			RDFNode object = stmt.getObject();
 			    		if(object instanceof Resource) {
 			    			value += object.asResource().getLocalName()+",";
+			    			
 			    		}
 		    		}		    				    		
 		    	}
 		    }			
 		}		
-		return value;
+		return value;*/
 	}
 	
 	

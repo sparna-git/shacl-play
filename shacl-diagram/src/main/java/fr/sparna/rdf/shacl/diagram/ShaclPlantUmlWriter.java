@@ -75,6 +75,9 @@ public class ShaclPlantUmlWriter {
 			for (PlantUmlBox plantUmlBox : plantUmlBoxes.stream().filter(b -> b.getPackageName().equals(aPackage)).collect(Collectors.toList())) {
 				sourceuml.append(renderer.renderNodeShape(plantUmlBox));
 			}
+			
+			
+			
 			if(!aPackage.equals("")) {
 				sourceuml.append("}\n");
 			}			

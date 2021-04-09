@@ -105,8 +105,8 @@
 				</style>
 			</head>
 			<body>
-				<!--  <div class="container-md">-->
-				<div>
+				 <div class="container-md">
+				
 					<br />
 					<h1>
 						<center>
@@ -371,13 +371,28 @@
 							<xsl:otherwise>
 								<xsl:choose>
 									<xsl:when test="string-length(or) > 0">
+										<xsl:variable name="nfois" select="count(tokenize(or,','))"/>
 										<xsl:for-each select="tokenize(or,',')">
+											<xsl:variable name="countData">
+												<xsl:choose>
+													<xsl:when test="position() = 1">
+														<xsl:value-of select="count(.)"/>													
+													</xsl:when>
+													<xsl:otherwise>
+														<xsl:value-of select="count(.)+1"/>
+													</xsl:otherwise>
+												</xsl:choose>												
+											</xsl:variable>											
 											<xsl:variable name="sDataOrg" select="." />
 											<a href="{concat('#',$sDataOrg)}">
-												<xsl:value-of
-													select="concat('[',$sDataOrg,']')" />
-											</a>
-										</xsl:for-each>
+												<xsl:value-of select="concat($sDataOrg,' ')"/>												
+											</a>											
+											<xsl:choose>
+												<xsl:when test="$nfois &gt; $countData">
+													<xsl:text>or </xsl:text>
+												</xsl:when>												
+											</xsl:choose>											
+										</xsl:for-each>										
 									</xsl:when>
 									<xsl:otherwise>
 										<span class="monospace">

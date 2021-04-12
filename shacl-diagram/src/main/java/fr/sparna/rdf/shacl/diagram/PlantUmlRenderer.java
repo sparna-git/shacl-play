@@ -1,5 +1,7 @@
 package fr.sparna.rdf.shacl.diagram;
 
+import java.util.Iterator;
+
 public class PlantUmlRenderer {
 
 	protected boolean generateAnchorHyperlink = false;
@@ -13,7 +15,7 @@ public class PlantUmlRenderer {
 			return renderAsClassReference(property, boxName);
 		} else if(property.getValue_qualifiedvalueshape() != null) {
 			return renderAsQualifiedShapeReference(property, boxName);
-		} else if(property.getValue_or() != null) {
+		} else if(property.getValue_shor().size() > 0) {
 			return renderAsOr(property, boxName);
 		} else {
 			return renderDefault(property, boxName);
@@ -69,21 +71,18 @@ public class PlantUmlRenderer {
 		return output;
 	}
 	
-	// value =  uml_shape+" --> "+"\""+uml_or;
-	
+	// value =  uml_shape+" --> "+"\""+uml_or;	
 	public String renderAsOr(PlantUmlProperty property, String boxName) {		
-		
 		String sNameDiamond = "diamond_"+boxName;
-		String output= "<> "+sNameDiamond;  //"<> diamond";			
-		output += "\n";
-		output += boxName+" - "+"\""+property.getValue_cardinality()+"\" "+sNameDiamond;		
-		for(String valueOr : property.value_or.split(",")) {
-			output+="\n";			
-			output += sNameDiamond + ". "+valueOr;
-		}	
-		output += "\n";
-		
-		return output;
+		String output_code= "<> "+sNameDiamond;			
+		output_code += "\n";
+		output_code += boxName+" - "+"\""+property.getValue_cardinality()+"\" "+sNameDiamond;			
+		for(PlantUmlBox sDataOr : property.getValue_shor()) {
+			output_code +="\n";
+			output_code += sNameDiamond + ". "+sDataOr.getNodeShape().getLocalName();
+		}
+		output_code += "\n";	
+		return output_code;				
 	}
 	
 	

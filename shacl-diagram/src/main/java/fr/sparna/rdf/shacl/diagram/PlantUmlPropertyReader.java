@@ -49,65 +49,29 @@ public class PlantUmlPropertyReader {
 		p.setValue_hasValue(this.readShHasValue(constraint));
 		p.setValue_qualifiedvalueshape(this.readShQualifiedValueShape(constraint));
 		p.setValue_qualifiedMaxMinCount(this.readShQualifiedMinCountQualifiedMaxCount(constraint));
-		p.setValue_or(this.readShOr(constraint));
 		p.setValue_shor(this.readShOrConstraint(constraint));
 		
 		return p;
 	}
 	
 	
-	public PlantUmlBox readShOrConstraint (Resource constraint) {
+	public List<PlantUmlBox> readShOrConstraint (Resource constraint) {
 		// 1. Lire la valeur de sh:or
 		String OrValue = constraintValueReader.readValueconstraint(constraint, SH.or);
 		// 2. Trouver le PlantUmlBox qui a ce nom
-		PlantUmlBox theBox = null;
-		if (OrValue != null) {					
+		List<PlantUmlBox> theBox = new ArrayList<>();
+		if (OrValue != null) {	
 			for(String sValueOr : OrValue.split(",")) {				
 				for (PlantUmlBox plantUmlBox : allBoxes) {
 					if(plantUmlBox.getLabel().equals(sValueOr)) {
-						theBox = plantUmlBox;
+						theBox.add(plantUmlBox);
 						break;
 					}
 				}				
 			}			
-		}	
+		}
 		return theBox;
 	}
-	
-	
-	public String readShOr(Resource constraint) {		
-		
-		// 1. Lire la valeur de sh:or
-		String OrValue = constraintValueReader.readValueconstraint(constraint, SH.or);
-		/*
-		if(constraint.hasProperty(SH.or)) {
-			Resource list = constraint.getProperty(SH.or).getList().asResource();		
-		    RDFList rdfList = list.as(RDFList.class);
-		    ExtendedIterator<RDFNode> items = rdfList.iterator();
-		    value = "";
-		    while ( items.hasNext() ) {
-		    	RDFNode item = items.next();
-		    	StmtIterator sli = item.asResource().listProperties();
-		    	String sOrValueBox = "";
-		    	while(sli.hasNext()) {
-		    		Statement stmt = sli.nextStatement();
-		    		//Resource subject = stmt.getSubject();
-		    		Property predicate = stmt.getPredicate();
-		    		if(predicate.equals(SH.node)) {
-		    			RDFNode object = stmt.getObject();
-			    		if (object instanceof Resource) {
-			    			value += object.asResource().getLocalName();
-			    			sOrValueBox = object.asResource().getLocalName();
-			    		}
-		    		}		
-		    	}		    	
-		    }
-		    
-		    //value.substring(0,(value.length()-1));
-		}	*/	
-		return OrValue;
-	}		
-	
 	
 	public String readShPath(Resource constraint) {		
 		return constraintValueReader.readValueconstraint(constraint,SH.path);

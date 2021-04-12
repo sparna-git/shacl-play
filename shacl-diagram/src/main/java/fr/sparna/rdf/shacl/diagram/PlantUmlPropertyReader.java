@@ -1,8 +1,10 @@
 package fr.sparna.rdf.shacl.diagram;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.RDFList;
@@ -48,12 +50,36 @@ public class PlantUmlPropertyReader {
 		p.setValue_qualifiedvalueshape(this.readShQualifiedValueShape(constraint));
 		p.setValue_qualifiedMaxMinCount(this.readShQualifiedMinCountQualifiedMaxCount(constraint));
 		p.setValue_or(this.readShOr(constraint));
+		p.setValue_shor(this.readShOrConstraint(constraint));
 		
 		return p;
 	}
 	
+	
+	public PlantUmlBox readShOrConstraint (Resource constraint) {
+		// 1. Lire la valeur de sh:or
+		String OrValue = constraintValueReader.readValueconstraint(constraint, SH.or);
+		// 2. Trouver le PlantUmlBox qui a ce nom
+		PlantUmlBox theBox = null;
+		if (OrValue != null) {					
+			for(String sValueOr : OrValue.split(",")) {				
+				for (PlantUmlBox plantUmlBox : allBoxes) {
+					if(plantUmlBox.getLabel().equals(sValueOr)) {
+						theBox = plantUmlBox;
+						break;
+					}
+				}				
+			}			
+		}	
+		return theBox;
+	}
+	
+	
 	public String readShOr(Resource constraint) {		
-		String value =null;
+		
+		// 1. Lire la valeur de sh:or
+		String OrValue = constraintValueReader.readValueconstraint(constraint, SH.or);
+		/*
 		if(constraint.hasProperty(SH.or)) {
 			Resource list = constraint.getProperty(SH.or).getList().asResource();		
 		    RDFList rdfList = list.as(RDFList.class);
@@ -62,6 +88,7 @@ public class PlantUmlPropertyReader {
 		    while ( items.hasNext() ) {
 		    	RDFNode item = items.next();
 		    	StmtIterator sli = item.asResource().listProperties();
+		    	String sOrValueBox = "";
 		    	while(sli.hasNext()) {
 		    		Statement stmt = sli.nextStatement();
 		    		//Resource subject = stmt.getSubject();
@@ -69,14 +96,16 @@ public class PlantUmlPropertyReader {
 		    		if(predicate.equals(SH.node)) {
 		    			RDFNode object = stmt.getObject();
 			    		if (object instanceof Resource) {
-			    			value += object.asResource().getLocalName()+" ,"; //.getModel().shortForm(object.toString()).toString()
+			    			value += object.asResource().getLocalName();
+			    			sOrValueBox = object.asResource().getLocalName();
 			    		}
-		    		}		    		    		
+		    		}		
 		    	}		    	
 		    }
+		    
 		    //value.substring(0,(value.length()-1));
-		}
-		return value;
+		}	*/	
+		return OrValue;
 	}		
 	
 	

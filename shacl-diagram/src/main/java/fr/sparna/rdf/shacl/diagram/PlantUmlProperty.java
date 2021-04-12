@@ -22,13 +22,20 @@ public class PlantUmlProperty {
 	protected PlantUmlBox value_qualifiedvalueshape;
 	protected String value_qualifiedMaxMinCount;
 	protected String value_or;
+	protected PlantUmlBox value_shor;
 	
 	public PlantUmlProperty(Resource propertyShape) {
 		super();
 		this.propertyShape = propertyShape;
 	}
+
+	public PlantUmlBox getValue_shor() {
+		return value_shor;
+	}
 	
-	
+	public void setValue_shor(PlantUmlBox value_shor) {
+		this.value_shor = value_shor;
+	}
 
 	public String getValue_or() {
 		return value_or;

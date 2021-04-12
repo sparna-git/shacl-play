@@ -70,30 +70,19 @@ public class PlantUmlRenderer {
 	}
 	
 	// value =  uml_shape+" --> "+"\""+uml_or;
-	public String renderAsOr(PlantUmlProperty property, String boxName) {
-		String sValueOr = property.getValue_or().substring(0, (property.getValue_or().length()-1));
-		String[] value_Or = sValueOr.split(",");
-		String output="<> diamond";	
+	
+	public String renderAsOr(PlantUmlProperty property, String boxName) {		
+		
+		String sNameDiamond = "diamond_"+boxName;
+		String output= "<> "+sNameDiamond;  //"<> diamond";			
 		output += "\n";
-		output += boxName+" . diamond";		
-		for(String valueOr : value_Or) {
+		output += boxName+" - "+"\""+property.getValue_cardinality()+"\" "+sNameDiamond;		
+		for(String valueOr : property.value_or.split(",")) {
 			output+="\n";			
-			output += "diamond --> "+"\""+"to"+property.getValue_cardinality()+"\""+' '+valueOr;
-			
-			/*
-			if(property.getValue_cardinality() != null) {
-				output += " "+property.getValue_cardinality()+" ";
-			}
-			if(property.getValue_pattern() != null && this.displayPatterns) {
-				output += "("+property.getValue_pattern()+")"+" ";
-			}
-			if(property.getValue_nodeKind() != null && !property.getValue_nodeKind().equals("IRI")) {
-				output += property.getValue_nodeKind()+" ";
-			}
-			*/
-			//
+			output += sNameDiamond + ". "+valueOr;
 		}	
 		output += "\n";
+		
 		return output;
 	}
 	
@@ -136,7 +125,8 @@ public class PlantUmlRenderer {
 		}
 		
 		return declaration;
-	}
+	}	
+	
 
 	public boolean isGenerateAnchorHyperlink() {
 		return generateAnchorHyperlink;

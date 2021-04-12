@@ -1,7 +1,5 @@
 package fr.sparna.rdf.shacl.diagram;
 
-import java.util.Iterator;
-
 public class PlantUmlRenderer {
 
 	protected boolean generateAnchorHyperlink = false;
@@ -40,6 +38,36 @@ public class PlantUmlRenderer {
 		return output;
 	}
 	
+	// value =  uml_shape+" --> "+"\""+uml_or;	
+	public String renderAsOr(PlantUmlProperty property, String boxName) {
+		// use property local name to garantee unicity of diamond
+		String sNameDiamond = "diamond_"+property.getPropertyShape().getLocalName();
+		// diamond declaration
+		String output = "<> "+ sNameDiamond +"\n";
+
+		// link between box and diamond
+		output += boxName+" --> \""+sNameDiamond+"\" : "+property.getValue_path();
+		
+		// added information on link
+		if(property.getValue_cardinality() != null) {
+			output += " "+property.getValue_cardinality()+" ";
+		}
+		if(property.getValue_pattern() != null && this.displayPatterns) {
+			output += "("+property.getValue_pattern()+")"+" ";
+		}
+		if(property.getValue_nodeKind() != null && !property.getValue_nodeKind().equals("IRI")) {
+			output += property.getValue_nodeKind()+" ";
+		}
+		output +="\n";
+		
+		// now link diamond to each value in the sh:or
+		for(PlantUmlBox sDataOr : property.getValue_shor()) {
+			output += sNameDiamond + " .. "+sDataOr.getNodeShape().getLocalName()+"\n";
+		}
+
+		return output;				
+	}
+	
 	// value = uml_shape+ " --> " +"\""+uml_qualifiedvalueshape+"\""+" : "+uml_path+uml_datatype+" "+uml_qualifiedMinMaxCount+"\n";
 	public String renderAsQualifiedShapeReference(PlantUmlProperty property, String boxName) {
 		String output = boxName+" --> \""+property.getValue_qualifiedvalueshape().getLabel()+"\" : "+property.getValue_path();
@@ -70,21 +98,6 @@ public class PlantUmlRenderer {
 		
 		return output;
 	}
-	
-	// value =  uml_shape+" --> "+"\""+uml_or;	
-	public String renderAsOr(PlantUmlProperty property, String boxName) {		
-		String sNameDiamond = "diamond_"+boxName;
-		String output_code= "<> "+sNameDiamond;			
-		output_code += "\n";
-		output_code += boxName+" - "+"\""+property.getValue_cardinality()+"\" "+sNameDiamond;			
-		for(PlantUmlBox sDataOr : property.getValue_shor()) {
-			output_code +="\n";
-			output_code += sNameDiamond + ". "+sDataOr.getNodeShape().getLocalName();
-		}
-		output_code += "\n";	
-		return output_code;				
-	}
-	
 	
 	public String renderDefault(PlantUmlProperty property, String boxName) {
 		String output = boxName+" : "+property.getValue_path()+" ";

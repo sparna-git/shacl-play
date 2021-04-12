@@ -1,5 +1,7 @@
 package fr.sparna.rdf.shacl.diagram;
 
+import java.util.List;
+
 import org.apache.jena.rdf.model.Resource;
 
 public class PlantUmlProperty {

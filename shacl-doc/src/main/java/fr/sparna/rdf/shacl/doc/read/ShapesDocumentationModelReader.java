@@ -16,6 +16,7 @@ import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.RDFS;
 import org.topbraid.shacl.vocabulary.SH;
 
+import fr.sparna.rdf.shacl.diagram.PlantUmlBox;
 import fr.sparna.rdf.shacl.doc.ConstraintValueReader;
 import fr.sparna.rdf.shacl.doc.PlantUmlSourceGenerator;
 import fr.sparna.rdf.shacl.doc.SVGGenerator;
@@ -219,7 +220,7 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 				
 				proprieteDoc.setExpectedValueLabel(propriete.getClass_node(), propriete.getNode(),
 						propriete.getClass_property(), propriete.getDatatype(), propriete.getNodeKind(),
-						propriete.getPath(), propriete.getShOr(),Shaclvalue,proprieteDoc);
+						propriete.getPath());
 				
 				if(propriete.getClass_node() != null) {
 					for(ShaclBox getNodeShape : Shaclvalue) {
@@ -241,7 +242,7 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 				proprieteDoc.setExpectedValueAdditionnalInfoValue(propriete.getShValue());
 				proprieteDoc.setCardinalite(propriete.getCardinality());
 				proprieteDoc.setDescription(propriete.getDescription());				
-				proprieteDoc.setOr(propriete.getShOr(),Shaclvalue);
+				proprieteDoc.setOr(propriete.getShOr());
 				ListPropriete.add(proprieteDoc);
 			}
 			

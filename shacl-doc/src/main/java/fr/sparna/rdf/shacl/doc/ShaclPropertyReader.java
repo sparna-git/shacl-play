@@ -1,5 +1,6 @@
 package fr.sparna.rdf.shacl.doc;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -23,6 +24,8 @@ import org.topbraid.jenax.util.JenaDatatypes;
 import org.topbraid.jenax.util.JenaUtil;
 import org.topbraid.shacl.arq.functions.HasShapeFunction;
 import org.topbraid.shacl.vocabulary.SH;
+
+import fr.sparna.rdf.shacl.diagram.PlantUmlBox;
 
 public class ShaclPropertyReader {
 
@@ -63,31 +66,8 @@ public class ShaclPropertyReader {
 
 	
 	public String readShOr(Resource constraint) {
-		// 1. Lire la valeur de sh:node
-		String orValue = constraintValueReader.readValueconstraint(constraint, SH.or,null);
+		String orValue = constraintValueReader.readValueconstraint(constraint, SH.or,null);		
 		return orValue;
-		/*
-		if(constraint.hasProperty(SH.or)) {
-			Resource list = constraint.getProperty(SH.or).getList().asResource();		
-		    RDFList rdfList = list.as(RDFList.class);
-		    ExtendedIterator<RDFNode> items = rdfList.iterator();
-		    value = "";
-		    while(items.hasNext()) {
-		    	RDFNode item = items.next();
-		    	StmtIterator sli = item.asResource().listProperties();
-		    	while(sli.hasNext()) {
-		    		Statement stmt = sli.nextStatement();
-		    		if(stmt.getPredicate().equals(SH.node)) {
-		    			RDFNode object = stmt.getObject();
-			    		if(object instanceof Resource) {
-			    			value += object.asResource().getLocalName()+",";
-			    			
-			    		}
-		    		}		    				    		
-		    	}
-		    }			
-		}		
-		return value;*/
 	}
 	
 	

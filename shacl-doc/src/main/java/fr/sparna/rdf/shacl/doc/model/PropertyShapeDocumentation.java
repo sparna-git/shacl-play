@@ -1,52 +1,52 @@
 package fr.sparna.rdf.shacl.doc.model;
 
-
-
 import java.util.ArrayList;
+import java.util.List;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
+import fr.sparna.rdf.shacl.diagram.PlantUmlBox;
+import fr.sparna.rdf.shacl.diagram.PlantUmlProperty;
 import fr.sparna.rdf.shacl.doc.ShaclBox;
 import fr.sparna.rdf.shacl.doc.ShaclProperty;
 
 public class PropertyShapeDocumentation {
-    
+
 	private String label;
 	private String shortForm;
 	private String shortFormUri;
 	private String expectedValueLabel;
-	
+
 	private String expectedValueAdditionnalInfoPattern;
 	private String expectedValueAdditionnalInfoIn;
 	private String expectedValueAdditionnalInfoValue;
-	
+
 	private String cardinalite;
 	private String description;
 	private String Or;
-		
+
 	private String linknameNodeShape;
 	private String linknameNodeShapeuri;
 	private String linkNodeShape;
 	private String linkNodeShapeUri;
-	
-	
-	
-	
+
 	public String getOr() {
 		return Or;
 	}
 
-	public void setOr(String or,ArrayList<ShaclBox> shacValue) {
-		if(or != null ) {
-			this.Or = or;
-		}				
+	public void setOr(String shOr) {
+		String value = null;
+		if(shOr != null) {
+			value = shOr;
+		}
+		this.Or = value;
 	}
 
 	public String getLabel() {
 		return label;
 	}
 
-	public void setLabel(String output_propriete,String shLabel) {
+	public void setLabel(String output_propriete, String shLabel) {
 		String Value = null;
 		if (output_propriete != null) {
 			Value = output_propriete.split("@")[0];
@@ -55,7 +55,7 @@ public class PropertyShapeDocumentation {
 		}
 		this.label = Value;
 	}
-	
+
 	public String getShortForm() {
 		return shortForm;
 	}
@@ -71,16 +71,15 @@ public class PropertyShapeDocumentation {
 	public void setShortFormUri(String shortFormUri) {
 		this.shortFormUri = shortFormUri;
 	}
-	
-	
+
 	public String getExpectedValueLabel() {
 		return expectedValueLabel;
 	}
 
-	public void setExpectedValueLabel(String Valeu_class,  String Value_node,
-			String Value_Target, String Value_datatype, String Value_nodeKind, String URI, String Value_Or,ArrayList<ShaclBox> shacValue,PropertyShapeDocumentation proprieteDoc) {
+	public void setExpectedValueLabel(String Valeu_class, String Value_node, String Value_Target, String Value_datatype,
+			String Value_nodeKind, String URI) {
 		String value = null;
-		
+
 		// Classe
 
 		if (Valeu_class != null) { //
@@ -88,7 +87,7 @@ public class PropertyShapeDocumentation {
 		} else if (Value_Target != null) { // La valeur d'un Node vers une NodeShape qui a sh:targetClass
 			value = Value_Target;
 		} else if (Value_node != null) {
-			value = Value_node ;
+			value = Value_node;
 		} // Datatype : sh:datatype
 		else if (Value_datatype != null) {
 			value = Value_datatype;
@@ -97,12 +96,12 @@ public class PropertyShapeDocumentation {
 		} // Type de noeud seulement : sh:nodeKind
 		else if (Value_nodeKind != null && Value_node == null) {
 			if (Value_nodeKind.equals("sh:IRI")) {
-					String[] ssplit = Value_nodeKind.split(":");
-					value = ssplit[ssplit.length-1];	
-				}else {
+				String[] ssplit = Value_nodeKind.split(":");
+				value = ssplit[ssplit.length - 1];
+			} else {
 				value = Value_nodeKind;
 			}
-			//value = Value_nodeKind;
+			// value = Value_nodeKind;
 		} else if (Value_nodeKind != null && Value_node != null) {
 			value = Value_node;
 		}
@@ -113,11 +112,11 @@ public class PropertyShapeDocumentation {
 		return expectedValueAdditionnalInfoPattern;
 	}
 
-	public void setExpectedValueAdditionnalInfoPattern(String Value_pattern_propriete,String PatternNodeShape, String PatternoNodeShape,
-			String Valeu_class,  String Value_node,
-			String Value_Target, String Value_datatype, String Value_nodeKind, String URI) {
+	public void setExpectedValueAdditionnalInfoPattern(String Value_pattern_propriete, String PatternNodeShape,
+			String PatternoNodeShape, String Valeu_class, String Value_node, String Value_Target, String Value_datatype,
+			String Value_nodeKind, String URI) {
 		String value = null;
-		
+
 		// Classe
 
 		if (Valeu_class != null) { //
@@ -125,9 +124,8 @@ public class PropertyShapeDocumentation {
 		} else if (Value_Target != null) { // La valeur d'un Node vers une NodeShape qui a sh:targetClass
 			value = PatternoNodeShape;
 		} else if (Value_node != null) {
-			//value = PatternoNodeShape;
-		} 
-		else if (Value_datatype != null) {
+			// value = PatternoNodeShape;
+		} else if (Value_datatype != null) {
 			value = Value_pattern_propriete;
 		} else if (Value_datatype != null && Value_node != null) {
 			value = PatternoNodeShape;
@@ -136,10 +134,10 @@ public class PropertyShapeDocumentation {
 			value = Value_pattern_propriete;
 		} else if (Value_nodeKind != null && Value_node != null) {
 			value = PatternoNodeShape;
-		}	   
+		}
 		this.expectedValueAdditionnalInfoPattern = expectedValueAdditionnalInfoPattern;
-		//this.expectedValueAdditionnalInfoPattern = value;
-		
+		// this.expectedValueAdditionnalInfoPattern = value;
+
 	}
 
 	public String getExpectedValueAdditionnalInfoIn() {
@@ -164,9 +162,9 @@ public class PropertyShapeDocumentation {
 
 	public void setCardinalite(String cardinalite) {
 		String value = null;
-		if(cardinalite == null || cardinalite == "") {
+		if (cardinalite == null || cardinalite == "") {
 			value = "0..*";
-		}else {
+		} else {
 			value = cardinalite;
 		}
 		this.cardinalite = value;
@@ -180,8 +178,6 @@ public class PropertyShapeDocumentation {
 		this.description = description;
 	}
 
-
-	
 	public String getLinkNodeShape() {
 		return linkNodeShape;
 	}
@@ -213,5 +209,5 @@ public class PropertyShapeDocumentation {
 	public void setLinknameNodeShapeuri(String linknameNodeShapeuri) {
 		this.linknameNodeShapeuri = linknameNodeShapeuri;
 	}
-		
+
 }

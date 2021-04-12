@@ -23,6 +23,8 @@ import org.topbraid.jenax.util.JenaUtil;
 import org.topbraid.shacl.arq.functions.HasShapeFunction;
 import org.topbraid.shacl.vocabulary.SH;
 
+import fr.sparna.rdf.shacl.diagram.PlantUmlBox;
+
 public class ShaclProperty {
 
 	private Resource resource;
@@ -41,8 +43,6 @@ public class ShaclProperty {
 	protected Integer shOrder;
 	protected String shValue;
 	protected String shOr;
-	
-	
 	
 	
 	

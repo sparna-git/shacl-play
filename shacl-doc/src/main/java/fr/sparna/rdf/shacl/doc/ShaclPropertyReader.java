@@ -118,7 +118,7 @@ public class ShaclPropertyReader {
 	public String readDescription(Resource constraint) {
 		String value = null;
 		if(constraint.hasProperty(SH.description)) {
-			value = constraintValueReader.readValueconstraint(constraint, SH.description, this.lang);
+			value = constraintValueReader.readValueconstraint(constraint, SH.description, this.lang);			
 		}
 		return value;		
 	}

@@ -20,7 +20,8 @@ public class PlantUmlBox {
 	}
 	
 	public String getLabel() {
-		return (nodeShape.isURIResource())?nodeShape.getLocalName():nodeShape.toString();
+		// strip out hyphens
+		return (nodeShape.isURIResource())?nodeShape.getLocalName().replaceAll("-", ""):nodeShape.toString();
 	}	
 	
 	public List<PlantUmlProperty> getProperties() {	

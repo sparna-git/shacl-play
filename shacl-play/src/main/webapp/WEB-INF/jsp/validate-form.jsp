@@ -289,19 +289,32 @@
 					  
 					  <h2><i class="fal fa-tools"></i>&nbsp;&nbsp;<fmt:message key="validate.options.title" /></h2>
 				      <blockquote class="blockquote bq-warning">
-				      <div class="form-group row">
-				      	<div class="col-sm-12">
-					      	<div class="form-check">
-							  <input class="form-check-input" type="checkbox" id="closeShapes" name="closeShapes" />
-							  <label class="form-check-label" for="closeShapes">
-							    <fmt:message key="validate.options.closeShapes" />
-							  </label>
-							  <small class="form-text text-muted">
-								<fmt:message key="validate.options.closeShapes.help" />
-							  </small>
+					      <div class="form-group row">
+					      	<div class="col-sm-12">
+						      	<div class="form-check">
+								  <input class="form-check-input" type="checkbox" id="closeShapes" name="closeShapes" />
+								  <label class="form-check-label" for="closeShapes">
+								    <fmt:message key="validate.options.closeShapes" />
+								  </label>
+								  <small class="form-text text-muted">
+									<fmt:message key="validate.options.closeShapes.help" />
+								  </small>
+								</div>
 							</div>
-						</div>
-					  </div>
+						  </div>
+						  <div class="form-group row">
+					      	<div class="col-sm-12">
+						      	<div class="form-check">
+								  <input class="form-check-input" type="checkbox" id="createDetails" name="createDetails" />
+								  <label class="form-check-label" for="createDetails">
+								    <fmt:message key="validate.options.createDetails" />
+								  </label>
+								  <small class="form-text text-muted">
+									<fmt:message key="validate.options.createDetails.help" />
+								  </small>
+								</div>
+							</div>
+						  </div>
 					  </blockquote>
 					  
 				    <button type="submit" id="validate-button" class="btn btn-info btn-lg"><fmt:message key="validate.validate" /></button>			  	

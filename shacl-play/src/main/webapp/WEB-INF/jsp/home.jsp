@@ -40,10 +40,30 @@
 					    <div class="card-body">
 					      <h5 class="card-title">Validate RDF data using SHACL</h5>
 					      <p class="card-text">Get a human-readable report from a SHACL validation. Upload your RDF or validate online RDF file at some URL. Also download a CSV report, or raw SHACL Turtle report.</p>
-					      <a href="<c:url value="/validate" />" class="btn btn-primary">Start validating</a>
+					      <a href="<c:url value="/validate" />" class="btn btn-primary">Validate</a>
 					    </div>
 					  </div>				  
 				  	</div>
+				  	<div class="col-4" style="margin-bottom: 2em;">
+					  <div class="card">
+					    <a href="<c:url value="/draw" />"><img src="<c:url value="/resources/img/home-uml.png" />" class="card-img-top" alt="SHACL Play UML diagram"></a>
+					    <div class="card-body">
+					      <h5 class="card-title">Draw UML diagrams from Shapes</h5>
+					      <p class="card-text">Looking for something more visual ? Generate UML diagrams in SVG from your SHACL file ! Works with <a href="https://plantuml.com/">PlantUML</a></p>
+					      <a href="<c:url value="/draw" />" class="btn btn-primary">Draw</a>
+					    </div>
+					  </div>
+					</div>
+					<div class="col-4" style="margin-bottom: 2em;">
+					  <div class="card">
+					    <a href="<c:url value="/doc" />"><img src="<c:url value="/resources/img/home-doc.png" />" class="card-img-top" alt="SHACL Play documentation generator"></a>
+					    <div class="card-body">
+					      <h5 class="card-title">Generate documentation</h5>
+					      <p class="card-text">Generate application-profile style documentation, with tables of allowed properties for each class, from your SHACL definition. Ready to be shipped to the developers !</p>
+					      <a href="<c:url value="/doc" />" class="btn btn-primary">Generate doc</a>
+					    </div>
+					  </div>
+					</div>
 				  	<div class="col-4" style="margin-bottom: 2em;">  
 					  <div class="card">
 					    <a href="<c:url value="/validate" />"><img src="<c:url value="/resources/img/home-badges.png" />" class="card-img-top" alt="SHACL Play badges" /></a>
@@ -53,24 +73,14 @@
 						  <a href="<c:url value="/validate" />" class="btn btn-primary">Start validating</a>
 					    </div>
 					  </div>				  
-				  	</div>
-				  	<div class="col-4" style="margin-bottom: 2em;">
-					  <div class="card">
-					    <a href="<c:url value="/draw" />"><img src="<c:url value="/resources/img/home-uml.png" />" class="card-img-top" alt="SHACL Play report"></a>
-					    <div class="card-body">
-					      <h5 class="card-title">Draw UML diagrams from Shapes</h5>
-					      <p class="card-text">Looking for something more visual ? Generate UML diagrams in SVG from your SHACL file ! Works with <a href="https://plantuml.com/">PlantUML</a></p>
-					      <a href="<c:url value="/draw" />" class="btn btn-primary">Start drawing</a>
-					    </div>
-					  </div>
-					</div>
+				  	</div>					
 				  	<div class="col-4" style="margin-bottom: 2em;">
 					  <div class="card">
 					    <a href="<c:url value="/shapes-catalog" />"><img src="<c:url value="/resources/img/home-catalog.png" />" class="card-img-top" alt="Shapes catalog" /></a>
 					    <div class="card-body">
 					      <h5 class="card-title">Register SHACL rules in SHACL catalog</h5>
 					      <p class="card-text">The SHACL catalog is a curated set of online reusable SHACL files. Add yours !</p>
-					      <a href="<c:url value="/shapes-catalog" />" class="btn btn-primary">View Shapes Catalog</a>
+					      <a href="<c:url value="/shapes-catalog" />" class="btn btn-primary">Browse Shapes Catalog</a>
 					    </div>
 					  </div>
 				  	</div>
@@ -88,7 +98,7 @@
 					    <div class="card-body">
 					      <h5 class="card-title">Apply generic SHACL Rules</h5>
 					      <p class="card-text">Want more than OWL-2-SHACL rules ? apply custom <a href="https://www.w3.org/TR/shacl-af/#rules">SHACL Rules</a> on your data to derive new data.</p>
-						  <a href="<c:url value="/convert" />" class="btn btn-primary">Convert RDF using SHACL Rules</a>
+						  <a href="<c:url value="/convert" />" class="btn btn-primary">Convert RDF using Rules</a>
 					    </div>
 					  </div>
 					</div>

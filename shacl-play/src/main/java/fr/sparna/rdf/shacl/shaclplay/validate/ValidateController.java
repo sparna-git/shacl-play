@@ -151,6 +151,8 @@ public class ValidateController {
 					// asynchronous flag
 					false,
 					closeShapes,
+					// createDetails
+					false,
 					request
 			);		
 			
@@ -224,6 +226,8 @@ public class ValidateController {
 					// asynchronous flag
 					false,
 					closeShapes,
+					// createDetails
+					false,
 					request
 			);		
 			
@@ -332,11 +336,13 @@ public class ValidateController {
 			@RequestParam(value="inputShapeInline", required=false) String shapesText,
 			// closeShapes option
 			@RequestParam(value="closeShapes", required=false) boolean closeShapes,
+			// createDetails option
+			@RequestParam(value="createDetails", required=false) boolean createDetails,
 			HttpServletRequest request
 	) {
 		try {
 			log.debug("validate(source='"+sourceString+"', shapeSourceString='"+shapesSourceString+"')");
-			log.debug("closeSapes ? "+closeShapes);
+			log.debug("closeSapes ? "+closeShapes+" / createDetails ? "+createDetails);
 			
 			// get the source type
 			ControllerModelFactory.SOURCE_TYPE source = ControllerModelFactory.SOURCE_TYPE.valueOf(sourceString.toUpperCase());		
@@ -387,7 +393,7 @@ public class ValidateController {
 			
 			// trigger validation
 			if(dataModel.size() < applicationData.getLargeInputThreshold()) {
-				Model results = doValidate(shapesModel, dataModel, false, closeShapes, request);		
+				Model results = doValidate(shapesModel, dataModel, false, closeShapes, createDetails, request);		
 				
 				// stores results in the session to access them further when downloading, etc.
 				SessionData sd = new SessionData();
@@ -407,7 +413,7 @@ public class ValidateController {
 	
 				return new ModelAndView("validation-report", ShapesDisplayData.KEY, sdd);
 			} else {
-				doValidate(shapesModel, dataModel, true, closeShapes, request);
+				doValidate(shapesModel, dataModel, true, closeShapes, createDetails, request);
 				return new ModelAndView("wait");
 			}
 			
@@ -422,6 +428,7 @@ public class ValidateController {
 			Model dataModel,
 			boolean async,
 			boolean autoCloseShapes,
+			boolean createDetails,
 			HttpServletRequest request
 	) throws Exception {
 		
@@ -447,6 +454,7 @@ public class ValidateController {
 			);
 			validator.setProgressMonitor(new StringBufferProgressMonitor("SHACL validator"));
 			validator.setValidateShapesTargets(true);
+			validator.setCreateDetails(createDetails);
 			
 			Model results = validator.validate(dataModel);
 			// results.write(new LogWriter(log), "Turtle");
@@ -462,6 +470,7 @@ public class ValidateController {
 			);
 			validator.setProgressMonitor(new StringBufferProgressMonitor("SHACL validator"));
 			validator.setValidateShapesTargets(true);
+			validator.setCreateDetails(createDetails);
 			
 			Thread thread = new Thread(validator);
 			thread.start();

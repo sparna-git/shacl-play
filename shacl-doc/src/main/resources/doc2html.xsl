@@ -142,6 +142,7 @@
 						<br />
 					</xsl:if>
 					<br />
+					
 
 					<div>
 						<!-- Table de matieres -->
@@ -186,10 +187,10 @@
 					<xsl:value-of
 						select="$LABELS/labels/entry[@key='DIAGRAM.TITLE']/@label" />
 				</h2>
-				<div style="text-align:center;">
+				<div>
 					<!-- @disable-output-escaping prints the raw XML string as XML in the 
-						document and removes XML-encoding of the characters -->
-					<xsl:value-of select="." disable-output-escaping="yes" />
+						document and removes XML-encoding of the characters -->					
+					<xsl:value-of select="." disable-output-escaping="yes" />						 
 				</div>
 				<small class="form-text text-muted">
 					<xsl:value-of

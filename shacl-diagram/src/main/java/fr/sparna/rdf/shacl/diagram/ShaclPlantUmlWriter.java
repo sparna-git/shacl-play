@@ -1,6 +1,8 @@
 package fr.sparna.rdf.shacl.diagram;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -41,7 +43,22 @@ public class ShaclPlantUmlWriter {
 		
 		// 1. Lire toutes les box
 		PlantUmlBoxReader nodeShapeReader = new PlantUmlBoxReader();		
-		List<PlantUmlBox> plantUmlBoxes = nodeShapes.stream().map(res -> nodeShapeReader.read(res)).collect(Collectors.toList());
+		
+		List<PlantUmlBox> plantUmlBoxes = nodeShapes.stream().map(res -> nodeShapeReader.read(res)).sorted((b1,b2) -> {
+			if (b1.getNametargetclass() != null) {
+				if(b2.getNametargetclass() != null) {
+					return b2.getNametargetclass().compareTo(b1.getNametargetclass());
+				} else {
+					return -1;
+				}				
+			} else {
+				if(b2.getNametargetclass() != null) {
+					return 1;
+				} else {
+					return b1.getLabel().compareTo(b2.getLabel());
+				}
+			}
+		}).collect(Collectors.toList());
 		
 		// 2. Une fois qu'on a toute la liste, lire les proprietes
 		for (PlantUmlBox aBox : plantUmlBoxes) {
@@ -71,12 +88,10 @@ public class ShaclPlantUmlWriter {
 			if(!aPackage.equals("")) {
 				sourceuml.append("namespace "+aPackage+" "+"{\n");
 			}
-		
+			
 			for (PlantUmlBox plantUmlBox : plantUmlBoxes.stream().filter(b -> b.getPackageName().equals(aPackage)).collect(Collectors.toList())) {
-				sourceuml.append(renderer.renderNodeShape(plantUmlBox));
+				sourceuml.append(renderer.renderNodeShape(plantUmlBox,plantUmlBoxes));
 			}
-			
-			
 			
 			if(!aPackage.equals("")) {
 				sourceuml.append("}\n");

@@ -23,8 +23,18 @@ public class PlantUmlProperty {
 	protected String value_hasValue;
 	protected PlantUmlBox value_qualifiedvalueshape;
 	protected String value_qualifiedMaxMinCount;
+	protected List<String> value_inverseOf;
 	protected List<PlantUmlBox> value_shor;
 	
+	
+	public List<String> getValue_inverseOf() {
+		return value_inverseOf;
+	}
+
+	public void setValue_inverseOf(List<String> value_inverseOf) {
+		this.value_inverseOf = value_inverseOf;
+	}
+
 	public PlantUmlProperty(Resource propertyShape) {
 		super();
 		this.propertyShape = propertyShape;

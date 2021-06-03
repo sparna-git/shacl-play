@@ -3,6 +3,7 @@ package fr.sparna.rdf.shacl.diagram;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.jena.rdf.model.Model;
 import org.apache.jena.sparql.function.library.substr;
 import org.apache.jena.sparql.function.library.substring;
 
@@ -10,12 +11,11 @@ public class PlantUmlRenderer {
 
 	protected boolean generateAnchorHyperlink = false;
 	protected boolean displayPatterns = false;
-	protected boolean OptionExpandProperty = true;
 	List<String> inverseList = new ArrayList<String>();
 
-	public String render(PlantUmlProperty property, String boxName, Boolean boxCtrlNode) {
+	public String render(PlantUmlProperty property, String boxName, Boolean ctrlExpDiagramm) {
 		if (property.getValue_node() != null) {
-			return renderAsNodeReference(property, boxName, boxCtrlNode);
+			return renderAsNodeReference(property, boxName, ctrlExpDiagramm);
 		} else if (property.getValue_class_property() != null) {
 			return renderAsClassReference(property, boxName);
 		} else if (property.getValue_qualifiedvalueshape() != null) {
@@ -29,55 +29,107 @@ public class PlantUmlRenderer {
 
 	// uml_shape+ " --> " +"\""+uml_node+"\""+" : "+uml_path+uml_datatype+"
 	// "+uml_literal+" "+uml_pattern+" "+uml_nodekind(uml_nodekind)+"\n";
-	public String renderAsNodeReference(PlantUmlProperty property, String boxName, Boolean attDiagramm) {
+	public String renderAsNodeReference(PlantUmlProperty property, String boxName, Boolean ctrlExpDiagramm) {
 
 		// find in property if has attribut
 		String output = null;
 		String ctrlnodeOrigen = null;
 		String ctrlnodeDest = null;
 
-		if (attDiagramm) {
-			if (property.getValue_node().getLabel().equals("Language")) {
-				output = boxName + " : +" + property.getValue_path() + " : " + property.getValue_node().getLabel();
-			} else {
-				output = boxName + " : +" + property.getValue_node().getLabel() + " : " + property.getValue_path();
-			}
-		} else {
-
+		if (ctrlExpDiagramm) {
+				output = boxName + " : +" + property.getValue_path() + " : " + property.getValue_node().getLabel();	
+				
+				if (property.getValue_cardinality() != null) {
+					output += " " + property.getValue_cardinality() + " ";
+				}
+				if (property.getValue_pattern() != null && this.displayPatterns) {
+					output += "(" + property.getValue_pattern() + ")" + " ";
+				}
+				if (property.getValue_nodeKind() != null && !property.getValue_nodeKind().equals("IRI")) {
+					output += property.getValue_nodeKind() + " ";
+				}
+				
+		} else if(property.getValue_node().getProperties().size() > 0) {
 			boolean bInverseOf = false;
 			// find the relation when it's the inverse Of property
+			int inverseOf = property.getValue_inverseOf().size();
 			String inverse_label = "";
-			if (property.getValue_node().getProperties().size() > 0) {
+			
 				ctrlnodeOrigen = property.getValue_node().getLabel();
 				for (PlantUmlProperty inverseOfProperty : property.getValue_node().getProperties()) {
 					if (inverseOfProperty.getValue_node() != null) {
 						if (inverseOfProperty.getValue_node().getNodeShape().getLocalName().equals(boxName)) {
+							
 							bInverseOf = true;
 							ctrlnodeDest = inverseOfProperty.getValue_node().getNodeShape().getLocalName();
-							inverse_label += inverseOfProperty.getValue_path() + " / ";
-
+							inverse_label += inverseOfProperty.getValue_path();
+							
+							
+							//Read 
+							if (property.getValue_cardinality() != null) {
+								inverse_label += " " + property.getValue_cardinality() + " ";
+							}
+							if (property.getValue_pattern() != null && this.displayPatterns) {
+								inverse_label += "(" + property.getValue_pattern() + ")" + " ";
+							}
+							if (property.getValue_nodeKind() != null && !property.getValue_nodeKind().equals("IRI")) {
+								inverse_label += property.getValue_nodeKind() + " ";
+							}
+							
+							inverse_label += " / ";
 						}
 					}
 				}
-			}
-
-			if (bInverseOf) {
-				inverse_label = inverse_label.substring(0, inverse_label.length() - 3);
-				output = boxName + " <--> \"" + property.getValue_node().getLabel() + "\" : " + property.getValue_path()
-						+ " / " + inverse_label;
+				if(inverse_label.length() > 0) {
+					inverse_label = inverse_label.substring(0, inverse_label.length() - 3);
+				}
+			
+			
+			if(inverse_label.length() > 0) {
+				String[] nfois = inverse_label.split(" / ");
+				Integer ncount = 0;
+				for(String nRep : nfois) {
+					ncount +=1;
+				}
+				
+				if(ncount > 1 ) {
+					output = boxName + " <--> \"" + property.getValue_node().getLabel() + "\" : " + inverse_label;
+				} else {
+					output = boxName + " <--> \"" + property.getValue_node().getLabel() + "\" : " + property.getValue_path()
+					+ " / " + inverse_label;
+				}
+				
 			} else {
+				
 				output = boxName + " --> \"" + property.getValue_node().getLabel() + "\" : " + property.getValue_path();
+				
+				if (property.getValue_cardinality() != null) {
+					output += " " + property.getValue_cardinality() + " ";
+				}
+				if (property.getValue_pattern() != null && this.displayPatterns) {
+					output += "(" + property.getValue_pattern() + ")" + " ";
+				}
+				if (property.getValue_nodeKind() != null && !property.getValue_nodeKind().equals("IRI")) {
+					output += property.getValue_nodeKind() + " ";
+				}
+				
 			}
-		}
-
-		if (property.getValue_cardinality() != null) {
-			output += " " + property.getValue_cardinality() + " ";
-		}
-		if (property.getValue_pattern() != null && this.displayPatterns) {
-			output += "(" + property.getValue_pattern() + ")" + " ";
-		}
-		if (property.getValue_nodeKind() != null && !property.getValue_nodeKind().equals("IRI")) {
-			output += property.getValue_nodeKind() + " ";
+				
+			
+		} else {
+			
+			output = boxName + " --> \"" + property.getValue_node().getLabel() + "\" : " + property.getValue_path();
+			
+			if (property.getValue_cardinality() != null) {
+				output += " " + property.getValue_cardinality() + " ";
+			}
+			if (property.getValue_pattern() != null && this.displayPatterns) {
+				output += "(" + property.getValue_pattern() + ")" + " ";
+			}
+			if (property.getValue_nodeKind() != null && !property.getValue_nodeKind().equals("IRI")) {
+				output += property.getValue_nodeKind() + " ";
+			}
+			
 		}
 
 		if (ctrlnodeOrigen != null & ctrlnodeDest != null) {
@@ -184,14 +236,14 @@ public class PlantUmlRenderer {
 		return output;
 	}
 
-	public String renderNodeShape(PlantUmlBox box, List<PlantUmlBox> GlobalBox) {
+	public String renderNodeShape(PlantUmlBox box, List<PlantUmlBox> GlobalBox, Boolean outExpandDiagram) {
 		// String declaration = "Class"+"
 		// "+"\""+box.getNameshape()+"\""+((box.getNametargetclass() != null)?"
 		// "+"<"+box.getNametargetclass()+">":"");
 		String declaration = "";
 		// Array for control inverse
 
-		if (OptionExpandProperty) {
+		if (outExpandDiagram) {
 			if (box.getProperties().size() > 0) {
 
 				declaration = "Class" + " " + "\"" + box.getLabel() + "\"";
@@ -203,7 +255,7 @@ public class PlantUmlRenderer {
 					}
 				}
 
-				// Sort Array PlantUMLBox
+				// 
 				for (PlantUmlProperty plantUmlproperty : box.getProperties()) {
 					Boolean value_nodeShapeProperty = false;
 					if (plantUmlproperty.value_node != null) {

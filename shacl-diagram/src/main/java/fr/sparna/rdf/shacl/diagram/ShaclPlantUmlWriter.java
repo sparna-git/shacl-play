@@ -8,8 +8,10 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.vocabulary.OWL;
 import org.apache.jena.vocabulary.RDF;
 import org.topbraid.shacl.vocabulary.SH;
 
@@ -24,7 +26,7 @@ public class ShaclPlantUmlWriter {
 		this.generateAnchorHyperlink = generateAnchorHyperlink;
 	}
 
-	public String writeInPlantUml(Model shaclGraph) {
+	public String writeInPlantUml(Model shaclGraph,Model owlGraph, Boolean outExpandDiagram) {
 
 		// read everything typed as NodeShape
 		List<Resource> nodeShapes = shaclGraph.listResourcesWithProperty(RDF.type, SH.NodeShape).toList();
@@ -39,7 +41,6 @@ public class ShaclPlantUmlWriter {
 				nodeShapes.add(n.asResource());
 			}
 		}
-		
 		
 		// 1. Lire toutes les box
 		PlantUmlBoxReader nodeShapeReader = new PlantUmlBoxReader();		
@@ -62,9 +63,9 @@ public class ShaclPlantUmlWriter {
 		
 		// 2. Une fois qu'on a toute la liste, lire les proprietes
 		for (PlantUmlBox aBox : plantUmlBoxes) {
-			aBox.setProperties(nodeShapeReader.readProperties(aBox.getNodeShape(), plantUmlBoxes));
+			aBox.setProperties(nodeShapeReader.readProperties(aBox.getNodeShape(), plantUmlBoxes,owlGraph));
 			if(includeSubclassLinks) {
-				aBox.setSuperClasses(nodeShapeReader.readSuperClasses(aBox.getNodeShape(), plantUmlBoxes));
+				aBox.setSuperClasses(nodeShapeReader.readSuperClasses(aBox.getNodeShape(), plantUmlBoxes,owlGraph));
 			}
 		}
 		
@@ -90,7 +91,7 @@ public class ShaclPlantUmlWriter {
 			}
 			
 			for (PlantUmlBox plantUmlBox : plantUmlBoxes.stream().filter(b -> b.getPackageName().equals(aPackage)).collect(Collectors.toList())) {
-				sourceuml.append(renderer.renderNodeShape(plantUmlBox,plantUmlBoxes));
+				sourceuml.append(renderer.renderNodeShape(plantUmlBox,plantUmlBoxes,outExpandDiagram));
 			}
 			
 			if(!aPackage.equals("")) {

@@ -14,7 +14,7 @@ import net.sourceforge.plantuml.SourceStringReader;
 
 public class SVGGenerator {
 
-	public String generateSvgDiagram(Model shapesModel, Model owlModel) throws IOException {
+	public String generateSvgDiagram(Model shapesModel, Model owlModel,boolean outExpandDiagram) throws IOException {
 
 		// draw - without subclasses links
 		// set first parameter to true to draw subclassOf links
@@ -24,7 +24,8 @@ public class SVGGenerator {
 		if(owlModel != null) {
 			finalModel.add(owlModel);
 		}
-		String plantUmlString = writer.writeInPlantUml(finalModel);
+		//String plantUmlString = writer.writeInPlantUml(finalModel);
+		String plantUmlString = writer.writeInPlantUml(shapesModel,owlModel,outExpandDiagram);
 		
 		// System.out.println(plantUmlString);
 

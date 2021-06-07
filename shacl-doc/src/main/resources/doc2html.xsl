@@ -31,6 +31,8 @@
 			<entry key="DIAGRAM.TITLE" label="Diagramme du dataset" />
 			<entry key="DIAGRAM.HELP"
 				label="Cliquez sur le diagramme pour naviguer vers la section correspondante" />
+			<entry key="DIAGRAM.VIEW" label="Voit le diagramme comme PNG" />
+				
 
 			<entry key="LABEL_TARGETCLASS" label="Classe de Target: " />
 			<entry key="LABEL_NODEKIND" label="Types de noeud : " />
@@ -60,6 +62,7 @@
 			<entry key="DIAGRAM.TITLE" label="Dataset diagram" />
 			<entry key="DIAGRAM.HELP"
 				label="Click diagram to navigate to corresponding section" />
+			<entry key="DIAGRAM.VIEW" label="View as PNG" />	
 
 			<entry key="LABEL_TARGETCLASS" label="Target Class: " />
 			<entry key="LABEL_NODEKIND" label="Nodes: " />
@@ -194,22 +197,23 @@
 				</div>
 				<small class="form-text text-muted">
 					<xsl:value-of
-						select="$LABELS/labels/entry[@key='DIAGRAM.HELP']/@label" />
-				</small>
+						select="$LABELS/labels/entry[@key='DIAGRAM.HELP']/@label" />					
+				</small>									
 			</div>
-			<br />
 		</xsl:if>
 	</xsl:template>
-
-	<xsl:template match="plantumlSource">
-		<xsl:if test=". != ''">
-			<xsl:comment>Below is the PlantUML source code, that you can give as input to http://www.plantuml.com</xsl:comment>
-			<xsl:comment>
-				<xsl:value-of select="." disable-output-escaping="yes" />
-			</xsl:comment>
-		</xsl:if>
+	
+	<xsl:template match="pngDiagram">
+		<xsl:variable name="pngImg" select="."/>
+		<button type="button" class="btn btn-light">
+			<a href="{$pngImg}" target="_blank">
+				<xsl:value-of select="$LABELS/labels/entry[@key='DIAGRAM.VIEW']/@label"/>
+			</a>
+		</button>	
+		<br/>	
+		<br/>	
 	</xsl:template>
-
+	
 	<xsl:template match="prefixes">
 		<div id="prefixes">
 			<h2>

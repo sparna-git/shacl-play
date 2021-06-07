@@ -11,7 +11,7 @@ import fr.sparna.rdf.shacl.doc.model.ShapesDocumentationSection;
 public class ShapesDocumentationTestReader implements ShapesDocumentationReaderIfc {
 
 	@Override
-	public ShapesDocumentation readShapesDocumentation(Model shaclGraph, Model owlGraph, String lang , String fileName) {
+	public ShapesDocumentation readShapesDocumentation(Model shaclGraph, Model owlGraph, String lang , String fileName, boolean outExpandDiagram) {
 		ShapesDocumentation shapesDocumentation = new ShapesDocumentation();
 		
 		// HERE : READ Model and populate shapesDocumentation

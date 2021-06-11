@@ -18,8 +18,8 @@ public class Main {
 		String shaclFile = args[0];
 		String shaclFileOWL = args[1];
 		boolean outExpandDiagram = Boolean.parseBoolean(args[2]);
+		
 		Model shaclGraph = ModelFactory.createDefaultModel();
-
 		if(shaclFile.startsWith("http")) {
 			shaclGraph.read(shaclFile, RDF.uri, FileUtils.guessLang(shaclFile, "Turtle"));
 		} else {

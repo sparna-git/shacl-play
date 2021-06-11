@@ -45,7 +45,7 @@ public class ShaclProperty {
 	protected String shOr;
 	
 	
-	
+
 	public String getShOr() {
 		return shOr;
 	}

@@ -30,10 +30,15 @@ public class ShaclPlantUmlWriter {
 
 		// read everything typed as NodeShape
 		List<Resource> nodeShapes = shaclGraph.listResourcesWithProperty(RDF.type, SH.NodeShape).toList();
+		
 		// also read everything object of an sh:node or sh:qualifiedValueShape, that maybe does not have an explicit rdf:type sh:NodeShape
 		List<RDFNode> nodesAndQualifedValueShapesValues = shaclGraph.listStatements(null, SH.node, (RDFNode)null)
-		.andThen(shaclGraph.listStatements(null, SH.qualifiedValueShape, (RDFNode)null))
-		.toList().stream().map(s -> s.getObject()).collect(Collectors.toList());
+				.andThen(shaclGraph.listStatements(null, SH.qualifiedValueShape, (RDFNode)null))
+				.toList().stream()
+				.map(
+					s -> s.getObject()
+						)
+				.collect(Collectors.toList());
 		
 		// add those to our list
 		for (RDFNode n : nodesAndQualifedValueShapesValues) {
@@ -79,7 +84,8 @@ public class ShaclPlantUmlWriter {
 		
 		sourceuml.append("skinparam componentStyle uml2\n");
 		sourceuml.append("skinparam wrapMessageWidth 100\n");
-		sourceuml.append("skinparam ArrowColor #Maroon\n\n");
+		sourceuml.append("skinparam ArrowColor #Maroon\n");
+		sourceuml.append("skinparam dpi 80 \n\n");
 
 		PlantUmlRenderer renderer = new PlantUmlRenderer();
 		renderer.setGenerateAnchorHyperlink(this.generateAnchorHyperlink);

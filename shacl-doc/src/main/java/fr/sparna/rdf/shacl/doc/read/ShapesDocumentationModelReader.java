@@ -103,6 +103,7 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 		String plantUmlSourceCode = null;
 		String fileNameGenerationpng = null;
 		String UrlDiagram = null;
+		
 		if (this.readDiagram) {
 			SVGGenerator gImgSvg = new SVGGenerator();
 			PlantUmlSourceGenerator sourceGenerator = new PlantUmlSourceGenerator();
@@ -197,12 +198,14 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 			List<PropertyShapeDocumentation> ListPropriete = new ArrayList<>();
 			for (ShaclProperty propriete : datanodeshape.getShacl_value()) {
 				// Récuperation du pattern si le node est une NodeShape
-				if (propriete.getNode() != null) {
+				
+									
+				if (propriete.getNode() != null && propriete.getNode() != "Unsupported path") {
 					for (ShaclBox pattern_other_nodeshape : Shaclvalue) {
 						if (propriete.getNode().contains(pattern_other_nodeshape.getLocalName())) {
 							pattern_node_nodeshape = pattern_other_nodeshape.getShpatternNodeShape();
 							break;
-						}
+						}							
 					}
 				}
 				//

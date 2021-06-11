@@ -196,23 +196,20 @@
 					<xsl:value-of select="." disable-output-escaping="yes" />						 
 				</div>
 				<small class="form-text text-muted">
+					<xsl:variable name="pngImg" select="../pngDiagram"/>
 					<xsl:value-of
-						select="$LABELS/labels/entry[@key='DIAGRAM.HELP']/@label" />					
-				</small>									
+						select="$LABELS/labels/entry[@key='DIAGRAM.HELP']/@label" />
+					<xsl:text> | </xsl:text>					
+				  	<a href="{$pngImg}" target="_blank">
+						<xsl:value-of select="$LABELS/labels/entry[@key='DIAGRAM.VIEW']/@label"/>
+					</a>
+				</small>
+				<br/>									
 			</div>
 		</xsl:if>
 	</xsl:template>
 	
-	<xsl:template match="pngDiagram">
-		<xsl:variable name="pngImg" select="."/>
-		<button type="button" class="btn btn-light">
-			<a href="{$pngImg}" target="_blank">
-				<xsl:value-of select="$LABELS/labels/entry[@key='DIAGRAM.VIEW']/@label"/>
-			</a>
-		</button>	
-		<br/>	
-		<br/>	
-	</xsl:template>
+	
 	
 	<xsl:template match="prefixes">
 		<div id="prefixes">

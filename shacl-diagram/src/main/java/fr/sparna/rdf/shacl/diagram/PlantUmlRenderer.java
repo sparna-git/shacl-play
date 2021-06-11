@@ -195,7 +195,7 @@ public class PlantUmlRenderer {
 
 		String output = "";
 				//
-		output = boxName + " -[dotted]-> \"" + property.getValue_class_property() + "\" : "
+		output = boxName + " -[dashed]-> \"" + property.getValue_class_property() + "\" : "
 					+ property.getValue_path();
 		
 

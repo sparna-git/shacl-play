@@ -15,7 +15,7 @@ public class SHResultSummaryEntry {
 	protected Resource sourceConstraintComponent;
 	
 	protected int count;
-	protected Resource sampleFocusNode;
+	protected RDFNode sampleFocusNode;
 	protected RDFNode sampleValue;
 	
 	public static SHResultSummaryEntry fromQuerySolution(QuerySolution solution) {
@@ -50,7 +50,7 @@ public class SHResultSummaryEntry {
 		
 		// sample focus node
 		if(solution.contains("sampleFocusNode")) {
-			Resource sampleFocusNode = solution.getResource("sampleFocusNode");
+			RDFNode sampleFocusNode = solution.get("sampleFocusNode");
 			result.setSampleFocusNode(sampleFocusNode);
 		}
 		
@@ -105,11 +105,11 @@ public class SHResultSummaryEntry {
 		this.count = count;
 	}
 
-	public Resource getSampleFocusNode() {
+	public RDFNode getSampleFocusNode() {
 		return sampleFocusNode;
 	}
 
-	public void setSampleFocusNode(Resource sampleFocusNode) {
+	public void setSampleFocusNode(RDFNode sampleFocusNode) {
 		this.sampleFocusNode = sampleFocusNode;
 	}
 

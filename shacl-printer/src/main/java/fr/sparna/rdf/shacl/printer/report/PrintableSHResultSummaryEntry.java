@@ -36,7 +36,7 @@ public class PrintableSHResultSummaryEntry {
 	}
 	
 	public String getSampleFocusNode() {
-		return RDFRenderer.renderResource(shResultSummaryEntry.getSampleFocusNode());
+		return RDFRenderer.renderRDFNode(shResultSummaryEntry.getSampleFocusNode());
 	}
 	
 	public String getSampleValue() {

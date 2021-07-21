@@ -18,7 +18,7 @@ public class SVGGenerator {
 
 		// draw - without subclasses links
 		// set first parameter to true to draw subclassOf links
-		ShaclPlantUmlWriter writer = new ShaclPlantUmlWriter(false, true);
+		ShaclPlantUmlWriter writer = new ShaclPlantUmlWriter(true, true);
 		Model finalModel = ModelFactory.createDefaultModel();
 		finalModel.add(shapesModel);
 		if(owlModel != null) {

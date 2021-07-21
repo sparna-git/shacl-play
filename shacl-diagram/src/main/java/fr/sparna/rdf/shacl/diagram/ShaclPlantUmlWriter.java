@@ -24,7 +24,7 @@ public class ShaclPlantUmlWriter {
 		this.generateAnchorHyperlink = generateAnchorHyperlink;
 	}
 
-	public String writeInPlantUml(Model shaclGraph,Model owlGraph, boolean outExpandDiagram) {
+	public String writeInPlantUml(Model shaclGraph, Model owlGraph, boolean outExpandDiagram) {
 
 		// read everything typed as NodeShape
 		List<Resource> nodeShapes = shaclGraph.listResourcesWithProperty(RDF.type, SH.NodeShape).toList();

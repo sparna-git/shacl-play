@@ -46,7 +46,8 @@ public class DrawController {
 	enum FORMAT {
 		
 		SVG("image/svg+xml", FileFormat.SVG, "svg"),
-		PNG("image/png", FileFormat.PNG, "png");
+		PNG("image/png", FileFormat.PNG, "png"),
+		TXT("text/pain", null, "txt");
 		
 		protected String mimeType;
 		protected FileFormat plantUmlFileFormat;
@@ -196,8 +197,15 @@ public class DrawController {
 		response.setContentType(format.mimeType);
 		response.setHeader("Content-Disposition", "inline; filename=\""+filename+"."+format.extension+"\"");
 
-		SourceStringReader reader = new SourceStringReader(plantumlString);
-		reader.generateImage(response.getOutputStream(), new FileFormatOption(format.plantUmlFileFormat));
+		if(format == FORMAT.TXT) {
+			response.setCharacterEncoding("UTF-8");
+			response.getOutputStream().write(plantumlString.getBytes("UTF-8"));
+			response.getOutputStream().flush();
+		} else {
+			SourceStringReader reader = new SourceStringReader(plantumlString);
+			reader.generateImage(response.getOutputStream(), new FileFormatOption(format.plantUmlFileFormat));
+		}
+
 	}
 		
 	/**

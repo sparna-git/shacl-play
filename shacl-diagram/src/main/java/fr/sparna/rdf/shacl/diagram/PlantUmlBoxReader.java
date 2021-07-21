@@ -53,7 +53,11 @@ public class PlantUmlBoxReader {
 					return 1;
 				} else {
 					// both sh:order are null, try with sh:path
-					return ps1.getValue_path().compareTo(ps2.getValue_path());
+					if(ps1.getValue_path() != null && ps2.getValue_path() != null) {						
+						return ps1.getValue_path().compareTo(ps2.getValue_path());
+					} else {
+						return ps1.getPropertyShape().toString().compareTo(ps2.getPropertyShape().toString());
+					}
 				}
 			}
 		});

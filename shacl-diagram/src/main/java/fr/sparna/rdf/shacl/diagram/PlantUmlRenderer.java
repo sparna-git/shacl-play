@@ -89,15 +89,15 @@ public class PlantUmlRenderer {
 				}
 				
 				if(ncount > 1 ) {
-					output = boxName + " <--> \"" + property.getValue_node().getLabel() + "\" : " + inverse_label;
+					output = boxName + " <-[bold]-> \"" + property.getValue_node().getLabel() + "\" : " + inverse_label;
 				} else {
-					output = boxName + " <--> \"" + property.getValue_node().getLabel() + "\" : " + property.getValue_path()
+					output = boxName + " <-[bold]-> \"" + property.getValue_node().getLabel() + "\" : " + property.getValue_path()
 					+ " / " + inverse_label;
 				}
 				
 			} else {
 				
-				output = boxName + " --> \"" + property.getValue_node().getLabel() + "\" : " + property.getValue_path();
+				output = boxName + " -[bold]-> \"" + property.getValue_node().getLabel() + "\" : " + property.getValue_path();
 				
 				if (property.getValue_cardinality() != null) {
 					output += " " + property.getValue_cardinality() + " ";
@@ -173,7 +173,7 @@ public class PlantUmlRenderer {
 	// value = uml_shape+ " --> " +"\""+uml_qualifiedvalueshape+"\""+" :
 	// "+uml_path+uml_datatype+" "+uml_qualifiedMinMaxCount+"\n";
 	public String renderAsQualifiedShapeReference(PlantUmlProperty property, String boxName) {
-		String output = boxName + " --> \"" + property.getValue_qualifiedvalueshape().getLabel() + "\" : "
+		String output = boxName + " -[bold]-> \"" + property.getValue_qualifiedvalueshape().getLabel() + "\" : "
 				+ property.getValue_path();
 
 		if (property.getValue_qualifiedMaxMinCount() != null) {
@@ -190,9 +190,9 @@ public class PlantUmlRenderer {
 	public String renderAsClassReference(PlantUmlProperty property, String boxName) {
 
 		String output = "";
-				//
-		output = boxName + " -[dotted,thickness=2]-> \"" + property.getValue_class_property() + "\" : "
-					+ property.getValue_path();
+		// attempt with dotted lines
+		// output = boxName + " -[dotted]-> \"" + property.getValue_class_property() + "\" : " + property.getValue_path();
+		output = boxName + " --> \"" + property.getValue_class_property() + "\" : " + property.getValue_path();
 		
 
 		if (property.getValue_cardinality() != null) {

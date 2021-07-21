@@ -195,6 +195,7 @@
 					    		<select class="form-control" id="format" name="format" >
 					    			<option value="svg">SVG</option>
 					    			<option value="png">PNG</option>
+					    			<option value="txt">TXT</option>
 							    </select>
 						    </div>
 								    

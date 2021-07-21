@@ -232,14 +232,14 @@ public class PlantUmlRenderer {
 		return output;
 	}
 
-	public String renderNodeShape(PlantUmlBox box, List<PlantUmlBox> GlobalBox, boolean outExpandDiagram) {
+	public String renderNodeShape(PlantUmlBox box, List<PlantUmlBox> GlobalBox, boolean avoidArrowsToEmptyBoxes) {
 		// String declaration = "Class"+"
 		// "+"\""+box.getNameshape()+"\""+((box.getNametargetclass() != null)?"
 		// "+"<"+box.getNametargetclass()+">":"");
 		String declaration = "";
 		// Array for control inverse
 
-		if (outExpandDiagram) {
+		if (avoidArrowsToEmptyBoxes) {
 			if (box.getProperties().size() > 0) {
 
 				declaration = "Class" + " " + "\"" + box.getLabel() + "\"";

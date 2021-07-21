@@ -185,14 +185,20 @@ public class DrawController {
 			FORMAT format,
 			HttpServletResponse response
 	) throws IOException {
-		// includes the subClassOf links in the generated diagram
-		// don't generate hyperlinks
-		ShaclPlantUmlWriter writer = new ShaclPlantUmlWriter(true, false);
+		
+		
+		ShaclPlantUmlWriter writer = new ShaclPlantUmlWriter(
+				// includes the subClassOf links in the generated diagram
+				true,
+				// don't generate hyperlinks
+				false,
+				// avoid arrows to empty boxes
+				true);
 		String plantumlString = writer.writeInPlantUml(
 				shapesModel,
 				// OWL Model
-				ModelFactory.createDefaultModel(),
-				false);
+				ModelFactory.createDefaultModel()
+		);
 		
 		response.setContentType(format.mimeType);
 		response.setHeader("Content-Disposition", "inline; filename=\""+filename+"."+format.extension+"\"");

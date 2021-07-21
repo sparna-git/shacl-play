@@ -14,18 +14,18 @@ import net.sourceforge.plantuml.SourceStringReader;
 
 public class SVGGenerator {
 
-	public String generateSvgDiagram(Model shapesModel, Model owlModel,boolean outExpandDiagram) throws IOException {
+	public String generateSvgDiagram(Model shapesModel, Model owlModel,boolean avoidArrowsToEmptyBoxes) throws IOException {
 
 		// draw - without subclasses links
 		// set first parameter to true to draw subclassOf links
-		ShaclPlantUmlWriter writer = new ShaclPlantUmlWriter(true, true);
+		ShaclPlantUmlWriter writer = new ShaclPlantUmlWriter(true, true, avoidArrowsToEmptyBoxes);
 		Model finalModel = ModelFactory.createDefaultModel();
 		finalModel.add(shapesModel);
 		if(owlModel != null) {
 			finalModel.add(owlModel);
 		}
 		//String plantUmlString = writer.writeInPlantUml(finalModel);
-		String plantUmlString = writer.writeInPlantUml(shapesModel,owlModel,outExpandDiagram);
+		String plantUmlString = writer.writeInPlantUml(shapesModel,owlModel);
 		
 		// System.out.println(plantUmlString);
 

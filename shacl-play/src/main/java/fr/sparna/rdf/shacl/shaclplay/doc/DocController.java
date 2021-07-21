@@ -167,7 +167,8 @@ public class DocController {
 		ShapesDocumentationReaderIfc reader = new ShapesDocumentationModelReader(true);
 		ShapesDocumentation doc = reader.readShapesDocumentation(
 				shapesModel,
-				null,
+				// OWL graph
+				ModelFactory.createDefaultModel(),
 				"en",
 				filename,
 				false

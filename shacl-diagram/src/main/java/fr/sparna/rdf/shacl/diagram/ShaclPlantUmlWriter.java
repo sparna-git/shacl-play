@@ -6,10 +6,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
-import org.apache.jena.vocabulary.OWL;
 import org.apache.jena.vocabulary.RDF;
 import org.topbraid.shacl.vocabulary.SH;
 
@@ -17,14 +15,20 @@ public class ShaclPlantUmlWriter {
 
 	protected boolean includeSubclassLinks = true;
 	protected boolean generateAnchorHyperlink = false;
+	protected boolean avoidArrowsToEmptyBoxes = true;
 	
-	public ShaclPlantUmlWriter(boolean includeSubclassLinks, boolean generateAnchorHyperlink) {
+	public ShaclPlantUmlWriter(
+			boolean includeSubclassLinks,
+			boolean generateAnchorHyperlink,
+			boolean avoidArrowsToEmptyBoxes
+	) {
 		super();
 		this.includeSubclassLinks = includeSubclassLinks;
 		this.generateAnchorHyperlink = generateAnchorHyperlink;
+		this.avoidArrowsToEmptyBoxes = avoidArrowsToEmptyBoxes;
 	}
 
-	public String writeInPlantUml(Model shaclGraph, Model owlGraph, boolean outExpandDiagram) {
+	public String writeInPlantUml(Model shaclGraph, Model owlGraph) {
 
 		// read everything typed as NodeShape
 		List<Resource> nodeShapes = shaclGraph.listResourcesWithProperty(RDF.type, SH.NodeShape).toList();
@@ -95,7 +99,7 @@ public class ShaclPlantUmlWriter {
 			}
 			
 			for (PlantUmlBox plantUmlBox : plantUmlBoxes.stream().filter(b -> b.getPackageName().equals(aPackage)).collect(Collectors.toList())) {
-				sourceuml.append(renderer.renderNodeShape(plantUmlBox,plantUmlBoxes,outExpandDiagram));
+				sourceuml.append(renderer.renderNodeShape(plantUmlBox,plantUmlBoxes,this.avoidArrowsToEmptyBoxes));
 			}
 			
 			if(!aPackage.equals("")) {

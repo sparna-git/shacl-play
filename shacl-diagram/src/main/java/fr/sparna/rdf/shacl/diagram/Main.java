@@ -37,8 +37,8 @@ public class Main {
 		}
 		
 
-		ShaclPlantUmlWriter writer = new ShaclPlantUmlWriter(true, false);
-		String output = writer.writeInPlantUml(shaclGraph,owlGraph,outExpandDiagram);
+		ShaclPlantUmlWriter writer = new ShaclPlantUmlWriter(true, false, outExpandDiagram);
+		String output = writer.writeInPlantUml(shaclGraph,owlGraph);
 		
 		String outputDirectory ="C:/Temp" ; //args[1];
 		

@@ -187,7 +187,11 @@ public class DrawController {
 		// includes the subClassOf links in the generated diagram
 		// don't generate hyperlinks
 		ShaclPlantUmlWriter writer = new ShaclPlantUmlWriter(true, false);
-		String plantumlString = writer.writeInPlantUml(shapesModel);
+		String plantumlString = writer.writeInPlantUml(
+				shapesModel,
+				// OWL Model
+				ModelFactory.createDefaultModel(),
+				false);
 		
 		response.setContentType(format.mimeType);
 		response.setHeader("Content-Disposition", "inline; filename=\""+filename+"."+format.extension+"\"");

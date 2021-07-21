@@ -169,7 +169,8 @@ public class DocController {
 				shapesModel,
 				null,
 				"en",
-				filename
+				filename,
+				false
 		);
 		
 		ShapesDocumentationWriterIfc writer = new ShapesDocumentationJacksonXsltWriter();

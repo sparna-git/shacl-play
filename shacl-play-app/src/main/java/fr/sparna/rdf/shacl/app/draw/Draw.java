@@ -34,7 +34,8 @@ public class Draw implements CliCommandIfc {
 		
 		// draw
 		ShaclPlantUmlWriter writer = new ShaclPlantUmlWriter(a.isIncludeSubclasses(), false);
-		String plantUmlString = writer.writeInPlantUml(shapesModel);
+		// TODO : add parameter with OWL file
+		String plantUmlString = writer.writeInPlantUml(shapesModel, ModelFactory.createDefaultModel(), false);
 		
 		for(File outputFile : a.getOutput()) {
 			

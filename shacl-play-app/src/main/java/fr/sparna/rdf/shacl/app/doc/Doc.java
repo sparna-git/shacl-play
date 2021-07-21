@@ -48,7 +48,8 @@ public class Doc implements CliCommandIfc {
 				shapesModel,
 				owlModel,
 				a.getLanguage(),
-				a.getInput().get(0).getName()
+				a.getInput().get(0).getName(),
+				false
 		);
 		
 		FileOutputStream out = new FileOutputStream(a.getOutput());

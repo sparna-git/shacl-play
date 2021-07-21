@@ -93,7 +93,7 @@ public class ShaclValidator {
 	}
 
 	public Model validate(Model dataModel) throws ShaclValidatorException {
-		log.info("Validating data with "+dataModel.size()+" triples...");
+		log.info("Validating data with "+dataModel.size()+" triples... we "+(this.createDetails?"ARE":"are NOT")+" creating details");
 		
 		Model validatedModel;
 		if(this.complimentaryModel != null) {
@@ -247,21 +247,22 @@ public class ShaclValidator {
 	public static void main(String...strings) throws Exception {
 		Model dataModel = ModelFactory.createDefaultModel();
 		// RDFDataMgr.read(dataModel, new FileInputStream(new File("/home/thomas/sparna/00-Clients/Sparna/20-Repositories/sparna/eu.europa.publications/eli/validator/shacl-validator/src/test/resources/sample-legifrance.ttl")), Lang.TURTLE);
-		RDFDataMgr.read(dataModel, new FileInputStream(new File("/home/thomas/sparna/00-Clients/Sparna/20-Repositories/sparna/eu.europa.publications/eli/validator/eli-validator/src/test/resources/test-legilux.ttl")), Lang.TURTLE);
+		RDFDataMgr.read(dataModel, new FileInputStream(new File("/home/thomas/sparna/00-Clients/Sparna/20-Repositories/shacl-play/shacl-validator/src/test/resources/test-createDetails.ttl")), Lang.TURTLE);
 		
 		Model shapesModel = ModelFactory.createDefaultModel();
-		RDFDataMgr.read(shapesModel, new FileInputStream(new File("/home/thomas/sparna/00-Clients/Sparna/20-Repositories/sparna/eu.europa.publications/eli/validator/eli-validator/src/main/webapp/shapes/eli-1.1-shapes.ttl")), Lang.TURTLE);
+		RDFDataMgr.read(shapesModel, new FileInputStream(new File("/home/thomas/sparna/00-Clients/Sparna/20-Repositories/shacl-play/shacl-validator/src/test/resources/test-createDetails.ttl")), Lang.TURTLE);
 		
 		System.out.println("Validate data model size "+dataModel.size()+" with shapes model size "+shapesModel.size());
 		
-//		ShaclValidator validator = new ShaclValidator(shapesModel);
-//		validator.setProgressMonitor(new StringBufferProgressMonitor("test"));
-//		Model results = validator.validate(dataModel);
-//		// results.write(System.out, "Turtle");
-//		System.out.println(results.size());
+		ShaclValidator validator = new ShaclValidator(shapesModel);
+		validator.setProgressMonitor(new StringBufferProgressMonitor("test"));
+		validator.setCreateDetails(true);
+		Model results = validator.validate(dataModel);
+		results.write(System.out, "Turtle");
+		// System.out.println(results.size());
 		
-		Resource report2 = ValidationUtil.validateModel(dataModel, shapesModel, true);
-		System.out.println(report2.getModel().size());
+//		Resource report2 = ValidationUtil.validateModel(dataModel, shapesModel, true);
+//		System.out.println(report2.getModel().size());
 	}
 	
 }

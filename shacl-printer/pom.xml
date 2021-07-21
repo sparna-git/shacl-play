@@ -8,7 +8,7 @@
   <parent>
     <groupId>fr.sparna.rdf.shacl</groupId>
     <artifactId>shacl-play-root-pom</artifactId>
-    <version>0.4</version>
+    <version>0.5</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
 
@@ -72,7 +72,7 @@
     <dependency>
       <groupId>fr.sparna.rdf.shacl</groupId>
       <artifactId>shacl-validator</artifactId>
-      <version>0.4</version>
+      <version>0.5</version>
     </dependency>
 
             

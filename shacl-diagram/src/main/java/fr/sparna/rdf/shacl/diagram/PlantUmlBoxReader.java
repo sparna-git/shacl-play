@@ -57,7 +57,9 @@ public class PlantUmlBoxReader {
 		 
 		return properties;	
 	}
-	
+
+	// read the superClasses declared on the NodeShape
+	// implies that the NodeShape is itself a Class
 	public List<PlantUmlBox> readSuperClasses(Resource nodeShape, List<PlantUmlBox> allBoxes) {
 		
 		List<Statement> subClassOfStatements = nodeShape.listProperties(RDFS.subClassOf).toList();
@@ -66,6 +68,7 @@ public class PlantUmlBoxReader {
 		for (Statement aSubClassOfStatement : subClassOfStatements) {
 			RDFNode object = aSubClassOfStatement.getObject();
 
+			// exclude restrictions
 			if(object.isURIResource()) {
 				
 				PlantUmlBox theBox = null;
@@ -79,10 +82,8 @@ public class PlantUmlBoxReader {
 				if(theBox != null) {
 					superClasses.add(theBox);
 				}	
-			}
-		
-		}		
-
+			}		
+		}
 		 
 		return superClasses;	
 	}	

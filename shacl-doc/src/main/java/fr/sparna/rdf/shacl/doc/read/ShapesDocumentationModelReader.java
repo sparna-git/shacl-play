@@ -1,12 +1,13 @@
 package fr.sparna.rdf.shacl.doc.read;
 
+import java.io.BufferedOutputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.Resource;
@@ -28,6 +29,9 @@ import fr.sparna.rdf.shacl.doc.model.NamespaceSection;
 import fr.sparna.rdf.shacl.doc.model.PropertyShapeDocumentation;
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentation;
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentationSection;
+import net.sourceforge.plantuml.code.Transcoder;
+import net.sourceforge.plantuml.code.TranscoderUtil;
+import net.sourceforge.plantuml.core.Diagram;
 
 public class ShapesDocumentationModelReader implements ShapesDocumentationReaderIfc {
 
@@ -43,7 +47,8 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 			Model shaclGraph,
 			Model owlGraph,
 			String lang,
-			String fileName
+			String fileName,
+			boolean outExpandDiagram
 	) {
 
 		List<Resource> nodeShapes = shaclGraph.listResourcesWithProperty(RDF.type, SH.NodeShape).toList();
@@ -95,12 +100,26 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 		// Option pour créer le diagramme
 		String sImgDiagramme = null;
 		String plantUmlSourceDiagram = null;
+		String plantUmlSourceCode = null;
+		String fileNameGenerationpng = null;
+		String UrlDiagram = null;
+		
 		if (this.readDiagram) {
 			SVGGenerator gImgSvg = new SVGGenerator();
 			PlantUmlSourceGenerator sourceGenerator = new PlantUmlSourceGenerator();
 			try {
-				sImgDiagramme = gImgSvg.generateSvgDiagram(shaclGraph, owlGraph);
-				plantUmlSourceDiagram = sourceGenerator.generatePlantUmlDiagram(shaclGraph, owlGraph);
+				sImgDiagramme = gImgSvg.generateSvgDiagram(shaclGraph, owlGraph,outExpandDiagram);
+				plantUmlSourceDiagram = sourceGenerator.generatePlantUmlDiagram(shaclGraph, owlGraph,false,true,outExpandDiagram);
+
+				// Read source Uml
+				plantUmlSourceCode = sourceGenerator.generatePlantUmlDiagram(shaclGraph, owlGraph,false,false,outExpandDiagram);
+				// if source uml is true generate png file
+				if(!plantUmlSourceCode.isEmpty()) {	
+					// Write the first image to "png"
+					Transcoder t = TranscoderUtil.getDefaultTranscoder();
+					String url = t.encode(plantUmlSourceCode);
+					UrlDiagram = "http://www.plantuml.com/plantuml/png/"+url;
+				}
 			} catch (IOException e) {
 				e.printStackTrace();
 			}			
@@ -130,6 +149,7 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 		shapesDocumentation.setVersionInfo(sOWLVersionInfo);
 		shapesDocumentation.setSvgDiagram(sImgDiagramme);
 		shapesDocumentation.setPlantumlSource(plantUmlSourceDiagram);
+		shapesDocumentation.setPngDiagram(UrlDiagram);
 		String pattern_node_nodeshape = null;
 
 		// 3. Lire les prefixes
@@ -178,12 +198,14 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 			List<PropertyShapeDocumentation> ListPropriete = new ArrayList<>();
 			for (ShaclProperty propriete : datanodeshape.getShacl_value()) {
 				// Récuperation du pattern si le node est une NodeShape
-				if (propriete.getNode() != null) {
+				
+									
+				if (propriete.getNode() != null && propriete.getNode() != "Unsupported path") {
 					for (ShaclBox pattern_other_nodeshape : Shaclvalue) {
 						if (propriete.getNode().contains(pattern_other_nodeshape.getLocalName())) {
 							pattern_node_nodeshape = pattern_other_nodeshape.getShpatternNodeShape();
 							break;
-						}
+						}							
 					}
 				}
 				//

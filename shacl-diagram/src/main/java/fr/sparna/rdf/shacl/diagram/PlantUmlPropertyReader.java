@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.RDFList;
 import org.apache.jena.rdf.model.RDFNode;
@@ -13,6 +14,7 @@ import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.rdf.model.StmtIterator;
 import org.apache.jena.util.iterator.ExtendedIterator;
+import org.apache.jena.vocabulary.OWL;
 import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.RDFS;
 import org.topbraid.shacl.vocabulary.SH;
@@ -30,7 +32,7 @@ public class PlantUmlPropertyReader {
 	}
 	
 	// Principal
-	public PlantUmlProperty readPlantUmlProperty(Resource constraint) {
+	public PlantUmlProperty readPlantUmlProperty(Resource constraint, Model owlGraph) {
 		
 		PlantUmlProperty p = new PlantUmlProperty(constraint);
 		
@@ -49,11 +51,28 @@ public class PlantUmlPropertyReader {
 		p.setValue_hasValue(this.readShHasValue(constraint));
 		p.setValue_qualifiedvalueshape(this.readShQualifiedValueShape(constraint));
 		p.setValue_qualifiedMaxMinCount(this.readShQualifiedMinCountQualifiedMaxCount(constraint));
+		p.setValue_inverseOf(this.readOwlInverseOf(owlGraph, p.getValue_path()));
 		p.setValue_shor(this.readShOrConstraint(constraint));
 		
 		return p;
 	}
 	
+	
+	public List<String> readOwlInverseOf(Model owlGraph, String path) {
+		List<String> inverBox = new ArrayList<>();
+		if(path != null) {
+			// read everything typed as NodeShape
+			List<Resource> pathOWL = owlGraph.listResourcesWithProperty(RDF.type, OWL.ObjectProperty).toList();
+			for(Resource inverseOfResource : pathOWL) {
+				if(inverseOfResource.getLocalName().equals(path)){
+					if(inverseOfResource.hasProperty(OWL.inverseOf)) {
+						inverBox.add(inverseOfResource.getProperty(OWL.inverseOf).getResource().asResource().getLocalName().toString());
+					}
+				}
+			}				
+		}		
+		return inverBox;
+	}
 	
 	public List<PlantUmlBox> readShOrConstraint (Resource constraint) {
 		// 1. Lire la valeur de sh:or

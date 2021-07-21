@@ -9,6 +9,8 @@ import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.util.FileUtils;
 import org.apache.jena.vocabulary.RDF;
 
+import fr.sparna.rdf.shacl.diagram.OutFileUml;
+import fr.sparna.rdf.shacl.diagram.ShaclPlantUmlWriter;
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentation;
 import fr.sparna.rdf.shacl.doc.read.ShapesDocumentationModelReader;
 import fr.sparna.rdf.shacl.doc.read.ShapesDocumentationReaderIfc;
@@ -25,7 +27,8 @@ public class Main {
 		String outputLang = args[2];
 		boolean outDiagram = Boolean.parseBoolean(args[3]);
 		boolean outPdf = Boolean.parseBoolean(args[4]);
-				
+		boolean outExpandDiagram = Boolean.parseBoolean(args[5]);
+		
 		Model shaclGraph = ModelFactory.createDefaultModel();
 		if(shaclFile.startsWith("http")) {
 			shaclGraph.read(shaclFile, RDF.uri, FileUtils.guessLang(shaclFile, "Turtle"));
@@ -46,8 +49,7 @@ public class Main {
 	    //ShapesDocumentationReaderIfc reader = new ShapesDocumentationTestReader();
 		// uncomment for read SHACL parsing
 		ShapesDocumentationReaderIfc reader = new ShapesDocumentationModelReader(outDiagram);
-		ShapesDocumentation doc = reader.readShapesDocumentation(shaclGraph, owlGraph, outputLang, shaclFile);
-		
+		ShapesDocumentation doc = reader.readShapesDocumentation(shaclGraph, owlGraph, outputLang, shaclFile, outExpandDiagram);
 		
 		// 2. write Documentation structure to XML
 		ShapesDocumentationWriterIfc writer = new ShapesDocumentationJacksonXsltWriter();

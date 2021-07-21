@@ -3,6 +3,7 @@ package fr.sparna.rdf.shacl.diagram;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
@@ -22,17 +23,19 @@ public class PlantUmlBoxReader {
 		return box;
 	}
 	
-	public List<PlantUmlProperty> readProperties(Resource nodeShape, List<PlantUmlBox> allBoxes) {
+	public List<PlantUmlProperty> readProperties(Resource nodeShape, List<PlantUmlBox> allBoxes,Model owlGraph) {
 		
 		List<Statement> propertyStatements = nodeShape.listProperties(SH.property).toList();
 		List<PlantUmlProperty> properties = new ArrayList<>();
 		PlantUmlPropertyReader propertyReader = new PlantUmlPropertyReader(allBoxes);
+		
+		
 		for (Statement aPropertyStatement : propertyStatements) {
 			RDFNode object = aPropertyStatement.getObject();
 			
 			if(object.isResource()) {
 				Resource propertyShape = object.asResource();			
-				PlantUmlProperty plantvalueproperty = propertyReader.readPlantUmlProperty(propertyShape);
+				PlantUmlProperty plantvalueproperty = propertyReader.readPlantUmlProperty(propertyShape, owlGraph);
 				properties.add(plantvalueproperty);					
 			}
 		
@@ -60,7 +63,7 @@ public class PlantUmlBoxReader {
 
 	// read the superClasses declared on the NodeShape
 	// implies that the NodeShape is itself a Class
-	public List<PlantUmlBox> readSuperClasses(Resource nodeShape, List<PlantUmlBox> allBoxes) {
+	public List<PlantUmlBox> readSuperClasses(Resource nodeShape, List<PlantUmlBox> allBoxes, Model owlGraph) {
 		
 		List<Statement> subClassOfStatements = nodeShape.listProperties(RDFS.subClassOf).toList();
 		List<PlantUmlBox> superClasses = new ArrayList<>();

@@ -31,6 +31,8 @@
 			<entry key="DIAGRAM.TITLE" label="Diagramme du dataset" />
 			<entry key="DIAGRAM.HELP"
 				label="Cliquez sur le diagramme pour naviguer vers la section correspondante" />
+			<entry key="DIAGRAM.VIEW" label="Voit le diagramme comme PNG" />
+				
 
 			<entry key="LABEL_TARGETCLASS" label="Classe de Target: " />
 			<entry key="LABEL_NODEKIND" label="Types de noeud : " />
@@ -60,6 +62,7 @@
 			<entry key="DIAGRAM.TITLE" label="Dataset diagram" />
 			<entry key="DIAGRAM.HELP"
 				label="Click diagram to navigate to corresponding section" />
+			<entry key="DIAGRAM.VIEW" label="View as PNG" />	
 
 			<entry key="LABEL_TARGETCLASS" label="Target Class: " />
 			<entry key="LABEL_NODEKIND" label="Nodes: " />
@@ -142,6 +145,7 @@
 						<br />
 					</xsl:if>
 					<br />
+					
 
 					<div>
 						<!-- Table de matieres -->
@@ -186,29 +190,27 @@
 					<xsl:value-of
 						select="$LABELS/labels/entry[@key='DIAGRAM.TITLE']/@label" />
 				</h2>
-				<div style="text-align:center;">
+				<div>
 					<!-- @disable-output-escaping prints the raw XML string as XML in the 
-						document and removes XML-encoding of the characters -->
-					<xsl:value-of select="." disable-output-escaping="yes" />
+						document and removes XML-encoding of the characters -->					
+					<xsl:value-of select="." disable-output-escaping="yes" />						 
 				</div>
 				<small class="form-text text-muted">
+					<xsl:variable name="pngImg" select="../pngDiagram"/>
 					<xsl:value-of
 						select="$LABELS/labels/entry[@key='DIAGRAM.HELP']/@label" />
+					<xsl:text> | </xsl:text>					
+				  	<a href="{$pngImg}" target="_blank">
+						<xsl:value-of select="$LABELS/labels/entry[@key='DIAGRAM.VIEW']/@label"/>
+					</a>
 				</small>
+				<br/>									
 			</div>
-			<br />
 		</xsl:if>
 	</xsl:template>
-
-	<xsl:template match="plantumlSource">
-		<xsl:if test=". != ''">
-			<xsl:comment>Below is the PlantUML source code, that you can give as input to http://www.plantuml.com</xsl:comment>
-			<xsl:comment>
-				<xsl:value-of select="." disable-output-escaping="yes" />
-			</xsl:comment>
-		</xsl:if>
-	</xsl:template>
-
+	
+	
+	
 	<xsl:template match="prefixes">
 		<div id="prefixes">
 			<h2>

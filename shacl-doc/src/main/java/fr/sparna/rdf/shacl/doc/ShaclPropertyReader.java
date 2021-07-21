@@ -60,7 +60,7 @@ public class ShaclPropertyReader {
 		shaclProperty.setShValue(this.readShValue(constraint));
 		shaclProperty.setShOrder(this.readShOrder(constraint));
 		shaclProperty.setShOr(this.readShOr(constraint));
-
+		
 		return shaclProperty;
 	}
 
@@ -132,7 +132,10 @@ public class ShaclPropertyReader {
 	}
 
 	public String readNodeKind(Resource constraint) {
-		return constraintValueReader.readValueconstraint(constraint, SH.nodeKind,null);
+		String value = null;
+		value = constraintValueReader.readValueconstraint(constraint, SH.nodeKind,null);
+		
+		return value;
 	}
 
 	// Cardinality Constraint Components
@@ -172,11 +175,12 @@ public class ShaclPropertyReader {
 
 	// TODO : devrait retourner un ShaclBox
 	public String readNode(Resource constraint) {
-
+		String value = null;
 		// 1. Lire la valeur de sh:node
-		String nodeValue = constraintValueReader.readValueconstraint(constraint, SH.node,null);
+		value = constraintValueReader.readValueconstraint(constraint, SH.node,null);
 		
-		return nodeValue;
+		
+		return value;
 		
 		// 2. Trouver le PlantUmlBox qui a ce nom
 //		if(nodeValue != null) {

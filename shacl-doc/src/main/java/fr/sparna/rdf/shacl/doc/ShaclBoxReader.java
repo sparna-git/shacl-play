@@ -3,6 +3,10 @@ package fr.sparna.rdf.shacl.doc;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.jena.graph.Graph;
+import org.apache.jena.graph.Node;
+import org.apache.jena.rdf.model.Property;
+import org.apache.jena.rdf.model.RDFList;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
@@ -19,6 +23,7 @@ public class ShaclBoxReader {
 	}
 	
 	public ShaclBox read(Resource nodeShape) {
+		
 		ShaclBox box = new ShaclBox(nodeShape);
 
 		box.setNametargetclass(this.readNametargetclass(nodeShape));
@@ -35,7 +40,27 @@ public class ShaclBoxReader {
 		String value = valueReader.readValueconstraint(nodeShape, SH.nodeKind, null);
 		if(value != null) {
 			value = nodeShape.getModel().shortForm(value);
+		} 
+		
+		List<Statement> propertyStatements = nodeShape.listProperties(SH.nodeKind).toList();
+		for (Statement aPropertyStatement : propertyStatements) {
+			RDFNode object = aPropertyStatement.getObject();
+
+			if (object.isResource()) {
+				Resource propertyShape = object.asResource();			
+				String plantvalueproperty = propertyShape.getURI();
+				
+			}
+					
 		}
+		
+		/*
+		Resource nkBlankNode = nodeShape.getPropertyResourceValue(SH.nodeKind);
+		if(SH.BlankNode.equals(nkBlankNode)) {
+			Graph idNB = nkBlankNode.getModel().getGraph().;			
+		}
+		*/
+		
 		return value;
 	}
 

@@ -95,7 +95,7 @@ public class ConstraintValueReader {
 				return "("+renderShaclPropertyPath(value)+")+";
 			}
 		} else {
-			return "Unsupported path";
+			return null; //"Unsupported path";
 		}
 	}
 	

@@ -16,16 +16,29 @@ public class Main {
 	public static void main(String[] args) throws Exception {
 		
 		String shaclFile = args[0];
+		String shaclFileOWL = args[1];
+		boolean outExpandDiagram = Boolean.parseBoolean(args[2]);
+		
 		Model shaclGraph = ModelFactory.createDefaultModel();
-
 		if(shaclFile.startsWith("http")) {
 			shaclGraph.read(shaclFile, RDF.uri, FileUtils.guessLang(shaclFile, "Turtle"));
 		} else {
 			shaclGraph.read(new FileInputStream(shaclFile), RDF.uri, FileUtils.guessLang(shaclFile, "RDF/XML"));
 		}
+		
+		
+		Model owlGraph = ModelFactory.createDefaultModel();
+		if(shaclFileOWL != null) {
+			if(shaclFileOWL.startsWith("http")) {
+				owlGraph.read(shaclFileOWL, RDF.uri, FileUtils.guessLang(shaclFileOWL, "Turtle"));
+			} else {
+				owlGraph.read(new FileInputStream(shaclFileOWL), RDF.uri, FileUtils.guessLang(shaclFileOWL, "RDF/XML"));
+			}			
+		}
+		
 
 		ShaclPlantUmlWriter writer = new ShaclPlantUmlWriter(true, false);
-		String output = writer.writeInPlantUml(shaclGraph);
+		String output = writer.writeInPlantUml(shaclGraph,owlGraph,outExpandDiagram);
 		
 		String outputDirectory ="C:/Temp" ; //args[1];
 		

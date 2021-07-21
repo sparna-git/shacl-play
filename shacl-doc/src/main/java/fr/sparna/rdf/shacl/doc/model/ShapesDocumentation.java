@@ -13,6 +13,7 @@ public class ShapesDocumentation {
 	protected String versionInfo;
 	protected String svgDiagram;
 	protected String plantumlSource;
+	protected String pngDiagram;
 	
 	@JacksonXmlElementWrapper(localName="prefixes")
 	@JacksonXmlProperty(localName = "prefixe")
@@ -21,6 +22,16 @@ public class ShapesDocumentation {
 	@JacksonXmlElementWrapper(localName="sections")
 	@JacksonXmlProperty(localName = "section")
 	protected List<ShapesDocumentationSection> sections;
+	
+	
+	
+	
+	public String getPngDiagram() {
+		return pngDiagram;
+	}
+	public void setPngDiagram(String pngDiagram) {
+		this.pngDiagram = pngDiagram;
+	}
 	
 	public String getModifiedDate() {
 		return modifiedDate;

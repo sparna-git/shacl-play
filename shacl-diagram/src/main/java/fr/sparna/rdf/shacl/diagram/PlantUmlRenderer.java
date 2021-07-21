@@ -128,7 +128,8 @@ public class PlantUmlRenderer {
 		declaration += (this.generateAnchorHyperlink)?"[[#"+box.getLabel()+"]]"+"\n":"\n";
 		if(box.getSuperClasses() != null) {
 			for (PlantUmlBox aSuperClass : box.getSuperClasses()) {
-				declaration += "\""+box.getLabel()+"\"" + "--|>" + "\""+aSuperClass.getLabel()+"\"" + "\n";
+				// generate an "up" arrow
+				declaration += "\""+box.getLabel()+"\"" + "-up-|>" + "\""+aSuperClass.getLabel()+"\"" + "\n";
 			}
 		}
 		

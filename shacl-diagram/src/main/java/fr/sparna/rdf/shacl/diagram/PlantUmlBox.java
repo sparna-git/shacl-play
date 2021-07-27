@@ -9,6 +9,7 @@ public class PlantUmlBox {
 	
 	private Resource nodeShape;
 	
+	protected String label;
 	protected String nametargetclass; 
 	protected String packageName;	
 	
@@ -20,10 +21,13 @@ public class PlantUmlBox {
 	}
 	
 	public String getLabel() {
-		// strip out hyphens
-		return (nodeShape.isURIResource())?nodeShape.getLocalName().replaceAll("-", ""):nodeShape.toString();
+		return label;
 	}	
 	
+	public void setLabel(String label) {
+		this.label = label;
+	}
+
 	public List<PlantUmlProperty> getProperties() {	
 		return properties;
 	}

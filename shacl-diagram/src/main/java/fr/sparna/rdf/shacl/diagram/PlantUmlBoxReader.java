@@ -14,13 +14,34 @@ public class PlantUmlBoxReader {
 		
 	private ConstraintValueReader valueReader = new ConstraintValueReader();
 	
-	public PlantUmlBox read(Resource nodeShape) {
+	public PlantUmlBox read(Resource nodeShape, List<Resource> allNodeShapes) {
 		PlantUmlBox box = new PlantUmlBox(nodeShape);
 		
+		box.setLabel(this.readLabel(nodeShape, allNodeShapes));
 		box.setPackageName(this.readPackageName(nodeShape));
 		box.setNametargetclass(this.readNametargetclass(nodeShape));
 		
 		return box;
+	}
+	
+	public String readLabel(Resource nodeShape, List<Resource> allNodeShapes) {
+		// strip out hyphens
+		if(nodeShape.isURIResource()) {
+			return nodeShape.getLocalName().replaceAll("-", "");
+		} else {
+//			return nodeShape.toString();
+			StringBuffer sb = new StringBuffer();
+			for(int i=0;i<allNodeShapes.size();i++) {
+				if(allNodeShapes.get(i).isAnon()) {
+					sb.append(" ");
+				}
+				// stop when we have found our nodeshape
+				if(allNodeShapes.get(i).toString().equals(nodeShape.toString())) {
+					break;
+				}
+			}
+			return sb.toString();
+		}
 	}
 	
 	public List<PlantUmlProperty> readProperties(Resource nodeShape, List<PlantUmlBox> allBoxes,Model owlGraph) {

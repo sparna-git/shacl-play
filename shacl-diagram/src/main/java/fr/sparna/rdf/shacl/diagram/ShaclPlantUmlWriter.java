@@ -52,7 +52,7 @@ public class ShaclPlantUmlWriter {
 		// 1. Lire toutes les box
 		PlantUmlBoxReader nodeShapeReader = new PlantUmlBoxReader();		
 		
-		List<PlantUmlBox> plantUmlBoxes = nodeShapes.stream().map(res -> nodeShapeReader.read(res)).sorted((b1,b2) -> {
+		List<PlantUmlBox> plantUmlBoxes = nodeShapes.stream().map(res -> nodeShapeReader.read(res, nodeShapes)).sorted((b1,b2) -> {
 			if (b1.getNametargetclass() != null) {
 				if(b2.getNametargetclass() != null) {
 					return b2.getNametargetclass().compareTo(b1.getNametargetclass());

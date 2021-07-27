@@ -76,6 +76,7 @@ public class PlantUmlRenderer {
 						}
 					}
 				}
+				
 				if(inverse_label.length() > 0) {
 					inverse_label = inverse_label.substring(0, inverse_label.length() - 3);
 				}
@@ -253,7 +254,7 @@ public class PlantUmlRenderer {
 
 				// 
 				for (PlantUmlProperty plantUmlproperty : box.getProperties()) {
-					Boolean value_nodeShapeProperty = false;
+					Boolean valueIsNodeShape = false;
 					if (plantUmlproperty.value_node != null) {
 						if (plantUmlproperty.value_node.getProperties().size() < 1) {
 							Integer nCount = 0;
@@ -268,13 +269,14 @@ public class PlantUmlRenderer {
 								}
 							}
 							if (nCount > 1) {
-								value_nodeShapeProperty = false;
+								valueIsNodeShape = false;
 							} else {
-								value_nodeShapeProperty = true;
+								valueIsNodeShape = true;
 							}
 						}
 					}
-					declaration += this.render(plantUmlproperty, box.getLabel(), value_nodeShapeProperty);
+					
+					declaration += this.render(plantUmlproperty, "\"" + box.getLabel() + "\"", valueIsNodeShape);
 				}
 			}
 		} else {
@@ -288,7 +290,7 @@ public class PlantUmlRenderer {
 			}
 
 			for (PlantUmlProperty plantUmlproperty : box.getProperties()) {
-				declaration += this.render(plantUmlproperty, box.getLabel(), false);
+				declaration += this.render(plantUmlproperty, "\"" + box.getLabel() + "\"", false);
 			}
 		}
 		return declaration;

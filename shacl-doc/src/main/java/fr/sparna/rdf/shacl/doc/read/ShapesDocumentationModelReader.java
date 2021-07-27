@@ -48,7 +48,7 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 			Model owlGraph,
 			String lang,
 			String fileName,
-			boolean outExpandDiagram
+			boolean avoidArrowsToEmptyBoxes
 	) {
 
 		List<Resource> nodeShapes = shaclGraph.listResourcesWithProperty(RDF.type, SH.NodeShape).toList();
@@ -108,11 +108,11 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 			SVGGenerator gImgSvg = new SVGGenerator();
 			PlantUmlSourceGenerator sourceGenerator = new PlantUmlSourceGenerator();
 			try {
-				sImgDiagramme = gImgSvg.generateSvgDiagram(shaclGraph, owlGraph,outExpandDiagram);
-				plantUmlSourceDiagram = sourceGenerator.generatePlantUmlDiagram(shaclGraph, owlGraph,false,true,outExpandDiagram);
+				sImgDiagramme = gImgSvg.generateSvgDiagram(shaclGraph, owlGraph,avoidArrowsToEmptyBoxes);
+				plantUmlSourceDiagram = sourceGenerator.generatePlantUmlDiagram(shaclGraph, owlGraph,false,true,avoidArrowsToEmptyBoxes);
 
 				// Read source Uml
-				plantUmlSourceCode = sourceGenerator.generatePlantUmlDiagram(shaclGraph, owlGraph,false,false,outExpandDiagram);
+				plantUmlSourceCode = sourceGenerator.generatePlantUmlDiagram(shaclGraph, owlGraph,false,false,avoidArrowsToEmptyBoxes);
 				// if source uml is true generate png file
 				if(!plantUmlSourceCode.isEmpty()) {	
 					// Write the first image to "png"

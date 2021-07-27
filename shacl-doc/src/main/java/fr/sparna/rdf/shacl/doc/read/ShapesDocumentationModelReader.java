@@ -215,7 +215,7 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 				
 				if(propriete.getNode() != null) {
 					for(ShaclBox aName : Shaclvalue) {
-						if(aName.getShortForm().contains(propriete.getNode())) {
+						if(aName.getShortForm().equals(propriete.getNode())) {
 							proprieteDoc.setLinkNodeShapeUri(aName.getLocalName());
 							if(aName.getRdfslabel() == null) {
 								proprieteDoc.setLinkNodeShape(aName.getShortForm());

@@ -150,7 +150,7 @@ public class PlantUmlRenderer {
 		String output = "<> " + sNameDiamond + "\n";
 
 		// link between box and diamond
-		output += boxName + " --> \"" + sNameDiamond + "\" : " + property.getValue_path();
+		output += boxName + " -[bold]-> \"" + sNameDiamond + "\" : " + property.getValue_path();
 
 		// added information on link
 		if (property.getValue_cardinality() != null) {

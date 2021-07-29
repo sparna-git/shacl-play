@@ -28,12 +28,10 @@ public class PlantUmlBoxReader {
 		// strip out hyphens
 		String value = null;
 		if(nodeShape.isURIResource()) {
-			value = nodeShape.asResource().getLocalName();
+			value = nodeShape.asResource().getModel().shortForm(nodeShape.getURI());
 		}else {
 			value = nodeShape.toString();
 		}
-		
-		System.out.print(value);
 		
 		return value;
 		

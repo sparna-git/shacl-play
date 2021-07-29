@@ -20,12 +20,13 @@ public class ConstraintValueReader {
 		try {
 			if (constraint.hasProperty(property)) {
 				if (constraint.getProperty(property).getObject().isURIResource()) {
-					  value = constraint.getProperty(property).getResource().getLocalName();			
+					  //value = constraint.getProperty(property).getResource().getLocalName();
+					  value = constraint.getProperty(property).getResource().getModel().shortForm(constraint.getProperty(property).getResource().getURI());
 				}
 				else if (constraint.getProperty(property).getObject().isLiteral()) {
 					value = constraint.getProperty(property).getObject().asLiteral().getString();				
 				} else if (constraint.getProperty(property).getObject().isAnon()) {
-					value = renderShaclPropertyPath(constraint.getProperty(property).getObject().asResource());					
+					value = renderShaclPropertyPath(constraint.getProperty(property).getObject().asResource());
 				}
 			}
 		} catch (Exception e) {
@@ -79,7 +80,7 @@ public class ConstraintValueReader {
 				}).collect(Collectors.joining("/"));
 			*/
 			return pathElements.stream().map(p ->{
-				return p.asResource().listProperties().nextStatement().getObject().asResource().getLocalName();
+				return p.asResource().listProperties().nextStatement().getObject().asResource().getModel().shortForm(p.asResource().listProperties().nextStatement().getObject().asResource().getURI()); //.getLocalName();
 			}).collect(Collectors.joining(","));
 			
 			     

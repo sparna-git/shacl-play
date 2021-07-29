@@ -41,7 +41,7 @@ public class PlantUmlRenderer {
 				if (property.getValue_pattern() != null && this.displayPatterns) {
 					output += "(" + property.getValue_pattern() + ")" + " ";
 				}
-				if (property.getValue_nodeKind() != null && !property.getValue_nodeKind().equals("IRI")) {
+				if (property.getValue_nodeKind() != null && !property.getValue_nodeKind().equals("sh:IRI")) {
 					output += property.getValue_nodeKind() + " ";
 				}
 				
@@ -68,7 +68,7 @@ public class PlantUmlRenderer {
 							if (property.getValue_pattern() != null && this.displayPatterns) {
 								inverse_label += "(" + property.getValue_pattern() + ")" + " ";
 							}
-							if (property.getValue_nodeKind() != null && !property.getValue_nodeKind().equals("IRI")) {
+							if (property.getValue_nodeKind() != null && !property.getValue_nodeKind().equals("sh:IRI")) {
 								inverse_label += property.getValue_nodeKind() + " ";
 							}
 							
@@ -107,7 +107,7 @@ public class PlantUmlRenderer {
 				if (property.getValue_pattern() != null && this.displayPatterns) {
 					output += "(" + property.getValue_pattern() + ")" + " ";
 				}
-				if (property.getValue_nodeKind() != null && !property.getValue_nodeKind().equals("IRI")) {
+				if (property.getValue_nodeKind() != null && !property.getValue_nodeKind().equals("sh:IRI")) {
 					output += property.getValue_nodeKind() + " ";
 				}
 				
@@ -124,7 +124,7 @@ public class PlantUmlRenderer {
 			if (property.getValue_pattern() != null && this.displayPatterns) {
 				output += "(" + property.getValue_pattern() + ")" + " ";
 			}
-			if (property.getValue_nodeKind() != null && !property.getValue_nodeKind().equals("IRI")) {
+			if (property.getValue_nodeKind() != null && !property.getValue_nodeKind().equals("sh:IRI")) {
 				output += property.getValue_nodeKind() + " ";
 			}
 			
@@ -159,14 +159,14 @@ public class PlantUmlRenderer {
 		if (property.getValue_pattern() != null && this.displayPatterns) {
 			output += "(" + property.getValue_pattern() + ")" + " ";
 		}
-		if (property.getValue_nodeKind() != null && !property.getValue_nodeKind().equals("IRI")) {
+		if (property.getValue_nodeKind() != null && !property.getValue_nodeKind().equals("sh:IRI")) {
 			output += property.getValue_nodeKind() + " ";
 		}
 		output += "\n";
 
 		// now link diamond to each value in the sh:or
 		for (PlantUmlBox sDataOr : property.getValue_shor()) {
-			output += sNameDiamond + " .. " + sDataOr.getNodeShape().getLocalName() + "\n";
+			output += sNameDiamond + " .. " + " \""+sDataOr.getNodeShape().getModel().shortForm(sDataOr.getNodeShape().getURI())+ "\"" + "\n";
 		}
 
 		return output;
@@ -203,7 +203,7 @@ public class PlantUmlRenderer {
 		if (property.getValue_pattern() != null && this.displayPatterns) {
 			output += "(" + property.getValue_pattern() + ")" + " ";
 		}
-		if (property.getValue_nodeKind() != null && !property.getValue_nodeKind().equals("IRI")) {
+		if (property.getValue_nodeKind() != null && !property.getValue_nodeKind().equals("sh:IRI")) {
 			output += property.getValue_nodeKind() + " ";
 		}
 

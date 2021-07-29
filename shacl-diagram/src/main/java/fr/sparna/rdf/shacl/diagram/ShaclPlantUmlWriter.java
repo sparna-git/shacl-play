@@ -1,6 +1,8 @@
 package fr.sparna.rdf.shacl.diagram;
 
 	
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -68,13 +70,33 @@ public class ShaclPlantUmlWriter {
 			}
 		}).collect(Collectors.toList());
 		
+		List<PlantUmlBox> plantUmlBoxesA = plantUmlBoxes.stream().sorted((s1, s2) -> {
+			if(s1.getNodeShape().isAnon()) {
+				if(!s2.getNodeShape().isAnon()) {
+					return s1.getNodeShape().toString().compareTo(s2.getNodeShape().toString());
+				}else {
+					return -1;
+				}
+			}else {
+				if(!s2.getNodeShape().isAnon()) {
+					return 1;
+				} else {
+					return s1.getLabel().compareTo(s2.getLabel());
+				}
+			}	
+		}).collect(Collectors.toList());
+		
+		
 		// 2. Une fois qu'on a toute la liste, lire les proprietes
-		for (PlantUmlBox aBox : plantUmlBoxes) {
-			aBox.setProperties(nodeShapeReader.readProperties(aBox.getNodeShape(), plantUmlBoxes,owlGraph));
+		for (PlantUmlBox aBox : plantUmlBoxesA) {
+			aBox.setProperties(nodeShapeReader.readProperties(aBox.getNodeShape(), plantUmlBoxesA,owlGraph));
 			if(includeSubclassLinks) {
-				aBox.setSuperClasses(nodeShapeReader.readSuperClasses(aBox.getNodeShape(), plantUmlBoxes,owlGraph));
+				aBox.setSuperClasses(nodeShapeReader.readSuperClasses(aBox.getNodeShape(), plantUmlBoxesA,owlGraph));
 			}
 		}
+		
+		
+		
 		
 		StringBuffer sourceuml = new StringBuffer();
 		sourceuml.append("@startuml\n");
@@ -92,14 +114,17 @@ public class ShaclPlantUmlWriter {
 		PlantUmlRenderer renderer = new PlantUmlRenderer();
 		renderer.setGenerateAnchorHyperlink(this.generateAnchorHyperlink);
 		// retrieve all package declaration
-		Set<String> packages = plantUmlBoxes.stream().map(b -> b.getPackageName()).collect(Collectors.toSet());
+		Set<String> packages = plantUmlBoxesA.stream().map(b -> b.getPackageName()).collect(Collectors.toSet());
 		for(String aPackage : packages ) {
 			if(!aPackage.equals("")) {
 				sourceuml.append("namespace "+aPackage+" "+"{\n");
 			}
 			
-			for (PlantUmlBox plantUmlBox : plantUmlBoxes.stream().filter(b -> b.getPackageName().equals(aPackage)).collect(Collectors.toList())) {
-				sourceuml.append(renderer.renderNodeShape(plantUmlBox,plantUmlBoxes,this.avoidArrowsToEmptyBoxes));
+			//
+			// List<PlantUmlBox> PlantBox = plantUmlBoxes.stream().sorted(PlantUmlBox.)
+			
+			for (PlantUmlBox plantUmlBox : plantUmlBoxesA.stream().filter(b -> b.getPackageName().equals(aPackage)).collect(Collectors.toList())) {
+				sourceuml.append(renderer.renderNodeShape(plantUmlBox,plantUmlBoxesA,this.avoidArrowsToEmptyBoxes));
 			}
 			
 			if(!aPackage.equals("")) {

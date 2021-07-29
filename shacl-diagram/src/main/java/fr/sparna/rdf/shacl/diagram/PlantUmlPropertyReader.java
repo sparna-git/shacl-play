@@ -238,21 +238,41 @@ public class PlantUmlPropertyReader {
 
 	
 	public PlantUmlBox readShNode(Resource constraint) {
-		// 1. Lire la valeur de sh:node
-		String nodeValue = constraintValueReader.readValueconstraint(constraint, SH.node);
+			// 1. Lire la valeur de sh:node
+			//Resource nodeValue = constraint.asResource().getProperty(SH.node).getResource();
+			String nodeValue = null;
+			nodeValue = constraintValueReader.readValueconstraint(constraint, SH.node);		
+					
 		
-		// 2. Trouver le PlantUmlBox qui a ce nom
-		PlantUmlBox theBox = null;
-		if (nodeValue != null) {
-			for (PlantUmlBox plantUmlBox : allBoxes) {
-				if(plantUmlBox.getLabel().equals(nodeValue)) {
-					theBox = plantUmlBox;
-					break;
+			// 2. Trouver le PlantUmlBox qui a ce nom
+			PlantUmlBox theBox = null;
+			if (nodeValue != null) {
+				for (PlantUmlBox plantUmlBox : allBoxes) {
+					if(plantUmlBox.getLabel().toString().equals(nodeValue.toString())) {
+						theBox = plantUmlBox;
+						break;
+					}					
 				}
 			}
-		}
+			
+			return theBox;
+			
+			
 		
-		return theBox;
+		
+		/*
+		 * if(constraint.hasProperty(SH.node)) { // 1. Lire la valeur de sh:node
+		 * Resource nodeValue =
+		 * constraint.asResource().getProperty(SH.node).getResource();
+		 * 
+		 * // 2. Trouver le PlantUmlBox qui a ce nom
+		 * 
+		 * if (nodeValue != null) { for (PlantUmlBox plantUmlBox : allBoxes) {
+		 * if(plantUmlBox.getNodeShape().toString().equals(nodeValue.toString())) {
+		 * theBox = plantUmlBox; break; } } } }
+		 * 
+		 * return theBox;
+		 */
 	}
 	
 

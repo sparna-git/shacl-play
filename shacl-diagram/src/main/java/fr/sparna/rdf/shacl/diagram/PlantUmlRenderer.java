@@ -54,8 +54,8 @@ public class PlantUmlRenderer {
 				ctrlnodeOrigen = property.getValue_node().getLabel();
 				for (PlantUmlProperty inverseOfProperty : property.getValue_node().getProperties()) {
 					if (inverseOfProperty.getValue_node() != null) {
-						if (inverseOfProperty.getValue_node().getNodeShape().getLocalName().equals(boxName)) {
-							
+						//if (inverseOfProperty.getValue_node().getNodeShape().getLocalName().equals(boxName)) {
+						if (inverseOfProperty.getValue_node().getLabel().equals(property.getValue_node().toString())) {	
 							bInverseOf = true;
 							ctrlnodeDest = inverseOfProperty.getValue_node().getNodeShape().getLocalName();
 							inverse_label += inverseOfProperty.getValue_path();
@@ -90,6 +90,7 @@ public class PlantUmlRenderer {
 				}
 				
 				if(ncount > 1 ) {
+					
 					output = boxName + " <-[bold]-> \"" + property.getValue_node().getLabel() + "\" : " + inverse_label;
 				} else {
 					output = boxName + " <-[bold]-> \"" + property.getValue_node().getLabel() + "\" : " + property.getValue_path()
@@ -115,7 +116,7 @@ public class PlantUmlRenderer {
 			
 		} else {
 			
-			output = boxName + " --> \"" + property.getValue_node().getLabel() + "\" : " + property.getValue_path();
+			output = boxName + " -[bold]-> \"" + property.getValue_node().getLabel() + "\" : " + property.getValue_path();
 			
 			if (property.getValue_cardinality() != null) {
 				output += " " + property.getValue_cardinality() + " ";
@@ -242,8 +243,11 @@ public class PlantUmlRenderer {
 
 		if (avoidArrowsToEmptyBoxes) {
 			if (box.getProperties().size() > 0) {
-
-				declaration = "Class" + " " + "\"" + box.getLabel() + "\"";
+				if (box.getNodeShape().isAnon()) {
+					declaration = "Class" + " " + box.getLabel() +" as " +"\""+" \"";
+				} else {
+					declaration = "Class" + " " + "\"" + box.getLabel() + "\"";
+				}
 				declaration += (this.generateAnchorHyperlink) ? "[[#" + box.getLabel() + "]]" + "\n" : "\n";
 				if (box.getSuperClasses() != null) {
 					for (PlantUmlBox aSuperClass : box.getSuperClasses()) {
@@ -280,7 +284,14 @@ public class PlantUmlRenderer {
 				}
 			}
 		} else {
-			declaration = "Class" + " " + "\"" + box.getLabel() + "\"";
+			
+			if (box.getNodeShape().isAnon()) {
+				declaration = "Class" + " " + box.getLabel() +" as " +"\""+" \"";
+			} else {
+				declaration = "Class" + " " + "\"" + box.getLabel() + "\"";
+			}
+			
+			
 			declaration += (this.generateAnchorHyperlink) ? "[[#" + box.getLabel() + "]]" + "\n" : "\n";
 			if (box.getSuperClasses() != null) {
 				for (PlantUmlBox aSuperClass : box.getSuperClasses()) {

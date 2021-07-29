@@ -26,22 +26,33 @@ public class PlantUmlBoxReader {
 	
 	public String readLabel(Resource nodeShape, List<Resource> allNodeShapes) {
 		// strip out hyphens
+		String value = null;
 		if(nodeShape.isURIResource()) {
-			return nodeShape.getLocalName().replaceAll("-", "");
-		} else {
-//			return nodeShape.toString();
-			StringBuffer sb = new StringBuffer();
-			for(int i=0;i<allNodeShapes.size();i++) {
-				if(allNodeShapes.get(i).isAnon()) {
-					sb.append(" ");
-				}
-				// stop when we have found our nodeshape
-				if(allNodeShapes.get(i).toString().equals(nodeShape.toString())) {
-					break;
-				}
-			}
-			return sb.toString();
+			value = nodeShape.asResource().getLocalName();
+		}else {
+			value = nodeShape.toString();
 		}
+		
+		System.out.print(value);
+		
+		return value;
+		
+	//	if(nodeShape.isURIResource()) {
+	//		return nodeShape.getLocalName().replaceAll("-", "");
+	//	} else {
+//			return nodeShape.toString();
+	//		StringBuffer sb = new StringBuffer();
+	//		for(int i=0;i<allNodeShapes.size();i++) {
+	//			if(allNodeShapes.get(i).isAnon()) {
+	//				sb.append(" ");
+	//			}
+				// stop when we have found our nodeshape
+	//			if(allNodeShapes.get(i).toString().equals(nodeShape.toString())) {
+	//				break;
+	//			}
+	//		}
+	//		return sb.toString();
+	//	}
 	}
 	
 	public List<PlantUmlProperty> readProperties(Resource nodeShape, List<PlantUmlBox> allBoxes,Model owlGraph) {
@@ -101,9 +112,11 @@ public class PlantUmlBoxReader {
 				
 				PlantUmlBox theBox = null;
 				for (PlantUmlBox plantUmlBox : allBoxes) {
-					if(plantUmlBox.getNodeShape().getURI().equals(object.asResource().getURI())) {
-						theBox = plantUmlBox;
-						break;
+					if(!plantUmlBox.getNodeShape().isAnon()) {
+						if(plantUmlBox.getNodeShape().getURI().equals(object.asResource().getURI())) {
+							theBox = plantUmlBox;
+							break;
+						}
 					}
 				}
 				

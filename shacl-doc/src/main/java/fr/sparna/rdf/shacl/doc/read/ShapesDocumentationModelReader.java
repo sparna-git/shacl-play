@@ -5,9 +5,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.Resource;
@@ -159,8 +163,23 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 			gatheredPrefixes.addAll(prefixes);
 		}
 		Map<String, String> necessaryPrefixes = ShaclPrefixReader.gatherNecessaryPrefixes(shaclGraph.getNsPrefixMap(), gatheredPrefixes);
-		List<NamespaceSection> namespaceSections = NamespaceSection.fromMap(necessaryPrefixes);		
-		shapesDocumentation.setPrefixe(namespaceSections);
+		List<NamespaceSection> namespaceSections = NamespaceSection.fromMap(necessaryPrefixes);
+		List<NamespaceSection> sortNameSpacesectionPrefix = namespaceSections.stream().sorted((s1, s2) -> {
+			if(s1.getprefix() != null ) {
+				if(s2.getprefix() != null) {
+					return s1.getprefix().toString().compareTo(s2.getprefix().toString());
+				}else {
+					return -1;
+				}
+			}else {
+				if(s2.getprefix() != null) {
+					return 1;
+				} else {
+					return s1.getprefix().compareTo(s2.getprefix());
+				}
+			}	
+		}).collect(Collectors.toList());
+		shapesDocumentation.setPrefixe(sortNameSpacesectionPrefix);
 		
 		
 		List<ShapesDocumentationSection> sections = new ArrayList<>();

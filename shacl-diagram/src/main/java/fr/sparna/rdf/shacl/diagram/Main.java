@@ -53,6 +53,12 @@ public class Main {
 		// output in svg
 		OutFileSVGUml fileplantuml = new OutFileSVGUml(new File(outputDirectory));
 		fileplantuml.outfilesvguml(output, fileName.substring(0, fileName.lastIndexOf('.'))+".svg");
+		
+		// output in svg
+		OutFilePNGuml fileplantumlpng = new OutFilePNGuml(new File(outputDirectory));
+		fileplantumlpng.outfilepnguml(output, fileName.substring(0, fileName.lastIndexOf('.'))+".png");
+		
+		
 
 	}
 }

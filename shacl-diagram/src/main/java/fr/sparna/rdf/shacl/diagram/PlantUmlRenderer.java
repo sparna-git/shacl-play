@@ -227,7 +227,8 @@ public class PlantUmlRenderer {
 			output += property.getValue_uniquelang() + " ";
 		}
 		if (property.getValue_hasValue() != null) {
-			output += "[" + property.getValue_hasValue() + "]" + " ";
+			//output += "[" + property.getValue_hasValue() + "]" + " ";
+			output += " = " + property.getValue_hasValue() + " ";
 		}
 		output += "\n";
 

@@ -194,7 +194,7 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 			}else {
 				currentSection.setTitle(datanodeshape.getRdfslabel());
 			}
-			currentSection.setUri(datanodeshape.getLocalName());
+			currentSection.setUri(datanodeshape.getShortForm());
 			currentSection.setDescription(datanodeshape.getRdfsComment());
 			currentSection.setTargetClassLabel(datanodeshape.getNametargetclass());
 			if(datanodeshape.getNametargetclass() != null) {
@@ -212,7 +212,7 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 			}
 			
 			
-			// Information de l'Ontology
+			// Read the property shape 
 
 			List<PropertyShapeDocumentation> ListPropriete = new ArrayList<>();
 			for (ShaclProperty propriete : datanodeshape.getShacl_value()) {
@@ -221,7 +221,8 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 									
 				if (propriete.getNode() != null && propriete.getNode() != "Unsupported path") {
 					for (ShaclBox pattern_other_nodeshape : Shaclvalue) {
-						if (propriete.getNode().contains(pattern_other_nodeshape.getLocalName())) {
+						if (propriete.getNode().contains(pattern_other_nodeshape.getShortForm())) //pattern_other_nodeshape.getShortForm().getLocalName() 
+							{
 							pattern_node_nodeshape = pattern_other_nodeshape.getShpatternNodeShape();
 							break;
 						}							
@@ -235,7 +236,7 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 				if(propriete.getNode() != null) {
 					for(ShaclBox aName : Shaclvalue) {
 						if(aName.getShortForm().equals(propriete.getNode())) {
-							proprieteDoc.setLinkNodeShapeUri(aName.getLocalName());
+							proprieteDoc.setLinkNodeShapeUri(aName.getShortForm()); //aName.getShortForm().getLocalName()
 							if(aName.getRdfslabel() == null) {
 								proprieteDoc.setLinkNodeShape(aName.getShortForm());
 							}else {
@@ -261,13 +262,13 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 				
 				proprieteDoc.setExpectedValueLabel(propriete.getClass_node(), propriete.getNode(),
 						propriete.getClass_property(), propriete.getDatatype(), propriete.getNodeKind(),
-						propriete.getPath());
+						propriete.getPath(),propriete.getShValue());
 				
 				if(propriete.getClass_node() != null) {
 					for(ShaclBox getNodeShape : Shaclvalue) {
 						if(getNodeShape.getNametargetclass() != null) {
 							if(getNodeShape.getNametargetclass().equals(propriete.getClass_node())) {
-								proprieteDoc.setLinknameNodeShapeuri(getNodeShape.getLocalName());
+								proprieteDoc.setLinknameNodeShapeuri(getNodeShape.getShortForm()); //getNodeShape.getLocalName()
 								proprieteDoc.setLinknameNodeShape(getNodeShape.getRdfslabel());
 								break;
 							}
@@ -280,7 +281,7 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 						propriete.getClass_property(), propriete.getDatatype(), propriete.getNodeKind(),
 						propriete.getPath());
 				proprieteDoc.setExpectedValueAdditionnalInfoIn(propriete.getShin());
-				proprieteDoc.setExpectedValueAdditionnalInfoValue(propriete.getShValue());
+				//proprieteDoc.setExpectedValueAdditionnalInfoValue(propriete.getShValue());
 				proprieteDoc.setCardinalite(propriete.getCardinality());
 				proprieteDoc.setDescription(propriete.getDescription());				
 				proprieteDoc.setOr(propriete.getShOr());

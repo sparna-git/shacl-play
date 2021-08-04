@@ -77,12 +77,13 @@ public class PropertyShapeDocumentation {
 	}
 
 	public void setExpectedValueLabel(String Valeu_class, String Value_node, String Value_Target, String Value_datatype,
-			String Value_nodeKind, String URI) {
+			String Value_nodeKind, String URI, String value_shValue) {
 		String value = null;
 
 		// Classe
-
-		if (Valeu_class != null) { //
+		if (value_shValue != null) {
+			value = value_shValue;
+		}else if (Valeu_class != null) { //
 			value = Valeu_class;
 		} else if (Value_Target != null) { // La valeur d'un Node vers une NodeShape qui a sh:targetClass
 			value = Value_Target;
@@ -97,7 +98,7 @@ public class PropertyShapeDocumentation {
 		else if (Value_nodeKind != null && Value_node == null) {
 			if (Value_nodeKind.equals("sh:IRI")) {
 				String[] ssplit = Value_nodeKind.split(":");
-				value = ssplit[ssplit.length - 1];
+				value = ssplit[ssplit.length - 1];	
 			} else {
 				value = Value_nodeKind;
 			}

@@ -32,7 +32,7 @@
 			<entry key="DIAGRAM.HELP"
 				label="Cliquez sur le diagramme pour naviguer vers la section correspondante" />
 			<entry key="DIAGRAM.VIEW" label="Voit le diagramme comme PNG" />
-				
+
 
 			<entry key="LABEL_TARGETCLASS" label="Classe de Target: " />
 			<entry key="LABEL_NODEKIND" label="Types de noeud : " />
@@ -62,7 +62,7 @@
 			<entry key="DIAGRAM.TITLE" label="Dataset diagram" />
 			<entry key="DIAGRAM.HELP"
 				label="Click diagram to navigate to corresponding section" />
-			<entry key="DIAGRAM.VIEW" label="View as PNG" />	
+			<entry key="DIAGRAM.VIEW" label="View as PNG" />
 
 			<entry key="LABEL_TARGETCLASS" label="Target Class: " />
 			<entry key="LABEL_NODEKIND" label="Nodes: " />
@@ -108,8 +108,8 @@
 				</style>
 			</head>
 			<body>
-				 <div class="container-md">
-				
+				<div class="container-md">
+
 					<br />
 					<h1>
 						<center>
@@ -145,7 +145,7 @@
 						<br />
 					</xsl:if>
 					<br />
-					
+
 
 					<div>
 						<!-- Table de matieres -->
@@ -166,14 +166,14 @@
 						</a>
 						<br />
 						<xsl:for-each select="sections/section">
-							<xsl:if test="count(properties/property)>0">
-								<xsl:variable name="TitleNodeSapetab" select="dURI" />
-								<xsl:variable name="Title" select="title" />
-								<a href="{concat('#',$TitleNodeSapetab)}">
-									<xsl:value-of select="$Title" />
-								</a>
-								<br />
-							</xsl:if>
+
+							<xsl:variable name="TitleNodeSapetab" select="uri" />
+							<xsl:variable name="Title" select="title" />
+							<a href="{concat('#',$TitleNodeSapetab)}">
+								<xsl:value-of select="$Title" />
+							</a>
+							<br />
+
 						</xsl:for-each>
 					</div>
 					<br />
@@ -192,25 +192,26 @@
 				</h2>
 				<div>
 					<!-- @disable-output-escaping prints the raw XML string as XML in the 
-						document and removes XML-encoding of the characters -->					
-					<xsl:value-of select="." disable-output-escaping="yes" />						 
+						document and removes XML-encoding of the characters -->
+					<xsl:value-of select="." disable-output-escaping="yes" />
 				</div>
 				<small class="form-text text-muted">
-					<xsl:variable name="pngImg" select="../pngDiagram"/>
+					<xsl:variable name="pngImg" select="../pngDiagram" />
 					<xsl:value-of
 						select="$LABELS/labels/entry[@key='DIAGRAM.HELP']/@label" />
-					<xsl:text> | </xsl:text>					
-				  	<a href="{$pngImg}" target="_blank">
-						<xsl:value-of select="$LABELS/labels/entry[@key='DIAGRAM.VIEW']/@label"/>
+					<xsl:text> | </xsl:text>
+					<a href="{$pngImg}" target="_blank">
+						<xsl:value-of
+							select="$LABELS/labels/entry[@key='DIAGRAM.VIEW']/@label" />
 					</a>
 				</small>
-				<br/>									
+				<br />
 			</div>
 		</xsl:if>
 	</xsl:template>
-	
-	
-	
+
+
+
 	<xsl:template match="prefixes">
 		<div id="prefixes">
 			<h2>
@@ -373,28 +374,29 @@
 							<xsl:otherwise>
 								<xsl:choose>
 									<xsl:when test="string-length(or) > 0">
-										<xsl:variable name="nfois" select="count(tokenize(or,','))"/>
+										<xsl:variable name="nfois"
+											select="count(tokenize(or,','))" />
 										<xsl:for-each select="tokenize(or,',')">
 											<xsl:variable name="countData">
 												<xsl:choose>
 													<xsl:when test="position() = 1">
-														<xsl:value-of select="count(.)"/>													
+														<xsl:value-of select="count(.)" />
 													</xsl:when>
 													<xsl:otherwise>
-														<xsl:value-of select="count(.)+1"/>
+														<xsl:value-of select="count(.)+1" />
 													</xsl:otherwise>
-												</xsl:choose>												
-											</xsl:variable>											
+												</xsl:choose>
+											</xsl:variable>
 											<xsl:variable name="sDataOrg" select="." />
 											<a href="{concat('#',$sDataOrg)}">
-												<xsl:value-of select="concat($sDataOrg,' ')"/>												
-											</a>											
+												<xsl:value-of select="concat($sDataOrg,' ')" />
+											</a>
 											<xsl:choose>
 												<xsl:when test="$nfois &gt; $countData">
 													<xsl:text>or </xsl:text>
-												</xsl:when>												
-											</xsl:choose>											
-										</xsl:for-each>										
+												</xsl:when>
+											</xsl:choose>
+										</xsl:for-each>
 									</xsl:when>
 									<xsl:otherwise>
 										<span class="monospace">

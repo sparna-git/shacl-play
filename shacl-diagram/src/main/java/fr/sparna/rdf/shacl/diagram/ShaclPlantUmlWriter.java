@@ -109,7 +109,8 @@ public class ShaclPlantUmlWriter {
 		sourceuml.append("skinparam componentStyle uml2\n");
 		sourceuml.append("skinparam wrapMessageWidth 100\n");
 		sourceuml.append("skinparam ArrowColor #Maroon\n");
-		sourceuml.append("skinparam dpi 80 \n\n");
+		//sourceuml.append("skinparam linetype ortho\n");
+		//sourceuml.append("skinparam dpi 80 \n\n");
 
 		PlantUmlRenderer renderer = new PlantUmlRenderer();
 		renderer.setGenerateAnchorHyperlink(this.generateAnchorHyperlink);

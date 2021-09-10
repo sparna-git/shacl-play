@@ -75,15 +75,13 @@
 			<li><a href="#${Shape.getLabel()}">${Shape.getLabel()}</a>
 				<ul>
 					<li><a href="#Target">Target</a></li>
-					<details>						 
-						<summary><a href="#Rules">Rules</a></summary>
+					<li><a href="#Rules">Rules</a>
 						<ul>
 							<c:forEach items="${Shape.getRules()}" var="rules">
 							<li><a href="#${rules.getShSparqlRuleName()}">${rules.getShSparqlRuleName()}</a></li>
 							</c:forEach>	
 						</ul>
-					</details>
-															
+					</li>									
 				</ul>
 			</li>		
 			</c:forEach>	

@@ -30,10 +30,10 @@
 	<link rel="stylesheet" href="<c:url value="/resources/jasny-bootstrap/jasny-bootstrap.min.css" />" />
 	<link rel="stylesheet" href="<c:url value="/resources/css/shacl-play.css" />" />
 	
-	<link rel="stylesheet" href="<c:url value="/resources/fa/css/codemirror.css" />">
-	<script src="lib/codemirror.js"></script>
-	<script src="mode/sparql/sparql.js"></script>
-	
+	<link rel="stylesheet" href="<c:url value="/resources/rules/lib/codemirror.css" />">
+	<script type="text/javascript" src="<c:url value="/resources/rules/lib/codemirror.js" />"></script>
+	<script type="text/javascript" src="<c:url value="/resources/rules/mode/sparql/sparql.js" />"></script>
+		
 	<style>
 		.CodeMirror {height: auto;}
 		.banner { align-content: center; }
@@ -66,10 +66,34 @@
 		${data.getComments()}
 	</div>
 	
+	<div class="container-md" id="Index">
+		<br>
+		<h2>Table of Content</h2>
+		<u>
+			<li><a href="#Namespaces">Namespaces</a></li>
+			<c:forEach items="${data.getShapeRules()}" var="Shape">
+			<li><a href="#${Shape.getLabel()}">${Shape.getLabel()}</a>
+				<ul>
+					<li><a href="#Target">Target</a></li>
+					<details>						 
+						<summary><a href="#Rules">Rules</a></summary>
+						<ul>
+							<c:forEach items="${Shape.getRules()}" var="rules">
+							<li><a href="#${rules.getShSparqlRuleName()}">${rules.getShSparqlRuleName()}</a></li>
+							</c:forEach>	
+						</ul>
+					</details>
+															
+				</ul>
+			</li>		
+			</c:forEach>	
+		</u>
+	</div>
+	
 	<article id="Namespaces">
 		<section>
 			<div class="container-md">
-				<p><h1>Namespaces</h1></p>
+				<h1>Namespaces</h1><p><a href="#Index"><u>Retourn</u></a></p> 
 				<table class="table table-striped table-sm">
 					<tr>
 						<th>Prefix</th>
@@ -89,10 +113,8 @@
 	<article id="NodeShape">
 		<div class="container-md">
 		<c:forEach items="${data.getShapeRules()}" var="Shape">
-		<section id="${Shape.getNodeShape()}">
-			<br>
-			<p><h1><a href="${Shape.getLabel()}">${Shape.getLabel()}</a></h1></p>
-			<br>
+		<section id="${Shape.getLabel()}">
+			<h1>${Shape.getLabel()}</h1>
 			<article id="Target">
 				<h2>Target</h2>
 				<form>
@@ -104,11 +126,12 @@
 			</article>
 			<br>
 			<article id="Rules">
+				<h2>Rules</h2>
 				<c:forEach items="${Shape.getRules()}" var="rules">
 				<section id="${rules.getShSparqlRuleName()}">
 					<br>
-					<h3>${rules.getShSparqlRuleName()}</h3>
-					<br>
+					<h3><a href="${rules.getShSparqlRuleName()}">${rules.getShSparqlRuleName()}</a></h3>
+					
 					<table class="table table table-striped">
 						<thead>	
 							<tbody>						

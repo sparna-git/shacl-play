@@ -23,10 +23,10 @@ public class BoxShapeRulesReader {
 		List<BoxShapeRules> boxRulesProperties = new ArrayList<>();		
 		for(Resource rRules : Shape) {
 			BoxShapeRules rulesProperties = new BoxShapeRules();
-			rulesProperties.setShSparqlRuleName(rRules.getLocalName());
+			rulesProperties.setShSparqlRuleName(rRules.getModel().shortForm(rRules.getURI()));
 			rulesProperties.setRdfsLabel(this.readShRulesLabel(rRules));
 			rulesProperties.setRdfsComments(this.readShRulesComment(rRules));
-			rulesProperties.setShPrefixes(this.readShRulesPrefixes(nodeShape));
+			rulesProperties.setShPrefixes(this.readShRulesPrefixes(rRules));
 			rulesProperties.setShOrder(this.readShRulesOrder(rRules));
 			rulesProperties.setShConstruct(this.readShRulesConstruct(rRules));
 			boxRulesProperties.add(rulesProperties);

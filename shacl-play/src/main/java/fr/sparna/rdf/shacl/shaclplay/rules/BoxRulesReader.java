@@ -13,6 +13,11 @@ import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.RDFS;
 import org.topbraid.shacl.vocabulary.SH;
 
+import fr.sparna.rdf.shacl.shaclplay.rules.model.BoxNameSpace;
+import fr.sparna.rdf.shacl.shaclplay.rules.model.BoxRules;
+import fr.sparna.rdf.shacl.shaclplay.rules.model.BoxShape;
+import fr.sparna.rdf.shacl.shaclplay.rules.model.BoxShapeTarget;
+
 public class BoxRulesReader {
 	
 	public BoxRules read(Model GraphModel) {

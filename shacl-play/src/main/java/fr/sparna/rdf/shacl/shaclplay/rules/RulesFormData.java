@@ -1,15 +1,8 @@
 package fr.sparna.rdf.shacl.shaclplay.rules;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.Resource;
-import org.apache.jena.vocabulary.RDF;
 import org.springframework.stereotype.Service;
-import org.topbraid.shacl.vocabulary.SH;
 
+import fr.sparna.rdf.shacl.shaclplay.catalog.rules.RulesCatalog;
 import fr.sparna.rdf.shacl.shaclplay.catalog.shapes.ShapesCatalog;
 
 @Service
@@ -17,7 +10,7 @@ public class RulesFormData {
 
 	public static final String KEY = RulesFormData.class.getSimpleName();
 	protected String errorMessage;
-	protected ShapesCatalog catalog;
+	protected RulesCatalog catalog;
 	protected String selectedShapesKey;
 	protected String message;
 
@@ -45,11 +38,11 @@ public class RulesFormData {
 		this.errorMessage = errorMessage;
 	}
 
-	public ShapesCatalog getCatalog() {
+	public RulesCatalog getCatalog() {
 		return catalog;
 	}
 
-	public void setCatalog(ShapesCatalog catalog) {
+	public void setCatalog(RulesCatalog catalog) {
 		this.catalog = catalog;
 	}
 

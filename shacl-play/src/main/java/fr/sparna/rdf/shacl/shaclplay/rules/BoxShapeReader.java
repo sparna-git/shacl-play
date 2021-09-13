@@ -9,6 +9,8 @@ import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.vocabulary.RDF;
 import org.topbraid.shacl.vocabulary.SH;
 
+import fr.sparna.rdf.shacl.shaclplay.rules.model.BoxShape;
+
 public class BoxShapeReader {
 	
 	

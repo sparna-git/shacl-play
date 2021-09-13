@@ -1,7 +1,6 @@
 package fr.sparna.rdf.shacl.shaclplay.rules;
 
 import java.net.URLEncoder;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,20 +13,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+
 import fr.sparna.rdf.shacl.shaclplay.ControllerModelFactory;
 import fr.sparna.rdf.shacl.shaclplay.ControllerModelFactory.SOURCE_TYPE;
 import fr.sparna.rdf.shacl.shaclplay.catalog.AbstractCatalogEntry;
-import fr.sparna.rdf.shacl.shaclplay.catalog.shapes.ShapesCatalog;
-import fr.sparna.rdf.shacl.shaclplay.catalog.shapes.ShapesCatalogService;
+import fr.sparna.rdf.shacl.shaclplay.catalog.rules.RulesCatalog;
+import fr.sparna.rdf.shacl.shaclplay.catalog.rules.RulesCatalogService;
+import fr.sparna.rdf.shacl.shaclplay.rules.model.BoxRules;
 
 
 @Controller
@@ -40,10 +38,7 @@ public class RulesDisplayController {
 	protected RulesFormData RulesServices;
 	
 	@Autowired
-	protected RulesTodo services;
-	
-	@Autowired
-	protected ShapesCatalogService catalogService;
+	protected RulesCatalogService catalogService;
 	
 	
 	@RequestMapping(
@@ -54,12 +49,12 @@ public class RulesDisplayController {
 			HttpServletRequest request,
 			HttpServletResponse response
 	){
-		RulesFormData vfd = new RulesFormData();
+		RulesFormData data = new RulesFormData();
 		
-		ShapesCatalog catalog = this.catalogService.getShapesCatalog();
-		vfd.setCatalog(catalog);
+		RulesCatalog catalog = this.catalogService.getRulesCatalog();
+		data.setCatalog(catalog);
 		
-		return new ModelAndView("rules-form", RulesFormData.KEY, vfd);	
+		return new ModelAndView("rules-form", RulesFormData.KEY, data);	
 	}
 	
 	@RequestMapping(
@@ -68,19 +63,24 @@ public class RulesDisplayController {
 			method=RequestMethod.GET
 	)
 	public ModelAndView rulesUrl(
-			@RequestParam(value="url", required=true) String shapesUrl,
+			@RequestParam(value="url", required=true) String rulesUrl,
 			HttpServletRequest request,
 			HttpServletResponse response
 	){
 		try {
-			log.debug("rulesUrl(shapesUrl='"+shapesUrl+"')");		
+			log.debug("rulesUrl(rulesUrl='"+rulesUrl+"')");		
 			
 			Model shapesModel = ModelFactory.createDefaultModel();
-			ControllerModelFactory modelPopulator = new ControllerModelFactory(this.catalogService.getShapesCatalog());
-			modelPopulator.populateModelFromUrl(shapesModel, shapesUrl);
+			ControllerModelFactory modelPopulator = new ControllerModelFactory(this.catalogService.getRulesCatalog());
+			modelPopulator.populateModelFromUrl(shapesModel, rulesUrl);
 			log.debug("Done Loading Shapes. Model contains "+shapesModel.size()+" triples");
 			
-			return null;
+			BoxRulesReader p = new BoxRulesReader();
+			BoxRules box = p.read(shapesModel);
+			
+			return new ModelAndView("display-rules", BoxRules.class.getSimpleName(), box);
+			
+			
 		
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -114,19 +114,19 @@ public class RulesDisplayController {
 			// get the shapes source type
 			ControllerModelFactory.SOURCE_TYPE shapesSource = ControllerModelFactory.SOURCE_TYPE.valueOf(shapesSourceString.toUpperCase());
 			
-			// if source is a ULR, redirect to the API
+			// if source is a URL, redirect to the API
 			if(shapesSource == SOURCE_TYPE.URL) {
-				return new ModelAndView("redirect:/display?url="+URLEncoder.encode(shapesUrl, "UTF-8"));
+				return new ModelAndView("redirect:/rules?url="+URLEncoder.encode(shapesUrl, "UTF-8"));
 			} else if (shapesSource == SOURCE_TYPE.CATALOG) {
-				AbstractCatalogEntry entry = this.catalogService.getShapesCatalog().getCatalogEntryById(shapesCatalogId);
-				return new ModelAndView("redirect:/displaydisplay?url="+URLEncoder.encode(entry.getTurtleDownloadUrl().toString(), "UTF-8"));
+				AbstractCatalogEntry entry = this.catalogService.getRulesCatalog().getCatalogEntryById(shapesCatalogId);
+				return new ModelAndView("redirect:/rules?url="+URLEncoder.encode(entry.getTurtleDownloadUrl().toString(), "UTF-8"));
 			}
 			
 			
 			// initialize shapes first
 			log.debug("Determining Shapes source...");
 			Model shapesModel = ModelFactory.createDefaultModel();
-			ControllerModelFactory modelPopulator = new ControllerModelFactory(this.catalogService.getShapesCatalog());
+			ControllerModelFactory modelPopulator = new ControllerModelFactory(this.catalogService.getRulesCatalog());
 			modelPopulator.populateModel(
 					shapesModel,
 					shapesSource,
@@ -138,13 +138,10 @@ public class RulesDisplayController {
 			
 			log.debug("Done Loading Shapes. Model contains "+shapesModel.size()+" triples");
 			
-			//showRulesPage(shapesModel);
+			BoxRulesReader p = new BoxRulesReader();
+			BoxRules box = p.read(shapesModel);
 			
-			
-			ModelMap modelView = new  ModelMap();
-			BoxRules box = new RulesTodo().readModel(shapesModel);
-			
-			return new ModelAndView("display-rules", RulesTodo.KEY, box);
+			return new ModelAndView("display-rules", BoxRules.class.getSimpleName(), box);
 			
 				
 			
@@ -153,22 +150,6 @@ public class RulesDisplayController {
 			return handleViewFormError(request, e.getClass().getName() +" : "+e.getMessage(), e);
 		}
 	}
-	
-	
-	@RequestMapping(
-			value="/display-rules",
-			method = RequestMethod.GET
-	)
-	public ModelAndView showRulesPage(Model shapesModel) {
-		
-		RulesTodo todo = new RulesTodo();
-		todo.readModel(shapesModel);
-		
-		System.out.print(todo);
-		
-		return new ModelAndView("display-rules", RulesTodo.KEY, todo);
-	}
-	
 	
 	
 	/**
@@ -186,7 +167,7 @@ public class RulesDisplayController {
 		RulesFormData vfd = new RulesFormData();
 		vfd.setErrorMessage(Encode.forHtml(message));
 		
-		ShapesCatalog catalog = this.catalogService.getShapesCatalog();
+		RulesCatalog catalog = this.catalogService.getRulesCatalog();
 		vfd.setCatalog(catalog);
 		
 		if(e != null) {

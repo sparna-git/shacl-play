@@ -1,4 +1,4 @@
-package fr.sparna.rdf.shacl.shaclplay.rules;
+package fr.sparna.rdf.shacl.shaclplay.rules.model;
 
 import org.apache.jena.rdf.model.Resource;
 

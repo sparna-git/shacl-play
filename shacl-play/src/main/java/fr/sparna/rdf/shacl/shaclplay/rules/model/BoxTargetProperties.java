@@ -1,4 +1,4 @@
-package fr.sparna.rdf.shacl.shaclplay.rules;
+package fr.sparna.rdf.shacl.shaclplay.rules.model;
 
 import java.util.ArrayList;
 import java.util.List;

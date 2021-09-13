@@ -67,6 +67,7 @@
 						          	<div class="btn-group btn-group-lg float-right" role="group">
 									  <c:if test="${not empty entry.landingPage}"><a type="button" class="btn btn-outline-dark" href="${entry.landingPage}"><i class="fal fa-home"></i></a></c:if>
 									  <a type="button" class="btn btn-outline-dark" href="<c:url value="${entry.turtleDownloadUrl}" />"><i class="fal fa-download"></i></a>
+									  <a type="button" class="btn btn-outline-dark" href="<c:url value="/rules?url=${entry.turtleDownloadUrl}" />"><i class="fal fa-eye"></i></a>
 									  <a type="button" class="btn btn-outline-dark" href="<c:url value="/convert?rules=${entry.id}" />"><i class="fal fa-play"></i></a>
 									</div>
 						          </div>

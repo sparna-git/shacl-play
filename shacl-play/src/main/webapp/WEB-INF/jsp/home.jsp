@@ -98,7 +98,10 @@
 					    <div class="card-body">
 					      <h5 class="card-title">Apply generic SHACL Rules</h5>
 					      <p class="card-text">Want more than OWL-2-SHACL rules ? apply custom <a href="https://www.w3.org/TR/shacl-af/#rules">SHACL Rules</a> on your data to derive new data.</p>
+						  <div class="btn-group" role="group" aria-label="Basic example">
 						  <a href="<c:url value="/convert" />" class="btn btn-primary">Convert RDF using Rules</a>
+						  <a href="<c:url value="/rules" />" class="btn btn-primary">Display SHACL Rules</a>
+						  </div>
 					    </div>
 					  </div>
 					</div>

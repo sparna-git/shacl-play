@@ -36,6 +36,9 @@
             <li class="nav-item ${param.active == 'doc' ? 'active' : ''}">
                 <a class="nav-link" href="<c:url value="/doc" />"><fmt:message key="navbar.doc" />${param.active == 'doc' ? '<span class="sr-only">(current)</span>' : ''}</a>
             </li>
+            <li class="nav-item ${param.active == 'rules' ? 'active' : ''}">
+                <a class="nav-link" href="<c:url value="/rules" />"><fmt:message key="navbar.rules" />${param.active == 'rules' ? '<span class="sr-only">(current)</span>' : ''}</a>
+            </li>
             <li class="navbar-text">|</li>
             <li class="nav-item ${param.active == 'shapes-catalog' ? 'active' : ''}">
                 <a class="nav-link" href="<c:url value="/shapes-catalog" />"><fmt:message key="navbar.shapes-catalog" />${param.active == 'shapes-catalog' ? '<span class="sr-only">(current)</span>' : ''}</a>

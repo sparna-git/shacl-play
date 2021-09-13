@@ -9,7 +9,7 @@
 	value="${sessionScope['fr.sparna.rdf.shacl.shaclplay.SessionData'].userLocale.language}" />
 <fmt:setBundle basename="fr.sparna.rdf.shacl.shaclplay.i18n.shaclplay" />
 
-<c:set var="data" value="${requestScope['RulesTodo']}" />
+<c:set var="data" value="${requestScope['BoxRules']}" />
 
 <html>
 <head>
@@ -69,29 +69,29 @@
 	<div class="container-md" id="Index">
 		<br>
 		<h2>Table of Content</h2>
-		<u>
+		<ul>
 			<li><a href="#Namespaces">Namespaces</a></li>
 			<c:forEach items="${data.getShapeRules()}" var="Shape">
-			<li><a href="#${Shape.getLabel()}">${Shape.getLabel()}</a>
-				<ul>
-					<li><a href="#Target">Target</a></li>
-					<li><a href="#Rules">Rules</a>
-						<ul>
-							<c:forEach items="${Shape.getRules()}" var="rules">
-							<li><a href="#${rules.getShSparqlRuleName()}">${rules.getShSparqlRuleName()}</a></li>
-							</c:forEach>	
-						</ul>
-					</li>									
-				</ul>
-			</li>		
+				<li><a href="#${Shape.getLabel()}">${Shape.getLabel()}</a>
+					<ul>
+						<li><a href="#Target">Target</a></li>
+						<li><a href="#Rules">Rules</a>
+							<ul>
+								<c:forEach items="${Shape.getRules()}" var="rules">
+									<li><a href="#${rules.getShSparqlRuleName()}">${rules.getShSparqlRuleName()}</a></li>
+								</c:forEach>	
+							</ul>
+						</li>									
+					</ul>
+				</li>		
 			</c:forEach>	
-		</u>
+		</ul>
 	</div>
 	
 	<article id="Namespaces">
 		<section>
 			<div class="container-md">
-				<h1>Namespaces</h1><p><a href="#Index"><u>Retourn</u></a></p> 
+				<h1>Namespaces</h1>
 				<table class="table table-striped table-sm">
 					<tr>
 						<th>Prefix</th>
@@ -147,10 +147,9 @@
 								</tr>
 							</tbody>
 						</table>
-						<div div style="max-width: 50em; margin-bottom: 1em">
+						<div style="max-width: 50em; margin-bottom: 1em">
 							<form>
-								<textarea class="js_editor">${rules.getShConstruct()}
-								</textarea>
+								<textarea class="js_editor">${rules.getShConstruct()}</textarea>
 							</form>
 						</div>		
 				</section>		

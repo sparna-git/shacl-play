@@ -25,8 +25,26 @@ public class PlantUmlProperty {
 	protected String value_qualifiedMaxMinCount;
 	protected List<String> value_inverseOf;
 	protected List<PlantUmlBox> value_shor;
+	protected String value_version;
+	protected String value_colorProperty;
 	
 	
+	public String getValue_colorProperty() {
+		return value_colorProperty;
+	}
+
+	public void setValue_colorProperty(String value_colorProperty) {
+		this.value_colorProperty = value_colorProperty;
+	}
+
+	public String getValue_version() {
+		return value_version;
+	}
+
+	public void setValue_version(String value_version) {
+		this.value_version = value_version;
+	}
+
 	public List<String> getValue_inverseOf() {
 		return value_inverseOf;
 	}

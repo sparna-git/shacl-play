@@ -59,10 +59,12 @@ public class ShaclPropertyReader {
 		shaclProperty.setShValue(this.readShValue(constraint));
 		shaclProperty.setShOrder(this.readShOrder(constraint));
 		shaclProperty.setShOr(this.readShOr(constraint));
-
+		
 		return shaclProperty;
 	}
-
+	
+	
+	
 	public String readShOr(Resource constraint) {
 		String orValue = null;
 		if (constraint.hasProperty(SH.or)) {

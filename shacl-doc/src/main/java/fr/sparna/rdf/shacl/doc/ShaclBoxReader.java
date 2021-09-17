@@ -32,9 +32,12 @@ public class ShaclBoxReader {
 		box.setShpatternNodeShape(this.readShpatternNodeShape(nodeShape));
 		box.setShnodeKind(this.readShnodeKind(nodeShape));
 		box.setShClose(this.readShClose(nodeShape));
-		box.setShOrder(this.readShOrder(nodeShape));		
+		box.setShOrder(this.readShOrder(nodeShape));	
+		
 		return box;
 	}
+	
+	
 	
 	public String readShnodeKind(Resource nodeShape) {	
 		String value = valueReader.readValueconstraint(nodeShape, SH.nodeKind, null);

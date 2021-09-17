@@ -54,9 +54,9 @@ public class ShapesDocumentationJacksonXsltWriter implements ShapesDocumentation
 			Source xmlInput = new DOMSource(xmlDocument);
 	        StreamResult xmlOutput = new StreamResult(output);
 	        // force Saxon
-	        // TransformerFactory transformerFactory = TransformerFactory.newInstance("net.sf.saxon.TransformerFactoryImpl", this.getClass().getClassLoader());
+	        TransformerFactory transformerFactory = TransformerFactory.newInstance("net.sf.saxon.TransformerFactoryImpl", this.getClass().getClassLoader());
 	        // Jorge
-	        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+	        //TransformerFactory transformerFactory = TransformerFactory.newInstance();
 	        //TransformerFactory.setAttribute("indent-number", 2);
 	        
 	        Source xsltInput = new StreamSource(this.getClass().getClassLoader().getResourceAsStream("doc2html.xsl"));

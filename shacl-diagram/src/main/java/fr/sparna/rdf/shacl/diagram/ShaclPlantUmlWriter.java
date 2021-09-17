@@ -1,15 +1,19 @@
 package fr.sparna.rdf.shacl.diagram;
 
 	
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.sparql.function.library.max;
 import org.apache.jena.vocabulary.RDF;
 import org.topbraid.shacl.vocabulary.SH;
 
@@ -114,15 +118,14 @@ public class ShaclPlantUmlWriter {
 
 		PlantUmlRenderer renderer = new PlantUmlRenderer();
 		renderer.setGenerateAnchorHyperlink(this.generateAnchorHyperlink);
+			
+		
 		// retrieve all package declaration
 		Set<String> packages = plantUmlBoxesA.stream().map(b -> b.getPackageName()).collect(Collectors.toSet());
 		for(String aPackage : packages ) {
 			if(!aPackage.equals("")) {
 				sourceuml.append("namespace "+aPackage+" "+"{\n");
 			}
-			
-			//
-			// List<PlantUmlBox> PlantBox = plantUmlBoxes.stream().sorted(PlantUmlBox.)
 			
 			for (PlantUmlBox plantUmlBox : plantUmlBoxesA.stream().filter(b -> b.getPackageName().equals(aPackage)).collect(Collectors.toList())) {
 				sourceuml.append(renderer.renderNodeShape(plantUmlBox,plantUmlBoxesA,this.avoidArrowsToEmptyBoxes));

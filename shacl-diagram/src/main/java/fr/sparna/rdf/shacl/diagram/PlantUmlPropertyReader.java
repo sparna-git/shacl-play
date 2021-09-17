@@ -53,8 +53,32 @@ public class PlantUmlPropertyReader {
 		p.setValue_qualifiedMaxMinCount(this.readShQualifiedMinCountQualifiedMaxCount(constraint));
 		p.setValue_inverseOf(this.readOwlInverseOf(owlGraph, p.getValue_path()));
 		p.setValue_shor(this.readShOrConstraint(constraint));
+		p.setValue_version(this.readShVersion(constraint));
+		p.setValue_colorProperty(this.readShColor(constraint));
 		
 		return p;
+	}
+	
+	
+	
+	public String readShColor(Resource constraint) {
+		String value=null;
+		try {
+			value = constraint.getProperty(constraint.getModel().createProperty("https://shacl-play.sparna.fr/ontology#color")).getString();
+		} catch (Exception e) {
+			value = null;
+		}
+		return value;
+	}
+	
+	public String readShVersion(Resource constraint) {
+		String value=null;
+		try {
+			value = constraint.getProperty(constraint.getModel().createProperty("http://www.w3.org/2002/07/owl#versionInfo")).getLiteral().getString();
+		} catch (Exception e) {
+			value = null;
+		}
+		return value;
 	}
 	
 	

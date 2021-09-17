@@ -20,9 +20,34 @@ public class PlantUmlBoxReader {
 		box.setLabel(this.readLabel(nodeShape, allNodeShapes));
 		box.setPackageName(this.readPackageName(nodeShape));
 		box.setNametargetclass(this.readNametargetclass(nodeShape));
-		
+		box.setVersion(this.readVersion(nodeShape, allNodeShapes));
+		box.setColorClass(this.readColorClass(nodeShape, allNodeShapes));
 		return box;
 	}
+	
+	
+	
+	public String readColorClass(Resource nodeShape, List<Resource> allNodeShapes) {
+		String value = null;	
+		try {
+			value = nodeShape.getProperty(nodeShape.getModel().createProperty("https://shacl-play.sparna.fr/ontology#color")).getLiteral().getString();
+		} catch (Exception e) {
+			value = null;
+		}		
+		return value;
+	}
+	
+	
+	public String readVersion(Resource nodeShape, List<Resource> allNodeShapes) {
+		String value = null;	
+		try {
+			value = nodeShape.getProperty(nodeShape.getModel().createProperty("http://www.w3.org/2002/07/owl#versionInfo")).getLiteral().getString();
+		} catch (Exception e) {
+			value = null;
+		}		
+		return value;
+	}
+	
 	
 	public String readLabel(Resource nodeShape, List<Resource> allNodeShapes) {
 		// strip out hyphens

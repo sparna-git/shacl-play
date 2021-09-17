@@ -127,8 +127,11 @@
 			<version>${openhtml.version}</version>
 		</dependency>
 
-		<dependency>
-			<!-- Optional, leave out if you do not need SVG support. -->
+		<!--
+			Dependencies for PDF generation
+
+		< Optional, leave out if you do not need SVG support. >
+		<dependency>			
 			<groupId>com.openhtmltopdf</groupId>
 			<artifactId>openhtmltopdf-svg-support</artifactId>
 			<version>${openhtml.version}</version>
@@ -151,7 +154,7 @@
 			<artifactId>openhtmltopdf-objects</artifactId>
 			<version>0.0.1-RC19</version>
 		</dependency>
-
+		-->
 
 	</dependencies>
 </project>

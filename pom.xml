@@ -21,7 +21,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>8</java.version>
-        <jena.version>3.11.0</jena.version>
+        <jena.version>4.2.0</jena.version>
         <jtwig.version>5.87.0.RELEASE</jtwig.version>
         <jackson.version>2.11.3</jackson.version>
         <!-- library versions -->

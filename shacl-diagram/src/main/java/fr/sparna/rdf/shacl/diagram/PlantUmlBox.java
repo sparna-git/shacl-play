@@ -62,8 +62,12 @@ public class PlantUmlBox {
 		return nametargetclass;
 	}
 	
-	public String getQualifiedName() {		
-		return packageName+"."+this.getLabel();
+	public String getQualifiedName() {
+		if(!packageName.isEmpty()) {
+			return packageName+"."+this.getLabel();
+		}else {
+			return this.getLabel();
+		}
 	}
 
 	public Resource getNodeShape() {

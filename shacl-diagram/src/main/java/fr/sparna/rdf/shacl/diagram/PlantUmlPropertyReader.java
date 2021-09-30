@@ -316,16 +316,17 @@ public class PlantUmlPropertyReader {
 			
 			if(nodetargets.isEmpty()) {
 				if(idclass.hasProperty(RDF.type, RDFS.Class) && idclass.hasProperty(RDF.type, SH.NodeShape)) {
-					value = idclass.getLocalName();	
+					value = idclass.getModel().shortForm(constraint.getProperty(SH.class_).getResource().toString());	
 				} 
 				else {   // Section quand il n'y a pas une targetClass
-					value = constraint.getProperty(SH.class_).getResource().getLocalName();
+					value = constraint.getProperty(SH.class_).getResource().getModel().shortForm(constraint.getProperty(SH.class_).getResource().getURI()); //constraint.getProperty(SH.class_).getResource().getLocalName();
 				}
 			}
 		}
 		
 		// 2. Trouver le PlantUmlBox qui a ce nom
 		PlantUmlBox theBox = null;
+		
 		for (PlantUmlBox plantUmlBox : allBoxes) {
 			if(plantUmlBox.getLabel().equals(value)) {
 				theBox = plantUmlBox;

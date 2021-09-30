@@ -208,13 +208,13 @@ public class PlantUmlRenderer {
 		String labelColor = "";
 		String labelColorClose = "";
 		if(property.getValue_colorProperty() != null) {
-			labelColor = "<color:"+property.getValue_colorProperty()+">";
+			labelColor = "<color:"+property.getValue_colorProperty()+">"+" ";
 			labelColorClose = "</color>";
 		}
 		
 		// attempt with dotted lines
 		// output = boxName + " -[dotted]-> \"" + property.getValue_class_property() + "\" : " + property.getValue_path();
-		output = boxName + " --> \""+""+labelColor+" "+ property.getValue_class_property() + "\" : " + property.getValue_path()+" ";
+		output = boxName + " --> \""+""+labelColor+ property.getValue_class_property() + "\" : " + property.getValue_path()+" ";
 		
 
 		if (property.getValue_cardinality() != null) {
@@ -236,12 +236,12 @@ public class PlantUmlRenderer {
 		String labelColor = "";
 		String labelColorClose = "";
 		if(property.getValue_colorProperty() != null) {
-			labelColor = "<color:"+property.getValue_colorProperty()+">";
+			labelColor = "<color:"+property.getValue_colorProperty()+">"+" ";
 			labelColorClose = "</color>";
 		}
 		
 		
-		String output = boxName + " : "+""+labelColor+""+ property.getValue_path() + " ";
+		String output = boxName + " : "+""+labelColor+ property.getValue_path() + " ";
 
 		if (property.getValue_datatype() != null) {
 			output += " : " + property.getValue_datatype() + " ";

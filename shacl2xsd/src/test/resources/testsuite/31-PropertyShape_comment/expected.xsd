@@ -23,6 +23,11 @@
                     <xs:documentation>Any digital document...</xs:documentation>
                 </xs:annotation>
             </xs:element>
+            <xs:element ref="attachmentSpecific" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>This is a specific description</xs:documentation>
+                </xs:annotation>
+            </xs:element>
         </xs:sequence>
         <xs:attribute name="id" use="required" type="xs:anyURI" />
     </xs:complexType>

@@ -1,0 +1,1187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:skos="http://www.w3.org/2004/02/skos/core#"
+    xmlns="http://data.europa.eu/snb/isced-f/25831c2" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://data.europa.eu/snb/isced-f/25831c2">
+    <xs:simpleType name="ISCED-FEnumType">
+        <xs:restriction base="xs:anyURI">
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/00">
+                <xs:annotation>
+                    <xs:documentation>Generic programmes and qualifications</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/000">
+                <xs:annotation>
+                    <xs:documentation>Generic programmes and qualifications not further
+                        defined</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/001">
+                <xs:annotation>
+                    <xs:documentation>Basic programmes and qualifications</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/002">
+                <xs:annotation>
+                    <xs:documentation>Literacy and numeracy</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/003">
+                <xs:annotation>
+                    <xs:documentation>Personal skills and development</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/009">
+                <xs:annotation>
+                    <xs:documentation>Generic programmes and qualifications not elsewhere
+                        classified</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0000">
+                <xs:annotation>
+                    <xs:documentation>Generic programmes and qualifications not further
+                        defined</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0011">
+                <xs:annotation>
+                    <xs:documentation>Basic programmes and qualifications</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0021">
+                <xs:annotation>
+                    <xs:documentation>Literacy and numeracy</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0031">
+                <xs:annotation>
+                    <xs:documentation>Personal skills and development</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0099">
+                <xs:annotation>
+                    <xs:documentation>Generic programmes and qualifications not elsewhere
+                        classified</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/01">
+                <xs:annotation>
+                    <xs:documentation>Education</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/011">
+                <xs:annotation>
+                    <xs:documentation>Education</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/018">
+                <xs:annotation>
+                    <xs:documentation>Inter-disciplinary programmes and qualifications involving
+                        education</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0110">
+                <xs:annotation>
+                    <xs:documentation>Education not further defined</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0111">
+                <xs:annotation>
+                    <xs:documentation>Education science</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0112">
+                <xs:annotation>
+                    <xs:documentation>Training for pre-school teachers</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0113">
+                <xs:annotation>
+                    <xs:documentation>Teacher training without subject
+                        specialisation</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0114">
+                <xs:annotation>
+                    <xs:documentation>Teacher training with subject
+                        specialisation</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0119">
+                <xs:annotation>
+                    <xs:documentation>Education not elsewhere classified</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0188">
+                <xs:annotation>
+                    <xs:documentation>Inter-disciplinary programmes and qualifications involving
+                        education</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/02">
+                <xs:annotation>
+                    <xs:documentation>Arts and humanities</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/020">
+                <xs:annotation>
+                    <xs:documentation>Arts and humanities not further defined</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/021">
+                <xs:annotation>
+                    <xs:documentation>Arts</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/022">
+                <xs:annotation>
+                    <xs:documentation>Humanities (except languages)</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/023">
+                <xs:annotation>
+                    <xs:documentation>Languages</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/028">
+                <xs:annotation>
+                    <xs:documentation>Inter-disciplinary programmes and qualifications involving
+                        arts and humanities</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/029">
+                <xs:annotation>
+                    <xs:documentation>Arts and humanities not elsewhere
+                        classified</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0200">
+                <xs:annotation>
+                    <xs:documentation>Arts and humanities not further defined</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0210">
+                <xs:annotation>
+                    <xs:documentation>Arts not further defined</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0211">
+                <xs:annotation>
+                    <xs:documentation>Audio-visual techniques and media
+                        production</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0212">
+                <xs:annotation>
+                    <xs:documentation>Fashion, interior and industrial design</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0213">
+                <xs:annotation>
+                    <xs:documentation>Fine arts</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0214">
+                <xs:annotation>
+                    <xs:documentation>Handicrafts</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0215">
+                <xs:annotation>
+                    <xs:documentation>Music and performing arts</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0219">
+                <xs:annotation>
+                    <xs:documentation>Arts not elsewhere classified</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0220">
+                <xs:annotation>
+                    <xs:documentation>Humanities (except languages) not further
+                        defined</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0221">
+                <xs:annotation>
+                    <xs:documentation>Religion and theology</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0222">
+                <xs:annotation>
+                    <xs:documentation>History and archaeology</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0223">
+                <xs:annotation>
+                    <xs:documentation>Philosophy and ethics</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0228">
+                <xs:annotation>
+                    <xs:documentation>Inter-disciplinary programmes and qualifications involving
+                        humanities</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0229">
+                <xs:annotation>
+                    <xs:documentation>Humanities (except languages) not elsewhere
+                        classified</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0230">
+                <xs:annotation>
+                    <xs:documentation>Languages not further defined</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0231">
+                <xs:annotation>
+                    <xs:documentation>Language acquisition</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0232">
+                <xs:annotation>
+                    <xs:documentation>Literature and linguistics</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0239">
+                <xs:annotation>
+                    <xs:documentation>Languages not elsewhere classified</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0288">
+                <xs:annotation>
+                    <xs:documentation>Inter-disciplinary programmes and qualifications involving
+                        arts and humanities</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0299">
+                <xs:annotation>
+                    <xs:documentation>Arts and humanities not elsewhere
+                        classified</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/03">
+                <xs:annotation>
+                    <xs:documentation>Social sciences, journalism and information</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/030">
+                <xs:annotation>
+                    <xs:documentation>Social sciences, journalism and information not further
+                        defined</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/031">
+                <xs:annotation>
+                    <xs:documentation>Social and behavioural sciences</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/032">
+                <xs:annotation>
+                    <xs:documentation>Journalism and information</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/038">
+                <xs:annotation>
+                    <xs:documentation>Inter-disciplinary programmes and qualifications involving
+                        social sciences, journalism and information</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/039">
+                <xs:annotation>
+                    <xs:documentation>Social sciences, journalism and information not elsewhere
+                        classified</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0300">
+                <xs:annotation>
+                    <xs:documentation>Social sciences, journalism and information not further
+                        defined</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0310">
+                <xs:annotation>
+                    <xs:documentation>Social and behavioural sciences not further
+                        defined</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0311">
+                <xs:annotation>
+                    <xs:documentation>Economics</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0312">
+                <xs:annotation>
+                    <xs:documentation>Political sciences and civics</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0313">
+                <xs:annotation>
+                    <xs:documentation>Psychology</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0314">
+                <xs:annotation>
+                    <xs:documentation>Sociology and cultural studies</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0319">
+                <xs:annotation>
+                    <xs:documentation>Social and behavioural sciences not elsewhere
+                        classified</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0320">
+                <xs:annotation>
+                    <xs:documentation>Journalism and information not further
+                        defined</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0321">
+                <xs:annotation>
+                    <xs:documentation>Journalism and reporting</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0322">
+                <xs:annotation>
+                    <xs:documentation>Library, information and archival studies</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0329">
+                <xs:annotation>
+                    <xs:documentation>Journalism and information not elsewhere
+                        classified</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0388">
+                <xs:annotation>
+                    <xs:documentation>Inter-disciplinary programmes and qualifications involving
+                        social sciences, journalism and information</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0399">
+                <xs:annotation>
+                    <xs:documentation>Social sciences, journalism and information not elsewhere
+                        classified</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/04">
+                <xs:annotation>
+                    <xs:documentation>Business, administration and law</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/040">
+                <xs:annotation>
+                    <xs:documentation>Business, administration and law not further
+                        defined</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/041">
+                <xs:annotation>
+                    <xs:documentation>Business and administration</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/042">
+                <xs:annotation>
+                    <xs:documentation>Law</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/048">
+                <xs:annotation>
+                    <xs:documentation>Inter-disciplinary programmes and qualifications involving
+                        business, administration and law</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/049">
+                <xs:annotation>
+                    <xs:documentation>Business, administration and law not elsewhere
+                        classified</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0400">
+                <xs:annotation>
+                    <xs:documentation>Business, administration and law not further
+                        defined</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0410">
+                <xs:annotation>
+                    <xs:documentation>Business and administration not further
+                        defined</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0411">
+                <xs:annotation>
+                    <xs:documentation>Accounting and taxation</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0412">
+                <xs:annotation>
+                    <xs:documentation>Finance, banking and insurance</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0413">
+                <xs:annotation>
+                    <xs:documentation>Management and administration</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0414">
+                <xs:annotation>
+                    <xs:documentation>Marketing and advertising</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0415">
+                <xs:annotation>
+                    <xs:documentation>Secretarial and office work</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0416">
+                <xs:annotation>
+                    <xs:documentation>Wholesale and retail sales</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0417">
+                <xs:annotation>
+                    <xs:documentation>Work skills</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0419">
+                <xs:annotation>
+                    <xs:documentation>Business and administration not elsewhere
+                        classified</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0421">
+                <xs:annotation>
+                    <xs:documentation>Law</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0488">
+                <xs:annotation>
+                    <xs:documentation>Inter-disciplinary programmes and qualifications involving
+                        business, administration and law</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0499">
+                <xs:annotation>
+                    <xs:documentation>Business, administration and law not elsewhere
+                        classified</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/05">
+                <xs:annotation>
+                    <xs:documentation>Natural sciences, mathematics and
+                        statistics</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/050">
+                <xs:annotation>
+                    <xs:documentation>Natural sciences, mathematics and statistics not further
+                        defined</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/051">
+                <xs:annotation>
+                    <xs:documentation>Biological and related sciences</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/052">
+                <xs:annotation>
+                    <xs:documentation>Environment</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/053">
+                <xs:annotation>
+                    <xs:documentation>Physical sciences</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/054">
+                <xs:annotation>
+                    <xs:documentation>Mathematics and statistics</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/058">
+                <xs:annotation>
+                    <xs:documentation>Inter-disciplinary programmes and qualifications involving
+                        natural sciences, mathematics and statistics</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/059">
+                <xs:annotation>
+                    <xs:documentation>Natural sciences, mathematics and statistics not elsewhere
+                        classified</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0500">
+                <xs:annotation>
+                    <xs:documentation>Natural sciences, mathematics and statistics not further
+                        defined</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0510">
+                <xs:annotation>
+                    <xs:documentation>Biological and related sciences not further
+                        defined</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0511">
+                <xs:annotation>
+                    <xs:documentation>Biology</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0512">
+                <xs:annotation>
+                    <xs:documentation>Biochemistry</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0519">
+                <xs:annotation>
+                    <xs:documentation>Biological and related sciences not elsewhere
+                        classified</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0520">
+                <xs:annotation>
+                    <xs:documentation>Environment not further defined</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0521">
+                <xs:annotation>
+                    <xs:documentation>Environmental sciences</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0522">
+                <xs:annotation>
+                    <xs:documentation>Natural environments and wildlife</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0529">
+                <xs:annotation>
+                    <xs:documentation>Environment not elsewhere classified</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0530">
+                <xs:annotation>
+                    <xs:documentation>Physical sciences not further defined</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0531">
+                <xs:annotation>
+                    <xs:documentation>Chemistry</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0532">
+                <xs:annotation>
+                    <xs:documentation>Earth sciences</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0533">
+                <xs:annotation>
+                    <xs:documentation>Physics</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0539">
+                <xs:annotation>
+                    <xs:documentation>Physical sciences not elsewhere classified</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0540">
+                <xs:annotation>
+                    <xs:documentation>Mathematics and statistics not further
+                        defined</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0541">
+                <xs:annotation>
+                    <xs:documentation>Mathematics</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0542">
+                <xs:annotation>
+                    <xs:documentation>Statistics</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0588">
+                <xs:annotation>
+                    <xs:documentation>Inter-disciplinary programmes and qualifications involving
+                        natural sciences, mathematics and statistics</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0599">
+                <xs:annotation>
+                    <xs:documentation>Natural sciences, mathematics and statistics not elsewhere
+                        classified</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/06">
+                <xs:annotation>
+                    <xs:documentation>Information and Communication Technologies
+                        (ICTs)</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/061">
+                <xs:annotation>
+                    <xs:documentation>Information and Communication Technologies
+                        (ICTs)</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/068">
+                <xs:annotation>
+                    <xs:documentation>Inter-disciplinary programmes and qualifications involving
+                        Information and Communication Technologies (ICTs)</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0610">
+                <xs:annotation>
+                    <xs:documentation>Information and Communication Technologies (ICTs) not further
+                        defined</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0611">
+                <xs:annotation>
+                    <xs:documentation>Computer use</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0612">
+                <xs:annotation>
+                    <xs:documentation>Database and network design and
+                        administration</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0613">
+                <xs:annotation>
+                    <xs:documentation>Software and applications development and
+                        analysis</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0619">
+                <xs:annotation>
+                    <xs:documentation>Information and communication technologies not elsewhere
+                        classified</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0688">
+                <xs:annotation>
+                    <xs:documentation>Inter-disciplinary programmes and qualifications involving
+                        Information and Communication Technologies (ICTs)</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/07">
+                <xs:annotation>
+                    <xs:documentation>Engineering, manufacturing and construction</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/070">
+                <xs:annotation>
+                    <xs:documentation>Engineering, manufacturing and construction not further
+                        defined</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/071">
+                <xs:annotation>
+                    <xs:documentation>Engineering and engineering trades</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/072">
+                <xs:annotation>
+                    <xs:documentation>Manufacturing and processing</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/073">
+                <xs:annotation>
+                    <xs:documentation>Architecture and construction</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/078">
+                <xs:annotation>
+                    <xs:documentation>Inter-disciplinary programmes and qualifications involving
+                        engineering, manufacturing and construction</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/079">
+                <xs:annotation>
+                    <xs:documentation>Engineering, manufacturing and construction not elsewhere
+                        classified</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0700">
+                <xs:annotation>
+                    <xs:documentation>Engineering, manufacturing and construction not further
+                        defined</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0710">
+                <xs:annotation>
+                    <xs:documentation>Engineering and engineering trades not further
+                        defined</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0711">
+                <xs:annotation>
+                    <xs:documentation>Chemical engineering and processes</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0712">
+                <xs:annotation>
+                    <xs:documentation>Environmental protection technology</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0713">
+                <xs:annotation>
+                    <xs:documentation>Electricity and energy</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0714">
+                <xs:annotation>
+                    <xs:documentation>Electronics and automation</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0715">
+                <xs:annotation>
+                    <xs:documentation>Mechanics and metal trades</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0716">
+                <xs:annotation>
+                    <xs:documentation>Motor vehicles, ships and aircraft</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0719">
+                <xs:annotation>
+                    <xs:documentation>Engineering and engineering trades not elsewhere
+                        classified</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0720">
+                <xs:annotation>
+                    <xs:documentation>Manufacturing and processing not further
+                        defined</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0721">
+                <xs:annotation>
+                    <xs:documentation>Food processing</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0722">
+                <xs:annotation>
+                    <xs:documentation>Materials (glass, paper, plastic and wood)</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0723">
+                <xs:annotation>
+                    <xs:documentation>Textiles (clothes, footwear and leather)</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0724">
+                <xs:annotation>
+                    <xs:documentation>Mining and extraction</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0729">
+                <xs:annotation>
+                    <xs:documentation>Manufacturing and processing not elsewhere
+                        classified</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0730">
+                <xs:annotation>
+                    <xs:documentation>Architecture and construction not further
+                        defined</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0731">
+                <xs:annotation>
+                    <xs:documentation>Architecture and town planning</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0732">
+                <xs:annotation>
+                    <xs:documentation>Building and civil engineering</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0788">
+                <xs:annotation>
+                    <xs:documentation>Inter-disciplinary programmes and qualifications involving
+                        engineering, manufacturing and construction</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0799">
+                <xs:annotation>
+                    <xs:documentation>Engineering, manufacturing and construction not elsewhere
+                        classified</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/08">
+                <xs:annotation>
+                    <xs:documentation>Agriculture, forestry, fisheries and
+                        veterinary</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/080">
+                <xs:annotation>
+                    <xs:documentation>Agriculture, forestry, fisheries and veterinary not further
+                        defined</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/081">
+                <xs:annotation>
+                    <xs:documentation>Agriculture</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/082">
+                <xs:annotation>
+                    <xs:documentation>Forestry</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/083">
+                <xs:annotation>
+                    <xs:documentation>Fisheries</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/084">
+                <xs:annotation>
+                    <xs:documentation>Veterinary</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/088">
+                <xs:annotation>
+                    <xs:documentation>Inter-disciplinary programmes and qualifications involving
+                        agriculture, forestry, fisheries and veterinary</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/089">
+                <xs:annotation>
+                    <xs:documentation>Agriculture, forestry, fisheries and veterinary not elsewhere
+                        classified</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0800">
+                <xs:annotation>
+                    <xs:documentation>Agriculture, forestry, fisheries and veterinary not further
+                        defined</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0810">
+                <xs:annotation>
+                    <xs:documentation>Agriculture not further defined</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0811">
+                <xs:annotation>
+                    <xs:documentation>Crop and livestock production</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0812">
+                <xs:annotation>
+                    <xs:documentation>Horticulture</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0819">
+                <xs:annotation>
+                    <xs:documentation>Agriculture not elsewhere classified</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0821">
+                <xs:annotation>
+                    <xs:documentation>Forestry</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0831">
+                <xs:annotation>
+                    <xs:documentation>Fisheries</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0841">
+                <xs:annotation>
+                    <xs:documentation>Veterinary</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0888">
+                <xs:annotation>
+                    <xs:documentation>Inter-disciplinary programmes and qualifications involving
+                        agriculture, forestry, fisheries and veterinary</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0899">
+                <xs:annotation>
+                    <xs:documentation>Agriculture, forestry, fisheries and veterinary not elsewhere
+                        classified</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/09">
+                <xs:annotation>
+                    <xs:documentation>Health and welfare</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/090">
+                <xs:annotation>
+                    <xs:documentation>Health and welfare not further defined</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/091">
+                <xs:annotation>
+                    <xs:documentation>Health</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/092">
+                <xs:annotation>
+                    <xs:documentation>Welfare</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/098">
+                <xs:annotation>
+                    <xs:documentation>Inter-disciplinary programmes and qualifications involving
+                        health and welfare</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/099">
+                <xs:annotation>
+                    <xs:documentation>Health and welfare not elsewhere classified</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0900">
+                <xs:annotation>
+                    <xs:documentation>Health and welfare not further defined</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0910">
+                <xs:annotation>
+                    <xs:documentation>Health not further defined</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0911">
+                <xs:annotation>
+                    <xs:documentation>Dental studies</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0912">
+                <xs:annotation>
+                    <xs:documentation>Medicine</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0913">
+                <xs:annotation>
+                    <xs:documentation>Nursing and midwifery</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0914">
+                <xs:annotation>
+                    <xs:documentation>Medical diagnostic and treatment technology</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0915">
+                <xs:annotation>
+                    <xs:documentation>Therapy and rehabilitation</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0916">
+                <xs:annotation>
+                    <xs:documentation>Pharmacy</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0917">
+                <xs:annotation>
+                    <xs:documentation>Traditional and complementary medicine and
+                        therapy</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0919">
+                <xs:annotation>
+                    <xs:documentation>Health not elsewhere classified</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0920">
+                <xs:annotation>
+                    <xs:documentation>Welfare not further defined</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0921">
+                <xs:annotation>
+                    <xs:documentation>Care of the elderly and of disabled adults</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0922">
+                <xs:annotation>
+                    <xs:documentation>Child care and youth services</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0923">
+                <xs:annotation>
+                    <xs:documentation>Social work and counselling</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0929">
+                <xs:annotation>
+                    <xs:documentation>Welfare not elsewhere classified</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0988">
+                <xs:annotation>
+                    <xs:documentation>Inter-disciplinary programmes and qualifications involving
+                        health and welfare</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/0999">
+                <xs:annotation>
+                    <xs:documentation>Health and welfare not elsewhere classified</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/10">
+                <xs:annotation>
+                    <xs:documentation>Services</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/100">
+                <xs:annotation>
+                    <xs:documentation>Services not further defined</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/101">
+                <xs:annotation>
+                    <xs:documentation>Personal services</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/102">
+                <xs:annotation>
+                    <xs:documentation>Hygiene and occupational health services</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/103">
+                <xs:annotation>
+                    <xs:documentation>Security services</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/104">
+                <xs:annotation>
+                    <xs:documentation>Transport services</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/108">
+                <xs:annotation>
+                    <xs:documentation>Inter-disciplinary programmes and qualifications involving
+                        services</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/109">
+                <xs:annotation>
+                    <xs:documentation>Services not elsewhere classified</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/1000">
+                <xs:annotation>
+                    <xs:documentation>Services not further defined</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/1010">
+                <xs:annotation>
+                    <xs:documentation>Personal services not further defined</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/1011">
+                <xs:annotation>
+                    <xs:documentation>Domestic services</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/1012">
+                <xs:annotation>
+                    <xs:documentation>Hair and beauty services</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/1013">
+                <xs:annotation>
+                    <xs:documentation>Hotel, restaurants and catering</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/1014">
+                <xs:annotation>
+                    <xs:documentation>Sports</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/1015">
+                <xs:annotation>
+                    <xs:documentation>Travel, tourism and leisure</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/1019">
+                <xs:annotation>
+                    <xs:documentation>Personal services not elsewhere classified</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/1020">
+                <xs:annotation>
+                    <xs:documentation>Hygiene and occupational health services not further
+                        defined</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/1021">
+                <xs:annotation>
+                    <xs:documentation>Community sanitation</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/1022">
+                <xs:annotation>
+                    <xs:documentation>Occupational health and safety</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/1029">
+                <xs:annotation>
+                    <xs:documentation>Hygiene and occupational health services not elsewhere
+                        classified</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/1030">
+                <xs:annotation>
+                    <xs:documentation>Security services not further defined</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/1031">
+                <xs:annotation>
+                    <xs:documentation>Military and defence</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/1032">
+                <xs:annotation>
+                    <xs:documentation>Protection of persons and property</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/1039">
+                <xs:annotation>
+                    <xs:documentation>Security services not elsewhere classified</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/1041">
+                <xs:annotation>
+                    <xs:documentation>Transport services</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/1088">
+                <xs:annotation>
+                    <xs:documentation>Inter-disciplinary programmes and qualifications involving
+                        services</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/1099">
+                <xs:annotation>
+                    <xs:documentation>Services not elsewhere classified</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/99">
+                <xs:annotation>
+                    <xs:documentation>Field unknown</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/999">
+                <xs:annotation>
+                    <xs:documentation>Field unknown</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/isced-f/9999">
+                <xs:annotation>
+                    <xs:documentation>Field unknown</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>

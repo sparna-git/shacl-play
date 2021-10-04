@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:skos="http://www.w3.org/2004/02/skos/core#"
+    xmlns="http://data.europa.eu/snb/learning-assessment/25831c2"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://data.europa.eu/snb/learning-assessment/25831c2">
+    <xs:simpleType name="ModesOfLearningandAssessmentEnumType">
+        <xs:restriction base="xs:anyURI">
+            <xs:enumeration value="http://data.europa.eu/snb/learning-assessment/729f3bed4b">
+                <xs:annotation>
+                    <xs:documentation>Workbased</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/learning-assessment/7813801c77">
+                <xs:annotation>
+                    <xs:documentation>Project based</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/learning-assessment/9191af2ed9">
+                <xs:annotation>
+                    <xs:documentation>Presential</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/learning-assessment/920fbb3cbe">
+                <xs:annotation>
+                    <xs:documentation>Online</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/learning-assessment/e92d221e4d">
+                <xs:annotation>
+                    <xs:documentation>Blended</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/learning-assessment/ed4c557045">
+                <xs:annotation>
+                    <xs:documentation>Research-Lab based</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>

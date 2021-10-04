@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns="http://xmlns.com/foaf/0.1/"
+           targetNamespace="http://xmlns.com/foaf/0.1/"
+           xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+           elementFormDefault="qualified">
+    
+    <xs:import namespace="http://www.w3.org/2000/01/rdf-schema#" schemaLocation="rdfs.xsd"/>
+    
+    <xs:element name="Agent" type="AgentType"/>
+   
+    <xs:element name="homepage" type="DocumentType"/>
+    <xs:element name="name" type="rdfs:LiteralType"/>
+    <xs:element name="givenName" type="rdfs:LiteralType"/>
+    <xs:element name="familyName" type="rdfs:LiteralType"/>
+    <xs:element name="primaryTopic"/>
+    <xs:element name="topic" type="xs:anyType"/>
+
+    <xs:complexType name="DocumentType">
+        <xs:annotation>
+            <xs:documentation>A public accessible web document.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+<!--            <xs:element ref="primaryTopic" minOccurs="0" maxOccurs="1"/>-->
+            <xs:element ref="topic" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="uri" type="xs:anyURI">
+            <xs:annotation>
+                <xs:documentation>The URL of the web document. The URL to access or download the web
+                    document.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+    
+    <xs:complexType name="AgentType">
+        <xs:annotation>
+            <xs:documentation>An agent (eg. person, group, software or physical artifact).</xs:documentation>
+        </xs:annotation>
+    </xs:complexType>
+</xs:schema>

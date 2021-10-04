@@ -1,0 +1,1495 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF
+	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/25831c2">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-03-18</created>
+	<identifier xmlns="http://purl.org/dc/terms/">http://data.europa.eu/snb/verification-status/25831c2</identifier>
+	<modified xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-21</modified>
+	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#ConceptScheme"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<hasTopconcept xmlns="http://www.w3.org/2004/02/skos/core#" rdf:resource="http://data.europa.eu/snb/verification-status/641f0c5e5d"/>
+	<hasTopconcept xmlns="http://www.w3.org/2004/02/skos/core#" rdf:resource="http://data.europa.eu/snb/verification-status/9895008394"/>
+	<hasTopconcept xmlns="http://www.w3.org/2004/02/skos/core#" rdf:resource="http://data.europa.eu/snb/verification-status/9d26eb9a37"/>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="bg">Стандартен списък Европас на статусите на проверка</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="cs">Seznam ověřovacích statusů podle standardu Europass</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="da">Europass – standardliste over verifikationsstatusser</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="de">Europass-Standardliste für den Überprüfungsstatus</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="el">Τυποποιημένος κατάλογος Europass για καταστάσεις επαλήθευσης</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="en">Europass Standard List of Verification Statusses</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="es">Lista normalizada de tipos de estados de verificación de Europass</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="et">Europassi kontrollistaatuste standardloend</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="fi">Europass-standardien luettelo: Todentamisstatukset</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="fr">Liste standard des statuts de vérification Europass</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="ga">Liosta Caighdeánach Europass de Stádais Fíorúcháin</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="hr">Europassov standardni popis statusa provjere</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="hu">Az ellenőrzés állapotának szabványos Europass-listája</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="is">Staðlaður listi Europass – Sannprófunarstaða</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="it">Elenco standard Europass degli status di verifica</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="lt">Standartinis „Europass“ patikros būsenų sąrašas</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="lv">Verifikācijas statusi saskaņā ar Europass</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="mk">Europass Стандардна Листа на Статуси за Верификација</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="mt">Lista Standard tal-Europass ta’ Tipi ta’ Statuses ta’ Verifika</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="nl">Europass-standaardlijst verificatiestatussen</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="no">Europass-standarder for verifiseringsstatus</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="pl">Standardowa lista Europass statusów kontroli</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="pt">Lista normalizada Europass de estatutos de verificação</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="ro">Lista stadiilor verificării conform standardelor Europass</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sk">Štandardný zoznam statusov overenia podľa štandardu Europass</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sl">Standardni seznam statusov preverjanja Europass</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sr">Europass standardna lista statusa verifikacije</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sv">Europass standardförteckning över verifikationsstatus</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="tr">Europass Doğrulama Statüleri Standart Listesi</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_04ef663aeb6a"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_16c758b70e4e"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_1d06e927a381"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_2506edfcae76"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_377eeeac38d8"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_39bd59f8260d"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_3a989f74f101"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_3fa9b2899833"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_3fce243f5ec8"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_4bbe5b4726c7"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_4e59770c342c"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_515fe65d9a38"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_5383c7af2675"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_550219188421"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_69c282fbe43e"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_798906657331"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_88c06b01cbcd"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_973224ddade5"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_9a137ade5cb2"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_a68e0f64e52e"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_a8b90deb392b"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_b576604975ca"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_b69b9e15bbd4"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_cd098c199322"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_da1c96ece1"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_dd70a7454fdf"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_e2e04c6c44ca"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_e3cd98c722fd"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_f1ba408bb211"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/641f0c5e5d">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-03-18</created>
+	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="bg">сив</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="cs">Šedý</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="da">grå</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="de">grau</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="el">γκρι</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="en">gray</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="es">gris</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="et">hall</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="fi">harmaa</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="fr">gris</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="ga">liath</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="hr">sivi</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="hu">szürke</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="is">grátt</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="it">grigio</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="lt">pilka</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="lv">Pelēks</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="mk">сиво</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="mt">griż</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="nl">grijs</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="no">grå</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="pl">szare</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="pt">cinzento</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="ro">gri</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sk">sivý</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sl">siv</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sr">siva</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sv">grå</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="tr">Gri</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_053686c30732"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_0b25f4245b7e"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_0b542e431a78"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_156c672b0d6e"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_219361fea758"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_2534d37dd84e"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_283c2e3e0f58"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_3e09c46e1fdd"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_46af7128b021"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_4833c35a7ca9"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_586877a2f4ba"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_59fab426fa"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_6e4089f1d03b"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_72eca507c28b"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_7901751e5409"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_7f953a07afca"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_8913978f1a31"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_917ace97d5ff"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_9eb4936e41ec"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_be3995550055"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_be87e0896fff"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_cbc925a10db6"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_db18c284b312"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_dd068a005255"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_eb6fd6bbf4d7"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_f4f034355afe"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_f8fc18f476f9"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_f8fceb4ed2c1"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_ff8142148446"/>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<xlNotation xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/verification-status/notation_59fab426fa"/>
+	<xlNotation xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/verification-status/notation_8ff97f8fbfd3e473c98a03d88b7a7639"/>
+	<inScheme xmlns="http://www.w3.org/2004/02/skos/core#" rdf:resource="http://data.europa.eu/snb/verification-status/25831c2"/>
+	<notation xmlns="http://www.w3.org/2004/02/skos/core#">641f0c5e5d</notation>
+	<notation xmlns="http://www.w3.org/2004/02/skos/core#">gray</notation>
+	<topConceptOf xmlns="http://www.w3.org/2004/02/skos/core#" rdf:resource="http://data.europa.eu/snb/verification-status/25831c2"/>
+	<identifier xmlns="http://purl.org/dc/elements/1.1/">641f0c5e5d</identifier>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/9895008394">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-03-18</created>
+	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="bg">зелен</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="cs">Zelený</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="da">grøn</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="de">grün</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="el">πράσινη</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="en">green</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="es">verde</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="et">roheline</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="fi">vihreä</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="fr">vert</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="ga">glas</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="hr">zeleni</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="hu">zöld</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="is">grænt</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="it">verde</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="lt">žalia</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="lv">Zaļš</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="mk">зелено</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="mt">aħdar</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="nl">groen</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="no">grønn</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="pl">zielone</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="pt">verde</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="ro">verde</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sk">zelený</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sl">zelen</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sr">zelena</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sv">grön</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="tr">Yeşil</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_00bc12cba665"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_0c3678c940"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_225cec5938bf"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_3440d88c3d0b"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_44c8a9470dbc"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_4715e4e00d48"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_58cb26892120"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_6bd346436637"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_7b0824a71e34"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_7d8d16da2e33"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_806aae9a3563"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_81c5f30a2a0d"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_8354450e791a"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_8789e4fe9809"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_887e1f5be320"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_8efbf16e13e2"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_8f7aa47cb91d"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_94322c9442ff"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_96493e95d774"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_9b87f5f72059"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_a583c62971b2"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_ae7b8608de62"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_b332c8085d5b"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_c5dc544b2374"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_d00afb030efe"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_e261be8ac5d6"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_e336916a52ab"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_e633250071d1"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_efdae9796407"/>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<xlNotation xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/verification-status/notation_0c3678c940"/>
+	<xlNotation xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/verification-status/notation_b04bcfa22e873338d20679544ef7db26"/>
+	<inScheme xmlns="http://www.w3.org/2004/02/skos/core#" rdf:resource="http://data.europa.eu/snb/verification-status/25831c2"/>
+	<notation xmlns="http://www.w3.org/2004/02/skos/core#">9895008394</notation>
+	<notation xmlns="http://www.w3.org/2004/02/skos/core#">green</notation>
+	<topConceptOf xmlns="http://www.w3.org/2004/02/skos/core#" rdf:resource="http://data.europa.eu/snb/verification-status/25831c2"/>
+	<identifier xmlns="http://purl.org/dc/elements/1.1/">9895008394</identifier>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/9d26eb9a37">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-03-18</created>
+	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="bg">червен</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="cs">Červený</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="da">rød</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="de">rot</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="el">κόκκινη</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="en">red</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="es">rojo</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="et">punane</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="fi">punainen</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="fr">rouge</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="ga">dearg</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="hr">crveni</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="hu">piros</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="is">rautt</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="it">rosso</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="lt">raudona</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="lv">Sarkans</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="mk">црвено</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="mt">aħmar</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="nl">rood</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="no">rød</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="pl">czerwone</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="pt">vermelho</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="ro">roșu</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sk">červený</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sl">rdeč</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sr">crvena</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sv">röd</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="tr">Kırmızı</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_043e503b71d0"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_0e1f33caf3b2"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_10db3ab452d2"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_11cdf9fe0b2c"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_2431cdfd065a"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_2a39e3c578a6"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_35d40c1f57f8"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_40c569f33a2d"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_4193d3a4da54"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_42fdcf44404d"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_4ef62f168ac9"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_4f840bb8f558"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_5b9107ffafc7"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_65e3040f89"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_6f7d945b756c"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_7a2f39f66d84"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_7af33fef7e65"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_88a8194d2991"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_95eef411dfa0"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_b68ffb57e37b"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_bbc52034e895"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_bf461be9fe6b"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_c15c5c915070"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_ce1580d7518d"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_d68d1bf1bde5"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_dac3b4ecc462"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_dc09eed08f88"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_e18e55c15147"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/verification-status/label_fd67f3597de4"/>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<xlNotation xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/verification-status/notation_3c7d82905f31cc63cbc01eff843cee87"/>
+	<xlNotation xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/verification-status/notation_65e3040f89"/>
+	<inScheme xmlns="http://www.w3.org/2004/02/skos/core#" rdf:resource="http://data.europa.eu/snb/verification-status/25831c2"/>
+	<notation xmlns="http://www.w3.org/2004/02/skos/core#">9d26eb9a37</notation>
+	<notation xmlns="http://www.w3.org/2004/02/skos/core#">red</notation>
+	<topConceptOf xmlns="http://www.w3.org/2004/02/skos/core#" rdf:resource="http://data.europa.eu/snb/verification-status/25831c2"/>
+	<identifier xmlns="http://purl.org/dc/elements/1.1/">9d26eb9a37</identifier>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_04ef663aeb6a">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="cs">Seznam ověřovacích statusů podle standardu Europass</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_16c758b70e4e">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="el">Τυποποιημένος κατάλογος Europass για καταστάσεις επαλήθευσης</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_1d06e927a381">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="et">Europassi kontrollistaatuste standardloend</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_2506edfcae76">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="hr">Europassov standardni popis statusa provjere</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_377eeeac38d8">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="nl">Europass-standaardlijst verificatiestatussen</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_39bd59f8260d">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="de">Europass-Standardliste für den Überprüfungsstatus</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_3a989f74f101">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="sl">Standardni seznam statusov preverjanja Europass</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_3fa9b2899833">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="sr">Europass standardna lista statusa verifikacije</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_3fce243f5ec8">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="lv">Verifikācijas statusi saskaņā ar Europass</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_4bbe5b4726c7">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="is">Staðlaður listi Europass – Sannprófunarstaða</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_4e59770c342c">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="lt">Standartinis „Europass“ patikros būsenų sąrašas</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_515fe65d9a38">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="da">Europass – standardliste over verifikationsstatusser</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_5383c7af2675">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="no">Europass-standarder for verifiseringsstatus</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_550219188421">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="fi">Europass-standardien luettelo: Todentamisstatukset</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_69c282fbe43e">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="tr">Europass Doğrulama Statüleri Standart Listesi</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_798906657331">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="pt">Lista normalizada Europass de estatutos de verificação</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_88c06b01cbcd">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="sk">Štandardný zoznam statusov overenia podľa štandardu Europass</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_973224ddade5">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="es">Lista normalizada de tipos de estados de verificación de Europass</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_9a137ade5cb2">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="pl">Standardowa lista Europass statusów kontroli</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_a68e0f64e52e">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="mk">Europass Стандардна Листа на Статуси за Верификација</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_a8b90deb392b">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="sv">Europass standardförteckning över verifikationsstatus</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_b576604975ca">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="fr">Liste standard des statuts de vérification Europass</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_b69b9e15bbd4">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="it">Elenco standard Europass degli status di verifica</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_cd098c199322">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="ro">Lista stadiilor verificării conform standardelor Europass</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_da1c96ece1">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-03-18</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="en">Europass Standard List of Verification Statusses</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_dd70a7454fdf">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="hu">Az ellenőrzés állapotának szabványos Europass-listája</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_e2e04c6c44ca">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="bg">Стандартен списък Европас на статусите на проверка</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_e3cd98c722fd">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="ga">Liosta Caighdeánach Europass de Stádais Fíorúcháin</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_f1ba408bb211">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="mt">Lista Standard tal-Europass ta’ Tipi ta’ Statuses ta’ Verifika</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/notation_59fab426fa">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-03-18</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNotation"/>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<rdf:value>gray</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/notation_8ff97f8fbfd3e473c98a03d88b7a7639">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-03-18</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNotation"/>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<rdf:value>641f0c5e5d</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_053686c30732">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="et">hall</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_0b25f4245b7e">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="no">grå</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_0b542e431a78">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="sr">siva</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_156c672b0d6e">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="da">grå</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_219361fea758">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="ga">liath</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_2534d37dd84e">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="mk">сиво</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_283c2e3e0f58">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="nl">grijs</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_3e09c46e1fdd">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="it">grigio</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_46af7128b021">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="hr">sivi</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_4833c35a7ca9">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="lt">pilka</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_586877a2f4ba">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="lv">Pelēks</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_59fab426fa">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-03-18</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="en">gray</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_6e4089f1d03b">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="es">gris</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_72eca507c28b">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="fr">gris</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_7901751e5409">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="fi">harmaa</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_7f953a07afca">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="pt">cinzento</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_8913978f1a31">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="is">grátt</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_917ace97d5ff">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="sk">sivý</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_9eb4936e41ec">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="de">grau</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_be3995550055">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="mt">griż</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_be87e0896fff">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="hu">szürke</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_cbc925a10db6">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="tr">Gri</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_db18c284b312">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="bg">сив</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_dd068a005255">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="pl">szare</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_eb6fd6bbf4d7">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="cs">Šedý</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_f4f034355afe">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="el">γκρι</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_f8fc18f476f9">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="ro">gri</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_f8fceb4ed2c1">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="sl">siv</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_ff8142148446">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="sv">grå</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/notation_0c3678c940">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-03-18</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNotation"/>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<rdf:value>green</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/notation_b04bcfa22e873338d20679544ef7db26">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-03-18</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNotation"/>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<rdf:value>9895008394</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_00bc12cba665">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="et">roheline</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_0c3678c940">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-03-18</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="en">green</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_225cec5938bf">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="el">πράσινη</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_3440d88c3d0b">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="lv">Zaļš</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_44c8a9470dbc">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="da">grøn</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_4715e4e00d48">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="bg">зелен</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_58cb26892120">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="fi">vihreä</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_6bd346436637">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="pl">zielone</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_7b0824a71e34">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="sl">zelen</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_7d8d16da2e33">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="ro">verde</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_806aae9a3563">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="no">grønn</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_81c5f30a2a0d">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="mk">зелено</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_8354450e791a">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="de">grün</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_8789e4fe9809">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="is">grænt</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_887e1f5be320">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="ga">glas</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_8efbf16e13e2">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="mt">aħdar</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_8f7aa47cb91d">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="es">verde</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_94322c9442ff">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="sk">zelený</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_96493e95d774">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="lt">žalia</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_9b87f5f72059">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="sv">grön</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_a583c62971b2">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="sr">zelena</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_ae7b8608de62">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="pt">verde</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_b332c8085d5b">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="fr">vert</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_c5dc544b2374">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="tr">Yeşil</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_d00afb030efe">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="nl">groen</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_e261be8ac5d6">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="hu">zöld</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_e336916a52ab">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="hr">zeleni</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_e633250071d1">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="it">verde</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_efdae9796407">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="cs">Zelený</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/notation_3c7d82905f31cc63cbc01eff843cee87">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-03-18</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNotation"/>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<rdf:value>9d26eb9a37</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/notation_65e3040f89">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-03-18</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNotation"/>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<rdf:value>red</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_043e503b71d0">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="pt">vermelho</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_0e1f33caf3b2">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="fr">rouge</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_10db3ab452d2">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="mk">црвено</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_11cdf9fe0b2c">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="no">rød</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_2431cdfd065a">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="lv">Sarkans</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_2a39e3c578a6">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="lt">raudona</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_35d40c1f57f8">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="bg">червен</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_40c569f33a2d">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="mt">aħmar</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_4193d3a4da54">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="pl">czerwone</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_42fdcf44404d">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="et">punane</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_4ef62f168ac9">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="tr">Kırmızı</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_4f840bb8f558">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="fi">punainen</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_5b9107ffafc7">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="sl">rdeč</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_65e3040f89">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-03-18</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="en">red</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_6f7d945b756c">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="hr">crveni</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_7a2f39f66d84">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="sk">červený</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_7af33fef7e65">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="el">κόκκινη</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_88a8194d2991">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="it">rosso</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_95eef411dfa0">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="ro">roșu</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_b68ffb57e37b">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="sr">crvena</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_bbc52034e895">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="sv">röd</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_bf461be9fe6b">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="nl">rood</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_c15c5c915070">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="cs">Červený</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_ce1580d7518d">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="is">rautt</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_d68d1bf1bde5">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="de">rot</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_dac3b4ecc462">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="es">rojo</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_dc09eed08f88">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="ga">dearg</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_e18e55c15147">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="hu">piros</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/verification-status/label_fd67f3597de4">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="da">rød</literalForm>
+</rdf:Description>
+
+</rdf:RDF>

@@ -1,0 +1,1839 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF
+	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/25831c2">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-03-18</created>
+	<identifier xmlns="http://purl.org/dc/terms/">http://data.europa.eu/snb/supervision-verification/25831c2</identifier>
+	<modified xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-21</modified>
+	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#ConceptScheme"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<hasTopconcept xmlns="http://www.w3.org/2004/02/skos/core#" rdf:resource="http://data.europa.eu/snb/supervision-verification/44314532f9"/>
+	<hasTopconcept xmlns="http://www.w3.org/2004/02/skos/core#" rdf:resource="http://data.europa.eu/snb/supervision-verification/70be69aaf9"/>
+	<hasTopconcept xmlns="http://www.w3.org/2004/02/skos/core#" rdf:resource="http://data.europa.eu/snb/supervision-verification/c598449d64"/>
+	<hasTopconcept xmlns="http://www.w3.org/2004/02/skos/core#" rdf:resource="http://data.europa.eu/snb/supervision-verification/df2880c5cb"/>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="bg">Стандартен списък Европас на методите за наблюдение и проверка</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="cs">Seznam metod dohledu a ověřování podle standardu Europass</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="da">Europass – standardliste over tilsyns- og kontrolmetoder</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="de">Europass-Standardliste der Aufsichts- und Identitätsprüfungsmethoden</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="el">Τυποποιημένος κατάλογος Europass για μεθόδους επιτήρησης και επαλήθευσης</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="en">Europass Standard List of Methods Of Supervision And Verification</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="es">Lista normalizada de métodos de supervisión y verificación de Europass</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="et">Europassi järelevalve- ja kontrollimeetodite standardloend</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="fi">Europass-standardien luettelo: Valvonta- ja todentamistavat</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="fr">Liste standard des méthodes de supervision et de vérification Europass</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="ga">Liosta Caighdeánach Europass de Mhodhanna Maoirseachta agus Fíorúcháin</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="hr">Europassov standardni popis metoda nadzora i provjere</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="hu">A felügyeleti és ellenőrzési módszerek szabványos Europass-listája</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="is">Staðlaður listi Europass – Eftirlits- og sannprófunaraðferðir</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="it">Elenco standard Europass delle modalità di controllo e verifica</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="lt">Standartinis „Europass“ kontrolės ir patikros būdų sąrašas</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="lv">Europass aptvertās uzraudzības un verifikācijas metodes</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="mk">Europass Стандардна Листа на Методи на Надзор и Верификација</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="mt">Lista Standard tal-Europass ta’ Meotdi ta’ Superviżjoni u Verifika</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="nl">Europass-standaardlijst vormen van supervisie en verificatie</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="no">Europass-standarder for tilsyns- og verifiseringsmetoder</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="pl">Standardowa lista Europass metod nadzoru i kontroli</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="pt">Lista normalizada Europass de métodos de supervisão e verificação</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="ro">Lista metodelor de supraveghere și verificare conform standardelor Europass</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sk">Štandardný zoznam metód dohľadu a overovania podľa štandardu Europass</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sl">Standardni seznam metod nadzora in preverjanja Europass</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sr">Europass standardna lista metoda nadzora i verifikacije</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sv">Europass standardförteckning över övervaknings- och kontrollmetoder</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="tr">Europass Denetim ve Doğrulama Yöntemleri Standart Listesi</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_12079888d5ef"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_1545a49af43f"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_1809b7b25657"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_2234b8dd3dbc"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_2796043a84eb"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_2c77ac8bda81"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_2ef98a70b9df"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_31595ad5df"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_3381e161cd5f"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_399f4d356efd"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_4819ab118952"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_617971bed032"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_6c478ac2af21"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_76658b05a148"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_80b5274d958c"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_8baea9ae9936"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_937584629e28"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_b2076b8305c9"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_b26a5e10adc3"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_b66ede67e2ad"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_b8e4ffc22e5d"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_bd4a30c0ecb4"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_d611c5eb4840"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_e269e593a8ad"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_e4f1990a4a42"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_e7812b064d5c"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_e7e74932aa54"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_e8facaa010bc"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_f2184c73a39d"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/44314532f9">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-03-18</created>
+	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="bg">Контролирано, без проверка на самоличността</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="cs">Kontrola bez ověření totožnosti</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="da">Tilsyn uden ID-kontrol</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="de">Beaufsichtigt ohne Identitätsprüfung</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="el">Επιτήρηση χωρίς επαλήθευση αναγνωριστικού</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="en">Supervised without ID Verification</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="es">Supervisado sin verificación de la identidad</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="et">Järelevalve ilma isikusamasuse kontrollita</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="fi">Valvottu ilman henkilöllisyyden varmennusta</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="fr">Supervision sans vérification de l'identité</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="ga">Maoirsithe, gan Fíorú Aitheantais</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="hr">Uz nadzor bez provjere identiteta</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="hu">Felügyelve, azonosítóellenőrzés nélkül</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="is">Með eftirliti, deili á einstaklingi ekki sannprófuð</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="it">Controllato senza verifica dell'ID</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="lt">Kontroliuojama be ID patikros</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="lv">Uzraudzība bez ID verifikācijas</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="mk">Под надзор без верификација на идентитет</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="mt">Sorveljat mingħajr Verifika tal-Identità</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="nl">Supervisie zonder identiteitscontrole</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="no">Kontrollert uten ID-verifisering</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="pl">Pod nadzorem i bez kontroli tożsamości</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="pt">Supervisionado sem verificação de identidade</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="ro">Controlat fără verificarea ID-ului</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sk">Dozorované bez overenia ID</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sl">Nadzor brez preverjanja ID</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sr">Uz nadzor, bez verifikacije identiteta</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sv">Övervakad utan id-kontroll</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="tr">Kimlik Doğrulama olmadan Denetlenen</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_02321f4b19bd"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_0c670ece7b77"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_0cdc39e70d87"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_0f484e7d83a1"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_2421993d54ff"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_2a3b4ca2ec"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_3242a6d1a6d0"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_338acb87e4b2"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_3663ccd21df5"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_476fdb06d23c"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_4d3ff6f8ad8d"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_4e41d568351f"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_5695002a927d"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_64cd59f117e2"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_6b36ff66affb"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_6f753e4aa64e"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_7ca27b35c1e9"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_7f0cbf2ce902"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_8b9405e09fa1"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_8bdae6231b40"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_a3bbb158b6ce"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_aa382d58fdbe"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_bc81aedfd539"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_c1d2c052eb46"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_d20247c8b186"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_d4ea954569ab"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_eaef2803c62f"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_ebcfa236fec6"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_ff15e0cd1d0c"/>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<xlNotation xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/supervision-verification/notation_0921e993ab6b3e9ef456b990e73e8ab9"/>
+	<inScheme xmlns="http://www.w3.org/2004/02/skos/core#" rdf:resource="http://data.europa.eu/snb/supervision-verification/25831c2"/>
+	<notation xmlns="http://www.w3.org/2004/02/skos/core#">44314532f9</notation>
+	<topConceptOf xmlns="http://www.w3.org/2004/02/skos/core#" rdf:resource="http://data.europa.eu/snb/supervision-verification/25831c2"/>
+	<identifier xmlns="http://purl.org/dc/elements/1.1/">44314532f9</identifier>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/70be69aaf9">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-03-18</created>
+	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="bg">При наблюдение и с проверка на самоличността</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="cs">Dozor s ověřením totožnosti</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="da">Tilsyn med ID-kontrol</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="de">Beaufsichtigt mit Identitätsprüfung</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="el">Επιτήρηση με επαλήθευση αναγνωριστικού</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="en">Supervised with ID Verification</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="es">Supervisado con verificación de la identidad</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="et">Järelevalve koos isikusamasuse kontrolliga</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="fi">Valvottu + henkilöllisyyden varmennus</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="fr">Supervision avec vérification de l'identité</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="ga">Maoirsithe, le Fíorú Aitheantais</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="hr">Uz nadzor i provjeru identiteta</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="hu">Felügyelve, az azonosítás ellenőrzésével</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="is">Með eftirliti, deili á einstaklingi sannprófuð</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="it">Controllato con verifica dell'ID</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="lt">Kontroliuojama su ID patikra</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="lv">Uzraudzība ar ID verifikāciju</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="mk">Под надзор со верификација на идентитет</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="mt">Sorveljat b’Verifika tal-Identità</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="nl">Supervisie met identiteitscontrole</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="no">ID-verifisering med tilsyn</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="pl">Pod nadzorem i z kontrolą tożsamości</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="pt">Supervisionado com verificação de identidade</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="ro">Supraveghere cu verificarea identității</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sk">Dozorované s overením ID</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sl">Nadzor s preverjanjem ID</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sr">Uz nadzor sa verifikacijom ID</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sv">Övervakad med id-kontroll</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="tr">Kimlik Doğrulamayla Denetlenir</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_0a0e50e31537"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_0abd491c430f"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_0fba8b2c739a"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_11eb74d91369"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_13a9f33a4a86"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_156eea491c56"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_270224d7b2d3"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_3f8ca5ae3e4d"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_477760fde12a"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_4ce2e374c114"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_56d29ef140dd"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_59b4336fdad6"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_5ef6517af194"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_61844d3198dc"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_7ac4ba8a8d1d"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_7f834d28f223"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_82bea10cdbc9"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_901a34f85cc6"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_9ad6f6fd6e9f"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_9fd421c33744"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_a43a553f5e9b"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_c4a635c676fa"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_ce3894381acc"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_dc49f1cedd2e"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_ddfa9dd3c972"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_dedad4da5c40"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_e6cb237b9541"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_eecb78e3738c"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_f1447b0d45"/>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<xlNotation xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/supervision-verification/notation_9e16f21337d68a4e13f317d41dd04c95"/>
+	<inScheme xmlns="http://www.w3.org/2004/02/skos/core#" rdf:resource="http://data.europa.eu/snb/supervision-verification/25831c2"/>
+	<notation xmlns="http://www.w3.org/2004/02/skos/core#">70be69aaf9</notation>
+	<topConceptOf xmlns="http://www.w3.org/2004/02/skos/core#" rdf:resource="http://data.europa.eu/snb/supervision-verification/25831c2"/>
+	<identifier xmlns="http://purl.org/dc/elements/1.1/">70be69aaf9</identifier>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/c598449d64">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-03-18</created>
+	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="bg">Неконтролирано, без проверка на самоличността</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="cs">Bez kontroly bez ověření totožnosti</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="da">Ingen tilsyn uden ID-kontrol</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="de">Nicht beaufsichtigt ohne Identitätsprüfung</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="el">Χωρίς επιτήρηση χωρίς επαλήθευση αναγνωριστικού</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="en">Unsupervised without ID Verification</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="es">No supervisado sin verificación de la identidad</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="et">Järelevalveta ilma isikusamasuse kontrollita</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="fi">Valvomaton ilman henkilöllisyyden varmennusta</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="fr">Sans supervision ni vérification de l'identité</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="ga">Neamh-mhaoirsithe, gan Fíorú Aitheantais</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="hr">Bez nadzora i provjere identiteta</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="hu">Felügyelet nélkül, azonosítóellenőrzés nélkül</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="is">Án eftirlits, deili á einstaklingi ekki sannprófuð</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="it">Non controllato senza verifica dell'ID</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="lt">Nekontroliuojama be ID patikros</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="lv">Bez uzraudzības un bez ID verifikācijas</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="mk">Без надзор без верификација на идентитет</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="mt">Mhux sorveljat mingħajr Verifika tal-Identità</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="nl">Zonder supervisie zonder identiteitscontrole</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="no">Ukontrollert uten ID-verifisering</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="pl">Bez nadzoru i bez kontroli tożsamości</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="pt">Não supervisionado sem verificação de identidade</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="ro">Necontrolat fără verificarea ID-ului</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sk">Nedozorované bez overenia ID</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sl">Brez nadzora in brez preverjanja ID</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sr">Bez nadzora, bez verifikacije identiteta</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sv">Oövervakad utan id-kontroll</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="tr">Kimlik Doğrulama olmadan Denetlenmeyen</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_060905aad47a"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_09547f576224"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_12faf74efda0"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_14c52c2df9e8"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_1981b6926fa4"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_2445f3a7bed8"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_37397adf3595"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_3b19e3230ce5"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_48b754c8ad73"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_49fb7c9e53e8"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_4ad16a5385"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_4b431b265a2e"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_5b448f8e087e"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_6606002e096b"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_70b9c0c4a146"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_75bcb24df8a7"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_81fdec5d5fb5"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_b77fe1768272"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_bc241cb26202"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_bdec863ea4e5"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_c0790bc6e887"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_c1e0074fba6b"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_c42825f8e62e"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_c9d4a9c7b655"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_cb3571e78551"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_d494c10f5447"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_e3715615445c"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_fee84c6ac304"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_ff7f022a288e"/>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<xlNotation xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/supervision-verification/notation_89d6f713873be8d114e8e4a67a2b988f"/>
+	<inScheme xmlns="http://www.w3.org/2004/02/skos/core#" rdf:resource="http://data.europa.eu/snb/supervision-verification/25831c2"/>
+	<notation xmlns="http://www.w3.org/2004/02/skos/core#">c598449d64</notation>
+	<topConceptOf xmlns="http://www.w3.org/2004/02/skos/core#" rdf:resource="http://data.europa.eu/snb/supervision-verification/25831c2"/>
+	<identifier xmlns="http://purl.org/dc/elements/1.1/">c598449d64</identifier>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/df2880c5cb">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-03-18</created>
+	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="bg">Без наблюдение, но с проверка на самоличността</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="cs">Bez dozoru s ověřením totožnosti</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="da">Ingen tilsyn med ID-kontrol</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="de">Nicht beaufsichtigt mit Identitätsprüfung</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="el">Χωρίς επιτήρηση με επαλήθευση αναγνωριστικού</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="en">Unsupervised with ID Verification</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="es">No supervisado con verificación de la identidad</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="et">Järelevalveta koos isikusamasuse kontrolliga</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="fi">Valvomaton + henkilöllisyyden varmennus</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="fr">Sans supervision avec vérification de l'identité</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="ga">Neamh-mhaoirsithe, le Fíorú Aitheantais</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="hr">Bez nadzora uz provjeru identiteta</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="hu">Felügyelet nélkül, az azonosítás ellenőrzésével</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="is">Án eftirlits, deili á einstaklingi sannprófuð</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="it">Non controllato con verifica dell'ID</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="lt">Nekontroliuojama su ID patikra</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="lv">Bez uzraudzības ar ID verifikāciju</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="mk">Без надзор со верификација на идентитет</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="mt">Mhux sorveljat b’Verifika tal-Identità</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="nl">Zonder supervisie met identiteitscontrole</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="no">ID-verifisering uten tilsyn</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="pl">Bez nadzoru, z kontrolą tożsamości</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="pt">Não supervisionado, com verificação de identidade</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="ro">Fără supraveghere cu verificarea identității</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sk">Nedozorované s overením ID</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sl">Brez nadzora s preverjanjem ID</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sr">Bez nadzora sa verifikacijom ID</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sv">Oövervakad med id-kontroll</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="tr">Kimlik Doğrulamayla Denetlenmez</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_092f0dbddad4"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_205c7578b972"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_229a6ade7425"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_24807fcf687e"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_2a05e8781df3"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_3864505c6d"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_44180b5813c9"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_47c437e2e36f"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_4d5f285df694"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_513d74e8d186"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_5ddf7e58f91b"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_5f6634809e69"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_65c3de009755"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_6a373357d108"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_7a768ebd1c9b"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_7c8a1985a5cc"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_87d68c87391b"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_8a9389156844"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_8bbe0646f4be"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_9ae4773ace20"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_9bd8fb64620e"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_9e2ff009a574"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_a4187fd94e40"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_aa727765c8ae"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_b43fb99c20a8"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_c410472f3b08"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_dda7ada9ac97"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_f4bb7d76e9e5"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/supervision-verification/label_f95d6a7a81f5"/>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<xlNotation xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/supervision-verification/notation_e7b7ce29c78ea924d2302ddae0bfbdb8"/>
+	<inScheme xmlns="http://www.w3.org/2004/02/skos/core#" rdf:resource="http://data.europa.eu/snb/supervision-verification/25831c2"/>
+	<notation xmlns="http://www.w3.org/2004/02/skos/core#">df2880c5cb</notation>
+	<topConceptOf xmlns="http://www.w3.org/2004/02/skos/core#" rdf:resource="http://data.europa.eu/snb/supervision-verification/25831c2"/>
+	<identifier xmlns="http://purl.org/dc/elements/1.1/">df2880c5cb</identifier>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_12079888d5ef">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="es">Lista normalizada de métodos de supervisión y verificación de Europass</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_1545a49af43f">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="pl">Standardowa lista Europass metod nadzoru i kontroli</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_1809b7b25657">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="tr">Europass Denetim ve Doğrulama Yöntemleri Standart Listesi</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_2234b8dd3dbc">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="mt">Lista Standard tal-Europass ta’ Meotdi ta’ Superviżjoni u Verifika</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_2796043a84eb">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="is">Staðlaður listi Europass – Eftirlits- og sannprófunaraðferðir</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_2c77ac8bda81">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="lv">Europass aptvertās uzraudzības un verifikācijas metodes</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_2ef98a70b9df">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="hu">A felügyeleti és ellenőrzési módszerek szabványos Europass-listája</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_31595ad5df">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-03-18</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="en">Europass Standard List of Methods Of Supervision And Verification</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_3381e161cd5f">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="sl">Standardni seznam metod nadzora in preverjanja Europass</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_399f4d356efd">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="ro">Lista metodelor de supraveghere și verificare conform standardelor Europass</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_4819ab118952">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="et">Europassi järelevalve- ja kontrollimeetodite standardloend</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_617971bed032">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="nl">Europass-standaardlijst vormen van supervisie en verificatie</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_6c478ac2af21">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="bg">Стандартен списък Европас на методите за наблюдение и проверка</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_76658b05a148">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="fr">Liste standard des méthodes de supervision et de vérification Europass</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_80b5274d958c">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="fi">Europass-standardien luettelo: Valvonta- ja todentamistavat</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_8baea9ae9936">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="cs">Seznam metod dohledu a ověřování podle standardu Europass</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_937584629e28">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="mk">Europass Стандардна Листа на Методи на Надзор и Верификација</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_b2076b8305c9">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="lt">Standartinis „Europass“ kontrolės ir patikros būdų sąrašas</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_b26a5e10adc3">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="de">Europass-Standardliste der Aufsichts- und Identitätsprüfungsmethoden</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_b66ede67e2ad">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="da">Europass – standardliste over tilsyns- og kontrolmetoder</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_b8e4ffc22e5d">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="no">Europass-standarder for tilsyns- og verifiseringsmetoder</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_bd4a30c0ecb4">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="hr">Europassov standardni popis metoda nadzora i provjere</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_d611c5eb4840">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="sr">Europass standardna lista metoda nadzora i verifikacije</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_e269e593a8ad">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="ga">Liosta Caighdeánach Europass de Mhodhanna Maoirseachta agus Fíorúcháin</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_e4f1990a4a42">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="el">Τυποποιημένος κατάλογος Europass για μεθόδους επιτήρησης και επαλήθευσης</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_e7812b064d5c">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="sv">Europass standardförteckning över övervaknings- och kontrollmetoder</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_e7e74932aa54">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="sk">Štandardný zoznam metód dohľadu a overovania podľa štandardu Europass</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_e8facaa010bc">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="it">Elenco standard Europass delle modalità di controllo e verifica</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_f2184c73a39d">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="pt">Lista normalizada Europass de métodos de supervisão e verificação</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/notation_0921e993ab6b3e9ef456b990e73e8ab9">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-03-18</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNotation"/>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<rdf:value>44314532f9</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_02321f4b19bd">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="sv">Övervakad utan id-kontroll</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_0c670ece7b77">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="tr">Kimlik Doğrulama olmadan Denetlenen</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_0cdc39e70d87">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="mt">Sorveljat mingħajr Verifika tal-Identità</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_0f484e7d83a1">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="sl">Nadzor brez preverjanja ID</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_2421993d54ff">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="hr">Uz nadzor bez provjere identiteta</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_2a3b4ca2ec">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-03-18</created>
+	<modified xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-07-16</modified>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="en">Supervised without ID Verification</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_3242a6d1a6d0">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="sk">Dozorované bez overenia ID</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_338acb87e4b2">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="ro">Controlat fără verificarea ID-ului</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_3663ccd21df5">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="lv">Uzraudzība bez ID verifikācijas</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_476fdb06d23c">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="it">Controllato senza verifica dell'ID</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_4d3ff6f8ad8d">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="cs">Kontrola bez ověření totožnosti</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_4e41d568351f">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="pl">Pod nadzorem i bez kontroli tożsamości</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_5695002a927d">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="ga">Maoirsithe, gan Fíorú Aitheantais</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_64cd59f117e2">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="bg">Контролирано, без проверка на самоличността</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_6b36ff66affb">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="fr">Supervision sans vérification de l'identité</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_6f753e4aa64e">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="fi">Valvottu ilman henkilöllisyyden varmennusta</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_7ca27b35c1e9">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="sr">Uz nadzor, bez verifikacije identiteta</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_7f0cbf2ce902">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="es">Supervisado sin verificación de la identidad</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_8b9405e09fa1">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="et">Järelevalve ilma isikusamasuse kontrollita</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_8bdae6231b40">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="da">Tilsyn uden ID-kontrol</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_a3bbb158b6ce">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="de">Beaufsichtigt ohne Identitätsprüfung</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_aa382d58fdbe">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="no">Kontrollert uten ID-verifisering</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_bc81aedfd539">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="lt">Kontroliuojama be ID patikros</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_c1d2c052eb46">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="el">Επιτήρηση χωρίς επαλήθευση αναγνωριστικού</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_d20247c8b186">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="mk">Под надзор без верификација на идентитет</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_d4ea954569ab">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="pt">Supervisionado sem verificação de identidade</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_eaef2803c62f">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="nl">Supervisie zonder identiteitscontrole</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_ebcfa236fec6">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="hu">Felügyelve, azonosítóellenőrzés nélkül</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_ff15e0cd1d0c">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="is">Með eftirliti, deili á einstaklingi ekki sannprófuð</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/notation_9e16f21337d68a4e13f317d41dd04c95">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-03-18</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNotation"/>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<rdf:value>70be69aaf9</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_0a0e50e31537">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="el">Επιτήρηση με επαλήθευση αναγνωριστικού</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_0abd491c430f">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="sk">Dozorované s overením ID</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_0fba8b2c739a">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="pl">Pod nadzorem i z kontrolą tożsamości</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_11eb74d91369">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="bg">При наблюдение и с проверка на самоличността</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_13a9f33a4a86">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="sl">Nadzor s preverjanjem ID</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_156eea491c56">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="fi">Valvottu + henkilöllisyyden varmennus</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_270224d7b2d3">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="it">Controllato con verifica dell'ID</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_3f8ca5ae3e4d">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="cs">Dozor s ověřením totožnosti</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_477760fde12a">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="sv">Övervakad med id-kontroll</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_4ce2e374c114">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="pt">Supervisionado com verificação de identidade</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_56d29ef140dd">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="lt">Kontroliuojama su ID patikra</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_59b4336fdad6">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="sr">Uz nadzor sa verifikacijom ID</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_5ef6517af194">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="nl">Supervisie met identiteitscontrole</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_61844d3198dc">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="no">ID-verifisering med tilsyn</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_7ac4ba8a8d1d">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="de">Beaufsichtigt mit Identitätsprüfung</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_7f834d28f223">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="ro">Supraveghere cu verificarea identității</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_82bea10cdbc9">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="lv">Uzraudzība ar ID verifikāciju</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_901a34f85cc6">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="es">Supervisado con verificación de la identidad</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_9ad6f6fd6e9f">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="da">Tilsyn med ID-kontrol</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_9fd421c33744">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="hr">Uz nadzor i provjeru identiteta</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_a43a553f5e9b">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="fr">Supervision avec vérification de l'identité</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_c4a635c676fa">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="hu">Felügyelve, az azonosítás ellenőrzésével</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_ce3894381acc">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="mk">Под надзор со верификација на идентитет</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_dc49f1cedd2e">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="is">Með eftirliti, deili á einstaklingi sannprófuð</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_ddfa9dd3c972">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="mt">Sorveljat b’Verifika tal-Identità</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_dedad4da5c40">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="tr">Kimlik Doğrulamayla Denetlenir</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_e6cb237b9541">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="ga">Maoirsithe, le Fíorú Aitheantais</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_eecb78e3738c">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="et">Järelevalve koos isikusamasuse kontrolliga</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_f1447b0d45">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-03-18</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="en">Supervised with ID Verification</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/notation_89d6f713873be8d114e8e4a67a2b988f">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-03-18</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNotation"/>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<rdf:value>c598449d64</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_060905aad47a">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="mt">Mhux sorveljat mingħajr Verifika tal-Identità</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_09547f576224">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="sv">Oövervakad utan id-kontroll</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_12faf74efda0">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="el">Χωρίς επιτήρηση χωρίς επαλήθευση αναγνωριστικού</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_14c52c2df9e8">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="is">Án eftirlits, deili á einstaklingi ekki sannprófuð</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_1981b6926fa4">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="pt">Não supervisionado sem verificação de identidade</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_2445f3a7bed8">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="es">No supervisado sin verificación de la identidad</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_37397adf3595">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="bg">Неконтролирано, без проверка на самоличността</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_3b19e3230ce5">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="mk">Без надзор без верификација на идентитет</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_48b754c8ad73">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="ro">Necontrolat fără verificarea ID-ului</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_49fb7c9e53e8">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="nl">Zonder supervisie zonder identiteitscontrole</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_4ad16a5385">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-03-18</created>
+	<modified xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-07-16</modified>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="en">Unsupervised without ID Verification</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_4b431b265a2e">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="lv">Bez uzraudzības un bez ID verifikācijas</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_5b448f8e087e">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="sr">Bez nadzora, bez verifikacije identiteta</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_6606002e096b">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="hu">Felügyelet nélkül, azonosítóellenőrzés nélkül</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_70b9c0c4a146">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="de">Nicht beaufsichtigt ohne Identitätsprüfung</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_75bcb24df8a7">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="ga">Neamh-mhaoirsithe, gan Fíorú Aitheantais</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_81fdec5d5fb5">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="fi">Valvomaton ilman henkilöllisyyden varmennusta</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_b77fe1768272">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="tr">Kimlik Doğrulama olmadan Denetlenmeyen</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_bc241cb26202">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="lt">Nekontroliuojama be ID patikros</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_bdec863ea4e5">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="da">Ingen tilsyn uden ID-kontrol</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_c0790bc6e887">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="sk">Nedozorované bez overenia ID</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_c1e0074fba6b">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="fr">Sans supervision ni vérification de l'identité</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_c42825f8e62e">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="pl">Bez nadzoru i bez kontroli tożsamości</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_c9d4a9c7b655">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="cs">Bez kontroly bez ověření totožnosti</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_cb3571e78551">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="it">Non controllato senza verifica dell'ID</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_d494c10f5447">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="et">Järelevalveta ilma isikusamasuse kontrollita</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_e3715615445c">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="no">Ukontrollert uten ID-verifisering</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_fee84c6ac304">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="hr">Bez nadzora i provjere identiteta</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_ff7f022a288e">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="sl">Brez nadzora in brez preverjanja ID</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/notation_e7b7ce29c78ea924d2302ddae0bfbdb8">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-03-18</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNotation"/>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<rdf:value>df2880c5cb</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_092f0dbddad4">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="nl">Zonder supervisie met identiteitscontrole</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_205c7578b972">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="bg">Без наблюдение, но с проверка на самоличността</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_229a6ade7425">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="sr">Bez nadzora sa verifikacijom ID</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_24807fcf687e">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="hu">Felügyelet nélkül, az azonosítás ellenőrzésével</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_2a05e8781df3">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="hr">Bez nadzora uz provjeru identiteta</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_3864505c6d">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-03-18</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="en">Unsupervised with ID Verification</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_44180b5813c9">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="mk">Без надзор со верификација на идентитет</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_47c437e2e36f">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="fi">Valvomaton + henkilöllisyyden varmennus</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_4d5f285df694">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="tr">Kimlik Doğrulamayla Denetlenmez</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_513d74e8d186">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="pl">Bez nadzoru, z kontrolą tożsamości</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_5ddf7e58f91b">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="et">Järelevalveta koos isikusamasuse kontrolliga</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_5f6634809e69">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="lv">Bez uzraudzības ar ID verifikāciju</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_65c3de009755">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="sk">Nedozorované s overením ID</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_6a373357d108">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="es">No supervisado con verificación de la identidad</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_7a768ebd1c9b">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="pt">Não supervisionado, com verificação de identidade</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_7c8a1985a5cc">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="de">Nicht beaufsichtigt mit Identitätsprüfung</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_87d68c87391b">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="it">Non controllato con verifica dell'ID</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_8a9389156844">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="ga">Neamh-mhaoirsithe, le Fíorú Aitheantais</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_8bbe0646f4be">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="da">Ingen tilsyn med ID-kontrol</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_9ae4773ace20">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="sl">Brez nadzora s preverjanjem ID</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_9bd8fb64620e">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="mt">Mhux sorveljat b’Verifika tal-Identità</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_9e2ff009a574">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="is">Án eftirlits, deili á einstaklingi sannprófuð</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_a4187fd94e40">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="lt">Nekontroliuojama su ID patikra</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_aa727765c8ae">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="cs">Bez dozoru s ověřením totožnosti</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_b43fb99c20a8">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="el">Χωρίς επιτήρηση με επαλήθευση αναγνωριστικού</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_c410472f3b08">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="no">ID-verifisering uten tilsyn</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_dda7ada9ac97">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="sv">Oövervakad med id-kontroll</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_f4bb7d76e9e5">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="ro">Fără supraveghere cu verificarea identității</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/supervision-verification/label_f95d6a7a81f5">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.3.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="fr">Sans supervision avec vérification de l'identité</literalForm>
+</rdf:Description>
+
+</rdf:RDF>

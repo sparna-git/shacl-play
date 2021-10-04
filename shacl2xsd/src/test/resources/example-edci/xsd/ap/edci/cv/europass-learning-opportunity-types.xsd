@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:skos="http://www.w3.org/2004/02/skos/core#"
+    xmlns="http://data.europa.eu/snb/learning-opportunity/25831c2"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://data.europa.eu/snb/learning-opportunity/25831c2">
+    <xs:simpleType name="LearningOpportunityTypesEnumType">
+        <xs:restriction base="xs:anyURI">
+            <xs:enumeration value="http://data.europa.eu/snb/learning-opportunity/05053c1cbe">
+                <xs:annotation>
+                    <xs:documentation>Course</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/learning-opportunity/0f7dac46ca">
+                <xs:annotation>
+                    <xs:documentation>Programme module</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/learning-opportunity/11252a5207">
+                <xs:annotation>
+                    <xs:documentation>Mentoring</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/learning-opportunity/17744a2647">
+                <xs:annotation>
+                    <xs:documentation>MOOC</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/learning-opportunity/63f9f6180c">
+                <xs:annotation>
+                    <xs:documentation>Apprenticeship</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/learning-opportunity/65a4cf5de2">
+                <xs:annotation>
+                    <xs:documentation>Study visit</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/learning-opportunity/74a4a268e8">
+                <xs:annotation>
+                    <xs:documentation>Short learning programme</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/learning-opportunity/77b99de990">
+                <xs:annotation>
+                    <xs:documentation>Internship</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/learning-opportunity/79343569f3">
+                <xs:annotation>
+                    <xs:documentation>Educational programme</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/learning-opportunity/7e1ac538db">
+                <xs:annotation>
+                    <xs:documentation>Class</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/learning-opportunity/8b965da2d4">
+                <xs:annotation>
+                    <xs:documentation>Service learning</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/learning-opportunity/b2434ca358">
+                <xs:annotation>
+                    <xs:documentation>Thesis</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>

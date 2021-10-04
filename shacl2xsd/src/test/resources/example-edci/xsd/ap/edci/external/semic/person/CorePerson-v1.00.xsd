@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns="http://www.w3.org/ns/corevocabulary/person" xmlns:cva="http://www.w3.org/ns/corevocabulary/AggregateComponents" xmlns:cvb="http://www.w3.org/ns/corevocabulary/BasicComponents" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" xmlns:ext="urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.w3.org/ns/corevocabulary/person" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1">
+	<xsd:import namespace="http://www.w3.org/ns/corevocabulary/AggregateComponents" schemaLocation="CoreVocabularyAggregateComponents-v1.00.xsd"/>
+	<xsd:import namespace="http://www.w3.org/ns/corevocabulary/BasicComponents" schemaLocation="CoreVocabularyBasicComponents-v1.00.xsd"/>
+	<xsd:import namespace="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" schemaLocation="../common/UBL-CommonBasicComponents-2.0.xsd"/>
+	<xsd:import namespace="urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2" schemaLocation="../common/UBL-CommonExtensionComponents-2.0.xsd"/>
+	<xsd:element name="Cvperson" type="CvpersonType"/>
+	<xsd:complexType name="CvpersonType">
+		<xsd:sequence>
+			<xsd:element ref="ext:UBLExtensions" minOccurs="0"/>
+			<xsd:element ref="cbc:UBLVersionID" minOccurs="0"/>
+			<xsd:element ref="cbc:CustomizationID" minOccurs="0"/>
+			<xsd:element ref="cbc:ProfileID" minOccurs="0"/>
+			<xsd:element ref="cvb:FullName" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="cbc:FamilyName" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="cvb:GivenName" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="cvb:PatronymicName" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="cvb:AlternativeName" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="cvb:GenderCode" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="cvb:BirthName" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="cvb:BirthDate" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="cvb:DeathDate" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="cva:Cvidentifier" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="cva:ResidencyJurisdiction" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="cva:CitizenshipJurisdiction" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="cva:DeathPlaceCvlocation" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="cva:DeathCountryCvlocation" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="cva:BirthPlaceCvlocation" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="cva:BirthCountryCvlocation" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns="http://www.w3.org/ns/corevocabulary/location" xmlns:cva="http://www.w3.org/ns/corevocabulary/AggregateComponents" xmlns:cvb="http://www.w3.org/ns/corevocabulary/BasicComponents" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" xmlns:ext="urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.w3.org/ns/corevocabulary/location" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1">
+	<xsd:import namespace="http://www.w3.org/ns/corevocabulary/AggregateComponents" schemaLocation="CoreVocabularyAggregateComponents-v1.00.xsd"/>
+	<xsd:import namespace="http://www.w3.org/ns/corevocabulary/BasicComponents" schemaLocation="CoreVocabularyBasicComponents-v1.00.xsd"/>
+	<xsd:import namespace="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" schemaLocation="../common/UBL-CommonBasicComponents-2.0.xsd"/>
+	<xsd:import namespace="urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2" schemaLocation="../common/UBL-CommonExtensionComponents-2.0.xsd"/>
+	<xsd:element name="Cvlocation" type="CvlocationType"/>
+	<xsd:complexType name="CvlocationType">
+		<xsd:sequence>
+			<xsd:element ref="ext:UBLExtensions" minOccurs="0"/>
+			<xsd:element ref="cbc:UBLVersionID" minOccurs="0"/>
+			<xsd:element ref="cbc:CustomizationID" minOccurs="0"/>
+			<xsd:element ref="cbc:ProfileID" minOccurs="0"/>
+			<xsd:element ref="cvb:GeographicName" minOccurs="0"/>
+			<xsd:element ref="cvb:GeographicID" minOccurs="0"/>
+			<xsd:element ref="cva:Cvaddress" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="cva:Geometry" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>

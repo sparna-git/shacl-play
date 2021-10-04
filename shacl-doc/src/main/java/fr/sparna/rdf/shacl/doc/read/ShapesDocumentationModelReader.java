@@ -114,7 +114,6 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 			try {
 				sImgDiagramme = gImgSvg.generateSvgDiagram(shaclGraph, owlGraph,avoidArrowsToEmptyBoxes);
 				plantUmlSourceDiagram = sourceGenerator.generatePlantUmlDiagram(shaclGraph, owlGraph,false,true,avoidArrowsToEmptyBoxes);
-
 				// Read source Uml
 				plantUmlSourceCode = sourceGenerator.generatePlantUmlDiagram(shaclGraph, owlGraph,false,false,avoidArrowsToEmptyBoxes);
 				// if source uml is true generate png file

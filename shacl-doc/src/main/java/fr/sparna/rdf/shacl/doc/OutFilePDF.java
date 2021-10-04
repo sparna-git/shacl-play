@@ -1,25 +1,8 @@
 package fr.sparna.rdf.shacl.doc;
 
-import com.openhtmltopdf.outputdevice.helper.BaseRendererBuilder.PageSizeUnits;
-import com.openhtmltopdf.pdfboxout.PdfBoxRenderer;
-import com.openhtmltopdf.pdfboxout.PdfRendererBuilder;
-import com.openhtmltopdf.render.Box;
-import com.openhtmltopdf.svgsupport.BatikSVGDrawer;
-
-import java.io.Closeable;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.nio.file.FileSystems;
-
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.jsoup.Jsoup;
-import org.jsoup.helper.W3CDom;
-import org.w3c.dom.Document;
 
 public class OutFilePDF {
-
+ /*
 	public void outfilepdf(String file) {
 
 		try {
@@ -61,5 +44,6 @@ public class OutFilePDF {
 		    _builder.run();
 		    System.out.println("PDF generation completed");
 		    os.close();
-		  }		  
+		  }	
+		  */	  
 }

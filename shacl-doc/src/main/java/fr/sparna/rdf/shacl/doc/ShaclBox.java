@@ -18,6 +18,7 @@ public class ShaclBox {
 	protected Integer shOrder;
 	protected String shnodeKind;
 	protected Boolean shClose;
+	
 
 	public ShaclBox(Resource nodeShape) {
 		this.nodeShape = nodeShape;

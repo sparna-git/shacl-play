@@ -53,8 +53,32 @@ public class PlantUmlPropertyReader {
 		p.setValue_qualifiedMaxMinCount(this.readShQualifiedMinCountQualifiedMaxCount(constraint));
 		p.setValue_inverseOf(this.readOwlInverseOf(owlGraph, p.getValue_path()));
 		p.setValue_shor(this.readShOrConstraint(constraint));
+		p.setValue_version(this.readShVersion(constraint));
+		p.setValue_colorProperty(this.readShColor(constraint));
 		
 		return p;
+	}
+	
+	
+	
+	public String readShColor(Resource constraint) {
+		String value=null;
+		try {
+			value = constraint.getProperty(constraint.getModel().createProperty("https://shacl-play.sparna.fr/ontology#color")).getString();
+		} catch (Exception e) {
+			value = null;
+		}
+		return value;
+	}
+	
+	public String readShVersion(Resource constraint) {
+		String value=null;
+		try {
+			value = constraint.getProperty(constraint.getModel().createProperty("http://www.w3.org/2002/07/owl#versionInfo")).getLiteral().getString();
+		} catch (Exception e) {
+			value = null;
+		}
+		return value;
 	}
 	
 	
@@ -292,16 +316,17 @@ public class PlantUmlPropertyReader {
 			
 			if(nodetargets.isEmpty()) {
 				if(idclass.hasProperty(RDF.type, RDFS.Class) && idclass.hasProperty(RDF.type, SH.NodeShape)) {
-					value = idclass.getLocalName();	
+					value = idclass.getModel().shortForm(constraint.getProperty(SH.class_).getResource().toString());	
 				} 
 				else {   // Section quand il n'y a pas une targetClass
-					value = constraint.getProperty(SH.class_).getResource().getLocalName();
+					value = constraint.getProperty(SH.class_).getResource().getModel().shortForm(constraint.getProperty(SH.class_).getResource().getURI()); //constraint.getProperty(SH.class_).getResource().getLocalName();
 				}
 			}
 		}
 		
 		// 2. Trouver le PlantUmlBox qui a ce nom
 		PlantUmlBox theBox = null;
+		
 		for (PlantUmlBox plantUmlBox : allBoxes) {
 			if(plantUmlBox.getLabel().equals(value)) {
 				theBox = plantUmlBox;

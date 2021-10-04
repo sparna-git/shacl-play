@@ -12,9 +12,31 @@ public class PlantUmlBox {
 	protected String label;
 	protected String nametargetclass; 
 	protected String packageName;	
+	protected String version;
+	protected String colorClass;
 	
 	protected List<PlantUmlProperty> properties = new ArrayList<>();
 	protected List<PlantUmlBox> superClasses = new ArrayList<>();
+
+	
+	
+	
+	
+	public String getColorClass() {
+		return colorClass;
+	}
+
+	public void setColorClass(String colorClass) {
+		this.colorClass = colorClass;
+	}
+
+	public String getVersion() {
+		return version;
+	}
+
+	public void setVersion(String version) {
+		this.version = version;
+	}
 
 	public PlantUmlBox(Resource nodeShape) {  
 	    this.nodeShape = nodeShape;		
@@ -40,8 +62,12 @@ public class PlantUmlBox {
 		return nametargetclass;
 	}
 	
-	public String getQualifiedName() {		
-		return packageName+"."+this.getLabel();
+	public String getQualifiedName() {
+		if(!packageName.isEmpty()) {
+			return packageName+"."+this.getLabel();
+		}else {
+			return this.getLabel();
+		}
 	}
 
 	public Resource getNodeShape() {

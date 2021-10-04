@@ -1,0 +1,25 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<xs:schema xmlns="http://data.europa.eu/snb/model#"
+           targetNamespace="http://data.europa.eu/snb/model#"
+           xmlns:elm="http://data.europa.eu/snb/model#"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema#"
+           version="1.0.0" elementFormDefault="qualified">
+    
+    <xs:import namespace="http://data.europa.eu/snb/model/w3c/vc#" schemaLocation="vc.xsd"/>
+
+
+    <xs:element name="EuropassCredential" type="EuropassCredentialType"/>
+
+    <xs:element name="europassCredential" type="EuropassCredentialType"/>
+
+    <xs:complexType name="EuropassCredentialType">
+        <xs:complexContent>
+            <!-- or xs:restriction -->
+            <xs:extension base="vc:VerifiableCredentialType">
+
+            </xs:extension>
+        </xs:complexContent>
+        <xs:attribute name="id" use="required" type="xs:anyURI" />
+    </xs:complexType>
+
+</xs:schema>

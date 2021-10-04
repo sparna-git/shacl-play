@@ -98,6 +98,18 @@ eclipse.preferences.version=1
                 <version>4.13</version>
                 <scope>test</scope>
             </dependency>
+            <dependency>
+              <groupId>org.xmlunit</groupId>
+              <artifactId>xmlunit-core</artifactId>
+              <version>2.6.2</version>
+              <!-- Note : we need this for runtime, too -->
+              <!-- <scope>test</scope> -->
+            </dependency>
+            <dependency>
+                <groupId>org.xmlunit</groupId>
+                <artifactId>xmlunit-matchers</artifactId>
+                <version>2.6.2</version>
+            </dependency>
 
             <!-- SHACL -->
             <dependency>

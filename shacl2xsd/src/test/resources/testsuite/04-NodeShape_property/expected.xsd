@@ -21,8 +21,11 @@
             <!-- no cardinalities, so minOccurs=0, maxoccurs=unbounded -->
             <xs:element ref="attachment" minOccurs="0" maxOccurs="unbounded" />
         </xs:sequence>
+        <xs:attribute name="id" use="required" type="xs:anyURI" />
     </xs:complexType>
 
-    <xs:complexType name="MediaObjectType" />
+    <xs:complexType name="MediaObjectType">
+        <xs:attribute name="id" use="required" type="xs:anyURI" />
+    </xs:complexType>
 
 </xs:schema>

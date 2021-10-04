@@ -13,6 +13,7 @@
         <xs:annotation>
             <xs:documentation>Blah blah</xs:documentation>
         </xs:annotation>
+        <xs:attribute name="id" use="required" type="xs:anyURI" />
     </xs:complexType>
 
 </xs:schema>

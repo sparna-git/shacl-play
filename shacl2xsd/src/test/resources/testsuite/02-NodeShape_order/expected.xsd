@@ -14,7 +14,11 @@
     <xs:element name="europassPresentation" type="EuropassPresentationType"/>
 
     <!-- then the declaration of the types -->
-    <xs:complexType name="EuropassCredentialType" />
-    <xs:complexType name="EuropassPresentationType" />
+    <xs:complexType name="EuropassCredentialType">
+        <xs:attribute name="id" use="required" type="xs:anyURI" />
+    </xs:complexType>
+    <xs:complexType name="EuropassPresentationType">
+        <xs:attribute name="id" use="required" type="xs:anyURI" />
+    </xs:complexType>
 
 </xs:schema>

@@ -9,6 +9,8 @@
 
     <xs:element name="europassCredential" type="EuropassCredentialType"/>
 
-    <xs:complexType name="EuropassCredentialType" />
+    <xs:complexType name="EuropassCredentialType">
+        <xs:attribute name="id" use="required" type="xs:anyURI" />
+    </xs:complexType>
 
 </xs:schema>

@@ -20,10 +20,16 @@ edci-c:EuropassCredential-elm_attachment
   a sh:PropertyShape; 
   sh:path elm:attachment;
   sh:class elm:MediaObject;
-  sh:description "Any digital document..."@en;
   .  
 
 edci-c:MediaObjectShape 
   a sh:NodeShape; 
   sh:targetClass elm:MediaObject; 
   .
+
+###### Ontology part
+
+elm:attachment
+  a owl:ObjectProperty ;
+  rdfs:comment "Any digital document..."@en;
+.

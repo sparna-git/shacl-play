@@ -20,7 +20,7 @@
 
     <!-- 1. declare a MediaObjectReferences element, pointing to corresponding type -->
     <!-- list of XML elements corresponding to references -->
-    <xs:element name="MediaObjectReferences" type="MediaObjectReferencesType" />
+    <xs:element name="mediaObjectReferences" type="MediaObjectReferencesType" />
 
     <xs:complexType name="EuropassCredentialType">
         <xs:sequence>
@@ -37,10 +37,10 @@
     <!-- 2. Declare the MediaObjectReferencesType, containing mediaObject elements -->
     <!-- References types, at the end, after the others -->
     <xs:complexType name="MediaObjectReferencesType">
-        <!-- xs:choice -->
-        <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <!-- TODO : this should be a choice for LearningAchievementSpecificationReferencesType -->
+        <xs:sequence minOccurs="0" maxOccurs="unbounded">
             <xs:element name="mediaObject" type="MediaObjectType" />
-        </xs:choice>
+        </xs:sequence>
     </xs:complexType>
 
     <!-- 3. Declare this complexType, always if there is at least one element using

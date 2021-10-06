@@ -15,7 +15,7 @@
     <xs:element name="mediaObject" type="IdReferenceType"/>
 
     <!-- list of XML elements corresponding to properties -->
-    <!-- 4a. The XML elements corresponding to the properties that refer to this class must have a type="IdReferenceType" -->
+    <!-- 4b. The XML elements corresponding to the properties that refer to this class must have a type="IdReferenceType" -->
     <xs:element name="attachment" type="IdReferenceType"/> 
 
     <!-- 1. declare a MediaObjectReferences element, pointing to corresponding type -->

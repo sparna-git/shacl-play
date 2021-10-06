@@ -197,24 +197,26 @@ public class Shacl2XsdConverter {
 			complexType.setAttribute("name", str + "Type");
 			root.appendChild(complexType);
 
-			Element attComplex = doc.createElementNS("http://www.w3.org/2001/XMLSchema#", "xs:attribute");
-			attComplex.setAttribute("name", "id");
-			attComplex.setAttribute("type", "xs:anyURI");
-			attComplex.setAttribute("use", "required");
-			complexType.appendChild(attComplex);
-
-			for (OntologyClass readOwlClass : owlData.getOntoClass()) {
-				if (readOwlClass.getCommentRDFS() != null) {
-					Element attAnnotation = doc.createElementNS("http://www.w3.org/2001/XMLSchema#", "xs:annotation");
-					Element attAnnotationDocument = doc.createElementNS("http://www.w3.org/2001/XMLSchema#","xs:documentation");
-					attAnnotationDocument.setTextContent(readOwlClass.getCommentRDFS());
-
-					complexType.appendChild(attAnnotation);
-					attAnnotation.appendChild(attAnnotationDocument);
-				}
-			}
-
 			if (complexTypebox.getProperties().size() > 0) {
+				
+				Element attComplex = doc.createElementNS("http://www.w3.org/2001/XMLSchema#", "xs:attribute");
+				attComplex.setAttribute("name", "id");
+				attComplex.setAttribute("type", "xs:anyURI");
+				attComplex.setAttribute("use", "required");
+				complexType.appendChild(attComplex);
+
+				for (OntologyClass readOwlClass : owlData.getOntoClass()) {
+					if (readOwlClass.getCommentRDFS() != null) {
+						Element attAnnotation = doc.createElementNS("http://www.w3.org/2001/XMLSchema#", "xs:annotation");
+						Element attAnnotationDocument = doc.createElementNS("http://www.w3.org/2001/XMLSchema#","xs:documentation");
+						attAnnotationDocument.setTextContent(readOwlClass.getCommentRDFS());
+
+						complexType.appendChild(attAnnotation);
+						attAnnotation.appendChild(attAnnotationDocument);
+					}
+				}
+				
+				
 				Element attsequence = doc.createElementNS("http://www.w3.org/2001/XMLSchema#", "xs:sequence");
 				for (ShaclXsdProperty rDataProperty : complexTypebox.getProperties()) {
 					if (rDataProperty.getValue_path() != null) {
@@ -246,7 +248,14 @@ public class Shacl2XsdConverter {
 					}
 				}
 				complexType.appendChild(attsequence);
+			} else {
+				Element simpleContent = doc.createElementNS("http://www.w3.org/2001/XMLSchema#", "xs:simpleContent");
+				Element extension = doc.createElementNS("http://www.w3.org/2001/XMLSchema#", "xs:extension");
+				extension.setAttribute("base","xs:anyURI");
+				complexType.appendChild(simpleContent);
+				simpleContent.appendChild(extension);
 			}
+				
 
 			for (OntologyClass readOwlClass : owlData.getOntoClass()) {
 				if (readOwlClass.getSubClassOfRDFS() != null) {

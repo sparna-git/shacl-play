@@ -1,9 +1,11 @@
 @prefix elm:    <https://data.europa.eu/snb/model#>.
 @prefix edci-c:    <https://data.europa.eu/snb/model/edci-constraints#>.
 @prefix sh:     <http://www.w3.org/ns/shacl#> .
+@prefix dc:     <http://purl.org/dc/terms/>.
 @prefix vc:     <http://data.europa.eu/snb/model/w3c/vc#>.
 
 <https://data.europa.eu/snb/model/edci-constraints>
   a owl:Ontology;
   owl:imports vc:;
+  owl:import dc:;
   .

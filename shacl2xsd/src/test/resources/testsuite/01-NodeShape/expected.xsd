@@ -10,7 +10,10 @@
     <xs:element name="europassCredential" type="EuropassCredentialType"/>
 
     <xs:complexType name="EuropassCredentialType">
-        <xs:attribute name="id" use="required" type="xs:anyURI" />
+        <!-- A NodeShape without any property generates a xs:simpleContent, with no id attribute -->
+        <xs:simpleContent>
+            <xs:extension base="xs:anyURI"/>
+        </xs:simpleContent>
     </xs:complexType>
 
 </xs:schema>

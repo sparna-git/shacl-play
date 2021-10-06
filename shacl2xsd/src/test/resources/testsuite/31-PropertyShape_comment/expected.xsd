@@ -33,7 +33,9 @@
     </xs:complexType>
 
     <xs:complexType name="MediaObjectType">
-        <xs:attribute name="id" use="required" type="xs:anyURI" />
+        <xs:simpleContent>
+            <xs:extension base="xs:anyURI"/>
+        </xs:simpleContent>
     </xs:complexType>
 
 </xs:schema>

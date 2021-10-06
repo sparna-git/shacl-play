@@ -15,10 +15,14 @@
 
     <!-- then the declaration of the types -->
     <xs:complexType name="EuropassCredentialType">
-        <xs:attribute name="id" use="required" type="xs:anyURI" />
+        <xs:simpleContent>
+            <xs:extension base="xs:anyURI"/>
+        </xs:simpleContent>
     </xs:complexType>
     <xs:complexType name="EuropassPresentationType">
-        <xs:attribute name="id" use="required" type="xs:anyURI" />
+        <xs:simpleContent>
+            <xs:extension base="xs:anyURI"/>
+        </xs:simpleContent>
     </xs:complexType>
 
 </xs:schema>

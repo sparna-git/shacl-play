@@ -13,7 +13,9 @@
         <xs:annotation>
             <xs:documentation>Blah blah</xs:documentation>
         </xs:annotation>
-        <xs:attribute name="id" use="required" type="xs:anyURI" />
+        <xs:simpleContent>
+            <xs:extension base="xs:anyURI"/>
+        </xs:simpleContent>
     </xs:complexType>
 
 </xs:schema>

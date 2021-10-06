@@ -12,15 +12,24 @@
     <xs:element name="learningAssessment" type="LearningAssessmentType"/>
 
     <!-- list of XML elements corresponding to properties -->
+<<<<<<< HEAD
     <xs:element name="grade" type="xs:string"/> 
     <xs:element name="grade_date" type="xs:date"/> 
+=======
+    <xs:element name="grade" type="xsd:string"/> 
+>>>>>>> 413dd6a2f656c311e7f3f6547f7e6b479a122b1e
 
     <xs:complexType name="LearningAssessmentType">
+        <xs:attribute name="id" use="required" type="xs:anyURI" />
         <xs:sequence>
             <xs:element ref="grade" minOccurs="0" maxOccurs="1" />
+<<<<<<< HEAD
             <xs:element ref="grade_date" minOccurs="1" maxOccurs="unbounded" />
         </xs:sequence>
         <xs:attribute name="id" use="required" type="xs:anyURI" />
+=======
+        </xs:sequence>        
+>>>>>>> 413dd6a2f656c311e7f3f6547f7e6b479a122b1e
     </xs:complexType>
 
 </xs:schema>

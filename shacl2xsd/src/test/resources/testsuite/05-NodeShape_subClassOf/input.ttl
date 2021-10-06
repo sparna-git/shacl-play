@@ -1,6 +1,10 @@
 @prefix elm:    <https://data.europa.eu/snb/model#>.
 @prefix edci-c:    <https://data.europa.eu/snb/model/edci-constraints#>.
 @prefix sh:     <http://www.w3.org/ns/shacl#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix vc:     <http://data.europa.eu/snb/model/w3c/vc#>.
 
 <https://data.europa.eu/snb/model/edci-constraints>

@@ -17,10 +17,11 @@
     as it is identical with the name of the class -->
 
     <xs:complexType name="EuropassCredentialType">
+    	<xs:attribute name="id" use="required" type="xs:anyURI" />
         <xs:sequence>
             <xs:element ref="mediaObject" minOccurs="0" maxOccurs="unbounded" />
         </xs:sequence>
-        <xs:attribute name="id" use="required" type="xs:anyURI" />
+        
     </xs:complexType>
 
     <xs:complexType name="MediaObjectType">

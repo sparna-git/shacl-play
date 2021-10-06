@@ -14,17 +14,19 @@
     <xs:element name="mediaObject" type="MediaObjectType"/>
 
     <!-- list of XML elements corresponding to properties -->
+    <xs:element name="B_property" type="MediaObjectType"/>
     <xs:element name="A_property" type="MediaObjectType"/> 
-    <xs:element name="B_property" type="MediaObjectType"/> 
+     
 
     <xs:complexType name="EuropassCredentialType">
+        <xs:attribute name="id" use="required" type="xs:anyURI" />
         <xs:sequence>
             <!-- B is first because it has order=1-->
             <xs:element ref="B_property" minOccurs="0" maxOccurs="unbounded" />
             <!-- A is second -->
             <xs:element ref="A_property" minOccurs="0" maxOccurs="unbounded" />
         </xs:sequence>
-        <xs:attribute name="id" use="required" type="xs:anyURI" />
+        
     </xs:complexType>
 
     <xs:complexType name="MediaObjectType">

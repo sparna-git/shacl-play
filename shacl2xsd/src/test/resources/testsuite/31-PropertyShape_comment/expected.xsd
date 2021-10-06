@@ -15,8 +15,10 @@
 
     <!-- list of XML elements corresponding to properties -->
     <xs:element name="attachment" type="MediaObjectType"/> 
+    <xs:element name="attachmentSpecific" type="MediaObjectType"/>
 
     <xs:complexType name="EuropassCredentialType">
+        <xs:attribute name="id" use="required" type="xs:anyURI" />
         <xs:sequence>
             <xs:element ref="attachment" minOccurs="0" maxOccurs="unbounded">
                 <xs:annotation>
@@ -29,7 +31,7 @@
                 </xs:annotation>
             </xs:element>
         </xs:sequence>
-        <xs:attribute name="id" use="required" type="xs:anyURI" />
+        
     </xs:complexType>
 
     <xs:complexType name="MediaObjectType">

@@ -20,13 +20,17 @@
     <xs:element name="attachment" type="MediaObjectType"/> 
 
     <xs:complexType name="EuropassCredentialType">
+        <xs:attribute name="id" use="required" type="xs:anyURI" />
+        <xs:annotation>
+         <xs:documentation>Blah blah</xs:documentation>
+        </xs:annotation>
         <xs:complexContent>
             <!-- or xs:restriction -->
             <xs:extension base="vc:V? erifiableCredentialType">
                 <xs:element ref="attachment" minOccurs="0" maxOccurs="unbounded" />
             </xs:extension>
         </xs:complexContent>
-        <xs:attribute name="id" use="required" type="xs:anyURI" />
+        
     </xs:complexType>
 
     <xs:complexType name="MediaObjectType">

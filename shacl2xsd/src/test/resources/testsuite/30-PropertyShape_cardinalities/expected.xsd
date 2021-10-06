@@ -17,10 +17,11 @@
     <xs:element name="attachment" type="MediaObjectType"/> 
 
     <xs:complexType name="EuropassCredentialType">
+    	<xs:attribute name="id" use="required" type="xs:anyURI" />
         <xs:sequence>
             <xs:element ref="attachment" minOccurs="1" maxOccurs="2" />
         </xs:sequence>
-        <xs:attribute name="id" use="required" type="xs:anyURI" />
+        
     </xs:complexType>
 
     <xs:complexType name="MediaObjectType">

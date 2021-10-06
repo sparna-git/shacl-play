@@ -2,6 +2,8 @@
 @prefix edci-c:    <https://data.europa.eu/snb/model/edci-constraints#>.
 @prefix sh:     <http://www.w3.org/ns/shacl#> .
 @prefix vc:     <http://data.europa.eu/snb/model/w3c/vc#>.
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
 
 <https://data.europa.eu/snb/model/edci-constraints>
   a owl:Ontology;

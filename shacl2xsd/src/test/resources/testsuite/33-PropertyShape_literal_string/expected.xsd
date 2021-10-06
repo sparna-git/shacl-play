@@ -12,13 +12,13 @@
     <xs:element name="learningAssessment" type="LearningAssessmentType"/>
 
     <!-- list of XML elements corresponding to properties -->
-    <xs:element name="grade" type="xs:string"/> 
+    <xs:element name="grade" type="xsd:string"/> 
 
     <xs:complexType name="LearningAssessmentType">
+        <xs:attribute name="id" use="required" type="xs:anyURI" />
         <xs:sequence>
             <xs:element ref="grade" minOccurs="0" maxOccurs="1" />
-        </xs:sequence>
-        <xs:attribute name="id" use="required" type="xs:anyURI" />
+        </xs:sequence>        
     </xs:complexType>
 
 </xs:schema>

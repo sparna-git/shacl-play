@@ -10,7 +10,7 @@
     <xs:element name="europassCredential" type="EuropassCredentialType"/>
 
     <xs:complexType name="EuropassCredentialType">
-        <xs:attribute name="id" use="required" type="xs:anyURI" />
+        
         <xs:annotation>
             <xs:documentation>Blah blah</xs:documentation>
         </xs:annotation>

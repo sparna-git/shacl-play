@@ -29,6 +29,7 @@
     <!-- list of XML elements corresponding to properties -->
     <!-- 4b. The XML elements corresponding to the properties that refer to this class must have a type="IdReferenceType" -->
     <xs:element name="attachment" type="IdReferenceType"/> 
+    <xs:element name="anotherProperty" type="xs:string"/> 
 
     <!-- 1. declare a MediaObjectReferences element, pointing to corresponding type -->
     <!-- list of XML elements corresponding to references -->
@@ -43,9 +44,10 @@
     </xs:complexType>
 
     <xs:complexType name="MediaObjectType">
-        <xs:simpleContent>
-            <xs:extension base="xs:anyURI"/>
-        </xs:simpleContent>
+        <xs:sequence>
+            <xs:element ref="anotherProperty" minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>   
+        <xs:attribute name="id" use="required" type="xs:anyURI" />  
     </xs:complexType>
 
     <!-- 2. Declare the MediaObjectReferencesType, containing mediaObject elements -->

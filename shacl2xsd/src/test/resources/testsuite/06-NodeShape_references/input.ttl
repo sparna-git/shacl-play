@@ -15,7 +15,7 @@ edci-c:MyBeautifulEuropassCredentialShape
   sh:targetClass elm:EuropassCredential; 
   sh:property edci-c:EuropassCredential-elm_attachment;
   # indicates that the key and keyRef will be placed on the element from this NodeShape
-  shacl-play:xsdRoot true ;
+  shacl-play:xsdIsRoot true ;
   .
 
 # Property shape with sh:class
@@ -28,6 +28,13 @@ edci-c:EuropassCredential-elm_attachment
 edci-c:MediaObjectShape 
   a sh:NodeShape; 
   sh:targetClass elm:MediaObject;
+  sh:property edci-c:anotherPropertyShape ;
   # an additionnal custom flag that indicate this class should be treated as a reference
   shacl-play:xsdUseReferences true ;
   .
+
+edci-c:anotherPropertyShape
+  a sh:PropertyShape; 
+  sh:path elm:anotherProperty;
+  sh:datatype xsd:string;
+  .  

@@ -2,7 +2,7 @@
 <xs:schema xmlns="http://data.europa.eu/snb/model#"
            targetNamespace="http://data.europa.eu/snb/model#"
            xmlns:elm="http://data.europa.eu/snb/model#"
-           xmlns:xs="http://www.w3.org/2001/XMLSchema#"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
            version="1.0.0" elementFormDefault="qualified">
     
     <!-- List of XML elements corresponding to classes -->
@@ -16,12 +16,11 @@
     <!-- here : don't generate an xs:element corresponding to the property 
     as it is identical with the name of the class -->
 
-    <xs:complexType name="EuropassCredentialType">
-    	<xs:attribute name="id" use="required" type="xs:anyURI" />
+    <xs:complexType name="EuropassCredentialType">    	
         <xs:sequence>
             <xs:element ref="mediaObject" minOccurs="0" maxOccurs="unbounded" />
         </xs:sequence>
-        
+        <xs:attribute name="id" use="required" type="xs:anyURI" />
     </xs:complexType>
 
     <xs:complexType name="MediaObjectType">

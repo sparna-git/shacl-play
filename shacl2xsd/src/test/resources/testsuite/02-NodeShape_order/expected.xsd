@@ -2,7 +2,7 @@
 <xs:schema xmlns="http://data.europa.eu/snb/model#"
            targetNamespace="http://data.europa.eu/snb/model#"
            xmlns:elm="http://data.europa.eu/snb/model#"
-           xmlns:xs="http://www.w3.org/2001/XMLSchema#"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
            version="1.0.0" elementFormDefault="qualified">
     
     <!-- first a section with all elements corresponding to classes -->

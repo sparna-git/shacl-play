@@ -2,7 +2,7 @@
 <xs:schema xmlns="http://data.europa.eu/snb/model#"
            targetNamespace="http://data.europa.eu/snb/model#"
            xmlns:elm="http://data.europa.eu/snb/model#"
-           xmlns:xs="http://www.w3.org/2001/XMLSchema#"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
            version="1.0.0" elementFormDefault="qualified">
     
     <!-- List of XML elements corresponding to classes -->
@@ -34,12 +34,12 @@
     <!-- list of XML elements corresponding to references -->
     <xs:element name="mediaObjectReferences" type="MediaObjectReferencesType" />
 
-    <xs:complexType name="EuropassCredentialType">
-    	<xs:attribute name="id" use="required" type="xs:anyURI" />
+    <xs:complexType name="EuropassCredentialType">    	
         <xs:sequence>
             <!-- no cardinalities, so minOccurs=0, maxoccurs=unbounded -->
             <xs:element ref="attachment" minOccurs="0" maxOccurs="unbounded" />
-        </xs:sequence>        
+        </xs:sequence>   
+        <xs:attribute name="id" use="required" type="xs:anyURI" />     
     </xs:complexType>
 
     <xs:complexType name="MediaObjectType">

@@ -26,7 +26,7 @@
         </xs:annotation>
         <xs:complexContent>
             <!-- or xs:restriction -->
-            <xs:extension base="vc:V? erifiableCredentialType">
+            <xs:extension base="vc:VerifiableCredentialType">
                 <xs:element ref="attachment" minOccurs="0" maxOccurs="unbounded" />
             </xs:extension>
         </xs:complexContent>

@@ -1,10 +1,13 @@
 package fr.sparna.rdf.shacl.shacl2xsd;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.vocabulary.OWL;
 import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.RDFS;
@@ -22,16 +25,26 @@ public class OntologyBoxRead {
 	}
 	
 	public List<OntologyImports> readOwlforImports(Model owl){
-		
+		// Create a HashMap object called capitalCities
+	    Map<String,String> mapPrefix = owl.getNsPrefixMap();
+	    
 		List<OntologyImports> imp = new ArrayList<>();
 		List<Resource> owlResource = owl.listResourcesWithProperty(RDF.type, OWL.Ontology).toList();
-		
 		for(Resource readOwl : owlResource) {
-			OntologyImports owlimp = new OntologyImports();
-			owlimp.setImportSchema(readOwl.getModel().shortForm(readOwl.getProperty(OWL.imports).getResource().getURI()));
-			owlimp.setImportURI(readOwl.getProperty(OWL.imports).getResource().getURI());
-			imp.add(owlimp);
-		}		
+			List<Statement> readImports = readOwl.listProperties(OWL.imports).toList(); 
+			for(Statement src : readImports){
+				for(String key : mapPrefix.keySet()) {
+					if(src.getObject().toString().equals(mapPrefix.get(key))) {
+						OntologyImports owlimp = new OntologyImports();
+						owlimp.setImportSchema(key);
+						owlimp.setImportURI(src.getObject().toString());						
+						imp.add(owlimp);
+					}	
+					
+				}
+				
+			}
+		}	
 		return imp;		
 	}
 	

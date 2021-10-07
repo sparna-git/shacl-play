@@ -9,5 +9,5 @@
 <https://data.europa.eu/snb/model/edci-constraints>
   a owl:Ontology;
   owl:imports vc:;
-  owl:import dc:;
+  owl:imports dc:;
   .

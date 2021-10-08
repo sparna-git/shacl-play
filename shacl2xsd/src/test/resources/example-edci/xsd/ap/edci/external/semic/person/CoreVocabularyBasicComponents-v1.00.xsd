@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns="http://www.w3.org/ns/corevocabulary/BasicComponents"
+	xmlns:qdt="urn:oasis:names:specification:ubl:schema:xsd:QualifiedDatatypes-2"
+	xmlns:udt="urn:un:unece:uncefact:data:specification:UnqualifiedDataTypesSchemaModule:2"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://www.w3.org/ns/corevocabulary/BasicComponents"
+	elementFormDefault="qualified" attributeFormDefault="unqualified" version="1">
+	<xsd:import namespace="urn:oasis:names:specification:ubl:schema:xsd:QualifiedDatatypes-2"
+		schemaLocation="../common/UBL-QualifiedDatatypes-2.0.xsd"/>
+	<xsd:import
+		namespace="urn:un:unece:uncefact:data:specification:UnqualifiedDataTypesSchemaModule:2"
+		schemaLocation="../common/UnqualifiedDataTypeSchemaModule-2.0.xsd"/>
+	<xsd:element name="AdminunitFirstline" type="AdminunitFirstlineType"/>
+	<xsd:element name="AdminunitSecondline" type="AdminunitSecondlineType"/>
+	<xsd:element name="AlternativeName" type="AlternativeNameType"/>
+	<xsd:element name="BirthDate" type="BirthDateType"/>
+	<xsd:element name="BirthName" type="BirthNameType"/>
+	<xsd:element name="Content" type="ContentType"/>
+	<xsd:element name="CvaddressArea" type="CvaddressAreaType"/>
+	<xsd:element name="CvaddressID" type="CvaddressIDType"/>
+	<xsd:element name="DeathDate" type="DeathDateType"/>
+	<xsd:element name="FullCvaddress" type="FullCvaddressType"/>
+	<xsd:element name="FullName" type="FullNameType"/>
+	<xsd:element name="GenderCode" type="GenderCodeType"/>
+	<xsd:element name="GeographicID" type="GeographicIDType"/>
+	<xsd:element name="GeographicName" type="GeographicNameType"/>
+	<xsd:element name="GeometryDataType" type="GeometryDataTypeType"/>
+	<xsd:element name="GeometryExpression" type="GeometryExpressionType"/>
+	<xsd:element name="GivenName" type="GivenNameType"/>
+	<xsd:element name="Identifier" type="IdentifierType"/>
+	<xsd:element name="IdentifierType" type="IdentifierTypeType"/>
+	<xsd:element name="IssuingAuthority" type="IssuingAuthorityType"/>
+	<xsd:element name="IssuingAuthorityID" type="IssuingAuthorityIDType"/>
+	<xsd:element name="JurisdictionID" type="JurisdictionIDType"/>
+	<xsd:element name="LegalName" type="LegalNameType"/>
+	<xsd:element name="List" type="ListType"/>
+	<xsd:element name="ListAgency" type="ListAgencyType"/>
+	<xsd:element name="ListVersion" type="ListVersionType"/>
+	<xsd:element name="LocatorDesignator" type="LocatorDesignatorType"/>
+	<xsd:element name="LocatorName" type="LocatorNameType"/>
+	<xsd:element name="PatronymicName" type="PatronymicNameType"/>
+	<xsd:element name="PoBox" type="PoBoxType"/>
+	<xsd:element name="PostCode" type="PostCodeType"/>
+	<xsd:element name="PostName" type="PostNameType"/>
+	<xsd:element name="Thoroughfare" type="ThoroughfareType"/>
+	<xsd:complexType name="AdminunitFirstlineType">
+		<xsd:simpleContent>
+			<xsd:extension base="udt:TextType"/>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:complexType name="AdminunitSecondlineType">
+		<xsd:simpleContent>
+			<xsd:extension base="udt:TextType"/>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:complexType name="AlternativeNameType">
+		<xsd:simpleContent>
+			<xsd:extension base="udt:TextType"/>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:complexType name="BirthDateType">
+		<xsd:simpleContent>
+			<xsd:extension base="udt:DateType"/>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:complexType name="BirthNameType">
+		<xsd:simpleContent>
+			<xsd:extension base="udt:TextType"/>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:complexType name="ContentType">
+		<xsd:simpleContent>
+			<xsd:extension base="udt:TextType"/>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:complexType name="CvaddressAreaType">
+		<xsd:simpleContent>
+			<xsd:extension base="udt:TextType"/>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:complexType name="CvaddressIDType">
+		<xsd:simpleContent>
+			<xsd:extension base="udt:IdentifierType"/>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:complexType name="DeathDateType">
+		<xsd:simpleContent>
+			<xsd:extension base="udt:DateType"/>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:complexType name="FullCvaddressType">
+		<xsd:simpleContent>
+			<xsd:extension base="udt:TextType"/>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:complexType name="FullNameType">
+		<xsd:simpleContent>
+			<xsd:extension base="udt:TextType"/>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:complexType name="GenderCodeType">
+		<xsd:simpleContent>
+			<xsd:extension base="udt:TextType"/>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:complexType name="GeographicIDType">
+		<xsd:simpleContent>
+			<xsd:extension base="udt:IdentifierType"/>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:complexType name="GeographicNameType">
+		<xsd:simpleContent>
+			<xsd:extension base="udt:TextType"/>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:complexType name="GeometryDataTypeType">
+		<xsd:simpleContent>
+			<xsd:extension base="udt:TextType"/>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:complexType name="GeometryExpressionType">
+		<xsd:sequence>
+			<xsd:any processContents="skip"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="GivenNameType">
+		<xsd:simpleContent>
+			<xsd:extension base="udt:TextType"/>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:complexType name="IdentifierType">
+		<xsd:simpleContent>
+			<xsd:extension base="udt:TextType"/>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:complexType name="IdentifierTypeType">
+		<xsd:simpleContent>
+			<xsd:extension base="udt:TextType"/>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:complexType name="IssuingAuthorityIDType">
+		<xsd:simpleContent>
+			<xsd:extension base="udt:IdentifierType"/>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:complexType name="IssuingAuthorityType">
+		<xsd:simpleContent>
+			<xsd:extension base="udt:TextType"/>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:complexType name="JurisdictionIDType">
+		<xsd:simpleContent>
+			<xsd:extension base="udt:IdentifierType"/>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:complexType name="LegalNameType">
+		<xsd:simpleContent>
+			<xsd:extension base="udt:TextType"/>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:complexType name="ListAgencyType">
+		<xsd:simpleContent>
+			<xsd:extension base="udt:TextType"/>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:complexType name="ListType">
+		<xsd:simpleContent>
+			<xsd:extension base="udt:TextType"/>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:complexType name="ListVersionType">
+		<xsd:simpleContent>
+			<xsd:extension base="udt:TextType"/>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:complexType name="LocatorDesignatorType">
+		<xsd:simpleContent>
+			<xsd:extension base="udt:TextType"/>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:complexType name="LocatorNameType">
+		<xsd:simpleContent>
+			<xsd:extension base="udt:TextType"/>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:complexType name="PatronymicNameType">
+		<xsd:simpleContent>
+			<xsd:extension base="udt:TextType"/>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:complexType name="PoBoxType">
+		<xsd:simpleContent>
+			<xsd:extension base="udt:TextType"/>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:complexType name="PostCodeType">
+		<xsd:simpleContent>
+			<xsd:extension base="udt:TextType"/>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:complexType name="PostNameType">
+		<xsd:simpleContent>
+			<xsd:extension base="udt:TextType"/>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:complexType name="ThoroughfareType">
+		<xsd:simpleContent>
+			<xsd:extension base="udt:TextType"/>
+		</xsd:simpleContent>
+	</xsd:complexType>
+</xsd:schema>

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:skos="http://www.w3.org/2004/02/skos/core#"
+    xmlns="http://data.europa.eu/snb/target-group/25831c2"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://data.europa.eu/snb/target-group/25831c2">
+    <xs:simpleType name="TargetGroupsEnumType">
+        <xs:restriction base="xs:anyURI">
+            <xs:enumeration value="http://data.europa.eu/snb/target-group/022beab85a">
+                <xs:annotation>
+                    <xs:documentation>High Achievers</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/target-group/0247b300b0">
+                <xs:annotation>
+                    <xs:documentation>Non-Native Speakers</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/target-group/05f11c859b">
+                <xs:annotation>
+                    <xs:documentation>Persons requiring employment retraining</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/target-group/1599531db0">
+                <xs:annotation>
+                    <xs:documentation>Persons in tertiary education (EQF 6)</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/target-group/1cfca7f767">
+                <xs:annotation>
+                    <xs:documentation>Persons who have completed primary
+                        education</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/target-group/46806e0244">
+                <xs:annotation>
+                    <xs:documentation>Persons in secondary/compulsory education</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/target-group/527a6f97eb">
+                <xs:annotation>
+                    <xs:documentation>Persons who have completed tertiary education (EQF
+                        7)</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/target-group/5b1417fd15">
+                <xs:annotation>
+                    <xs:documentation>Persons in primary education</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/target-group/5e56931138">
+                <xs:annotation>
+                    <xs:documentation>Persons with 0-3 years work experience</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/target-group/808b99d38f">
+                <xs:annotation>
+                    <xs:documentation>Persons who have completed tertiary education (EQF
+                        8)</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/target-group/919082b88b">
+                <xs:annotation>
+                    <xs:documentation>Persons who have completed secondary/compulsory
+                        education</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/target-group/acb7f20f25">
+                <xs:annotation>
+                    <xs:documentation>Persons in tertiary education (EQF 7)</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/target-group/b0bf4f9fe9">
+                <xs:annotation>
+                    <xs:documentation>Persons in tertiary education (EQF 8)</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/target-group/c900d8ecb1">
+                <xs:annotation>
+                    <xs:documentation>Migrants</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/target-group/cbedf28444">
+                <xs:annotation>
+                    <xs:documentation>Persons with 3-10 years work experience</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/target-group/d45b47b458">
+                <xs:annotation>
+                    <xs:documentation>Persons with 10+ years work experience</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/target-group/de9cd193ce">
+                <xs:annotation>
+                    <xs:documentation>Persons with a learning disability</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/target-group/e3782a33ab">
+                <xs:annotation>
+                    <xs:documentation>Native Speakers</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/target-group/e7627913ad">
+                <xs:annotation>
+                    <xs:documentation>Persons who have completed tertiary education (EQF
+                        6)</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/target-group/fd1279fd9f">
+                <xs:annotation>
+                    <xs:documentation>Low Achievers</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>

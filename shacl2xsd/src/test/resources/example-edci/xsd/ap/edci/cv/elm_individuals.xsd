@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://data.europa.eu/snb/model#" 
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://data.europa.eu/snb/model#"
+    xmlns:cp="http://data.europa.eu/snb/education-credit/25831c2">
+    
+    <xs:import namespace="http://data.europa.eu/snb/education-credit/25831c2" schemaLocation="credit-points.xsd"/>
+    
+    <xs:simpleType name="ECTSCreditPointsEnumType">
+        <xs:restriction base="cp:CreditPointsEnumType">
+            <xs:enumeration value="http://data.europa.eu/snb/education-credit/6fcec5c5af">
+                <xs:annotation>
+                    <xs:documentation>European Credit Transfer System</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+    
+    <xs:simpleType name="ScoreTypesEnumType">
+        <xs:restriction base="xs:anyURI">
+            <xs:enumeration value="http://data.europa.eu/snb/score-type/numeric">
+                <xs:annotation>
+                    <xs:documentation>Numeric Score</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/score-type/textual">
+                <xs:annotation>
+                    <xs:documentation>Text Score</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>

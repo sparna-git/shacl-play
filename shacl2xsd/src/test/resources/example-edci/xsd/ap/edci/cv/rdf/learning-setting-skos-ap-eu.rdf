@@ -1,0 +1,1565 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF
+	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/25831c2">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-03-18</created>
+	<identifier xmlns="http://purl.org/dc/terms/">http://data.europa.eu/snb/learning-setting/25831c2</identifier>
+	<modified xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-21</modified>
+	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#ConceptScheme"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<hasTopconcept xmlns="http://www.w3.org/2004/02/skos/core#" rdf:resource="http://data.europa.eu/snb/learning-setting/6fd4685715"/>
+	<hasTopconcept xmlns="http://www.w3.org/2004/02/skos/core#" rdf:resource="http://data.europa.eu/snb/learning-setting/e207a81fc7"/>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="bg">Стандартен списък Европас на видовете учебни среди</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="cs">Seznam typů vzdělávacích prostředí podle standardu Europass</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="da">Europass – standardliste over typer af læringsmiljøer</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="de">Europass-Standardliste der Lernumgebungstypen</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="el">Τυποποιημένος κατάλογος Europass για τύπους περιβάλλοντος μάθησης</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="en">Europass Standard List Of Learning Setting Types</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="es">Lista normalizada de tipos de entornos de aprendizaje de Europass</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="et">Europassi õpikeskonna liikide standardloend</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="fi">Europass-standardien luettelo: Oppimistilannetyypit</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="fr">Liste standard des types de cadres d’apprentissage Europass</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="ga">Liosta Caighdeánach Europass de Chineálacha Suíomhanna Foghlama</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="hr">Europassov standardni popis vrsta okruženja za učenje</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="hu">Tanulásikörnyezet-típusok szabványos Europass-listája</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="is">Staðlaður listi Europass – Námsumhverfi</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="it">Elenco standard Europass di tipi di modalità di apprendimento</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="lt">Standartinis „Europass“ mokymosi pobūdžio tipų sąrašas</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="lv">Europass aptvertie mācību vides veidi</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="mk">Europass Стандардна Листа на Видови Поставки за Учење</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="mt">Lista Standard tal-Europass ta’ Tipi ta’ Xenarji ta’ Tagħlim</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="nl">Europass-standaardlijst leeromgevingen</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="no">Europass-standarder for læringsmiljø</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="pl">Standardowa lista Europass rodzajów środowisk edukacyjnych</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="pt">Lista normalizada Europass de tipos de contextos de aprendizagem</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="ro">Lista tipurilor de moduri de învățare conform standardelor Europass</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sk">Štandardný zoznam typov vzdelávacieho prostredia podľa štandardu Europass</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sl">Standardni seznam vrst učnih okolij Europass</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sr">Europass standardna lista vrste postavki učenja</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sv">Europass standardförteckning över inlärningsmiljöer</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="tr">Europass Öğrenim Ortamı Tipleri Standart Listesi</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_001197983ee5"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_0a5fc24275d5"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_0ebea8eecc"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_116a7691678f"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_1eae900c585f"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_27fc84a11415"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_368dfa27c1f5"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_3d8d1245b55f"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_4385832adf38"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_438c153d52f3"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_4dd144309ddc"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_54545750a161"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_5e352fda88e0"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_62d68e53b3d3"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_7dfcd3752d79"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_82efda9ba7d0"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_898a10489b7d"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_a91f88497a45"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_ad5c9f55bea6"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_b1f159ad9cee"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_b6e00a197a39"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_c44b25d1a2bb"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_c7a1664a8540"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_cf0d18030318"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_cfebe37379f6"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_d3f65d5fdddf"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_dc5254a8fdc5"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_ea523692dbe7"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_eee5ae349b50"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/6fd4685715">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-03-18</created>
+	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="bg">Формално учене</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="cs">Formální vzdělávání</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="da">Formel læring</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="de">Formales Lernen</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="el">Τυπική μάθηση</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="en">formal learning</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="es">Aprendizaje formal</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="et">Formaalõpe</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="fi">Virallinen oppiminen</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="fr">Apprentissage formel</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="ga">Foghlaim fhoirmiúil</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="hr">Formalno učenje</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="hu">Formális tanulás</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="is">Formlegt nám</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="it">Apprendimento formale</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="lt">Formalusis mokymasis</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="lv">Formāla mācīšanās</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="mk">Формално учење</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="mt">Tagħlim formali</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="nl">Formeel leren</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="no">Formell læring</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="pl">Uczenie się formalne</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="pt">Aprendizagem formal</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="ro">Învățarea formală</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sk">Formálne vzdelávanie</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sl">Formalno učenje</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sr">Formalno učenje</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sv">Formellt lärande</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="tr">Resmi öğrenim</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_00ff8ae8a19e"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_0837b3f0b814"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_0af8e82ad24a"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_0b6e13226f2f"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_175434f33287"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_18026f5194c6"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_185c6104c321"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_1c9b7aec8a"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_23bb1a44dd95"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_25680c6f308d"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_2b3734f17ccf"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_49eaf3b14163"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_5417d13cf0d0"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_5d912af62504"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_616f304e4ed3"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_6937f2a1d9fd"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_6d7fd6705197"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_6e57efca221c"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_709624d9c6eb"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_766ff694b4d8"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_81fd925a1bab"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_97b0fcf10b82"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_a4e6e00c48f3"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_aadee1cfb08a"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_bd131f286051"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_e48c1800252f"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_e4b8b71d76a6"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_e6b91c916962"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_e73b796e69cb"/>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<xlDefinition xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/learning-setting/note_04b5dd70e320"/>
+	<xlDefinition xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/learning-setting/note_0a992315ff2d"/>
+	<xlDefinition xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/learning-setting/note_125a1d6b49bd"/>
+	<xlDefinition xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/learning-setting/note_17e0e426c2ee"/>
+	<xlDefinition xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/learning-setting/note_1e31d7f38f7d"/>
+	<xlDefinition xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/learning-setting/note_24a299b9ebf0"/>
+	<xlDefinition xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/learning-setting/note_2904354ee162"/>
+	<xlDefinition xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/learning-setting/note_2f33d124573b"/>
+	<xlDefinition xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/learning-setting/note_3e6d8c94a1fd"/>
+	<xlDefinition xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/learning-setting/note_3f2ec1815dbf"/>
+	<xlDefinition xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/learning-setting/note_570fe9094150"/>
+	<xlDefinition xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/learning-setting/note_600199cb280a"/>
+	<xlDefinition xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/learning-setting/note_67ad6b4d19ba"/>
+	<xlDefinition xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/learning-setting/note_7a865ebf1f99"/>
+	<xlDefinition xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/learning-setting/note_8b93396499ea"/>
+	<xlDefinition xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/learning-setting/note_8f73c08c94b7"/>
+	<xlDefinition xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/learning-setting/note_970f2daba6bf"/>
+	<xlDefinition xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/learning-setting/note_988ccf57dd4e"/>
+	<xlDefinition xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/learning-setting/note_9940459c297e"/>
+	<xlDefinition xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/learning-setting/note_9b980f378031"/>
+	<xlDefinition xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/learning-setting/note_a90a64894c7c"/>
+	<xlDefinition xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/learning-setting/note_bc445221e7c5"/>
+	<xlDefinition xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/learning-setting/note_c5fdcab8003b"/>
+	<xlDefinition xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/learning-setting/note_cb1c998fccf2"/>
+	<xlDefinition xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/learning-setting/note_dc5cff08c4a2"/>
+	<xlDefinition xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/learning-setting/note_e5361d3fe2a1"/>
+	<xlDefinition xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/learning-setting/note_e825e839acc8"/>
+	<xlDefinition xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/learning-setting/note_f2f18bb56c94"/>
+	<xlNotation xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/learning-setting/notation_c22a897e0005d478536c56ee44340073"/>
+	<xlNotation xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/learning-setting/notation_e030e176a2"/>
+	<definition xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="bg">Учене, което се осъществява в организирана и структурирана среда и обикновено води до присъждането на квалификация, най-често под формата на сертификат или диплома; включва системите за общо образование, начално професионално обучение и висше образование.</definition>
+	<definition xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="cs">Formální učení se uskutečňuje v organizovaném a strukturovaném prostředí a zpravidla vede k přiznání kvalifikace, obvykle ve formě osvědčení nebo diplomu. Zahrnuje systémy všeobecného vzdělávání, počátečního odborného vzdělávání a vysokoškolského vzdělávání.</definition>
+	<definition xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="da">Læring, der foregår i et organiseret og struktureret miljø, og som typisk fører til en kvalifikation, normalt i form af et certifikat eller et eksamensbevis. Formel læring omfatter almen uddannelse, grundlæggende erhvervsuddannelse og videregående uddannelse.</definition>
+	<definition xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="de">Lernen, das in einem organisierten, strukturierten Umfeld erfolgt und normalerweise zur Verleihung einer Qualifikation führt, in der Regel in Form eines Zeugnisses oder eines Abschlusses; dies umfasst die Systeme der allgemeinen Bildung, der beruflichen Erstausbildung und der Hochschulbildung.</definition>
+	<definition xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="el">Μάθηση που πραγματοποιείται σε οργανωμένο και δομημένο περιβάλλον, και συνήθως οδηγεί στην απονομή προσόντος, συνήθως με τη μορφή πιστοποιητικού ή διπλώματος· περιλαμβάνει συστήματα γενικής παιδείας, αρχικής επαγγελματικής κατάρτισης και ανώτερης εκπαίδευσης.</definition>
+	<definition xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="es">Aprendizaje en un entorno organizado y estructurado que suele conducir al otorgamiento de una cualificación (por lo general, un certificado o título). En esta categoría se incluyen los sistemas de enseñanza general, formación profesional inicial y enseñanza superior.</definition>
+	<definition xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="et">Organiseeritud ja struktureeritud keskkonnas toimuv õpe, milles osalenud saavad tavaliselt kvalifikatsiooni tõenduseks kas kutsetunnistuse või diplomi; see hõlmab üldharidus-, kutsealusharidus- ja kõrgharidussüsteemi.</definition>
+	<definition xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="fi">Oppiminen tapahtuu organisoidussa ja jäsennellyssä ympäristössä, ja se johtaa yleensä tutkinnon myöntämiseen todistuksen muodossa. Tähän sisältyvät yleissivistävän koulutuksen, ammatillisen peruskoulutuksen ja korkea-asteen koulutusjärjestelmät.</definition>
+	<definition xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="fr">Apprentissage se déroulant dans un contexte organisé et structuré, qui débouche généralement sur l’attribution d’une qualification, en général sous la forme d’un certificat ou d’un diplôme. Il comprend les systèmes d’enseignement général, de formation professionnelle initiale et d’enseignement supérieur.</definition>
+	<definition xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="ga">Foghlaim a dhéantar i dtimpeallacht eagraithe struchtúrtha agus a mbronntar cáilíocht mar thoradh uirthi go hiondúil. Is i bhfoirm teastais nó dioplóma a bhronntar an cháilíocht sin de ghnáth. Tá córais oideachais ghinearálta, an ghairmoiliúint tosaigh agus an t-ardoideachas i gceist leis an bhfoghlaim seo.</definition>
+	<definition xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="hr">Učenje koje se odvija u organiziranom i strukturiranom okruženju i obično dovodi do dodjele kvalifikacije, obično u obliku svjedodžbe ili diplome; uključuje sustave općeg obrazovanja, početno strukovno osposobljavanje i više obrazovanje.</definition>
+	<definition xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="hu">A formális tanulás szervezett és strukturált környezetben zajlik, és rendszerint valamilyen képesítés megszerzésével zárul, általában bizonyítvány vagy diploma formájában; ide tartozik az általános képzés, a szakmai alapképzés és a felsőoktatás rendszere.</definition>
+	<definition xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="is">Nám sem fer fram við skipulagðar og formgerðar aðstæður og lýkur að jafnaði með útgáfu hæfisviðurkenningar, yfirleitt skírteinis eða námstitils; sem dæmi um formlegt nám má nefna almenna menntun, grunnstarfsmenntun og menntun á háskólastigi.</definition>
+	<definition xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="it">Apprendimento che si svolge in un contesto organizzato e strutturato, che di norma porta all'ottenimento di una qualifica, generalmente sotto forma di certificati o diplomi; comprende sistemi di istruzione generale, formazione professionale iniziale e istruzione superiore.</definition>
+	<definition xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="lt">Mokymasis, vykstantis organizuotoje ir sisteminėje aplinkoje, kurį baigus paprastai suteikiama kvalifikacija, dažniausiai išduodant pažymėjimą arba diplomą; šiam tipo priklauso bendrojo lavinimo, pirminio profesinio mokymo ir aukštojo išsilavinimo sistemos.</definition>
+	<definition xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="lv">Tādas mācības organizētā un strukturētā vidē, kuru rezultātā parasti tiek piešķirta kvalifikācija, ko apliecina sertifikāts vai diploms; tas ietver vispārējās izglītības, sākotnējās profesionālās izglītības un augstākās izglītības sistēmas.</definition>
+	<definition xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="mk">Учење што се одвива во организирана и структурирана околина и обично води до доделување квалификација, обично во форма на сертификат или диплома; вклучува системи на општо образование, почетна стручна обука и високо образование.</definition>
+	<definition xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="mt">Tagħlim li jsir f’ambjent organizzat u strutturat u tipikament iwassal għall-għoti ta’ kwalifika, ġeneralment f’forma ta’ ċertifikat jew diploma; jinkludi sistemi ta' edukazzjoni ġenerali, taħriġ vokazzjonali inizjali u edukazzjoni għolja.</definition>
+	<definition xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="nl">Leren in een georganiseerde en gestructureerde omgeving dat doorgaans leidt tot de toekenning van een kwalificatie, gewoonlijk in de vorm van een certificaat of diploma; hieronder vallen de stelsels van algemeen onderwijs, initiële beroepsopleiding en hoger onderwijs.</definition>
+	<definition xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="no">Læring som finner sted i et tilrettelagt og strukturert miljø og som vanligvis fører til tildeling av en kvalifikasjon i form av et eksamensbevis eller vitnemål. Dette omfatter grunnskole, yrkesutdanning og høyere utdanning.</definition>
+	<definition xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="pl">Uczenie się, które jest realizowane w zorganizowanym i usystematyzowanym środowisku i zwykle prowadzi do uzyskania kwalifikacji, na ogół w postaci świadectwa lub dyplomu; składają się na nie m.in. systemy kształcenia ogólnego, kształcenia zawodowego oraz szkolnictwa wyższego.</definition>
+	<definition xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="pt">A aprendizagem num ambiente organizado e estruturado, que conduz normalmente à atribuição de uma qualificação, geralmente sob a forma de um certificado ou diploma; inclui os sistemas de ensino geral, formação profissional inicial e ensino superior.</definition>
+	<definition xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="ro">Învățare care se desfășoară într-un cadru organizat și structurat și în general conduce la acordarea unei calificări, de obicei sub forma unui certificat sau a unei diplome. Include sistemele de educație generală, de formare profesională inițială și de învățământ superior.</definition>
+	<definition xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sk">Vzdelávanie, ktoré sa uskutočňuje v organizovanom a štruktúrovanom prostredí a ktoré zvyčajne vedie k udeleniu kvalifikácie, zvyčajne vo forme osvedčenia alebo diplomu; zahŕňa systémy všeobecného vzdelávania, počiatočnej odbornej prípravy a vysokoškolského vzdelávania.</definition>
+	<definition xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sl">Učenje, ki se izvaja v organiziranem in strukturiranem okolju in praviloma pripelje do podelitve kvalifikacije, običajno v obliki spričevala ali diplome. Vključuje sisteme splošnega izobraževanja, začetno poklicno usposabljanje in visokošolsko izobraževanje.</definition>
+	<definition xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sr">Učenje koje se odvija u organizovanom i strukturisanom okruženju i obično vodi ka dodeljivanju kvalifikacije, obično u obliku sertifikata ili diplome; obuhvata sisteme opšteg obrazovanja, inicijalnog stručnog usavršavanja i visokog obrazovanja.</definition>
+	<definition xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sv">Formellt lärande äger rum i en organiserad och strukturerad miljö och leder vanligtvis till en kvalifikation, för det mesta i form av ett intyg eller utbildningsbevis. Det rör sig bland annat om systemen för allmän utbildning, grundläggande yrkesutbildning och högre utbildning.</definition>
+	<definition xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="tr">Organize ve yapılandırılmış bir ortamda gerçekleşen ve tipik olarak genelde bir sertifika ya da bir diploma şeklinde, bir yeterliliğin belgelendirilmesine yol açan öğrenim. Genel eğitim, ilk mesleki eğitim ve yüksek öğrenimi kapsar.</definition>
+	<inScheme xmlns="http://www.w3.org/2004/02/skos/core#" rdf:resource="http://data.europa.eu/snb/learning-setting/25831c2"/>
+	<notation xmlns="http://www.w3.org/2004/02/skos/core#">6fd4685715</notation>
+	<notation xmlns="http://www.w3.org/2004/02/skos/core#">formal</notation>
+	<topConceptOf xmlns="http://www.w3.org/2004/02/skos/core#" rdf:resource="http://data.europa.eu/snb/learning-setting/25831c2"/>
+	<identifier xmlns="http://purl.org/dc/elements/1.1/">6fd4685715</identifier>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/e207a81fc7">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-03-18</created>
+	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="bg">Неформално учене</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="cs">Neformální učení</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="da">Ikkeformel læring</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="de">Nichtformales Lernen</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="el">Μη τυπική μάθηση</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="en">non-formal learning</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="es">Aprendizaje no formal</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="et">Mitteformaalne õpe</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="fi">Epävirallinen oppiminen</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="fr">Apprentissage non formel</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="ga">Foghlaim sheachfhoirmiúil</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="hr">Neformalno učenje</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="hu">Nem formális tanulás</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="is">Óformlegt nám</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="it">Apprendimento non formale</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="lt">Neformalusis mokymasis</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="lv">Neformāla mācīšanās</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="mk">Неформално учење</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="mt">Tagħlim mhux formali</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="nl">Niet-formeel leren</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="no">Ikke-formell læring</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="pl">Edukacja pozaformalna</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="pt">Aprendizagem não formal</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="ro">Învățarea non-formală</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sk">Neformálne vzdelávanie</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sl">Neformalno učenje</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sr">Neformalno učenje</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sv">Icke-formellt lärande</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="tr">Gayri resmi öğrenim</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_0a8a312399e7"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_15913da1a3ba"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_1a1bc154e1a6"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_32cc7dfe49dd"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_37da84bc249c"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_3b3d0e4961f4"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_4585594a300f"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_46a53a7760ae"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_569657f4bdb2"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_5b53c7a3e464"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_7171051dba05"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_7c11e8214a84"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_83711c692c6e"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_8730d11e1c6f"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_a1b3c1c5cf4c"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_b5afa6c704b7"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_bf5a3c00c04a"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_cda41ca82aeb"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_e181c376d6ce"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_e3d63eeea95b"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_e630f09bc1e2"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_e805710e15df"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_e87041d16345"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_e9ecce2cee10"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_f032bbca7d"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_f0d79d368f65"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_f376478b34b0"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_f4175ac3fe08"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/learning-setting/label_fb8bbb443a05"/>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<xlDefinition xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/learning-setting/note_0216d2652bf6"/>
+	<xlDefinition xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/learning-setting/note_0afe16f0d7c6"/>
+	<xlDefinition xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/learning-setting/note_0d9581fc2125"/>
+	<xlDefinition xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/learning-setting/note_19b61a69428c"/>
+	<xlDefinition xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/learning-setting/note_1f6d8630e937"/>
+	<xlDefinition xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/learning-setting/note_2144ad8b82d9"/>
+	<xlDefinition xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/learning-setting/note_2308bbb13b0a"/>
+	<xlDefinition xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/learning-setting/note_3c0d7a2f0da9"/>
+	<xlDefinition xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/learning-setting/note_40f7886f55f3"/>
+	<xlDefinition xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/learning-setting/note_4b0292d1b3de"/>
+	<xlDefinition xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/learning-setting/note_557039608163"/>
+	<xlDefinition xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/learning-setting/note_58df44e952b7"/>
+	<xlDefinition xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/learning-setting/note_59b0a3e2b8b8"/>
+	<xlDefinition xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/learning-setting/note_5cee2a97f85f"/>
+	<xlDefinition xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/learning-setting/note_6abdee6439ef"/>
+	<xlDefinition xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/learning-setting/note_6c372fe66861"/>
+	<xlDefinition xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/learning-setting/note_7cc6ae67a82b"/>
+	<xlDefinition xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/learning-setting/note_8f82ff60f1ea"/>
+	<xlDefinition xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/learning-setting/note_a9b2917cab88"/>
+	<xlDefinition xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/learning-setting/note_aab208870271"/>
+	<xlDefinition xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/learning-setting/note_b219d9f292b3"/>
+	<xlDefinition xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/learning-setting/note_bc1852cdb5f6"/>
+	<xlDefinition xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/learning-setting/note_be24185b842f"/>
+	<xlDefinition xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/learning-setting/note_c477c6e83fe3"/>
+	<xlDefinition xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/learning-setting/note_d2723b3ba659"/>
+	<xlDefinition xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/learning-setting/note_debd1d660102"/>
+	<xlDefinition xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/learning-setting/note_f5114c080fb3"/>
+	<xlDefinition xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/learning-setting/note_f5df52ae7e67"/>
+	<xlNotation xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/learning-setting/notation_2e40bbc507"/>
+	<xlNotation xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/learning-setting/notation_38922fd430aa6a904a36e9aa233c8888"/>
+	<definition xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="bg">Учене, което се осъществява чрез планирани дейности (по отношение на учебните цели, учебното време) и при наличие на някаква форма на подпомагане на учебния процес (напр. взаимодействие между учащия и преподавателя). То може да обхваща програми за придобиване на професионални умения, грамотност на възрастното население и основно образование за преждевременно напусналите училище. Типични примери за неформално учене са обучения в предприятия, чрез които предприятията актуализират и подобряват уменията на своите служители, като например умения в областта на ИКТ; структурирано онлайн обучение (напр. чрез отворени образователни ресурси) и курсове, организирани от организации на гражданското общество за техните членове, целевата група или широката общественост.</definition>
+	<definition xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="cs">Učení, které probíhá prostřednictvím plánovaných aktivit (pokud jde o studijní cíle, dobu učení) a kdy je k dispozici určitá forma podpory (např. vztah student–učitel). Může zahrnovat programy k osvojení pracovních dovedností, zlepšení gramotnosti u dospělých a programy základního vzdělávání pro osoby, které předčasně ukončily školní docházku. O neformální učení se jedná například při vzdělávání zaměstnanců, kdy firmy aktualizují a zlepšují dovednosti svých pracovníků, např. dovednosti v oblasti informačních a komunikačních technologií, dále je to strukturované online učení (např. využíváním otevřených vzdělávacích zdrojů) a kurzy pořádané organizacemi občanské společnosti pro své členy, jejich cílové skupiny nebo širokou veřejnost.</definition>
+	<definition xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="da">Læring, der foregår gennem planlagte aktiviteter (med hensyn til læringsmål og læringstid), hvor der findes en eller anden form for støtte (f.eks. forhold mellem studerende og lærere). Ikkeformel læring kan omfatte programmer med henblik på videregivelse af faglige færdigheder, læse- og skrivefærdigheder og grundlæggende uddannelse for personer, der er gået ud af skolen for tidligt. Meget almindelige eksempler på ikkeformel læring omfatter kurser på arbejdspladsen, hvor virksomhederne ajourfører og forbedrer arbejdstagernes færdigheder, f.eks. IKT-færdigheder, struktureret onlinelæring (f.eks. ved brug af åbne uddannelsesressourcer) og kurser tilrettelagt af civilsamfundsorganisationer for deres medlemmer, deres målgrupper eller den brede offentlighed.</definition>
+	<definition xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="de">Lernen mittels geplanter Aktivitäten (in Bezug auf Lernziele, Lernzeit), für die es eine Form der Lernunterstützung gibt (z. B. Schüler-Lehrkraft-Konstellation). Dies kann Programme für die Vermittlung beruflicher Fähigkeiten, für die Alphabetisierung Erwachsener und für die Grundbildung früher Schulabgänger umfassen. Gängige Beispiele für nichtformales Lernen: interne Schulungen, durch die Unternehmen die Kenntnisse und Fähigkeiten ihrer Beschäftigten auf den neuesten Stand bringen (z. B. IT-Schulungen), strukturiertes Online-Lernen (z. B. durch Nutzung offener Bildungsressourcen) sowie Kurse, die Organisationen der Zivilgesellschaft für ihre Mitglieder, ihre Zielgruppen oder die breite Öffentlichkeit anbieten.</definition>
+	<definition xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="el">Μάθηση μέσω προγραμματισμένων δραστηριοτήτων (όσον αφορά τους στόχους και τον χρόνο της μάθησης), όπου είναι παρούσα κάποιου είδους μαθησιακή υποστήριξη (π.χ. σχέσεις εκπαιδευόμενου-εκπαιδευτή). Μπορεί να καλύπτει προγράμματα για τη μετάδοση σχετικών με την εργασία δεξιοτήτων, τον αλφαβητισμό των ενηλίκων και τη βασική εκπαίδευση για όσους εγκαταλείπουν πρόωρα το σχολείο. Πολύ συνήθεις περιπτώσεις μη τυπικής μάθησης είναι η ενδοεπιχειρησιακή κατάρτιση, μέσω της οποίας οι επιχειρήσεις επικαιροποιούν και βελτιώνουν τις δεξιότητες των εργαζομένων τους, όπως δεξιότητες ΤΠΕ, η δομημένη διαδικτυακή μάθηση (π.χ. με χρήση ανοικτών εκπαιδευτικών πόρων) και οι κύκλοι μαθημάτων που διοργανώνονται από οργανώσεις της κοινωνίας των πολιτών για τα μέλη τους, τις ομάδες στόχους τους ή το ευρύ κοινό.</definition>
+	<definition xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="es">Aprendizaje derivado de actividades planificadas (en cuanto a objetivos didácticos y duración) en las que existe alguna forma de apoyo al aprendizaje (como, por ejemplo, una relación entre alumno y profesor). Puede abarcar los programas para impartir capacidades laborales o de alfabetización de adultos y la educación básica para personas que han abandonado la escuela prematuramente. Algunos ejemplos muy comunes de aprendizaje no formal son la formación dentro de la empresa, que permite actualizar y mejorar las competencias de los trabajadores en plantilla (en el campo de las TIC u otros), el aprendizaje estructurado online (por ejemplo, mediante la utilización de recursos educativos abiertos) y los cursos que organizan las organizaciones de la sociedad civil, ya sea para sus propios miembros, sus grupos destinatarios o el público en general.</definition>
+	<definition xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="et">Kavandatud tegevuste (pidades silmas õpieesmärke ja õpiaega) kaudu toimuv õpe, mille puhul pakutakse teatavas vormis õpituge (näiteks õpetaja-õpilase suhte vormis). Siia alla võib kuuluda tööoskuste õpetamine, täiskasvanutele kirjaoskuse õpetamine ja põhihariduse andmine koolist väljalangenutele. Mitteformaalse õppe tüüpiliste näidete alla kuuluvad veel ettevõttesisesed koolitused, mille abil ettevõtted ajakohastavad ja parandavad oma töötajate oskusi, näiteks info- ja kommunikatsioonitehnoloogia alaseid oskusi, ning struktureeritud e-õpe (näiteks avatud haridusvõimalusi kasutades) ja kodanikuühiskonna organisatsioonide poolt oma liikmetele, sihtrühmadele või üldsusele korraldatud koolitused.</definition>
+	<definition xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="fi">Oppiminen tapahtuu (oppimistavoitteiden ja oppimiseen käytettävän ajan osalta) suunniteltujen toimintojen avulla ja siihen sisältyy jonkin tyyppistä oppimisen tukea (esimerkiksi oppilas-opettajasuhde). Siihen saattaa sisältyä työtehtäviin opastusta, aikuisten lukutaito-opetusta ja peruskoulutusta koulunkäynnin keskeyttäneille. Epävirallinen oppiminen voi usein olla esimerkiksi työpaikan sisällä tapahtuvaa koulutusta, jota yritykset järjestävät työntekijöidensä taitojen, esimerkiksi tieto- ja viestintäteknisten taitojen, päivittämiseksi ja kohentamiseksi, jäsenneltyä verkko-oppimista (esim. hyödyntämällä avoimia opiskeluresursseja) ja kansalaisjärjestöjen jäsenilleen, kohderyhmilleen tai suurelle yleisölle järjestämää koulutusta.</definition>
+	<definition xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="fr">Apprentissage se déroulant dans le cadre d'activités planifiées (pour ce qui est des objectifs et du temps d’apprentissage) reposant sur une certaine forme de ressources ou d'accompagnement (exemple: une relation étudiant-enseignant). Il peut consister en des programmes d’acquisition d’aptitudes professionnelles, d’alphabétisation des adultes et de formation de base pour des jeunes en décrochage scolaire. L’apprentissage non formel prend très souvent la forme de formations en entreprise par lesquelles les employeurs mettent à jour et améliorent les compétences de leurs travailleurs (par exemple, dans le domaine des TIC), de formations structurées en ligne (par exemple, à l’aide de ressources didactiques en libre accès) et de cours organisés par des organisations de la société civile pour leurs membres, leurs groupes cibles ou le grand public.</definition>
+	<definition xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="ga">Foghlaim a dhéantar le gníomhaíochtaí pleanáilte (ó thaobh cuspóirí foghlama agus tréimhsí foghlama de) agus ina gcuirtear tacaíocht foghlama de chineál éigin ar fáil (e.g. mac léinn agus múinteoir). D’fhéadfadh sé go mbeadh cláir um scileanna oibre agus um litearthacht daoine fásta i gceist leis an bhfoghlaim seo, sin agus bunoideachas le haghaidh daoine a fhágann an scoil go luath. I measc na samplaí is coitianta den fhoghlaim sheachfhoirmiúil tá oiliúint ionchuideachta (lena ndéanann cuideachtaí scileanna a mball foirne, ar nós scileanna TFC, a uasdátú agus a fheabhsú), foghlaim ar líne struchtúrtha (ina n-úsáidtear acmhainní oscailte oideachais, mar shampla), agus cúrsaí a chuireann eagraíochtaí na sochaí sibhialta ar fáil dá mbaill, dá spriocghrúpaí nó don phobal i gcoitinne.</definition>
+	<definition xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="hr">Učenje koje se odvija s pomoću planiranih aktivnosti (u smislu ciljeva učenja, vremena za učenje) u kojima se pruža određeni oblik potpore za učenje (npr. odnosi između učenika i učitelja). Može obuhvaćati programe za razvoj radnih vještina, pismenosti odraslih i osnovno obrazovanje za osobe koje rano napuštaju školovanje. Vrlo česti primjeri neformalnog učenja uključuju osposobljavanje unutar poduzeća putem kojeg poduzeća ažuriraju i poboljšavaju vještine svojih radnika kao što su vještine IKT-a, strukturirano internetsko učenje (npr. upotreba otvorenih obrazovnih sadržaja) i tečajeva koje za svoje članove, ciljne skupine ili opću javnost organiziraju organizacije civilnog društva.</definition>
+	<definition xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="hu">A nem formális tanulás olyan tanulást jelent, amely (a tanulási célkitűzések és a tanulási idő tekintetében) tervezett tevékenységeken keresztül valósul meg, és ahol jelen van valamilyen formájú tanulástámogatás (pl. tanár-diák kapcsolat). Ide tartozhatnak olyan programok, amelyek munkahelyi készségeket, felnőttkori írni-olvasni tudást és a korai iskolaelhagyók számára alapoktatást kínálnak. A nem formális tanulásra közkeletű példa a vállalaton belüli képzés, amely során a vállalatok naprakésszé teszik és fejlesztik munkavállalóik készségeit, mint például informatikai ismeretek, strukturált online tanulás (pl. nyitott oktatási segédanyagok felhasználásával), valamint civil társadalmi szervezetek által tagjaik, valamely célcsoport vagy a nagyközönség számára szervezett képzések.</definition>
+	<definition xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="is">Nám sem fer fram með skipulögðum iðkunum (að því er varðar námsmarkmið og námstíma) þar sem einhvers konar námsstuðningur er fyrir hendi (t.d. samband milli nemanda og kennara). Það getur náð til fræðslu sem í felst að miðla verkfærni, kenna fullorðnum að lesa og veita nemendum sem hafa horfið frá námi grunnmenntun. Sem dæmi um mjög algengt óformlegt nám má nefna þjálfun innan fyrirtækja, þar sem fyrirtækin endurnýja og bæta færni starfsfólksins, s.s. í upplýsinga- og samskiptatækni, skipulagt nám um netið (t.d. með því að nýta opnar menntaveitur) og námskeið sem borgaraleg samtök halda fyrir meðlimi sína, markhópa eða almenning.</definition>
+	<definition xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="it">Apprendimento erogato mediante attività pianificate (in termini di obiettivi e tempi di apprendimento) con una qualche forma di sostegno all'apprendimento (ad es. la relazione studente-docente). Può comprendere programmi per il conseguimento di abilità professionali, alfabetizzazione degli adulti e istruzione di base per chi ha abbandonato la scuola prematuramente. I casi più comuni di apprendimento non formale comprendono la formazione in azienda, attraverso cui le società aggiornano e migliorano le abilità dei loro dipendenti, come competenze informatiche, apprendimento online strutturato (ad es. facendo uso di risorse didattiche aperte) e corsi organizzati da organizzazioni della società civile per i loro membri, i loro gruppi di riferimento o il pubblico generale.</definition>
+	<definition xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="lt">Mokymasis, vykstantis kaip suplanuota veikla (turinti mokymosi tikslus, mokymosi laiką), teikiant tam tikrą mokymosi paramą (pvz., palaikomas mokinių ir mokytojų ryšys). Tai gali būti darbo įgūdžių suteikimo, suaugusiųjų raštingumo ir mokyklos nebaigusiems asmenims skirtos pagrindinio ugdymo programos. Labai dažni neformaliojo mokymo atvejai yra vidiniai bendrovių darbuotojų mokymai, kuriuose tobulinami darbuotojų įgūdžiai, sisteminis mokymas internetu (pvz., naudojant atviruosius ugdymo išteklius), pilietinės visuomenės organizacijų rengiami kursai savo nariams, tikslinėms grupėms arba plačiajai visuomenei.</definition>
+	<definition xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="lv">Mācīšanās, izmantojot plānotas aktivitātes (mācību mērķu, mācību laika ziņā), kurās ir pieejams mācību atbalsts (piemēram, studentu un skolotāju sadarbība). Tās var būt programmas, kas sniedz darbam nepieciešamās prasmes, novērš pieaugušo analfabētismu un veicina to, lai pamatizglītību iegūtu tie, kas priekšlaicīgi pametuši mācības. Izplatīti neformālās mācīšanās piemēri ir apmācība uzņēmumā, kas uzņēmuma darbiniekiem ļauj atsvaidzināt un uzlabot prasmes, piemēram, IKT prasmes, strukturēta mācīšanās tiešsaistē (piem., izmantojot atvērtos izglītības resursus) un kursi, ko saviem biedriem, mērķgrupām vai plašākai sabiedrībai organizē pilsoniskās sabiedrības organizācijas.</definition>
+	<definition xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="mk">Учење што се одвива преку планирани активности (во однос на целите на учењето, времето за учење) кадешто е присутна некаква форма на поддршка за учење (на пр. односи меѓу ученикот и наставникот). Опфаќа програми за пренесување на работни вештини, писменост на возрасни и основно образование за оние коишто го напуштаат рано училиштето. Многу вообичаени случаи на неформално учење вклучуваат обучување во компанијата, преку што компаниите ги ажурираат и ги подобруваат вештините на своите работници, како што се ICT вештини, структурирано он-лајн учење (на пр. Со употреба на отворени образовни ресурси) и курсеви организирани од граѓански организации за нивните членови, нивните целни групи или општата јавност.</definition>
+	<definition xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="mt">Tagħlim li jsir permezz ta’ attivitajiet ippjanati (f’termini ta’ objettivi ta’ tagħlim, ħin ta’ tagħlim) fejn ikun hemm xi forma ta’ appoġġ għat-tagħlim (eż. relazzjonijiet bejn l-istudenti u l-għalliema). Dan jista’ jkopri programmi li jrawmu l-ħiliet tax-xogħol, il-litteriżmu fost l-adulti u l-edukazzjoni bażika għal min jitlaq kmieni mill-iskola. Każijiet tassew komuni tat-tagħlim mhux formali jinkludu taħriġ ma' kumpanija, li permezz tiegħu l-kumpaniji jaġġornaw u jtejbu l-ħiliet tal-ħaddiema tagħhom bħall-ħiliet fl-ICT, tagħlim strutturat online (pereżempju permezz tal-użu ta' riżorsi edukattivi miftuħin), u korsijiet organizzati mill-organizzazzjonijiet tas-soċjetà ċivili għall-membri tagħhom, il-grupp fil-mira tagħhom jew il-pubbliku ġenerali.</definition>
+	<definition xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="nl">Leren door middel van geplande activiteiten (in termen van leerdoelen, leertijd) waarbij sprake is van een bepaalde vorm van ondersteuning bij het leren (bijv. student-leraar-verhoudingen). Het kan gaan om programma's die vroegtijdige schoolverlaters professionele vaardigheden, lees- en schrijfvaardigheid en basisvorming verschaffen. Veel voorkomende voorbeelden van niet-formeel leren zijn opleidingen binnen ondernemingen waarmee zij de vaardigheden van hun werknemers, bijvoorbeeld op het gebied van ICT, bijspijkeren en verbeteren, gestructureerd online leren (bv. met gebruikmaking van open onderwijsmiddelen) en cursussen die door maatschappelijke organisaties worden georganiseerd voor hun leden, hun doelgroep of het grote publiek.</definition>
+	<definition xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="no">Læring i form av planlagt aktivitet (med hensyn til målsetninger og læringstid) der det gis en form for læringsstøtte (eksempel: kontakt mellom student og lærer). Dette omfatter programmer som gir yrkeskompetanse, alfabetiseringsprogrammer for voksne og videreutdanning av personer med bare grunnskoleutdanning. Vanlige eksempler på ikke-formell læring er bedriftsintern opplæring av ansatte f.eks. på IT-området, strukturerte nettkurs (ofte ved bruk av åpne læringsressurser) og kurs tilrettelagt av sivilsamfunnsorganisasjoner for sine medlemmer/målgrupper eller for allmenheten.</definition>
+	<definition xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="pl">Uczenie się, które jest realizowane poprzez zaplanowane działania (pod względem celów i czasu uczenia się), w ramach których istnieje pewna forma pomocy w nauce (np. relacja uczeń-nauczyciel). Może ono obejmować programy służące uzyskaniu umiejętności zawodowych, zdobyciu umiejętności czytania i pisania przez osoby dorosłe oraz odebraniu podstawowego wykształcenia przez osoby wcześnie kończące naukę. Popularne przykłady uczenia się pozaformalnego to m.in.: szkolenia w miejscu pracy, za pomocą których przedsiębiorstwa uaktualniają i podnoszą umiejętności pracowników (np. umiejętności w dziedzinie technologii informacyjno-komunikacyjnych); usystematyzowane uczenie się za pomocą internetu (np. z użyciem otwartych zasobów edukacyjnych), a także kursy prowadzone przez organizacje społeczeństwa obywatelskiego dla swoich członków, grup docelowych lub ogółu społeczeństwa.</definition>
+	<definition xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="pt">A aprendizagem através de atividades planeadas (em termos de objetivos de aprendizagem e de duração) com recurso a alguma forma de apoio à aprendizagem (por exemplo, relações estudante-professor). Pode abranger programas destinados a conferir competências profissionais, alfabetização de adultos e educação básica para jovens que tenham abandonado a escola precocemente. Exemplos comuns de aprendizagem não formal incluem formação em contexto laboral, através da qual as empresas reconvertem e melhoram as competências, nomeadamente em TIC, dos respetivos trabalhadores; aprendizagem em linha estruturada (recorrendo, por exemplo, a recursos educativos abertos) e cursos organizados por organizações da sociedade civil para os respetivos membros, grupos-alvo ou o público em geral.</definition>
+	<definition xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="ro">Învățare care se desfășoară prin activități planificate (în termeni de obiective de învățare, timp de învățare), în cadrul căreia există o anumită formă de sprijin pentru învățare (de exemplu, relația cursant-profesor). Poate include programe de însușire a unor competențe profesionale, de alfabetizare a adulților sau programele de educație de bază a persoanelor care au părăsit timpuriu școala. Cazurile foarte comune de învățare non-formală includ formarea în întreprindere, care le permite angajatorilor să actualizeze și să consolideze competențele lucrătorilor, cum ar fi competențele TIC, învățarea online structurată (de exemplu, prin utilizarea resurselor educaționale deschise) și cursurile organizate de instituțiile societății civile pentru membrii lor, grupurile-țintă sau publicul general.</definition>
+	<definition xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sk">Vzdelávanie, ktoré sa uskutočňuje prostredníctvom plánovaných činností (pokiaľ ide o ciele vzdelávania, čas vyhradený na vzdelávanie), pričom sa zabezpečuje určitá forma podpory vzdelávania (napr. vzťahy medzi študentmi a učiteľmi). Môže zahŕňať programy zamerané na rozvoj pracovných zručností, gramotnosti dospelých a základného vzdelania pre osoby, ktoré predčasne ukončili školskú dochádzku. Medzi veľmi bežné prípady neformálneho vzdelávania patrí odborná príprava na pracovisku, prostredníctvom ktorej spoločnosti aktualizujú a zlepšujú zručnosti svojich pracovníkov, ako sú zručnosti v oblasti IKT, štruktúrované elektronické učenie sa (napr. využívaním otvorených vzdelávacích zdrojov) a kurzy organizované organizáciami občianskej spoločnosti pre svojich členov, cieľové skupiny či širokú verejnosť.</definition>
+	<definition xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sl">Učenje, ki poteka prek načrtovanih dejavnosti (v smislu učnih ciljev, časa učenja), pri katerih je zagotovljena določena oblika učne podpore (npr. odnosi med študenti in učitelji). Vključuje lahko programe za pridobitev delovnih spretnosti, opismenjevanje odraslih in pridobitev osnovne izobrazbe za osebe, ki so predčasno opustile šolanje. Zelo običajni primeri neformalnega učenja vključujejo usposabljanje v podjetju, prek katerega podjetja posodabljajo in izboljšujejo spretnosti delavcev, kot so spretnosti IKT, strukturirano spletno učenje (npr. z uporabo odprtih virov izobraževanja) in tečaji, ki jih organizacije civilne družbe organizirajo za svoje člane, ciljne skupine ali širšo javnost.</definition>
+	<definition xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sr">Učenje koje se odvija kroz planirane aktivnosti (u smislu ciljeva učenja, vremena učenja) gde je prisutan neki oblik podrške učenju (npr. odnosi između učenika i nastavnika). Može da obuhvata programe za prenos radnih veština, pismenosti odraslih i osnovno obrazovanje za učenike koji rano prekinu školovanje. Vrlo uobičajeni slučajevi neformalnog učenja uključuju obuku u kompaniji, kroz koju kompanije ažuriraju i poboljšavaju veštine svojih radnika, kao što su veštine IKT-a, strukturisano onlajn učenje (npr. korišćenjem otvorenih obrazovnih resursa) i kursevi koje organizuju organizacije civilnog društva za svoje članove, njihove ciljne grupe ili širu javnost.</definition>
+	<definition xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sv">Icke-formellt lärande äger rum genom planerad verksamhet (vad gäller mål och tid för lärande) med visst stöd för lärandet (till exempel kontakt mellan elev och lärare). Det kan röra sig om program för att förmedla arbetsrelaterade färdigheter, läs- och skrivkunskap för vuxna eller grundläggande utbildning för personer som lämnat skolan i förtid. Vanliga exempel på icke-formellt lärande är företagsintern utbildning (då företag uppdaterar och förbättrar sina anställdas kunskaper om t.ex. it), strukturerat e-lärande (t.ex. genom öppna utbildningsresurser) och kurser som organisationer i det civila samhället ordnar för sina medlemmar, målgrupper eller allmänheten.</definition>
+	<definition xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="tr">Bir çeşit öğrenim desteğinin bulunduğu (örneğin, öğrenci – öğretmen ilişkileri) planlı etkinliklerle (öğrenim hedefleri, öğrenim zamanı açısından) gerçekleşen öğrenim. Okulu erken bırakanlara yönelik iş becerileri, yetişkinler için okuma yazma ve temel eğitim kazandırma programlarını içerebilir. Son derece sık rastlanan gayri resmi öğrenime, şirketlerin çalışanlarının ICT becerileri gibi becerilerini tazeleyip ilerlettikleri şirket içi eğitim, yapılandırılmış çevrim içi öğrenim (örneğin, açık eğitim kaynaklarını kullanmak suretiyle) ve sivil toplum kuruluşlarınca üyeleri, hedef gruplar ya da genel kamu için düzenlenen kurslar da dahildir.</definition>
+	<inScheme xmlns="http://www.w3.org/2004/02/skos/core#" rdf:resource="http://data.europa.eu/snb/learning-setting/25831c2"/>
+	<notation xmlns="http://www.w3.org/2004/02/skos/core#">e207a81fc7</notation>
+	<notation xmlns="http://www.w3.org/2004/02/skos/core#">non-formal</notation>
+	<topConceptOf xmlns="http://www.w3.org/2004/02/skos/core#" rdf:resource="http://data.europa.eu/snb/learning-setting/25831c2"/>
+	<identifier xmlns="http://purl.org/dc/elements/1.1/">e207a81fc7</identifier>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_001197983ee5">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="es">Lista normalizada de tipos de entornos de aprendizaje de Europass</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_0a5fc24275d5">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="ga">Liosta Caighdeánach Europass de Chineálacha Suíomhanna Foghlama</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_0ebea8eecc">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-03-18</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="en">Europass Standard List Of Learning Setting Types</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_116a7691678f">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="pl">Standardowa lista Europass rodzajów środowisk edukacyjnych</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_1eae900c585f">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="bg">Стандартен списък Европас на видовете учебни среди</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_27fc84a11415">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="lv">Europass aptvertie mācību vides veidi</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_368dfa27c1f5">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="ro">Lista tipurilor de moduri de învățare conform standardelor Europass</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_3d8d1245b55f">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="nl">Europass-standaardlijst leeromgevingen</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_4385832adf38">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="it">Elenco standard Europass di tipi di modalità di apprendimento</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_438c153d52f3">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="no">Europass-standarder for læringsmiljø</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_4dd144309ddc">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="cs">Seznam typů vzdělávacích prostředí podle standardu Europass</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_54545750a161">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="mk">Europass Стандардна Листа на Видови Поставки за Учење</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_5e352fda88e0">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="hr">Europassov standardni popis vrsta okruženja za učenje</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_62d68e53b3d3">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="mt">Lista Standard tal-Europass ta’ Tipi ta’ Xenarji ta’ Tagħlim</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_7dfcd3752d79">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="de">Europass-Standardliste der Lernumgebungstypen</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_82efda9ba7d0">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="sv">Europass standardförteckning över inlärningsmiljöer</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_898a10489b7d">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="et">Europassi õpikeskonna liikide standardloend</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_a91f88497a45">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="el">Τυποποιημένος κατάλογος Europass για τύπους περιβάλλοντος μάθησης</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_ad5c9f55bea6">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="hu">Tanulásikörnyezet-típusok szabványos Europass-listája</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_b1f159ad9cee">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="sk">Štandardný zoznam typov vzdelávacieho prostredia podľa štandardu Europass</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_b6e00a197a39">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="lt">Standartinis „Europass“ mokymosi pobūdžio tipų sąrašas</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_c44b25d1a2bb">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="fi">Europass-standardien luettelo: Oppimistilannetyypit</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_c7a1664a8540">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="da">Europass – standardliste over typer af læringsmiljøer</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_cf0d18030318">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="sl">Standardni seznam vrst učnih okolij Europass</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_cfebe37379f6">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="pt">Lista normalizada Europass de tipos de contextos de aprendizagem</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_d3f65d5fdddf">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="sr">Europass standardna lista vrste postavki učenja</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_dc5254a8fdc5">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="is">Staðlaður listi Europass – Námsumhverfi</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_ea523692dbe7">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="tr">Europass Öğrenim Ortamı Tipleri Standart Listesi</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_eee5ae349b50">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-16</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="fr">Liste standard des types de cadres d’apprentissage Europass</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/note_04b5dd70e320">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-20</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNote"/>
+	<rdf:value xml:lang="it">Apprendimento che si svolge in un contesto organizzato e strutturato, che di norma porta all'ottenimento di una qualifica, generalmente sotto forma di certificati o diplomi; comprende sistemi di istruzione generale, formazione professionale iniziale e istruzione superiore.</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/note_0a992315ff2d">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-20</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNote"/>
+	<rdf:value xml:lang="is">Nám sem fer fram við skipulagðar og formgerðar aðstæður og lýkur að jafnaði með útgáfu hæfisviðurkenningar, yfirleitt skírteinis eða námstitils; sem dæmi um formlegt nám má nefna almenna menntun, grunnstarfsmenntun og menntun á háskólastigi.</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/note_125a1d6b49bd">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-20</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNote"/>
+	<rdf:value xml:lang="tr">Organize ve yapılandırılmış bir ortamda gerçekleşen ve tipik olarak genelde bir sertifika ya da bir diploma şeklinde, bir yeterliliğin belgelendirilmesine yol açan öğrenim. Genel eğitim, ilk mesleki eğitim ve yüksek öğrenimi kapsar.</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/note_17e0e426c2ee">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-20</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNote"/>
+	<rdf:value xml:lang="lv">Tādas mācības organizētā un strukturētā vidē, kuru rezultātā parasti tiek piešķirta kvalifikācija, ko apliecina sertifikāts vai diploms; tas ietver vispārējās izglītības, sākotnējās profesionālās izglītības un augstākās izglītības sistēmas.</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/note_1e31d7f38f7d">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-20</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNote"/>
+	<rdf:value xml:lang="lt">Mokymasis, vykstantis organizuotoje ir sisteminėje aplinkoje, kurį baigus paprastai suteikiama kvalifikacija, dažniausiai išduodant pažymėjimą arba diplomą; šiam tipo priklauso bendrojo lavinimo, pirminio profesinio mokymo ir aukštojo išsilavinimo sistemos.</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/note_24a299b9ebf0">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-20</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNote"/>
+	<rdf:value xml:lang="hu">A formális tanulás szervezett és strukturált környezetben zajlik, és rendszerint valamilyen képesítés megszerzésével zárul, általában bizonyítvány vagy diploma formájában; ide tartozik az általános képzés, a szakmai alapképzés és a felsőoktatás rendszere.</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/note_2904354ee162">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-20</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNote"/>
+	<rdf:value xml:lang="sr">Učenje koje se odvija u organizovanom i strukturisanom okruženju i obično vodi ka dodeljivanju kvalifikacije, obično u obliku sertifikata ili diplome; obuhvata sisteme opšteg obrazovanja, inicijalnog stručnog usavršavanja i visokog obrazovanja.</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/note_2f33d124573b">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-20</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNote"/>
+	<rdf:value xml:lang="pt">A aprendizagem num ambiente organizado e estruturado, que conduz normalmente à atribuição de uma qualificação, geralmente sob a forma de um certificado ou diploma; inclui os sistemas de ensino geral, formação profissional inicial e ensino superior.</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/note_3e6d8c94a1fd">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-20</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNote"/>
+	<rdf:value xml:lang="bg">Учене, което се осъществява в организирана и структурирана среда и обикновено води до присъждането на квалификация, най-често под формата на сертификат или диплома; включва системите за общо образование, начално професионално обучение и висше образование.</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/note_3f2ec1815dbf">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-20</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNote"/>
+	<rdf:value xml:lang="de">Lernen, das in einem organisierten, strukturierten Umfeld erfolgt und normalerweise zur Verleihung einer Qualifikation führt, in der Regel in Form eines Zeugnisses oder eines Abschlusses; dies umfasst die Systeme der allgemeinen Bildung, der beruflichen Erstausbildung und der Hochschulbildung.</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/note_570fe9094150">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-20</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNote"/>
+	<rdf:value xml:lang="mk">Учење што се одвива во организирана и структурирана околина и обично води до доделување квалификација, обично во форма на сертификат или диплома; вклучува системи на општо образование, почетна стручна обука и високо образование.</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/note_600199cb280a">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-20</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNote"/>
+	<rdf:value xml:lang="da">Læring, der foregår i et organiseret og struktureret miljø, og som typisk fører til en kvalifikation, normalt i form af et certifikat eller et eksamensbevis. Formel læring omfatter almen uddannelse, grundlæggende erhvervsuddannelse og videregående uddannelse.</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/note_67ad6b4d19ba">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-20</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNote"/>
+	<rdf:value xml:lang="cs">Formální učení se uskutečňuje v organizovaném a strukturovaném prostředí a zpravidla vede k přiznání kvalifikace, obvykle ve formě osvědčení nebo diplomu. Zahrnuje systémy všeobecného vzdělávání, počátečního odborného vzdělávání a vysokoškolského vzdělávání.</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/note_7a865ebf1f99">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-20</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNote"/>
+	<rdf:value xml:lang="fr">Apprentissage se déroulant dans un contexte organisé et structuré, qui débouche généralement sur l’attribution d’une qualification, en général sous la forme d’un certificat ou d’un diplôme. Il comprend les systèmes d’enseignement général, de formation professionnelle initiale et d’enseignement supérieur.</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/note_8b93396499ea">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-20</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNote"/>
+	<rdf:value xml:lang="sv">Formellt lärande äger rum i en organiserad och strukturerad miljö och leder vanligtvis till en kvalifikation, för det mesta i form av ett intyg eller utbildningsbevis. Det rör sig bland annat om systemen för allmän utbildning, grundläggande yrkesutbildning och högre utbildning.</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/note_8f73c08c94b7">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-20</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNote"/>
+	<rdf:value xml:lang="fi">Oppiminen tapahtuu organisoidussa ja jäsennellyssä ympäristössä, ja se johtaa yleensä tutkinnon myöntämiseen todistuksen muodossa. Tähän sisältyvät yleissivistävän koulutuksen, ammatillisen peruskoulutuksen ja korkea-asteen koulutusjärjestelmät.</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/note_970f2daba6bf">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-20</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNote"/>
+	<rdf:value xml:lang="sl">Učenje, ki se izvaja v organiziranem in strukturiranem okolju in praviloma pripelje do podelitve kvalifikacije, običajno v obliki spričevala ali diplome. Vključuje sisteme splošnega izobraževanja, začetno poklicno usposabljanje in visokošolsko izobraževanje.</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/note_988ccf57dd4e">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-20</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNote"/>
+	<rdf:value xml:lang="ga">Foghlaim a dhéantar i dtimpeallacht eagraithe struchtúrtha agus a mbronntar cáilíocht mar thoradh uirthi go hiondúil. Is i bhfoirm teastais nó dioplóma a bhronntar an cháilíocht sin de ghnáth. Tá córais oideachais ghinearálta, an ghairmoiliúint tosaigh agus an t-ardoideachas i gceist leis an bhfoghlaim seo.</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/note_9940459c297e">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-20</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNote"/>
+	<rdf:value xml:lang="sk">Vzdelávanie, ktoré sa uskutočňuje v organizovanom a štruktúrovanom prostredí a ktoré zvyčajne vedie k udeleniu kvalifikácie, zvyčajne vo forme osvedčenia alebo diplomu; zahŕňa systémy všeobecného vzdelávania, počiatočnej odbornej prípravy a vysokoškolského vzdelávania.</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/note_9b980f378031">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-20</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNote"/>
+	<rdf:value xml:lang="mt">Tagħlim li jsir f’ambjent organizzat u strutturat u tipikament iwassal għall-għoti ta’ kwalifika, ġeneralment f’forma ta’ ċertifikat jew diploma; jinkludi sistemi ta' edukazzjoni ġenerali, taħriġ vokazzjonali inizjali u edukazzjoni għolja.</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/note_a90a64894c7c">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-20</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNote"/>
+	<rdf:value xml:lang="nl">Leren in een georganiseerde en gestructureerde omgeving dat doorgaans leidt tot de toekenning van een kwalificatie, gewoonlijk in de vorm van een certificaat of diploma; hieronder vallen de stelsels van algemeen onderwijs, initiële beroepsopleiding en hoger onderwijs.</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/note_bc445221e7c5">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-20</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNote"/>
+	<rdf:value xml:lang="pl">Uczenie się, które jest realizowane w zorganizowanym i usystematyzowanym środowisku i zwykle prowadzi do uzyskania kwalifikacji, na ogół w postaci świadectwa lub dyplomu; składają się na nie m.in. systemy kształcenia ogólnego, kształcenia zawodowego oraz szkolnictwa wyższego.</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/note_c5fdcab8003b">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-20</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNote"/>
+	<rdf:value xml:lang="no">Læring som finner sted i et tilrettelagt og strukturert miljø og som vanligvis fører til tildeling av en kvalifikasjon i form av et eksamensbevis eller vitnemål. Dette omfatter grunnskole, yrkesutdanning og høyere utdanning.</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/note_cb1c998fccf2">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-20</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNote"/>
+	<rdf:value xml:lang="et">Organiseeritud ja struktureeritud keskkonnas toimuv õpe, milles osalenud saavad tavaliselt kvalifikatsiooni tõenduseks kas kutsetunnistuse või diplomi; see hõlmab üldharidus-, kutsealusharidus- ja kõrgharidussüsteemi.</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/note_dc5cff08c4a2">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-20</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNote"/>
+	<rdf:value xml:lang="el">Μάθηση που πραγματοποιείται σε οργανωμένο και δομημένο περιβάλλον, και συνήθως οδηγεί στην απονομή προσόντος, συνήθως με τη μορφή πιστοποιητικού ή διπλώματος· περιλαμβάνει συστήματα γενικής παιδείας, αρχικής επαγγελματικής κατάρτισης και ανώτερης εκπαίδευσης.</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/note_e5361d3fe2a1">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-20</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNote"/>
+	<rdf:value xml:lang="ro">Învățare care se desfășoară într-un cadru organizat și structurat și în general conduce la acordarea unei calificări, de obicei sub forma unui certificat sau a unei diplome. Include sistemele de educație generală, de formare profesională inițială și de învățământ superior.</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/note_e825e839acc8">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-20</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNote"/>
+	<rdf:value xml:lang="hr">Učenje koje se odvija u organiziranom i strukturiranom okruženju i obično dovodi do dodjele kvalifikacije, obično u obliku svjedodžbe ili diplome; uključuje sustave općeg obrazovanja, početno strukovno osposobljavanje i više obrazovanje.</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/note_f2f18bb56c94">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-20</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNote"/>
+	<rdf:value xml:lang="es">Aprendizaje en un entorno organizado y estructurado que suele conducir al otorgamiento de una cualificación (por lo general, un certificado o título). En esta categoría se incluyen los sistemas de enseñanza general, formación profesional inicial y enseñanza superior.</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/notation_c22a897e0005d478536c56ee44340073">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-03-18</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNotation"/>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<rdf:value>6fd4685715</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/notation_e030e176a2">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-03-18</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNotation"/>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<rdf:value>formal</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_00ff8ae8a19e">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="da">Formel læring</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_0837b3f0b814">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="hu">Formális tanulás</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_0af8e82ad24a">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="pt">Aprendizagem formal</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_0b6e13226f2f">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="mt">Tagħlim formali</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_175434f33287">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="es">Aprendizaje formal</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_18026f5194c6">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="nl">Formeel leren</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_185c6104c321">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="sl">Formalno učenje</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_1c9b7aec8a">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-03-18</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="en">formal learning</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_23bb1a44dd95">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="ga">Foghlaim fhoirmiúil</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_25680c6f308d">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="tr">Resmi öğrenim</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_2b3734f17ccf">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="hr">Formalno učenje</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_49eaf3b14163">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="no">Formell læring</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_5417d13cf0d0">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="sk">Formálne vzdelávanie</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_5d912af62504">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="sv">Formellt lärande</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_616f304e4ed3">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="el">Τυπική μάθηση</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_6937f2a1d9fd">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="mk">Формално учење</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_6d7fd6705197">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="it">Apprendimento formale</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_6e57efca221c">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="lv">Formāla mācīšanās</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_709624d9c6eb">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="fr">Apprentissage formel</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_766ff694b4d8">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="cs">Formální vzdělávání</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_81fd925a1bab">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="lt">Formalusis mokymasis</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_97b0fcf10b82">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="pl">Uczenie się formalne</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_a4e6e00c48f3">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="de">Formales Lernen</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_aadee1cfb08a">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="ro">Învățarea formală</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_bd131f286051">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="et">Formaalõpe</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_e48c1800252f">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="is">Formlegt nám</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_e4b8b71d76a6">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="sr">Formalno učenje</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_e6b91c916962">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="bg">Формално учене</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_e73b796e69cb">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="fi">Virallinen oppiminen</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/note_0216d2652bf6">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-20</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNote"/>
+	<rdf:value xml:lang="nl">Leren door middel van geplande activiteiten (in termen van leerdoelen, leertijd) waarbij sprake is van een bepaalde vorm van ondersteuning bij het leren (bijv. student-leraar-verhoudingen). Het kan gaan om programma's die vroegtijdige schoolverlaters professionele vaardigheden, lees- en schrijfvaardigheid en basisvorming verschaffen. Veel voorkomende voorbeelden van niet-formeel leren zijn opleidingen binnen ondernemingen waarmee zij de vaardigheden van hun werknemers, bijvoorbeeld op het gebied van ICT, bijspijkeren en verbeteren, gestructureerd online leren (bv. met gebruikmaking van open onderwijsmiddelen) en cursussen die door maatschappelijke organisaties worden georganiseerd voor hun leden, hun doelgroep of het grote publiek.</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/note_0afe16f0d7c6">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-20</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNote"/>
+	<rdf:value xml:lang="pt">A aprendizagem através de atividades planeadas (em termos de objetivos de aprendizagem e de duração) com recurso a alguma forma de apoio à aprendizagem (por exemplo, relações estudante-professor). Pode abranger programas destinados a conferir competências profissionais, alfabetização de adultos e educação básica para jovens que tenham abandonado a escola precocemente. Exemplos comuns de aprendizagem não formal incluem formação em contexto laboral, através da qual as empresas reconvertem e melhoram as competências, nomeadamente em TIC, dos respetivos trabalhadores; aprendizagem em linha estruturada (recorrendo, por exemplo, a recursos educativos abertos) e cursos organizados por organizações da sociedade civil para os respetivos membros, grupos-alvo ou o público em geral.</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/note_0d9581fc2125">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-20</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNote"/>
+	<rdf:value xml:lang="fr">Apprentissage se déroulant dans le cadre d'activités planifiées (pour ce qui est des objectifs et du temps d’apprentissage) reposant sur une certaine forme de ressources ou d'accompagnement (exemple: une relation étudiant-enseignant). Il peut consister en des programmes d’acquisition d’aptitudes professionnelles, d’alphabétisation des adultes et de formation de base pour des jeunes en décrochage scolaire. L’apprentissage non formel prend très souvent la forme de formations en entreprise par lesquelles les employeurs mettent à jour et améliorent les compétences de leurs travailleurs (par exemple, dans le domaine des TIC), de formations structurées en ligne (par exemple, à l’aide de ressources didactiques en libre accès) et de cours organisés par des organisations de la société civile pour leurs membres, leurs groupes cibles ou le grand public.</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/note_19b61a69428c">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-20</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNote"/>
+	<rdf:value xml:lang="mk">Учење што се одвива преку планирани активности (во однос на целите на учењето, времето за учење) кадешто е присутна некаква форма на поддршка за учење (на пр. односи меѓу ученикот и наставникот). Опфаќа програми за пренесување на работни вештини, писменост на возрасни и основно образование за оние коишто го напуштаат рано училиштето. Многу вообичаени случаи на неформално учење вклучуваат обучување во компанијата, преку што компаниите ги ажурираат и ги подобруваат вештините на своите работници, како што се ICT вештини, структурирано он-лајн учење (на пр. Со употреба на отворени образовни ресурси) и курсеви организирани од граѓански организации за нивните членови, нивните целни групи или општата јавност.</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/note_1f6d8630e937">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-20</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNote"/>
+	<rdf:value xml:lang="sk">Vzdelávanie, ktoré sa uskutočňuje prostredníctvom plánovaných činností (pokiaľ ide o ciele vzdelávania, čas vyhradený na vzdelávanie), pričom sa zabezpečuje určitá forma podpory vzdelávania (napr. vzťahy medzi študentmi a učiteľmi). Môže zahŕňať programy zamerané na rozvoj pracovných zručností, gramotnosti dospelých a základného vzdelania pre osoby, ktoré predčasne ukončili školskú dochádzku. Medzi veľmi bežné prípady neformálneho vzdelávania patrí odborná príprava na pracovisku, prostredníctvom ktorej spoločnosti aktualizujú a zlepšujú zručnosti svojich pracovníkov, ako sú zručnosti v oblasti IKT, štruktúrované elektronické učenie sa (napr. využívaním otvorených vzdelávacích zdrojov) a kurzy organizované organizáciami občianskej spoločnosti pre svojich členov, cieľové skupiny či širokú verejnosť.</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/note_2144ad8b82d9">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-20</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNote"/>
+	<rdf:value xml:lang="ro">Învățare care se desfășoară prin activități planificate (în termeni de obiective de învățare, timp de învățare), în cadrul căreia există o anumită formă de sprijin pentru învățare (de exemplu, relația cursant-profesor). Poate include programe de însușire a unor competențe profesionale, de alfabetizare a adulților sau programele de educație de bază a persoanelor care au părăsit timpuriu școala. Cazurile foarte comune de învățare non-formală includ formarea în întreprindere, care le permite angajatorilor să actualizeze și să consolideze competențele lucrătorilor, cum ar fi competențele TIC, învățarea online structurată (de exemplu, prin utilizarea resurselor educaționale deschise) și cursurile organizate de instituțiile societății civile pentru membrii lor, grupurile-țintă sau publicul general.</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/note_2308bbb13b0a">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-20</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNote"/>
+	<rdf:value xml:lang="cs">Učení, které probíhá prostřednictvím plánovaných aktivit (pokud jde o studijní cíle, dobu učení) a kdy je k dispozici určitá forma podpory (např. vztah student–učitel). Může zahrnovat programy k osvojení pracovních dovedností, zlepšení gramotnosti u dospělých a programy základního vzdělávání pro osoby, které předčasně ukončily školní docházku. O neformální učení se jedná například při vzdělávání zaměstnanců, kdy firmy aktualizují a zlepšují dovednosti svých pracovníků, např. dovednosti v oblasti informačních a komunikačních technologií, dále je to strukturované online učení (např. využíváním otevřených vzdělávacích zdrojů) a kurzy pořádané organizacemi občanské společnosti pro své členy, jejich cílové skupiny nebo širokou veřejnost.</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/note_3c0d7a2f0da9">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-20</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNote"/>
+	<rdf:value xml:lang="tr">Bir çeşit öğrenim desteğinin bulunduğu (örneğin, öğrenci – öğretmen ilişkileri) planlı etkinliklerle (öğrenim hedefleri, öğrenim zamanı açısından) gerçekleşen öğrenim. Okulu erken bırakanlara yönelik iş becerileri, yetişkinler için okuma yazma ve temel eğitim kazandırma programlarını içerebilir. Son derece sık rastlanan gayri resmi öğrenime, şirketlerin çalışanlarının ICT becerileri gibi becerilerini tazeleyip ilerlettikleri şirket içi eğitim, yapılandırılmış çevrim içi öğrenim (örneğin, açık eğitim kaynaklarını kullanmak suretiyle) ve sivil toplum kuruluşlarınca üyeleri, hedef gruplar ya da genel kamu için düzenlenen kurslar da dahildir.</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/note_40f7886f55f3">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-20</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNote"/>
+	<rdf:value xml:lang="es">Aprendizaje derivado de actividades planificadas (en cuanto a objetivos didácticos y duración) en las que existe alguna forma de apoyo al aprendizaje (como, por ejemplo, una relación entre alumno y profesor). Puede abarcar los programas para impartir capacidades laborales o de alfabetización de adultos y la educación básica para personas que han abandonado la escuela prematuramente. Algunos ejemplos muy comunes de aprendizaje no formal son la formación dentro de la empresa, que permite actualizar y mejorar las competencias de los trabajadores en plantilla (en el campo de las TIC u otros), el aprendizaje estructurado online (por ejemplo, mediante la utilización de recursos educativos abiertos) y los cursos que organizan las organizaciones de la sociedad civil, ya sea para sus propios miembros, sus grupos destinatarios o el público en general.</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/note_4b0292d1b3de">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-20</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNote"/>
+	<rdf:value xml:lang="el">Μάθηση μέσω προγραμματισμένων δραστηριοτήτων (όσον αφορά τους στόχους και τον χρόνο της μάθησης), όπου είναι παρούσα κάποιου είδους μαθησιακή υποστήριξη (π.χ. σχέσεις εκπαιδευόμενου-εκπαιδευτή). Μπορεί να καλύπτει προγράμματα για τη μετάδοση σχετικών με την εργασία δεξιοτήτων, τον αλφαβητισμό των ενηλίκων και τη βασική εκπαίδευση για όσους εγκαταλείπουν πρόωρα το σχολείο. Πολύ συνήθεις περιπτώσεις μη τυπικής μάθησης είναι η ενδοεπιχειρησιακή κατάρτιση, μέσω της οποίας οι επιχειρήσεις επικαιροποιούν και βελτιώνουν τις δεξιότητες των εργαζομένων τους, όπως δεξιότητες ΤΠΕ, η δομημένη διαδικτυακή μάθηση (π.χ. με χρήση ανοικτών εκπαιδευτικών πόρων) και οι κύκλοι μαθημάτων που διοργανώνονται από οργανώσεις της κοινωνίας των πολιτών για τα μέλη τους, τις ομάδες στόχους τους ή το ευρύ κοινό.</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/note_557039608163">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-20</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNote"/>
+	<rdf:value xml:lang="sr">Učenje koje se odvija kroz planirane aktivnosti (u smislu ciljeva učenja, vremena učenja) gde je prisutan neki oblik podrške učenju (npr. odnosi između učenika i nastavnika). Može da obuhvata programe za prenos radnih veština, pismenosti odraslih i osnovno obrazovanje za učenike koji rano prekinu školovanje. Vrlo uobičajeni slučajevi neformalnog učenja uključuju obuku u kompaniji, kroz koju kompanije ažuriraju i poboljšavaju veštine svojih radnika, kao što su veštine IKT-a, strukturisano onlajn učenje (npr. korišćenjem otvorenih obrazovnih resursa) i kursevi koje organizuju organizacije civilnog društva za svoje članove, njihove ciljne grupe ili širu javnost.</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/note_58df44e952b7">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-20</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNote"/>
+	<rdf:value xml:lang="fi">Oppiminen tapahtuu (oppimistavoitteiden ja oppimiseen käytettävän ajan osalta) suunniteltujen toimintojen avulla ja siihen sisältyy jonkin tyyppistä oppimisen tukea (esimerkiksi oppilas-opettajasuhde). Siihen saattaa sisältyä työtehtäviin opastusta, aikuisten lukutaito-opetusta ja peruskoulutusta koulunkäynnin keskeyttäneille. Epävirallinen oppiminen voi usein olla esimerkiksi työpaikan sisällä tapahtuvaa koulutusta, jota yritykset järjestävät työntekijöidensä taitojen, esimerkiksi tieto- ja viestintäteknisten taitojen, päivittämiseksi ja kohentamiseksi, jäsenneltyä verkko-oppimista (esim. hyödyntämällä avoimia opiskeluresursseja) ja kansalaisjärjestöjen jäsenilleen, kohderyhmilleen tai suurelle yleisölle järjestämää koulutusta.</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/note_59b0a3e2b8b8">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-20</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNote"/>
+	<rdf:value xml:lang="sv">Icke-formellt lärande äger rum genom planerad verksamhet (vad gäller mål och tid för lärande) med visst stöd för lärandet (till exempel kontakt mellan elev och lärare). Det kan röra sig om program för att förmedla arbetsrelaterade färdigheter, läs- och skrivkunskap för vuxna eller grundläggande utbildning för personer som lämnat skolan i förtid. Vanliga exempel på icke-formellt lärande är företagsintern utbildning (då företag uppdaterar och förbättrar sina anställdas kunskaper om t.ex. it), strukturerat e-lärande (t.ex. genom öppna utbildningsresurser) och kurser som organisationer i det civila samhället ordnar för sina medlemmar, målgrupper eller allmänheten.</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/note_5cee2a97f85f">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-20</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNote"/>
+	<rdf:value xml:lang="lv">Mācīšanās, izmantojot plānotas aktivitātes (mācību mērķu, mācību laika ziņā), kurās ir pieejams mācību atbalsts (piemēram, studentu un skolotāju sadarbība). Tās var būt programmas, kas sniedz darbam nepieciešamās prasmes, novērš pieaugušo analfabētismu un veicina to, lai pamatizglītību iegūtu tie, kas priekšlaicīgi pametuši mācības. Izplatīti neformālās mācīšanās piemēri ir apmācība uzņēmumā, kas uzņēmuma darbiniekiem ļauj atsvaidzināt un uzlabot prasmes, piemēram, IKT prasmes, strukturēta mācīšanās tiešsaistē (piem., izmantojot atvērtos izglītības resursus) un kursi, ko saviem biedriem, mērķgrupām vai plašākai sabiedrībai organizē pilsoniskās sabiedrības organizācijas.</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/note_6abdee6439ef">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-20</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNote"/>
+	<rdf:value xml:lang="bg">Учене, което се осъществява чрез планирани дейности (по отношение на учебните цели, учебното време) и при наличие на някаква форма на подпомагане на учебния процес (напр. взаимодействие между учащия и преподавателя). То може да обхваща програми за придобиване на професионални умения, грамотност на възрастното население и основно образование за преждевременно напусналите училище. Типични примери за неформално учене са обучения в предприятия, чрез които предприятията актуализират и подобряват уменията на своите служители, като например умения в областта на ИКТ; структурирано онлайн обучение (напр. чрез отворени образователни ресурси) и курсове, организирани от организации на гражданското общество за техните членове, целевата група или широката общественост.</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/note_6c372fe66861">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-20</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNote"/>
+	<rdf:value xml:lang="da">Læring, der foregår gennem planlagte aktiviteter (med hensyn til læringsmål og læringstid), hvor der findes en eller anden form for støtte (f.eks. forhold mellem studerende og lærere). Ikkeformel læring kan omfatte programmer med henblik på videregivelse af faglige færdigheder, læse- og skrivefærdigheder og grundlæggende uddannelse for personer, der er gået ud af skolen for tidligt. Meget almindelige eksempler på ikkeformel læring omfatter kurser på arbejdspladsen, hvor virksomhederne ajourfører og forbedrer arbejdstagernes færdigheder, f.eks. IKT-færdigheder, struktureret onlinelæring (f.eks. ved brug af åbne uddannelsesressourcer) og kurser tilrettelagt af civilsamfundsorganisationer for deres medlemmer, deres målgrupper eller den brede offentlighed.</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/note_7cc6ae67a82b">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-20</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNote"/>
+	<rdf:value xml:lang="is">Nám sem fer fram með skipulögðum iðkunum (að því er varðar námsmarkmið og námstíma) þar sem einhvers konar námsstuðningur er fyrir hendi (t.d. samband milli nemanda og kennara). Það getur náð til fræðslu sem í felst að miðla verkfærni, kenna fullorðnum að lesa og veita nemendum sem hafa horfið frá námi grunnmenntun. Sem dæmi um mjög algengt óformlegt nám má nefna þjálfun innan fyrirtækja, þar sem fyrirtækin endurnýja og bæta færni starfsfólksins, s.s. í upplýsinga- og samskiptatækni, skipulagt nám um netið (t.d. með því að nýta opnar menntaveitur) og námskeið sem borgaraleg samtök halda fyrir meðlimi sína, markhópa eða almenning.</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/note_8f82ff60f1ea">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-20</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNote"/>
+	<rdf:value xml:lang="mt">Tagħlim li jsir permezz ta’ attivitajiet ippjanati (f’termini ta’ objettivi ta’ tagħlim, ħin ta’ tagħlim) fejn ikun hemm xi forma ta’ appoġġ għat-tagħlim (eż. relazzjonijiet bejn l-istudenti u l-għalliema). Dan jista’ jkopri programmi li jrawmu l-ħiliet tax-xogħol, il-litteriżmu fost l-adulti u l-edukazzjoni bażika għal min jitlaq kmieni mill-iskola. Każijiet tassew komuni tat-tagħlim mhux formali jinkludu taħriġ ma' kumpanija, li permezz tiegħu l-kumpaniji jaġġornaw u jtejbu l-ħiliet tal-ħaddiema tagħhom bħall-ħiliet fl-ICT, tagħlim strutturat online (pereżempju permezz tal-użu ta' riżorsi edukattivi miftuħin), u korsijiet organizzati mill-organizzazzjonijiet tas-soċjetà ċivili għall-membri tagħhom, il-grupp fil-mira tagħhom jew il-pubbliku ġenerali.</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/note_a9b2917cab88">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-20</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNote"/>
+	<rdf:value xml:lang="ga">Foghlaim a dhéantar le gníomhaíochtaí pleanáilte (ó thaobh cuspóirí foghlama agus tréimhsí foghlama de) agus ina gcuirtear tacaíocht foghlama de chineál éigin ar fáil (e.g. mac léinn agus múinteoir). D’fhéadfadh sé go mbeadh cláir um scileanna oibre agus um litearthacht daoine fásta i gceist leis an bhfoghlaim seo, sin agus bunoideachas le haghaidh daoine a fhágann an scoil go luath. I measc na samplaí is coitianta den fhoghlaim sheachfhoirmiúil tá oiliúint ionchuideachta (lena ndéanann cuideachtaí scileanna a mball foirne, ar nós scileanna TFC, a uasdátú agus a fheabhsú), foghlaim ar líne struchtúrtha (ina n-úsáidtear acmhainní oscailte oideachais, mar shampla), agus cúrsaí a chuireann eagraíochtaí na sochaí sibhialta ar fáil dá mbaill, dá spriocghrúpaí nó don phobal i gcoitinne.</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/note_aab208870271">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-20</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNote"/>
+	<rdf:value xml:lang="et">Kavandatud tegevuste (pidades silmas õpieesmärke ja õpiaega) kaudu toimuv õpe, mille puhul pakutakse teatavas vormis õpituge (näiteks õpetaja-õpilase suhte vormis). Siia alla võib kuuluda tööoskuste õpetamine, täiskasvanutele kirjaoskuse õpetamine ja põhihariduse andmine koolist väljalangenutele. Mitteformaalse õppe tüüpiliste näidete alla kuuluvad veel ettevõttesisesed koolitused, mille abil ettevõtted ajakohastavad ja parandavad oma töötajate oskusi, näiteks info- ja kommunikatsioonitehnoloogia alaseid oskusi, ning struktureeritud e-õpe (näiteks avatud haridusvõimalusi kasutades) ja kodanikuühiskonna organisatsioonide poolt oma liikmetele, sihtrühmadele või üldsusele korraldatud koolitused.</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/note_b219d9f292b3">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-20</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNote"/>
+	<rdf:value xml:lang="de">Lernen mittels geplanter Aktivitäten (in Bezug auf Lernziele, Lernzeit), für die es eine Form der Lernunterstützung gibt (z. B. Schüler-Lehrkraft-Konstellation). Dies kann Programme für die Vermittlung beruflicher Fähigkeiten, für die Alphabetisierung Erwachsener und für die Grundbildung früher Schulabgänger umfassen. Gängige Beispiele für nichtformales Lernen: interne Schulungen, durch die Unternehmen die Kenntnisse und Fähigkeiten ihrer Beschäftigten auf den neuesten Stand bringen (z. B. IT-Schulungen), strukturiertes Online-Lernen (z. B. durch Nutzung offener Bildungsressourcen) sowie Kurse, die Organisationen der Zivilgesellschaft für ihre Mitglieder, ihre Zielgruppen oder die breite Öffentlichkeit anbieten.</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/note_bc1852cdb5f6">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-20</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNote"/>
+	<rdf:value xml:lang="lt">Mokymasis, vykstantis kaip suplanuota veikla (turinti mokymosi tikslus, mokymosi laiką), teikiant tam tikrą mokymosi paramą (pvz., palaikomas mokinių ir mokytojų ryšys). Tai gali būti darbo įgūdžių suteikimo, suaugusiųjų raštingumo ir mokyklos nebaigusiems asmenims skirtos pagrindinio ugdymo programos. Labai dažni neformaliojo mokymo atvejai yra vidiniai bendrovių darbuotojų mokymai, kuriuose tobulinami darbuotojų įgūdžiai, sisteminis mokymas internetu (pvz., naudojant atviruosius ugdymo išteklius), pilietinės visuomenės organizacijų rengiami kursai savo nariams, tikslinėms grupėms arba plačiajai visuomenei.</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/note_be24185b842f">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-20</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNote"/>
+	<rdf:value xml:lang="pl">Uczenie się, które jest realizowane poprzez zaplanowane działania (pod względem celów i czasu uczenia się), w ramach których istnieje pewna forma pomocy w nauce (np. relacja uczeń-nauczyciel). Może ono obejmować programy służące uzyskaniu umiejętności zawodowych, zdobyciu umiejętności czytania i pisania przez osoby dorosłe oraz odebraniu podstawowego wykształcenia przez osoby wcześnie kończące naukę. Popularne przykłady uczenia się pozaformalnego to m.in.: szkolenia w miejscu pracy, za pomocą których przedsiębiorstwa uaktualniają i podnoszą umiejętności pracowników (np. umiejętności w dziedzinie technologii informacyjno-komunikacyjnych); usystematyzowane uczenie się za pomocą internetu (np. z użyciem otwartych zasobów edukacyjnych), a także kursy prowadzone przez organizacje społeczeństwa obywatelskiego dla swoich członków, grup docelowych lub ogółu społeczeństwa.</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/note_c477c6e83fe3">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-20</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNote"/>
+	<rdf:value xml:lang="no">Læring i form av planlagt aktivitet (med hensyn til målsetninger og læringstid) der det gis en form for læringsstøtte (eksempel: kontakt mellom student og lærer). Dette omfatter programmer som gir yrkeskompetanse, alfabetiseringsprogrammer for voksne og videreutdanning av personer med bare grunnskoleutdanning. Vanlige eksempler på ikke-formell læring er bedriftsintern opplæring av ansatte f.eks. på IT-området, strukturerte nettkurs (ofte ved bruk av åpne læringsressurser) og kurs tilrettelagt av sivilsamfunnsorganisasjoner for sine medlemmer/målgrupper eller for allmenheten.</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/note_d2723b3ba659">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-20</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNote"/>
+	<rdf:value xml:lang="hr">Učenje koje se odvija s pomoću planiranih aktivnosti (u smislu ciljeva učenja, vremena za učenje) u kojima se pruža određeni oblik potpore za učenje (npr. odnosi između učenika i učitelja). Može obuhvaćati programe za razvoj radnih vještina, pismenosti odraslih i osnovno obrazovanje za osobe koje rano napuštaju školovanje. Vrlo česti primjeri neformalnog učenja uključuju osposobljavanje unutar poduzeća putem kojeg poduzeća ažuriraju i poboljšavaju vještine svojih radnika kao što su vještine IKT-a, strukturirano internetsko učenje (npr. upotreba otvorenih obrazovnih sadržaja) i tečajeva koje za svoje članove, ciljne skupine ili opću javnost organiziraju organizacije civilnog društva.</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/note_debd1d660102">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-20</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNote"/>
+	<rdf:value xml:lang="sl">Učenje, ki poteka prek načrtovanih dejavnosti (v smislu učnih ciljev, časa učenja), pri katerih je zagotovljena določena oblika učne podpore (npr. odnosi med študenti in učitelji). Vključuje lahko programe za pridobitev delovnih spretnosti, opismenjevanje odraslih in pridobitev osnovne izobrazbe za osebe, ki so predčasno opustile šolanje. Zelo običajni primeri neformalnega učenja vključujejo usposabljanje v podjetju, prek katerega podjetja posodabljajo in izboljšujejo spretnosti delavcev, kot so spretnosti IKT, strukturirano spletno učenje (npr. z uporabo odprtih virov izobraževanja) in tečaji, ki jih organizacije civilne družbe organizirajo za svoje člane, ciljne skupine ali širšo javnost.</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/note_f5114c080fb3">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-20</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNote"/>
+	<rdf:value xml:lang="it">Apprendimento erogato mediante attività pianificate (in termini di obiettivi e tempi di apprendimento) con una qualche forma di sostegno all'apprendimento (ad es. la relazione studente-docente). Può comprendere programmi per il conseguimento di abilità professionali, alfabetizzazione degli adulti e istruzione di base per chi ha abbandonato la scuola prematuramente. I casi più comuni di apprendimento non formale comprendono la formazione in azienda, attraverso cui le società aggiornano e migliorano le abilità dei loro dipendenti, come competenze informatiche, apprendimento online strutturato (ad es. facendo uso di risorse didattiche aperte) e corsi organizzati da organizzazioni della società civile per i loro membri, i loro gruppi di riferimento o il pubblico generale.</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/note_f5df52ae7e67">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-20</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNote"/>
+	<rdf:value xml:lang="hu">A nem formális tanulás olyan tanulást jelent, amely (a tanulási célkitűzések és a tanulási idő tekintetében) tervezett tevékenységeken keresztül valósul meg, és ahol jelen van valamilyen formájú tanulástámogatás (pl. tanár-diák kapcsolat). Ide tartozhatnak olyan programok, amelyek munkahelyi készségeket, felnőttkori írni-olvasni tudást és a korai iskolaelhagyók számára alapoktatást kínálnak. A nem formális tanulásra közkeletű példa a vállalaton belüli képzés, amely során a vállalatok naprakésszé teszik és fejlesztik munkavállalóik készségeit, mint például informatikai ismeretek, strukturált online tanulás (pl. nyitott oktatási segédanyagok felhasználásával), valamint civil társadalmi szervezetek által tagjaik, valamely célcsoport vagy a nagyközönség számára szervezett képzések.</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/notation_2e40bbc507">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-03-18</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNotation"/>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<rdf:value>non-formal</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/notation_38922fd430aa6a904a36e9aa233c8888">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-03-18</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNotation"/>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<rdf:value>e207a81fc7</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_0a8a312399e7">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="lt">Neformalusis mokymasis</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_15913da1a3ba">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="fi">Epävirallinen oppiminen</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_1a1bc154e1a6">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="es">Aprendizaje no formal</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_32cc7dfe49dd">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="cs">Neformální učení</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_37da84bc249c">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="hu">Nem formális tanulás</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_3b3d0e4961f4">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="sr">Neformalno učenje</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_4585594a300f">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="bg">Неформално учене</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_46a53a7760ae">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="fr">Apprentissage non formel</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_569657f4bdb2">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="pl">Edukacja pozaformalna</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_5b53c7a3e464">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="mt">Tagħlim mhux formali</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_7171051dba05">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="ro">Învățarea non-formală</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_7c11e8214a84">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="de">Nichtformales Lernen</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_83711c692c6e">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="el">Μη τυπική μάθηση</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_8730d11e1c6f">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="sv">Icke-formellt lärande</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_a1b3c1c5cf4c">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="sk">Neformálne vzdelávanie</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_b5afa6c704b7">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="et">Mitteformaalne õpe</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_bf5a3c00c04a">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="it">Apprendimento non formale</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_cda41ca82aeb">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="pt">Aprendizagem não formal</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_e181c376d6ce">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="mk">Неформално учење</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_e3d63eeea95b">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="ga">Foghlaim sheachfhoirmiúil</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_e630f09bc1e2">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="da">Ikkeformel læring</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_e805710e15df">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="sl">Neformalno učenje</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_e87041d16345">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="no">Ikke-formell læring</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_e9ecce2cee10">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="hr">Neformalno učenje</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_f032bbca7d">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-03-18</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="en">non-formal learning</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_f0d79d368f65">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="tr">Gayri resmi öğrenim</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_f376478b34b0">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="nl">Niet-formeel leren</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_f4175ac3fe08">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="lv">Neformāla mācīšanās</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/learning-setting/label_fb8bbb443a05">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="is">Óformlegt nám</literalForm>
+</rdf:Description>
+
+</rdf:RDF>

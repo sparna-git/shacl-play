@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns="http://www.w3.org/ns/corevocabulary/AggregateComponents" xmlns:person="http://www.w3.org/ns/corevocabulary/person" xmlns:business="http://www.w3.org/ns/corevocabulary/business" xmlns:location="http://www.w3.org/ns/corevocabulary/location" xmlns:cva="http://www.w3.org/ns/corevocabulary/AggregateComponents" xmlns:cvb="http://www.w3.org/ns/corevocabulary/BasicComponents" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.w3.org/ns/corevocabulary/AggregateComponents" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1">
+	<xsd:import namespace="http://www.w3.org/ns/corevocabulary/location" schemaLocation="CoreLocation-v1.00.xsd"/>
+	<xsd:import namespace="http://www.w3.org/ns/corevocabulary/person" schemaLocation="CorePerson-v1.00.xsd"/>
+	<xsd:import namespace="http://www.w3.org/ns/corevocabulary/business" schemaLocation="CoreBusiness-v1.00.xsd"/>
+	<xsd:import namespace="http://www.w3.org/ns/corevocabulary/BasicComponents" schemaLocation="CoreVocabularyBasicComponents-v1.00.xsd"/>
+	<xsd:import namespace="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" schemaLocation="../common/UBL-CommonBasicComponents-2.0.xsd"/>
+	<xsd:element name="BirthCountryCvlocation" type="location:CvlocationType"/>
+	<xsd:element name="BirthPlaceCvlocation" type="location:CvlocationType"/>
+	<xsd:element name="CitizenshipJurisdiction" type="JurisdictionType"/>
+	<xsd:element name="CompanyActivityCvbusinessCode" type="CvbusinessCodeType"/>
+	<xsd:element name="CompanyStatusCvbusinessCode" type="CvbusinessCodeType"/>
+	<xsd:element name="CompanyTypeCvbusinessCode" type="CvbusinessCodeType"/>
+	<xsd:element name="Cvaddress" type="CvaddressType"/>
+	<xsd:element name="CvbusinessCode" type="CvbusinessCodeType"/>
+	<xsd:element name="Cvidentifier" type="CvidentifierType"/>
+	<xsd:element name="DeathCountryCvlocation" type="location:CvlocationType"/>
+	<xsd:element name="DeathPlaceCvlocation" type="location:CvlocationType"/>
+	<xsd:element name="Geometry" type="GeometryType"/>
+	<xsd:element name="IdentifierCvidentifier" type="CvidentifierType"/>
+	<xsd:element name="Jurisdiction" type="JurisdictionType"/>
+	<xsd:element name="LegalIdentifierCvidentifier" type="CvidentifierType"/>
+	<xsd:element name="ResidencyJurisdiction" type="JurisdictionType"/>
+	<xsd:complexType name="CvaddressType">
+		<xsd:sequence>
+			<xsd:element ref="cvb:FullCvaddress" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="cvb:PoBox" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="cvb:LocatorDesignator" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="cvb:LocatorName" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="cvb:CvaddressArea" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="cvb:Thoroughfare" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="cvb:PostName" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="cvb:AdminunitFirstline" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="cvb:AdminunitSecondline" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="cvb:PostCode" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="cvb:CvaddressID" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="CvbusinessCodeType">
+		<xsd:sequence>
+			<xsd:element ref="cvb:Content" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="cvb:List" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="cvb:ListAgency" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="cvb:ListVersion" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="CvidentifierType">
+		<xsd:sequence>
+			<xsd:element ref="cvb:Identifier"/>
+			<xsd:element ref="cvb:IdentifierType" minOccurs="0"/>
+			<xsd:element ref="cbc:IssueDate" minOccurs="0"/>
+			<xsd:element ref="cvb:IssuingAuthority" minOccurs="0"/>
+			<xsd:element ref="cvb:IssuingAuthorityID" minOccurs="0"/>
+			<xsd:element ref="business:Cvbusiness" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="person:Cvperson" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="GeometryType">
+		<xsd:sequence>
+			<xsd:element ref="cvb:GeometryExpression" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="cvb:GeometryDataType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="JurisdictionType">
+		<xsd:sequence>
+			<xsd:element ref="cbc:Name" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="cvb:JurisdictionID" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>

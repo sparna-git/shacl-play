@@ -1,0 +1,1118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF
+	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/25831c2">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-03-18</created>
+	<identifier xmlns="http://purl.org/dc/terms/">http://data.europa.eu/snb/education-credit/25831c2</identifier>
+	<modified xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-21</modified>
+	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#ConceptScheme"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<hasTopconcept xmlns="http://www.w3.org/2004/02/skos/core#" rdf:resource="http://data.europa.eu/snb/education-credit/60b314e826"/>
+	<hasTopconcept xmlns="http://www.w3.org/2004/02/skos/core#" rdf:resource="http://data.europa.eu/snb/education-credit/6fcec5c5af"/>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="bg">Стандартен списък Европас на системите за образователни кредити</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="cs">Seznam kreditních vzdělávacích systémů podle standardu Europass</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="da">Europass – standardliste over meritoverførselssystemer</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="de">Europass-Standardliste der Leistungspunktesysteme für die Bildung</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="el">Τυποποιημένος κατάλογος Europass για συστήματα διδακτικών μονάδων</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="en">Europass Standard List Of Education Credit Systems</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="es">Lista normalizada de tipos de sistemas de créditos de educación de Europass</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="et">Europassi ainepunktisüsteemide standardloend</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="fi">Europass-standardien luettelo: Opintosuoritusjärjestelmät</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="fr">Liste standard des systèmes de crédits d’enseignement Europass</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="ga">Liosta Caighdeánach Europass de Chórais Creidmheasa Oideachais</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="hr">Europassov standardni popis bodovnih sustava u obrazovanju</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="hu">Oktatási kreditrendszerek szabványos Europass-listája</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="is">Staðlaður listi Europass – Námseiningakerfi</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="it">Elenco standard Europass dei sistemi di crediti per l'istruzione</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="lt">Standartinis „Europass“ mokymosi kreditų sistemų sąrašas</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="lv">Europass aptvertās mācību kredītpunktu sistēmas</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="mk">Europass Стандардна Листа на Кредитни Системи за Образование</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="mt">Lista Standard tal-Europass ta’ Sistemi ta’ Krediti tal-Edukazzjoni</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="nl">Europass-standaardlijst studiepuntensystemen</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="no">Europass-standarder for studiepoengsystemer</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="pl">Standardowa lista Europass systemów transferu osiągnięć w edukacji</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="pt">Lista normalizada Europass de sistemas de créditos de educação</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="ro">Lista sistemelor de credite în educație conform standardelor Europass</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sk">Štandardný zoznam typov vzdelávacích kreditných systémov podľa štandardu Europass</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sl">Standardni seznam kreditnih sistemov izobraževanja Europass</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sr">Europass standardna lista akreditovanih sistema obrazovanja</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sv">Europass standardförteckning över utbildningsmeritsystem</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="tr">Europass Eğitim Kredisi Sistemleri Standart Listesi</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_001e761ab95a"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_06ca83002eef"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_073efd99bc0d"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_191ded5feb87"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_226f8f09e613"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_2c0a759dfbb9"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_6419d9d645f2"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_6863575499ef"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_6a57145555fb"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_733cd563e3ce"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_77c5d8c73dc9"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_85090571589b"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_866148cc7098"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_9e20aecb1f"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_a979c2c86062"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_b0e85736ad74"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_b29b9802e103"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_b550ef5205ad"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_b8b5ffc35f5a"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_ba1b552c1c17"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_bb9bedba4470"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_c0245d01ddec"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_ca1ac57c6a1f"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_d722e4efc23f"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_daf840c48a06"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_e03ab2b56955"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_e341024d5457"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_eae111f62f32"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_ebd852a7b127"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/60b314e826">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-03-18</created>
+	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="bg">Европейска система за трансфер на кредити в професионалното образование и обучение</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="cs">Evropský systém kreditů pro odborné vzdělávání a přípravu</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="da">Europæisk meritoverførselssystem for erhvervsuddannelse</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="de">Europäisches Leistungspunktesystem für die Berufsbildung</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="el">Ευρωπαϊκό σύστημα ακαδημαϊκών μονάδων για την επαγγελματική εκπαίδευση και κατάρτιση</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="en">European credit system for vocational education and training</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="es">Sistema Europeo de Créditos para la Formación Profesional</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="et">Euroopa kutsehariduse ja -koolituse ainepunktide süsteem</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="fi">Ammatillisen koulutuksen opintosuoritusten eurooppalainen siirtojärjestelmä</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="fr">Système européen de crédits d’apprentissages pour l’enseignement et la formation professionnels</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="ga">An Córas Creidiúna Eorpach don Ghairmoideachas agus don Ghairmoiliúint</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="hr">Europski sustav bodova u strukovnom obrazovanju i osposobljavanju</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="hu">Európai szakképzési kreditrendszer</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="is">Evrópska einingakerfið fyrir starfsmenntun (ECVET)</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="it">Sistema europeo di crediti per l'istruzione e la formazione professionale.</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="lt">Europos profesinio mokymo kreditų sistema</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="lv">Eiropas kredītpunktu sistēma profesionālās izglītības un apmācības jomā</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="mk">Европски Кредитен Систем за Стручно Образование и Обука</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="mt">Sistema Ewropea ta' Krediti għall-Edukazzjoni u t-Taħriġ Vokazzjonali</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="nl">Europees puntenoverdrachtsysteem voor beroepsonderwijs en –opleiding (ECSVET)</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="no">ECTS (European Credit Transfer System) for yrkesutdanning og yrkesopplæring</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="pl">Europejski system transferu osiągnięć w kształceniu i szkoleniu zawodowym</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="pt">Sistema Europeu de Créditos do Ensino e Formação Profissionais</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="ro">Sistemul european de credite pentru educație și formare profesională</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sk">Európsky systém kreditov pre odborné vzdelávanie a prípravu</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sl">Evropski sistem kreditnih točk v poklicnem izobraževanju in usposabljanju</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sr">Evropski kreditni sistem za stručno obrazovanje i osposobljavanje</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sv">Det europeiska systemet för meritöverföring inom yrkesutbildningen</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="tr">Europass Mesleki Öğrenim ve Eğitim Kredi Sistemi</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_03f815ae49b1"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_04eaab69aedf"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_11a6d93c5244"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_1365067746c4"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_2113655bd8d6"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_2ec976b429cf"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_4faa73db7ff1"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_522ab1b148ad"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_5e8920d1935a"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_5fe06fcc29ae"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_6149347ab437"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_64e2e179281f"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_872def319e78"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_87f14534ab"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_8b4f8a8e8ed7"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_8c561c55f847"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_912e4e11398e"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_99ea784dffce"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_a65d1870422c"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_b33b75b6faa2"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_b41d9444723f"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_cd764eb63200"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_cdaf888bdb1d"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_ce6d81fd3030"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_cf07775bd5b0"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_e1f26629c020"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_ead5738480c4"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_f752b9b904fa"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_fdc665d234bd"/>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<xlNotation xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/education-credit/notation_3736de7df4e335d4f3e82c106ed2f414"/>
+	<xlNotation xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/education-credit/notation_4fefb91101"/>
+	<inScheme xmlns="http://www.w3.org/2004/02/skos/core#" rdf:resource="http://data.europa.eu/snb/education-credit/25831c2"/>
+	<notation xmlns="http://www.w3.org/2004/02/skos/core#">60b314e826</notation>
+	<notation xmlns="http://www.w3.org/2004/02/skos/core#">ECVET</notation>
+	<topConceptOf xmlns="http://www.w3.org/2004/02/skos/core#" rdf:resource="http://data.europa.eu/snb/education-credit/25831c2"/>
+	<identifier xmlns="http://purl.org/dc/elements/1.1/">60b314e826</identifier>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/6fcec5c5af">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-03-18</created>
+	<modified xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-18</modified>
+	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="bg">Европейска система за трансфер и натрупване на кредити</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="cs">Evropský systém kreditů</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="da">Europæisk meritoverførselssystem (ECTS)</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="de">Europäisches System zur Anrechnung von Studienleistungen</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="el">Ευρωπαϊκό σύστημα μεταφοράς ακαδημαϊκών μονάδων</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="en">European Credit Transfer System</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="es">Sistema Europeo de Transferencia de Créditos</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="et">Euroopa ainepunktisüsteem</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="fi">Eurooppalainen opintosuoritusten ja arvosanojen siirtojärjestelmä</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="fr">Système européen de transfert de crédits d’enseignement</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="ga">An Córas Eorpach Aistrithe Creidiúna</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="hr">Europski sustav prijenosa bodova</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="hu">Európai kreditátviteli rendszer</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="is">Evrópska viðurkenningarkerfið fyrir námseiningar (ECTS)</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="it">Sistema europeo di trasferimento dei crediti</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="lt">Europos kreditų perkėlimo sistema</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="lv">Eiropas kredītpunktu pārneses sistēma</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="mk">Европски Кредитен Трансфер Систем</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="mt">Sistema Ewropea għat-Trasferiment ta' Krediti</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="nl">Europees puntenoverdrachtsysteem (ECTS)</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="no">ECTS (European Credit Transfer System)</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="pl">Europejski system transferu punktów</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="pt">Sistema Europeu de Transferência de Créditos</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="ro">Sistemul european de credite transferabile</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sk">Európsky systém prenosu kreditov</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sl">Evropski sistem prenašanja kreditnih točk</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sr">Evropski sistem prenosa bodova</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sv">Det europeiska systemet för överföring av studiemeriter</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="tr">Avrupa Kredi Transfer Sistemi</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_0d284ceb6763"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_219fc49ac090"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_29e8fb6af7a1"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_35e1103cd982"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_3924a47a4810"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_3bf069b2eee3"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_58174eab109e"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_5cb502f44943"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_636d45dbd03e"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_637938af42b8"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_6c7abff74ef5"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_6ee3766059bc"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_7665057e7c48"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_7c721ebefb7c"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_83c573b2ba3a"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_84aefe14244a"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_8ffac4db9517"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_9876437de8b0"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_a0027e4324ac"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_a03bcaebe413"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_a12fd13b9084"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_a20a350e9c22"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_a348b461adce"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_d1e9baaa5203"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_dd6587c0185c"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_f7f103e8ac2c"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_fa891ec4c6"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/label_fb39b7d1ffd9"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/education-credit/xl_bg_861c91f1"/>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<xlNotation xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/education-credit/notation_21d58f4bcc"/>
+	<xlNotation xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/education-credit/notation_43f900897bfe1234e92c693788746f43"/>
+	<inScheme xmlns="http://www.w3.org/2004/02/skos/core#" rdf:resource="http://data.europa.eu/snb/education-credit/25831c2"/>
+	<notation xmlns="http://www.w3.org/2004/02/skos/core#">6fcec5c5af</notation>
+	<notation xmlns="http://www.w3.org/2004/02/skos/core#">ECTS</notation>
+	<topConceptOf xmlns="http://www.w3.org/2004/02/skos/core#" rdf:resource="http://data.europa.eu/snb/education-credit/25831c2"/>
+	<identifier xmlns="http://purl.org/dc/elements/1.1/">6fcec5c5af</identifier>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_001e761ab95a">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-18</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="tr">Europass Eğitim Kredisi Sistemleri Standart Listesi</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_06ca83002eef">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-18</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="et">Europassi ainepunktisüsteemide standardloend</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_073efd99bc0d">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-18</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="mt">Lista Standard tal-Europass ta’ Sistemi ta’ Krediti tal-Edukazzjoni</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_191ded5feb87">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-18</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="es">Lista normalizada de tipos de sistemas de créditos de educación de Europass</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_226f8f09e613">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-18</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="fr">Liste standard des systèmes de crédits d’enseignement Europass</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_2c0a759dfbb9">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-18</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="sk">Štandardný zoznam typov vzdelávacích kreditných systémov podľa štandardu Europass</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_6419d9d645f2">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-18</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="de">Europass-Standardliste der Leistungspunktesysteme für die Bildung</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_6863575499ef">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-18</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="hr">Europassov standardni popis bodovnih sustava u obrazovanju</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_6a57145555fb">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-18</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="fi">Europass-standardien luettelo: Opintosuoritusjärjestelmät</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_733cd563e3ce">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-18</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="mk">Europass Стандардна Листа на Кредитни Системи за Образование</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_77c5d8c73dc9">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-18</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="cs">Seznam kreditních vzdělávacích systémů podle standardu Europass</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_85090571589b">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-18</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="bg">Стандартен списък Европас на системите за образователни кредити</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_866148cc7098">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-18</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="lt">Standartinis „Europass“ mokymosi kreditų sistemų sąrašas</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_9e20aecb1f">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-03-18</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="en">Europass Standard List Of Education Credit Systems</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_a979c2c86062">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-18</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="pl">Standardowa lista Europass systemów transferu osiągnięć w edukacji</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_b0e85736ad74">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-18</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="sv">Europass standardförteckning över utbildningsmeritsystem</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_b29b9802e103">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-18</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="lv">Europass aptvertās mācību kredītpunktu sistēmas</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_b550ef5205ad">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-18</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="ro">Lista sistemelor de credite în educație conform standardelor Europass</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_b8b5ffc35f5a">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-18</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="hu">Oktatási kreditrendszerek szabványos Europass-listája</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_ba1b552c1c17">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-18</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="is">Staðlaður listi Europass – Námseiningakerfi</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_bb9bedba4470">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-18</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="sr">Europass standardna lista akreditovanih sistema obrazovanja</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_c0245d01ddec">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-18</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="pt">Lista normalizada Europass de sistemas de créditos de educação</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_ca1ac57c6a1f">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-18</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="el">Τυποποιημένος κατάλογος Europass για συστήματα διδακτικών μονάδων</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_d722e4efc23f">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-18</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="da">Europass – standardliste over meritoverførselssystemer</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_daf840c48a06">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-18</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="it">Elenco standard Europass dei sistemi di crediti per l'istruzione</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_e03ab2b56955">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-18</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="nl">Europass-standaardlijst studiepuntensystemen</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_e341024d5457">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-18</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="no">Europass-standarder for studiepoengsystemer</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_eae111f62f32">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-18</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="sl">Standardni seznam kreditnih sistemov izobraževanja Europass</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_ebd852a7b127">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-18</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="ga">Liosta Caighdeánach Europass de Chórais Creidmheasa Oideachais</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/notation_3736de7df4e335d4f3e82c106ed2f414">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-03-18</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNotation"/>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<rdf:value>60b314e826</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/notation_4fefb91101">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-03-18</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNotation"/>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<rdf:value>ECVET</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_03f815ae49b1">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="nl">Europees puntenoverdrachtsysteem voor beroepsonderwijs en –opleiding (ECSVET)</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_04eaab69aedf">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="sl">Evropski sistem kreditnih točk v poklicnem izobraževanju in usposabljanju</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_11a6d93c5244">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="lt">Europos profesinio mokymo kreditų sistema</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_1365067746c4">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="pl">Europejski system transferu osiągnięć w kształceniu i szkoleniu zawodowym</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_2113655bd8d6">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="el">Ευρωπαϊκό σύστημα ακαδημαϊκών μονάδων για την επαγγελματική εκπαίδευση και κατάρτιση</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_2ec976b429cf">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="bg">Европейска система за трансфер на кредити в професионалното образование и обучение</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_4faa73db7ff1">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="ro">Sistemul european de credite pentru educație și formare profesională</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_522ab1b148ad">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="es">Sistema Europeo de Créditos para la Formación Profesional</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_5e8920d1935a">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="sk">Európsky systém kreditov pre odborné vzdelávanie a prípravu</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_5fe06fcc29ae">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="lv">Eiropas kredītpunktu sistēma profesionālās izglītības un apmācības jomā</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_6149347ab437">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="cs">Evropský systém kreditů pro odborné vzdělávání a přípravu</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_64e2e179281f">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="pt">Sistema Europeu de Créditos do Ensino e Formação Profissionais</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_872def319e78">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="tr">Europass Mesleki Öğrenim ve Eğitim Kredi Sistemi</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_87f14534ab">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-03-18</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="en">European credit system for vocational education and training</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_8b4f8a8e8ed7">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="et">Euroopa kutsehariduse ja -koolituse ainepunktide süsteem</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_8c561c55f847">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="da">Europæisk meritoverførselssystem for erhvervsuddannelse</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_912e4e11398e">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="hr">Europski sustav bodova u strukovnom obrazovanju i osposobljavanju</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_99ea784dffce">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="de">Europäisches Leistungspunktesystem für die Berufsbildung</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_a65d1870422c">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="mt">Sistema Ewropea ta' Krediti għall-Edukazzjoni u t-Taħriġ Vokazzjonali</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_b33b75b6faa2">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="mk">Европски Кредитен Систем за Стручно Образование и Обука</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_b41d9444723f">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="hu">Európai szakképzési kreditrendszer</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_cd764eb63200">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="ga">An Córas Creidiúna Eorpach don Ghairmoideachas agus don Ghairmoiliúint</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_cdaf888bdb1d">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="fr">Système européen de crédits d’apprentissages pour l’enseignement et la formation professionnels</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_ce6d81fd3030">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="sv">Det europeiska systemet för meritöverföring inom yrkesutbildningen</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_cf07775bd5b0">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="is">Evrópska einingakerfið fyrir starfsmenntun (ECVET)</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_e1f26629c020">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="no">ECTS (European Credit Transfer System) for yrkesutdanning og yrkesopplæring</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_ead5738480c4">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="sr">Evropski kreditni sistem za stručno obrazovanje i osposobljavanje</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_f752b9b904fa">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="fi">Ammatillisen koulutuksen opintosuoritusten eurooppalainen siirtojärjestelmä</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_fdc665d234bd">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="it">Sistema europeo di crediti per l'istruzione e la formazione professionale.</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/notation_21d58f4bcc">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-03-18</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNotation"/>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<rdf:value>ECTS</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/notation_43f900897bfe1234e92c693788746f43">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-03-18</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNotation"/>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<rdf:value>6fcec5c5af</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_0d284ceb6763">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="lt">Europos kreditų perkėlimo sistema</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_219fc49ac090">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="cs">Evropský systém kreditů</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_29e8fb6af7a1">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="fr">Système européen de transfert de crédits d’enseignement</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_35e1103cd982">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="mk">Европски Кредитен Трансфер Систем</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_3924a47a4810">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="mt">Sistema Ewropea għat-Trasferiment ta' Krediti</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_3bf069b2eee3">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="da">Europæisk meritoverførselssystem (ECTS)</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_58174eab109e">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="sv">Det europeiska systemet för överföring av studiemeriter</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_5cb502f44943">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="no">ECTS (European Credit Transfer System)</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_636d45dbd03e">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="hr">Europski sustav prijenosa bodova</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_637938af42b8">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="hu">Európai kreditátviteli rendszer</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_6c7abff74ef5">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="ga">An Córas Eorpach Aistrithe Creidiúna</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_6ee3766059bc">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="sk">Európsky systém prenosu kreditov</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_7665057e7c48">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="ro">Sistemul european de credite transferabile</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_7c721ebefb7c">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="pt">Sistema Europeu de Transferência de Créditos</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_83c573b2ba3a">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="es">Sistema Europeo de Transferencia de Créditos</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_84aefe14244a">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="lv">Eiropas kredītpunktu pārneses sistēma</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_8ffac4db9517">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="is">Evrópska viðurkenningarkerfið fyrir námseiningar (ECTS)</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_9876437de8b0">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="pl">Europejski system transferu punktów</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_a0027e4324ac">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="it">Sistema europeo di trasferimento dei crediti</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_a03bcaebe413">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="sl">Evropski sistem prenašanja kreditnih točk</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_a12fd13b9084">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="de">Europäisches System zur Anrechnung von Studienleistungen</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_a20a350e9c22">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="et">Euroopa ainepunktisüsteem</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_a348b461adce">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="tr">Avrupa Kredi Transfer Sistemi</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_d1e9baaa5203">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="sr">Evropski sistem prenosa bodova</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_dd6587c0185c">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="fi">Eurooppalainen opintosuoritusten ja arvosanojen siirtojärjestelmä</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_f7f103e8ac2c">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="el">Ευρωπαϊκό σύστημα μεταφοράς ακαδημαϊκών μονάδων</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_fa891ec4c6">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-03-18</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="en">European Credit Transfer System</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/label_fb39b7d1ffd9">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="nl">Europees puntenoverdrachtsysteem (ECTS)</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/education-credit/xl_bg_861c91f1">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2021-01-06</created>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-24</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="bg">Европейска система за трансфер и натрупване на кредити</literalForm>
+</rdf:Description>
+
+</rdf:RDF>

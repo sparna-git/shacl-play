@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.w3.org/ns/regorg#"
+           targetNamespace="http://www.w3.org/ns/regorg#"
+           xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+           xmlns:org="http://www.w3.org/ns/org#"
+           xmlns:adms="http://www.w3.org/ns/adms#" elementFormDefault="qualified">
+
+    <xs:import namespace="http://www.w3.org/2000/01/rdf-schema#" schemaLocation="rdfs.xsd"/>
+    <xs:import namespace="http://www.w3.org/2004/02/skos/core#" schemaLocation="skos.xsd"/>
+    <xs:import namespace="http://www.w3.org/ns/org#" schemaLocation="org.xsd"/>
+    <xs:import namespace="http://www.w3.org/ns/adms#" schemaLocation="adms.xsd"/>
+
+
+    <xs:element name="RegisteredOrganization" type="RegisteredOrganizationType"/>
+
+    <xs:element name="legalName" type="rdfs:LiteralType"/>
+    <xs:element name="registration" type="adms:IdentifierType"/>
+
+    <xs:complexType name="RegisteredOrganizationType">
+        <xs:annotation>
+            <xs:documentation/>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="org:OrganizationType">
+                <xs:sequence>
+                    <xs:element ref="legalName" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element ref="registration" minOccurs="0" maxOccurs="unbounded"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+</xs:schema>

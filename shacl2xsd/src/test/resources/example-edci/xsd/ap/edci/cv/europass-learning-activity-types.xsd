@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:skos="http://www.w3.org/2004/02/skos/core#"
+    xmlns="http://data.europa.eu/snb/learning-activity/25831c2"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://data.europa.eu/snb/learning-activity/25831c2">
+    <xs:simpleType name="LearningActivityTypesEnumType">
+        <xs:restriction base="xs:anyURI">
+            <xs:enumeration value="http://data.europa.eu/snb/learning-activity/3c8bd58d62">
+                <xs:annotation>
+                    <xs:documentation>lab / simulation / practice coursework</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/learning-activity/4357e0e681">
+                <xs:annotation>
+                    <xs:documentation>job experience</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/learning-activity/59eaf34fab">
+                <xs:annotation>
+                    <xs:documentation>volunteering</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/learning-activity/a7e556215a">
+                <xs:annotation>
+                    <xs:documentation>research</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/learning-activity/b660f5dcea">
+                <xs:annotation>
+                    <xs:documentation>self-motivated study</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/learning-activity/bf2e3a7bae">
+                <xs:annotation>
+                    <xs:documentation>e-learning coursework</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/learning-activity/bf5588ff84">
+                <xs:annotation>
+                    <xs:documentation>internship</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/learning-activity/d46a826a39">
+                <xs:annotation>
+                    <xs:documentation>apprenticeship</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/learning-activity/efff75e10a">
+                <xs:annotation>
+                    <xs:documentation>workshop, seminar or conference</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/learning-activity/fd33e234ae">
+                <xs:annotation>
+                    <xs:documentation>educational programme</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/learning-activity/ff436ea7c9">
+                <xs:annotation>
+                    <xs:documentation>classroom coursework</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>

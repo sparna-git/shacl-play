@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns="http://www.w3.org/2000/01/rdf-schema#"
+           targetNamespace="http://www.w3.org/2000/01/rdf-schema#"
+           elementFormDefault="qualified">
+    
+    <xs:element name="literal" type="LiteralType"/>
+    <xs:complexType name="LiteralType">
+        <xs:annotation>
+            <xs:documentation></xs:documentation>
+        </xs:annotation>
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="language" type="xs:normalizedString"/>
+                <xs:attribute name="datatype" type="xs:anyURI"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+</xs:schema>

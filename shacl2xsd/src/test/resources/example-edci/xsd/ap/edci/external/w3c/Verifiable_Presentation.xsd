@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://data.europa.eu/snb/model/w3c/vp#"
+    targetNamespace="http://data.europa.eu/snb/model/w3c/vp#"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    elementFormDefault="qualified">
+    <xs:annotation>
+        <xs:documentation>The W3C Verifiable Presentation Recommendation does not provide an XML Schema for describing Verifiable Presentations.</xs:documentation>
+    </xs:annotation>
+    
+    <xs:element name="VerifiablePresentation" type="VerifiablePresentationType">
+        <xs:annotation>
+            <xs:documentation>This is the root class of VerifiablePresentation</xs:documentation>
+        </xs:annotation>
+    </xs:element>
+    
+    <xs:complexType name="VerifiablePresentationType">
+        <xs:annotation>
+            <xs:documentation>A verifiable presentation of a set of credentials. A composition of a set of credentials that can be presented to and verified by a verifier.</xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="id" type="IdType">
+            <xs:annotation>
+                <xs:documentation>A portable identifier of the presentation.
+                    (i.e. a urn in the uuid namespace, urn:uuid:f81d4fae-7dec-11d0-a765-00a0c91e6bf6)</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+    
+    <xs:simpleType name="IdType">
+        <xs:annotation>
+            <xs:documentation>A portable identifier of an entity (i.e. a urn in the uuid namespace).</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:anyURI"/>
+    </xs:simpleType>
+</xs:schema>

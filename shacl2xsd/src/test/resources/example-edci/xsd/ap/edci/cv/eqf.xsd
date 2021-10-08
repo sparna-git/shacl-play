@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns="http://data.europa.eu/snb/eqf/25831c2"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://data.europa.eu/snb/eqf/25831c2">
+    <xs:simpleType name="EQFLevelEnumType">
+        <xs:restriction base="xs:anyURI">
+            <xs:enumeration value="http://data.europa.eu/snb/eqf/1">
+                <xs:annotation>
+                    <xs:documentation>Level 1</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/eqf/2">
+                <xs:annotation>
+                    <xs:documentation>Level 2</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/eqf/3">
+                <xs:annotation>
+                    <xs:documentation>Level 3</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/eqf/4">
+                <xs:annotation>
+                    <xs:documentation>Level 4</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/eqf/5">
+                <xs:annotation>
+                    <xs:documentation>Level 5</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/eqf/6">
+                <xs:annotation>
+                    <xs:documentation>Level 6</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/eqf/7">
+                <xs:annotation>
+                    <xs:documentation>Level 7</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/eqf/8">
+                <xs:annotation>
+                    <xs:documentation>Level 8</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>

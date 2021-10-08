@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:skos="http://www.w3.org/2004/02/skos/core#"
+    xmlns="http://data.europa.eu/snb/supervision-verification/25831c2"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://data.europa.eu/snb/supervision-verification/25831c2">
+    <xs:simpleType name="MethodsOfSupervisionAndVerificationEnumType">
+        <xs:restriction base="xs:anyURI">
+            <xs:enumeration value="http://data.europa.eu/snb/supervision-verification/44314532f9">
+                <xs:annotation>
+                    <xs:documentation>Supervised without ID Verification</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/supervision-verification/70be69aaf9">
+                <xs:annotation>
+                    <xs:documentation>Supervised with ID Verification</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/supervision-verification/c598449d64">
+                <xs:annotation>
+                    <xs:documentation>Unsupervised without ID Verification</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/supervision-verification/df2880c5cb">
+                <xs:annotation>
+                    <xs:documentation>Unsupervised with ID Verification</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>

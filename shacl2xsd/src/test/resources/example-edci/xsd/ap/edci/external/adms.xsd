@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://www.w3.org/ns/adms#"
+           targetNamespace="http://www.w3.org/ns/adms#"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:dc="http://purl.org/dc/terms/"
+           xmlns:skos="http://www.w3.org/2004/02/skos/core#"
+           elementFormDefault="qualified">
+
+    <xs:import namespace="http://purl.org/dc/terms/" schemaLocation="dc.xsd"/>
+    <xs:import namespace="http://www.w3.org/2004/02/skos/core#" schemaLocation="skos.xsd"/>
+
+    <xs:element name="Identifier" type="IdentifierType"/>
+    <xs:element name="identifier" type="IdentifierType"/>
+
+    <xs:complexType name="IdentifierType">
+        <xs:annotation>
+            <xs:documentation/>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element ref="skos:notation"/>
+            <xs:element minOccurs="0" ref="dc:creator"/>
+            <xs:element minOccurs="0" name="schemeAgency" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>The name of the agent that manages the identifier scheme.
+                        The agent that issued the identifier.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element minOccurs="0" ref="dc:issued"/>
+        </xs:sequence>
+    </xs:complexType>
+
+</xs:schema>

@@ -8,6 +8,7 @@
 @prefix esco:   <http://data.europa.eu/esco/model#>.
 @prefix elm:    <https://data.europa.eu/snb/model#>.
 @prefix shacl-play:    <http://shacl-play.sparna.fr/ontology#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 # The NodeShape
 edci-c:MyBeautifulEuropassCredentialShape 

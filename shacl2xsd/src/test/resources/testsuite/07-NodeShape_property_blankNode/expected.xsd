@@ -16,12 +16,12 @@
     <!-- list of XML elements corresponding to properties -->
     <xs:element name="attachment" type="MediaObjectType"/> 
 
-    <xs:complexType name="EuropassCredentialType">
-        <xs:attribute name="id" use="required" type="xs:anyURI" />
+    <xs:complexType name="EuropassCredentialType">        
         <xs:sequence>
             <!-- no cardinalities, so minOccurs=0, maxoccurs=unbounded -->
             <xs:element ref="attachment" minOccurs="0" maxOccurs="unbounded" />
-        </xs:sequence>        
+        </xs:sequence>
+        <xs:attribute name="id" use="required" type="xs:anyURI" />     
     </xs:complexType>
 
     <xs:complexType name="MediaObjectType">

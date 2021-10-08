@@ -1,0 +1,76 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<xs:schema xmlns="http://data.europa.eu/snb/model#"
+           targetNamespace="http://data.europa.eu/snb/model#"
+           xmlns:elm="http://data.europa.eu/snb/model#"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           version="1.0.0" elementFormDefault="qualified">
+    
+    <!-- List of XML elements corresponding to classes -->
+    <xs:element name="EuropassCredential" type="EuropassCredentialType"/>
+    <xs:element name="MediaObject" type="MediaObjectType"/>
+
+    <!-- List of XML elements corresponding to classes, as property reference -->
+    <xs:element name="europassCredential" type="EuropassCredentialType">
+        <!-- 5. declare a key on the root element -->
+        <xs:key name="mediaObjectKey">
+            <xs:selector xpath="elm:mediaObjectReferences/elm:mediaObject"/>
+            <xs:field xpath="@id"/>
+        </xs:key>
+
+        <!-- 6. declare a keyref for every property that uses a reference -->
+        <xs:keyref name="attachmentKeyref" refer="mediaObjectKey">
+            <xs:selector xpath="elm:attachment"/>
+            <xs:field xpath="@idref"/>
+        </xs:keyref>
+    </xs:element>
+    <!-- 4a. The XML elements corresponding to the class must have a type="IdReferenceType" -->
+    <xs:element name="mediaObject" type="IdReferenceType"/>
+
+    <!-- list of XML elements corresponding to properties -->
+    <!-- 4b. The XML elements corresponding to the properties that refer to this class must have a type="IdReferenceType" -->
+    <xs:element name="attachment" type="IdReferenceType"/> 
+    <xs:element name="anotherProperty" type="xs:string"/> 
+
+    <!-- 1. declare a MediaObjectReferences element, pointing to corresponding type -->
+    <!-- list of XML elements corresponding to references -->
+    <xs:element name="mediaObjectReferences" type="MediaObjectReferencesType" />
+
+    <xs:complexType name="EuropassCredentialType">    	
+        <xs:sequence>
+            <!-- no cardinalities, so minOccurs=0, maxoccurs=unbounded -->
+            <xs:element ref="attachment" minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>   
+        <xs:attribute name="id" use="required" type="xs:anyURI" />     
+    </xs:complexType>
+
+    <xs:complexType name="MediaObjectType">
+        <xs:sequence>
+            <xs:element ref="anotherProperty" minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>   
+        <xs:attribute name="id" use="required" type="xs:anyURI" />  
+    </xs:complexType>
+
+    <!-- 2. Declare the MediaObjectReferencesType, containing mediaObject elements -->
+    <!-- References types, at the end, after the others -->
+    <xs:complexType name="MediaObjectReferencesType">
+        <!-- TODO : this should be a choice for LearningAchievementSpecificationReferencesType -->
+        <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="mediaObject" type="MediaObjectType" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- 3. Declare this complexType, always if there is at least one element using
+    references -->
+    <xs:complexType name="IdReferenceType">
+        <xs:annotation>
+            <xs:documentation>A link or reference to another entity record in the document.</xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="idref" type="xs:anyURI" use="required">
+            <xs:annotation>
+                <xs:documentation>The id of the referenced entity (record).</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+
+</xs:schema>

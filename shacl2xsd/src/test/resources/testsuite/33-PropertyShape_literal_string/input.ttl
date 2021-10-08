@@ -1,0 +1,32 @@
+@prefix elm:    <https://data.europa.eu/snb/model#>.
+@prefix edci-c:    <https://data.europa.eu/snb/model/edci-constraints#>.
+@prefix sh:     <http://www.w3.org/ns/shacl#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix esco:   <http://data.europa.eu/esco/model#>.
+@prefix elm:    <https://data.europa.eu/snb/model#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# The NodeShape
+edci-c:LearningAssessmentShape 
+  a sh:NodeShape; 
+  sh:targetClass elm:LearningAssessment; 
+  sh:property edci-c:LearningAssessment-elm_grade;
+  sh:property edci-c:LearningAssessment-elm_grade_date;
+  .
+
+edci-c:LearningAssessment-elm_grade
+  a sh:PropertyShape; 
+  sh:path elm:grade;
+  sh:datatype xsd:string;
+  sh:maxCount 1;
+  .  
+
+edci-c:LearningAssessment-elm_grade_date
+  a sh:PropertyShape; 
+  sh:path elm:grade_date;
+  sh:datatype xsd:date;
+  sh:minCount 1;
+  .  

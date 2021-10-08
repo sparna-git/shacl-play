@@ -1,0 +1,19 @@
+@prefix elm:    <https://data.europa.eu/snb/model#>.
+@prefix edci-c:    <https://data.europa.eu/snb/model/edci-constraints#>.
+@prefix sh:     <http://www.w3.org/ns/shacl#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+
+# The NodeShape
+edci-c:MyBeautifulEuropassCredentialShape 
+  a sh:NodeShape; 
+  sh:targetClass elm:EuropassCredential; 
+  .
+
+###### Ontology part
+
+elm:EuropassCredential 
+   a rdfs:Class;
+   a owl:Class;
+   rdfs:comment "Blah blah"@en;
+.

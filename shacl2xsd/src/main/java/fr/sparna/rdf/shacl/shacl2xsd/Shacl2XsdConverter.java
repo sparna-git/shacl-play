@@ -114,7 +114,9 @@ public class Shacl2XsdConverter {
 
 		// Section Prefix
 		for (NamespaceSection rprefix : rPrefix) {
-			root.setAttribute("xmlns:" + rprefix.getprefix(), rprefix.getnamespace());
+			if(!rprefix.getnamespace().equals("http://www.w3.org/2001/XMLSchema#")) {
+				root.setAttribute("xmlns:" + rprefix.getprefix(), rprefix.getnamespace());
+			}
 		}
 
 		for (OntologyImports rOwlImport : owlData.getOntoImports()) {
@@ -433,7 +435,6 @@ public class Shacl2XsdConverter {
 
 		// <!-- 3. Declare this complexType, always if there is at least one element using references -->
 		if (bReference) {
-			System.out.print("Pasa"+bReference);
 			Element complexIdReference = doc.createElementNS("http://www.w3.org/2001/XMLSchema", "xs:complexType");
 			complexIdReference.setAttribute("name", "IdReferenceType");
 

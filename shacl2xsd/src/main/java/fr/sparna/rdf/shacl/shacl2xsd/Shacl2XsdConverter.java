@@ -190,7 +190,7 @@ public class Shacl2XsdConverter {
 								"xs:selector");
 						rootElementSelector.setAttribute("xpath", strclass + "References/" + strclass);
 						Element rootElementfield = doc.createElementNS("http://www.w3.org/2001/XMLSchema", "xs:field");
-						rootElementfield.setAttribute("xs:field", "@id");
+						rootElementfield.setAttribute("xpath", "@id");
 
 						classElementLowerCase.appendChild(rootElement);
 						rootElement.appendChild(rootElementSelector);
@@ -216,15 +216,14 @@ public class Shacl2XsdConverter {
 							String classnameRef = propertyResource.getValue_class_property();
 							String strclassRef = classnameRef.replaceFirst(classnameRef.substring(0, 1),classnameRef.substring(0, 1).toLowerCase());
 
-							Element rootElementRef = doc.createElementNS("http://www.w3.org/2001/XMLSchema", "xs:key");
+							Element rootElementRef = doc.createElementNS("http://www.w3.org/2001/XMLSchema", "xs:keyref");
 							rootElementRef.setAttribute("name", propertyResource.getValue_path() + "Keyref");
 							rootElementRef.setAttribute("refer", strclassRef + "Key");
 
 							Element rootElementSelectorRef = doc.createElementNS("http://www.w3.org/2001/XMLSchema","xs:selector");
 							rootElementSelectorRef.setAttribute("xpath", propertyResource.getValue_path());
-							Element rootElementfieldRef = doc.createElementNS("http://www.w3.org/2001/XMLSchema",
-									"xs:field");
-							rootElementfieldRef.setAttribute("xs:field", "@idref");
+							Element rootElementfieldRef = doc.createElementNS("http://www.w3.org/2001/XMLSchema","xs:field");
+							rootElementfieldRef.setAttribute("xpath", "@idref");
 
 							classElementLowerCase.appendChild(rootElementRef);
 							rootElementRef.appendChild(rootElementSelectorRef);

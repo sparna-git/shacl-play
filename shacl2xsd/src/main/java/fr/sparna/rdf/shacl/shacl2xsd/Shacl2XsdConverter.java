@@ -307,7 +307,7 @@ public class Shacl2XsdConverter {
 			root.appendChild(complexType);
 
 			for (OntologyClass readOwlClass : owlData.getOntoClass()) {
-				if (readOwlClass.getCommentRDFS() != null & readOwlClass.getClassName().equals(strClasse)) {
+				if (readOwlClass.getCommentRDFS() != null && readOwlClass.getClassName().equals(strClasse)) {
 					Element attAnnotation = doc.createElementNS("http://www.w3.org/2001/XMLSchema", "xs:annotation");
 					Element attAnnotationDocument = doc.createElementNS("http://www.w3.org/2001/XMLSchema","xs:documentation");
 					attAnnotationDocument.setTextContent(readOwlClass.getCommentRDFS());

@@ -104,8 +104,7 @@ public class ShaclXsdBoxReader {
 					}
 				}
 			}
-		});
-		 
+		});		 
 		return properties;	
 	}
 
@@ -143,7 +142,8 @@ public class ShaclXsdBoxReader {
 
 	public String readNametargetclass(Resource nodeShape) {
 		String value= null;
-		value = nodeShape.getProperty(SH.targetClass).getResource().getLocalName();
+		value = nodeShape.getModel().shortForm(nodeShape.getProperty(SH.targetClass).getResource().getURI());
+		
 		return value;
 		//return valueReader.readValueconstraint(nodeShape, SH.targetClass);
 	}

@@ -34,11 +34,13 @@
     <!-- list of XML elements corresponding to properties -->
     <!-- 4b. The XML elements corresponding to the properties that refer to this class must have a type="IdReferenceType" -->
     <xs:element name="attachment" type="IdReferenceType"/> 
-    <xs:element name="anotherProperty" type="xs:string"/> 
-
     <!-- 1. declare a MediaObjectReferences element, pointing to corresponding type -->
     <!-- list of XML elements corresponding to references -->
     <xs:element name="mediaObjectReferences" type="MediaObjectReferencesType" />
+    
+    <xs:element name="anotherProperty" type="xs:string"/> 
+
+   
 
     <xs:complexType name="EuropassCredentialType">    	
         <xs:sequence>

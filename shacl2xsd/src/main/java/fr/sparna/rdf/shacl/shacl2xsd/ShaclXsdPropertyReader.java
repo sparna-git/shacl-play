@@ -277,8 +277,6 @@ public class ShaclXsdPropertyReader {
 		if (constraint.hasProperty(SH.class_)) {
 			Resource idclass = constraint.getProperty(SH.class_).getResource();
 			value = idclass.getLocalName();
-			
-			System.out.println(value);
 		}	
 		
 		return value;

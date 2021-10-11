@@ -14,11 +14,13 @@
     <!-- list of XML elements corresponding to properties -->
     <xs:element name="grade" type="xs:string"/> 
     <xs:element name="grade_date" type="xs:date"/> 
+    <xs:element name="grade_literal" type="xs:string"/> 
 
     <xs:complexType name="LearningAssessmentType">
         <xs:sequence>
             <xs:element ref="grade" minOccurs="0" maxOccurs="1" />
             <xs:element ref="grade_date" minOccurs="1" maxOccurs="unbounded" />
+            <xs:element ref="grade_literal" minOccurs="0" maxOccurs="unbounded" />
         </xs:sequence>
         <xs:attribute name="id" use="required" type="xs:anyURI" />
     </xs:complexType>

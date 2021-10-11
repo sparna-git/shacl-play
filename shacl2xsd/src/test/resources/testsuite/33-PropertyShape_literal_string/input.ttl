@@ -15,6 +15,7 @@ edci-c:LearningAssessmentShape
   sh:targetClass elm:LearningAssessment; 
   sh:property edci-c:LearningAssessment-elm_grade;
   sh:property edci-c:LearningAssessment-elm_grade_date;
+  sh:property edci-c:LearningAssessment-elm_grade_literal;
   .
 
 edci-c:LearningAssessment-elm_grade
@@ -29,4 +30,10 @@ edci-c:LearningAssessment-elm_grade_date
   sh:path elm:grade_date;
   sh:datatype xsd:date;
   sh:minCount 1;
+  .  
+
+edci-c:LearningAssessment-elm_grade_literal
+  a sh:PropertyShape; 
+  sh:path elm:grade_literal;
+  sh:nodeKind sh:Literal;
   .  

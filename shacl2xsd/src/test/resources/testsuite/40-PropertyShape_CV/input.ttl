@@ -1,0 +1,25 @@
+@prefix elm:    <https://data.europa.eu/snb/model#>.
+@prefix edci-c:    <https://data.europa.eu/snb/model/edci-constraints#>.
+@prefix sh:     <http://www.w3.org/ns/shacl#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix esco:   <http://data.europa.eu/esco/model#>.
+@prefix elm:    <https://data.europa.eu/snb/model#>.
+@prefix :    <https://data.europa.eu/snb/model/accreditation-constraints-mdr#>.
+@prefix accred:    <https://data.europa.eu/snb/model/accreditation-constraints#>.
+
+accred:AccreditationShape
+  a sh:NodeShape;
+  sh:targetClass elm:Accreditation;
+  sh:property [
+    sh:path elm:limitJurisdiction;
+    # property has sh:class skos:Concept
+    sh:class skos:Concept;
+    sh:description "The jurisdiction for which the accreditation is valid.It should be provided using the Country Named Authority List"@en;
+    sh:name "limitJurisdiction"@en;
+    sh:severity sh:Violation;
+    sh:order 1;
+  ];
+.

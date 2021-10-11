@@ -1,0 +1,19 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<xs:schema xmlns="http://data.europa.eu/snb/model#"
+           targetNamespace="http://data.europa.eu/snb/model#"
+           xmlns:elm="http://data.europa.eu/snb/model#"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           version="1.0.0" elementFormDefault="qualified">
+    
+    <xs:element name="EuropassCredential" type="EuropassCredentialType"/>
+
+    <xs:element name="europassCredential" type="EuropassCredentialType"/>
+
+    <xs:complexType name="EuropassCredentialType">
+        <!-- A NodeShape without any property generates a xs:simpleContent, with no id attribute -->
+        <xs:simpleContent>
+            <xs:extension base="xs:anyURI"/>
+        </xs:simpleContent>
+    </xs:complexType>
+
+</xs:schema>

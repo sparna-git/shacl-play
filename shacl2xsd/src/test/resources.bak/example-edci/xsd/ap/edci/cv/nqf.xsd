@@ -1,0 +1,2141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns="http://data.europa.eu/snb/qdr/25831c2"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://data.europa.eu/snb/qdr/25831c2">
+    <xs:simpleType name="NQFLevelEnumType">
+        <xs:restriction base="xs:anyURI">
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_009d9566">
+                <xs:annotation>
+                    <xs:documentation>Hungarian National Qualifications Framework</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_01169e3f">
+                <xs:annotation>
+                    <xs:documentation>Irish National Framework of Qualifications</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_027221dd">
+                <xs:annotation>
+                    <xs:documentation>Scottish Credit and Qualifications
+                        Framework</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_02d8bc18">
+                <xs:annotation>
+                    <xs:documentation>Italian Qualifications Framework</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_0d55867f">
+                <xs:annotation>
+                    <xs:documentation>Qualifications Framework of the German-speaking Community of
+                        Belgium</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_0ea90db7">
+                <xs:annotation>
+                    <xs:documentation>Hellenic National Qualifications Framework</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_0f8ae85c">
+                <xs:annotation>
+                    <xs:documentation>Slovenian Qualifications Framework</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_1205be37">
+                <xs:annotation>
+                    <xs:documentation>Turkish Qualifications Framework</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_20b3be22">
+                <xs:annotation>
+                    <xs:documentation>Luxembourg Qualifications Framework</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_2b5d39b2">
+                <xs:annotation>
+                    <xs:documentation>North Macedonian Qualifications Framework</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_2d1fde14">
+                <xs:annotation>
+                    <xs:documentation>Finnish National Qualifications Framework</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_2e41fe05">
+                <xs:annotation>
+                    <xs:documentation>Icelandic Qualifications Framework</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_36ff4631">
+                <xs:annotation>
+                    <xs:documentation>Credit and Qualifications Framework for
+                        Wales</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_4538e0af">
+                <xs:annotation>
+                    <xs:documentation>Austrian National Qualifications Framework</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_4e6a97ff">
+                <xs:annotation>
+                    <xs:documentation>Slovak National Qualifications Framework</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_54f4d62a">
+                <xs:annotation>
+                    <xs:documentation>Maltese National Qualifications Framework</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_59d0b819">
+                <xs:annotation>
+                    <xs:documentation>Croatian Qualifications Framework</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_5a1e9f89">
+                <xs:annotation>
+                    <xs:documentation>Portuguese National Qualifications
+                        Framework</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_5c66dcbc">
+                <xs:annotation>
+                    <xs:documentation>Dutch National Qualifications Framework</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_61ba90ec">
+                <xs:annotation>
+                    <xs:documentation>Danish National Qualifications Framework</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_69e1fd15">
+                <xs:annotation>
+                    <xs:documentation>Serbian Qualifications Framework</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_776b98db">
+                <xs:annotation>
+                    <xs:documentation>Montenegrin Qualifications Framework</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_97cf01c4">
+                <xs:annotation>
+                    <xs:documentation>Polish National Qualifications Framework</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_a6d433f4">
+                <xs:annotation>
+                    <xs:documentation>Lithuanian National Qualifications
+                        Framework</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_ac40cadc">
+                <xs:annotation>
+                    <xs:documentation>Latvian Qualifications Framework</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_ae44d998">
+                <xs:annotation>
+                    <xs:documentation>Norwegian Qualifications Framework</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_af98ac9a">
+                <xs:annotation>
+                    <xs:documentation>Czech National Register of Qualifications</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_afce1c3a">
+                <xs:annotation>
+                    <xs:documentation>Cypriot National Qualifications Framework</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_bc619568">
+                <xs:annotation>
+                    <xs:documentation>National Qualifications Framework for Lifelong Learning for
+                        Liechtenstein</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_c534839f">
+                <xs:annotation>
+                    <xs:documentation>Bulgarian Qualifications Framework</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_c8bc1cb9">
+                <xs:annotation>
+                    <xs:documentation>French National Qualifications Framework</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_d0a601e6">
+                <xs:annotation>
+                    <xs:documentation>Regulated Qualifications Framework (RQF) for England and
+                        Northern Ireland</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_d3b1f75e">
+                <xs:annotation>
+                    <xs:documentation>Albanian Qualifications Framework</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_d932c882">
+                <xs:annotation>
+                    <xs:documentation>Swedish National Qualifications Framework</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_da3760bf">
+                <xs:annotation>
+                    <xs:documentation>Bosnia and Herzegovina Qualifications
+                        Framework</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_df7373da">
+                <xs:annotation>
+                    <xs:documentation>Romanian National Qualifications Framework</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_e8c5bfbe">
+                <xs:annotation>
+                    <xs:documentation>Spanish Qualifications Framework for Lifelong
+                        Learning</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_e9fb041f">
+                <xs:annotation>
+                    <xs:documentation>Estonian Qualifications Framework</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_ed96825f">
+                <xs:annotation>
+                    <xs:documentation>Flemish qualifications framework</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_ef113b94">
+                <xs:annotation>
+                    <xs:documentation>German National Qualifications Framework</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_f3b785c7">
+                <xs:annotation>
+                    <xs:documentation>Qualifications Framework of the French Community of
+                        Belgium</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_f4790dbf">
+                <xs:annotation>
+                    <xs:documentation>Kosovo National Qualifications Framework</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_fcd47fb1">
+                <xs:annotation>
+                    <xs:documentation>National Qualifications Framework of Swiss Vocational and
+                        Professional Education</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_01be7324">
+                <xs:annotation>
+                    <xs:documentation>HuQF Level 1</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_13865e16">
+                <xs:annotation>
+                    <xs:documentation>HuQF Level 5</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_1b9935cd">
+                <xs:annotation>
+                    <xs:documentation>HuQF Level 2</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_9ec87162">
+                <xs:annotation>
+                    <xs:documentation>HuQF Level 6</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_b763e7c8">
+                <xs:annotation>
+                    <xs:documentation>HuQF Level 3</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_b9eadd5c">
+                <xs:annotation>
+                    <xs:documentation>HuQF Level 4</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_c2f4856f">
+                <xs:annotation>
+                    <xs:documentation>HuQF Level 7</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_ea1b27b9">
+                <xs:annotation>
+                    <xs:documentation>HuQF Level 8</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_060f2f91">
+                <xs:annotation>
+                    <xs:documentation>IE NQF Level 2</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_218a7e54">
+                <xs:annotation>
+                    <xs:documentation>IE NQF Level 8</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_38f52397">
+                <xs:annotation>
+                    <xs:documentation>IE NQF Level 7</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_4053e803">
+                <xs:annotation>
+                    <xs:documentation>IE NQF Level 5</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_4c88e501">
+                <xs:annotation>
+                    <xs:documentation>IE NQF Level 3</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_53e465cb">
+                <xs:annotation>
+                    <xs:documentation>IE NQF Level 1</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_57c9e957">
+                <xs:annotation>
+                    <xs:documentation>IE NQF Level 4</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_670e54c7">
+                <xs:annotation>
+                    <xs:documentation>IE NQF Level 6</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_ac9adabb">
+                <xs:annotation>
+                    <xs:documentation>IE NQF Level 10</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_c6ada0f4">
+                <xs:annotation>
+                    <xs:documentation>IE NQF Level 9</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_021f233f">
+                <xs:annotation>
+                    <xs:documentation>SCQF Level 10</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_2ce57891">
+                <xs:annotation>
+                    <xs:documentation>SCQF Level 2</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_31146b2c">
+                <xs:annotation>
+                    <xs:documentation>SCQF Level 3</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_326c93a5">
+                <xs:annotation>
+                    <xs:documentation>SCQF Level 7</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_505223a4">
+                <xs:annotation>
+                    <xs:documentation>SCQF Level 1</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_517309ca">
+                <xs:annotation>
+                    <xs:documentation>SCQF Level 11</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_5e46ea39">
+                <xs:annotation>
+                    <xs:documentation>SCQF Level 5</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_61aa9cbc">
+                <xs:annotation>
+                    <xs:documentation>SCQF Level 4</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_c167deaa">
+                <xs:annotation>
+                    <xs:documentation>SCQF Level 6</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_c3f2cd03">
+                <xs:annotation>
+                    <xs:documentation>SCQF Level 12</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_d9cf9fd5">
+                <xs:annotation>
+                    <xs:documentation>SCQF Level 8</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_e2e0f7fc">
+                <xs:annotation>
+                    <xs:documentation>SCQF Level 9</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_02c7fedc">
+                <xs:annotation>
+                    <xs:documentation>CyQF Level 1</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_1a6b4df9">
+                <xs:annotation>
+                    <xs:documentation>IT NQF Level 7</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_2151e983">
+                <xs:annotation>
+                    <xs:documentation>IT NQF Level 3</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_334b891b">
+                <xs:annotation>
+                    <xs:documentation>IT NQF Level 5</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_34a78e36">
+                <xs:annotation>
+                    <xs:documentation>IT NQF Level 8</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_5af633b3">
+                <xs:annotation>
+                    <xs:documentation>IT NQF Level 2</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_c160a2a0">
+                <xs:annotation>
+                    <xs:documentation>IT NQF Level 4</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_d7b593f0">
+                <xs:annotation>
+                    <xs:documentation>IT NQF Level 1</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_f875790f">
+                <xs:annotation>
+                    <xs:documentation>IT NQF Level 6</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_030f5138">
+                <xs:annotation>
+                    <xs:documentation>KS NQF Level 5</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_045fd11d">
+                <xs:annotation>
+                    <xs:documentation>PQF Level 5</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_04d23b42">
+                <xs:annotation>
+                    <xs:documentation>QDG Level 3</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_055b6cf8">
+                <xs:annotation>
+                    <xs:documentation>SeQF Level 8</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_064b59e6">
+                <xs:annotation>
+                    <xs:documentation>RQF Level 8</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_0966da79">
+                <xs:annotation>
+                    <xs:documentation>TQF Level 7</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_09d0ebb0">
+                <xs:annotation>
+                    <xs:documentation>CFC Level 6</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_0ab74a56">
+                <xs:annotation>
+                    <xs:documentation>MQF Level A</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_0b0b744e">
+                <xs:annotation>
+                    <xs:documentation>BQF Level 5</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_0b8188d7">
+                <xs:annotation>
+                    <xs:documentation>NKR Level 2</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_2af3aa2b">
+                <xs:annotation>
+                    <xs:documentation>QDG Level 7</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_4d0bef61">
+                <xs:annotation>
+                    <xs:documentation>QDG Level 2</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_ab42f62f">
+                <xs:annotation>
+                    <xs:documentation>QDG Level 1</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_cbec72ba">
+                <xs:annotation>
+                    <xs:documentation>QDG Level 8</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_f626da7f">
+                <xs:annotation>
+                    <xs:documentation>QDG Level 6</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_f8aa9cdb">
+                <xs:annotation>
+                    <xs:documentation>QDG Level 5</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_ffa6243f">
+                <xs:annotation>
+                    <xs:documentation>QDG Level 4</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_0e78414e">
+                <xs:annotation>
+                    <xs:documentation>AT: NQF Level 7</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_48930d0b">
+                <xs:annotation>
+                    <xs:documentation>HQF Level 3</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_5e8da33b">
+                <xs:annotation>
+                    <xs:documentation>HQF Level 6</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_60582329">
+                <xs:annotation>
+                    <xs:documentation>HQF Level 7</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_6640cf62">
+                <xs:annotation>
+                    <xs:documentation>HQF Level 2</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_7db10cb9">
+                <xs:annotation>
+                    <xs:documentation>HQF Level 5</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_c4deeb87">
+                <xs:annotation>
+                    <xs:documentation>HQF Level 8</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_ec84c700">
+                <xs:annotation>
+                    <xs:documentation>HQF Level 1</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_f6c81729">
+                <xs:annotation>
+                    <xs:documentation>HQF Level 4</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_0f11cfc1">
+                <xs:annotation>
+                    <xs:documentation>NNMQF Level 7 A</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_4508cafb">
+                <xs:annotation>
+                    <xs:documentation>NNMQF Level 7</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_3f2a609e">
+                <xs:annotation>
+                    <xs:documentation>SQF Level 7</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_4a3aea6f">
+                <xs:annotation>
+                    <xs:documentation>SQF Level 6</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_4b23518c">
+                <xs:annotation>
+                    <xs:documentation>SQF Level 2</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_4e92151b">
+                <xs:annotation>
+                    <xs:documentation>SQF Level 8</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_5a909eaa">
+                <xs:annotation>
+                    <xs:documentation>SQF Level 5</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_66d10210">
+                <xs:annotation>
+                    <xs:documentation>SQF Level 4</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_74d66d27">
+                <xs:annotation>
+                    <xs:documentation>SQF Level 9</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_77411555">
+                <xs:annotation>
+                    <xs:documentation>SQF Level 1</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_a9614000">
+                <xs:annotation>
+                    <xs:documentation>SQF Level 10</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_e7e8d397">
+                <xs:annotation>
+                    <xs:documentation>SQF Level 3</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_0fe2b814">
+                <xs:annotation>
+                    <xs:documentation>QNQ Level 7</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_11b06734">
+                <xs:annotation>
+                    <xs:documentation>EstQF Level 5</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_11fef73b">
+                <xs:annotation>
+                    <xs:documentation>BQF Level 1</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_17212c18">
+                <xs:annotation>
+                    <xs:documentation>TQF Level 8</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_a1595faf">
+                <xs:annotation>
+                    <xs:documentation>TQF Level 4</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_a7579d00">
+                <xs:annotation>
+                    <xs:documentation>TQF Level 3</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_be0b95b2">
+                <xs:annotation>
+                    <xs:documentation>TQF Level 1</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_ce5b0bd4">
+                <xs:annotation>
+                    <xs:documentation>TQF Level 5</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_ee441642">
+                <xs:annotation>
+                    <xs:documentation>TQF Level 2</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_f4b6cea8">
+                <xs:annotation>
+                    <xs:documentation>TQF Level 6</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_12a84182">
+                <xs:annotation>
+                    <xs:documentation>DQR Level 4</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_12ece3d4">
+                <xs:annotation>
+                    <xs:documentation>NKR Level 5.1</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_138c123b">
+                <xs:annotation>
+                    <xs:documentation>LQF Level 3</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_13c65774">
+                <xs:annotation>
+                    <xs:documentation>FQF Level 8</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_14b672c3">
+                <xs:annotation>
+                    <xs:documentation>LQF Level 4</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_14db1595">
+                <xs:annotation>
+                    <xs:documentation>PQF Level 2</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_152a2ae2">
+                <xs:annotation>
+                    <xs:documentation>ROQF Level 7</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_15435c11">
+                <xs:annotation>
+                    <xs:documentation>CFC Level 2</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_16351043">
+                <xs:annotation>
+                    <xs:documentation>CyQF Level 5c</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_165020a6">
+                <xs:annotation>
+                    <xs:documentation>CFC Level 8</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_1711a061">
+                <xs:annotation>
+                    <xs:documentation>NLQF Level 6</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_184f7fed">
+                <xs:annotation>
+                    <xs:documentation>DQR Level 7</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_185bb246">
+                <xs:annotation>
+                    <xs:documentation>SeQF Level 6</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_18c9e9fe">
+                <xs:annotation>
+                    <xs:documentation>NLQF Level 5</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_193238e8">
+                <xs:annotation>
+                    <xs:documentation>ME NQF Level 7.2</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_19d85def">
+                <xs:annotation>
+                    <xs:documentation>CFC Level 3</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_1a88119b">
+                <xs:annotation>
+                    <xs:documentation>NNMQF Level 6 A</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_c484f777">
+                <xs:annotation>
+                    <xs:documentation>NNMQF Level 6</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_1ab773a2">
+                <xs:annotation>
+                    <xs:documentation>SeQF Level 7</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_1aec7e1f">
+                <xs:annotation>
+                    <xs:documentation>DK NQF Level 8</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_1d0ca409">
+                <xs:annotation>
+                    <xs:documentation>BH NQF Level 6</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_1d6c3de5">
+                <xs:annotation>
+                    <xs:documentation>NQF VPET Level 3</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_1dcef432">
+                <xs:annotation>
+                    <xs:documentation>AT: NQF Level 6</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_1df7b6c9">
+                <xs:annotation>
+                    <xs:documentation>NSK Level 7</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_1ea1c8f9">
+                <xs:annotation>
+                    <xs:documentation>SKKR Level 1</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_1eeca5f9">
+                <xs:annotation>
+                    <xs:documentation>QNQ Level 1</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_1f1297d8">
+                <xs:annotation>
+                    <xs:documentation>AT: NQF Level 3</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_26211a04">
+                <xs:annotation>
+                    <xs:documentation>CLQ Level 4</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_287bdf18">
+                <xs:annotation>
+                    <xs:documentation>CLQ Level 8</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_2bc813ff">
+                <xs:annotation>
+                    <xs:documentation>CLQ Level 2</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_317af58c">
+                <xs:annotation>
+                    <xs:documentation>CLQ Level 3</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_5eb9f21e">
+                <xs:annotation>
+                    <xs:documentation>CLQ Level 1</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_758b2f8a">
+                <xs:annotation>
+                    <xs:documentation>CLQ Level 7</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_b4cc88a4">
+                <xs:annotation>
+                    <xs:documentation>CLQ Level 5</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_dfb0cd4d">
+                <xs:annotation>
+                    <xs:documentation>CLQ Level 6</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_20b8cbc9">
+                <xs:annotation>
+                    <xs:documentation>SeQF Level 1</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_2203f32f">
+                <xs:annotation>
+                    <xs:documentation>CROQF Level 8.2</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_2293fdad">
+                <xs:annotation>
+                    <xs:documentation>NKR Level 1</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_243aefbe">
+                <xs:annotation>
+                    <xs:documentation>NQF RNCP Level III</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_24cdfa3f">
+                <xs:annotation>
+                    <xs:documentation>AQF Level 4</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_2616aeff">
+                <xs:annotation>
+                    <xs:documentation>EstQF Level 8</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_2835a50f">
+                <xs:annotation>
+                    <xs:documentation>NLQF Level 8</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_4f0c10a1">
+                <xs:annotation>
+                    <xs:documentation>NNMQF Level 1</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_556a291d">
+                <xs:annotation>
+                    <xs:documentation>NNMQF Level 8</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_81be283e">
+                <xs:annotation>
+                    <xs:documentation>NNMQF Level 4</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_9aeca2ba">
+                <xs:annotation>
+                    <xs:documentation>NNMQF Level 2</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_c9af811f">
+                <xs:annotation>
+                    <xs:documentation>NNMQF Level 3</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_ea16bfd2">
+                <xs:annotation>
+                    <xs:documentation>NNMQF Level 5</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_2b79a822">
+                <xs:annotation>
+                    <xs:documentation>BQF Level 6</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_3b2bd7b5">
+                <xs:annotation>
+                    <xs:documentation>FiNQF Level 7</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_63c1f703">
+                <xs:annotation>
+                    <xs:documentation>FiNQF Level 3</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_7fa9dfe4">
+                <xs:annotation>
+                    <xs:documentation>FiNQF Level 8</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_8a7da315">
+                <xs:annotation>
+                    <xs:documentation>FiNQF Level 6</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_b9b2b42d">
+                <xs:annotation>
+                    <xs:documentation>FiNQF Level 1</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_c660dbf8">
+                <xs:annotation>
+                    <xs:documentation>FiNQF Level 2</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_cbf250da">
+                <xs:annotation>
+                    <xs:documentation>FiNQF Level 4</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_fd8ce5f6">
+                <xs:annotation>
+                    <xs:documentation>FiNQF Level 5</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_38336a53">
+                <xs:annotation>
+                    <xs:documentation>ISQF Level 3</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_57c17789">
+                <xs:annotation>
+                    <xs:documentation>ISQF Level 6.1</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_905af3bc">
+                <xs:annotation>
+                    <xs:documentation>ISQF Level 4</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_9d649d1c">
+                <xs:annotation>
+                    <xs:documentation>ISQF Level 1</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_c339fb29">
+                <xs:annotation>
+                    <xs:documentation>ISQF Level 6.2</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_ca8fda2e">
+                <xs:annotation>
+                    <xs:documentation>ISQF Level 2</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_f0be67ef">
+                <xs:annotation>
+                    <xs:documentation>ISQF Level 5.2</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_f0e7a81b">
+                <xs:annotation>
+                    <xs:documentation>ISQF Level 5.1</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_f8979fd7">
+                <xs:annotation>
+                    <xs:documentation>ISQF Level 7</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_2fce21e0">
+                <xs:annotation>
+                    <xs:documentation>NNMQF Level 7 B</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_2ff9f722">
+                <xs:annotation>
+                    <xs:documentation>DK NQF Level 3</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_308a1766">
+                <xs:annotation>
+                    <xs:documentation>RQF Level 4</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_311c2747">
+                <xs:annotation>
+                    <xs:documentation>BQF Level 8</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_31779637">
+                <xs:annotation>
+                    <xs:documentation>AQF Level 6</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_333a51d9">
+                <xs:annotation>
+                    <xs:documentation>MQF Level 6</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_341d539b">
+                <xs:annotation>
+                    <xs:documentation>DQR Level 8</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_36c9ff45">
+                <xs:annotation>
+                    <xs:documentation>BH NQF Level 8</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_3a511ca6">
+                <xs:annotation>
+                    <xs:documentation>CQFW Level 4</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_3cae3a23">
+                <xs:annotation>
+                    <xs:documentation>CQFW Level 5</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_471f5da1">
+                <xs:annotation>
+                    <xs:documentation>CQFW Level 8</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_826abaf9">
+                <xs:annotation>
+                    <xs:documentation>CQFW Level 2</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_98740c52">
+                <xs:annotation>
+                    <xs:documentation>CQFW Level 7</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_c03aceeb">
+                <xs:annotation>
+                    <xs:documentation>CQFW Level 1</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_c7a9fba6">
+                <xs:annotation>
+                    <xs:documentation>CQFW Level 3</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_de548626">
+                <xs:annotation>
+                    <xs:documentation>CQFW Entry 1-3</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_fa76c0fa">
+                <xs:annotation>
+                    <xs:documentation>CQFW Level 6</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_370653aa">
+                <xs:annotation>
+                    <xs:documentation>QNQ Level 8</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_37f3c037">
+                <xs:annotation>
+                    <xs:documentation>MECU Level 7</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_3a94d1b4">
+                <xs:annotation>
+                    <xs:documentation>RQF Level 7</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_3a9600c8">
+                <xs:annotation>
+                    <xs:documentation>CROQF Level 3</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_3dddfd70">
+                <xs:annotation>
+                    <xs:documentation>EstQF Level 6</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_3e11a3fd">
+                <xs:annotation>
+                    <xs:documentation>NLQF Level 1</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_3f16a034">
+                <xs:annotation>
+                    <xs:documentation>EstQF Level 3</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_40020d69">
+                <xs:annotation>
+                    <xs:documentation>NQF RNCP Level IV</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_40f3d416">
+                <xs:annotation>
+                    <xs:documentation>BQF Level 4</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_419407fa">
+                <xs:annotation>
+                    <xs:documentation>NQF VPET Level 1</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_41bf3e8a">
+                <xs:annotation>
+                    <xs:documentation>LQF Level 1</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_4276c6dc">
+                <xs:annotation>
+                    <xs:documentation>NSK Level 8</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_42cf00ab">
+                <xs:annotation>
+                    <xs:documentation>MQF Level 2</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_479252dc">
+                <xs:annotation>
+                    <xs:documentation>AT: NQF Level 1</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_67af56a4">
+                <xs:annotation>
+                    <xs:documentation>AT: NQF Level 4</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_c3234df7">
+                <xs:annotation>
+                    <xs:documentation>AT: NQF Level 2</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_c94a713e">
+                <xs:annotation>
+                    <xs:documentation>AT: NQF Level 8</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_e8dd63b9">
+                <xs:annotation>
+                    <xs:documentation>AT: NQF Level 5</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_45ec22f4">
+                <xs:annotation>
+                    <xs:documentation>AQF Level 1</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_4653268d">
+                <xs:annotation>
+                    <xs:documentation>BH NQF Level 1</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_468a5afc">
+                <xs:annotation>
+                    <xs:documentation>NQF VPET Level 7</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_47645af5">
+                <xs:annotation>
+                    <xs:documentation>ROQF Level 4</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_478359fc">
+                <xs:annotation>
+                    <xs:documentation>NLQF Level 7</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_4854c1ef">
+                <xs:annotation>
+                    <xs:documentation>BQF Level 2</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_486071a1">
+                <xs:annotation>
+                    <xs:documentation>CROQF Level 4.1</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_49672c5a">
+                <xs:annotation>
+                    <xs:documentation>CROQF Level 4.2</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_4ba29707">
+                <xs:annotation>
+                    <xs:documentation>KS NQF Level 8</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_4e0e5f6b">
+                <xs:annotation>
+                    <xs:documentation>CFC Level 7</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_8a024f65">
+                <xs:annotation>
+                    <xs:documentation>SKKR Level 6</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_98403355">
+                <xs:annotation>
+                    <xs:documentation>SKKR Level 5</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_cc1ea43c">
+                <xs:annotation>
+                    <xs:documentation>SKKR Level 4</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_db0fa54f">
+                <xs:annotation>
+                    <xs:documentation>SKKR Level 2</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_defba593">
+                <xs:annotation>
+                    <xs:documentation>SKKR Level 7</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_fb12c713">
+                <xs:annotation>
+                    <xs:documentation>SKKR Level 8</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_fb6cbec3">
+                <xs:annotation>
+                    <xs:documentation>SKKR Level 3</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_4ec9e6c0">
+                <xs:annotation>
+                    <xs:documentation>SeQF Level 3</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_50f03409">
+                <xs:annotation>
+                    <xs:documentation>BQF Level 0</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_513ed8e7">
+                <xs:annotation>
+                    <xs:documentation>ROQF Level 3</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_52353560">
+                <xs:annotation>
+                    <xs:documentation>ME NQF Level 4.1</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_52818ecd">
+                <xs:annotation>
+                    <xs:documentation>NKR Level 6.2</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_529912df">
+                <xs:annotation>
+                    <xs:documentation>NQFS Level 6.2</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_7e034a16">
+                <xs:annotation>
+                    <xs:documentation>NQFS Level 6</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_549bffac">
+                <xs:annotation>
+                    <xs:documentation>CyQF Level 5a</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_54b380be">
+                <xs:annotation>
+                    <xs:documentation>EstQF Level 2</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_55c66aa8">
+                <xs:annotation>
+                    <xs:documentation>MQF Level 3</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_761cdbf1">
+                <xs:annotation>
+                    <xs:documentation>MQF Level 1</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_782b35df">
+                <xs:annotation>
+                    <xs:documentation>MQF Level 8</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_a3c7575d">
+                <xs:annotation>
+                    <xs:documentation>MQF Level 5</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_a648b6db">
+                <xs:annotation>
+                    <xs:documentation>MQF Level B</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_c9f6d6e5">
+                <xs:annotation>
+                    <xs:documentation>MQF Level 4</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_eacc0583">
+                <xs:annotation>
+                    <xs:documentation>MQF Level 7</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_55a34aab">
+                <xs:annotation>
+                    <xs:documentation>NNMQF Level 6 B</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_56c0e2fd">
+                <xs:annotation>
+                    <xs:documentation>AQF Level 7</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_6ab8a29d">
+                <xs:annotation>
+                    <xs:documentation>CROQF Level 7.2</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_a43afd6a">
+                <xs:annotation>
+                    <xs:documentation>CROQF Level 8.1</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_cb53bf24">
+                <xs:annotation>
+                    <xs:documentation>CROQF Level 6</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_d34c0ab3">
+                <xs:annotation>
+                    <xs:documentation>CROQF Level 1</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_d5feaf10">
+                <xs:annotation>
+                    <xs:documentation>CROQF Level 2</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_d6860258">
+                <xs:annotation>
+                    <xs:documentation>CROQF Level 7.1</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_dcc9aca1">
+                <xs:annotation>
+                    <xs:documentation>CROQF Level 5</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_5c91e0ca">
+                <xs:annotation>
+                    <xs:documentation>QNQ Level 3</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_7d534b92">
+                <xs:annotation>
+                    <xs:documentation>QNQ Level 4</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_8cf0774e">
+                <xs:annotation>
+                    <xs:documentation>QNQ Level 6</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_d2b47671">
+                <xs:annotation>
+                    <xs:documentation>QNQ Level 5</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_fd9234c1">
+                <xs:annotation>
+                    <xs:documentation>QNQ Level 2</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_5ad5d222">
+                <xs:annotation>
+                    <xs:documentation>NQF RNCP Level II-Grade de Licence</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_5bca675f">
+                <xs:annotation>
+                    <xs:documentation>ROQF Level 5</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_b42dd23b">
+                <xs:annotation>
+                    <xs:documentation>NLQF Entry Level</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_c2700f4e">
+                <xs:annotation>
+                    <xs:documentation>NLQF Level 4+</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_c749fa23">
+                <xs:annotation>
+                    <xs:documentation>NLQF Level 2</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_f97cdbb5">
+                <xs:annotation>
+                    <xs:documentation>NLQF Level 3</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_ff656b33">
+                <xs:annotation>
+                    <xs:documentation>NLQF Level 4</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_5cbacb43">
+                <xs:annotation>
+                    <xs:documentation>CyQF Level 4</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_5d6112c5">
+                <xs:annotation>
+                    <xs:documentation>ME NQF Level 6</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_5dfdf326">
+                <xs:annotation>
+                    <xs:documentation>NSK Level 1</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_615c4895">
+                <xs:annotation>
+                    <xs:documentation>FQF Level 4</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_67053d58">
+                <xs:annotation>
+                    <xs:documentation>DK NQF Level 1</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_a19d301f">
+                <xs:annotation>
+                    <xs:documentation>DK NQF Level 6</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_b08ee037">
+                <xs:annotation>
+                    <xs:documentation>DK NQF Level 7</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_e130f5d2">
+                <xs:annotation>
+                    <xs:documentation>DK NQF Level 5</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_e2461c86">
+                <xs:annotation>
+                    <xs:documentation>DK NQF Level 4</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_f3d606a7">
+                <xs:annotation>
+                    <xs:documentation>DK NQF Level 2</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_62866e36">
+                <xs:annotation>
+                    <xs:documentation>MECU Level 8</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_6422359b">
+                <xs:annotation>
+                    <xs:documentation>MECU Level 6</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_6477e349">
+                <xs:annotation>
+                    <xs:documentation>SeQF Level 4</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_650d7e95">
+                <xs:annotation>
+                    <xs:documentation>FQF Level 3</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_65235ec5">
+                <xs:annotation>
+                    <xs:documentation>FQF Level 6</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_6919ed25">
+                <xs:annotation>
+                    <xs:documentation>DQR Level 6</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_6961eec3">
+                <xs:annotation>
+                    <xs:documentation>NSK Level 2</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_71bf982b">
+                <xs:annotation>
+                    <xs:documentation>NQFS Level 4</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_83bf6184">
+                <xs:annotation>
+                    <xs:documentation>NQFS Level 1</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_8a1ce05d">
+                <xs:annotation>
+                    <xs:documentation>NQFS Level 3</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_c072e4cc">
+                <xs:annotation>
+                    <xs:documentation>NQFS Level 2</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_dc2cd5c7">
+                <xs:annotation>
+                    <xs:documentation>NQFS Level 5</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_e3116f9b">
+                <xs:annotation>
+                    <xs:documentation>NQFS Level 8</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_e4f11c13">
+                <xs:annotation>
+                    <xs:documentation>NQFS Level 7</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_6b569351">
+                <xs:annotation>
+                    <xs:documentation>NKR Level 6.1</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_6bfeff7a">
+                <xs:annotation>
+                    <xs:documentation>NQFS Level 6.1</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_6cba2673">
+                <xs:annotation>
+                    <xs:documentation>CyQF Level 5b</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_6d9af464">
+                <xs:annotation>
+                    <xs:documentation>ROQF Level 2</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_6e015474">
+                <xs:annotation>
+                    <xs:documentation>LTQF Level 8</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_6fa57440">
+                <xs:annotation>
+                    <xs:documentation>FQF Level 5</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_7038706c">
+                <xs:annotation>
+                    <xs:documentation>NQF VPET Level 5</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_7203c28f">
+                <xs:annotation>
+                    <xs:documentation>KS NQF Level 1</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_73e5a71b">
+                <xs:annotation>
+                    <xs:documentation>NQFL Level 3</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_7493dd0e">
+                <xs:annotation>
+                    <xs:documentation>LQF Level 5</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_aa951342">
+                <xs:annotation>
+                    <xs:documentation>ME NQF Level 1.1</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_b7b67d5e">
+                <xs:annotation>
+                    <xs:documentation>ME NQF Level 5</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_c0ef8a4e">
+                <xs:annotation>
+                    <xs:documentation>ME NQF Level 1.2</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_ccc01a11">
+                <xs:annotation>
+                    <xs:documentation>ME NQF Level 4.2</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_ced2a6c3">
+                <xs:annotation>
+                    <xs:documentation>ME NQF Level 8</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_e5b56761">
+                <xs:annotation>
+                    <xs:documentation>ME NQF Level 2</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_f08d5131">
+                <xs:annotation>
+                    <xs:documentation>ME NQF Level 3</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_f38ebe74">
+                <xs:annotation>
+                    <xs:documentation>ME NQF Level 7.1</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_778f8030">
+                <xs:annotation>
+                    <xs:documentation>RQF Entry Levels 1-2</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_7ab73420">
+                <xs:annotation>
+                    <xs:documentation>NQF RNCP Level I-Doctorat</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_7cb99427">
+                <xs:annotation>
+                    <xs:documentation>EstQF Level 4</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_7f5e85a7">
+                <xs:annotation>
+                    <xs:documentation>FQF Level 2</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_81090d42">
+                <xs:annotation>
+                    <xs:documentation>NKR Level 4</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_828fbcc3">
+                <xs:annotation>
+                    <xs:documentation>NQF RNCP Level I-Master</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_82e7da58">
+                <xs:annotation>
+                    <xs:documentation>NSK Level 6</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_83fe9d36">
+                <xs:annotation>
+                    <xs:documentation>AQF Level 2</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_8525e36a">
+                <xs:annotation>
+                    <xs:documentation>LTQF Level 2</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_8b75d6fc">
+                <xs:annotation>
+                    <xs:documentation>ROQF Level 6</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_8cab3c22">
+                <xs:annotation>
+                    <xs:documentation>NQFS Level 7.2</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_8f107ecd">
+                <xs:annotation>
+                    <xs:documentation>ROQF Level 8</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_8f872111">
+                <xs:annotation>
+                    <xs:documentation>CyQF Level 6</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_9173237a">
+                <xs:annotation>
+                    <xs:documentation>EstQF Level 7</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_92632be8">
+                <xs:annotation>
+                    <xs:documentation>NKR Level 5.2</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_95249ae7">
+                <xs:annotation>
+                    <xs:documentation>NKR Level 8</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_95481d1f">
+                <xs:annotation>
+                    <xs:documentation>CyQF Level 7b</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_95fec238">
+                <xs:annotation>
+                    <xs:documentation>FQF Level 7</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_96e5a5e7">
+                <xs:annotation>
+                    <xs:documentation>BH NQF Level 5</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_c145999e">
+                <xs:annotation>
+                    <xs:documentation>PQF Level 4</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_cb086da3">
+                <xs:annotation>
+                    <xs:documentation>PQF Level 6</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_e018d301">
+                <xs:annotation>
+                    <xs:documentation>PQF Level 3</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_e860b49b">
+                <xs:annotation>
+                    <xs:documentation>PQF Level 7</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_ec518d13">
+                <xs:annotation>
+                    <xs:documentation>PQF Level 8</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_fcf3bd8d">
+                <xs:annotation>
+                    <xs:documentation>PQF Level 1</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_98b42a9f">
+                <xs:annotation>
+                    <xs:documentation>LTQF Level 1</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_99235760">
+                <xs:annotation>
+                    <xs:documentation>CyQF Level 8</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_993b0d50">
+                <xs:annotation>
+                    <xs:documentation>NSK Level 3</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_9a2c4ae2">
+                <xs:annotation>
+                    <xs:documentation>NQFL Level 5</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_9c785d58">
+                <xs:annotation>
+                    <xs:documentation>CFC Level 1</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_9ccd261b">
+                <xs:annotation>
+                    <xs:documentation>NQF VPET Level 2</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_9d34b310">
+                <xs:annotation>
+                    <xs:documentation>LTQF Level 3</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_9dac5a30">
+                <xs:annotation>
+                    <xs:documentation>BH NQF Level 3</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_9f7b21f9">
+                <xs:annotation>
+                    <xs:documentation>MECU Level 1</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_9f9cd022">
+                <xs:annotation>
+                    <xs:documentation>MECU Level 4</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_a31706ad">
+                <xs:annotation>
+                    <xs:documentation>KS NQF Level 4</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_a358d163">
+                <xs:annotation>
+                    <xs:documentation>MECU Level 2</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_a61cdeca">
+                <xs:annotation>
+                    <xs:documentation>LQF Level 7</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_a6744590">
+                <xs:annotation>
+                    <xs:documentation>LQF Level 8</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_a6c13e9f">
+                <xs:annotation>
+                    <xs:documentation>CyQF Level 7c</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_b62fa7ef">
+                <xs:annotation>
+                    <xs:documentation>LTQF Level 5</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_caa3091a">
+                <xs:annotation>
+                    <xs:documentation>LTQF Level 6</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_d1e9f55d">
+                <xs:annotation>
+                    <xs:documentation>LTQF Level 4</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_dbbbe65b">
+                <xs:annotation>
+                    <xs:documentation>LTQF Level 7</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_a828cd20">
+                <xs:annotation>
+                    <xs:documentation>LQF Level 6</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_ab81fe6f">
+                <xs:annotation>
+                    <xs:documentation>NQFL Level 2</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_f1f60c76">
+                <xs:annotation>
+                    <xs:documentation>LQF Level 2</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_ad62b6d5">
+                <xs:annotation>
+                    <xs:documentation>NQFL Level 6</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_ae256098">
+                <xs:annotation>
+                    <xs:documentation>NQFL Level 1</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_bbfedf33">
+                <xs:annotation>
+                    <xs:documentation>NKR Level 3</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_fb307b49">
+                <xs:annotation>
+                    <xs:documentation>NKR Level 7</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_af16b647">
+                <xs:annotation>
+                    <xs:documentation>AQF Level 3</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_b80ee6b1">
+                <xs:annotation>
+                    <xs:documentation>NSK Level 5</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_fe9eb464">
+                <xs:annotation>
+                    <xs:documentation>NSK Level 4</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_e44ef2dc">
+                <xs:annotation>
+                    <xs:documentation>CyQF Level 3</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_f59c3ad4">
+                <xs:annotation>
+                    <xs:documentation>CyQF Level 7a</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_ffd9ca10">
+                <xs:annotation>
+                    <xs:documentation>CyQF Level 2</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_b3a26e65">
+                <xs:annotation>
+                    <xs:documentation>RQF Entry Level 3</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_b44f7367">
+                <xs:annotation>
+                    <xs:documentation>SeQF Level 5</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_b83c6524">
+                <xs:annotation>
+                    <xs:documentation>NQF VPET Level 6</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_b8a101cb">
+                <xs:annotation>
+                    <xs:documentation>NNMQF Level 5 B</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_baa10a4e">
+                <xs:annotation>
+                    <xs:documentation>CFC Level 4</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_bb023568">
+                <xs:annotation>
+                    <xs:documentation>BQF Level 7</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_e160a72d">
+                <xs:annotation>
+                    <xs:documentation>NQFL Level 8</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_e6601cb4">
+                <xs:annotation>
+                    <xs:documentation>NQFL Level 7</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_e7f9e314">
+                <xs:annotation>
+                    <xs:documentation>NQFL Level 4</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_bd9f8e42">
+                <xs:annotation>
+                    <xs:documentation>DQR Level 5</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_c042a969">
+                <xs:annotation>
+                    <xs:documentation>BH NQF Level 7</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_c37d888a">
+                <xs:annotation>
+                    <xs:documentation>DQR Level 3</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_c392e7a2">
+                <xs:annotation>
+                    <xs:documentation>RQF Level 6</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_d57056ce">
+                <xs:annotation>
+                    <xs:documentation>BQF Level 3</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_c71cce15">
+                <xs:annotation>
+                    <xs:documentation>DQR Level 2</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_c8293950">
+                <xs:annotation>
+                    <xs:documentation>KS NQF Level 2</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_d7cce980">
+                <xs:annotation>
+                    <xs:documentation>NQF RNCP Level V</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_ca282dd9">
+                <xs:annotation>
+                    <xs:documentation>KS NQF Level 6</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_cca41928">
+                <xs:annotation>
+                    <xs:documentation>NQFS Level 7.1</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_cdd36a4b">
+                <xs:annotation>
+                    <xs:documentation>MECU Level 5</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_ce40bd02">
+                <xs:annotation>
+                    <xs:documentation>NQF VPET Level 8</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_cf509e8a">
+                <xs:annotation>
+                    <xs:documentation>FQF Level 1</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_cf6bd5a1">
+                <xs:annotation>
+                    <xs:documentation>CFC Level 5</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_cfe3e39b">
+                <xs:annotation>
+                    <xs:documentation>AQF Level 5</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_dddf1163">
+                <xs:annotation>
+                    <xs:documentation>RQF Level 3</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_dec9edae">
+                <xs:annotation>
+                    <xs:documentation>RQF Level 5</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_e83742bd">
+                <xs:annotation>
+                    <xs:documentation>RQF Level 2</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_f015bac8">
+                <xs:annotation>
+                    <xs:documentation>RQF Level 1</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_d104d536">
+                <xs:annotation>
+                    <xs:documentation>AQF Level 8</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_d80dc4a4">
+                <xs:annotation>
+                    <xs:documentation>BH NQF Level 2</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_d81640d2">
+                <xs:annotation>
+                    <xs:documentation>MECU Level 3</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_d8706544">
+                <xs:annotation>
+                    <xs:documentation>ROQF Level 1</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_e1f75f79">
+                <xs:annotation>
+                    <xs:documentation>SeQF Level 2</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_f89fc721">
+                <xs:annotation>
+                    <xs:documentation>BH NQF Level 4</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_dae3c198">
+                <xs:annotation>
+                    <xs:documentation>NQF VPET Level 4</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_e0ba1a59">
+                <xs:annotation>
+                    <xs:documentation>NNMQF Level 5 A</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_ed568080">
+                <xs:annotation>
+                    <xs:documentation>EstQF Level 1</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_ec2e2ebe">
+                <xs:annotation>
+                    <xs:documentation>KS NQF Level 3</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_f77c7095">
+                <xs:annotation>
+                    <xs:documentation>DQR Level 1</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/qdr/c_fa8f5b4b">
+                <xs:annotation>
+                    <xs:documentation>KS NQF Level 7</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>

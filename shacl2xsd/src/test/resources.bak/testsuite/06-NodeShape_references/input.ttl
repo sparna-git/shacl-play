@@ -1,0 +1,41 @@
+@prefix elm:    <https://data.europa.eu/snb/model#>.
+@prefix edci-c:    <https://data.europa.eu/snb/model/edci-constraints#>.
+@prefix sh:     <http://www.w3.org/ns/shacl#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix esco:   <http://data.europa.eu/esco/model#>.
+@prefix elm:    <https://data.europa.eu/snb/model#>.
+@prefix shacl-play:    <http://shacl-play.sparna.fr/ontology#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# The NodeShape
+edci-c:MyBeautifulEuropassCredentialShape 
+  a sh:NodeShape; 
+  sh:targetClass elm:EuropassCredential; 
+  sh:property edci-c:EuropassCredential-elm_attachment;
+  # indicates that the key and keyRef will be placed on the element from this NodeShape
+  shacl-play:xsdIsRoot true ;
+  .
+
+# Property shape with sh:class
+edci-c:EuropassCredential-elm_attachment
+  a sh:PropertyShape; 
+  sh:path elm:attachment;
+  sh:class elm:MediaObject;
+  .  
+
+edci-c:MediaObjectShape 
+  a sh:NodeShape; 
+  sh:targetClass elm:MediaObject;
+  sh:property edci-c:anotherPropertyShape ;
+  # an additionnal custom flag that indicate this class should be treated as a reference
+  shacl-play:xsdUseReferences true ;
+  .
+
+edci-c:anotherPropertyShape
+  a sh:PropertyShape; 
+  sh:path elm:anotherProperty;
+  sh:datatype xsd:string;
+  .  

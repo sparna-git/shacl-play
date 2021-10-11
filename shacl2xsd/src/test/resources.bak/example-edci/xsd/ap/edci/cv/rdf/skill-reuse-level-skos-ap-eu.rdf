@@ -1,0 +1,1696 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF
+	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/00be9a0e-e591-46a5-ace9-466ff399e267">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="es">Capacidades y competencias específicas del sector</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/0121fd69-839f-4d52-9c92-9ba7d70083b9">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="hu">átfogó készségek és kompetenciák</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/066a33f1-4c6b-467e-a637-c6213c75b241">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="ga">scileanna agus inniúlachtaí gairmshonracha</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/0ac8d157-c60f-4b3d-ba98-db91b4afcfd1">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="bg">междусекторни умения и компетентности</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/0c09f62f-99a0-4466-8388-1ef9193a8d85">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="nl">beroepsspecifieke vaardigheden en competenties</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/0d0e7ec9-fdb9-43ac-b0ed-db7350111150">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="ga">scileanna agus inniúlachtaí idirdhisciplíneacha</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/0dafda16-a8bc-4d3d-a86a-b5c8f2ea43b7">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="mt">ħiliet u kompetenzi speċifiċi għas-settur</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/0df6f33e-aff9-483f-96fa-98415b2e56cc">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="el">εγκάρσιες δεξιότητες και ικανότητες</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/0f9b367b-b22e-49d6-adec-2d1a19d3e05c">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="no">overgripende ferdigheter og kompetanse</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/1565e7cc-bdff-47e7-8a82-a5408f242649">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="hu">transzverzális készségek és kompetenciák</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/171fbd68-e527-4628-b67d-88837dba8f1e">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="fr">Aptitudes et compétences trans-sectorielles</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/17d62450-e4cf-4693-98f5-9edd2c4ce9f4">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="pl">Poziomy możliwości wielosektorowego zastosowania pojęć filaru umiejętności ESCO</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/186c1959-53c8-48ab-8068-99b3e49a1cb3">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="no">sektorovergripende ferdigheter og kompetanse</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/18c6fc28-28df-4fcd-8f71-6b9cc5564b09">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="is">ESCO Stigsdálkur um endurnýtanleika færnihugtaka</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/1a834ebb-8729-4968-a579-9cb1a06dbde0">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="nl">sectoroverschrijdende vaardigheden en competenties</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/1ac7aff6-ba68-4d82-857a-7df1dc6d474c">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="no">yrkesspesifikke ferdigheter og kompetanse</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/1cb292a1-bb54-4f70-9869-fcd8f01fd56d">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="da">stillingsspecifikke færdigheder og kompetencer</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/1fd83f56-abb8-42f1-9bb3-0abd74170c11">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="sv">övergripande färdigheter och kompetenser</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/20ca5665-3f8d-457e-a995-b63c5f13cf54">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="cs">průřezové dovednosti a schopnosti</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/22d9ca8e-6c1c-47af-9da3-463783c73287">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="mt">ħiliet u kompetenzi transversali</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/2390ac27-7b57-4c2a-8bcf-617a0feb2788">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="mt">ħiliet u kompetenzi speċifiċi għall-okkupazzjoni</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/25831c2">
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#ConceptScheme"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<identifier xmlns="http://purl.org/dc/terms/">http://data.europa.eu/snb/skill-reuse-level/25831c2</identifier>
+	<title xmlns="http://purl.org/dc/terms/" xml:lang="en">ESCO Skill Pillar concept reusability levels</title>
+	<hasTopconcept xmlns="http://www.w3.org/2004/02/skos/core#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/cross-sector"/>
+	<hasTopconcept xmlns="http://www.w3.org/2004/02/skos/core#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/occupation-specific"/>
+	<hasTopconcept xmlns="http://www.w3.org/2004/02/skos/core#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/sector-specific"/>
+	<hasTopconcept xmlns="http://www.w3.org/2004/02/skos/core#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/transversal"/>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="pl">Poziomy możliwości wielosektorowego zastosowania pojęć filaru umiejętności ESCO</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="is">ESCO Stigsdálkur um endurnýtanleika færnihugtaka</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="en">ESCO Skill Pillar concept reusability levels</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="bg">Степени на многократна използваемост на понятие от стълба на ЕSCO за уменията</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="cs">Stupně rozsahu využití pojmu nosných dovedností ESCO</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="da">ESCO-søjle for færdigheder - begrebernes anvendelsesbredde</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="de">Wiederverwendbarkeit der Konzepte in der ESCO-Säule „Fähigkeiten“</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="el">Επίπεδο επαναχρησιμοποίησης των εννοιών του πυλώνα δεξιοτήτων ESCO</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="es">Niveles de polivalencia de conceptos del pilar de capacidades ESCO</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="et">ESCO oskuste samba mõiste taaskasutatavuse tasandid</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="fi">ESCOn taidot -osion käsitteen uudelleenkäytettävyystasot</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="fr">Niveaux de réutilisabilité d'un concept pour socle d'aptitudes ESCO</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="ga">leibhéil ath-inúsáidteachta coincheapa colúin scileanna ESCO</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="hr">Razine ponovnog iskorištavanja koncepata iz stupa vještina klasifikacije ESCO</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="hu">A készségek jellege az ESCO készségpillérjében</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="it">Livelli di riutilizzo del concetto del pilastro abilità ESCO</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="lt">ESCO gebėjimų dalies sąvokų pasikartojimo lygis</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="lv">ESCO prasmju pīlāra jēdzienu atkārtotas izmantošanas līmeņi</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="mt">Livelli tal-użabbiltà mill-ġdid tal-kunċetti tal-Pilastru tal-Ħiliet fl-ESCO</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="nl">niveaus herbruikbaarheid pijlerconcepten vaardigheden ESCO</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="no">ESCO ferdighetsdel begrep gjenbrukbarhetsnivå</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="pt">Níveis de polivalência de um conceito do pilar de competências ESCO</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="ro">Niveluri ale potențialului de reutilizare a unui concept pentru pilonul de aptitudini ESCO</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sk">Stupne rozsahu využitia pojmov nosných zručností ESCO</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sl">Ravni ponovne uporabe koncepta stebra spretnosti ESCO</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sv">Escopelaren för färdigheter - återanvändbarhetsnivå</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/17d62450-e4cf-4693-98f5-9edd2c4ce9f4"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/18c6fc28-28df-4fcd-8f71-6b9cc5564b09"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/312aad93-997a-4a0c-9142-2183faaae788"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/31dca95b-9ba5-4912-9a05-c11611ae7923"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/3db53c2c-bcfa-4ac4-802e-e40c4ebcdd37"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/426520a0-a4c2-428e-8f51-9413e616db8a"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/436054da-062e-4d84-b685-71bd78e61e75"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/47aafaa9-3b28-49ac-87db-b1798b012c41"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/47cfb012-e377-4084-a270-c100df69c4c7"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/5ec3b8c9-abf0-48e5-8546-5d2eeb2a06c7"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/62c217d7-4b39-4552-bb4e-e46541616c98"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/69a4a287-f2e7-4179-876e-cd29f4d07960"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/6a041b50-9cbf-42f0-9a7c-fdbcde767b66"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/7cbd08ff-244c-4606-b5cf-4bbdd5fd9993"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/7d35f71b-9287-47cb-9d48-edd82ba467a8"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/91099f84-5872-42df-a251-d932ea3ab25d"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/9c122c2c-d99a-48d4-9987-4572ce1e896f"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/b2a66154-f026-4c10-9c14-9fb45484ce31"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/c09ec24c-86fb-4a54-8708-3d8920022dca"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/c5ef3aff-83d0-44bc-9963-0f1bb64ad324"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/cf64ad81-3722-4a60-aa39-5700b7a1630e"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/d95c09e4-de78-41e7-869a-92f84da867bc"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/debdae07-c64b-4d65-bd7e-166d22dccc3c"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/e46a1b3e-f3b3-4212-844e-517c394507e3"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/f1a348e0-2d8a-47c6-bc41-71cc972cc505"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/f9e256b0-d8d5-4b53-8e1e-0e045cacb9cf"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/cross-sector">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="hu">átfogó készségek és kompetenciák</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="bg">междусекторни умения и компетентности</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="fr">Aptitudes et compétences trans-sectorielles</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="no">sektorovergripende ferdigheter og kompetanse</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="nl">sectoroverschrijdende vaardigheden en competenties</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="lv">starpnozaru prasmes un iemaņas</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="et">sektoriülesed oskused ja pädevused</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="pl">umiejętności i kompetencje międzysektorowe</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="fi">monialaiset taidot ja osaaminen</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="ga">scileanna agus inniúlachtaí trasearnála</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="pt">Aptidões e competências transversais</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sv">sektorsövergripande färdigheter och kompetenser</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="is">færni og hæfni þvert á atvinnugreinar</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="cs">mezioborové dovednosti a schopnosti</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="ro">Aptitudini și competențe transsectoriale</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="es">Capacidades y competencias transectoriales</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="en">cross-sector skills and competences</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sl">medsektorske spretnosti in kompetence</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="de">branchenübergreifende Fähigkeiten und Kompetenzen</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="hr">međusektorske vještine i kompetencije</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="el">διατομεακές δεξιότητες και ικανότητες</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sk">medzisektorové zručnosti a kompetencie</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="da">tværsektorielle færdigheder og kompetencer</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="it">abilità e competenze intersettoriali</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="lt">tarpsektoriniai gebėjimai ir kompetencijos</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="mt">ħiliet u kompetenzi transsettorjali</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/0121fd69-839f-4d52-9c92-9ba7d70083b9"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/0ac8d157-c60f-4b3d-ba98-db91b4afcfd1"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/171fbd68-e527-4628-b67d-88837dba8f1e"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/186c1959-53c8-48ab-8068-99b3e49a1cb3"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/1a834ebb-8729-4968-a579-9cb1a06dbde0"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/29151782-6778-4d56-bed6-701d2bbe2845"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/3bc6b504-370a-4f1c-bb3a-386f765b1a4a"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/3d247b22-8e40-44ff-b458-72a77e9d937a"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/41ec6bde-3655-4c99-9129-9533bd8fd452"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/4f5d8bb8-3ed6-4927-97b2-f9a39153a1bf"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/62ad2ecc-5bab-43ee-b0a7-6f81794e7527"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/7238cd19-6910-42f7-8a7c-d5b27365c55d"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/78405731-a856-406e-b91e-c1e34cb692b5"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/94639735-96e7-412c-a04b-8e0f96e79ea2"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/a300d905-69a2-4f9e-b109-ba65a1d9ccbc"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/a47c5616-2633-49d0-887f-b778c67d9bce"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/a67f0b77-e0af-4dd9-8e89-6d67d605d2bd"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/a86d670d-5ee7-4b5e-8f9f-754e67ceb38b"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/a91ff544-49ef-4a68-a1a1-c91384521adf"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/ad63a78d-8e29-4d25-b080-3a7ff084bbce"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/b6ab764f-7134-4a15-9389-d2af273531de"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/c27e7d02-7beb-4d32-95a8-3c815737394c"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/dcc3db31-706e-4ea6-a161-d58496037184"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/e2e7fb00-7591-4cb2-8085-becd2af5276a"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/e608b105-9253-466e-ae1b-0a75b96f00b3"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/f5bd18bc-2af5-48e5-9b20-5edb79c75f70"/>
+	<xlNotation xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/notation_3da02f14b6"/>
+	<xlNotation xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/notation_49aa378d84"/>
+	<modified xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-04</modified>
+	<inScheme xmlns="http://www.w3.org/2004/02/skos/core#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/25831c2"/>
+	<notation xmlns="http://www.w3.org/2004/02/skos/core#">Level 2</notation>
+	<notation xmlns="http://www.w3.org/2004/02/skos/core#">cross-sector</notation>
+	<topConceptOf xmlns="http://www.w3.org/2004/02/skos/core#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/25831c2"/>
+	<identifier xmlns="http://purl.org/dc/elements/1.1/">cross-sector</identifier>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/occupation-specific">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="ga">scileanna agus inniúlachtaí gairmshonracha</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="nl">beroepsspecifieke vaardigheden en competenties</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="no">yrkesspesifikke ferdigheter og kompetanse</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="da">stillingsspecifikke færdigheder og kompetencer</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="mt">ħiliet u kompetenzi speċifiċi għall-okkupazzjoni</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="hr">vještine i kompetencije specifične za zanimanje</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="et">ametipõhised erioskused ja -pädevused</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="lt">konkrečios profesijos gebėjimai ir kompetencijos</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="pt">Aptidões e competências específicas de uma profissão</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="es">Capacidades y competencias específicas de la ocupación</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="it">abilità e competenze specifiche della professione</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="bg">специфични за професията умения и компетентности</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sk">špecifické zručnosti a kompetencie pre konkrétne povolanie</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="fi">ammattispesifiset taidot ja osaaminen</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="en">occupation specific skills and competences</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="hu">foglalkozáshoz kapcsolódó készségek és kompetenciák</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sl">posebne spretnosti in kompetence za posamezne poklice</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="pl">umiejętności i kompetencje specyficzne dla zawodu</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="lv">profesijai raksturīgās prasmes un iemaņas</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="el">ειδικές δεξιότητες και ικανότητες για το εκάστοτε επάγγελμα</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="is">sértæk starfsfærni og -hæfni</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="fr">Aptitudes et compétences spécifiques d'une profession</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sv">yrkesspecifika färdigheter och kompetenser</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="de">berufsspezifische Fähigkeiten und Kompetenzen</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="cs">dovednosti a schopnosti specifické pro konkrétní povolání</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="ro">Aptitudini și competențe specifice ocupației</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/066a33f1-4c6b-467e-a637-c6213c75b241"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/0c09f62f-99a0-4466-8388-1ef9193a8d85"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/1ac7aff6-ba68-4d82-857a-7df1dc6d474c"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/1cb292a1-bb54-4f70-9869-fcd8f01fd56d"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/2390ac27-7b57-4c2a-8bcf-617a0feb2788"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/2a8c3eb6-ec0f-45d8-9992-6835cf749f4e"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/2ee5b870-21ce-46a2-ac0d-07889177e79b"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/33d7b44b-c54c-4b0f-93a6-b452010107ba"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/40662ed0-17e4-436f-a202-c422f2d1d4f9"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/4a4784c7-7c90-450c-bd93-3c6b50dd7a46"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/56d6474d-fec4-4a4a-b0c1-9b6664e25a1c"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/633707c0-3e47-42bb-8cbd-4c101c6d5fd2"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/64640fda-6003-4abd-bf16-0d6aea8c5aa7"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/675f092c-3706-4d86-8132-90317940d5bf"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/73fd3069-5d66-4aba-8bc7-47e6ee309d82"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/74400155-3848-4520-99f2-6b934ba713db"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/7a25d2ec-4f8b-451f-b4c5-978eb7167024"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/92ad4c3b-be52-489c-a12e-86b9af3f4ee5"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/b8f93192-820c-4bf8-aa2c-7af2bc49f091"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/c00b9e98-5b9a-40ee-b3ae-ea7cd6633734"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/c7240279-9d6c-4407-835a-3c5bb7f8fc02"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/ca19cdc7-e67b-4f43-83eb-7c69bd741cd7"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/dc7dc9f6-9890-43be-b9c8-7c0449646ade"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/e428f55f-8c0f-4881-a8eb-e83f60788786"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/ec97bfa2-bdc6-47b6-868b-cd4824e35200"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/f89345de-e312-4ac9-8dfe-5c67f8d9b0e3"/>
+	<xlNotation xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/notation_58362e6762"/>
+	<xlNotation xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/notation_85fbc961d3"/>
+	<modified xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-04</modified>
+	<inScheme xmlns="http://www.w3.org/2004/02/skos/core#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/25831c2"/>
+	<notation xmlns="http://www.w3.org/2004/02/skos/core#">Level 4</notation>
+	<notation xmlns="http://www.w3.org/2004/02/skos/core#">occupation-specific</notation>
+	<topConceptOf xmlns="http://www.w3.org/2004/02/skos/core#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/25831c2"/>
+	<identifier xmlns="http://purl.org/dc/elements/1.1/">occupation-specific</identifier>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/sector-specific">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="es">Capacidades y competencias específicas del sector</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="mt">ħiliet u kompetenzi speċifiċi għas-settur</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="bg">специфични за сектора умения и компетентности</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="fi">alakohtaiset taidot ja osaaminen</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="en">sector specific skills and competences</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="is">færni og hæfni á ákveðnu sviði</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="no">sektorspesifikke ferdigheter og kompetanse</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sv">sektorsspecifika färdigheter och kompetenser</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="hr">vještine i kompetencije specifične za sektor</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="ro">Aptitudini și competențe specifice sectorului</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="pl">umiejętności i kompetencje specyficzne dla sektora</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="hu">ágazathoz kapcsolódó készségek és kompetenciák</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="pt">Aptidões e competências específicas de um setor</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="el">ειδικές δεξιότητες και ικανότητες για τον εκάστοτε τομέα</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="it">abilità e competenze specifiche del settore</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sl">posebne spretnosti in kompetence za posamezne sektorje</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="lt">konkretaus sektoriaus gebėjimai ir kompetencijos</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="lv">nozarei raksturīgās prasmes un iemaņas</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="ga">scileanna agus inniúlachtaí earnáilsonracha</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sk">špecifické zručnosti a kompetencie pre konkrétne odvetvie</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="da">sektorspecifikke færdigheder og kompetencer</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="cs">dovednosti a schopnosti specifické pro konkrétní odvětví</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="et">sektoripõhised erioskused ja -pädevused</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="nl">sectorspecifieke vaardigheden en competenties</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="fr">Aptitudes et compétences spécifiques d'un secteur</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="de">branchenspezifische Fähigkeiten und Kompetenzen</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/00be9a0e-e591-46a5-ace9-466ff399e267"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/0dafda16-a8bc-4d3d-a86a-b5c8f2ea43b7"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/2abcdb26-2d1b-40ce-9908-f427b5600c94"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/2c291836-cbe4-4e52-b975-5e49221d1286"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/48d29057-da01-464a-bbc3-f69b1798f585"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/5e6fafa2-1f8d-48ed-9a6e-069067886a16"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/73555b08-f3c4-4fd9-8eb3-2bb3d8e994d7"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/743673cf-9f7d-4b02-8a44-40ebc2c18bcf"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/7914f9bf-9b39-4a10-8eee-380c5c624dbf"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/7aa26052-7953-4577-9039-754de561d7d7"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/7bbe5be9-a727-4d17-96de-2f9d83e734ea"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/7f70c9bc-320b-4fa9-a556-67a31dec5a31"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/8d3d5527-e7df-483b-ae85-5dcab2fffd75"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/94aeec67-aa48-4013-9878-01d2ba6cb254"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/9e02e777-ae6b-467f-8bd1-b4cafc997307"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/a0cf6117-6d37-4f62-a138-8f3295e3ebb3"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/a9d8a179-c193-4f62-8a41-b36f06d869c7"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/aa3cec66-c92a-4eb9-a1a7-0f86f9d45155"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/b49f3189-fffc-4d38-898d-78acc35d77cd"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/b920d9da-1202-48b4-8e8f-30adc724bc72"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/d5726fca-b713-4b7b-9a3f-5f823de51c5a"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/d935177b-81b7-4895-bea1-5dadd5f707da"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/dd47db1e-1bda-4f33-b4f9-4f68617e4041"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/ee49c35e-5b9c-49ce-8a1a-c5e62b8f6427"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/ee881863-1bbf-4199-ab52-2de710d474fc"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/f4270c56-c266-41b8-be6c-2a850a3418d9"/>
+	<xlNotation xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/notation_83dd8a87b1"/>
+	<xlNotation xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/notation_925f8e1aba"/>
+	<modified xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-04</modified>
+	<inScheme xmlns="http://www.w3.org/2004/02/skos/core#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/25831c2"/>
+	<notation xmlns="http://www.w3.org/2004/02/skos/core#">Level 3</notation>
+	<notation xmlns="http://www.w3.org/2004/02/skos/core#">sector-specific</notation>
+	<topConceptOf xmlns="http://www.w3.org/2004/02/skos/core#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/25831c2"/>
+	<identifier xmlns="http://purl.org/dc/elements/1.1/">sector-specific</identifier>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/transversal">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<rdf:type rdf:resource="http://www.w3.org/2004/02/skos/core#Concept"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="ga">scileanna agus inniúlachtaí idirdhisciplíneacha</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="el">εγκάρσιες δεξιότητες και ικανότητες</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="no">overgripende ferdigheter og kompetanse</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="hu">transzverzális készségek és kompetenciák</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sv">övergripande färdigheter och kompetenser</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="cs">průřezové dovednosti a schopnosti</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="mt">ħiliet u kompetenzi transversali</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="it">abilità e competenze trasversali</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="bg">трансверсални умения и компетентности</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="nl">transversale vaardigheden en competenties</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="en">transversal skills and competences</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="pt">Aptidões e competências transversais</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="hr">transverzalne vještine i kompetencije</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="de">Querschnittsfähigkeiten und -kompetenzen</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="es">Capacidades y competencias transversales</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="is">þverfagleg færni og hæfni</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="pl">umiejętności i kompetencje o charakterze ogólnym</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="fr">Aptitudes et compétences transversales</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="lv">transversālās prasmes un iemaņas</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="et">üldoskused ja -pädevused</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="lt">universalieji gebėjimai ir kompetencijos</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="fi">laaja-alaiset taidot ja osaaminen</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="ro">Aptitudini și competențe transversale</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sl">prečne spretnosti in kompetence</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="sk">prierezové zručnosti a kompetencie</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2004/02/skos/core#" xml:lang="da">tværfaglige færdigheder og kompetencer</prefLabel>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/0d0e7ec9-fdb9-43ac-b0ed-db7350111150"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/0df6f33e-aff9-483f-96fa-98415b2e56cc"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/0f9b367b-b22e-49d6-adec-2d1a19d3e05c"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/1565e7cc-bdff-47e7-8a82-a5408f242649"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/1fd83f56-abb8-42f1-9bb3-0abd74170c11"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/20ca5665-3f8d-457e-a995-b63c5f13cf54"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/22d9ca8e-6c1c-47af-9da3-463783c73287"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/383fdd34-327f-4dd2-91ea-90dbb67682b2"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/3b966a3c-cfa8-4695-a1d9-75d8bcaed869"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/3ee22d40-3d4a-4263-a4d1-3c7a9194820a"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/5ec05e3a-0d16-48bb-8079-ce3e71ddfe48"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/61abc15a-6c51-42d2-85e0-7a5ff6baf762"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/79b471b2-0a68-42ec-8649-f9bf2cca5158"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/7e603583-056a-444e-b613-811cae27fee4"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/80e089bf-c0a3-4e2d-a091-3636e2ad74ed"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/8baf8da0-3d27-4315-868f-278c7568ea42"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/98e91b22-15ed-444c-8580-a0f2efde491b"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/a2185152-f5e1-4d39-842c-7f3ce4c6dd12"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/a99f9a47-bcfd-4347-97df-aa7433d5e9ea"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/aa0d4c1f-19a9-4c94-871e-c5a7826ea9a1"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/d50a728a-1794-4984-9014-aa69e145906f"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/d83a67ff-8022-4ce5-a242-1740094b9075"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/e3662ada-080b-4f45-94a4-d135d4aefa24"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/ee79713a-bdbb-41da-bd73-890286baf657"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/fd4876ac-a869-4e7d-beb6-bcadc3bfa4dd"/>
+	<prefLabel xmlns="http://www.w3.org/2008/05/skos-xl#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/ffaaa871-687b-462a-8037-785bba2be241"/>
+	<xlNotation xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/notation_302ee190ca"/>
+	<xlNotation xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/notation_6fe92e45a5"/>
+	<inScheme xmlns="http://www.w3.org/2004/02/skos/core#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/25831c2"/>
+	<notation xmlns="http://www.w3.org/2004/02/skos/core#">transversal</notation>
+	<notation xmlns="http://www.w3.org/2004/02/skos/core#">Level 1</notation>
+	<topConceptOf xmlns="http://www.w3.org/2004/02/skos/core#" rdf:resource="http://data.europa.eu/snb/skill-reuse-level/25831c2"/>
+	<identifier xmlns="http://purl.org/dc/elements/1.1/">transversal</identifier>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/312aad93-997a-4a0c-9142-2183faaae788">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="it">Livelli di riutilizzo del concetto del pilastro abilità ESCO</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/31dca95b-9ba5-4912-9a05-c11611ae7923">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="no">ESCO ferdighetsdel begrep gjenbrukbarhetsnivå</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/3db53c2c-bcfa-4ac4-802e-e40c4ebcdd37">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="ga">leibhéil ath-inúsáidteachta coincheapa colúin scileanna ESCO</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/426520a0-a4c2-428e-8f51-9413e616db8a">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="sv">Escopelaren för färdigheter - återanvändbarhetsnivå</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/436054da-062e-4d84-b685-71bd78e61e75">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="hu">A készségek jellege az ESCO készségpillérjében</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/47aafaa9-3b28-49ac-87db-b1798b012c41">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="sl">Ravni ponovne uporabe koncepta stebra spretnosti ESCO</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/47cfb012-e377-4084-a270-c100df69c4c7">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="fi">ESCOn taidot -osion käsitteen uudelleenkäytettävyystasot</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/5ec3b8c9-abf0-48e5-8546-5d2eeb2a06c7">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="lt">ESCO gebėjimų dalies sąvokų pasikartojimo lygis</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/62c217d7-4b39-4552-bb4e-e46541616c98">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="el">Επίπεδο επαναχρησιμοποίησης των εννοιών του πυλώνα δεξιοτήτων ESCO</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/69a4a287-f2e7-4179-876e-cd29f4d07960">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="nl">niveaus herbruikbaarheid pijlerconcepten vaardigheden ESCO</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/6a041b50-9cbf-42f0-9a7c-fdbcde767b66">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="en">ESCO Skill Pillar concept reusability levels</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/7cbd08ff-244c-4606-b5cf-4bbdd5fd9993">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="de">Wiederverwendbarkeit der Konzepte in der ESCO-Säule „Fähigkeiten“</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/7d35f71b-9287-47cb-9d48-edd82ba467a8">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="lv">ESCO prasmju pīlāra jēdzienu atkārtotas izmantošanas līmeņi</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/91099f84-5872-42df-a251-d932ea3ab25d">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="da">ESCO-søjle for færdigheder - begrebernes anvendelsesbredde</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/9c122c2c-d99a-48d4-9987-4572ce1e896f">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="bg">Степени на многократна използваемост на понятие от стълба на ЕSCO за уменията</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/b2a66154-f026-4c10-9c14-9fb45484ce31">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="hr">Razine ponovnog iskorištavanja koncepata iz stupa vještina klasifikacije ESCO</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/c09ec24c-86fb-4a54-8708-3d8920022dca">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="fr">Niveaux de réutilisabilité d'un concept pour socle d'aptitudes ESCO</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/c5ef3aff-83d0-44bc-9963-0f1bb64ad324">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="ro">Niveluri ale potențialului de reutilizare a unui concept pentru pilonul de aptitudini ESCO</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/cf64ad81-3722-4a60-aa39-5700b7a1630e">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="mt">Livelli tal-użabbiltà mill-ġdid tal-kunċetti tal-Pilastru tal-Ħiliet fl-ESCO</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/d95c09e4-de78-41e7-869a-92f84da867bc">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="sk">Stupne rozsahu využitia pojmov nosných zručností ESCO</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/debdae07-c64b-4d65-bd7e-166d22dccc3c">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="cs">Stupně rozsahu využití pojmu nosných dovedností ESCO</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/e46a1b3e-f3b3-4212-844e-517c394507e3">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="pt">Níveis de polivalência de um conceito do pilar de competências ESCO</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/f1a348e0-2d8a-47c6-bc41-71cc972cc505">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="et">ESCO oskuste samba mõiste taaskasutatavuse tasandid</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/f9e256b0-d8d5-4b53-8e1e-0e045cacb9cf">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="es">Niveles de polivalencia de conceptos del pilar de capacidades ESCO</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/29151782-6778-4d56-bed6-701d2bbe2845">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="lv">starpnozaru prasmes un iemaņas</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/2a8c3eb6-ec0f-45d8-9992-6835cf749f4e">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="hr">vještine i kompetencije specifične za zanimanje</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/2abcdb26-2d1b-40ce-9908-f427b5600c94">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="bg">специфични за сектора умения и компетентности</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/2c291836-cbe4-4e52-b975-5e49221d1286">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="fi">alakohtaiset taidot ja osaaminen</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/2ee5b870-21ce-46a2-ac0d-07889177e79b">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="et">ametipõhised erioskused ja -pädevused</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/33d7b44b-c54c-4b0f-93a6-b452010107ba">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="lt">konkrečios profesijos gebėjimai ir kompetencijos</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/383fdd34-327f-4dd2-91ea-90dbb67682b2">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="it">abilità e competenze trasversali</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/3b966a3c-cfa8-4695-a1d9-75d8bcaed869">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="bg">трансверсални умения и компетентности</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/3bc6b504-370a-4f1c-bb3a-386f765b1a4a">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="et">sektoriülesed oskused ja pädevused</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/3d247b22-8e40-44ff-b458-72a77e9d937a">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="pl">umiejętności i kompetencje międzysektorowe</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/3ee22d40-3d4a-4263-a4d1-3c7a9194820a">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="nl">transversale vaardigheden en competenties</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/40662ed0-17e4-436f-a202-c422f2d1d4f9">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="pt">Aptidões e competências específicas de uma profissão</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/41ec6bde-3655-4c99-9129-9533bd8fd452">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="fi">monialaiset taidot ja osaaminen</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/48d29057-da01-464a-bbc3-f69b1798f585">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="en">sector specific skills and competences</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/4a4784c7-7c90-450c-bd93-3c6b50dd7a46">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="es">Capacidades y competencias específicas de la ocupación</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/4f5d8bb8-3ed6-4927-97b2-f9a39153a1bf">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="ga">scileanna agus inniúlachtaí trasearnála</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/56d6474d-fec4-4a4a-b0c1-9b6664e25a1c">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="it">abilità e competenze specifiche della professione</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/5e6fafa2-1f8d-48ed-9a6e-069067886a16">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="is">færni og hæfni á ákveðnu sviði</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/5ec05e3a-0d16-48bb-8079-ce3e71ddfe48">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="en">transversal skills and competences</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/61abc15a-6c51-42d2-85e0-7a5ff6baf762">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="pt">Aptidões e competências transversais</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/62ad2ecc-5bab-43ee-b0a7-6f81794e7527">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="sv">sektorsövergripande färdigheter och kompetenser</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/633707c0-3e47-42bb-8cbd-4c101c6d5fd2">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="bg">специфични за професията умения и компетентности</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/64640fda-6003-4abd-bf16-0d6aea8c5aa7">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="sk">špecifické zručnosti a kompetencie pre konkrétne povolanie</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/675f092c-3706-4d86-8132-90317940d5bf">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="fi">ammattispesifiset taidot ja osaaminen</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/7238cd19-6910-42f7-8a7c-d5b27365c55d">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="is">færni og hæfni þvert á atvinnugreinar</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/73555b08-f3c4-4fd9-8eb3-2bb3d8e994d7">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="no">sektorspesifikke ferdigheter og kompetanse</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/73fd3069-5d66-4aba-8bc7-47e6ee309d82">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="en">occupation specific skills and competences</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/743673cf-9f7d-4b02-8a44-40ebc2c18bcf">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="sv">sektorsspecifika färdigheter och kompetenser</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/74400155-3848-4520-99f2-6b934ba713db">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="hu">foglalkozáshoz kapcsolódó készségek és kompetenciák</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/78405731-a856-406e-b91e-c1e34cb692b5">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="cs">mezioborové dovednosti a schopnosti</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/7914f9bf-9b39-4a10-8eee-380c5c624dbf">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="hr">vještine i kompetencije specifične za sektor</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/79b471b2-0a68-42ec-8649-f9bf2cca5158">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="hr">transverzalne vještine i kompetencije</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/7a25d2ec-4f8b-451f-b4c5-978eb7167024">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="sl">posebne spretnosti in kompetence za posamezne poklice</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/7aa26052-7953-4577-9039-754de561d7d7">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="ro">Aptitudini și competențe specifice sectorului</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/7bbe5be9-a727-4d17-96de-2f9d83e734ea">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="pl">umiejętności i kompetencje specyficzne dla sektora</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/7e603583-056a-444e-b613-811cae27fee4">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="de">Querschnittsfähigkeiten und -kompetenzen</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/7f70c9bc-320b-4fa9-a556-67a31dec5a31">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="hu">ágazathoz kapcsolódó készségek és kompetenciák</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/80e089bf-c0a3-4e2d-a091-3636e2ad74ed">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="es">Capacidades y competencias transversales</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/8baf8da0-3d27-4315-868f-278c7568ea42">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="is">þverfagleg færni og hæfni</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/8d3d5527-e7df-483b-ae85-5dcab2fffd75">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="pt">Aptidões e competências específicas de um setor</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/92ad4c3b-be52-489c-a12e-86b9af3f4ee5">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="pl">umiejętności i kompetencje specyficzne dla zawodu</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/94639735-96e7-412c-a04b-8e0f96e79ea2">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="ro">Aptitudini și competențe transsectoriale</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/94aeec67-aa48-4013-9878-01d2ba6cb254">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="el">ειδικές δεξιότητες και ικανότητες για τον εκάστοτε τομέα</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/98e91b22-15ed-444c-8580-a0f2efde491b">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="pl">umiejętności i kompetencje o charakterze ogólnym</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/9e02e777-ae6b-467f-8bd1-b4cafc997307">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="it">abilità e competenze specifiche del settore</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/a0cf6117-6d37-4f62-a138-8f3295e3ebb3">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="sl">posebne spretnosti in kompetence za posamezne sektorje</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/a2185152-f5e1-4d39-842c-7f3ce4c6dd12">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="fr">Aptitudes et compétences transversales</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/a300d905-69a2-4f9e-b109-ba65a1d9ccbc">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="pt">Aptidões e competências transversais</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/a47c5616-2633-49d0-887f-b778c67d9bce">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="es">Capacidades y competencias transectoriales</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/a67f0b77-e0af-4dd9-8e89-6d67d605d2bd">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="en">cross-sector skills and competences</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/a86d670d-5ee7-4b5e-8f9f-754e67ceb38b">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="sl">medsektorske spretnosti in kompetence</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/a91ff544-49ef-4a68-a1a1-c91384521adf">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="de">branchenübergreifende Fähigkeiten und Kompetenzen</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/a99f9a47-bcfd-4347-97df-aa7433d5e9ea">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="lv">transversālās prasmes un iemaņas</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/a9d8a179-c193-4f62-8a41-b36f06d869c7">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="lt">konkretaus sektoriaus gebėjimai ir kompetencijos</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/aa0d4c1f-19a9-4c94-871e-c5a7826ea9a1">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="et">üldoskused ja -pädevused</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/aa3cec66-c92a-4eb9-a1a7-0f86f9d45155">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="lv">nozarei raksturīgās prasmes un iemaņas</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/ad63a78d-8e29-4d25-b080-3a7ff084bbce">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="hr">međusektorske vještine i kompetencije</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/b49f3189-fffc-4d38-898d-78acc35d77cd">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="ga">scileanna agus inniúlachtaí earnáilsonracha</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/b6ab764f-7134-4a15-9389-d2af273531de">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="el">διατομεακές δεξιότητες και ικανότητες</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/b8f93192-820c-4bf8-aa2c-7af2bc49f091">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="lv">profesijai raksturīgās prasmes un iemaņas</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/b920d9da-1202-48b4-8e8f-30adc724bc72">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="sk">špecifické zručnosti a kompetencie pre konkrétne odvetvie</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/c00b9e98-5b9a-40ee-b3ae-ea7cd6633734">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="el">ειδικές δεξιότητες και ικανότητες για το εκάστοτε επάγγελμα</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/c27e7d02-7beb-4d32-95a8-3c815737394c">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="sk">medzisektorové zručnosti a kompetencie</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/c7240279-9d6c-4407-835a-3c5bb7f8fc02">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="is">sértæk starfsfærni og -hæfni</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/ca19cdc7-e67b-4f43-83eb-7c69bd741cd7">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="fr">Aptitudes et compétences spécifiques d'une profession</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/notation_3da02f14b6">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNotation"/>
+	<rdf:value>cross-sector</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/notation_49aa378d84">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNotation"/>
+	<rdf:value>Level 2</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/dcc3db31-706e-4ea6-a161-d58496037184">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="it">abilità e competenze intersettoriali</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/e2e7fb00-7591-4cb2-8085-becd2af5276a">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="da">tværsektorielle færdigheder og kompetencer</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/e608b105-9253-466e-ae1b-0a75b96f00b3">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="lt">tarpsektoriniai gebėjimai ir kompetencijos</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/f5bd18bc-2af5-48e5-9b20-5edb79c75f70">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="mt">ħiliet u kompetenzi transsettorjali</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/d50a728a-1794-4984-9014-aa69e145906f">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="lt">universalieji gebėjimai ir kompetencijos</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/d5726fca-b713-4b7b-9a3f-5f823de51c5a">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="da">sektorspecifikke færdigheder og kompetencer</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/d83a67ff-8022-4ce5-a242-1740094b9075">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="fi">laaja-alaiset taidot ja osaaminen</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/d935177b-81b7-4895-bea1-5dadd5f707da">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="cs">dovednosti a schopnosti specifické pro konkrétní odvětví</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/dc7dc9f6-9890-43be-b9c8-7c0449646ade">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="sv">yrkesspecifika färdigheter och kompetenser</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/dd47db1e-1bda-4f33-b4f9-4f68617e4041">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="et">sektoripõhised erioskused ja -pädevused</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/e3662ada-080b-4f45-94a4-d135d4aefa24">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="ro">Aptitudini și competențe transversale</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/e428f55f-8c0f-4881-a8eb-e83f60788786">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="de">berufsspezifische Fähigkeiten und Kompetenzen</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/ec97bfa2-bdc6-47b6-868b-cd4824e35200">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="cs">dovednosti a schopnosti specifické pro konkrétní povolání</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/ee49c35e-5b9c-49ce-8a1a-c5e62b8f6427">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="nl">sectorspecifieke vaardigheden en competenties</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/ee79713a-bdbb-41da-bd73-890286baf657">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="sl">prečne spretnosti in kompetence</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/ee881863-1bbf-4199-ab52-2de710d474fc">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="fr">Aptitudes et compétences spécifiques d'un secteur</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/f4270c56-c266-41b8-be6c-2a850a3418d9">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="de">branchenspezifische Fähigkeiten und Kompetenzen</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/f89345de-e312-4ac9-8dfe-5c67f8d9b0e3">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="ro">Aptitudini și competențe specifice ocupației</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/fd4876ac-a869-4e7d-beb6-bcadc3bfa4dd">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="sk">prierezové zručnosti a kompetencie</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/ffaaa871-687b-462a-8037-785bba2be241">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<status xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:resource="http://publications.europa.eu/resource/authority/concept-status/CURRENT"/>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<type xmlns="http://purl.org/dc/terms/" rdf:resource="http://publications.europa.eu/resource/authority/label-type/STANDARDLABEL"/>
+	<rdf:type rdf:resource="http://www.w3.org/2008/05/skos-xl#Label"/>
+	<versionInfo xmlns="http://www.w3.org/2002/07/owl#">v.2.</versionInfo>
+	<literalForm xmlns="http://www.w3.org/2008/05/skos-xl#" xml:lang="da">tværfaglige færdigheder og kompetencer</literalForm>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/notation_302ee190ca">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNotation"/>
+	<rdf:value>transversal</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/notation_58362e6762">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNotation"/>
+	<rdf:value>Level 4</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/notation_6fe92e45a5">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNotation"/>
+	<rdf:value>Level 1</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/notation_83dd8a87b1">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNotation"/>
+	<rdf:value>Level 3</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/notation_85fbc961d3">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNotation"/>
+	<rdf:value>occupation-specific</rdf:value>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://data.europa.eu/snb/skill-reuse-level/notation_925f8e1aba">
+	<startDate xmlns="http://publications.europa.eu/ontology/euvoc#" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-09-30</startDate>
+	<created xmlns="http://purl.org/dc/terms/" rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2020-06-15</created>
+	<rdf:type rdf:resource="http://publications.europa.eu/ontology/euvoc#XlNotation"/>
+	<rdf:value>sector-specific</rdf:value>
+</rdf:Description>
+
+</rdf:RDF>

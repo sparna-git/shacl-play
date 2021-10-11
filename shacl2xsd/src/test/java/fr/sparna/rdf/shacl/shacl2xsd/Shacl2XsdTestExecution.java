@@ -56,15 +56,21 @@ public class Shacl2XsdTestExecution implements Test {
 	public void run(TestResult result) {
 		result.startTest(this);
 		final File input = new File(this.testFolder, "input.ttl");
+		final File inputConstraints = new File(this.testFolder, "input-constraints-mdr.ttl");
 		final File expected = new File(this.testFolder, "expected.xsd");
 		System.out.println("Testing "+input.getAbsolutePath());
 		try {
 			Model shacl = ModelFactory.createDefaultModel();
 			shacl.read(new FileInputStream(input), RDF.uri, FileUtils.guessLang(input.getName(), "RDF/XML"));
 			
+			Model shaclConstraints = ModelFactory.createDefaultModel();
+			if(inputConstraints.exists()) {
+				shaclConstraints.read(new FileInputStream(inputConstraints), RDF.uri, FileUtils.guessLang(input.getName(), "RDF/XML"));
+			}
+			
 			Document output = null;
 			try {
-				output = converter.convert(shacl);
+				output = converter.convert(shacl, shaclConstraints);
 			} catch (Exception e) {
 				e.printStackTrace();
 				result.addError(this, e);

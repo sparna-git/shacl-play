@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:skos="http://www.w3.org/2004/02/skos/core#"
+    xmlns="http://data.europa.eu/snb/assessment/25831c2" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://data.europa.eu/snb/assessment/25831c2">
+    <xs:simpleType name="LearningAssessmentTypesEnumType">
+        <xs:restriction base="xs:anyURI">
+            <xs:enumeration value="http://data.europa.eu/snb/assessment/19a2e5e671">
+                <xs:annotation>
+                    <xs:documentation>peer assessment</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/assessment/2939dae15f">
+                <xs:annotation>
+                    <xs:documentation>marked assignment</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/assessment/3484bd7e51">
+                <xs:annotation>
+                    <xs:documentation>continuous evaluation</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/assessment/4f03b91c0e">
+                <xs:annotation>
+                    <xs:documentation>portfolio</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/assessment/56539a6507">
+                <xs:annotation>
+                    <xs:documentation>group performance</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/assessment/6a4db9f11d">
+                <xs:annotation>
+                    <xs:documentation>practical assessment</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/assessment/6e6cb2cc78">
+                <xs:annotation>
+                    <xs:documentation>written examination</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/assessment/7331eb4762">
+                <xs:annotation>
+                    <xs:documentation>level of attendance</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/assessment/795dac4096">
+                <xs:annotation>
+                    <xs:documentation>project work</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/assessment/812e3b0ae1">
+                <xs:annotation>
+                    <xs:documentation>peer review</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/assessment/b1b68f6735">
+                <xs:annotation>
+                    <xs:documentation>quiz</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/assessment/c4256a2726">
+                <xs:annotation>
+                    <xs:documentation>problem based learning</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/assessment/d30284d7df">
+                <xs:annotation>
+                    <xs:documentation>oral examination</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="http://data.europa.eu/snb/assessment/de4d165a6c">
+                <xs:annotation>
+                    <xs:documentation>artefact assessment</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>

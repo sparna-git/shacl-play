@@ -10,19 +10,24 @@
     <xs:element name="MediaObject" type="MediaObjectType"/>
 
     <!-- List of XML elements corresponding to classes, as property reference -->
-    <xs:element name="europassCredential" type="EuropassCredentialType">
-        <!-- 5. declare a key on the root element -->
+    <xs:element name="europassCredential" type="EuropassCredentialType" />
+
+    <!-- 5a. Declare a new root element based on parameter, the keys will be inside -->
+    <xs:element name="theRoot" type="TheRootType">
+        <!-- 6. declare a key on the root element -->
         <xs:key name="mediaObjectKey">
             <xs:selector xpath="elm:mediaObjectReferences/elm:mediaObject"/>
             <xs:field xpath="@id"/>
         </xs:key>
 
-        <!-- 6. declare a keyref for every property that uses a reference -->
+        <!-- 7. declare a keyref for every property that uses a reference -->
         <xs:keyref name="attachmentKeyref" refer="mediaObjectKey">
             <xs:selector xpath="elm:attachment"/>
             <xs:field xpath="@idref"/>
         </xs:keyref>
     </xs:element>
+
+
     <!-- 4a. The XML elements corresponding to the class must have a type="IdReferenceType" -->
     <xs:element name="mediaObject" type="IdReferenceType"/>
 
@@ -41,6 +46,13 @@
             <xs:element ref="attachment" minOccurs="0" maxOccurs="unbounded" />
         </xs:sequence>   
         <xs:attribute name="id" use="required" type="xs:anyURI" />     
+    </xs:complexType>
+
+    <!-- 5b. The root element has a corresponding Type declaration, where all the "references" attribute will be declared -->
+    <xs:complexType name="TheRootType">
+        <xs:sequence>
+            <xs:element ref="mediaObjectReferences" minOccurs="0" maxOccurs="1" />
+        </xs:sequence> 
     </xs:complexType>
 
     <xs:complexType name="MediaObjectType">

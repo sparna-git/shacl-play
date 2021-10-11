@@ -27,13 +27,13 @@ public class Shacl2XsdConverter {
 		this.targetNamespace = targetNamespace;
 	}
 
-	public Document convert(Model shacl) throws Exception {
+	public Document convert(Model shacl, Model shaclControlledVocabularies) throws Exception {
 		Document doc = this.initDocument();
-		doConvert(shacl, doc);
+		doConvert(shacl, shaclControlledVocabularies, doc);
 		return doc;
 	}
 
-	protected void doConvert(Model shacl, Document document) throws Exception {
+	protected void doConvert(Model shacl, Model shaclControlledVocabularies, Document document) throws Exception {
 
 		// Read Shacl
 		List<Resource> nodeShapes = shacl.listResourcesWithProperty(RDF.type, SH.NodeShape).toList();

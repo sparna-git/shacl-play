@@ -1,0 +1,38 @@
+@prefix elm:    <https://data.europa.eu/snb/model#>.
+@prefix edci-c:    <https://data.europa.eu/snb/model/edci-constraints#>.
+@prefix sh:     <http://www.w3.org/ns/shacl#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix esco:   <http://data.europa.eu/esco/model#>.
+@prefix elm:    <https://data.europa.eu/snb/model#>.
+
+# The NodeShape
+edci-c:MyBeautifulEuropassCredentialShape 
+  a sh:NodeShape; 
+  sh:targetClass elm:EuropassCredential; 
+  sh:property edci-c:EuropassCredential-elm_A_property;
+  sh:property edci-c:EuropassCredential-elm_B_property;
+  .
+
+edci-c:EuropassCredential-elm_A_property
+  a sh:PropertyShape; 
+  sh:path elm:A_property;
+  sh:class elm:MediaObject;
+  # this one must be second
+  sh:order 2 ;
+  .  
+
+edci-c:EuropassCredential-elm_B_property
+  a sh:PropertyShape; 
+  sh:path elm:B_property;
+  sh:class elm:MediaObject;
+  # this one must be first
+  sh:order 1 ;
+  . 
+
+edci-c:MediaObjectShape 
+  a sh:NodeShape; 
+  sh:targetClass elm:MediaObject; 
+  .

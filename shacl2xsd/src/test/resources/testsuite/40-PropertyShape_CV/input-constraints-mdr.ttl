@@ -1,0 +1,36 @@
+@prefix elm:    <https://data.europa.eu/snb/model#>.
+@prefix edci-c:    <https://data.europa.eu/snb/model/edci-constraints#>.
+@prefix sh:     <http://www.w3.org/ns/shacl#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix esco:   <http://data.europa.eu/esco/model#>.
+@prefix elm:    <https://data.europa.eu/snb/model#>.
+@prefix :    <https://data.europa.eu/snb/model/accreditation-constraints-mdr#>.
+@prefix accred:    <https://data.europa.eu/snb/model/accreditation-constraints#>.
+
+:AccreditationShapeCV
+    a sh:NodeShape;
+    # same targetClass
+    sh:targetClass elm:Accreditation;
+    sh:property [
+        # 1 : a property shape with same sh:path, and with a sh:node ...
+        sh:node :JurisdictionRestriction;
+        sh:nodeKind sh:IRI ;
+        sh:path elm:limitJurisdiction;
+        sh:severity sh:Violation;
+    ]; 
+  .
+
+# 2 : the NodeShape that is referenced from the sh:node
+:JurisdictionRestriction
+    a sh:NodeShape ;
+    rdfs:comment "Jurisdiction restriction" ;
+    rdfs:label "Jurisdiction restriction" ;
+    sh:property [
+        # 3. This NodeShape contains a property shape on the sh:path skos:inScheme
+        sh:hasValue <http://publications.europa.eu/resource/authority/atu> ;
+        sh:nodeKind sh:IRI ;
+        sh:path skos:inScheme
+    ] .

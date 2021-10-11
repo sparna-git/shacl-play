@@ -2,10 +2,10 @@ package fr.sparna.rdf.shacl.shacl2xsd;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -105,6 +105,8 @@ public class Shacl2XsdConverter {
 		/*
 		 * Prefix
 		 * 
+		 * 
+		 * 
 		 */
 
 		Element root = doc.createElementNS("http://www.w3.org/2001/XMLSchema", "xs:schema");
@@ -116,14 +118,17 @@ public class Shacl2XsdConverter {
 		for (NamespaceSection rprefix : rPrefix) {
 			if (!rprefix.getnamespace().equals("http://www.w3.org/2001/XMLSchema#")) {
 				root.setAttribute("xmlns:" + rprefix.getprefix(), rprefix.getnamespace());
+				
 			}
 		}
 
 		for (OntologyImports rOwlImport : owlData.getOntoImports()) {
 			if (rOwlImport.getImportSchema() != null) {
 				root.setAttribute("xmlns:" + rOwlImport.getImportSchema().split(":")[0], rOwlImport.getImportURI());
+				
 			}
 		}
+		
 		root.setAttribute("version", "1.0.0");
 		root.setAttribute("elementFormDefault", "qualified");
 		doc.appendChild(root);
@@ -134,6 +139,9 @@ public class Shacl2XsdConverter {
 		 * 
 		 */
 
+	
+		
+		
 		for (OntologyImports rOwlImport : owlData.getOntoImports()) {
 			if (rOwlImport.getImportSchema() != null) {
 				Element imports = doc.createElementNS("http://www.w3.org/2001/XMLSchema", "xs:import");
@@ -183,7 +191,8 @@ public class Shacl2XsdConverter {
 					if (boxKeyElements.getUseReference()) {
 
 						String nameClasse = boxKeyElements.getNametargetclass().split(":")[1];
-						String strclass = nameClasse.replaceFirst(nameClasse.substring(0, 1),nameClasse.substring(0, 1).toLowerCase());
+						String strclass = nameClasse.replaceFirst(nameClasse.substring(0, 1),
+								nameClasse.substring(0, 1).toLowerCase());
 						String getNameSpaceClass = boxKeyElements.getNametargetclass().split(":")[0];
 
 						Element rootElement = doc.createElementNS("http://www.w3.org/2001/XMLSchema", "xs:key");
@@ -191,7 +200,8 @@ public class Shacl2XsdConverter {
 
 						Element rootElementSelector = doc.createElementNS("http://www.w3.org/2001/XMLSchema",
 								"xs:selector");
-						rootElementSelector.setAttribute("xpath", getNameSpaceClass+":"+strclass+ "References/"+ getNameSpaceClass+":"+strclass);
+						rootElementSelector.setAttribute("xpath", getNameSpaceClass + ":" + strclass + "References/"
+								+ getNameSpaceClass + ":" + strclass);
 						Element rootElementfield = doc.createElementNS("http://www.w3.org/2001/XMLSchema", "xs:field");
 						rootElementfield.setAttribute("xpath", "@id");
 
@@ -207,7 +217,8 @@ public class Shacl2XsdConverter {
 						Boolean bReferenceSource = false;
 						for (ShaclXsdBox boxKeyfind : data) {
 							if (propertyResource.getValue_class_property() != null) {
-								if (propertyResource.getValue_class_property().equals(boxKeyfind.getNametargetclass().split(":")[1]) & boxKeyfind.getUseReference()) {
+								if (propertyResource.getValue_class_property().equals(
+										boxKeyfind.getNametargetclass().split(":")[1]) & boxKeyfind.getUseReference()) {
 									bReferenceSource = true;
 									break;
 								}
@@ -219,8 +230,10 @@ public class Shacl2XsdConverter {
 							String strclassRef = classnameRef.replaceFirst(classnameRef.substring(0, 1),
 									classnameRef.substring(0, 1).toLowerCase());
 
-							Element rootElementRef = doc.createElementNS("http://www.w3.org/2001/XMLSchema","xs:keyref");
-							rootElementRef.setAttribute("name", propertyResource.getValue_path().split(":")[1] + "Keyref");
+							Element rootElementRef = doc.createElementNS("http://www.w3.org/2001/XMLSchema",
+									"xs:keyref");
+							rootElementRef.setAttribute("name",
+									propertyResource.getValue_path().split(":")[1] + "Keyref");
 							rootElementRef.setAttribute("refer", strclassRef + "Key");
 
 							Element rootElementSelectorRef = doc.createElementNS("http://www.w3.org/2001/XMLSchema",
@@ -242,7 +255,7 @@ public class Shacl2XsdConverter {
 			}
 		}
 
-		// <!-- list of XML elements corresponding to properties -->
+		// List of XML elements corresponding to properties
 		for (ShaclXsdBox boxElements : data) {
 
 			// 1. declare a MediaObjectReferences element, pointing to corresponding type
@@ -264,7 +277,7 @@ public class Shacl2XsdConverter {
 			for (ShaclXsdProperty rDataProperty : boxElements.getProperties()) {
 
 				Boolean bClass = false;
-				for (String cUsed : elementClass) {									
+				for (String cUsed : elementClass) {
 					if (cUsed.equals(rDataProperty.getValue_path().split(":")[1])) {
 						bClass = true;
 						break;
@@ -278,7 +291,9 @@ public class Shacl2XsdConverter {
 					Boolean useReferenceNodeSape = false;
 					if (rDataProperty.getValue_class_property() != null) {
 						for (ShaclXsdBox useReferenceClass : data) {
-							if (rDataProperty.getValue_class_property().equals(useReferenceClass.getNametargetclass().split(":")[1]) & useReferenceClass.getUseReference()) {
+							if (rDataProperty.getValue_class_property()
+									.equals(useReferenceClass.getNametargetclass().split(":")[1])
+									& useReferenceClass.getUseReference()) {
 								useReferenceNodeSape = true;
 								break;
 							}
@@ -291,7 +306,9 @@ public class Shacl2XsdConverter {
 						if (rDataProperty.getValue_class_property() != null) {
 							imports.setAttribute("type", rDataProperty.getValue_class_property() + "Type");
 						} else {
-							imports.setAttribute("type", rDataProperty.getValue_datatype().replace("xsd:", "xs:"));
+							if (rDataProperty.getValue_datatype() != null) {
+								imports.setAttribute("type", rDataProperty.getValue_datatype().replace("xsd:", "xs:"));
+							}
 						}
 					}
 					root.appendChild(imports);
@@ -300,6 +317,7 @@ public class Shacl2XsdConverter {
 		}
 
 		Boolean bSubClassOf = false;
+		String subClassOf = null;
 		for (ShaclXsdBox complexTypebox : data) {
 			Element complexType = doc.createElementNS("http://www.w3.org/2001/XMLSchema", "xs:complexType");
 			String strClasse = complexTypebox.getNametargetclass().split(":")[1];
@@ -309,33 +327,42 @@ public class Shacl2XsdConverter {
 			for (OntologyClass readOwlClass : owlData.getOntoClass()) {
 				if (readOwlClass.getCommentRDFS() != null & readOwlClass.getClassName().equals(strClasse)) {
 					Element attAnnotation = doc.createElementNS("http://www.w3.org/2001/XMLSchema", "xs:annotation");
-					Element attAnnotationDocument = doc.createElementNS("http://www.w3.org/2001/XMLSchema","xs:documentation");
+					Element attAnnotationDocument = doc.createElementNS("http://www.w3.org/2001/XMLSchema",
+							"xs:documentation");
 					attAnnotationDocument.setTextContent(readOwlClass.getCommentRDFS());
 
 					complexType.appendChild(attAnnotation);
 					attAnnotation.appendChild(attAnnotationDocument);
-					
-					if(complexTypebox.getNametargetclass().split(":")[1].equals(readOwlClass.getClassName())) {
+
+					if (complexTypebox.getNametargetclass().split(":")[1].equals(readOwlClass.getClassName())
+							&& readOwlClass.getSubClassOfRDFS() != null) {
+						subClassOf = readOwlClass.getSubClassOfRDFS();
 						bSubClassOf = true;
-					}					
-					
+					}
+
 				}
 			}
-
-				
-			if (complexTypebox.getProperties().size() > 0) {				
+			/*
+			 * 
+			 * 
+			 * 
+			 */
+			if (complexTypebox.getProperties().size() > 0) {
 				Element attsequence = doc.createElementNS("http://www.w3.org/2001/XMLSchema", "xs:sequence");
 				for (ShaclXsdProperty rDataProperty : complexTypebox.getProperties()) {
 					if (rDataProperty.getValue_path() != null) {
 
-						Element attelementSequence = doc.createElementNS("http://www.w3.org/2001/XMLSchema","xs:element");
+						Element attelementSequence = doc.createElementNS("http://www.w3.org/2001/XMLSchema",
+								"xs:element");
 						attelementSequence.setAttribute("ref", rDataProperty.getValue_path().split(":")[1]);
 						attelementSequence.setAttribute("maxOccurs", rDataProperty.getValue_maxCount());
 						attelementSequence.setAttribute("minOccurs", rDataProperty.getValue_minCount());
 
 						if (rDataProperty.getValue_description() != null) {
-							Element elementDescription = doc.createElementNS("http://www.w3.org/2001/XMLSchema","xs:annotation");
-							Element attelementDescription = doc.createElementNS("http://www.w3.org/2001/XMLSchema","xs:documentation");
+							Element elementDescription = doc.createElementNS("http://www.w3.org/2001/XMLSchema",
+									"xs:annotation");
+							Element attelementDescription = doc.createElementNS("http://www.w3.org/2001/XMLSchema",
+									"xs:documentation");
 							attelementDescription.setTextContent(rDataProperty.getValue_description());
 							attelementSequence.appendChild(elementDescription);
 							elementDescription.appendChild(attelementDescription);
@@ -343,8 +370,10 @@ public class Shacl2XsdConverter {
 							for (OntologyObjectProperty readOwlClass : owlData.getOntoOP()) {
 								if (rDataProperty.getValue_path().split(":")[1]
 										.equals(readOwlClass.getPropertyName())) {
-									Element elementDescription = doc.createElementNS("http://www.w3.org/2001/XMLSchema","xs:annotation");
-									Element attelementDescription = doc.createElementNS("http://www.w3.org/2001/XMLSchema", "xs:documentation");
+									Element elementDescription = doc.createElementNS("http://www.w3.org/2001/XMLSchema",
+											"xs:annotation");
+									Element attelementDescription = doc
+											.createElementNS("http://www.w3.org/2001/XMLSchema", "xs:documentation");
 									attelementDescription.setTextContent(readOwlClass.getCommentRDFS());
 									attelementSequence.appendChild(elementDescription);
 									elementDescription.appendChild(attelementDescription);
@@ -355,38 +384,43 @@ public class Shacl2XsdConverter {
 						attsequence.appendChild(attelementSequence);
 					}
 				}
-				
-				if(!bSubClassOf) {
+
+				/*
+				 * Si en la clase existe la propiedad SubClassOf
+				 * No debe de generar la etiqueta de Secuencia.
+				 */
+				if (!bSubClassOf) {
 					complexType.appendChild(attsequence);
 				}
-				
+
 				/*
-				 * 
-				 * 
+				 * Si existe la propiedad SubClassOf en la Ontologia
+				 * Recuperamos las propriedades de cada clase para convertirlos en elementos de la propiedad SubClassOf.
 				 */
-				for (OntologyClass readOwlClass : owlData.getOntoClass()) {
-					if (readOwlClass.getSubClassOfRDFS() != null) {
-						for (ShaclXsdProperty rDataProperty : complexTypebox.getProperties()) {
-							if (rDataProperty.getValue_path() != null) {
 
-								Element complexContent = doc.createElementNS("http://www.w3.org/2001/XMLSchema",
-										"xs:complexContent");
-								Element extension = doc.createElementNS("http://www.w3.org/2001/XMLSchema",
-										"xs:extension");
-								extension.setAttribute("base", readOwlClass.getSubClassOfRDFS() + "Type");
-								Element elementextension = doc.createElementNS("http://www.w3.org/2001/XMLSchema",
-										"xs:element");
-								elementextension.setAttribute("ref", rDataProperty.getValue_path().split(":")[1]);
-								elementextension.setAttribute("minOccurs", rDataProperty.getValue_minCount());
-								elementextension.setAttribute("maxOccurs", rDataProperty.getValue_maxCount());
+				if (bSubClassOf) {
+					Element complexContent = doc.createElementNS("http://www.w3.org/2001/XMLSchema",
+							"xs:complexContent");
+					Element extension = doc.createElementNS("http://www.w3.org/2001/XMLSchema", "xs:extension");
+					extension.setAttribute("base", subClassOf + "Type");
 
-								complexType.appendChild(complexContent);
-								complexContent.appendChild(extension);
-								extension.appendChild(elementextension);
-							}
+					for (ShaclXsdProperty rDataProperty : complexTypebox.getProperties()) {
+						if (rDataProperty.getValue_path() != null) {
+
+							Element elementextension = doc.createElementNS("http://www.w3.org/2001/XMLSchema",
+									"xs:element");
+							elementextension.setAttribute("ref", rDataProperty.getValue_path().split(":")[1]);
+							elementextension.setAttribute("minOccurs", rDataProperty.getValue_minCount());
+							elementextension.setAttribute("maxOccurs", rDataProperty.getValue_maxCount());
+							extension.appendChild(elementextension);
+
 						}
 					}
+					complexType.appendChild(complexContent);
+					complexContent.appendChild(extension);
+
 				}
+
 				Element attrComplex = doc.createElementNS("http://www.w3.org/2001/XMLSchema", "xs:attribute");
 				attrComplex.setAttribute("name", "id");
 				attrComplex.setAttribute("type", "xs:anyURI");
@@ -407,18 +441,16 @@ public class Shacl2XsdConverter {
 		// References types, at the end, after the others
 		for (ShaclXsdBox complexTypeboxUseReference : data) {
 			if (complexTypeboxUseReference.getUseReference()) {
-				String strClasse = complexTypeboxUseReference.getNametargetclass().split(":")[1]; 
+				String strClasse = complexTypeboxUseReference.getNametargetclass().split(":")[1];
 				Element complexTypeuseReference = doc.createElementNS("http://www.w3.org/2001/XMLSchema",
 						"xs:complexType");
-				complexTypeuseReference.setAttribute("name",
-						strClasse + "ReferencesType");
+				complexTypeuseReference.setAttribute("name", strClasse + "ReferencesType");
 
 				Element attsequenceUseReference = doc.createElementNS("http://www.w3.org/2001/XMLSchema",
 						"xs:sequence");
 				attsequenceUseReference.setAttribute("maxOccurs", "unbounded");
 				attsequenceUseReference.setAttribute("minOccurs", "0");
 
-				
 				String m = strClasse.replaceFirst(strClasse.substring(0, 1), strClasse.substring(0, 1).toLowerCase());
 
 				Element attelementSequence = doc.createElementNS("http://www.w3.org/2001/XMLSchema", "xs:element");

@@ -1,9 +1,11 @@
 package fr.sparna.rdf.shacl.shacl2xsd;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.Resource;
@@ -31,7 +33,7 @@ public class OntologyBoxRead {
 		List<OntologyImports> imp = new ArrayList<>();
 		List<Resource> owlResource = owl.listResourcesWithProperty(RDF.type, OWL.Ontology).toList();
 		for(Resource readOwl : owlResource) {
-			List<Statement> readImports = readOwl.listProperties(OWL.imports).toList(); 
+			List<Statement> readImports = readOwl.listProperties(OWL.imports).toList();
 			for(Statement src : readImports){
 				for(String key : mapPrefix.keySet()) {
 					if(src.getObject().toString().equals(mapPrefix.get(key))) {
@@ -45,6 +47,8 @@ public class OntologyBoxRead {
 				
 			}
 		}	
+		
+		
 		return imp;		
 	}
 	

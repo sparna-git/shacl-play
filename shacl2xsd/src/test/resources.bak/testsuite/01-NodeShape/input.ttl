@@ -1,9 +1,0 @@
-@prefix elm:    <https://data.europa.eu/snb/model#>.
-@prefix edci-c:    <https://data.europa.eu/snb/model/edci-constraints#>.
-@prefix sh:     <http://www.w3.org/ns/shacl#> .
-
-# The NodeShape
-edci-c:MyBeautifulEuropassCredentialShape 
-  a sh:NodeShape; 
-  sh:targetClass elm:EuropassCredential; 
-  .

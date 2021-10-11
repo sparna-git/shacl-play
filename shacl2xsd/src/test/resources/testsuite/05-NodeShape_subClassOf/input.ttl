@@ -6,6 +6,7 @@
 @prefix dc: <http://purl.org/dc/elements/1.1/> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix vc:     <http://data.europa.eu/snb/model/w3c/vc#>.
+@prefix foaf: <http://xmlns.com/foaf/0.1/>.
 
 <https://data.europa.eu/snb/model/edci-constraints>
   a owl:Ontology;
@@ -44,4 +45,15 @@ elm:EuropassCredential
 vc:VerifiableCredential
    a rdfs:Class;
    a owl:Class;
+.
+
+foaf:Person 
+  a rdfs:Class;
+  a owl:Class;
+  rdfs:subClassOf foaf:Agent;
+.
+
+foaf:Agent 
+  a rdfs:Class;
+  a owl:Class;
 .

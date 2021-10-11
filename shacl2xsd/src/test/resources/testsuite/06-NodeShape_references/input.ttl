@@ -10,8 +10,10 @@
 @prefix shacl-play:    <http://shacl-play.sparna.fr/ontology#>.
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-
-# input paramater : theRoot
+<https://data.europa.eu/snb/model/edci-constraints>
+  a owl:Ontology;
+  shacl-play:xsdRootElement "theRoot";
+  .
 
 # The NodeShape
 edci-c:MyBeautifulEuropassCredentialShape 

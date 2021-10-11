@@ -3,6 +3,7 @@
            targetNamespace="http://data.europa.eu/snb/model#"
            xmlns:elm="http://data.europa.eu/snb/model#"
            xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
            version="1.0.0" elementFormDefault="qualified">
     
     <!-- List of XML elements corresponding to classes -->
@@ -14,11 +15,13 @@
     <!-- list of XML elements corresponding to properties -->
     <xs:element name="grade" type="xs:string"/> 
     <xs:element name="grade_date" type="xs:date"/> 
+    <xs:element name="grade_literal" type="rdfs:LiteralType"/> 
 
     <xs:complexType name="LearningAssessmentType">
         <xs:sequence>
             <xs:element ref="grade" minOccurs="0" maxOccurs="1" />
             <xs:element ref="grade_date" minOccurs="1" maxOccurs="unbounded" />
+            <xs:element ref="grade_literal" minOccurs="0" maxOccurs="unbounded" />
         </xs:sequence>
         <xs:attribute name="id" use="required" type="xs:anyURI" />
     </xs:complexType>

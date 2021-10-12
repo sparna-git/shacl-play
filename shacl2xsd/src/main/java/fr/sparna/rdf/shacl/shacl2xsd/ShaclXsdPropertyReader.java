@@ -38,8 +38,9 @@ public class ShaclXsdPropertyReader {
 		
 		p.setValue_path(this.readShPath(constraint));		
 		p.setValue_datatype(this.readShDatatype(constraint));
-		/*
+		
 		p.setValue_nodeKind(this.readShNodeKind(constraint));
+		/*
 		p.setValue_range(this.readShMinInclusiveMaxInclusive(constraint));		
 		p.setValue_length(this.readShMinLengthMaxLength(constraint));		
 		p.setValue_pattern(this.readShPattern(constraint));		

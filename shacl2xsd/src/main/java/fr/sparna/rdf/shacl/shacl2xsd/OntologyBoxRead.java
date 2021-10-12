@@ -1,11 +1,8 @@
 package fr.sparna.rdf.shacl.shacl2xsd;
 
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Stream;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.Resource;
@@ -19,11 +16,26 @@ public class OntologyBoxRead {
 	public OntologyBox readOntology(Model GraphModel) {
 		
 		OntologyBox p = new OntologyBox();
+		
+		p.setXsdRootElement(this.readRootElement(GraphModel));
 		p.setOntoImports(this.readOwlforImports(GraphModel));
 		p.setOntoClass(this.readOwlforClass(GraphModel));
 		p.setOntoOP(this.readOwlforOP(GraphModel));
 		return p;
 		
+	}
+	
+	
+	public String readRootElement(Model owl){
+		String value = null;
+		List<Resource> owlResource = owl.listResourcesWithProperty(RDF.type, OWL.Ontology).toList();
+		for(Resource owlOntology : owlResource) {			
+			if(owlOntology.hasProperty(owlOntology.getModel().createProperty("http://shacl-play.sparna.fr/ontology#xsdRootElement"))) {
+				value = owlOntology.getProperty(owlOntology.getModel().createProperty("http://shacl-play.sparna.fr/ontology#xsdRootElement")).getObject().toString();			
+				System.out.println("Root "+value);
+			}			
+		}			
+		return value;
 	}
 	
 	public List<OntologyImports> readOwlforImports(Model owl){
@@ -47,8 +59,6 @@ public class OntologyBoxRead {
 				
 			}
 		}	
-		
-		
 		return imp;		
 	}
 	

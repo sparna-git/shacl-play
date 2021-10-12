@@ -124,8 +124,9 @@ public class ShaclXsdBoxReader {
 
 	public String readNametargetclass(Resource nodeShape) {
 		String value= null;
-		value = nodeShape.getModel().shortForm(nodeShape.getProperty(SH.targetClass).getResource().getURI());
-		
+		if(nodeShape.hasProperty(SH.targetClass)) {
+			value = nodeShape.getModel().shortForm(nodeShape.getProperty(SH.targetClass).getResource().getURI());
+		}
 		return value;
 		//return valueReader.readValueconstraint(nodeShape, SH.targetClass);
 	}

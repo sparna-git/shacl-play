@@ -19,7 +19,8 @@ import org.w3c.dom.Node;
 
 public class ListFiles {
 	
-	static File mainFolder = new File("C:\\Users\\thoma\\Documents\\02-Projet\\02 Parleiament\\xsd");
+	static File mainFolder = new File("C:\\Users\\thoma\\Documents\\02-Projet\\02 Parleiament\\xsd\\ontology-accreditation-ap");
+	static File constraintsFile = new File("C:/Users/thoma/Documents/02-Projet/02 Parleiament/xsd/AMS-constraints-mdr.ttl");
 		
 	 public static void main(String[] args) throws Exception
      {
@@ -27,8 +28,11 @@ public class ListFiles {
 		 Model shaclGraph = ModelFactory.createDefaultModel();
 		 shaclGraph = InputModelReader.populateModel(shaclGraph, mainFolder);
 		 
+		 Model constraintsGraph = ModelFactory.createDefaultModel();
+		 constraintsGraph = InputModelReader.populateModel(constraintsGraph, constraintsFile);
+		 
 		 Shacl2XsdConverter convert = new Shacl2XsdConverter("http://data.europa.eu/snb/model#");		 
-		 Document ooutputXSD = convert.convert(shaclGraph,shaclGraph);
+		 Document ooutputXSD = convert.convert(shaclGraph,constraintsGraph);
 		 
 		 File outputFile = new File(mainFolder, "output.xsd");
 		 writeNode(ooutputXSD, new FileOutputStream(outputFile));

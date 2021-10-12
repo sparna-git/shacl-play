@@ -7,8 +7,8 @@
            version="1.0.0" elementFormDefault="qualified">
            <!-- Note : always include skos namespace -->
 
-    <xs:element name="AccreditationShape" type="AccreditationShapeType"/>
-    <xs:element name="accreditationShape" type="AccreditationShapeType"/>
+    <xs:element name="Accreditation" type="AccreditationType"/>
+    <xs:element name="accreditation" type="AccreditationType"/>
 
     <!--
         if the property has sh:class = skos:Concept, but we have a more restrictive
@@ -17,7 +17,7 @@
     -->
     <xs:element name="limitJurisdiction" type="JurisdictionRestrictionType"/> 
 
-    <xs:complexType name="AccreditationShapeType">        
+    <xs:complexType name="AccreditationType">        
         <xs:sequence>
             <xs:element ref="limitJurisdiction" minOccurs="0" maxOccurs="unbounded" />
         </xs:sequence>    

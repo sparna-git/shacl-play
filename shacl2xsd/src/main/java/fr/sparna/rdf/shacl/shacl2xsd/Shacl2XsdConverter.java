@@ -180,11 +180,12 @@ public class Shacl2XsdConverter {
 
 		// root element
 		if (isRoot != null) {
-			
+			root.appendChild(doc.createComment("Root element"));
 			String m = isRoot.replaceFirst(isRoot.substring(0, 1), isRoot.substring(0, 1).toUpperCase());
 			Element classElementLowerCase = doc.createElementNS("http://www.w3.org/2001/XMLSchema", "xs:element");
 			classElementLowerCase.setAttribute("name", m);
 			classElementLowerCase.setAttribute("type", m+"Type");
+			root.appendChild(doc.createComment("keys"));
 			for (ShaclXsdBox boxKeyElements : data) {
 				if (boxKeyElements.getUseReference()) {
 					System.out.println("Box : "+boxKeyElements.getNodeShape().getURI()+" uses references");
@@ -207,7 +208,9 @@ public class Shacl2XsdConverter {
 					rootElement.appendChild(rootElementfield);
 				}
 			}
+			
 			// reference element
+			root.appendChild(doc.createComment("keyrefs"));
 			for (ShaclXsdBox boxKeyElementsRef : data) {
 				for (ShaclXsdProperty propertyResource : boxKeyElementsRef.getProperties()) {
 
@@ -254,6 +257,7 @@ public class Shacl2XsdConverter {
 		 *
 		 */
 
+		root.appendChild(doc.createComment("Elements corresponding to classes - Uppercase"));
 		// data.sort(Comparator.comparing(ShaclXsdBox::getNametargetclass));
 		for (ShaclXsdBox aboxClass : data) {
 			String nameClasse = aboxClass.getNametargetclass().split(":")[1];
@@ -269,6 +273,7 @@ public class Shacl2XsdConverter {
 		 * reference
 		 * 
 		 */
+		root.appendChild(doc.createComment("Elements corresponding to classes - lowercase"));
 		List<String> elementClass = new ArrayList<>();
 		for (ShaclXsdBox boxClassproperty : data) {
 			Element classElementLowerCase = doc.createElementNS("http://www.w3.org/2001/XMLSchema", "xs:element");
@@ -288,6 +293,7 @@ public class Shacl2XsdConverter {
 		}
 
 		// List of XML elements corresponding to properties
+		root.appendChild(doc.createComment("Elements corresponding to properties"));
 		for (ShaclXsdBox boxElements : data) {
 
 			// 1. declare a MediaObjectReferences element, pointing to corresponding type
@@ -379,6 +385,7 @@ public class Shacl2XsdConverter {
 			}
 		}
 
+		root.appendChild(doc.createComment("Root type"));
 		if (isRoot != null) {
 			Element simpleContextRoot = doc.createElementNS("http://www.w3.org/2001/XMLSchema", "xs:complexType");
 			simpleContextRoot.setAttribute("name", isRoot+"Type");
@@ -400,6 +407,7 @@ public class Shacl2XsdConverter {
 
 		}
 
+		root.appendChild(doc.createComment("Types corresponding to classes"));
 		Boolean bSubClassOf = false;
 		String subClassOf = null;
 		for (ShaclXsdBox complexTypebox : data) {
@@ -537,6 +545,7 @@ public class Shacl2XsdConverter {
 
 		}
 
+		root.appendChild(doc.createComment("Types corresponding to controlled vocabularies restriction"));
 		// Vocabulary
 		String Class = null;
 		for(ShaclXsdBox shBox : data) {
@@ -568,6 +577,7 @@ public class Shacl2XsdConverter {
 			}
 		}
 
+		root.appendChild(doc.createComment("Types corresponding to references"));
 		// 2. Declare the MediaObjectReferencesType, containing mediaObject elements
 		// References types, at the end, after the others
 		for (ShaclXsdBox complexTypeboxUseReference : data) {
@@ -594,6 +604,7 @@ public class Shacl2XsdConverter {
 			}
 		}
 
+		root.appendChild(doc.createComment("IdReferenceType"));
 		// 3. Declare this complexType, always if there is at least one element using
 		// references
 		if (bReference) {

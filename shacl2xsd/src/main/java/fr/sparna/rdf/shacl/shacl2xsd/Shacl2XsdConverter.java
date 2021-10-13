@@ -179,8 +179,10 @@ public class Shacl2XsdConverter {
 		}
 
 		// root element
+		System.out.println("Root : "+isRoot);
 		if (isRoot != null) {
 			root.appendChild(doc.createComment("Root element"));
+			
 			String m = isRoot.replaceFirst(isRoot.substring(0, 1), isRoot.substring(0, 1).toUpperCase());
 			Element classElementLowerCase = doc.createElementNS("http://www.w3.org/2001/XMLSchema", "xs:element");
 			classElementLowerCase.setAttribute("name", m);
@@ -396,6 +398,7 @@ public class Shacl2XsdConverter {
 
 		root.appendChild(doc.createComment("Root type"));
 		if (isRoot != null) {
+			isRoot = isRoot.replaceFirst(isRoot.substring(0, 1),isRoot.substring(0, 1).toUpperCase());
 			Element simpleContextRoot = doc.createElementNS("http://www.w3.org/2001/XMLSchema", "xs:complexType");
 			simpleContextRoot.setAttribute("name", isRoot+"Type");
 			Element attsequence = doc.createElementNS("http://www.w3.org/2001/XMLSchema", "xs:sequence");
@@ -472,7 +475,7 @@ public class Shacl2XsdConverter {
 						attelementSequence.setAttribute("ref", rDataProperty.getValue_path().split(":")[1]);
 						attelementSequence.setAttribute("maxOccurs", rDataProperty.getValue_maxCount());
 						attelementSequence.setAttribute("minOccurs", rDataProperty.getValue_minCount());
-
+						attsequence.appendChild(attelementSequence);
 						if (rDataProperty.getValue_description() != null) {
 							Element elementDescription = doc.createElementNS("http://www.w3.org/2001/XMLSchema","xs:annotation");
 							Element attelementDescription = doc.createElementNS("http://www.w3.org/2001/XMLSchema","xs:documentation");
@@ -493,9 +496,8 @@ public class Shacl2XsdConverter {
 
 								}
 							}
-						}
-					
-						attsequence.appendChild(attelementSequence);
+						}					
+						
 					}
 				}
 
@@ -522,12 +524,19 @@ public class Shacl2XsdConverter {
 					for (ShaclXsdProperty rDataProperty : complexTypebox.getProperties()) {
 						if (rDataProperty.getValue_path() != null) {
 
-							Element elementextension = doc.createElementNS("http://www.w3.org/2001/XMLSchema",
-									"xs:element");
+							Element elementextension = doc.createElementNS("http://www.w3.org/2001/XMLSchema","xs:element");
 							elementextension.setAttribute("ref", rDataProperty.getValue_path().split(":")[1]);
 							elementextension.setAttribute("minOccurs", rDataProperty.getValue_minCount());
 							elementextension.setAttribute("maxOccurs", rDataProperty.getValue_maxCount());
 							extension.appendChild(elementextension);
+							
+							if (rDataProperty.getValue_description() != null) {
+								Element elementDescription = doc.createElementNS("http://www.w3.org/2001/XMLSchema","xs:annotation");
+								Element attelementDescription = doc.createElementNS("http://www.w3.org/2001/XMLSchema","xs:documentation");
+								attelementDescription.setTextContent(rDataProperty.getValue_description());
+								elementextension.appendChild(elementDescription);
+								elementDescription.appendChild(attelementDescription);
+							}
 
 						}
 					}
@@ -596,14 +605,15 @@ public class Shacl2XsdConverter {
 
 				Element attsequenceUseReference = doc.createElementNS("http://www.w3.org/2001/XMLSchema",
 						"xs:sequence");
-				attsequenceUseReference.setAttribute("maxOccurs", "unbounded");
-				attsequenceUseReference.setAttribute("minOccurs", "0");
+				
 
 				String m = strClasse.replaceFirst(strClasse.substring(0, 1), strClasse.substring(0, 1).toLowerCase());
 
 				Element attelementSequence = doc.createElementNS("http://www.w3.org/2001/XMLSchema", "xs:element");
 				attelementSequence.setAttribute("name", m);
 				attelementSequence.setAttribute("type", strClasse + "Type");
+				attelementSequence.setAttribute("maxOccurs", "unbounded");
+				attelementSequence.setAttribute("minOccurs", "0");
 
 				root.appendChild(complexTypeuseReference);
 				complexTypeuseReference.appendChild(attsequenceUseReference);

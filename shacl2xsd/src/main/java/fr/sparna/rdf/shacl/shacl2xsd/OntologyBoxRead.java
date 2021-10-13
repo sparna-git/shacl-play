@@ -1,6 +1,7 @@
 package fr.sparna.rdf.shacl.shacl2xsd;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -32,7 +33,7 @@ public class OntologyBoxRead {
 		for(Resource owlOntology : owlResource) {			
 			if(owlOntology.hasProperty(owlOntology.getModel().createProperty("http://shacl-play.sparna.fr/ontology#xsdRootElement"))) {
 				value = owlOntology.getProperty(owlOntology.getModel().createProperty("http://shacl-play.sparna.fr/ontology#xsdRootElement")).getObject().toString();			
-				System.out.println("Root "+value);
+				
 			}			
 		}			
 		return value;
@@ -41,7 +42,7 @@ public class OntologyBoxRead {
 	public List<OntologyImports> readOwlforImports(Model owl){
 		// Create a HashMap object called capitalCities
 	    Map<String,String> mapPrefix = owl.getNsPrefixMap();
-	    
+	    Map<String,String> Ontoimport = new HashMap<String, String>();
 		List<OntologyImports> imp = new ArrayList<>();
 		List<Resource> owlResource = owl.listResourcesWithProperty(RDF.type, OWL.Ontology).toList();
 		for(Resource readOwl : owlResource) {
@@ -49,17 +50,26 @@ public class OntologyBoxRead {
 			for(Statement src : readImports){
 				for(String key : mapPrefix.keySet()) {
 					if(src.getObject().toString().equals(mapPrefix.get(key))) {
-						OntologyImports owlimp = new OntologyImports();
-						owlimp.setImportSchema(key);
-						owlimp.setImportURI(src.getObject().toString());						
-						imp.add(owlimp);
+						Ontoimport.put(key, src.getObject().toString());						
 					}	
 					
 				}
 				
 			}
 		}	
-		return imp;		
+		
+		List<OntologyImports> listowlimp = new ArrayList<>();
+		if(Ontoimport.size() > 0) {
+			System.out.println("Get Imports");
+			for(Map.Entry m: Ontoimport.entrySet()){ 	
+				System.out.println("Imports: "+m.getKey().toString()+" - "+m.getValue().toString());
+				OntologyImports owlimp = new OntologyImports();				
+				owlimp.setImportSchema(m.getKey().toString());
+				owlimp.setImportURI(m.getValue().toString());
+				listowlimp.add(owlimp);
+			}
+		}
+		return listowlimp;		
 	}
 	
 	

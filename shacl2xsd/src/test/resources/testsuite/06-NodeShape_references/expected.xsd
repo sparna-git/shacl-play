@@ -5,13 +5,6 @@
            xmlns:xs="http://www.w3.org/2001/XMLSchema"
            version="1.0.0" elementFormDefault="qualified">
     
-    <!-- List of XML elements corresponding to classes -->
-    <xs:element name="EuropassCredential" type="EuropassCredentialType"/>
-    <xs:element name="MediaObject" type="MediaObjectType"/>
-
-    <!-- List of XML elements corresponding to classes, as property reference -->
-    <xs:element name="europassCredential" type="EuropassCredentialType" />
-
     <!-- 5a. Declare a new root element based on parameter, the keys will be inside -->
     <xs:element name="theRoot" type="TheRootType">
         <!-- 6. declare a key on the root element -->
@@ -26,6 +19,14 @@
             <xs:field xpath="@idref"/>
         </xs:keyref>
     </xs:element>
+    
+    <!-- List of XML elements corresponding to classes -->
+    <xs:element name="MediaObject" type="MediaObjectType"/>
+    <xs:element name="EuropassCredential" type="EuropassCredentialType"/>
+    
+
+    <!-- List of XML elements corresponding to classes, as property reference -->
+    <xs:element name="europassCredential" type="EuropassCredentialType" />
 
 
     <!-- 4a. The XML elements corresponding to the class must have a type="IdReferenceType" -->

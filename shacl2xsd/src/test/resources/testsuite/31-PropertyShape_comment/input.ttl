@@ -13,7 +13,11 @@ edci-c:MyBeautifulEuropassCredentialShape
   a sh:NodeShape; 
   sh:targetClass elm:EuropassCredential; 
   sh:property edci-c:EuropassCredential-elm_attachment;
-  sh:property edci-c:EuropassCredential-elm_attachmentSpecific;
+  sh:property[
+    sh:path elm:attachmentSpecific;
+    sh:class elm:MediaObject;
+    sh:description "This is a specific description"@en ;
+  ];
   .
 
 # Property shape with sh:class
@@ -22,13 +26,6 @@ edci-c:EuropassCredential-elm_attachment
   sh:path elm:attachment;
   sh:class elm:MediaObject;
   .  
-
-edci-c:EuropassCredential-elm_attachmentSpecific
-  a sh:PropertyShape; 
-  sh:path elm:attachmentSpecific;
-  sh:class elm:MediaObject;
-  sh:description "This is a specific description"@en ;
-  . 
 
 edci-c:MediaObjectShape 
   a sh:NodeShape; 

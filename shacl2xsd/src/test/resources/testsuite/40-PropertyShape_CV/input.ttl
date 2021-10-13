@@ -17,8 +17,6 @@ accred:AccreditationShape
     sh:path elm:limitJurisdiction;
     # property has sh:class skos:Concept
     sh:class skos:Concept;
-    sh:description "The jurisdiction for which the accreditation is valid.It should be provided using the Country Named Authority List"@en;
-    sh:name "limitJurisdiction"@en;
     sh:severity sh:Violation;
     sh:order 1;
   ];

@@ -69,8 +69,8 @@
     <!-- References types, at the end, after the others -->
     <xs:complexType name="MediaObjectReferencesType">
         <!-- TODO : this should be a choice for LearningAchievementSpecificationReferencesType -->
-        <xs:sequence minOccurs="0" maxOccurs="unbounded">
-            <xs:element name="mediaObject" type="MediaObjectType" />
+        <xs:sequence>
+            <xs:element name="mediaObject" type="MediaObjectType" minOccurs="0" maxOccurs="unbounded" />
         </xs:sequence>
     </xs:complexType>
 

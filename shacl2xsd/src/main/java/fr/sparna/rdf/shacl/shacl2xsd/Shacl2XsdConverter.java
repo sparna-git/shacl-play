@@ -297,17 +297,18 @@ public class Shacl2XsdConverter {
 
 		// List of XML elements corresponding to properties
 		root.appendChild(doc.createComment("Elements corresponding to properties"));
+		List<String> alreadyGeneratedPropertyElements = new ArrayList<String>();
 		for (ShaclXsdBox boxElements : data) {
 
 			// 1. declare a MediaObjectReferences element, pointing to corresponding type
 			// list of XML elements corresponding to references
 			if (boxElements.getUseReference()) {
-				Element useReference = doc.createElementNS("http://www.w3.org/2001/XMLSchema", "xs:element");
+				Element elementNode = doc.createElementNS("http://www.w3.org/2001/XMLSchema", "xs:element");
 				String strClass = boxElements.getNametargetclass().split(":")[1];
 				String m = strClass.replaceFirst(strClass.substring(0, 1), strClass.substring(0, 1).toLowerCase());
-				useReference.setAttribute("name", m + "References");
-				useReference.setAttribute("type", strClass + "ReferencesType");
-				root.appendChild(useReference);
+				elementNode.setAttribute("name", m + "References");
+				elementNode.setAttribute("type", strClass + "ReferencesType");
+				root.appendChild(elementNode);
 			}
 
 			/*
@@ -325,12 +326,19 @@ public class Shacl2XsdConverter {
 					}
 				}
 
-				if (rDataProperty.getValue_path() != null & !bClass) {
+				String elementName = rDataProperty.getValue_path().split(":")[1];
+				if (
+						rDataProperty.getValue_path() != null 
+						&&
+						!bClass
+						&&
+						!alreadyGeneratedPropertyElements.contains(elementName)
+				) {
 
-					Element imports = doc.createElementNS("http://www.w3.org/2001/XMLSchema", "xs:element");
-
-					imports.setAttribute("name", rDataProperty.getValue_path().split(":")[1]);
-
+					Element elementNode = doc.createElementNS("http://www.w3.org/2001/XMLSchema", "xs:element");
+					elementNode.setAttribute("name", elementName);
+					alreadyGeneratedPropertyElements.add(elementName);
+					
 					Boolean useReferenceNodeSape = false;
 					if (rDataProperty.getValue_class_property() != null) {
 						for (ShaclXsdBox useReferenceClass : data) {
@@ -344,7 +352,7 @@ public class Shacl2XsdConverter {
 					}
 
 					if (useReferenceNodeSape) {
-						imports.setAttribute("type", "IdReferenceType");
+						elementNode.setAttribute("type", "IdReferenceType");
 					} else {
 						if (rDataProperty.getValue_class_property() != null) {
 							if (rDataProperty.getValue_class_property().equals("Concept")) {
@@ -355,13 +363,13 @@ public class Shacl2XsdConverter {
 												if (rDataProperty.getValue_path()
 														.equals(constraintsProperty.getValue_path())) {
 													if(constraintsProperty.getValue_node() != null) {
-														imports.setAttribute("type",
+														elementNode.setAttribute("type",
 																constraintsProperty.getValue_node().getLabel().split(":")[1]
 																		+ "Type");
 													}
 													
 													else {
-														imports.setAttribute("type", rDataProperty.getValue_class_property() + "Type");
+														elementNode.setAttribute("type", rDataProperty.getValue_class_property() + "Type");
 													}
 													bCtrlVocabulary = true;
 												}
@@ -370,20 +378,20 @@ public class Shacl2XsdConverter {
 									}
 								}
 							} else {
-								imports.setAttribute("type", rDataProperty.getValue_class_property() + "Type");
+								elementNode.setAttribute("type", rDataProperty.getValue_class_property() + "Type");
 							}
 						}
 						if (rDataProperty.getValue_datatype() != null) {
-							imports.setAttribute("type", rDataProperty.getValue_datatype().replace("xsd:", "xs:"));
+							elementNode.setAttribute("type", rDataProperty.getValue_datatype().replace("xsd:", "xs:"));
 						}
 						if (rDataProperty.getValue_nodeKind() != null) {
 							if (rDataProperty.getValue_nodeKind().equals("sh:Literal")) {
 
-								imports.setAttribute("type", "rdfs:LiteralType");
+								elementNode.setAttribute("type", "rdfs:LiteralType");
 							}
 						}
 					}
-					root.appendChild(imports);
+					root.appendChild(elementNode);
 				}
 			}
 		}

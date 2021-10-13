@@ -19,11 +19,11 @@ import org.w3c.dom.Node;
 
 public class Main {
 	
-	// static File mainFolder = new File("C:\\Users\\thoma\\Documents\\02-Projet\\02 Parleiament\\xsd\\ontology-accreditation-ap");
-	// static File constraintsFile = new File("C:/Users/thoma/Documents/02-Projet/02 Parleiament/xsd/AMS-constraints-mdr.ttl");
+	 static File mainFolder = new File("C:\\Users\\thoma\\Documents\\02-Projet\\02 Parleiament\\shacl\\loms");
+	 static File constraintsFile = new File("C:/Users/thoma/Documents/02-Projet/02 Parleiament/shacl/AMS-constraints-mdr.ttl");
 		
-	static File mainFolder = new File("/home/thomas/sparna/00-Clients/Cognizone/04-ELM/03-SHACL/ams");
-	static File constraintsFile = new File("/home/thomas/sparna/00-Clients/Cognizone/04-ELM/03-SHACL/AMS-constraints-mdr.ttl");
+	//static File mainFolder = new File("/home/thomas/sparna/00-Clients/Cognizone/04-ELM/03-SHACL/ams");
+	//static File constraintsFile = new File("/home/thomas/sparna/00-Clients/Cognizone/04-ELM/03-SHACL/AMS-constraints-mdr.ttl");
 		
 	
 	 public static void main(String[] args) throws Exception
@@ -35,7 +35,7 @@ public class Main {
 		 Model constraintsGraph = ModelFactory.createDefaultModel();
 		 constraintsGraph = InputModelReader.populateModel(constraintsGraph, constraintsFile);
 		 
-		 Shacl2XsdConverter convert = new Shacl2XsdConverter("http://data.europa.eu/snb/model#");		 
+		 Shacl2XsdConverter convert = new Shacl2XsdConverter("https://data.europa.eu/snb/model#");		 
 		 Document ooutputXSD = convert.convert(shaclGraph,constraintsGraph);
 		 
 		 File outputFile = new File(mainFolder, "output.xsd");

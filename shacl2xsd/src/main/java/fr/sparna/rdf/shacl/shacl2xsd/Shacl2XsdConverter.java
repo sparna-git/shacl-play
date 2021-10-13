@@ -1,8 +1,6 @@
 package fr.sparna.rdf.shacl.shacl2xsd;
 
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -126,10 +124,11 @@ public class Shacl2XsdConverter {
 	private void initRoot(Document doc, List<NamespaceSection> rPrefix, OntologyBox owlData, List<ShaclXsdBox> data,
 			List<ShaclXsdBox> ConstraintsVocabulary) {
 
-		//data.sort(Comparator.comparing(ShaclXsdBox::getNametargetclass));
+		// data.sort(Comparator.comparing(ShaclXsdBox::getNametargetclass));
 		Boolean bReference = data.stream().anyMatch(f -> f.getUseReference());
 		String isRoot = null;
 		Boolean bCtrlVocabulary = false;
+		boolean classDontTargetNamespace = false;
 		if (owlData.getXsdRootElement() != null) {
 			isRoot = owlData.getXsdRootElement();
 		}
@@ -179,21 +178,21 @@ public class Shacl2XsdConverter {
 		}
 
 		// root element
-		System.out.println("Root : "+isRoot);
 		if (isRoot != null) {
 			root.appendChild(doc.createComment("Root element"));
-			
+
 			String m = isRoot.replaceFirst(isRoot.substring(0, 1), isRoot.substring(0, 1).toUpperCase());
 			Element classElementLowerCase = doc.createElementNS("http://www.w3.org/2001/XMLSchema", "xs:element");
 			classElementLowerCase.setAttribute("name", m);
-			classElementLowerCase.setAttribute("type", m+"Type");
-			
+			classElementLowerCase.setAttribute("type", m + "Type");
+
 			classElementLowerCase.appendChild(doc.createComment("keys"));
 			for (ShaclXsdBox boxKeyElements : data) {
 				if (boxKeyElements.getUseReference()) {
-					System.out.println("Box : "+boxKeyElements.getNodeShape().getURI()+" uses references");
+					System.out.println("Box : " + boxKeyElements.getNodeShape().getURI() + " uses references");
 					String nameClasse = boxKeyElements.getNametargetclass().split(":")[1];
-					String strclass = nameClasse.replaceFirst(nameClasse.substring(0, 1),nameClasse.substring(0, 1).toLowerCase());
+					String strclass = nameClasse.replaceFirst(nameClasse.substring(0, 1),
+							nameClasse.substring(0, 1).toLowerCase());
 					String getNameSpaceClass = boxKeyElements.getNametargetclass().split(":")[0];
 
 					Element rootElement = doc.createElementNS("http://www.w3.org/2001/XMLSchema", "xs:key");
@@ -211,7 +210,7 @@ public class Shacl2XsdConverter {
 					rootElement.appendChild(rootElementfield);
 				}
 			}
-			
+
 			// reference element
 			classElementLowerCase.appendChild(doc.createComment("keyrefs"));
 			for (ShaclXsdBox boxKeyElementsRef : data) {
@@ -261,13 +260,18 @@ public class Shacl2XsdConverter {
 		 */
 
 		root.appendChild(doc.createComment("Elements corresponding to classes - Uppercase"));
-		// data.sort(Comparator.comparing(ShaclXsdBox::getNametargetclass));
+
 		for (ShaclXsdBox aboxClass : data) {
 			String nameClasse = aboxClass.getNametargetclass().split(":")[1];
-			Element classElement = doc.createElementNS("http://www.w3.org/2001/XMLSchema", "xs:element");
-			classElement.setAttribute("name", nameClasse);
-			classElement.setAttribute("type", nameClasse + "Type");
-			root.appendChild(classElement);
+			String uriTarget = rPrefix.stream()
+					.filter(x -> x.getprefix().equals(aboxClass.getNametargetclass().split(":")[0]))
+					.map(x -> x.getnamespace()).distinct().collect(Collectors.joining());
+			if (uriTarget.equals(targetNamespace)) {
+				Element classElement = doc.createElementNS("http://www.w3.org/2001/XMLSchema", "xs:element");
+				classElement.setAttribute("name", nameClasse);
+				classElement.setAttribute("type", nameClasse + "Type");
+				root.appendChild(classElement);
+			}
 		}
 
 		/*
@@ -281,18 +285,23 @@ public class Shacl2XsdConverter {
 		for (ShaclXsdBox boxClassproperty : data) {
 			Element classElementLowerCase = doc.createElementNS("http://www.w3.org/2001/XMLSchema", "xs:element");
 
+			String uriTarget = rPrefix.stream()
+					.filter(x -> x.getprefix().equals(boxClassproperty.getNametargetclass().split(":")[0]))
+					.map(x -> x.getnamespace()).distinct().collect(Collectors.joining());
+
 			String strClasse = boxClassproperty.getNametargetclass().split(":")[1];
 			String m = strClasse.replaceFirst(strClasse.substring(0, 1), strClasse.substring(0, 1).toLowerCase());
 			elementClass.add(m);
 			classElementLowerCase.setAttribute("name", m);
-			if (boxClassproperty.getUseReference()) {
-				classElementLowerCase.setAttribute("type", "IdReferenceType");
-			} else {
-				classElementLowerCase.setAttribute("type", strClasse + "Type");
+			if (uriTarget.equals(targetNamespace)) {
+				if (boxClassproperty.getUseReference()) {
+					classElementLowerCase.setAttribute("type", "IdReferenceType");
+				} else {
+					classElementLowerCase.setAttribute("type", strClasse + "Type");
+				}
+
+				root.appendChild(classElementLowerCase);
 			}
-
-			root.appendChild(classElementLowerCase);
-
 		}
 
 		// List of XML elements corresponding to properties
@@ -311,6 +320,10 @@ public class Shacl2XsdConverter {
 				root.appendChild(elementNode);
 			}
 
+			String uriTarget = rPrefix.stream()
+					.filter(x -> x.getprefix().equals(boxElements.getNametargetclass().split(":")[0]))
+					.map(x -> x.getnamespace()).distinct().collect(Collectors.joining());
+
 			/*
 			 * read properties shacl
 			 * 
@@ -327,18 +340,17 @@ public class Shacl2XsdConverter {
 				}
 
 				String elementName = rDataProperty.getValue_path().split(":")[1];
-				if (
-						rDataProperty.getValue_path() != null 
-						&&
-						!bClass
-						&&
-						!alreadyGeneratedPropertyElements.contains(elementName)
-				) {
+				String nameSpacePath = rDataProperty.getPropertyShape().getProperty(SH.path).getResource()
+						.getNameSpace();
+				if (rDataProperty.getValue_path() != null && !bClass
+						&& !alreadyGeneratedPropertyElements.contains(elementName)
+						&& nameSpacePath.equals(targetNamespace)) {
 
 					Element elementNode = doc.createElementNS("http://www.w3.org/2001/XMLSchema", "xs:element");
+
 					elementNode.setAttribute("name", elementName);
 					alreadyGeneratedPropertyElements.add(elementName);
-					
+
 					Boolean useReferenceNodeSape = false;
 					if (rDataProperty.getValue_class_property() != null) {
 						for (ShaclXsdBox useReferenceClass : data) {
@@ -356,29 +368,46 @@ public class Shacl2XsdConverter {
 					} else {
 						if (rDataProperty.getValue_class_property() != null) {
 							if (rDataProperty.getValue_class_property().equals("Concept")) {
-								for (ShaclXsdBox aVocabulary : ConstraintsVocabulary) {
-									if (aVocabulary.getNametargetclass() != null) {
-										if (aVocabulary.getNametargetclass().equals(boxElements.getNametargetclass())) {
-											for (ShaclXsdProperty constraintsProperty : aVocabulary.getProperties()) {
-												if (rDataProperty.getValue_path()
-														.equals(constraintsProperty.getValue_path())) {
-													if(constraintsProperty.getValue_node() != null) {
-														elementNode.setAttribute("type",
-																constraintsProperty.getValue_node().getLabel().split(":")[1]
-																		+ "Type");
+								if (ConstraintsVocabulary.size() > 0) {
+									for (ShaclXsdBox aVocabulary : ConstraintsVocabulary) {
+										if (aVocabulary.getNametargetclass() != null) {
+											if (aVocabulary.getNametargetclass()
+													.equals(boxElements.getNametargetclass())) {
+												for (ShaclXsdProperty constraintsProperty : aVocabulary
+														.getProperties()) {
+													if (rDataProperty.getValue_path()
+															.equals(constraintsProperty.getValue_path())) {
+														if (constraintsProperty.getValue_node() != null) {
+															elementNode.setAttribute("type", constraintsProperty
+																	.getValue_node().getLabel().split(":")[1] + "Type");
+														}
+
+														else {
+															elementNode.setAttribute("type",
+																	rDataProperty.getValue_class_property() + "Type");
+														}
+														bCtrlVocabulary = true;
 													}
-													
-													else {
-														elementNode.setAttribute("type", rDataProperty.getValue_class_property() + "Type");
-													}
-													bCtrlVocabulary = true;
 												}
 											}
 										}
 									}
+								} else {
+									elementNode.setAttribute("type", "skos:ConceptType");
+									bCtrlVocabulary = true;
 								}
 							} else {
-								elementNode.setAttribute("type", rDataProperty.getValue_class_property() + "Type");
+								String uriClass = rDataProperty.getPropertyShape().getProperty(SH.class_).getResource()
+										.getNameSpace();
+								if (uriClass.equals(targetNamespace)) {
+									elementNode.setAttribute("type", rDataProperty.getValue_class_property() + "Type");
+								} else {
+
+									elementNode.setAttribute("type",
+											rDataProperty.getPropertyShape().getModel().shortForm(rDataProperty
+													.getPropertyShape().getProperty(SH.class_).getResource().getURI())
+													+ "Type");
+								}
 							}
 						}
 						if (rDataProperty.getValue_datatype() != null) {
@@ -398,9 +427,9 @@ public class Shacl2XsdConverter {
 
 		root.appendChild(doc.createComment("Root type"));
 		if (isRoot != null) {
-			isRoot = isRoot.replaceFirst(isRoot.substring(0, 1),isRoot.substring(0, 1).toUpperCase());
+			isRoot = isRoot.replaceFirst(isRoot.substring(0, 1), isRoot.substring(0, 1).toUpperCase());
 			Element simpleContextRoot = doc.createElementNS("http://www.w3.org/2001/XMLSchema", "xs:complexType");
-			simpleContextRoot.setAttribute("name", isRoot+"Type");
+			simpleContextRoot.setAttribute("name", isRoot + "Type");
 			Element attsequence = doc.createElementNS("http://www.w3.org/2001/XMLSchema", "xs:sequence");
 			for (ShaclXsdBox boxUseReference : data) {
 				if (boxUseReference.getUseReference()) {
@@ -423,15 +452,21 @@ public class Shacl2XsdConverter {
 		Boolean bSubClassOf = false;
 		String subClassOf = null;
 		for (ShaclXsdBox complexTypebox : data) {
+
+			String uriTarget = rPrefix.stream()
+					.filter(x -> x.getprefix().equals(complexTypebox.getNametargetclass().split(":")[0]))
+					.map(x -> x.getnamespace()).distinct().collect(Collectors.joining());
+
 			String strClasse = "";
 			Element complexType = doc.createElementNS("http://www.w3.org/2001/XMLSchema", "xs:complexType");
-			
-			strClasse = complexTypebox.getNametargetclass().split(":")[1];
-	
-			
-			complexType.setAttribute("name", strClasse + "Type");
-			root.appendChild(complexType);
-			
+
+			if (uriTarget.equals(targetNamespace)) {
+				strClasse = complexTypebox.getNametargetclass().split(":")[1];
+				complexType.setAttribute("name", strClasse + "Type");
+
+				root.appendChild(complexType);
+			}
+
 			bSubClassOf = false;
 			for (OntologyClass readOwlClass : owlData.getOntoClass()) {
 				if (readOwlClass.getCommentRDFS() != null & readOwlClass.getClassName().equals(strClasse)) {
@@ -459,19 +494,27 @@ public class Shacl2XsdConverter {
 			if (complexTypebox.getProperties().size() > 0) {
 				Element attsequence = doc.createElementNS("http://www.w3.org/2001/XMLSchema", "xs:sequence");
 				for (ShaclXsdProperty rDataProperty : complexTypebox.getProperties()) {
-					System.out.println("TargetNamespace "+targetNamespace);
-					System.out.println("NameSpace Property "+rDataProperty.getValue_path().split(":")[0]);
-					if (rDataProperty.getValue_path() != null && rDataProperty.getValue_path().split(":")[0].equals(targetNamespace)) {
 
-						Element attelementSequence = doc.createElementNS("http://www.w3.org/2001/XMLSchema","xs:element");
-						attelementSequence.setAttribute("ref", rDataProperty.getValue_path().split(":")[1]);
-						attelementSequence.setAttribute("maxOccurs", rDataProperty.getValue_maxCount());
-						attelementSequence.setAttribute("minOccurs", rDataProperty.getValue_minCount());
+					String nameSpacePath = rDataProperty.getPropertyShape().getProperty(SH.path).getResource()
+							.getNameSpace();
+					if (rDataProperty.getValue_path() != null) {
+						Element attelementSequence = doc.createElementNS("http://www.w3.org/2001/XMLSchema",
+								"xs:element");
+						if (!nameSpacePath.equals(targetNamespace)) {
+							attelementSequence.setAttribute("ref", rDataProperty.getValue_path());
+							attelementSequence.setAttribute("maxOccurs", rDataProperty.getValue_maxCount());
+							attelementSequence.setAttribute("minOccurs", rDataProperty.getValue_minCount());
+						} else {
+							attelementSequence.setAttribute("ref", rDataProperty.getValue_path().split(":")[1]);
+							attelementSequence.setAttribute("maxOccurs", rDataProperty.getValue_maxCount());
+							attelementSequence.setAttribute("minOccurs", rDataProperty.getValue_minCount());
+						}
 						attsequence.appendChild(attelementSequence);
-						
 						if (rDataProperty.getValue_description() != null) {
-							Element elementDescription = doc.createElementNS("http://www.w3.org/2001/XMLSchema","xs:annotation");
-							Element attelementDescription = doc.createElementNS("http://www.w3.org/2001/XMLSchema","xs:documentation");
+							Element elementDescription = doc.createElementNS("http://www.w3.org/2001/XMLSchema",
+									"xs:annotation");
+							Element attelementDescription = doc.createElementNS("http://www.w3.org/2001/XMLSchema",
+									"xs:documentation");
 							attelementDescription.setTextContent(rDataProperty.getValue_description());
 							attelementSequence.appendChild(elementDescription);
 							elementDescription.appendChild(attelementDescription);
@@ -489,9 +532,10 @@ public class Shacl2XsdConverter {
 
 								}
 							}
-						}					
-						
+						}
+
 					}
+
 				}
 
 				/*
@@ -517,15 +561,18 @@ public class Shacl2XsdConverter {
 					for (ShaclXsdProperty rDataProperty : complexTypebox.getProperties()) {
 						if (rDataProperty.getValue_path() != null) {
 
-							Element elementextension = doc.createElementNS("http://www.w3.org/2001/XMLSchema","xs:element");
+							Element elementextension = doc.createElementNS("http://www.w3.org/2001/XMLSchema",
+									"xs:element");
 							elementextension.setAttribute("ref", rDataProperty.getValue_path().split(":")[1]);
 							elementextension.setAttribute("minOccurs", rDataProperty.getValue_minCount());
 							elementextension.setAttribute("maxOccurs", rDataProperty.getValue_maxCount());
 							extension.appendChild(elementextension);
-							
+
 							if (rDataProperty.getValue_description() != null) {
-								Element elementDescription = doc.createElementNS("http://www.w3.org/2001/XMLSchema","xs:annotation");
-								Element attelementDescription = doc.createElementNS("http://www.w3.org/2001/XMLSchema","xs:documentation");
+								Element elementDescription = doc.createElementNS("http://www.w3.org/2001/XMLSchema",
+										"xs:annotation");
+								Element attelementDescription = doc.createElementNS("http://www.w3.org/2001/XMLSchema",
+										"xs:documentation");
 								attelementDescription.setTextContent(rDataProperty.getValue_description());
 								elementextension.appendChild(elementDescription);
 								elementDescription.appendChild(attelementDescription);
@@ -556,34 +603,89 @@ public class Shacl2XsdConverter {
 
 		root.appendChild(doc.createComment("Types corresponding to controlled vocabularies restriction"));
 		// Vocabulary
+
 		String Class = null;
-		for(ShaclXsdBox shBox : data) {
-			if(shBox.getNametargetclass() != null) {
-				for(ShaclXsdBox shBoxVocabulary : ConstraintsVocabulary) {
-					if(shBoxVocabulary.getNametargetclass() != null) {
-						for(ShaclXsdProperty rdataTarget : shBox.getProperties()) {
-							for(ShaclXsdProperty rProperty : shBoxVocabulary.getProperties()) {
-								if (rdataTarget.getValue_path().equals(rProperty.getValue_path())) {
-									if(rProperty.getValue_node() != null) {
-										Element complexTypeConstraints= doc.createElementNS("http://www.w3.org/2001/XMLSchema","xs:complexType");
-										Element VocabularyContente = doc.createElementNS("http://www.w3.org/2001/XMLSchema","xs:complexContent");
-										Element VocabularyRestriction = doc.createElementNS("http://www.w3.org/2001/XMLSchema","xs:restriction");
-										VocabularyRestriction.setAttribute("base","skos:"+rdataTarget.getValue_class_property()+ "Type");
-										Element VocabularyAtt = doc.createElementNS("http://www.w3.org/2001/XMLSchema","xs:attribute");
-										VocabularyAtt.setAttribute("name", "uri");
-										complexTypeConstraints.setAttribute("name", rProperty.getValue_node().getLabel().split(":")[1] + "Type");
-										VocabularyAtt.setAttribute("type", rProperty.getValue_node().getLabel().split(":")[1] +"EnumType");
-										root.appendChild(complexTypeConstraints);
-										complexTypeConstraints.appendChild(VocabularyContente);
-										VocabularyContente.appendChild(VocabularyRestriction);
-										VocabularyRestriction.appendChild(VocabularyAtt);
+		if (bCtrlVocabulary) {
+			if (ConstraintsVocabulary.size() > 0) {
+				for (ShaclXsdBox shBox : data) {
+					if (shBox.getNametargetclass() != null) {
+						for (ShaclXsdProperty skosConcept : shBox.getProperties()) {
+							if (skosConcept.getValue_class_property() != null) {
+								if (skosConcept.getValue_class_property().equals("Concept")) {
+									for (ShaclXsdBox shBoxVocabulary : ConstraintsVocabulary) {
+										if (shBoxVocabulary.getNametargetclass() != null) {
+											for (ShaclXsdProperty rdataTarget : shBox.getProperties()) {
+												for (ShaclXsdProperty rProperty : shBoxVocabulary.getProperties()) {
+													if (rdataTarget.getValue_path().equals(rProperty.getValue_path())) {
+														if (rProperty.getValue_node() != null) {
+															Element complexTypeConstraints = doc.createElementNS(
+																	"http://www.w3.org/2001/XMLSchema",
+																	"xs:complexType");
+															Element VocabularyContente = doc.createElementNS(
+																	"http://www.w3.org/2001/XMLSchema",
+																	"xs:complexContent");
+															Element VocabularyRestriction = doc.createElementNS(
+																	"http://www.w3.org/2001/XMLSchema",
+																	"xs:restriction");
+															VocabularyRestriction.setAttribute("base", "skos:"
+																	+ rdataTarget.getValue_class_property() + "Type");
+															Element VocabularyAtt = doc.createElementNS(
+																	"http://www.w3.org/2001/XMLSchema", "xs:attribute");
+															VocabularyAtt.setAttribute("name", "uri");
+															complexTypeConstraints.setAttribute("name",
+																	rProperty.getValue_node().getLabel().split(":")[1]
+																			+ "Type");
+															VocabularyAtt.setAttribute("type",
+																	rProperty.getValue_node().getLabel().split(":")[1]
+																			+ "EnumType");
+															root.appendChild(complexTypeConstraints);
+															complexTypeConstraints.appendChild(VocabularyContente);
+															VocabularyContente.appendChild(VocabularyRestriction);
+															VocabularyRestriction.appendChild(VocabularyAtt);
+														}
+													}
+												}
+											}
+										}
 									}
-								}						
+								}
 							}
 						}
 					}
 				}
+			} else {
+				Element complexTypeConstraints = doc.createElementNS("http://www.w3.org/2001/XMLSchema",
+						"xs:complexType");
+				complexTypeConstraints.setAttribute("name", "skos:ConceptType");
+				Element VocabularyContente = doc.createElementNS("http://www.w3.org/2001/XMLSchema",
+						"xs:complexContent");
+				complexTypeConstraints.appendChild(VocabularyContente);
+				Element VocabularyRestriction = doc.createElementNS("http://www.w3.org/2001/XMLSchema",
+						"xs:restriction");
+				VocabularyRestriction.setAttribute("base", "skos:ConceptType");
+				VocabularyContente.appendChild(VocabularyRestriction);
+				root.appendChild(complexTypeConstraints);
+				List<String> targetClassConcept = new ArrayList<>();
+				for (ShaclXsdBox rConcept : data) {
+					for (ShaclXsdProperty rProperty : rConcept.getProperties()) {
+						if (rProperty.getValue_class_property() != null
+								&& rProperty.getValue_class_property().equals("Concept")) {
+							targetClassConcept.add(rConcept.getNametargetclass().split(":")[1]);
+						}
+					}
+				}
+			
+			targetClassConcept = targetClassConcept.stream().distinct().collect(Collectors.toList());
+
+			for (String listClass : targetClassConcept) {
+				Element VocabularyAtt = doc.createElementNS("http://www.w3.org/2001/XMLSchema", "xs:attribute");
+				VocabularyAtt.setAttribute("name", "uri");
+				VocabularyAtt.setAttribute("type", listClass + "EnumType");
+
+				VocabularyRestriction.appendChild(VocabularyAtt);
 			}
+
+		}
 		}
 
 		root.appendChild(doc.createComment("Types corresponding to references"));
@@ -598,7 +700,6 @@ public class Shacl2XsdConverter {
 
 				Element attsequenceUseReference = doc.createElementNS("http://www.w3.org/2001/XMLSchema",
 						"xs:sequence");
-				
 
 				String m = strClasse.replaceFirst(strClasse.substring(0, 1), strClasse.substring(0, 1).toLowerCase());
 

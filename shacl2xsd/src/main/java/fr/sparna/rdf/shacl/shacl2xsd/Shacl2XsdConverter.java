@@ -436,6 +436,8 @@ public class Shacl2XsdConverter {
 							&& readOwlClass.getSubClassOfRDFS() != null) {
 						subClassOf = readOwlClass.getSubClassOfRDFS();
 						bSubClassOf = true;
+					} else {
+						bSubClassOf = false;
 					}
 
 				}

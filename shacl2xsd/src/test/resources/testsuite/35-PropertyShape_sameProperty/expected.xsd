@@ -6,27 +6,30 @@
            xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
            version="1.0.0" elementFormDefault="qualified">
     
-    <xs:element name="LearningAssessment" type="LearningAssessmentType"/>
     <xs:element name="SomeOtherClass" type="SomeOtherClassType"/>
-
+    <xs:element name="LearningAssessment" type="LearningAssessmentType"/>
+    
+	<xs:element name="someOtherClass" type="SomeOtherClassType"/>
     <xs:element name="learningAssessment" type="LearningAssessmentType"/>
-    <xs:element name="someOtherClass" type="SomeOtherClassType"/>
+    
 
     <!-- declared only once -->
     <xs:element name="grade" type="xs:string"/> 
 
-    <xs:complexType name="LearningAssessmentType">
-        <xs:sequence>
-            <xs:element ref="grade" minOccurs="0" maxOccurs="0" />
-        </xs:sequence>
-        <xs:attribute name="id" use="required" type="xs:anyURI" />
-    </xs:complexType>
-    
-    <xs:complexType name="SomeOtherClassType">
+	<xs:complexType name="SomeOtherClassType">
         <xs:sequence>
             <xs:element ref="grade" minOccurs="0" maxOccurs="1" />
         </xs:sequence>
         <xs:attribute name="id" use="required" type="xs:anyURI" />
     </xs:complexType>
+
+    <xs:complexType name="LearningAssessmentType">
+        <xs:sequence>
+            <xs:element ref="grade" minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+        <xs:attribute name="id" use="required" type="xs:anyURI" />
+    </xs:complexType>
+    
+    
 
 </xs:schema>

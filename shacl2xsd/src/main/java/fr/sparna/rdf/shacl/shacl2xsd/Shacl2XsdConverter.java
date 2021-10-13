@@ -187,7 +187,8 @@ public class Shacl2XsdConverter {
 			Element classElementLowerCase = doc.createElementNS("http://www.w3.org/2001/XMLSchema", "xs:element");
 			classElementLowerCase.setAttribute("name", m);
 			classElementLowerCase.setAttribute("type", m+"Type");
-			root.appendChild(doc.createComment("keys"));
+			
+			classElementLowerCase.appendChild(doc.createComment("keys"));
 			for (ShaclXsdBox boxKeyElements : data) {
 				if (boxKeyElements.getUseReference()) {
 					System.out.println("Box : "+boxKeyElements.getNodeShape().getURI()+" uses references");
@@ -212,7 +213,7 @@ public class Shacl2XsdConverter {
 			}
 			
 			// reference element
-			root.appendChild(doc.createComment("keyrefs"));
+			classElementLowerCase.appendChild(doc.createComment("keyrefs"));
 			for (ShaclXsdBox boxKeyElementsRef : data) {
 				for (ShaclXsdProperty propertyResource : boxKeyElementsRef.getProperties()) {
 

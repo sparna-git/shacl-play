@@ -553,26 +553,22 @@ public class Shacl2XsdConverter {
 				 */
 
 				if (bSubClassOf) {
-					Element complexContent = doc.createElementNS("http://www.w3.org/2001/XMLSchema",
-							"xs:complexContent");
+					Element complexContent = doc.createElementNS("http://www.w3.org/2001/XMLSchema","xs:complexContent");
 					Element extension = doc.createElementNS("http://www.w3.org/2001/XMLSchema", "xs:extension");
 					extension.setAttribute("base", subClassOf + "Type");
 
 					for (ShaclXsdProperty rDataProperty : complexTypebox.getProperties()) {
 						if (rDataProperty.getValue_path() != null) {
 
-							Element elementextension = doc.createElementNS("http://www.w3.org/2001/XMLSchema",
-									"xs:element");
+							Element elementextension = doc.createElementNS("http://www.w3.org/2001/XMLSchema","xs:element");
 							elementextension.setAttribute("ref", rDataProperty.getValue_path().split(":")[1]);
 							elementextension.setAttribute("minOccurs", rDataProperty.getValue_minCount());
 							elementextension.setAttribute("maxOccurs", rDataProperty.getValue_maxCount());
 							extension.appendChild(elementextension);
 
 							if (rDataProperty.getValue_description() != null) {
-								Element elementDescription = doc.createElementNS("http://www.w3.org/2001/XMLSchema",
-										"xs:annotation");
-								Element attelementDescription = doc.createElementNS("http://www.w3.org/2001/XMLSchema",
-										"xs:documentation");
+								Element elementDescription = doc.createElementNS("http://www.w3.org/2001/XMLSchema","xs:annotation");
+								Element attelementDescription = doc.createElementNS("http://www.w3.org/2001/XMLSchema","xs:documentation");
 								attelementDescription.setTextContent(rDataProperty.getValue_description());
 								elementextension.appendChild(elementDescription);
 								elementDescription.appendChild(attelementDescription);
@@ -618,26 +614,14 @@ public class Shacl2XsdConverter {
 												for (ShaclXsdProperty rProperty : shBoxVocabulary.getProperties()) {
 													if (rdataTarget.getValue_path().equals(rProperty.getValue_path())) {
 														if (rProperty.getValue_node() != null) {
-															Element complexTypeConstraints = doc.createElementNS(
-																	"http://www.w3.org/2001/XMLSchema",
-																	"xs:complexType");
-															Element VocabularyContente = doc.createElementNS(
-																	"http://www.w3.org/2001/XMLSchema",
-																	"xs:complexContent");
-															Element VocabularyRestriction = doc.createElementNS(
-																	"http://www.w3.org/2001/XMLSchema",
-																	"xs:restriction");
-															VocabularyRestriction.setAttribute("base", "skos:"
-																	+ rdataTarget.getValue_class_property() + "Type");
-															Element VocabularyAtt = doc.createElementNS(
-																	"http://www.w3.org/2001/XMLSchema", "xs:attribute");
+															Element complexTypeConstraints = doc.createElementNS("http://www.w3.org/2001/XMLSchema","xs:complexType");
+															Element VocabularyContente = doc.createElementNS("http://www.w3.org/2001/XMLSchema","xs:complexContent");
+															Element VocabularyRestriction = doc.createElementNS("http://www.w3.org/2001/XMLSchema","xs:restriction");
+															VocabularyRestriction.setAttribute("base", "skos:"+ rdataTarget.getValue_class_property() + "Type");
+															Element VocabularyAtt = doc.createElementNS("http://www.w3.org/2001/XMLSchema", "xs:attribute");
 															VocabularyAtt.setAttribute("name", "uri");
-															complexTypeConstraints.setAttribute("name",
-																	rProperty.getValue_node().getLabel().split(":")[1]
-																			+ "Type");
-															VocabularyAtt.setAttribute("type",
-																	rProperty.getValue_node().getLabel().split(":")[1]
-																			+ "EnumType");
+															complexTypeConstraints.setAttribute("name",rProperty.getValue_node().getLabel().split(":")[1]+ "Type");
+															VocabularyAtt.setAttribute("type",rProperty.getValue_node().getLabel().split(":")[1]+ "EnumType");
 															root.appendChild(complexTypeConstraints);
 															complexTypeConstraints.appendChild(VocabularyContente);
 															VocabularyContente.appendChild(VocabularyRestriction);
@@ -654,38 +638,16 @@ public class Shacl2XsdConverter {
 					}
 				}
 			} else {
-				Element complexTypeConstraints = doc.createElementNS("http://www.w3.org/2001/XMLSchema",
-						"xs:complexType");
+				Element complexTypeConstraints = doc.createElementNS("http://www.w3.org/2001/XMLSchema","xs:complexType");
 				complexTypeConstraints.setAttribute("name", "skos:ConceptType");
-				Element VocabularyContente = doc.createElementNS("http://www.w3.org/2001/XMLSchema",
-						"xs:complexContent");
+				Element VocabularyContente = doc.createElementNS("http://www.w3.org/2001/XMLSchema","xs:simpleContent");
 				complexTypeConstraints.appendChild(VocabularyContente);
-				Element VocabularyRestriction = doc.createElementNS("http://www.w3.org/2001/XMLSchema",
-						"xs:restriction");
-				VocabularyRestriction.setAttribute("base", "skos:ConceptType");
+				Element VocabularyRestriction = doc.createElementNS("http://www.w3.org/2001/XMLSchema","xs:extension");
+				VocabularyRestriction.setAttribute("base", "xs:anyURI");
 				VocabularyContente.appendChild(VocabularyRestriction);
 				root.appendChild(complexTypeConstraints);
-				List<String> targetClassConcept = new ArrayList<>();
-				for (ShaclXsdBox rConcept : data) {
-					for (ShaclXsdProperty rProperty : rConcept.getProperties()) {
-						if (rProperty.getValue_class_property() != null
-								&& rProperty.getValue_class_property().equals("Concept")) {
-							targetClassConcept.add(rConcept.getNametargetclass().split(":")[1]);
-						}
-					}
-				}
-			
-			targetClassConcept = targetClassConcept.stream().distinct().collect(Collectors.toList());
-
-			for (String listClass : targetClassConcept) {
-				Element VocabularyAtt = doc.createElementNS("http://www.w3.org/2001/XMLSchema", "xs:attribute");
-				VocabularyAtt.setAttribute("name", "uri");
-				VocabularyAtt.setAttribute("type", listClass + "EnumType");
-
-				VocabularyRestriction.appendChild(VocabularyAtt);
+				
 			}
-
-		}
 		}
 
 		root.appendChild(doc.createComment("Types corresponding to references"));
@@ -694,12 +656,10 @@ public class Shacl2XsdConverter {
 		for (ShaclXsdBox complexTypeboxUseReference : data) {
 			if (complexTypeboxUseReference.getUseReference()) {
 				String strClasse = complexTypeboxUseReference.getNametargetclass().split(":")[1];
-				Element complexTypeuseReference = doc.createElementNS("http://www.w3.org/2001/XMLSchema",
-						"xs:complexType");
+				Element complexTypeuseReference = doc.createElementNS("http://www.w3.org/2001/XMLSchema","xs:complexType");
 				complexTypeuseReference.setAttribute("name", strClasse + "ReferencesType");
 
-				Element attsequenceUseReference = doc.createElementNS("http://www.w3.org/2001/XMLSchema",
-						"xs:sequence");
+				Element attsequenceUseReference = doc.createElementNS("http://www.w3.org/2001/XMLSchema","xs:sequence");
 
 				String m = strClasse.replaceFirst(strClasse.substring(0, 1), strClasse.substring(0, 1).toLowerCase());
 
@@ -731,11 +691,9 @@ public class Shacl2XsdConverter {
 			AttributeReference.setAttribute("type", "xs:anyURI");
 			AttributeReference.setAttribute("use", "required");
 
-			Element AttributeReferenceNottation = doc.createElementNS("http://www.w3.org/2001/XMLSchema",
-					"xs:annotation");
+			Element AttributeReferenceNottation = doc.createElementNS("http://www.w3.org/2001/XMLSchema","xs:annotation");
 
-			Element AttributeReferenceNottationDocument = doc.createElementNS("http://www.w3.org/2001/XMLSchema",
-					"xs:documentation");
+			Element AttributeReferenceNottationDocument = doc.createElementNS("http://www.w3.org/2001/XMLSchema","xs:documentation");
 			AttributeReferenceNottationDocument.setTextContent("The id of the referenced entity (record).");
 
 			root.appendChild(complexIdReference);

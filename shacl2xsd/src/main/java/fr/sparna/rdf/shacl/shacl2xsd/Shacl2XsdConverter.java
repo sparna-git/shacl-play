@@ -417,19 +417,9 @@ public class Shacl2XsdConverter {
 		for (ShaclXsdBox complexTypebox : data) {
 			String strClasse = "";
 			Element complexType = doc.createElementNS("http://www.w3.org/2001/XMLSchema", "xs:complexType");
-			/*
-			String classProperty = null;
-			for(ShaclXsdProperty rDataClass : complexTypebox.getProperties()) {
-				if(rDataClass.getValue_class_property() != null) {
-					classProperty = rDataClass.getValue_class_property();
-				}
-			}
 			
-			if(classProperty != null && classProperty.equals("Concept")) {
-				strClasse = complexTypebox.getLabel().split(":")[1];
-			}else {*/
 			strClasse = complexTypebox.getNametargetclass().split(":")[1];
-			//}
+	
 			
 			complexType.setAttribute("name", strClasse + "Type");
 			root.appendChild(complexType);
@@ -461,13 +451,16 @@ public class Shacl2XsdConverter {
 			if (complexTypebox.getProperties().size() > 0) {
 				Element attsequence = doc.createElementNS("http://www.w3.org/2001/XMLSchema", "xs:sequence");
 				for (ShaclXsdProperty rDataProperty : complexTypebox.getProperties()) {
-					if (rDataProperty.getValue_path() != null ) {
+					System.out.println("TargetNamespace "+targetNamespace);
+					System.out.println("NameSpace Property "+rDataProperty.getValue_path().split(":")[0]);
+					if (rDataProperty.getValue_path() != null && rDataProperty.getValue_path().split(":")[0].equals(targetNamespace)) {
 
 						Element attelementSequence = doc.createElementNS("http://www.w3.org/2001/XMLSchema","xs:element");
 						attelementSequence.setAttribute("ref", rDataProperty.getValue_path().split(":")[1]);
 						attelementSequence.setAttribute("maxOccurs", rDataProperty.getValue_maxCount());
 						attelementSequence.setAttribute("minOccurs", rDataProperty.getValue_minCount());
 						attsequence.appendChild(attelementSequence);
+						
 						if (rDataProperty.getValue_description() != null) {
 							Element elementDescription = doc.createElementNS("http://www.w3.org/2001/XMLSchema","xs:annotation");
 							Element attelementDescription = doc.createElementNS("http://www.w3.org/2001/XMLSchema","xs:documentation");

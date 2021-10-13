@@ -430,6 +430,7 @@ public class Shacl2XsdConverter {
 			complexType.setAttribute("name", strClasse + "Type");
 			root.appendChild(complexType);
 			
+			bSubClassOf = false;
 			for (OntologyClass readOwlClass : owlData.getOntoClass()) {
 				if (readOwlClass.getCommentRDFS() != null & readOwlClass.getClassName().equals(strClasse)) {
 					Element attAnnotation = doc.createElementNS("http://www.w3.org/2001/XMLSchema", "xs:annotation");
@@ -444,10 +445,7 @@ public class Shacl2XsdConverter {
 							&& readOwlClass.getSubClassOfRDFS() != null) {
 						subClassOf = readOwlClass.getSubClassOfRDFS();
 						bSubClassOf = true;
-					} else {
-						bSubClassOf = false;
 					}
-
 				}
 			}
 

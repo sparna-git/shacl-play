@@ -5,11 +5,20 @@ import java.util.Map;
 
 public class OntologyBox {
 	
+	protected String xsdRootElement;
 	
 	protected List<OntologyImports> OntoImports;
 	protected List<OntologyClass> OntoClass;
 	protected List<OntologyObjectProperty> OntoOP;
 	
+	
+	
+	public String getXsdRootElement() {
+		return xsdRootElement;
+	}
+	public void setXsdRootElement(String xsdRootElement) {
+		this.xsdRootElement = xsdRootElement;
+	}
 	public List<OntologyImports> getOntoImports() {
 		return OntoImports;
 	}

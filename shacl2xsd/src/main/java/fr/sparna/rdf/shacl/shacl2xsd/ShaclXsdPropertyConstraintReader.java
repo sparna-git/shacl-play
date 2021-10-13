@@ -20,13 +20,13 @@ import org.apache.jena.vocabulary.RDFS;
 import org.topbraid.shacl.vocabulary.SH;
 
 
-public class ShaclXsdPropertyReader {
+public class ShaclXsdPropertyConstraintReader {
 	
 	protected List<ShaclXsdBox> allBoxes;
 	protected ConstraintValueReader constraintValueReader = new ConstraintValueReader(); 
 
 
-	public ShaclXsdPropertyReader(List<ShaclXsdBox> allBoxes) {
+	public ShaclXsdPropertyConstraintReader(List<ShaclXsdBox> allBoxes) {
 		super();
 		this.allBoxes = allBoxes;
 	}
@@ -266,7 +266,7 @@ public class ShaclXsdPropertyReader {
 					}					
 				}
 			}
-			
+			System.out.println("*** SH Node:"+theBox);
 			return theBox;
 	}
 	

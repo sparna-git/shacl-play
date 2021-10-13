@@ -13,19 +13,9 @@ private Resource nodeShape;
 	protected String nametargetclass; 
 	protected String packageName;
 	protected Boolean useReference;
-	protected Boolean xsdIsRoot;
 	
 	protected List<ShaclXsdProperty> properties = new ArrayList<>();
 	protected List<ShaclXsdBox> superClasses = new ArrayList<>();
-
-	
-	public Boolean getXsdIsRoot() {
-		return xsdIsRoot;
-	}
-
-	public void setXsdIsRoot(Boolean xsdIsRoot) {
-		this.xsdIsRoot = xsdIsRoot;
-	}
 
 	public Boolean getUseReference() {
 		return useReference;

@@ -20,25 +20,8 @@ public class ShaclXsdBoxReader {
 		box.setPackageName(this.readPackageName(nodeShape));
 		box.setNametargetclass(this.readNametargetclass(nodeShape));
 		box.setUseReference(this.readReference(nodeShape));
-		box.setXsdIsRoot(this.readIsRoot(nodeShape));
 		return box;
 	}
-	
-	
-	
-	public Boolean readIsRoot(Resource nodeShape) {
-		Boolean value = false;
-		if(nodeShape.hasProperty(nodeShape.getModel().createProperty("http://shacl-play.sparna.fr/ontology#xsdIsRoot"))) {
-			try {
-				value = nodeShape.getProperty(nodeShape.getModel().createProperty("http://shacl-play.sparna.fr/ontology#xsdIsRoot")).getBoolean();				
-			} catch (Exception e) {
-				value = false;
-			}
-		}
-		
-		return value;
-	}
-	
 	
 	public Boolean readReference(Resource nodeShape) {
 		Boolean value = false;
@@ -49,7 +32,6 @@ public class ShaclXsdBoxReader {
 				value = false;
 			}
 		}
-		
 		return value;
 	}
 	
@@ -142,8 +124,9 @@ public class ShaclXsdBoxReader {
 
 	public String readNametargetclass(Resource nodeShape) {
 		String value= null;
-		value = nodeShape.getModel().shortForm(nodeShape.getProperty(SH.targetClass).getResource().getURI());
-		
+		if(nodeShape.hasProperty(SH.targetClass)) {
+			value = nodeShape.getModel().shortForm(nodeShape.getProperty(SH.targetClass).getResource().getURI());
+		}
 		return value;
 		//return valueReader.readValueconstraint(nodeShape, SH.targetClass);
 	}

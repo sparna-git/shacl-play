@@ -44,7 +44,7 @@ public class Shacl2XsdTestExecution implements Test {
 		super();
 		this.testFolder = testFolder;
 
-		this.converter = new Shacl2XsdConverter("http://data.europa.eu/snb/model#");
+		this.converter = new Shacl2XsdConverter("https://data.europa.eu/snb/model#");
 	}
 
 	@Override

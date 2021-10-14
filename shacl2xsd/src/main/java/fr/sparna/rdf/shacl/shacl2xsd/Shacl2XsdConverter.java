@@ -183,7 +183,7 @@ public class Shacl2XsdConverter {
 
 			String m = isRoot.replaceFirst(isRoot.substring(0, 1), isRoot.substring(0, 1).toUpperCase());
 			Element classElementLowerCase = doc.createElementNS("http://www.w3.org/2001/XMLSchema", "xs:element");
-			classElementLowerCase.setAttribute("name", m);
+			classElementLowerCase.setAttribute("name", isRoot);
 			classElementLowerCase.setAttribute("type", m + "Type");
 
 			classElementLowerCase.appendChild(doc.createComment("keys"));
@@ -556,7 +556,8 @@ public class Shacl2XsdConverter {
 					Element complexContent = doc.createElementNS("http://www.w3.org/2001/XMLSchema","xs:complexContent");
 					Element extension = doc.createElementNS("http://www.w3.org/2001/XMLSchema", "xs:extension");
 					extension.setAttribute("base", subClassOf + "Type");
-
+					Element extensionSequence = doc.createElementNS("http://www.w3.org/2001/XMLSchema", "xs:sequence");
+					extension.appendChild(extensionSequence);
 					for (ShaclXsdProperty rDataProperty : complexTypebox.getProperties()) {
 						if (rDataProperty.getValue_path() != null) {
 
@@ -564,7 +565,7 @@ public class Shacl2XsdConverter {
 							elementextension.setAttribute("ref", rDataProperty.getValue_path().split(":")[1]);
 							elementextension.setAttribute("minOccurs", rDataProperty.getValue_minCount());
 							elementextension.setAttribute("maxOccurs", rDataProperty.getValue_maxCount());
-							extension.appendChild(elementextension);
+							extensionSequence.appendChild(elementextension);
 
 							if (rDataProperty.getValue_description() != null) {
 								Element elementDescription = doc.createElementNS("http://www.w3.org/2001/XMLSchema","xs:annotation");

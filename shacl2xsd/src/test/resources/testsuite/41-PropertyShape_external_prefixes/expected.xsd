@@ -15,8 +15,10 @@
 
     <xs:complexType name="LearningAssessmentType">
         <xs:sequence>
-            <xs:element ref="grade" minOccurs="0" maxOccurs="0" />
-            <xs:element ref="dc:type" minOccurs="0" maxOccurs="0" />
+            
+            <xs:element ref="dc:type" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element ref="grade" minOccurs="0" maxOccurs="unbounded" />
+            
         </xs:sequence>
         <xs:attribute name="id" use="required" type="xs:anyURI" />
     </xs:complexType>

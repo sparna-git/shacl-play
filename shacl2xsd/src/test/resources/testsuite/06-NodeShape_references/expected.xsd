@@ -6,7 +6,7 @@
            version="1.0.0" elementFormDefault="qualified">
     
     <!-- 5a. Declare a new root element based on parameter, the keys will be inside -->
-    <xs:element name="theRoot" type="TheRootType">
+    <xs:element name="theRoot" type="TheRootRootType">
         <!-- 6. declare a key on the root element -->
         <xs:key name="mediaObjectKey">
             <xs:selector xpath="elm:mediaObjectReferences/elm:mediaObject"/>
@@ -52,7 +52,7 @@
     </xs:complexType>
 
     <!-- 5b. The root element has a corresponding Type declaration, where all the "references" attribute will be declared -->
-    <xs:complexType name="TheRootType">
+    <xs:complexType name="TheRootRootType">
         <xs:sequence>
             <xs:element ref="mediaObjectReferences" minOccurs="0" maxOccurs="1" />
         </xs:sequence> 

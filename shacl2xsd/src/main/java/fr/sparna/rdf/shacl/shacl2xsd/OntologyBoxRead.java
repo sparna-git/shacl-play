@@ -60,9 +60,7 @@ public class OntologyBoxRead {
 		
 		List<OntologyImports> listowlimp = new ArrayList<>();
 		if(Ontoimport.size() > 0) {
-			System.out.println("Get Imports");
 			for(Map.Entry m: Ontoimport.entrySet()){ 	
-				System.out.println("Imports: "+m.getKey().toString()+" - "+m.getValue().toString());
 				OntologyImports owlimp = new OntologyImports();				
 				owlimp.setImportSchema(m.getKey().toString());
 				owlimp.setImportURI(m.getValue().toString());

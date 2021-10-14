@@ -79,11 +79,13 @@ public class Shacl2XsdConverter {
 						}
 					}
 				}).collect(Collectors.toList());
+		
 		// 2. Une fois qu'on a toute la liste, lire les proprietes
 		for (ShaclXsdBox aBox : ShaclXsdBoxes) {
 			aBox.setProperties(nodeShapeReader.readProperties(aBox.getNodeShape(), ShaclXsdBoxes, shacl));
 		}
-		// Reader the constraint vocabulary
+		
+		// Reader the constraint vocabulary properties
 		for (ShaclXsdBox aBoxConstraints : ShaclXsdBoxesConstraints) {
 			aBoxConstraints.setProperties(nodeShapeReaderConstraint.readProperties(aBoxConstraints.getNodeShape(),
 					ShaclXsdBoxesConstraints, shacl));
@@ -116,13 +118,33 @@ public class Shacl2XsdConverter {
 			}
 		}).collect(Collectors.toList());
 
+		
 		initRoot(document, sortNameSpacesectionPrefix, owlData, ShaclXsdBoxes, ShaclXsdBoxesConstraints);
-		// here : do actual conversion
+		
 
 	}
 
-	private void initRoot(Document doc, List<NamespaceSection> rPrefix, OntologyBox owlData, List<ShaclXsdBox> data,
+	private void initRoot(Document doc, List<NamespaceSection> rPrefix, OntologyBox owlData, List<ShaclXsdBox> dataSource,
 			List<ShaclXsdBox> ConstraintsVocabulary) {
+		
+		
+		List<ShaclXsdBox> data = dataSource.stream().sorted((b1, b2) -> {
+			if (b1.getNametargetclass() != null) {
+				if (b2.getNametargetclass() != null) {
+					return b2.getNametargetclass().compareTo(b1.getNametargetclass());
+				} else {
+					return -1;
+				}
+			} else {
+				if (b2.getNametargetclass() != null) {
+					return 1;
+				} else {
+					return b1.getLabel().compareTo(b2.getLabel());
+				}
+			}
+		}).collect(Collectors.toList());
+		
+		
 
 		// data.sort(Comparator.comparing(ShaclXsdBox::getNametargetclass));
 		Boolean bReference = data.stream().anyMatch(f -> f.getUseReference());
@@ -132,11 +154,10 @@ public class Shacl2XsdConverter {
 		if (owlData.getXsdRootElement() != null) {
 			isRoot = owlData.getXsdRootElement();
 		}
+		
 		/*
 		 * Prefix
-		 * 
-		 * 
-		 * 
+		 * Il affiche seulement les nomespaces, on a utilisé
 		 */
 
 		Element root = doc.createElementNS("http://www.w3.org/2001/XMLSchema", "xs:schema");
@@ -163,10 +184,13 @@ public class Shacl2XsdConverter {
 		root.setAttribute("elementFormDefault", "qualified");
 		doc.appendChild(root);
 
+		
+		
 		/*
 		 * 
 		 * Imports
-		 * 
+		 * Créé la balises d'imports.
+		 * L'information 
 		 */
 		for (OntologyImports rOwlImport : owlData.getOntoImports()) {
 			if (rOwlImport.getImportSchema() != null) {
@@ -184,10 +208,11 @@ public class Shacl2XsdConverter {
 			String m = isRoot.replaceFirst(isRoot.substring(0, 1), isRoot.substring(0, 1).toUpperCase());
 			Element classElementLowerCase = doc.createElementNS("http://www.w3.org/2001/XMLSchema", "xs:element");
 			classElementLowerCase.setAttribute("name", isRoot);
-			classElementLowerCase.setAttribute("type", m + "Type");
+			classElementLowerCase.setAttribute("type", m + "RootType");
 
 			classElementLowerCase.appendChild(doc.createComment("keys"));
 			for (ShaclXsdBox boxKeyElements : data) {
+				System.out.println("Box : " + boxKeyElements.getNodeShape().getURI() + " uses references"+" - "+boxKeyElements.getUseReference());
 				if (boxKeyElements.getUseReference()) {
 					System.out.println("Box : " + boxKeyElements.getNodeShape().getURI() + " uses references");
 					String nameClasse = boxKeyElements.getNametargetclass().split(":")[1];
@@ -429,7 +454,7 @@ public class Shacl2XsdConverter {
 		if (isRoot != null) {
 			isRoot = isRoot.replaceFirst(isRoot.substring(0, 1), isRoot.substring(0, 1).toUpperCase());
 			Element simpleContextRoot = doc.createElementNS("http://www.w3.org/2001/XMLSchema", "xs:complexType");
-			simpleContextRoot.setAttribute("name", isRoot + "Type");
+			simpleContextRoot.setAttribute("name", isRoot + "RootType");
 			Element attsequence = doc.createElementNS("http://www.w3.org/2001/XMLSchema", "xs:sequence");
 			for (ShaclXsdBox boxUseReference : data) {
 				if (boxUseReference.getUseReference()) {

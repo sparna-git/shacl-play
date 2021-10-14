@@ -24,32 +24,29 @@
     <xs:element name="MediaObject" type="MediaObjectType"/>
     <xs:element name="EuropassCredential" type="EuropassCredentialType"/>
     
+    
+     <!-- 4a. The XML elements corresponding to the class must have a type="IdReferenceType" -->
+    <xs:element name="mediaObject" type="IdReferenceType"/>
 
     <!-- List of XML elements corresponding to classes, as property reference -->
     <xs:element name="europassCredential" type="EuropassCredentialType" />
 
 
-    <!-- 4a. The XML elements corresponding to the class must have a type="IdReferenceType" -->
-    <xs:element name="mediaObject" type="IdReferenceType"/>
+   
 
-    <!-- list of XML elements corresponding to properties -->
-    <!-- 4b. The XML elements corresponding to the properties that refer to this class must have a type="IdReferenceType" -->
-    <xs:element name="attachment" type="IdReferenceType"/> 
+    
     <!-- 1. declare a MediaObjectReferences element, pointing to corresponding type -->
     <!-- list of XML elements corresponding to references -->
     <xs:element name="mediaObjectReferences" type="MediaObjectReferencesType" />
     
     <xs:element name="anotherProperty" type="xs:string"/> 
 
+	<!-- list of XML elements corresponding to properties -->
+    <!-- 4b. The XML elements corresponding to the properties that refer to this class must have a type="IdReferenceType" -->
+    <xs:element name="attachment" type="IdReferenceType"/> 
    
 
-    <xs:complexType name="EuropassCredentialType">    	
-        <xs:sequence>
-            <!-- no cardinalities, so minOccurs=0, maxoccurs=unbounded -->
-            <xs:element ref="attachment" minOccurs="0" maxOccurs="unbounded" />
-        </xs:sequence>   
-        <xs:attribute name="id" use="required" type="xs:anyURI" />     
-    </xs:complexType>
+    
 
     <!-- 5b. The root element has a corresponding Type declaration, where all the "references" attribute will be declared -->
     <xs:complexType name="TheRootRootType">
@@ -57,12 +54,20 @@
             <xs:element ref="mediaObjectReferences" minOccurs="0" maxOccurs="1" />
         </xs:sequence> 
     </xs:complexType>
-
-    <xs:complexType name="MediaObjectType">
+    
+     <xs:complexType name="MediaObjectType">
         <xs:sequence>
             <xs:element ref="anotherProperty" minOccurs="0" maxOccurs="unbounded" />
         </xs:sequence>   
         <xs:attribute name="id" use="required" type="xs:anyURI" />  
+    </xs:complexType>
+    
+    <xs:complexType name="EuropassCredentialType">    	
+        <xs:sequence>
+            <!-- no cardinalities, so minOccurs=0, maxoccurs=unbounded -->
+            <xs:element ref="attachment" minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>   
+        <xs:attribute name="id" use="required" type="xs:anyURI" />     
     </xs:complexType>
 
     <!-- 2. Declare the MediaObjectReferencesType, containing mediaObject elements -->

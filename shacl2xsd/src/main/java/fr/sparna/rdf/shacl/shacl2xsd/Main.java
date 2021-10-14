@@ -19,8 +19,8 @@ import org.w3c.dom.Node;
 
 public class Main {
 	
-	 static File mainFolder = new File("C:\\Users\\thoma\\Documents\\02-Projet\\02 Parleiament\\shacl\\loms");
-	 static File constraintsFile = new File("C:/Users/thoma/Documents/02-Projet/02 Parleiament/shacl/AMS-constraints-mdr.ttl");
+	 static File mainFolder = new File("C:\\Users\\thoma\\Documents\\02-Projet\\02 Parleiament\\QMS");
+	 static File constraintsFile = new File("C:/Users/thoma/Documents/02-Projet/02 Parleiament/QMS/AMS-constraints-mdr.ttl");
 		
 	//static File mainFolder = new File("/home/thomas/sparna/00-Clients/Cognizone/04-ELM/03-SHACL/ams");
 	//static File constraintsFile = new File("/home/thomas/sparna/00-Clients/Cognizone/04-ELM/03-SHACL/AMS-constraints-mdr.ttl");

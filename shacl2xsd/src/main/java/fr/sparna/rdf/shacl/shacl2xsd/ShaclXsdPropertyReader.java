@@ -71,7 +71,7 @@ public class ShaclXsdPropertyReader {
 			value_maxCount = constraintValueReader.readValueconstraint(constraint, SH.description);
 		}
 		
-		System.out.println("Read description "+value_maxCount+" on property "+constraint.getURI());
+		//System.out.println("Read description "+value_maxCount+" on property "+constraint.getURI());
 		
 		return value_maxCount;
 	}

@@ -5,7 +5,8 @@
            xmlns:xs="http://www.w3.org/2001/XMLSchema"
            version="1.0.0" elementFormDefault="qualified">
     
-    <xs:import namespace="http://purl.org/dc/terms/" schemaLocation="dc.xsd"/>
     <xs:import namespace="http://data.europa.eu/snb/model/w3c/vc#" schemaLocation="vc.xsd"/>
+    <xs:import namespace="http://purl.org/dc/terms/" schemaLocation="dc.xsd"/>
+    
 
 </xs:schema>

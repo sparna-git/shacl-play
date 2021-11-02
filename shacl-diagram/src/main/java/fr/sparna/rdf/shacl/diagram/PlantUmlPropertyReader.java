@@ -17,10 +17,14 @@ import org.apache.jena.util.iterator.ExtendedIterator;
 import org.apache.jena.vocabulary.OWL;
 import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.RDFS;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.topbraid.shacl.vocabulary.SH;
 
 
 public class PlantUmlPropertyReader {
+	
+	private Logger log = LoggerFactory.getLogger(this.getClass().getName());
 	
 	protected List<PlantUmlBox> allBoxes;
 	protected ConstraintValueReader constraintValueReader = new ConstraintValueReader(); 
@@ -301,47 +305,33 @@ public class PlantUmlPropertyReader {
 	
 
 	public String readShClass(Resource constraint) {
-		String value = null;
-		
-		// 1. Lire la valeur de sh:node
 		if (constraint.hasProperty(SH.class_)) {
 			Resource idclass = constraint.getProperty(SH.class_).getResource();
-			List<Resource> nodetargets = constraint.getModel().listResourcesWithProperty(SH.targetClass,idclass).toList();
-			for(Resource nodeTarget : nodetargets) {
-				if(value != null) {
-					System.out.println("Problem !");
+			
+			// 1. search for NodeShapes with an sh:targetClass
+			List<Resource> nodeShapes = constraint.getModel().listResourcesWithProperty(SH.targetClass,idclass).toList();
+			for(Resource aNodeShape : nodeShapes) {
+				for (PlantUmlBox plantUmlBox : allBoxes) {
+					if(plantUmlBox.getLabel().equals(idclass.getModel().shortForm(aNodeShape.getURI()))) {
+						return plantUmlBox.getQualifiedName();
+					}
 				}
-				value = nodeTarget.getLocalName();				
 			}
 			
-			if(nodetargets.isEmpty()) {
-				if(idclass.hasProperty(RDF.type, RDFS.Class) && idclass.hasProperty(RDF.type, SH.NodeShape)) {
-					value = idclass.getModel().shortForm(constraint.getProperty(SH.class_).getResource().toString());	
-				} 
-				else {   // Section quand il n'y a pas une targetClass
-					value = constraint.getProperty(SH.class_).getResource().getModel().shortForm(constraint.getProperty(SH.class_).getResource().getURI()); //constraint.getProperty(SH.class_).getResource().getLocalName();
-				}
+			// 2. Not found, could be that the nodeShape is type rdfs:class
+			if(idclass.hasProperty(RDF.type, RDFS.Class) && idclass.hasProperty(RDF.type, SH.NodeShape)) {
+				return idclass.getModel().shortForm(constraint.getProperty(SH.class_).getResource().toString());	
+			} 
+			
+			// 3. default
+			if (constraint.getProperty(SH.class_).getResource().isURIResource()) {   // Section quand il n'y a pas une targetClass
+				return constraint.getProperty(SH.class_).getResource().getModel().shortForm(constraint.getProperty(SH.class_).getResource().getURI()); //constraint.getProperty(SH.class_).getResource().getLocalName();
+			} else {
+				log.warn("Found a blank sh:class reference on a shape with sh:path "+constraint.getModel().shortForm(constraint.getProperty(SH.path).getResource().getURI())+", cannot handle it");
 			}
 		}
 		
-		// 2. Trouver le PlantUmlBox qui a ce nom
-		PlantUmlBox theBox = null;
-		
-		for (PlantUmlBox plantUmlBox : allBoxes) {
-			if(plantUmlBox.getLabel().equals(value)) {
-				theBox = plantUmlBox;
-				break;
-			}
-		}
-
-		if(theBox == null) {
-			// on ne l'a pas trouv�, on sort la valeur de sh:node
-			return value;
-		} else {
-			// 3. Lire le nom de la box avec son package devant
-			return theBox.getQualifiedName();
-		}
-		//this.value_class_property = value;
+		return null;
 	}
 	
 	

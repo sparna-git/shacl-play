@@ -167,8 +167,10 @@
 						<br />
 						<xsl:for-each select="sections/section">
 
+							<xsl:sort select="title"/>
 							<xsl:variable name="TitleNodeSapetab" select="uri" />
 							<xsl:variable name="Title" select="title" />
+							
 							<a href="{concat('#',$TitleNodeSapetab)}">
 								<xsl:value-of select="$Title" />
 							</a>

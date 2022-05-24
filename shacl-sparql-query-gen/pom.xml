@@ -4,12 +4,12 @@
 
 	<groupId>fr.sparna.rdf.shacl</groupId>
 	<artifactId>shacl-sparql-query-gen</artifactId>
-	<version>0.5</version>
+	<version>0.6</version>
 
 	  <parent>
 	    <groupId>fr.sparna.rdf.shacl</groupId>
 	    <artifactId>shacl-play-root-pom</artifactId>
-	    <version>0.5</version>
+	    <version>0.6</version>
 	    <relativePath>../pom.xml</relativePath>
 	  </parent>
 

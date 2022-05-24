@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Model;
+import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RiotException;
 import org.apache.jena.util.FileUtils;
 import org.slf4j.Logger;
@@ -62,7 +63,9 @@ public class ControllerModelFactory {
 						log.debug("Detected a zip extension");
 						ControllerCommons.populateModelFromZip(model, f.getInputStream());
 					} else {
-						ControllerCommons.populateModel(model, f.getInputStream(), FileUtils.guessLang(f.getOriginalFilename(), "RDF/XML"));
+						String lang = FileUtils.guessLang(f.getOriginalFilename(), "RDF/XML");
+						log.debug("Detected RDF format "+lang+" from file name "+f.getOriginalFilename());
+						ControllerCommons.populateModel(model, f.getInputStream(), lang);
 					}
 
 					// shape name is name of file

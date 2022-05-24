@@ -1,0 +1,22 @@
+@prefix questions: <https://data.europarl.europa.eu/def/parliamentary-questions#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+questions:Question sh:target questions:Question-target .
+
+questions:Question-target sh:select """PREFIX eli: <http://data.europa.eu/eli/ontology#>
+PREFIX resource-type: <http://publications.europa.eu/resource/authority/resource-type/>
+SELECT ?this
+WHERE {
+  ?this eli:work_type ?type .
+  VALUES ?type {
+    # all narrower terms of QUEST_EP
+    resource-type:INTERPELL_G 
+    resource-type:INTERPELL_K 
+    resource-type:QUEST_ORAL 
+    resource-type:QUEST_PRIORITY 
+    resource-type:QUEST_TIME 
+    resource-type:QUEST_WRITTEN
+  }
+  # additional criteria to select only questions from a certain year
+  ?this <http://data.europa.eu/eli/ontology#date_document> ?date . FILTER(year(?date) = 2019)
+}""" .

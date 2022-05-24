@@ -97,7 +97,7 @@ public class ShaclValidator {
 		
 		Model validatedModel;
 		if(this.complimentaryModel != null) {
-			log.info("Addind a complimentary model of "+complimentaryModel.size()+" triples...");
+			log.info("Adding a complimentary model of "+complimentaryModel.size()+" triples...");
 			validatedModel = ModelFactory.createModelForGraph(new MultiUnion(new Graph[] {
 					dataModel.getGraph(),
 					complimentaryModel.getGraph()

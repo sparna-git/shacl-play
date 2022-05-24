@@ -288,7 +288,7 @@
 					  
 					  
 					  <h2><i class="fal fa-tools"></i>&nbsp;&nbsp;<fmt:message key="validate.options.title" /></h2>
-				      <blockquote class="blockquote bq-warning">
+				      <blockquote class="blockquote bq-warning">					      
 					      <div class="form-group row">
 					      	<div class="col-sm-12">
 						      	<div class="form-check">
@@ -311,6 +311,19 @@
 								  </label>
 								  <small class="form-text text-muted">
 									<fmt:message key="validate.options.createDetails.help" />
+								  </small>
+								</div>
+							</div>
+						  </div>
+						  <div class="form-group row">
+					      	<div class="col-sm-12">
+						      	<div class="form-check">
+								  <input class="form-check-input" type="checkbox" id="infer" name="infer" />
+								  <label class="form-check-label" for="infer">
+								    <fmt:message key="validate.options.infer" />
+								  </label>
+								  <small class="form-text text-muted">
+									<fmt:message key="validate.options.infer.help" />
 								  </small>
 								</div>
 							</div>

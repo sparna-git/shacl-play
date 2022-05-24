@@ -26,6 +26,9 @@ public class ApplicationData {
 	@Value("${shaclplay.validation.maxInputSize:500000}")
 	private int validationMaxInputSize;
 	
+	@Value("${shaclplay.validation.maxInputSizeWithInference:50000}")
+	private int validationMaxInputSizeWithInference;
+	
 	public ApplicationData() {
 		super();	
 	}
@@ -68,6 +71,14 @@ public class ApplicationData {
 
 	public void setValidationMaxInputSize(int validationMaxInputSize) {
 		this.validationMaxInputSize = validationMaxInputSize;
+	}
+
+	public int getValidationMaxInputSizeWithInference() {
+		return validationMaxInputSizeWithInference;
+	}
+
+	public void setValidationMaxInputSizeWithInference(int validationMaxInputSizeWithInference) {
+		this.validationMaxInputSizeWithInference = validationMaxInputSizeWithInference;
 	}
 	
 }

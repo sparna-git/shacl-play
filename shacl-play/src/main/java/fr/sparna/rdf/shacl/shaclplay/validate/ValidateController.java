@@ -7,6 +7,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.jena.ontology.OntModel;
+import org.apache.jena.ontology.OntModelSpec;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.riot.Lang;
@@ -50,6 +52,8 @@ public class ValidateController {
 	
 	@Autowired
 	protected ShapesCatalogService catalogService;
+	
+	
 	
 	@RequestMapping(
 			value = {"{shapes}/badge"},
@@ -338,6 +342,8 @@ public class ValidateController {
 			@RequestParam(value="closeShapes", required=false) boolean closeShapes,
 			// createDetails option
 			@RequestParam(value="createDetails", required=false) boolean createDetails,
+			// infer option
+			@RequestParam(value="infer", required=false) Boolean infer,
 			HttpServletRequest request
 	) {
 		try {
@@ -351,6 +357,7 @@ public class ValidateController {
 			
 			// initialize shapes first
 			log.debug("Determining Shapes source...");
+			
 			Model shapesModel = ModelFactory.createDefaultModel();
 			ControllerModelFactory modelPopulator = new ControllerModelFactory(this.catalogService.getShapesCatalog());
 			modelPopulator.populateModel(
@@ -364,15 +371,38 @@ public class ValidateController {
 			log.debug("Done Loading Shapes. Model contains "+shapesModel.size()+" triples");
 			
 			log.debug("Determining Data source...");
-			Model dataModel = ModelFactory.createDefaultModel();
-			modelPopulator.populateModel(
-					dataModel,
-					source,
-					url,
-					text,
-					files,
-					null
-			);
+			Model dataModel;
+			if(infer != null && infer) {
+				log.debug("Asked for inference, will use an ontology Model...");
+				OntModel tempModel = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM_MICRO_RULE_INF);
+				modelPopulator.populateModel(
+						tempModel,
+						source,
+						url,
+						text,
+						files,
+						null
+				);
+				
+				log.debug("Before inference model has "+tempModel.size()+" triples");
+				if(tempModel.size() > applicationData.getValidationMaxInputSizeWithInference()) {
+					throw new ControllerModelException("Input file is too large ("+tempModel.size()+" triples). Validation with inference is limited to "+applicationData.getValidationMaxInputSizeWithInference()+" triples");
+				}
+				
+				dataModel = ModelFactory.createDefaultModel();
+				dataModel.add(tempModel);
+			} else {
+				dataModel = ModelFactory.createDefaultModel();
+				modelPopulator.populateModel(
+						dataModel,
+						source,
+						url,
+						text,
+						files,
+						null
+				);
+			}
+			
 			log.debug("Done Loading Data to validate. Model contains "+dataModel.size()+" triples");
 			
 			// compute permalink only if we can

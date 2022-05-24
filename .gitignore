@@ -4,3 +4,7 @@ target
 .project
 
 *.versionsBackup
+
+.idea/
+
+shacl-diagram/output/

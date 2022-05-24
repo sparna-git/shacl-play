@@ -14,6 +14,10 @@ import fr.sparna.rdf.shacl.app.owl2shacl.ArgumentsOwl2Shacl;
 import fr.sparna.rdf.shacl.app.owl2shacl.Owl2Shacl;
 import fr.sparna.rdf.shacl.app.report.ArgumentsGenerateReport;
 import fr.sparna.rdf.shacl.app.report.GenerateReport;
+import fr.sparna.rdf.shacl.app.shacl2sparql.ArgumentsShacl2Sparql;
+import fr.sparna.rdf.shacl.app.shacl2sparql.Shacl2Sparql;
+import fr.sparna.rdf.shacl.app.shacl2sparql.sparqlbatch.ArgumentsSparqlBatch;
+import fr.sparna.rdf.shacl.app.shacl2sparql.sparqlbatch.SparqlBatch;
 import fr.sparna.rdf.shacl.app.validate.ArgumentsValidate;
 import fr.sparna.rdf.shacl.app.validate.Validate;
 
@@ -26,6 +30,8 @@ public class Main {
 		OWL2SHACL(new ArgumentsOwl2Shacl(), new Owl2Shacl()),
 		DRAW(new ArgumentsDraw(), new Draw()),
 		DOC(new ArgumentsDoc(), new Doc()),
+		SHACL2SPARQL(new ArgumentsShacl2Sparql(), new Shacl2Sparql()),
+		SPARQLBATCH(new ArgumentsSparqlBatch(), new SparqlBatch()),
 		VALIDATE(new ArgumentsValidate(), new Validate());
 
 		private CliCommandIfc command;

@@ -95,6 +95,11 @@
     </dependency>
 
     <dependency>
+      <groupId>org.apache.jena</groupId>
+      <artifactId>jena-arq</artifactId>
+    </dependency>
+
+    <dependency>
       <groupId>fr.sparna.rdf.shacl</groupId>
       <artifactId>shacl-validator</artifactId>
       <version>0.5</version>
@@ -114,13 +119,14 @@
 
     <dependency>
       <groupId>fr.sparna.rdf.shacl</groupId>
-      <artifactId>shacl-doc</artifactId>
+      <artifactId>shacl-sparql-query-gen</artifactId>
       <version>0.5</version>
     </dependency>
 
     <dependency>
-      <groupId>org.apache.jena</groupId>
-      <artifactId>jena-arq</artifactId>
+      <groupId>fr.sparna.rdf.shacl</groupId>
+      <artifactId>shacl-doc</artifactId>
+      <version>0.5</version>
     </dependency>
             
 	</dependencies>

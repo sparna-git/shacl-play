@@ -49,7 +49,8 @@ public class Doc implements CliCommandIfc {
 				owlModel,
 				a.getLanguage(),
 				a.getInput().get(0).getName(),
-				false
+				// avoid arrows to empty boxes
+				true
 		);
 		
 		FileOutputStream out = new FileOutputStream(a.getOutput());

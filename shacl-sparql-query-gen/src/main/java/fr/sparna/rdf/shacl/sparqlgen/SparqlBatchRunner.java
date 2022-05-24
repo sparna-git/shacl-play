@@ -34,7 +34,7 @@ public class SparqlBatchRunner {
 		this.generateDebugFiles = true;
 	}
 	
-	public void generateSparqlResult(File fDir, String Conn, File shaclFile) throws Exception {
+	public void generateSparqlResult(File fDir, String sparqlEndpoint, File shaclFile) throws Exception {
 		
 		// Create output dir if not exists		
 		if(!outputFile.getParentFile().exists()) {
@@ -60,7 +60,7 @@ public class SparqlBatchRunner {
 			
 			//Create Query Object
 			Query queryFile = QueryFactory.create(qData);
-			QueryExecution qExecution = QueryExecutionFactory.sparqlService(Conn, queryFile);
+			QueryExecution qExecution = QueryExecutionFactory.sparqlService(sparqlEndpoint, queryFile);
 			
 			try {
 				Model result = qExecution.execConstruct();

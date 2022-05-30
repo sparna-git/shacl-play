@@ -156,7 +156,7 @@ public class PlantUmlRenderer {
 	// value = uml_shape+" --> "+"\""+uml_or;
 	public String renderAsOr(PlantUmlProperty property, String boxName, String colorArrow) {
 		// use property local name to garantee unicity of diamond
-		String sNameDiamond = "diamond_" + property.getPropertyShape().getLocalName();
+		String sNameDiamond = "diamond_" + property.getPropertyShape().getLocalName().replace("-", "_");
 		// diamond declaration
 		String output = "<> " + sNameDiamond + "\n";
 

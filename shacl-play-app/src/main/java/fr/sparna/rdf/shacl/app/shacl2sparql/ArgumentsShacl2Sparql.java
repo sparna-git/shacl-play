@@ -32,6 +32,23 @@ public class ArgumentsShacl2Sparql {
 	)
 	private File output;
 	
+	
+	@Parameter(
+			names = { "-t", "--type" },
+			description = "Query type, \"normal\" or \"combine\"",
+			required = true
+	)
+	private String type;
+	
+	
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
 	public File getInput() {
 		return input;
 	}

@@ -14,7 +14,7 @@ public class Shacl2Sparql implements CliCommandIfc {
 	public void execute(Object args) throws Exception {
 		ArgumentsShacl2Sparql a = (ArgumentsShacl2Sparql)args;
 		SparqlGenerator generator = new SparqlGenerator(a.getOutput());
-		generator.generateSparql(a.getInput(), a.getTargetsOverrideFile());
+		generator.generateSparql(a.getInput(), a.getTargetsOverrideFile(), a.getType());
 		
 	}
 

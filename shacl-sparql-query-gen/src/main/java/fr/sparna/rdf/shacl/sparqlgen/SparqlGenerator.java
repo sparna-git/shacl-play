@@ -523,8 +523,6 @@ public class SparqlGenerator {
 	
 	
 	
-	
-	//Sparql Query Combine
 	protected void processOneNodeShapeCombine(
 			// node shape we are currently processing
 			NodeShape nodeShape,
@@ -560,15 +558,12 @@ public class SparqlGenerator {
 			
 		}
 		
-		ElementPathBlock ePathBlock = new ElementPathBlock();
-		ElementTriplesBlock eBlockT = new ElementTriplesBlock();
-		ElementGroup eGpo = new ElementGroup();
 		if(stepsFromRootNodeShape != null && stepsFromRootNodeShape.size() != 0) {
 			//ElementGroup querySelectWhere = new ElementGroup();
 			for(int i=0; i<stepsFromRootNodeShape.size(); i++) {
 				// for each step...
 				ShaclParsingStep currentStep = stepsFromRootNodeShape.get(i);
-
+				
 				// generate the path
 				Node subject = (i==0)?Var.alloc("this"):Var.alloc(stepsFromRootNodeShape.get(i-1).getVarName());
 				Path predicatePath = currentStep.getPath();
@@ -581,8 +576,9 @@ public class SparqlGenerator {
 				}else {
 					object = Var.alloc(currentStep.getVarName());
 				}
-				
+				ElementPathBlock ePathBlock = new ElementPathBlock();
 				ePathBlock.addTriple(new TriplePath(subject,predicatePath ,object));
+				eWhere.addElement(ePathBlock);
 				
 				// add filtering criterias from sh:hasValue and sh:in
 				for(PropertyShape nsproperty : currentStep.getNodeShape().getProperties()) {					
@@ -591,15 +587,17 @@ public class SparqlGenerator {
 						// then we don't use a SPARQL VALUES
 						RDFNode singleValue = nsproperty.getSingleValue();
 						
-						eBlockT = SparqlQueryHelper.initElementTriplesBlock(
+						ElementTriplesBlock eBlockT = SparqlQueryHelper.initElementTriplesBlock(
 								//Var.alloc(currentStep.getVarName()),
 								object,
 								NodeFactory.createURI(nsproperty.getPath().getURI()), 
 								singleValue.asNode()
 								);
+						eWhere.addElement(eBlockT);
 						
 					} else if(nsproperty.requiresValues()) {
 						// if it has multiple values, we insert a SPARQL VALUES
+						ElementGroup eGpo = new ElementGroup();
 						List<Node> eListNodeIn = new ArrayList<Node>();
 
 						Var varProperty = Var.alloc(Var.alloc(nsproperty.getPath().getLocalName()));
@@ -609,7 +607,7 @@ public class SparqlGenerator {
 						}
 
 						//Triple
-						eBlockT = SparqlQueryHelper.initElementTriplesBlock(
+						ElementTriplesBlock eBlockT = SparqlQueryHelper.initElementTriplesBlock(
 								//Var.alloc(currentStep.getVarName()),
 								object,
 								NodeFactory.createURI(nsproperty.getPath().getURI()), 
@@ -619,29 +617,18 @@ public class SparqlGenerator {
 						eGpo.addElement(eBlockT);
 						ElementData nDataIn = SparqlQueryHelper.initElementData(varProperty, eListNodeIn);						
 						eGpo.addElement(nDataIn);
-						
 					}
 				} //
 									
 			} // end for each step
 		}
 		
-		// Add group in list
-		if(!ePathBlock.isEmpty()) {
-			eWhere.addElement(ePathBlock);
-			if(!eBlockT.isEmpty()) {
-				eWhere.addElement(eBlockT);
-			}
-			if(!eGpo.isEmpty()) {
-				eWhere.addElement(eGpo);
-			}
-			  
-		}
-		if(eDataValues != null && !ePathBlock.isEmpty()) {
-			eWhere.addElement(eDataValues);
-		}else if(eDataValues != null && ePathBlock.isEmpty()){
+		
+		if(eDataValues != null && eWhere.isEmpty()){
 			ElementBind eBind = new ElementBind(Var.alloc("s") , new ExprVar("this"));
 			eWhere.addElement(eBind);
+			eWhere.addElement(eDataValues);
+		}else {
 			eWhere.addElement(eDataValues);
 		}
 		

@@ -1,21 +1,23 @@
 package fr.sparna.rdf.shacl.sparqlgen;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import org.apache.jena.graph.Node;
 import org.apache.jena.graph.NodeFactory;
 import org.apache.jena.graph.Triple;
 import org.apache.jena.query.Query;
 import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.shared.PrefixMapping;
@@ -36,7 +38,6 @@ import org.apache.jena.sparql.syntax.ElementSubQuery;
 import org.apache.jena.sparql.syntax.ElementTriplesBlock;
 import org.apache.jena.sparql.syntax.ElementUnion;
 import org.apache.jena.sparql.syntax.Template;
-import org.apache.jena.util.FileUtils;
 import org.apache.jena.vocabulary.RDF;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,13 +60,16 @@ public class SparqlGenerator {
 	protected List<String> outNameFile = new ArrayList<String>();
 	private List<NodeShape> allNodeShapes;
 	private List<Element> pathShacl = new ArrayList<>();
+	private Map<String, String> queryFiles= new HashMap();
 	
 	public SparqlGenerator(File outputDir) {
 		super();
 		this.outputDir = outputDir;
 	}
 
-	public void generateSparql(File shaclFile, File targetsOverrideFile, String typeQuery) throws Exception {
+	public void generateSparql(Model shaclFile, 
+							   Model targetsOverrideFile, 
+							   Boolean typeQuery) throws Exception {
 		
 		// Create folder is not exist
 		if(!this.outputDir.exists()) {
@@ -74,10 +78,7 @@ public class SparqlGenerator {
 			deleteFileResult(this.outputDir);
 		}
 		
-		// Read Model File
-		Model shaclGraph = ModelFactory.createDefaultModel();
-		shaclGraph.read(new FileInputStream(shaclFile), RDF.uri, FileUtils.guessLang(shaclFile.getName(), "Turtle"));
-		List<Resource> nodeShapeResources = shaclGraph.listResourcesWithProperty(RDF.type, SH.NodeShape).toList();
+		List<Resource> nodeShapeResources = shaclFile.listResourcesWithProperty(RDF.type, SH.NodeShape).toList();
 		
 		// Read NodeShape
 		allNodeShapes = new ArrayList<>();
@@ -91,10 +92,8 @@ public class SparqlGenerator {
 		 * , replace the values query in sh:Select
 		 */
 		
-		if(targetsOverrideFile != null && targetsOverrideFile.exists()) {
-			Model shaclGraphOptinal = ModelFactory.createDefaultModel();
-			shaclGraphOptinal.read(new FileInputStream(targetsOverrideFile), RDF.uri, FileUtils.guessLang(shaclFile.getName(), "Turtle"));
-			List<Resource> nShapeResourcesOptional = shaclGraphOptinal.listResourcesWithProperty(SH.target).toList();
+		if(targetsOverrideFile!= null) {
+			List<Resource> nShapeResourcesOptional = targetsOverrideFile.listResourcesWithProperty(SH.target).toList();
 			for (Resource nShape : nShapeResourcesOptional) {
 				NodeShape dbShaclOptional = reader.read(nShape);		
 				
@@ -106,7 +105,7 @@ public class SparqlGenerator {
 				}
 			}
 		}
-		
+			
 		// Read Property Shape
 		for (NodeShape aBox : allNodeShapes) {
 			aBox.setProperties(reader.readPropertyShape(aBox.getNodeShapeResource(), allNodeShapes));
@@ -119,27 +118,36 @@ public class SparqlGenerator {
 			gatheredPrefixes.addAll(prefixes);
 		}
 		Map<String, String> necessaryPrefixes = ShaclPrefixReader.gatherNecessaryPrefixes(
-				shaclGraph.getNsPrefixMap(),
+				shaclFile.getNsPrefixMap(),
 				gatheredPrefixes
 		);
 	
-		
 		// Start from all root NodeShapes
 		for (NodeShape aNodeShape : this.allNodeShapes) {
 			if (aNodeShape.getTargetSelect() != null) {
-				if(typeQuery.equals("normal") || 
-					typeQuery == null) {
+				if(!typeQuery) {
+					String zipPath = outputDir.getPath()+"\\"+aNodeShape.getNodeShapeResource().getLocalName()+".zip";
+					queryFiles.clear();
 					processOneNodeShape(
 							aNodeShape,
 							new ArrayList<ShaclParsingStep>(),
 							aNodeShape,
 							necessaryPrefixes
 					);
-				}
-				
-				if(typeQuery.equals("combine"))
-				{
+					
+					ZipOutputStream zipOut = new ZipOutputStream(new FileOutputStream(zipPath));
+					for (Map.Entry<String,String> nameQuery : queryFiles.entrySet()) {
+						ZipEntry zipFile = new ZipEntry(nameQuery.getKey());
+					    zipOut.putNextEntry(zipFile);
+					    zipOut.write(nameQuery.getValue().getBytes(), 0, nameQuery.getValue().getBytes().length);
+						zipOut.closeEntry();							
+					}
+					zipOut.finish();
+					zipOut.close();
+					
+				}else {
 					//Create construc
+					String zipPath = outputDir.getPath()+"\\"+aNodeShape.getNodeShapeResource().getLocalName()+"_combine"+".zip";
 					Query qConstruct = new Query();
 					
 					BasicPattern bp = new BasicPattern();				
@@ -168,6 +176,8 @@ public class SparqlGenerator {
 					eWhere.addElement(new ElementSubQuery(aNodeShape.getTargetSelect()));
 					
 					// Building UNION clause
+					
+					pathShacl.clear();
 					processOneNodeShapeCombine(
 							aNodeShape,
 							new ArrayList<ShaclParsingStep>(),
@@ -194,25 +204,30 @@ public class SparqlGenerator {
 						qConstruct.setPrefix(prefixUse.getprefix(), prefixUse.getnamespace());
 					}
 					
+					// query file 
+					String nameQueryUnion = aNodeShape.getNodeShapeResource().getLocalName()+".rq";
+					String codeSparql = qConstruct.toString();
 					
-					//Get name file
-					String fileName = shaclFile.getName();
-					String newNameFile = "";
-					int index = fileName.indexOf(".ttl");
-					if(index > 0) {
-						String extension = fileName.substring(index+1);
-						newNameFile = fileName.substring(0,(index+1))+"rq";
-					}
+					//Zip code parql
+					ZipOutputStream zipOut = new ZipOutputStream(new FileOutputStream(zipPath));
+					ZipEntry zipE = new ZipEntry(nameQueryUnion);
+					zipOut.putNextEntry(zipE);
 					
-					File outFile = new File(outputDir,newNameFile);
-					File finalOutputFile = outFile;
-					if(outFile.exists()) {			
-						finalOutputFile = new File(outputDir,newNameFile);
-					}
+					byte[] data = codeSparql.getBytes();
+					zipOut.write(data, 0, data.length);
+					zipOut.closeEntry();
+					zipOut.close();
 					
-					FileOutputStream out = new FileOutputStream(finalOutputFile);
-					org.apache.commons.io.IOUtils.write(qConstruct.toString(), out, "UTF-8");
-					out.close();
+					
+					//File outFile = new File(nameQueryUnion);
+					//File finalOutputFile = outFile;
+					//if(outFile.exists()) {			
+						//finalOutputFile = new File(nameQueryUnion);
+					//}
+					
+					//FileOutputStream out = new FileOutputStream(finalOutputFile);
+					//org.apache.commons.io.IOUtils.write(qConstruct.toString(), out, "UTF-8");
+					//out.close();
 					System.out.println(qConstruct);
 					
 				}
@@ -430,11 +445,11 @@ public class SparqlGenerator {
 		
 
 		String nameFile = this.getOutputFileName(rootNodeShape, stepsFromRootNodeShape);
-
-		File outFile = new File(outputDir,nameFile);
 		
+		File outFile = new File(outputDir,nameFile);		
 		File finalOutputFile = outFile;
-		if(outFile.exists()) {			
+		
+		if(queryFiles.containsKey(finalOutputFile.getName())) {			
 			//get the last property
 			ShaclParsingStep sps = stepsFromRootNodeShape.get(stepsFromRootNodeShape.size()-1);
 			String currentProperty = sps.getPropertyShape().getPath().getLocalName();
@@ -443,9 +458,13 @@ public class SparqlGenerator {
 			finalOutputFile = new File(outputDir,newNameFile);
 		}
 		
-		FileOutputStream out = new FileOutputStream(finalOutputFile);
-		org.apache.commons.io.IOUtils.write(qConstruct.toString(), out, "UTF-8");
-		out.close();
+		//FileOutputStream out = new FileOutputStream(finalOutputFile);
+		//org.apache.commons.io.IOUtils.write(qConstruct.toString(), out, "UTF-8");
+		//out.close();
+		//Save in Map the name file and Query 
+		queryFiles.put(finalOutputFile.getName(), qConstruct.toString());
+		
+		//out.close();
 		System.out.println(qConstruct);
 
 

@@ -42,9 +42,9 @@
 					      <h5 class="card-title">Validate RDF data using SHACL</h5>
 					      <p class="card-text">Get a human-readable report from a SHACL validation. Upload your RDF or validate online RDF file at some URL. Also download a CSV report, or raw SHACL Turtle report.</p>
 					      -->
-					      <h5 class="card-title"><fmt:message key="validate.home.card-title" /></h5>
-					      <p class="card-text"><fmt:message key="validate.home.card-title.help" /></p>
-					      <a href="<c:url value="/validate" />" class="btn btn-primary"><fmt:message key="validate.home.validate" /></a>
+					      <h5 class="card-title"><fmt:message key="home.validate.card-title" /></h5>
+					      <p class="card-text"><fmt:message key="home.validate.card-title.help" /></p>
+					      <a href="<c:url value="/validate" />" class="btn btn-primary"><fmt:message key="home.validate.button" /></a>
 					    </div>
 					  </div>				  
 				  	</div>
@@ -57,9 +57,9 @@
 					      <p class="card-text">Looking for something more visual ? Generate UML diagrams in SVG from your SHACL file ! Works with <a href="https://plantuml.com/">PlantUML</a></p>
 					      <a href="<c:url value="/draw" />" class="btn btn-primary">Draw</a>
 					      -->
-					      <h5 class="card-title"><fmt:message key="draw.home.card-title" /></h5>
-					      <p class="card-text"><fmt:message key="draw.home.card-title.help" /></a></p>
-					      <a href="<c:url value="/draw" />" class="btn btn-primary"><fmt:message key="draw.home.validate" /></a>
+					      <h5 class="card-title"><fmt:message key="home.draw.card-title" /></h5>
+					      <p class="card-text"><fmt:message key="home.draw.card-title.help" /></a></p>
+					      <a href="<c:url value="/draw" />" class="btn btn-primary"><fmt:message key="home.draw.button" /></a>
 					    </div>
 					  </div>
 					</div>
@@ -72,9 +72,9 @@
 					      <p class="card-text">Generate application-profile style documentation, with tables of allowed properties for each class, from your SHACL definition. Ready to be shipped to the developers !</p>
 					      <a href="<c:url value="/doc" />" class="btn btn-primary">Generate doc</a>
 					   	  -->
-					   	  <h5 class="card-title"><fmt:message key="doc.home.card-title" /></h5>
-					      <p class="card-text"><fmt:message key="doc.home.card-title.help" /></p>
-					      <a href="<c:url value="/doc" />" class="btn btn-primary"><fmt:message key="doc.home.validate" /></a>
+					   	  <h5 class="card-title"><fmt:message key="home.doc.card-title" /></h5>
+					      <p class="card-text"><fmt:message key="home.doc.card-title.help" /></p>
+					      <a href="<c:url value="/doc" />" class="btn btn-primary"><fmt:message key="home.doc.button" /></a>
 					    </div>
 					  </div>
 					</div>
@@ -87,9 +87,9 @@
 					      <p class="card-text">If your Shape file is registered in the <a href="<c:url value="/shapes-catalog" />">Shapes catalog</a> and you validate an online file, get Markdown or URL code to display a validation badge on your Github project ! See <a href="https://github.com/sparna-git/SHACL-Catalog">an exemple here</a>.</p>
 						  <a href="<c:url value="/validate" />" class="btn btn-primary">Start validating</a>
 					      -->
-					      <h5 class="card-title"><fmt:message key="catalog.home.card-title" /></h5>
-					      <p class="card-text"><fmt:message key="catalog.home.card-title.help" /></p>
-						  <a href="<c:url value="/validate" />" class="btn btn-primary"><fmt:message key="catalog.home.validate" /></a>
+					      <h5 class="card-title"><fmt:message key="home.catalog.card-title" /></h5>
+					      <p class="card-text"><fmt:message key="home.catalog.card-title.help" /></p>
+						  <a href="<c:url value="/validate" />" class="btn btn-primary"><fmt:message key="home.catalog.button" /></a>
 					    </div>
 					  </div>				  
 				  	</div>					
@@ -102,9 +102,9 @@
 					      <p class="card-text">The SHACL catalog is a curated set of online reusable SHACL files. Add yours !</p>
 					      <a href="<c:url value="/shapes-catalog" />" class="btn btn-primary">Browse Shapes Catalog</a>
 					      -->
-					      <h5 class="card-title"><fmt:message key="catalog-rules.home.card-title" /></h5>
-					      <p class="card-text"><fmt:message key="catalog-rules.home.card-title.help" /></p>
-					      <a href="<c:url value="/shapes-catalog" />" class="btn btn-primary"><fmt:message key="catalog-rules.home.validate" /></a>
+					      <h5 class="card-title"><fmt:message key="home.catalog-rules.card-title" /></h5>
+					      <p class="card-text"><fmt:message key="home.catalog-rules.card-title.help" /></p>
+					      <a href="<c:url value="/shapes-catalog" />" class="btn btn-primary"><fmt:message key="home.catalog-rules.button" /></a>
 					    </div>
 					  </div>
 				  	</div>
@@ -116,9 +116,9 @@
 					      <p class="card-text">So you have an OWL file and you would like to derive SHACL from it ? use the OWL-to-SHACL conversion rules to generate your SHACL constraint file.</p>
 					      <a href="<c:url value="/convert" />" class="btn btn-primary">Convert OWL to SHACL</a>
 					      -->
-					      <h5 class="card-title"><fmt:message key="validate.home.owl.title" /></h5>
-					      <p class="card-text"><fmt:message key="validate.home.owl.title.help" /></p>
-					      <a href="<c:url value="/convert" />" class="btn btn-primary"><fmt:message key="validate.home.owl.validate" /></a>
+					      <h5 class="card-title"><fmt:message key="home.from-owl.title" /></h5>
+					      <p class="card-text"><fmt:message key="home.from-owl.title.help" /></p>
+					      <a href="<c:url value="/convert" />" class="btn btn-primary"><fmt:message key="home.from-owl.button" /></a>
 					      
 					    </div>
 					  </div>
@@ -133,11 +133,11 @@
 						  <a href="<c:url value="/convert" />" class="btn btn-primary">Convert RDF using Rules</a>
 						  <a href="<c:url value="/rules" />" class="btn btn-primary">Display SHACL Rules</a>
 						  -->
-						  <h5 class="card-title"><fmt:message key="convert.home.card-title" /></h5>
-					      <p class="card-text"><fmt:message key="convert.home.card-title.help" /></p>
+						  <h5 class="card-title"><fmt:message key="home.convert.card-title" /></h5>
+					      <p class="card-text"><fmt:message key="home.convert.card-title.help" /></p>
 					      <div class="btn-group" role="group" aria-label="Basic example">
-					      	<a href="<c:url value="/convert" />" class="btn btn-primary"><p font-size:14><fmt:message key="convert.home.validate-rdf" /></p></a>
-					      	<a href="<c:url value="/rules" />" class="btn btn-primary"><p font-size:14><fmt:message key="convert.home.validate-shaclrules" /></p></a>
+					      	<a href="<c:url value="/convert" />" class="btn btn-primary"><p font-size:14><fmt:message key="home.convert.button-rdf" /></p></a>
+					      	<a href="<c:url value="/rules" />" class="btn btn-primary"><p font-size:14><fmt:message key="home.convert.button-shaclrules" /></p></a>
 						  </div>
 					    </div>
 					  </div>
@@ -146,9 +146,9 @@
 					  <div class="card">
 					    <a href="<c:url value="/sparql" />"><img src="<c:url value="/resources/img/home-sparql.png" />" class="card-img-top" alt="SHACL Play Sparql Query"></a>
 					    <div class="card-body">
-					      <h5 class="card-title"><fmt:message key="sparql.home.card-title" /></h5>
-					      <p class="card-text"><fmt:message key="sparql.home.card-title.help" /></p>
-					      <a href="<c:url value="/sparql" />" class="btn btn-primary"><fmt:message key="sparql.home.validate" /></a>
+					      <h5 class="card-title"><fmt:message key="home.sparql.card-title" /></h5>
+					      <p class="card-text"><fmt:message key="home.sparql.card-title.help" /></p>
+					      <a href="<c:url value="/sparql" />" class="btn btn-primary"><fmt:message key="home.sparql.button" /></a>
 					    </div>
 					  </div>
 					</div>

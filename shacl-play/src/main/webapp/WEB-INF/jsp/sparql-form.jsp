@@ -69,7 +69,7 @@
 	 
 			  	<form id="upload_form" action="sparql" method="POST" enctype="multipart/form-data" class="form-horizontal">
 				      
-				      <h2><i class="fal fa-chart-network"></i>&nbsp;&nbsp;<fmt:message key="sparql.inputData.title" /></h2>
+				      <h2><i class="fal fa-shapes"></i>&nbsp;&nbsp;<fmt:message key="sparql.inputData.title" /></h2>
 				      <blockquote class="blockquote bq-success">
 				      <div class="form-group row">
 				      	

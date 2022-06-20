@@ -1,9 +1,11 @@
 package fr.sparna.rdf.shacl.shaclplay.sparql;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.List;
+import java.util.zip.ZipOutputStream;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,6 +28,7 @@ import fr.sparna.rdf.shacl.shaclplay.ControllerModelFactory;
 import fr.sparna.rdf.shacl.shaclplay.ControllerModelFactory.SOURCE_TYPE;
 import fr.sparna.rdf.shacl.shaclplay.catalog.shapes.ShapesCatalogService;
 import fr.sparna.rdf.shacl.sparqlgen.SparqlGenerator;
+import fr.sparna.rdf.shacl.sparqlgen.SparqlGeneratorZipOutputListener;
 
 @Controller
 public class SparqlController {
@@ -52,44 +55,6 @@ public class SparqlController {
 		//vfd.setCatalog(catalog);
 		
 		return new ModelAndView("sparql-form", SparqlFormData.KEY, vfd);	
-	}
-	
-	@RequestMapping(
-			value = {"sparql"},
-			params={"url","urlOptional"},
-			method=RequestMethod.GET
-	)
-	
-	public ModelAndView sparqlUrl(
-			@RequestParam(value="url", required=true) String shapesUrl,
-			@RequestParam(value="urlOptional", required=true) String shapesUrlOptional,
-			@RequestParam(value="formatCombine", required=true) Boolean typeQuery,
-			HttpServletRequest request,
-			HttpServletResponse response
-	){
-		try {
-			log.debug("sparqlUrl(shapesUrl='"+shapesUrl+"')");		
-			
-			Model shapesModel = ModelFactory.createDefaultModel();
-			ControllerModelFactory modelPopulator = new ControllerModelFactory(this.catalogService.getShapesCatalog());
-			modelPopulator.populateModelFromUrl(shapesModel, shapesUrl);
-			
-			Model shapesModelOptional = ModelFactory.createDefaultModel();
-			ControllerModelFactory modelPopulatorOptional = new ControllerModelFactory(this.catalogService.getShapesCatalog());
-			modelPopulator.populateModelFromUrl(shapesModelOptional, shapesUrlOptional);
-			
-			log.debug("Done Loading Shapes. Model contains "+shapesModel.size()+" triples");
-			doOutputSparql(
-					shapesModel,
-					shapesModelOptional,
-					typeQuery,
-					modelPopulator.getSourceName(),
-					response);
-			return null;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return handleViewFormError(request, e.getClass().getName() +" : "+e.getMessage(), e);
-		}
 	}
 	
 	@RequestMapping(
@@ -128,19 +93,7 @@ public class SparqlController {
 			ControllerModelFactory.SOURCE_TYPE shapesSource = ControllerModelFactory.SOURCE_TYPE.valueOf(sourceString.toUpperCase());
 			
 			// get the shapes source type Optional
-			ControllerModelFactory.SOURCE_TYPE shapesSourceOptional = ControllerModelFactory.SOURCE_TYPE.valueOf(shapesSourceString.toUpperCase());
-			
-			
-			// if source is a ULR, redirect to the API
-			if(shapesSource == SOURCE_TYPE.URL) {
-				return new ModelAndView("redirect:/sparql?url="+URLEncoder.encode(sourceString, "UTF-8"));
-			} 
-			
-			// if source is a ULR, redirect to the API
-			if(shapesSourceOptional == SOURCE_TYPE.URL) {
-				return new ModelAndView("redirect:/sparql?url="+URLEncoder.encode(shapesSourceString, "UTF-8"));
-			} 
-			
+			ControllerModelFactory.SOURCE_TYPE shapesSourceOptional = ControllerModelFactory.SOURCE_TYPE.valueOf(shapesSourceString.toUpperCase()); 	
 			
 			// initialize shapes first
 			log.debug("Determining Shapes source...");
@@ -154,37 +107,32 @@ public class SparqlController {
 					files,
 					null
 			);
+			String sourceName = modelPopulator.getSourceName();
 			
 			
 			log.debug("Done Loading Shapes. Model contains "+shapesModel.size()+" triples");
-			log.debug("Determining Shapes source...");
+			log.debug("Determining Target override source...");
 			
-			//Optional
+			// Optional Shapes for target override
 			Model shapesModelOptional = null;
-			String namefileOptional=null;
-			for (MultipartFile file : shapesFiles) {
-				namefileOptional=file.getOriginalFilename();
-			}
-			if(namefileOptional.length() > 0) {
+			if(!(shapesSourceOptional == SOURCE_TYPE.FILE && shapesFiles.get(0).getOriginalFilename().equals(""))) {
+				log.debug(shapesFiles.get(0).getOriginalFilename());
 				shapesModelOptional = ModelFactory.createDefaultModel();
-				ControllerModelFactory modelPopulatorOptional = new ControllerModelFactory(this.catalogService.getShapesCatalog());
-				modelPopulatorOptional.populateModel(
-								shapesModelOptional,
-								shapesSourceOptional,
-								shapesUrl,
-								shapesText,
-								shapesFiles,
-								null
-					);
+				modelPopulator.populateModel(
+							shapesModelOptional,
+							shapesSourceOptional,
+							shapesUrl,
+							shapesText,
+							shapesFiles,
+							null
+				);	
 			}
-			
-			
 			
 			doOutputSparql(
 					shapesModel,
 					shapesModelOptional,
 					typeQuery,
-					modelPopulator.getSourceName(),
+					sourceName,
 					response
 			);
 			return null;
@@ -200,28 +148,27 @@ public class SparqlController {
 			Model shapesModel,
 			Model shapesModelOpt,
 			Boolean typeQuery,
-			String filename,
+			String sourceName,
 			HttpServletResponse response
 	) throws IOException {		
-		//response.setContentType("text/html");
-		//response.setContentType("application/x-download");
 		
-		//response.setHeader("Content-Disposition","attachment;filename=\""+filename+".zip\"");
+		// write in the response
+		response.addHeader("Content-Disposition", "attachment; filename=\""+sourceName+".zip\"");
+		response.setContentType("application/zip");
 		
-		//Directory home/download
-		String home=System.getProperty("user.home");
-		File outputDir = new File(home+"/Downloads/");
+		// prepare zip output stream
+		ZipOutputStream zos = new ZipOutputStream(response.getOutputStream());
+		SparqlGeneratorZipOutputListener zipOutputListener = new SparqlGeneratorZipOutputListener(zos);
 		
 		// Call the sparqlgenerator model
-		SparqlGenerator qGenerator = new SparqlGenerator(outputDir);
+		SparqlGenerator qGenerator = new SparqlGenerator(zipOutputListener);
 		try {
-			qGenerator.generateSparql(shapesModel, shapesModelOpt, typeQuery);
-			
+			qGenerator.generateSparql(shapesModel, shapesModelOpt, typeQuery);			
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
+
 	}
 		
 	/**

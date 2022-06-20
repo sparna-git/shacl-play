@@ -14,7 +14,7 @@ public class SparqlBatch implements CliCommandIfc {
 	public void execute(Object args) throws Exception {
 		ArgumentsSparqlBatch a = (ArgumentsSparqlBatch)args;
 		SparqlBatchRunner generator = new SparqlBatchRunner(a.getOutput());
-		generator.generateSparqlResult(a.getDir(), a.getConn(), a.getPrefix());
+		generator.generateSparqlResult(a.getDir(), a.getSparqlEndpoint(), a.getPrefix());
 		
 	}
 

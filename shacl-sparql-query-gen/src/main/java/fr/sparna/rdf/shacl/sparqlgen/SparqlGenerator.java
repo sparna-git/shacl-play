@@ -1,17 +1,12 @@
 package fr.sparna.rdf.shacl.sparqlgen;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
+import java.util.Map.Entry;
 
 import org.apache.jena.graph.Node;
 import org.apache.jena.graph.NodeFactory;
@@ -56,27 +51,26 @@ public class SparqlGenerator {
 
 	private Logger log = LoggerFactory.getLogger(this.getClass().getName());
 	
-	protected File outputDir;	
+	private SparqlGeneratorOutputListenerIfc outputListener;
+	
 	protected List<String> outNameFile = new ArrayList<String>();
 	private List<NodeShape> allNodeShapes;
 	private List<Element> pathShacl = new ArrayList<>();
-	private Map<String, String> queryFiles= new HashMap();
+	private Map<String, String> queryFiles= new HashMap<>();
 	
-	public SparqlGenerator(File outputDir) {
+	public SparqlGenerator(SparqlGeneratorOutputListenerIfc outputListener) {
 		super();
-		this.outputDir = outputDir;
+		this.outputListener = outputListener;
 	}
 
-	public void generateSparql(Model shaclFile, 
-							   Model targetsOverrideFile, 
-							   Boolean typeQuery) throws Exception {
+	public void generateSparql(
+			Model shaclFile, 
+			Model targetsOverrideFile, 
+			boolean singleQueryGeneration
+	) throws Exception {
 		
-		// Create folder is not exist
-		if(!this.outputDir.exists()) {
-			Files.createDirectory(this.outputDir.toPath());
-		}else {
-			deleteFileResult(this.outputDir);
-		}
+		// notify listener of start
+		this.outputListener.notifyStart();
 		
 		List<Resource> nodeShapeResources = shaclFile.listResourcesWithProperty(RDF.type, SH.NodeShape).toList();
 		
@@ -125,8 +119,8 @@ public class SparqlGenerator {
 		// Start from all root NodeShapes
 		for (NodeShape aNodeShape : this.allNodeShapes) {
 			if (aNodeShape.getTargetSelect() != null) {
-				if(!typeQuery) {
-					String zipPath = outputDir.getPath()+"\\"+aNodeShape.getNodeShapeResource().getLocalName()+".zip";
+				if(!singleQueryGeneration) {
+					
 					queryFiles.clear();
 					processOneNodeShape(
 							aNodeShape,
@@ -135,19 +129,13 @@ public class SparqlGenerator {
 							necessaryPrefixes
 					);
 					
-					ZipOutputStream zipOut = new ZipOutputStream(new FileOutputStream(zipPath));
-					for (Map.Entry<String,String> nameQuery : queryFiles.entrySet()) {
-						ZipEntry zipFile = new ZipEntry(nameQuery.getKey());
-					    zipOut.putNextEntry(zipFile);
-					    zipOut.write(nameQuery.getValue().getBytes(), 0, nameQuery.getValue().getBytes().length);
-						zipOut.closeEntry();							
+					for (Entry<String,String> entry : queryFiles.entrySet()) {
+						this.outputListener.notifyOutputQuery(entry.getValue(),entry.getKey());
 					}
-					zipOut.finish();
-					zipOut.close();
 					
-				}else {
-					//Create construc
-					String zipPath = outputDir.getPath()+"\\"+aNodeShape.getNodeShapeResource().getLocalName()+"_combine"+".zip";
+				} else {
+					//Create construct
+					// String zipPath = outputDir.getPath()+"\\"+aNodeShape.getNodeShapeResource().getLocalName()+"_combine"+".zip";
 					Query qConstruct = new Query();
 					
 					BasicPattern bp = new BasicPattern();				
@@ -208,33 +196,15 @@ public class SparqlGenerator {
 					String nameQueryUnion = aNodeShape.getNodeShapeResource().getLocalName()+".rq";
 					String codeSparql = qConstruct.toString();
 					
-					//Zip code parql
-					ZipOutputStream zipOut = new ZipOutputStream(new FileOutputStream(zipPath));
-					ZipEntry zipE = new ZipEntry(nameQueryUnion);
-					zipOut.putNextEntry(zipE);
+					this.outputListener.notifyOutputQuery(codeSparql,nameQueryUnion);
 					
-					byte[] data = codeSparql.getBytes();
-					zipOut.write(data, 0, data.length);
-					zipOut.closeEntry();
-					zipOut.close();
-					
-					
-					//File outFile = new File(nameQueryUnion);
-					//File finalOutputFile = outFile;
-					//if(outFile.exists()) {			
-						//finalOutputFile = new File(nameQueryUnion);
-					//}
-					
-					//FileOutputStream out = new FileOutputStream(finalOutputFile);
-					//org.apache.commons.io.IOUtils.write(qConstruct.toString(), out, "UTF-8");
-					//out.close();
 					System.out.println(qConstruct);
 					
 				}
 			}
 		}		
 		
-		
+		this.outputListener.notifyStop();
 	}
 	
 	protected void processOneNodeShape(
@@ -444,25 +414,19 @@ public class SparqlGenerator {
 		qConstruct.setQueryPattern(eWhere);
 		
 
-		String nameFile = this.getOutputFileName(rootNodeShape, stepsFromRootNodeShape);
+		String nameFile = this.getOutputFileName(rootNodeShape, stepsFromRootNodeShape);	
 		
-		File outFile = new File(outputDir,nameFile);		
-		File finalOutputFile = outFile;
-		
-		if(queryFiles.containsKey(finalOutputFile.getName())) {			
+		if(queryFiles.containsKey(nameFile)) {			
 			//get the last property
 			ShaclParsingStep sps = stepsFromRootNodeShape.get(stepsFromRootNodeShape.size()-1);
 			String currentProperty = sps.getPropertyShape().getPath().getLocalName();
 			String[] newName = nameFile.split(".rq");
 			String newNameFile = newName[0]+ "_"+currentProperty+".rq";
-			finalOutputFile = new File(outputDir,newNameFile);
+			nameFile = newNameFile;
 		}
 		
-		//FileOutputStream out = new FileOutputStream(finalOutputFile);
-		//org.apache.commons.io.IOUtils.write(qConstruct.toString(), out, "UTF-8");
-		//out.close();
 		//Save in Map the name file and Query 
-		queryFiles.put(finalOutputFile.getName(), qConstruct.toString());
+		queryFiles.put(nameFile, qConstruct.toString());
 		
 		//out.close();
 		System.out.println(qConstruct);
@@ -742,17 +706,6 @@ public class SparqlGenerator {
 	}
 	
 	
-	public void deleteFileResult(File outputDir) {
-		for(File qFile :outputDir.listFiles()) {
-			String filename = qFile.toString();
-			int index = filename.indexOf('.');
-			if(index > 0) {
-				String extension = filename.substring(index+1);
-				if(extension.equals("rq")) {
-					qFile.delete();
-				}
-			}
-		}
-	}
+
 	
 }

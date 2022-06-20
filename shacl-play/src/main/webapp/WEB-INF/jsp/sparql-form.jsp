@@ -291,7 +291,7 @@
 					      <div class="form-group row">
 					      	<div class="col-sm-12">
 						      	<div class="form-check">
-								  <input class="form-check-input" type="checkbox" id="formatCombine" name="formatCombine" />
+								  <input class="form-check-input" type="checkbox" id="formatCombine" name="formatCombine" checked="checked" />
 								  <label class="form-check-label" for="formatCombine">
 								    <fmt:message key="sparql.options.formatCombine" />
 								  </label>

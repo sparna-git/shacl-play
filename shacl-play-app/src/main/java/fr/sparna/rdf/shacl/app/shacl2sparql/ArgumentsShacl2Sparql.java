@@ -35,19 +35,19 @@ public class ArgumentsShacl2Sparql {
 	
 	
 	@Parameter(
-			names = { "-c", "--combine" },
-			description = "Query type, \"normal\" or \"combine\"",
+			names = { "-u", "--unionQuery" },
+			description = "Set this parameter that the generated query should use a set of UNION clauses rather than one query per paths",
 			required = false
 	)
-	private Boolean type=false;
+	private boolean unionQuery = false;
 	
-	
-	public Boolean getType() {
-		return type;
+
+	public boolean isUnionQuery() {
+		return unionQuery;
 	}
 
-	public void setType(Boolean type) {
-		this.type = type;
+	public void setUnionQuery(boolean unionQuery) {
+		this.unionQuery = unionQuery;
 	}
 
 	public List<File> getInput() {

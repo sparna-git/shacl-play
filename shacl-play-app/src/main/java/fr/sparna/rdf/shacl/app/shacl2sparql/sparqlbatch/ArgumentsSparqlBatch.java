@@ -6,12 +6,12 @@ import com.beust.jcommander.Parameter;
 import com.beust.jcommander.Parameters;
 
 @Parameters(
-		commandDescription = "Executes SPARQL queries in batch and outputs single output file"
+		commandDescription = "Executes a set of SPARQL CONSTRUCT queries in batch against a SPARQL endpoint and outputs output in a single file"
 )
 public class ArgumentsSparqlBatch {
 	
 	@Parameter(
-			names = { "-d", "--dir" },
+			names = { "-q", "--queries" },
 			description = "Path to the input directory containing SPARQL CONSTRUCT files",
 			required = true			
 	)
@@ -25,15 +25,15 @@ public class ArgumentsSparqlBatch {
 	private File output;
 	
 	@Parameter(
-			names = { "-c", "--conn" },
-			description = "Server connection link",
+			names = { "-e", "--endpoint" },
+			description = "SPARQL endpoint URL to which the queries will be sent",
 			required = true
 	)
-	private String conn;
+	private String sparqlEndpoint;
 	
 	@Parameter(
-			names = { "-p", "--prefix" },
-			description = "Path to the input SHACL file to read prefixes from. If not provided, no prefix declarations will be set in the output file",
+			names = { "-p", "--prefixesFile" },
+			description = "Path to the input RDF (SHACL) file to read prefixes from. If not provided, no prefix declarations will be set in the output file",
 			required = false
 	)
 	private File prefix;
@@ -46,12 +46,12 @@ public class ArgumentsSparqlBatch {
 		this.prefix = prefix;
 	}
 
-	public String getConn() {
-		return conn;
+	public String getSparqlEndpoint() {
+		return sparqlEndpoint;
 	}
 
-	public void setConn(String conn) {
-		this.conn = conn;
+	public void setSparqlEndpoint(String sparqlEndpoint) {
+		this.sparqlEndpoint = sparqlEndpoint;
 	}
 
 	public File getDir() {

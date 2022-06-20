@@ -1,6 +1,7 @@
 package fr.sparna.rdf.shacl.app.shacl2sparql;
 
 import java.io.File;
+import java.util.List;
 
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.Parameters;
@@ -15,7 +16,7 @@ public class ArgumentsShacl2Sparql {
 			description = "Path to the input SHACL file",
 			required = true			
 	)
-	private File input;
+	private List<File> input;
 	
 	
 	@Parameter(
@@ -23,7 +24,7 @@ public class ArgumentsShacl2Sparql {
 			description = "Path to an optional SHACL file overriding the targets of the main SHACL file. If provided, the sh:target predicates of the input file will be replaced by the sh:target from this file.",
 			required = false			
 	)
-	private File targetsOverrideFile;
+	private List<File> targetsOverrideFile;
 	
 	@Parameter(
 			names = { "-o", "--output" },
@@ -32,19 +33,36 @@ public class ArgumentsShacl2Sparql {
 	)
 	private File output;
 	
-	public File getInput() {
+	
+	@Parameter(
+			names = { "-c", "--combine" },
+			description = "Query type, \"normal\" or \"combine\"",
+			required = false
+	)
+	private Boolean type=false;
+	
+	
+	public Boolean getType() {
+		return type;
+	}
+
+	public void setType(Boolean type) {
+		this.type = type;
+	}
+
+	public List<File> getInput() {
 		return input;
 	}
 
-	public void setInput(File input) {
+	public void setInput(List<File> input) {
 		this.input = input;
 	}
 
-	public File getTargetsOverrideFile() {
+	public List<File> getTargetsOverrideFile() {
 		return targetsOverrideFile;
 	}
 
-	public void setTargetsOverrideFile(File targetsOverrideFile) {
+	public void setTargetsOverrideFile(List<File> targetsOverrideFile) {
 		this.targetsOverrideFile = targetsOverrideFile;
 	}
 

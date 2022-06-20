@@ -1,28 +1,34 @@
 package fr.sparna.rdf.shacl.sparqlgen;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import org.apache.jena.graph.Node;
 import org.apache.jena.graph.NodeFactory;
+import org.apache.jena.graph.Triple;
 import org.apache.jena.query.Query;
 import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.shared.PrefixMapping;
+import org.apache.jena.sparql.core.BasicPattern;
 import org.apache.jena.sparql.core.TriplePath;
 import org.apache.jena.sparql.core.Var;
 import org.apache.jena.sparql.engine.binding.BindingFactory;
 import org.apache.jena.sparql.expr.ExprVar;
 import org.apache.jena.sparql.path.Path;
+import org.apache.jena.sparql.syntax.Element;
+import org.apache.jena.sparql.syntax.ElementBind;
 import org.apache.jena.sparql.syntax.ElementData;
 import org.apache.jena.sparql.syntax.ElementFilter;
 import org.apache.jena.sparql.syntax.ElementGroup;
@@ -30,7 +36,8 @@ import org.apache.jena.sparql.syntax.ElementOptional;
 import org.apache.jena.sparql.syntax.ElementPathBlock;
 import org.apache.jena.sparql.syntax.ElementSubQuery;
 import org.apache.jena.sparql.syntax.ElementTriplesBlock;
-import org.apache.jena.util.FileUtils;
+import org.apache.jena.sparql.syntax.ElementUnion;
+import org.apache.jena.sparql.syntax.Template;
 import org.apache.jena.vocabulary.RDF;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,13 +59,17 @@ public class SparqlGenerator {
 	protected File outputDir;	
 	protected List<String> outNameFile = new ArrayList<String>();
 	private List<NodeShape> allNodeShapes;
+	private List<Element> pathShacl = new ArrayList<>();
+	private Map<String, String> queryFiles= new HashMap();
 	
 	public SparqlGenerator(File outputDir) {
 		super();
 		this.outputDir = outputDir;
 	}
 
-	public void generateSparql(File shaclFile, File targetsOverrideFile) throws Exception {
+	public void generateSparql(Model shaclFile, 
+							   Model targetsOverrideFile, 
+							   Boolean typeQuery) throws Exception {
 		
 		// Create folder is not exist
 		if(!this.outputDir.exists()) {
@@ -67,10 +78,7 @@ public class SparqlGenerator {
 			deleteFileResult(this.outputDir);
 		}
 		
-		// Read Model File
-		Model shaclGraph = ModelFactory.createDefaultModel();
-		shaclGraph.read(new FileInputStream(shaclFile), RDF.uri, FileUtils.guessLang(shaclFile.getName(), "Turtle"));
-		List<Resource> nodeShapeResources = shaclGraph.listResourcesWithProperty(RDF.type, SH.NodeShape).toList();
+		List<Resource> nodeShapeResources = shaclFile.listResourcesWithProperty(RDF.type, SH.NodeShape).toList();
 		
 		// Read NodeShape
 		allNodeShapes = new ArrayList<>();
@@ -84,10 +92,8 @@ public class SparqlGenerator {
 		 * , replace the values query in sh:Select
 		 */
 		
-		if(targetsOverrideFile != null && targetsOverrideFile.exists()) {
-			Model shaclGraphOptinal = ModelFactory.createDefaultModel();
-			shaclGraphOptinal.read(new FileInputStream(targetsOverrideFile), RDF.uri, FileUtils.guessLang(shaclFile.getName(), "Turtle"));
-			List<Resource> nShapeResourcesOptional = shaclGraphOptinal.listResourcesWithProperty(SH.target).toList();
+		if(targetsOverrideFile!= null) {
+			List<Resource> nShapeResourcesOptional = targetsOverrideFile.listResourcesWithProperty(SH.target).toList();
 			for (Resource nShape : nShapeResourcesOptional) {
 				NodeShape dbShaclOptional = reader.read(nShape);		
 				
@@ -99,7 +105,7 @@ public class SparqlGenerator {
 				}
 			}
 		}
-		
+			
 		// Read Property Shape
 		for (NodeShape aBox : allNodeShapes) {
 			aBox.setProperties(reader.readPropertyShape(aBox.getNodeShapeResource(), allNodeShapes));
@@ -112,22 +118,122 @@ public class SparqlGenerator {
 			gatheredPrefixes.addAll(prefixes);
 		}
 		Map<String, String> necessaryPrefixes = ShaclPrefixReader.gatherNecessaryPrefixes(
-				shaclGraph.getNsPrefixMap(),
+				shaclFile.getNsPrefixMap(),
 				gatheredPrefixes
 		);
 	
-		
 		// Start from all root NodeShapes
 		for (NodeShape aNodeShape : this.allNodeShapes) {
 			if (aNodeShape.getTargetSelect() != null) {
-				processOneNodeShape(
-						aNodeShape,
-						new ArrayList<ShaclParsingStep>(),
-						aNodeShape,
-						necessaryPrefixes
-				);
+				if(!typeQuery) {
+					String zipPath = outputDir.getPath()+"\\"+aNodeShape.getNodeShapeResource().getLocalName()+".zip";
+					queryFiles.clear();
+					processOneNodeShape(
+							aNodeShape,
+							new ArrayList<ShaclParsingStep>(),
+							aNodeShape,
+							necessaryPrefixes
+					);
+					
+					ZipOutputStream zipOut = new ZipOutputStream(new FileOutputStream(zipPath));
+					for (Map.Entry<String,String> nameQuery : queryFiles.entrySet()) {
+						ZipEntry zipFile = new ZipEntry(nameQuery.getKey());
+					    zipOut.putNextEntry(zipFile);
+					    zipOut.write(nameQuery.getValue().getBytes(), 0, nameQuery.getValue().getBytes().length);
+						zipOut.closeEntry();							
+					}
+					zipOut.finish();
+					zipOut.close();
+					
+				}else {
+					//Create construc
+					String zipPath = outputDir.getPath()+"\\"+aNodeShape.getNodeShapeResource().getLocalName()+"_combine"+".zip";
+					Query qConstruct = new Query();
+					
+					BasicPattern bp = new BasicPattern();				
+					Node vSubject = NodeFactory.createVariable("s");
+					Node vPredicate = NodeFactory.createVariable("p");
+					Node vObject = NodeFactory.createVariable("o");
+					bp.add(new Triple(vSubject,vPredicate, vObject));
+					
+					qConstruct.setConstructTemplate(
+							new Template(bp)
+						);
+					qConstruct.setQueryConstructType();
+					
+					//Clause Where
+					ElementGroup eWhere = new ElementGroup();
+					
+					// Triples
+					ElementTriplesBlock tBlock = new ElementTriplesBlock();
+					tBlock.addTriple(new Triple(vSubject, vPredicate, vObject));
+					eWhere.addElement(tBlock);
+					
+					//Query Filter without prefix
+					PrefixMapping pm = aNodeShape.getTargetSelect().getPrefixMapping();
+					pm.clearNsPrefixMap(); // Clean the prefix in the query focus
+					aNodeShape.getTargetSelect().setPrefixMapping(pm);
+					eWhere.addElement(new ElementSubQuery(aNodeShape.getTargetSelect()));
+					
+					// Building UNION clause
+					
+					pathShacl.clear();
+					processOneNodeShapeCombine(
+							aNodeShape,
+							new ArrayList<ShaclParsingStep>(),
+							aNodeShape,
+							necessaryPrefixes
+					);
+					
+					//skeep the result in the list
+					ElementUnion eUnion = new ElementUnion();
+					if(!pathShacl.isEmpty()) {
+						for(Element qU: pathShacl) {
+							eUnion.addElement(qU);
+						}
+					}
+					
+					eWhere.addElement(eUnion);
+					qConstruct.setQueryPattern(eWhere);
+					
+					
+					//Set prefix
+					// Set prefix QueryOutput
+					List<PrefixDeclaration> namespaceSections = PrefixDeclaration.fromMap(necessaryPrefixes);
+					for (PrefixDeclaration prefixUse : namespaceSections) {
+						qConstruct.setPrefix(prefixUse.getprefix(), prefixUse.getnamespace());
+					}
+					
+					// query file 
+					String nameQueryUnion = aNodeShape.getNodeShapeResource().getLocalName()+".rq";
+					String codeSparql = qConstruct.toString();
+					
+					//Zip code parql
+					ZipOutputStream zipOut = new ZipOutputStream(new FileOutputStream(zipPath));
+					ZipEntry zipE = new ZipEntry(nameQueryUnion);
+					zipOut.putNextEntry(zipE);
+					
+					byte[] data = codeSparql.getBytes();
+					zipOut.write(data, 0, data.length);
+					zipOut.closeEntry();
+					zipOut.close();
+					
+					
+					//File outFile = new File(nameQueryUnion);
+					//File finalOutputFile = outFile;
+					//if(outFile.exists()) {			
+						//finalOutputFile = new File(nameQueryUnion);
+					//}
+					
+					//FileOutputStream out = new FileOutputStream(finalOutputFile);
+					//org.apache.commons.io.IOUtils.write(qConstruct.toString(), out, "UTF-8");
+					//out.close();
+					System.out.println(qConstruct);
+					
+				}
 			}
-		}
+		}		
+		
 		
 	}
 	
@@ -339,11 +445,11 @@ public class SparqlGenerator {
 		
 
 		String nameFile = this.getOutputFileName(rootNodeShape, stepsFromRootNodeShape);
-
-		File outFile = new File(outputDir,nameFile);
 		
+		File outFile = new File(outputDir,nameFile);		
 		File finalOutputFile = outFile;
-		if(outFile.exists()) {			
+		
+		if(queryFiles.containsKey(finalOutputFile.getName())) {			
 			//get the last property
 			ShaclParsingStep sps = stepsFromRootNodeShape.get(stepsFromRootNodeShape.size()-1);
 			String currentProperty = sps.getPropertyShape().getPath().getLocalName();
@@ -352,9 +458,13 @@ public class SparqlGenerator {
 			finalOutputFile = new File(outputDir,newNameFile);
 		}
 		
-		FileOutputStream out = new FileOutputStream(finalOutputFile);
-		org.apache.commons.io.IOUtils.write(qConstruct.toString(), out, "UTF-8");
-		out.close();
+		//FileOutputStream out = new FileOutputStream(finalOutputFile);
+		//org.apache.commons.io.IOUtils.write(qConstruct.toString(), out, "UTF-8");
+		//out.close();
+		//Save in Map the name file and Query 
+		queryFiles.put(finalOutputFile.getName(), qConstruct.toString());
+		
+		//out.close();
 		System.out.println(qConstruct);
 
 
@@ -429,6 +539,197 @@ public class SparqlGenerator {
 			}
 		} 
 	}
+	
+	
+	
+	protected void processOneNodeShapeCombine(
+			// node shape we are currently processing
+			NodeShape nodeShape,
+			// steps from root NodeShape : each step indicate which PropertyPath was followed, if it was a reverse
+			// and to which NodeShape
+			List<ShaclParsingStep> stepsFromRootNodeShape,
+			// root node shape we started from
+			NodeShape rootNodeShape,
+			// prefixes we need to properly generate the query
+			Map<String, String> necessaryPrefixes
+			
+	) throws IOException {
+
+
+		String focusVar = (stepsFromRootNodeShape.size() > 0)?(stepsFromRootNodeShape.get(stepsFromRootNodeShape.size()-1).getVarName()):"this";
+
+		ElementGroup eWhere = new ElementGroup();
+		ElementGroup eWherePath = new ElementGroup();
+
+		Var vPredicate = Var.alloc("p");
+		
+		
+		//Building Values
+		ElementData eDataValues = new ElementData();
+		for(PropertyShape sproperty:nodeShape.getProperties()) {
+			if(sproperty.isPathURI()) {
+				eDataValues.add(vPredicate);
+				eDataValues.add(new BindingFactory().binding(
+							vPredicate, 
+							new NodeFactory().createURI(sproperty.getPath().getURI()))
+							);	
+			}
+			
+		}
+		
+		if(stepsFromRootNodeShape != null && stepsFromRootNodeShape.size() != 0) {
+			//ElementGroup querySelectWhere = new ElementGroup();
+			for(int i=0; i<stepsFromRootNodeShape.size(); i++) {
+				// for each step...
+				ShaclParsingStep currentStep = stepsFromRootNodeShape.get(i);
+				
+				// generate the path
+				Node subject = (i==0)?Var.alloc("this"):Var.alloc(stepsFromRootNodeShape.get(i-1).getVarName());
+				Path predicatePath = currentStep.getPath();
+				//Node object = Var.alloc(currentStep.getVarName());
+				
+				Node object = null;
+				if(currentStep.getVarName().equals(nodeShape.getNodeShapeResource().getLocalName().toString())
+						) {
+					object = Var.alloc("s");
+				}else {
+					object = Var.alloc(currentStep.getVarName());
+				}
+				ElementPathBlock ePathBlock = new ElementPathBlock();
+				ePathBlock.addTriple(new TriplePath(subject,predicatePath ,object));
+				eWhere.addElement(ePathBlock);
+				
+				// add filtering criterias from sh:hasValue and sh:in
+				for(PropertyShape nsproperty : currentStep.getNodeShape().getProperties()) {					
+					if(nsproperty.hasSingleValue()) {
+						// if the property shape has a single value (either sh:hasValue or a sh:in with 1 value)
+						// then we don't use a SPARQL VALUES
+						RDFNode singleValue = nsproperty.getSingleValue();
+						
+						ElementTriplesBlock eBlockT = SparqlQueryHelper.initElementTriplesBlock(
+								//Var.alloc(currentStep.getVarName()),
+								object,
+								NodeFactory.createURI(nsproperty.getPath().getURI()), 
+								singleValue.asNode()
+								);
+						eWhere.addElement(eBlockT);
+						
+					} else if(nsproperty.requiresValues()) {
+						// if it has multiple values, we insert a SPARQL VALUES
+						ElementGroup eGpo = new ElementGroup();
+						List<Node> eListNodeIn = new ArrayList<Node>();
+
+						Var varProperty = Var.alloc(Var.alloc(nsproperty.getPath().getLocalName()));
+
+						for (RDFNode rdfIn : nsproperty.getIn()) {
+							eListNodeIn.add(rdfIn.asNode());
+						}
+
+						//Triple
+						ElementTriplesBlock eBlockT = SparqlQueryHelper.initElementTriplesBlock(
+								//Var.alloc(currentStep.getVarName()),
+								object,
+								NodeFactory.createURI(nsproperty.getPath().getURI()), 
+								varProperty
+								);
+
+						eGpo.addElement(eBlockT);
+						ElementData nDataIn = SparqlQueryHelper.initElementData(varProperty, eListNodeIn);						
+						eGpo.addElement(nDataIn);
+					}
+				} //
+									
+			} // end for each step
+		}
+		
+		
+		if(eDataValues != null && eWhere.isEmpty()){
+			ElementBind eBind = new ElementBind(Var.alloc("s") , new ExprVar("this"));
+			eWhere.addElement(eBind);
+			eWhere.addElement(eDataValues);
+		}else {
+			eWhere.addElement(eDataValues);
+		}
+		
+		
+		if(eWhere != null) {
+			pathShacl.add(eWhere);
+		}
+
+		// Node in the property
+		for(PropertyShape ps : nodeShape.getProperties()) {
+			// Node
+			if(ps.getNode()!=null) {
+				// Stop condition : we get to a NodeShape we have already traversed in the path
+				boolean alreadyVisitedInPath = stepsFromRootNodeShape.stream().anyMatch(s -> s.getNodeShape().getNodeShapeResource().getURI().equals(ps.getNode().getNodeShapeResource().getURI()));
+				if(
+						!alreadyVisitedInPath
+						&&
+						!ps.getNode().getNodeShapeResource().getURI().equals(rootNodeShape.getNodeShapeResource().getURI())							
+				) {
+					ArrayList<ShaclParsingStep> newSteps = new ArrayList<ShaclParsingStep>(stepsFromRootNodeShape);
+					// add step in our route
+					if(ps.isPathURI()) {
+						newSteps.add(new ShaclParsingStep(ps, false, ps.getNode()));
+					} else if(
+						ps.getPath().hasProperty(SH.inversePath)	
+					) {
+						newSteps.add(new ShaclParsingStep(ps, true, ps.getNode()));
+					} else {
+						throw new IllegalArgumentException("Cannot handle this SHACL path. Can handle only simple property or sh:inversePath");
+					}
+					
+
+					processOneNodeShapeCombine(
+							ps.getNode(),
+							newSteps,
+							rootNodeShape,
+							necessaryPrefixes
+					);
+				}
+			} 
+		}
+
+		// Or
+		for(PropertyShape psOr : nodeShape.getProperties()) {
+			if(psOr.getOrNode()!=null) {
+				for(NodeShape psOrNodeShape: psOr.getOrNode()) {
+					
+					boolean alreadyVisitedInPath = stepsFromRootNodeShape
+							.stream().anyMatch(s -> s.getNodeShape().getNodeShapeResource().getURI().equals(psOrNodeShape.getNodeShapeResource().getURI()));
+					
+					if(
+							!alreadyVisitedInPath
+							&&
+							!psOrNodeShape.getNodeShapeResource().getURI().equals(rootNodeShape.getNodeShapeResource().getURI())							
+					) {
+						ArrayList<ShaclParsingStep> newSteps = new ArrayList<ShaclParsingStep>(stepsFromRootNodeShape);
+						// add step in our route
+						if(psOr.isPathURI()) {
+							newSteps.add(new ShaclParsingStep(psOr, false, psOrNodeShape));
+						} else if(
+								psOr.getPath().hasProperty(SH.inversePath)	
+						) {
+							newSteps.add(new ShaclParsingStep(psOr, true, psOrNodeShape));
+						} else {
+							throw new IllegalArgumentException("Cannot handle this SHACL path. Can handle only simple property or sh:inversePath");
+						}
+						
+						processOneNodeShapeCombine(
+								psOrNodeShape,
+								newSteps,
+								rootNodeShape,
+								necessaryPrefixes
+					);
+						
+					}
+				}
+			}
+		}
+	}
+	
+	
+	
 	
 	protected String getOutputFileName(NodeShape rootNodeShape, List<ShaclParsingStep> steps) {
 		String result = rootNodeShape.getNodeShapeResource().getLocalName();

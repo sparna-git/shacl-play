@@ -6,7 +6,7 @@ import com.beust.jcommander.Parameter;
 import com.beust.jcommander.Parameters;
 
 @Parameters(
-		commandDescription = "Generates SPARQL query for dataset generation based on a SHACL input file"
+		commandDescription = "Generates SPARQL queries for dataset generation based on a SHACL input file"
 )
 public class ArgumentsShacl2Sparql {
 	

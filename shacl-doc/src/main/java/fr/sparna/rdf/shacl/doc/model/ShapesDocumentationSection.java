@@ -17,11 +17,24 @@ public class ShapesDocumentationSection {
 	private String pattern;
 	private String nodeKind;
 	private Boolean closed;
+	private String skosExample;
 	
 	@JacksonXmlElementWrapper(localName="properties")
 	@JacksonXmlProperty(localName = "property")
 	public List<PropertyShapeDocumentation> propertySections;
 	
+	
+	
+	
+	
+	public String getSkosExample() {
+		return skosExample;
+	}
+
+	public void setSkosExample(String skosExample) {
+		this.skosExample = skosExample;
+	}
+
 	public String getTitle() {
 		return title;		
 	}

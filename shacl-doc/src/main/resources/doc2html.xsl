@@ -33,11 +33,13 @@
 				label="Cliquez sur le diagramme pour naviguer vers la section correspondante" />
 			<entry key="DIAGRAM.VIEW" label="Voit le diagramme comme PNG" />
 
+			<entry key="DESCRIPTION.TITLE" label="Titre de la documentation"/>
 
 			<entry key="LABEL_TARGETCLASS" label="Classe de Target: " />
 			<entry key="LABEL_NODEKIND" label="Types de noeud : " />
 			<entry key="LABEL_PATTERNS" label="URIs : " />
 			<entry key="LABEL_CLOSE" label="Shape fermée" />
+			<entry key="LABEL_EXAMPLE" label="Exemple: "/>
 		</labels>
 	</xsl:variable>
 
@@ -63,11 +65,14 @@
 			<entry key="DIAGRAM.HELP"
 				label="Click diagram to navigate to corresponding section" />
 			<entry key="DIAGRAM.VIEW" label="View as PNG" />
+			
+			<entry key="DESCRIPTION.TITLE" label="Description "/>
 
 			<entry key="LABEL_TARGETCLASS" label="Target Class: " />
 			<entry key="LABEL_NODEKIND" label="Nodes: " />
 			<entry key="LABEL_PATTERNS" label="URI: " />
 			<entry key="LABEL_CLOSE" label="Closed shape" />
+			<entry key="LABEL_EXAMPLE" label="Example: "/>
 		</labels>
 	</xsl:variable>
 
@@ -78,7 +83,6 @@
 
 
 	<!-- Principal -->
-
 	<xsl:template match="/">
 		<xsl:apply-templates />
 	</xsl:template>
@@ -153,6 +157,7 @@
 							<xsl:value-of
 								select="$LABELS/labels/entry[@key='TOC']/@label" />
 						</h2>
+						<!-- Diagram -->
 						<xsl:if test="svgDiagram != ''">
 							<a href="#diagram">
 								<xsl:value-of
@@ -160,11 +165,20 @@
 							</a>
 							<br />
 						</xsl:if>
+						<!-- Document Title -->
+						<xsl:if test="descriptionDocument != ''">
+							<a href="#description">
+								<xsl:value-of select="$LABELS/labels/entry[@key='DESCRIPTION.TITLE']/@label"/>
+							</a>	
+							<br/>
+						</xsl:if>						
+						<!-- NameSpace Table -->
 						<a href="#prefixes">
 							<xsl:value-of
 								select="$LABELS/labels/entry[@key='PREFIXES.TITLE']/@label" />
 						</a>
 						<br />
+						<!-- Section -->
 						<xsl:for-each select="sections/section">
 
 							<xsl:sort select="title"/>
@@ -212,8 +226,22 @@
 		</xsl:if>
 	</xsl:template>
 
-
-
+	<!-- Description Title -->
+	<xsl:template match="descriptionDocument">
+		<xsl:if test=". != ''">
+			<div id="description">
+				<h2>
+					<xsl:value-of select="$LABELS/labels/entry[@key='DESCRIPTION.TITLE']/@label" />
+				</h2>
+				<br/>
+				<xsl:value-of select="."/>			
+			</div>
+			<br/>
+		</xsl:if>	
+	</xsl:template>
+	
+	
+	<!-- Prefix -->
 	<xsl:template match="prefixes">
 		<div id="prefixes">
 			<h2>
@@ -252,10 +280,11 @@
 		</tr>
 	</xsl:template>
 
+	<!-- Sections -->
 	<xsl:template match="sections">
 		<xsl:apply-templates />
 	</xsl:template>
-
+	
 	<xsl:template match="section">
 		<xsl:variable name="TitleNodeSape" select="uri" />
 		<div id="{$TitleNodeSape}">
@@ -303,6 +332,13 @@
 								select="$LABELS/labels/entry[@key='LABEL_CLOSE']/@label" />
 						</li>
 					</xsl:if>
+					<!-- Example -->
+					<xsl:if test="skosExample != ''">
+						<li>
+							<xsl:value-of select="$LABELS/labels/entry[@key='LABEL_EXAMPLE']/@label"/>
+							<xsl:value-of select="skosExample"/>
+						</li>
+					</xsl:if>
 				</ul>
 			</xsl:if>
 			<xsl:if test="count(properties/property)>0">
@@ -313,7 +349,7 @@
 								<xsl:value-of
 									select="$LABELS/labels/entry[@key='COLUMN_PROPERTY']/@label" />
 							</th>
-							<th>
+							<th >
 								<xsl:value-of
 									select="$LABELS/labels/entry[@key='COLUMN_URI']/@label" />
 							</th>
@@ -340,16 +376,20 @@
 		<br />
 	</xsl:template>
 
+	<!-- Properties -->
+
 	<xsl:template match="properties">
 		<xsl:apply-templates />
 	</xsl:template>
 
 	<xsl:template match="property">
 		<tr>
+			<!-- Property name -->
 			<td>
 				<xsl:value-of select="label" />
 			</td>
-			<td class="text-break">
+			<!-- Description URI -->
+			<td>
 				<xsl:if test="shortForm != null or shortForm != ''">
 					<code>
 						<a href="{shortFormUri}">
@@ -358,6 +398,7 @@
 					</code>
 				</xsl:if>
 			</td>
+			<!-- Expected Value -->
 			<td>
 				<xsl:choose>
 					<xsl:when test="linknameNodeShape != ''">
@@ -437,10 +478,12 @@
 					</p>
 				</xsl:if>
 			</td>
+			<!-- Cardinality -->
 			<td>
 				<xsl:value-of select="cardinalite" />
 			</td>
-			<td>
+			<!-- Description properties -->
+			<td class="text-break">
 				<xsl:value-of select="description" />
 			</td>
 		</tr>

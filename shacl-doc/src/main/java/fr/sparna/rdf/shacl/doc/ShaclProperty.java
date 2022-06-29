@@ -42,7 +42,7 @@ public class ShaclProperty {
 	protected String shin;
 	protected Integer shOrder;
 	protected String shValue;
-	protected String shOr;
+	protected String shOr;	
 	
 	public String getShOr() {
 		return shOr;

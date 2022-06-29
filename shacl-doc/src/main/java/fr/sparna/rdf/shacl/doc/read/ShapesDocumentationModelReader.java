@@ -135,11 +135,14 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 		String sOWLComment = null;
 		String sOWLDateModified = null;
 		String sOWLVersionInfo = null;
+		String sOWLDescDocument = null;
 		for (Resource rOntology : sOWL) {
 			sOWLlabel = ReadValue.readValueconstraint(rOntology, RDFS.label, lang);
 			sOWLComment = ReadValue.readValueconstraint(rOntology, RDFS.comment, lang);
 			sOWLVersionInfo = ReadValue.readValueconstraint(rOntology,OWL.versionInfo, null);		
 			sOWLDateModified = ReadValue.readValueconstraint(rOntology,DCTerms.modified, null);
+			// Read Description for the document title
+			sOWLDescDocument = ReadValue.readValueconstraint(rOntology,DCTerms.description, lang);
 		}
 		
 		
@@ -153,6 +156,7 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 		shapesDocumentation.setSvgDiagram(sImgDiagramme);
 		shapesDocumentation.setPlantumlSource(plantUmlSourceDiagram);
 		shapesDocumentation.setPngDiagram(UrlDiagram);
+		shapesDocumentation.setDescriptionDocument(sOWLDescDocument);
 		String pattern_node_nodeshape = null;
 
 		// 3. Lire les prefixes
@@ -209,6 +213,8 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 			if(datanodeshape.getShClose()) {
 				currentSection.setClosed(datanodeshape.getShClose());
 			}
+			//Get example data
+			currentSection.setSkosExample(datanodeshape.getSkosExample());
 			
 			
 			// Read the property shape 

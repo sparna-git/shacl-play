@@ -32,12 +32,22 @@ public class ShaclBoxReader {
 		box.setShpatternNodeShape(this.readShpatternNodeShape(nodeShape));
 		box.setShnodeKind(this.readShnodeKind(nodeShape));
 		box.setShClose(this.readShClose(nodeShape));
-		box.setShOrder(this.readShOrder(nodeShape));	
+		box.setShOrder(this.readShOrder(nodeShape));
+		box.setSkosExample(this.readSkosExample(nodeShape));
 		
 		return box;
 	}
 	
 	
+	public String readSkosExample(Resource nodeShape) {
+		String value = null;	
+		try {
+			value = nodeShape.getProperty(nodeShape.getModel().createProperty("http://www.w3.org/2004/02/skos/core#example")).getLiteral().getString();
+		} catch (Exception e) {
+			value = null;
+		}		
+		return value;
+	}
 	
 	public String readShnodeKind(Resource nodeShape) {	
 		String value = valueReader.readValueconstraint(nodeShape, SH.nodeKind, null);

@@ -18,7 +18,16 @@ public class ShaclBox {
 	protected Integer shOrder;
 	protected String shnodeKind;
 	protected Boolean shClose;
+	protected String skosExample;
 	
+	
+	public String getSkosExample() {
+		return skosExample;
+	}
+
+	public void setSkosExample(String skosExample) {
+		this.skosExample = skosExample;
+	}
 
 	public ShaclBox(Resource nodeShape) {
 		this.nodeShape = nodeShape;

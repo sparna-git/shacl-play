@@ -39,6 +39,12 @@
 				document.getElementById('inputShapeFile').disabled = selected != 'inputShapeFile';
 				document.getElementById('inputShapeInline').disabled = selected != 'inputShapeInline';
 			}
+			
+			function dowloadExample(){
+				var exampleText= $('#example option:selected').text();
+			    $('#lien').attr('href', urlExample);
+			    $('a#lien').text(exampleText);
+			}	
 
 	    </script>
 		
@@ -377,11 +383,14 @@
 								</p>
 							<br/>
 							<a href="https://www.w3.org/TR/shacl/#property-path-inverse" target="_blank"><b>sh:inversePath</b> (optional)</a>
-								<p>
+								<p>A reverse path is a blank node that is the subject of exactly one triple. the object is a well-formed SHACL property path.
+									<br/>
+								   This property generates its own SPARQL queries with its relationships to other well-formed nodeshape.tr
 								</p>
 							<br/>
-							
-						<img src="<c:url value="/resources/img/shacl_properties.png"/>" width="100%"/>
+							<img src="<c:url value="/resources/img/shacl_sparql_properties.png"/>" width="100%"/>
+							<br/>
+							<br/>
 					</fieldset>
 					
 					<fieldset>
@@ -393,6 +402,8 @@
 							<li>If the property shape has a <code>sh:hasValue</code> or <code>sh:in</code>, a VALUES clause is inserted, if it has <code>sh:languageIn</code> a FILTER clause will be inserted.<br/> 
 								Example:<br/>
 								<img src="<c:url value="/resources/img/Query0.png"/>" width="100%"/>
+								<br/>
+								<br/>
 							</li>
 							<li> if the property shape call others nodeshape in the <code>sh:node</code> or <code>sh:or</code> or <code>sh:inversePath</code> another SPARQL query will be generated.
 								
@@ -417,8 +428,9 @@
 						</p>
 
 						<h4>Example:</h4>
-							<span class="help-block"><i>Download example :&nbsp;<a id="lien" href="https://shacl-play.sparna.fr/play/sparql/PersonCountry.xlsx">Excel Template (simple exemple, in english)</a></i></span><br/>
-							<span class="help-block"><i>Download example :&nbsp;<a id="lien" href="https://shacl-play.sparna.fr/play/sparql/PersonCountry.ttl">Turtle File (simple exemple, in english)</a></i></span>
+							<span class="help-block"><i>Download example :&nbsp;<a id="lien" href="https://shacl-play.sparna.fr/resource/sparql/PersonCountry.xlsx">Excel Template (simple exemple, in english)</a></i></span><br/>
+							<span class="help-block"><i>Download example :&nbsp;<a id="lien" href="https://shacl-play.sparna.fr/play/example/sparql/PersonCountry.ttl">Turtle File (simple exemple, in english)</a></i></span>
+							<span class="help-block"><i>Télécharger l'exemple :&nbsp;<a id="lien" href="https://shacl-play.sparna.fr/play/resources/example/sparql/PersonCountry.xlsx">Example 1 (simple exemple, in english)</a></i></span>
 					</fieldset>
 				</div>
 				
@@ -445,6 +457,8 @@
     <script type="text/javascript" src="<c:url value="/resources/MDB-Free/js/bootstrap.min.js" />"></script>
     <!-- MDB core JavaScript -->
     <script type="text/javascript" src="<c:url value="/resources/MDB-Free/js/mdb.min.js" />"></script>
+    <!-- Example -->
+    <script type="text/javascript" src="<c:url value="/resources/MDB-Free/js/mdb.min.js" />"></script>
 	
     <script type="text/javascript" src="<c:url value="/resources/jasny-bootstrap/jasny-bootstrap.min.js" />"></script>
 
@@ -467,6 +481,12 @@
 	        // var editor = CodeMirror.fromTextArea(sourceText, editorOptions);
 	        // editor.on("change", function(cm, event) { enabledInput('text'); });
     	});
+    	
+    	// activate example choice
+  		$('.exampleEntry').click(function() {
+  			$('#exampleLabel').html($(this).html());
+  		});
+    	
     </script>
     
   </body>

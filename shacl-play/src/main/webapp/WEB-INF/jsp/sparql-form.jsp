@@ -428,9 +428,8 @@
 						</p>
 
 						<h4>Example:</h4>
-							<span class="help-block"><i>Download example :&nbsp;<a id="lien" href="https://shacl-play.sparna.fr/resource/sparql/PersonCountry.xlsx">Excel Template (simple exemple, in english)</a></i></span><br/>
-							<span class="help-block"><i>Download example :&nbsp;<a id="lien" href="https://shacl-play.sparna.fr/play/example/sparql/PersonCountry.ttl">Turtle File (simple exemple, in english)</a></i></span>
-							<span class="help-block"><i>Télécharger l'exemple :&nbsp;<a id="lien" href="https://shacl-play.sparna.fr/play/resources/example/sparql/PersonCountry.xlsx">Example 1 (simple exemple, in english)</a></i></span>
+							<span class="help-block"><i>Download example :&nbsp;<a id="lien" href="https://shacl-play.sparna.fr/play/resources/example/sparql/PersonCountry.xlsx">Excel Template (simple exemple, in english)</a></i></span><br/>
+							<span class="help-block"><i>Download example :&nbsp;<a id="lien" href="https://shacl-play.sparna.fr/play/resources/example/sparql/PersonCountry.ttl">Turtle File (simple exemple, in english)</a></i></span>							
 					</fieldset>
 				</div>
 				

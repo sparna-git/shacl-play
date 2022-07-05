@@ -311,7 +311,6 @@
 				<div  style="margin-top:2em;">
 					<h3>General Documentation</h3>
 					<fieldset id="documentation">
-						
 						<h4>What is this tool ?</h4>
 						<p>
 						This is a SHACL-based SPARQL generator. It generates SPARQL queries used to extract a subset from a knowledge graph, based on the SHACL specification of the target dataset structure.
@@ -331,7 +330,7 @@
 							The SPARQL query in the <code>sh:select</code> is the starting point and is inserted as a subquery.
 						</p>
 						<!-- img Shacl File -->
-						<img src="<c:url value="/resources/img/shacl_nodeshape.png"/>" width="100%"/>
+						<img src="<c:url value="/resources/img/shacl_sparql_nodeshape_select.png"/>" width="100%"/>
 						<br/>
 						<br/>
 						<h5>Properties Shapes</h5>
@@ -379,7 +378,7 @@
 							<br/>
 							<a href="https://www.w3.org/TR/shacl/#property-path-inverse" target="_blank"><b>sh:inversePath</b> (optional)</a>
 								<p>
-								<p>
+								</p>
 							<br/>
 							
 						<img src="<c:url value="/resources/img/shacl_properties.png"/>" width="100%"/>
@@ -407,6 +406,19 @@
 								
 							</li>
 						</ol>
+						<br/>
+						<br/>
+						<h4>What type  SPARQL Query output</h4>
+						<p>There are two types of SPARQL queries that can be generated.
+							<ol>
+								<li><b>Multiple SPARQL queries</b>: one SPARQL query is generated for each NodeShape of the SHACL code and its relationships.</li>
+								<li><b>Combined Queries</b>: A single SPARQL query is generated from the starting Nodeshape.</li>
+							</ol>
+						</p>
+
+						<h4>Example:</h4>
+							<span class="help-block"><i>Download example :&nbsp;<a id="lien" href="https://shacl-play.sparna.fr/play/sparql/PersonCountry.xlsx">Excel Template (simple exemple, in english)</a></i></span><br/>
+							<span class="help-block"><i>Download example :&nbsp;<a id="lien" href="https://shacl-play.sparna.fr/play/sparql/PersonCountry.ttl">Turtle File (simple exemple, in english)</a></i></span>
 					</fieldset>
 				</div>
 				

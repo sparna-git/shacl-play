@@ -1,0 +1,214 @@
+
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix ex: <http://data.sparna.fr/demo/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix loc: <http://data.sparna.fr/country/city/> .
+@prefix org: <http://www.w3.org/ns/org#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix resource: <http://data.sparna.fr/resource/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+
+
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix qb: <http://purl.org/linked-data/cube#> .
+@prefix schema: <http://schema.org/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix shacl-play: <https://shacl-play.sparna.fr/ontology#> .
+@prefix skosthes: <http://purl.org/iso25964/skos-thes#> .
+@prefix skosxl: <http://www.w3.org/2008/05/skos-xl#> .
+@prefix sparna: <https://data.sparna.fr/sparna/> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+
+
+<https://data.sparna.fr/sparna#> a owl:Ontology;
+  dct:description "Description of the Document"@en;
+  dct:modified "2022-06-02T00:00:00.000Z"^^xsd:dateTime;
+  rdfs:comment "Comment of the Document"@en;
+  rdfs:label "Title of the Document"@en;
+  owl:versionInfo "0.1"@en .
+
+sparna:Person a sh:NodeShape;
+  rdfs:label "Person"@en;
+  skos:example "http://data.sparna.fr/person/0001";
+  sh:closed true;
+  sh:nodeKind sh:IRI;
+  sh:order 1;
+  sh:pattern "http://data.sparna.fr/person/.$";
+  sh:property sparna:P10, sparna:P11, sparna:P12, sparna:P13, sparna:P14, sparna:P15,
+    sparna:P16, sparna:P17, sparna:P9;
+  sh:target sparna:Person-target;
+  shacl-play:color "Green"@en .
+
+sparna:Person-target sh:select """PREFIX ex: <http://data.sparna.fr/demo/>
+SELECT ?this
+WHERE {
+ ?this ex:Country <http://data.sparna.fr/country/FRANCE> .
+}"""@en .
+
+sparna:Country_node a sh:NodeShape;
+  rdfs:label "Country"@en;
+  skos:example "http://data.sparna.fr/country/France";
+  sh:closed true;
+  sh:nodeKind sh:IRI;
+  sh:order 2;
+  sh:pattern "http://data.sparna.fr/country/.$";
+  sh:property sparna:P19, sparna:P20, sparna:P21;
+  shacl-play:color "Green"@en .
+
+sparna:OrganizationReference a sh:NodeShape;
+  rdfs:label "Reference to an Organization"@en;
+  skos:example "http://data.sparna.fr/organization/WS01";
+  sh:closed true;
+  sh:nodeKind sh:IRI;
+  sh:order 16;
+  sh:property sparna:P25, sparna:P26;
+  shacl-play:color "Blue"@en .
+
+sparna:PersonReference a sh:NodeShape;
+  rdfs:label "Reference to a Person"@en;
+  skos:example "http://data.sparna.fr/person/Person_1";
+  sh:closed true;
+  sh:nodeKind sh:IRI;
+  sh:order 17;
+  sh:property sparna:P28, sparna:P29;
+  shacl-play:color "Blue"@en .
+
+sparna:P9 sh:datatype xsd:string;
+  sh:description "First Name Description"@en;
+  sh:maxCount 1;
+  sh:minCount 1;
+  sh:name "First Name"@en;
+  sh:nodeKind sh:Literal;
+  sh:path ex:firstName .
+
+sparna:P10 sh:datatype xsd:string;
+  sh:description "Last Name Description"@en;
+  sh:maxCount 1;
+  sh:minCount 1;
+  sh:name "Last Name"@en;
+  sh:nodeKind sh:Literal;
+  sh:path ex:lastName .
+
+sparna:P11 sh:datatype xsd:string;
+  sh:maxCount 1;
+  sh:minCount 1;
+  sh:name "Street Address"@en;
+  sh:nodeKind sh:Literal;
+  sh:path ex:streetAddress .
+
+sparna:P12 sh:hasValue loc:locality_hasValue;
+  sh:maxCount 1;
+  sh:minCount 1;
+  sh:name "Locality"@en;
+  sh:path ex:locality .
+
+sparna:P13 sh:datatype xsd:string;
+  sh:description "Postal Code Description"@en;
+  sh:maxCount 1;
+  sh:minCount 1;
+  sh:name "Postal Code"@en;
+  sh:nodeKind sh:Literal;
+  sh:path ex:postalCode .
+
+sparna:P14 sh:description "Country of the person"@en;
+  sh:name "Country"@en;
+  sh:node sparna:Country_node;
+  sh:nodeKind sh:IRI;
+  sh:path ex:Country .
+
+sparna:P15 sh:description "Language Speak"@en;
+  sh:languageIn _:node1g5oj6hp8x7969 .
+
+_:node1g5oj6hp8x7969 rdf:first "fr";
+  rdf:rest _:node1g5oj6hp8x7970 .
+
+_:node1g5oj6hp8x7970 rdf:first "en";
+  rdf:rest _:node1g5oj6hp8x7971 .
+
+_:node1g5oj6hp8x7971 rdf:first "es";
+  rdf:rest rdf:nil .
+
+sparna:P15 sh:minCount 1;
+  sh:name "Language"@en;
+  sh:nodeKind rdf:langString;
+  sh:path ex:language .
+
+sparna:P16 sh:name "Work"@en;
+  sh:path ex:Work .
+
+sparna:P17 sh:name "creator"@en;
+  sh:nodeKind sh:IRI;
+  sh:or _:node1g5oj6hp8x7972 .
+
+_:node1g5oj6hp8x7972 rdf:first _:node1g5oj6hp8x7973 .
+
+_:node1g5oj6hp8x7973 sh:node sparna:PersonReference .
+
+_:node1g5oj6hp8x7972 rdf:rest _:node1g5oj6hp8x7974 .
+
+_:node1g5oj6hp8x7974 rdf:first _:node1g5oj6hp8x7975 .
+
+_:node1g5oj6hp8x7975 sh:node sparna:OrganizationReference .
+
+_:node1g5oj6hp8x7974 rdf:rest rdf:nil .
+
+sparna:P17 sh:path dct:creator .
+
+sparna:P19 sh:in _:node1g5oj6hp8x7976 .
+
+_:node1g5oj6hp8x7976 rdf:first resource:France;
+  rdf:rest rdf:nil .
+
+sparna:P19 sh:maxCount 1;
+  sh:minCount 1;
+  sh:name "Contry Name"@en;
+  sh:nodeKind sh:IRI;
+  sh:path ex:ContryName .
+
+sparna:P20 sh:datatype xsd:integer;
+  sh:maxCount 1;
+  sh:minCount 1;
+  sh:name "Code Country"@en;
+  sh:nodeKind sh:Literal;
+  sh:path ex:CodeCountry .
+
+sparna:P21 sh:datatype rdf:langString;
+  sh:languageIn _:node1g5oj6hp8x7977 .
+
+_:node1g5oj6hp8x7977 rdf:first "fr";
+  rdf:rest rdf:nil .
+
+sparna:P21 sh:maxCount 1;
+  sh:minCount 1;
+  sh:name "Language Country"@en;
+  sh:nodeKind sh:Literal;
+  sh:path ex:languageCountry .
+
+sparna:P25 sh:hasValue org:Organization;
+  sh:minCount 1;
+  sh:name "type"@en;
+  sh:nodeKind sh:IRI;
+  sh:path rdf:type .
+
+sparna:P26 sh:datatype rdf:langString;
+  sh:minCount 1;
+  sh:name "name"@en;
+  sh:nodeKind sh:Literal;
+  sh:path skos:prefLabel .
+
+sparna:P28 sh:hasValue foaf:Person;
+  sh:minCount 1;
+  sh:name "type"@en;
+  sh:nodeKind sh:IRI;
+  sh:path rdf:type .
+
+sparna:P29 sh:datatype xsd:string;
+  sh:maxCount 1;
+  sh:minCount 1;
+  sh:name "name"@en;
+  sh:nodeKind sh:Literal;
+  sh:path rdfs:label .

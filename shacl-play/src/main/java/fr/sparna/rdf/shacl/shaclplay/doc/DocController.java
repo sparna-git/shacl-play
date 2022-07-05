@@ -72,6 +72,8 @@ public class DocController {
 	)
 	public ModelAndView docUrl(
 			@RequestParam(value="url", required=true) String shapesUrl,
+			// includeDiagram option
+			@RequestParam(value="includeDiagram", required=false) boolean includeDiagram,
 			HttpServletRequest request,
 			HttpServletResponse response
 	){
@@ -84,6 +86,8 @@ public class DocController {
 			log.debug("Done Loading Shapes. Model contains "+shapesModel.size()+" triples");
 			doOutputDoc(
 					shapesModel,
+					// true to read diagram
+					includeDiagram,
 					modelPopulator.getSourceName(),
 					response);
 			return null;
@@ -109,6 +113,8 @@ public class DocController {
 			@RequestParam(value="inputShapeFile", required=false) List<MultipartFile> shapesFiles,
 			// inline Shapes if shapeSource=sourceShape-inputShapeInline
 			@RequestParam(value="inputShapeInline", required=false) String shapesText,
+			// includeDiagram option
+			@RequestParam(value="includeDiagram", required=false) boolean includeDiagram,
 			HttpServletRequest request,
 			HttpServletResponse response
 	) {
@@ -120,10 +126,10 @@ public class DocController {
 			
 			// if source is a ULR, redirect to the API
 			if(shapesSource == SOURCE_TYPE.URL) {
-				return new ModelAndView("redirect:/doc?url="+URLEncoder.encode(shapesUrl, "UTF-8"));
+				return new ModelAndView("redirect:/doc?url="+URLEncoder.encode(shapesUrl, "UTF-8")+"&includeDiagram="+includeDiagram);
 			} else if (shapesSource == SOURCE_TYPE.CATALOG) {
 				AbstractCatalogEntry entry = this.catalogService.getShapesCatalog().getCatalogEntryById(shapesCatalogId);
-				return new ModelAndView("redirect:/doc?url="+URLEncoder.encode(entry.getTurtleDownloadUrl().toString(), "UTF-8"));
+				return new ModelAndView("redirect:/doc?url="+URLEncoder.encode(entry.getTurtleDownloadUrl().toString(), "UTF-8")+"&includeDiagram="+includeDiagram);
 			}
 			
 			
@@ -143,6 +149,8 @@ public class DocController {
 			
 			doOutputDoc(
 					shapesModel,
+					// true to read diagram
+					includeDiagram,
 					modelPopulator.getSourceName(),
 					response
 			);
@@ -157,14 +165,14 @@ public class DocController {
 	
 	protected void doOutputDoc(
 			Model shapesModel,
+			boolean includeDiagram,
 			String filename,
 			HttpServletResponse response
 	) throws IOException {		
 		response.setContentType("text/html");
 		response.setHeader("Content-Disposition", "inline; filename=\""+filename+".html\"");
 
-		// true to read diagram
-		ShapesDocumentationReaderIfc reader = new ShapesDocumentationModelReader(true);
+		ShapesDocumentationReaderIfc reader = new ShapesDocumentationModelReader(includeDiagram);
 		ShapesDocumentation doc = reader.readShapesDocumentation(
 				shapesModel,
 				// OWL graph

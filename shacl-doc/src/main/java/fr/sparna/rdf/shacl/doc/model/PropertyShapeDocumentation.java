@@ -1,14 +1,6 @@
 package fr.sparna.rdf.shacl.doc.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
-
-import fr.sparna.rdf.shacl.diagram.PlantUmlBox;
-import fr.sparna.rdf.shacl.diagram.PlantUmlProperty;
-import fr.sparna.rdf.shacl.doc.ShaclBox;
-import fr.sparna.rdf.shacl.doc.ShaclProperty;
+import org.apache.jena.rdf.model.Resource;
 
 public class PropertyShapeDocumentation {
 
@@ -17,7 +9,6 @@ public class PropertyShapeDocumentation {
 	private String shortFormUri;
 	private String expectedValueLabel;
 
-	private String expectedValueAdditionnalInfoPattern;
 	private String expectedValueAdditionnalInfoIn;
 	private String expectedValueAdditionnalInfoValue;
 
@@ -25,8 +16,6 @@ public class PropertyShapeDocumentation {
 	private String description;
 	private String Or;
 
-	private String linknameNodeShape;
-	private String linknameNodeShapeuri;
 	private String linkNodeShape;
 	private String linkNodeShapeUri;
 
@@ -76,15 +65,22 @@ public class PropertyShapeDocumentation {
 		return expectedValueLabel;
 	}
 
-	public void setExpectedValueLabel(String Valeu_class, String Value_node, String Value_Target, String Value_datatype,
-			String Value_nodeKind, String URI, String value_shValue) {
+	public void setExpectedValueLabel(
+			Resource shClass,
+			String Value_node,
+			String Value_Target,
+			String Value_datatype,
+			String Value_nodeKind,
+			String URI,
+			String value_shValue
+	) {
 		String value = null;
 
 		// Classe
 		if (value_shValue != null) {
 			value = value_shValue;
-		}else if (Valeu_class != null) { //
-			value = Valeu_class;
+		}else if (shClass != null) { //
+			value = shClass.getModel().shortForm(shClass.getURI());
 		} else if (Value_Target != null) { // La valeur d'un Node vers une NodeShape qui a sh:targetClass
 			value = Value_Target;
 		} else if (Value_node != null) {
@@ -92,10 +88,8 @@ public class PropertyShapeDocumentation {
 		} // Datatype : sh:datatype
 		else if (Value_datatype != null) {
 			value = Value_datatype;
-		} else if (Value_datatype != null && Value_node != null) {
-			value = Value_node;
 		} // Type de noeud seulement : sh:nodeKind
-		else if (Value_nodeKind != null && Value_node == null) {
+		else if (Value_nodeKind != null) {
 			if (Value_nodeKind.equals("sh:IRI")) {
 				String[] ssplit = Value_nodeKind.split(":");
 				value = ssplit[ssplit.length - 1];	
@@ -103,42 +97,9 @@ public class PropertyShapeDocumentation {
 				value = Value_nodeKind;
 			}
 			// value = Value_nodeKind;
-		} else if (Value_nodeKind != null && Value_node != null) {
-			value = Value_node;
 		}
+		
 		this.expectedValueLabel = value;
-	}
-
-	public String getExpectedValueAdditionnalInfoPattern() {
-		return expectedValueAdditionnalInfoPattern;
-	}
-
-	public void setExpectedValueAdditionnalInfoPattern(String Value_pattern_propriete, String PatternNodeShape,
-			String PatternoNodeShape, String Valeu_class, String Value_node, String Value_Target, String Value_datatype,
-			String Value_nodeKind, String URI) {
-		String value = null;
-
-		// Classe
-
-		if (Valeu_class != null) { //
-			value = Value_pattern_propriete;
-		} else if (Value_Target != null) { // La valeur d'un Node vers une NodeShape qui a sh:targetClass
-			value = PatternoNodeShape;
-		} else if (Value_node != null) {
-			// value = PatternoNodeShape;
-		} else if (Value_datatype != null) {
-			value = Value_pattern_propriete;
-		} else if (Value_datatype != null && Value_node != null) {
-			value = PatternoNodeShape;
-		} // Type de noeud seulement : sh:nodeKind
-		else if (Value_nodeKind != null && Value_node == null) {
-			value = Value_pattern_propriete;
-		} else if (Value_nodeKind != null && Value_node != null) {
-			value = PatternoNodeShape;
-		}
-		this.expectedValueAdditionnalInfoPattern = expectedValueAdditionnalInfoPattern;
-		// this.expectedValueAdditionnalInfoPattern = value;
-
 	}
 
 	public String getExpectedValueAdditionnalInfoIn() {
@@ -193,22 +154,6 @@ public class PropertyShapeDocumentation {
 
 	public void setLinkNodeShapeUri(String linkNodeShapeUri) {
 		this.linkNodeShapeUri = linkNodeShapeUri;
-	}
-
-	public String getLinknameNodeShape() {
-		return linknameNodeShape;
-	}
-
-	public void setLinknameNodeShape(String linknameNodeShape) {
-		this.linknameNodeShape = linknameNodeShape;
-	}
-
-	public String getLinknameNodeShapeuri() {
-		return linknameNodeShapeuri;
-	}
-
-	public void setLinknameNodeShapeuri(String linknameNodeShapeuri) {
-		this.linknameNodeShapeuri = linknameNodeShapeuri;
 	}
 
 }

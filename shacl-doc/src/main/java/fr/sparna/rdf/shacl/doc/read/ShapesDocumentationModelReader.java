@@ -58,15 +58,15 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 		List<Resource> nodeShapes = shaclGraph.listResourcesWithProperty(RDF.type, SH.NodeShape).toList();
 
 		// 1. Lire toutes les classes
-		ArrayList<ShaclBox> Shaclvalue = new ArrayList<>();
+		ArrayList<ShaclBox> allNodeShapes = new ArrayList<>();
 		ShaclBoxReader reader = new ShaclBoxReader(lang);
 		for (Resource nodeShape : nodeShapes) {
 			ShaclBox dbShacl = reader.read(nodeShape);
-			Shaclvalue.add(dbShacl);
+			allNodeShapes.add(dbShacl);
 		}
 
 		// sort node shapes
-		Shaclvalue.sort((ShaclBox ns1, ShaclBox ns2) -> {
+		allNodeShapes.sort((ShaclBox ns1, ShaclBox ns2) -> {
 			if (ns1.getShOrder() != null) {
 				if (ns2.getShOrder() != null) {
 					return ns1.getShOrder() - ns2.getShOrder();
@@ -78,14 +78,14 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 					return 1;
 				} else {
 					// both sh:order are null, try with label
-					if (ns1.getRdfslabel() != null) {
-						if (ns2.getRdfslabel() != null) {
-							return ns1.getRdfslabel().compareTo(ns2.getRdfslabel());
+					if (ns1.getRdfsLabel() != null) {
+						if (ns2.getRdfsLabel() != null) {
+							return ns1.getRdfsLabel().compareTo(ns2.getRdfsLabel());
 						} else {
 							return -1;
 						}
 					} else {
-						if (ns2.getRdfslabel() != null) {
+						if (ns2.getRdfsLabel() != null) {
 							return 1;
 						} else {
 							// both sh:name are null, try with URI
@@ -97,8 +97,8 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 		});
 
 		// 2. Lire les propriétés
-		for (ShaclBox aBox : Shaclvalue) {
-			aBox.setShacl_value(reader.readProperties(aBox.getNodeShape(), Shaclvalue));
+		for (ShaclBox aBox : allNodeShapes) {
+			aBox.setProperties(reader.readProperties(aBox.getNodeShape(), allNodeShapes));
 		}
 		
 		// Option pour créer le diagramme
@@ -161,7 +161,7 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 
 		// 3. Lire les prefixes
 		HashSet<String> gatheredPrefixes = new HashSet<>();
-		for (ShaclBox aBox : Shaclvalue) {
+		for (ShaclBox aBox : allNodeShapes) {
 			List<String> prefixes = reader.readPrefixes(aBox.getNodeShape());
 			gatheredPrefixes.addAll(prefixes);
 		}
@@ -187,48 +187,44 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 		
 		List<ShapesDocumentationSection> sections = new ArrayList<>();
 		// For each NodeShape ...
-		for (ShaclBox datanodeshape : Shaclvalue) {
+		for (ShaclBox nodeShape : allNodeShapes) {
 			// if (datanodeshape.getNametargetclass() != null) {
 			    
 			ShapesDocumentationSection currentSection = new ShapesDocumentationSection();
 			
-			if(datanodeshape.getRdfslabel() == null) {
-				currentSection.setTitle(datanodeshape.getShortForm());
+			if(nodeShape.getRdfsLabel() == null) {
+				currentSection.setTitle(nodeShape.getShortForm());
 			}else {
-				currentSection.setTitle(datanodeshape.getRdfslabel());
+				currentSection.setTitle(nodeShape.getRdfsLabel());
 			}
-			currentSection.setUri(datanodeshape.getShortForm());
-			currentSection.setDescription(datanodeshape.getRdfsComment());
-			currentSection.setTargetClassLabel(datanodeshape.getNametargetclass());
-			if(datanodeshape.getNametargetclass() != null) {
-				for(NamespaceSection sPrefix : namespaceSections) {
-					if(sPrefix.getprefix().equals(datanodeshape.getNametargetclass().split(":")[0])) {
-						currentSection.setTargetClassUri(sPrefix.getnamespace()+datanodeshape.getNametargetclass().split(":")[1]);
-						break;
-					}
-				}
+			currentSection.setUri(nodeShape.getShortForm());
+			currentSection.setDescription(nodeShape.getRdfsComment());
+			if(nodeShape.getShTargetClass() != null) {
+				currentSection.setTargetClassLabel(shaclGraph.shortForm(nodeShape.getShTargetClass().getURI()));
+				currentSection.setTargetClassUri(nodeShape.getShTargetClass().getURI());
 			}
-			currentSection.setPattern(datanodeshape.getShpatternNodeShape());
-			currentSection.setNodeKind(datanodeshape.getShnodeKind());
-			if(datanodeshape.getShClose()) {
-				currentSection.setClosed(datanodeshape.getShClose());
+			
+			currentSection.setPattern(nodeShape.getShPattern());
+			currentSection.setNodeKind(nodeShape.getShNodeKind());
+			if(nodeShape.getShClosed()) {
+				currentSection.setClosed(nodeShape.getShClosed());
 			}
 			//Get example data
-			currentSection.setSkosExample(datanodeshape.getSkosExample());
+			currentSection.setSkosExample(nodeShape.getSkosExample());
 			
 			
 			// Read the property shape 
 
 			List<PropertyShapeDocumentation> ListPropriete = new ArrayList<>();
-			for (ShaclProperty propriete : datanodeshape.getShacl_value()) {
+			for (ShaclProperty propriete : nodeShape.getProperties()) {
 				// Récuperation du pattern si le node est une NodeShape
 				
 									
 				if (propriete.getNode() != null && propriete.getNode() != "Unsupported path") {
-					for (ShaclBox pattern_other_nodeshape : Shaclvalue) {
+					for (ShaclBox pattern_other_nodeshape : allNodeShapes) {
 						if (propriete.getNode().contains(pattern_other_nodeshape.getShortForm())) //pattern_other_nodeshape.getShortForm().getLocalName() 
 							{
-							pattern_node_nodeshape = pattern_other_nodeshape.getShpatternNodeShape();
+							pattern_node_nodeshape = pattern_other_nodeshape.getShPattern();
 							break;
 						}							
 					}
@@ -239,13 +235,13 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 				proprieteDoc.setLabel(propriete.getName(), null);
 				
 				if(propriete.getNode() != null) {
-					for(ShaclBox aName : Shaclvalue) {
+					for(ShaclBox aName : allNodeShapes) {
 						if(aName.getShortForm().equals(propriete.getNode())) {
 							proprieteDoc.setLinkNodeShapeUri(aName.getShortForm()); //aName.getShortForm().getLocalName()
-							if(aName.getRdfslabel() == null) {
+							if(aName.getRdfsLabel() == null) {
 								proprieteDoc.setLinkNodeShape(aName.getShortForm());
 							}else {
-								proprieteDoc.setLinkNodeShape(aName.getRdfslabel());
+								proprieteDoc.setLinkNodeShape(aName.getRdfsLabel());
 							}							
 						}
 					}
@@ -265,26 +261,39 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 				}
 				
 				
-				proprieteDoc.setExpectedValueLabel(propriete.getClass_node(), propriete.getNode(),
-						propriete.getClass_property(), propriete.getDatatype(), propriete.getNodeKind(),
-						propriete.getPath(),propriete.getShValue());
+				proprieteDoc.setExpectedValueLabel(
+						propriete.getShClass(),
+						propriete.getNode(),
+						propriete.getClass_property(),
+						propriete.getDatatype(),
+						propriete.getNodeKind(),
+						propriete.getPath(),
+						propriete.getShValue()
+				);
 				
-				if(propriete.getClass_node() != null) {
-					for(ShaclBox getNodeShape : Shaclvalue) {
-						if(getNodeShape.getNametargetclass() != null) {
-							if(getNodeShape.getNametargetclass().equals(propriete.getClass_node())) {
-								proprieteDoc.setLinknameNodeShapeuri(getNodeShape.getShortForm()); //getNodeShape.getLocalName()
-								proprieteDoc.setLinknameNodeShape(getNodeShape.getRdfslabel());
-								break;
+				if(propriete.getShClass() != null) {
+					for(ShaclBox aNodeShape : allNodeShapes) {
+						if(aNodeShape.getShTargetClass() != null && aNodeShape.getShTargetClass().getURI().equals(propriete.getShClass().getURI())) {
+							proprieteDoc.setLinkNodeShapeUri(aNodeShape.getShortForm()); //aName.getShortForm().getLocalName()
+							if(aNodeShape.getRdfsLabel() == null) {
+								proprieteDoc.setLinkNodeShape(aNodeShape.getShortForm());
+							}else {
+								proprieteDoc.setLinkNodeShape(aNodeShape.getRdfsLabel());
 							}
-						}						
+							break;
+						// checks that the URI of the NodeShape is itself equal to the sh:class
+						} else if (aNodeShape.getNodeShape().getURI().equals(propriete.getShClass().getURI())) {
+							proprieteDoc.setLinkNodeShapeUri(aNodeShape.getShortForm()); //aName.getShortForm().getLocalName()
+							if(aNodeShape.getRdfsLabel() == null) {
+								proprieteDoc.setLinkNodeShape(aNodeShape.getShortForm());
+							}else {
+								proprieteDoc.setLinkNodeShape(aNodeShape.getRdfsLabel());
+							}
+							break;
+						}
 					}					
 				}
 
-				proprieteDoc.setExpectedValueAdditionnalInfoPattern(propriete.getPattern(), datanodeshape.getShpatternNodeShape(),
-						pattern_node_nodeshape, propriete.getClass_node(), propriete.getNode(),
-						propriete.getClass_property(), propriete.getDatatype(), propriete.getNodeKind(),
-						propriete.getPath());
 				proprieteDoc.setExpectedValueAdditionnalInfoIn(propriete.getShin());
 				//proprieteDoc.setExpectedValueAdditionnalInfoValue(propriete.getShValue());
 				proprieteDoc.setCardinalite(propriete.getCardinality());

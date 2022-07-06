@@ -35,7 +35,7 @@ public class ShaclProperty {
 	protected String cardinality;
 	protected String pattern;
 	protected String node;
-	protected String class_node;
+	protected Resource shClass;
 	protected String class_property;
 	protected String name;
 	protected String description;
@@ -99,11 +99,11 @@ public class ShaclProperty {
 	public void setNode(String node) {
 		this.node = node;
 	}
-	public String getClass_node() {
-		return class_node;
+	public Resource getShClass() {
+		return shClass;
 	}
-	public void setClass_node(String class_node) {
-		this.class_node = class_node;
+	public void setShClass(Resource shClass) {
+		this.shClass = shClass;
 	}
 	public String getClass_property() {
 		return class_property;

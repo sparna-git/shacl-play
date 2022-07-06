@@ -51,7 +51,7 @@ public class ShaclPropertyReader {
 		shaclProperty.setCardinality(this.readCardinality(constraint));
 		shaclProperty.setNode(this.readNode(constraint));
 		shaclProperty.setPattern(this.readPattern(constraint));
-		shaclProperty.setClass_node(this.readClass(constraint));
+		shaclProperty.setShClass(this.readShClass(constraint));
 		shaclProperty.setClass_property(this.readClass_property(constraint)); // Returne la valeur de TargetClass
 		shaclProperty.setDescription(this.readDescription(constraint));
 		shaclProperty.setName(this.readName(constraint));
@@ -73,6 +73,7 @@ public class ShaclPropertyReader {
 			//Chercher sur AllBox
 			Resource list = constraint.getProperty(SH.or).getList().asResource();
 			List<RDFNode> rdflist = list.as(RDFList.class).asJavaList();
+			// TODO : ne lire que les sh:node
 			orValue = rdflist.stream().map(item -> {
 				return item.asResource().listProperties().nextStatement().getModel().shortForm(item.asResource().listProperties().nextStatement().getObject().asResource().getURI());
 			}).collect(Collectors.joining(", "));					
@@ -236,19 +237,13 @@ public class ShaclPropertyReader {
 		return value;
 	}
 
-	public String readClass(Resource constraint) {
-		String value = null;
+	public Resource readShClass(Resource constraint) {
 		if (constraint.hasProperty(SH.class_)) {
-			Resource idclass = constraint.getProperty(SH.class_).getResource();
-
-			List<Resource> nodetarget = constraint.getModel().listResourcesWithProperty(SH.targetClass, idclass)
-					.toList();
-			for (Resource nodeTarget : nodetarget) {
-				value = nodeTarget.getModel().shortForm(constraint.getProperty(SH.class_).getResource().getURI());
-			}
-
+			Resource idClass = constraint.getProperty(SH.class_).getResource();
+			return idClass;
+		} else {
+			return null;
 		}
-		return value;
 	}
 
 }

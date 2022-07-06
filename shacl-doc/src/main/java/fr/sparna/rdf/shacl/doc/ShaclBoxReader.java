@@ -26,12 +26,12 @@ public class ShaclBoxReader {
 		
 		ShaclBox box = new ShaclBox(nodeShape);
 
-		box.setNametargetclass(this.readNametargetclass(nodeShape));
+		box.setShTargetClass(this.readShTargetClass(nodeShape));
 		box.setRdfsComment(this.readRdfsComment(nodeShape));
-		box.setRdfslabel(this.readRdfslabel(nodeShape));
-		box.setShpatternNodeShape(this.readShpatternNodeShape(nodeShape));
-		box.setShnodeKind(this.readShnodeKind(nodeShape));
-		box.setShClose(this.readShClose(nodeShape));
+		box.setRdfsLabel(this.readRdfsLabel(nodeShape));
+		box.setShPattern(this.readShPattern(nodeShape));
+		box.setShNodeKind(this.readSNodeKind(nodeShape));
+		box.setShClosed(this.readShClosed(nodeShape));
 		box.setShOrder(this.readShOrder(nodeShape));
 		box.setSkosExample(this.readSkosExample(nodeShape));
 		
@@ -49,7 +49,7 @@ public class ShaclBoxReader {
 		return value;
 	}
 	
-	public String readShnodeKind(Resource nodeShape) {	
+	public String readSNodeKind(Resource nodeShape) {	
 		String value = valueReader.readValueconstraint(nodeShape, SH.nodeKind, null);
 		if(value != null) {
 			value = nodeShape.getModel().shortForm(value);
@@ -77,7 +77,7 @@ public class ShaclBoxReader {
 		return value;
 	}
 
-	public Boolean readShClose(Resource nodeShape) {	
+	public Boolean readShClosed(Resource nodeShape) {	
 		return Boolean.parseBoolean(valueReader.readValueconstraint(nodeShape, SH.closed, null));
 	}
 
@@ -89,11 +89,11 @@ public class ShaclBoxReader {
 		return value;
 	}
 
-	public String readShpatternNodeShape(Resource nodeShape) {
+	public String readShPattern(Resource nodeShape) {
 		return valueReader.readValueconstraint(nodeShape, SH.pattern, null);
 	}
 
-	public String readRdfslabel(Resource nodeShape) {
+	public String readRdfsLabel(Resource nodeShape) {
 		return valueReader.readValueconstraint(nodeShape, RDFS.label, this.lang);
 	}
 
@@ -101,8 +101,8 @@ public class ShaclBoxReader {
 		return valueReader.readValueconstraint(nodeShape, RDFS.comment, this.lang);
 	}
 
-	public String readNametargetclass(Resource nodeShape) {
-		return valueReader.readValueconstraint(nodeShape, SH.targetClass, null);
+	public Resource readShTargetClass(Resource nodeShape) {
+		return nodeShape.getPropertyResourceValue(SH.targetClass);
 	}
 
 	public List<ShaclProperty> readProperties(Resource nodeShape, List<ShaclBox> allBoxes) {

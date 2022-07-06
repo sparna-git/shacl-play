@@ -10,14 +10,14 @@ import org.apache.jena.rdf.model.Resource;
 public class ShaclBox {
 
 	private Resource nodeShape;
-	List<ShaclProperty> shacl_value = new ArrayList<>();
-	protected String shpatternNodeShape;
-	protected String nametargetclass;
+	protected List<ShaclProperty> properties = new ArrayList<>();
+	protected String shPattern;
+	protected Resource shTargetClass;
 	protected String rdfsComment;
-	protected String rdfslabel;
+	protected String rdfsLabel;
 	protected Integer shOrder;
-	protected String shnodeKind;
-	protected Boolean shClose;
+	protected String shNodeKind;
+	protected Boolean shClosed;
 	protected String skosExample;
 	
 	
@@ -41,28 +41,28 @@ public class ShaclBox {
 		return nodeShape;
 	}
 
-	public List<ShaclProperty> getShacl_value() {
-		return shacl_value;
+	public List<ShaclProperty> getProperties() {
+		return properties;
 	}
 
-	public void setShacl_value(List<ShaclProperty> shacl_value) {
-		this.shacl_value = shacl_value;
+	public void setProperties(List<ShaclProperty> properties) {
+		this.properties = properties;
 	}
 
-	public String getShpatternNodeShape() {
-		return shpatternNodeShape;
+	public String getShPattern() {
+		return shPattern;
 	}
 
-	public void setShpatternNodeShape(String shpatternNodeShape) {
-		this.shpatternNodeShape = shpatternNodeShape;
+	public void setShPattern(String shPattern) {
+		this.shPattern = shPattern;
 	}
 
-	public String getNametargetclass() {
-		return nametargetclass;
+	public Resource getShTargetClass() {
+		return shTargetClass;
 	}
 
-	public void setNametargetclass(String nametargetclass) {
-		this.nametargetclass = nametargetclass;
+	public void setShTargetClass(Resource shTargetClass) {
+		this.shTargetClass = shTargetClass;
 	}
 
 	public String getRdfsComment() {
@@ -73,12 +73,12 @@ public class ShaclBox {
 		this.rdfsComment = rdfsComment;
 	}
 
-	public String getRdfslabel() {
-		return rdfslabel;
+	public String getRdfsLabel() {
+		return rdfsLabel;
 	}
 
-	public void setRdfslabel(String rdfslabel) {
-		this.rdfslabel = rdfslabel;
+	public void setRdfsLabel(String rdfsLabel) {
+		this.rdfsLabel = rdfsLabel;
 	}
 
 	public Integer getShOrder() {
@@ -89,20 +89,20 @@ public class ShaclBox {
 		this.shOrder = shOrder;
 	}
 
-	public String getShnodeKind() {
-		return shnodeKind;
+	public String getShNodeKind() {
+		return shNodeKind;
 	}
 
-	public void setShnodeKind(String shnodeKind) {
-		this.shnodeKind = shnodeKind;
+	public void setShNodeKind(String shNodeKind) {
+		this.shNodeKind = shNodeKind;
 	}
 
-	public Boolean getShClose() {
-		return shClose;
+	public Boolean getShClosed() {
+		return shClosed;
 	}
 
-	public void setShClose(Boolean shClose) {
-		this.shClose = shClose;
+	public void setShClosed(Boolean shClosed) {
+		this.shClosed = shClosed;
 	}
 	
 	public String getShortForm() {

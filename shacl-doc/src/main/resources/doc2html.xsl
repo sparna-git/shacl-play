@@ -401,66 +401,47 @@
 			<!-- Expected Value -->
 			<td>
 				<xsl:choose>
-					<xsl:when test="linknameNodeShape != ''">
-						<a href="{concat('#',linknameNodeShapeuri)}">
-							<!-- <xsl:value-of select="output_valeur_attendus" /> -->
-							<xsl:value-of select="linknameNodeShape" />
+					<xsl:when test="linkNodeShape != ''">
+						<a href="{concat('#',linkNodeShapeUri)}">
+							<xsl:value-of select="linkNodeShape" />
 						</a>
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:choose>
-							<xsl:when test="linkNodeShape != ''">
-								<a href="{concat('#',linkNodeShapeUri)}">
-									<xsl:value-of select="linkNodeShape" />
-								</a>
+							<xsl:when test="string-length(or) > 0">
+								<xsl:variable name="nfois"
+									select="count(tokenize(or,','))" />
+								<xsl:for-each select="tokenize(or,',')">
+									<xsl:variable name="countData">
+										<xsl:choose>
+											<xsl:when test="position() = 1">
+												<xsl:value-of select="count(.)" />
+											</xsl:when>
+											<xsl:otherwise>
+												<xsl:value-of select="count(.)+1" />
+											</xsl:otherwise>
+										</xsl:choose>
+									</xsl:variable>
+									<xsl:variable name="sDataOrg" select="." />
+									<a href="{concat('#',$sDataOrg)}">
+										<xsl:value-of select="concat($sDataOrg,' ')" />
+									</a>
+									<xsl:choose>
+										<xsl:when test="$nfois &gt; $countData">
+											<xsl:text>or </xsl:text>
+										</xsl:when>
+									</xsl:choose>
+								</xsl:for-each>
 							</xsl:when>
 							<xsl:otherwise>
-								<xsl:choose>
-									<xsl:when test="string-length(or) > 0">
-										<xsl:variable name="nfois"
-											select="count(tokenize(or,','))" />
-										<xsl:for-each select="tokenize(or,',')">
-											<xsl:variable name="countData">
-												<xsl:choose>
-													<xsl:when test="position() = 1">
-														<xsl:value-of select="count(.)" />
-													</xsl:when>
-													<xsl:otherwise>
-														<xsl:value-of select="count(.)+1" />
-													</xsl:otherwise>
-												</xsl:choose>
-											</xsl:variable>
-											<xsl:variable name="sDataOrg" select="." />
-											<a href="{concat('#',$sDataOrg)}">
-												<xsl:value-of select="concat($sDataOrg,' ')" />
-											</a>
-											<xsl:choose>
-												<xsl:when test="$nfois &gt; $countData">
-													<xsl:text>or </xsl:text>
-												</xsl:when>
-											</xsl:choose>
-										</xsl:for-each>
-									</xsl:when>
-									<xsl:otherwise>
-										<span class="monospace">
-											<xsl:value-of select="expectedValueLabel" />
-										</span>
-									</xsl:otherwise>
-								</xsl:choose>
+								<span class="monospace">
+									<xsl:value-of select="expectedValueLabel" />
+								</span>
 							</xsl:otherwise>
 						</xsl:choose>
 					</xsl:otherwise>
 				</xsl:choose>
-
 				<br />
-				<xsl:if test="expectedValueAdditionnalInfoPattern/text()">
-					<p class="text-break">
-						<small>
-							<xsl:value-of
-								select="expectedValueAdditionnalInfoPattern" />
-						</small>
-					</p>
-				</xsl:if>
 				<xsl:if test="expectedValueAdditionnalInfoIn/text()">
 					<p>
 						<small>

@@ -340,7 +340,13 @@
 							  		<td>xsd:string</td>
 							  		<td>No</td>
 							  		<td class="text-break">Example of an IRI of a target of this NodeShape.</td>
-							  	</tr>						  	
+							  	</tr>
+							  	<tr>
+							  		<th scope="row"><code>sh:order</code></th>
+							  		<td>xsd:integer</td>
+							  		<td>No</td>
+							  		<td class="text-break">Sections of the generated documentation are sorted according to sh:order.</td>
+							  	</tr>					  	
 							</tbody>
 						</table>
 						<br/>
@@ -450,6 +456,12 @@
 							  		<td>No</td>
 							  		<td class="text-break">Used to indicate the possible list of values, as an additionnal information in the <b>Expected value</b> column.</td>
 							  	</tr>
+							  	<tr>
+							  		<th scope="row"><code>sh:order</code></th>
+							  		<td>xsd:integer</td>
+							  		<td>No</td>
+							  		<td class="text-break">Lines of the generated table are sorted according to <code>sh:order</code>.</td>
+							  	</tr>
 							  	
 							</tbody>
 						</table>
@@ -464,7 +476,7 @@
 							<li>Otherwise use <code>sh:or</code> if present; in this case, get the list items and read <code>sh:node</code> on each of them.</li>
 							<li>Otherwise the column is left empty.</li>
 						</ul>
-						<p>Additionally, if <code>sh:in</code> is present, it is inserted as an additionnal information in the Expected value column.</p>
+						<p>Additionally, if <code>sh:in</code> is present, it is inserted as an additional information in the Expected value column.</p>
 						<p>This generates the following output:
 							<br/>
 							<br/>

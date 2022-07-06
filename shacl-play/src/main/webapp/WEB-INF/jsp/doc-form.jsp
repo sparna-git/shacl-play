@@ -180,16 +180,38 @@
 									  <fmt:message key="doc.shapes.inline.help" />
 								  </small>
 							    </div>	
-						      </div>
+						      </div>						      		
 					      </blockquote>					  
 					  
 					  
 					  <h2><i class="fal fa-tools"></i>&nbsp;&nbsp;<fmt:message key="doc.options.title" /></h2>
 				      <blockquote class="blockquote bq-warning">
-				      <div class="form-group row">
-
-								    
-					  </div>
+				      	<div class="form-group row">
+						      	<div class="col-sm-12">
+							      	<div class="form-check">
+									  <input class="form-check-input" type="checkbox" id="includeDiagram" name="includeDiagram" />
+									  <label class="form-check-label" for="includeDiagram">
+									    <fmt:message key="doc.options.includeDiagram" />
+									  </label>
+									  <small class="form-text text-muted">
+										<fmt:message key="doc.options.includeDiagram.help" />
+									  </small>
+									</div>
+								</div>
+						</div>
+						<div class="form-group row">
+						      	<div class="col-sm-12">
+							      	<div class="form-check">
+									  <input class="form-check-input" type="checkbox" id="printPDF" name="printPDF" checked="checked"/>
+									  <label class="form-check-label" for="printPDF">
+									    <fmt:message key="doc.options.printPDF" />
+									  </label>
+									  <small class="form-text text-muted">
+										<fmt:message key="doc.options.printPDF.help" />
+									  </small>
+									</div>
+								</div>
+						</div>
 					  </blockquote>
 					  
 				    <button type="submit" id="validate-button" class="btn btn-info btn-lg"><fmt:message key="doc.submit" /></button>			  	

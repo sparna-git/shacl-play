@@ -298,12 +298,14 @@
 					
 					<div style="margin-top:2em;">
 						<h4>Prefixes</h4>
-						The prefixes of the SHACL file are inserted in a Namespaces section at the top of the documentation
+						The prefixes of the SHACL file are inserted in a Namespaces section at the top of the documentation.
+						For example the following prefixes:
 						<br/>
 						<img src="<c:url value="/resources/img/shacl_doc_prefixes_input.png"/>" width="80%"/>
 						<br/>
 						<br/>
-						<img src="<c:url value="/resources/img/shacl_doc_prefixes.png"/>" width="100%" align="middle"/>
+						Will generate the corresponding output table:
+						<img src="<c:url value="/resources/img/shacl_doc_prefixes.png"/>" width="80%" />
 						<br/>
 						<br/>
 						
@@ -350,12 +352,7 @@
 							</tbody>
 						</table>
 						<br/>
-						<p>If you use the SHACL Excel template, this is typically expressed like this :</p>
-						<br/>
-						<img src="<c:url value="/resources/img/shacl_doc_nodeshape.png"/>" width="100%"/>
-						<br/>
-						<br/>
-						And this is an example of how it looks like in SHACL:
+						This is how it can typically look like in SHACL:
 						<br/>
 						<br/>
 						<img src="<c:url value="/resources/img/shacl_doc_nodeshape_shacl.png"/>" width="100%"/>

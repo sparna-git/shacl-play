@@ -24,9 +24,16 @@
 			<entry key="PREFIXES.COLUMN.PREFIX" label="Préfixe" />
 			<entry key="PREFIXES.COLUMN.URI" label="Espace de nom" />
 
-			<entry key="METADATA.DATE" label="Dernière modification :" />
 			<entry key="METADATA.VERSION" label="Version : " />
 			<entry key="METADATA.INTRODUCTION" label="Introduction" />
+			<entry key="METADATA.DATECREATED" label="Date de création: " />
+			<entry key="METADATA.DATE" label="Dernière modification :" />
+			<entry key="METADATA.DATEISSUED" label="Date de publication: " />
+			<entry key="METADATA.DATECOPYRIGHTED" label="Date du droit d'auteur  " />
+			<entry key="METADATA.LICENSE" label="License: " />
+			<entry key="METADATA.CREATOR" label="Creator: " />
+			<entry key="METADATA.PUBLISHER" label="Editeur: " />
+			<entry key="METADATA.RIGHTHOLDER" label="Titulaire de droits: " />
 
 			<entry key="DIAGRAM.TITLE" label="Diagramme du dataset" />
 			<entry key="DIAGRAM.HELP"
@@ -60,6 +67,14 @@
 			<entry key="METADATA.DATE" label="Last updated: " />
 			<entry key="METADATA.VERSION" label="Version: " />
 			<entry key="METADATA.INTRODUCTION" label="Abstract" />
+			<entry key="METADATA.DATECREATED" label="Created date: " />
+			<entry key="METADATA.DATEISSUED" label="Issued dare: " />
+			<entry key="METADATA.DATECOPYRIGHTED" label="Copyright date  " />
+			<entry key="METADATA.LICENSE" label="License: " />
+			<entry key="METADATA.CREATOR" label="Creator: " />
+			<entry key="METADATA.PUBLISHER" label="Publisher: " />
+			<entry key="METADATA.RIGHTHOLDER" label="Rightholder: " />
+			
 
 			<entry key="DIAGRAM.TITLE" label="Dataset diagram" />
 			<entry key="DIAGRAM.HELP"
@@ -113,20 +128,52 @@
 			</head>
 			<body>
 				<div class="container-md">
-
 					<br />
-					<h1>
-						<center>
-							<xsl:value-of select="title" />
-						</center>
-					</h1>
+					<div class="container">
+					  <div class="row row-cols-auto">
+					    <xsl:if test="imgLogo != ''">
+					    	<div class="col-sm-1"><img src="{imgLogo}"/></div>
+					    </xsl:if>
+					    <div class="col" >
+					    	<center>
+						    	<h1>
+									<xsl:value-of select="title" />								
+								</h1>
+							</center>
+					    </div>
+					  </div>
+					</div>
 					<br />
+					<xsl:if test="datecreated != ''">
+						<b>
+							<xsl:value-of
+								select="$LABELS/labels/entry[@key='METADATA.DATECREATED']/@label" />
+						</b>
+						<xsl:value-of select="datecreated" />
+						<br />
+					</xsl:if>
+					<xsl:if test="dateissued != ''">
+						<b>
+							<xsl:value-of
+								select="$LABELS/labels/entry[@key='METADATA.DATEISSUED']/@label" />
+						</b>
+						<xsl:value-of select="dateissued" />
+						<br />
+					</xsl:if>
 					<xsl:if test="modifiedDate != ''">
 						<b>
 							<xsl:value-of
 								select="$LABELS/labels/entry[@key='METADATA.DATE']/@label" />
 						</b>
 						<xsl:value-of select="modifiedDate" />
+						<br />
+					</xsl:if>
+					<xsl:if test="yearCopyRighted != ''">
+						<b>
+							<xsl:value-of
+								select="$LABELS/labels/entry[@key='METADATA.DATECOPYRIGHTED']/@label" />
+						</b>
+						<xsl:value-of select="yearCopyRighted" />
 						<br />
 					</xsl:if>
 					<xsl:if test="versionInfo !=''">
@@ -136,6 +183,37 @@
 						</b>
 						<xsl:value-of select="versionInfo" />
 						<br />
+					</xsl:if>
+					<xsl:if test="license != ''">
+						<b>
+							<xsl:value-of
+								select="$LABELS/labels/entry[@key='METADATA.LICENSE']/@label" />
+						</b>
+						<a href="{license}" target="_blank"><xsl:value-of select="license" /></a>
+						<br />
+					</xsl:if>
+					<xsl:if test="creator != ''">
+						<b>
+							<xsl:value-of
+								select="$LABELS/labels/entry[@key='METADATA.CREATOR']/@label" />
+						</b>
+						<a href="{creator}" target="_blank"><xsl:value-of select="creator" /></a>
+						<br />
+					</xsl:if>
+					<xsl:if test="publisher != ''">
+						<b>
+							<xsl:value-of
+								select="$LABELS/labels/entry[@key='METADATA.PUBLISHER']/@label" />
+						</b>
+						<a href="{publisher}" target="_blank"><xsl:value-of select="publisher" /></a>
+						<br />
+					</xsl:if>
+					<xsl:if test="rightsHolder != ''">
+						<b>
+							<xsl:value-of
+								select="$LABELS/labels/entry[@key='METADATA.RIGHTHOLDER']/@label" />
+						</b>
+						<a href="{rightsHolder}" target="_blank"><xsl:value-of select="rightsHolder" /></a>
 					</xsl:if>
 					<br />
 					<hr />

@@ -2,6 +2,12 @@ package fr.sparna.rdf.shacl.app.doc;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.net.URI;
+import java.net.URL;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -25,6 +31,9 @@ public class Doc implements CliCommandIfc {
 	public void execute(Object args) throws Exception {
 		ArgumentsDoc a = (ArgumentsDoc)args;
 		
+		//Call imagen
+		
+		
 		// read input file or URL
 		Model shapesModel = ModelFactory.createDefaultModel(); 
 		InputModelReader.populateModel(shapesModel, a.getInput(), null);
@@ -41,9 +50,33 @@ public class Doc implements CliCommandIfc {
 			outputDir.mkdirs();
 		}
 		
+		String name_img = null;
+		if(a.getImgLogo() != null) {
+			
+			if(new File(a.getImgLogo()).exists()) {
+				File fileImg = new File(a.getImgLogo()); 
+				File fileOut = new File(a.getOutput().toString());
+				name_img = fileImg.getName();
+				// copy imagen file in the output directory
+				Path sourceImg = FileSystems.getDefault().getPath(a.getImgLogo().toString());
+				Path outputDirImg = FileSystems.getDefault().getPath(fileOut.getParentFile().getPath()+"\\"+name_img);
+				try {
+					System.out.println(sourceImg);
+					System.out.println(outputDirImg);
+					Files.copy(sourceImg, outputDirImg, StandardCopyOption.REPLACE_EXISTING);
+					
+				} catch (Exception e) {
+					// TODO: handle exception
+					System.out.println(e);
+				}
+			}else {
+				name_img = a.getImgLogo();
+			}
+		}
+		
 		// generate doc
 		// true to read diagram
-		ShapesDocumentationReaderIfc reader = new ShapesDocumentationModelReader(true);
+		ShapesDocumentationReaderIfc reader = new ShapesDocumentationModelReader(true,name_img);
 		ShapesDocumentation doc = reader.readShapesDocumentation(
 				shapesModel,
 				owlModel,

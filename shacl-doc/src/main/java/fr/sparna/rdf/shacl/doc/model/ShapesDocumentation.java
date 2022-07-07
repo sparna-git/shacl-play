@@ -15,6 +15,16 @@ public class ShapesDocumentation {
 	protected String plantumlSource;
 	protected String pngDiagram;
 	protected String descriptionDocument;
+	protected String imgLogo;
+	
+	protected String datecreated;
+	protected String dateissued;
+	protected String yearCopyRighted;
+	protected String license;
+	protected String creator;
+	protected String publisher;
+	protected String rightsHolder;
+	
 	
 	@JacksonXmlElementWrapper(localName="prefixes")
 	@JacksonXmlProperty(localName = "prefixe")
@@ -25,6 +35,54 @@ public class ShapesDocumentation {
 	protected List<ShapesDocumentationSection> sections;
 	
 	
+	public String getDatecreated() {
+		return datecreated;
+	}
+	public void setDatecreated(String datecreated) {
+		this.datecreated = datecreated;
+	}
+	public String getDateissued() {
+		return dateissued;
+	}
+	public void setDateissued(String dateissued) {
+		this.dateissued = dateissued;
+	}
+	public String getYearCopyRighted() {
+		return yearCopyRighted;
+	}
+	public void setYearCopyRighted(String yearCopyRighted) {
+		this.yearCopyRighted = yearCopyRighted;
+	}
+	public String getLicense() {
+		return license;
+	}
+	public void setLicense(String license) {
+		this.license = license;
+	}
+	public String getCreator() {
+		return creator;
+	}
+	public void setCreator(String creator) {
+		this.creator = creator;
+	}
+	public String getPublisher() {
+		return publisher;
+	}
+	public void setPublisher(String publisher) {
+		this.publisher = publisher;
+	}
+	public String getRightsHolder() {
+		return rightsHolder;
+	}
+	public void setRightsHolder(String rightsHolder) {
+		this.rightsHolder = rightsHolder;
+	}
+	public String getImgLogo() {
+		return imgLogo;
+	}
+	public void setImgLogo(String imgLogo) {
+		this.imgLogo = imgLogo;
+	}
 	public String getDescriptionDocument() {
 		return descriptionDocument;
 	}

@@ -199,6 +199,7 @@
 									</div>
 								</div>
 						</div>
+						<!--  
 						<div class="form-group row">
 						      	<div class="col-sm-12">
 							      	<div class="form-check">
@@ -212,6 +213,7 @@
 									</div>
 								</div>
 						</div>
+						-->
 					  </blockquote>
 					  
 				    <button type="submit" id="validate-button" class="btn btn-info btn-lg"><fmt:message key="doc.submit" /></button>			  	

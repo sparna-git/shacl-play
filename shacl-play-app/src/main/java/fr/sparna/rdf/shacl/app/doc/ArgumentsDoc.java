@@ -1,6 +1,8 @@
 package fr.sparna.rdf.shacl.app.doc;
 
+import java.awt.Image;
 import java.io.File;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,6 +44,24 @@ public class ArgumentsDoc {
 			required = true
 	)
 	private String language;
+	
+	@Parameter(
+			names = { "-m", "--img" },
+			description = "Upload your logo on the document, local or through a link.",
+			required = false
+	)
+	private String imgLogo;
+	
+	
+	
+
+	public String getImgLogo() {
+		return imgLogo;
+	}
+
+	public void setImgLogo(String imgLogo) {
+		this.imgLogo = imgLogo;
+	}
 
 	public List<File> getInput() {
 		return input;

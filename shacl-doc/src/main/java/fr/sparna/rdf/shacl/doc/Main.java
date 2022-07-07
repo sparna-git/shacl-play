@@ -28,6 +28,7 @@ public class Main {
 		boolean outDiagram = Boolean.parseBoolean(args[3]);
 		boolean outPdf = Boolean.parseBoolean(args[4]);
 		boolean outExpandDiagram = Boolean.parseBoolean(args[5]);
+		String imgLogo = args[6];
 		
 		Model shaclGraph = ModelFactory.createDefaultModel();
 		if(shaclFile.startsWith("http")) {
@@ -48,7 +49,7 @@ public class Main {
 		// 1. read input SHACL
 	    //ShapesDocumentationReaderIfc reader = new ShapesDocumentationTestReader();
 		// uncomment for read SHACL parsing
-		ShapesDocumentationReaderIfc reader = new ShapesDocumentationModelReader(outDiagram);
+		ShapesDocumentationReaderIfc reader = new ShapesDocumentationModelReader(outDiagram,imgLogo);
 		ShapesDocumentation doc = reader.readShapesDocumentation(shaclGraph, owlGraph, outputLang, shaclFile, outExpandDiagram);
 		
 		// 2. write Documentation structure to XML

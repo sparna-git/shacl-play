@@ -4,6 +4,8 @@ import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -40,10 +42,12 @@ import net.sourceforge.plantuml.core.Diagram;
 public class ShapesDocumentationModelReader implements ShapesDocumentationReaderIfc {
 
 	protected boolean readDiagram = true;
+	protected String imgLogo = null;
 
-	public ShapesDocumentationModelReader(boolean readDiagram) {
+	public ShapesDocumentationModelReader(boolean readDiagram,String imgLogo) {
 		super();
 		this.readDiagram = readDiagram;
+		this.imgLogo = imgLogo;
 	}
 
 	@Override
@@ -136,6 +140,16 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 		String sOWLDateModified = null;
 		String sOWLVersionInfo = null;
 		String sOWLDescDocument = null;
+		
+		String datecreated = null;
+		String dateissued = null;
+		String yearCopyRighted = null;
+		String license = null;
+		String creator = null;
+		String publisher = null;
+		String rightsHolder = null;
+		
+		
 		for (Resource rOntology : sOWL) {
 			sOWLlabel = ReadValue.readValueconstraint(rOntology, RDFS.label, lang);
 			sOWLComment = ReadValue.readValueconstraint(rOntology, RDFS.comment, lang);
@@ -143,16 +157,30 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 			sOWLDateModified = ReadValue.readValueconstraint(rOntology,DCTerms.modified, null);
 			// Read Description for the document title
 			sOWLDescDocument = ReadValue.readValueconstraint(rOntology,DCTerms.description, lang);
+			
+			datecreated = ReadValue.readValueconstraint(rOntology,DCTerms.created, lang);
+			dateissued = ReadValue.readValueconstraint(rOntology,DCTerms.issued, lang);
+			yearCopyRighted = ReadValue.readValueconstraint(rOntology,DCTerms.dateCopyrighted, lang);;
+			license = ReadValue.readValueconstraint(rOntology,DCTerms.license, null);
+			creator = ReadValue.readValueconstraint(rOntology,DCTerms.creator, null);
+			publisher = ReadValue.readValueconstraint(rOntology,DCTerms.publisher, null);
+			rightsHolder = ReadValue.readValueconstraint(rOntology,DCTerms.rightsHolder, null);
 		}
 		
-		
-
 		// Code XML
 		ShapesDocumentation shapesDocumentation = new ShapesDocumentation();
 		shapesDocumentation.setTitle(sOWLlabel);
+		shapesDocumentation.setImgLogo(this.imgLogo);
 		shapesDocumentation.setComment(sOWLComment);
+		shapesDocumentation.setDatecreated(datecreated);
+		shapesDocumentation.setDateissued(dateissued);
+		shapesDocumentation.setYearCopyRighted(yearCopyRighted);
 		shapesDocumentation.setModifiedDate(sOWLDateModified);
 		shapesDocumentation.setVersionInfo(sOWLVersionInfo);
+		shapesDocumentation.setLicense(license);
+		shapesDocumentation.setCreator(creator);
+		shapesDocumentation.setPublisher(publisher);
+		shapesDocumentation.setRightsHolder(rightsHolder);
 		shapesDocumentation.setSvgDiagram(sImgDiagramme);
 		shapesDocumentation.setPlantumlSource(plantUmlSourceDiagram);
 		shapesDocumentation.setPngDiagram(UrlDiagram);

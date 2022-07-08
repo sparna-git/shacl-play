@@ -16,6 +16,7 @@ import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.vocabulary.DCTerms;
 import org.apache.jena.vocabulary.OWL;
@@ -147,8 +148,7 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 		String license = null;
 		String creator = null;
 		String publisher = null;
-		String rightsHolder = null;
-		
+		String rightsHolder = null;		
 		
 		for (Resource rOntology : sOWL) {
 			sOWLlabel = ReadValue.readValueconstraint(rOntology, RDFS.label, lang);
@@ -165,6 +165,23 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 			creator = ReadValue.readValueconstraint(rOntology,DCTerms.creator, null);
 			publisher = ReadValue.readValueconstraint(rOntology,DCTerms.publisher, null);
 			rightsHolder = ReadValue.readValueconstraint(rOntology,DCTerms.rightsHolder, null);
+		}
+		
+		List<Resource> rRDFLabels = shaclGraph.listResourcesWithProperty(RDFS.label).toList();
+		for(Resource sinfoLabel : rRDFLabels) {
+			String label = ReadValue.readValueconstraint(sinfoLabel,RDFS.label, lang);
+			if(license.equals(sinfoLabel.getURI().toString())) {
+				license = label;				
+			}
+			if(creator.equals(sinfoLabel.getURI().toString())) {
+				creator = label;
+			}
+			if(publisher.equals(sinfoLabel.getURI().toString())) {
+				publisher = label;
+			}
+			if(rightsHolder.equals(sinfoLabel.getURI().toString())) {
+				rightsHolder = label;
+			}
 		}
 		
 		// Code XML

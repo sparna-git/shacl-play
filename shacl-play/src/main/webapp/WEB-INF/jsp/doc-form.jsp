@@ -221,25 +221,25 @@
 			  	</form>
  				
  				<!-- Documentation -->	
-				<div id="documentation" style="margin-top:2em;">
-					<h3>General Documentation</h3>
+				<div id="documentation" style="margin-top:3em;">
+					<h3>Documentation</h3>
 
-					<p>This documentation generation utility allows to print the documentation of an application profile specified in SHACL.
-					<br/>
-					<br/>
+					<p>This documentation generation utility prints an <em>application profile specified in SHACL</em>. It supports a subset of SHACL constraints.<p/>
+					<p>
 					   The generated documentation describes all the properties allowed on each class/shape of the application profile, and includes a diagram, namespace table, introduction, 
 					   and some metadata at the top of the document.
-					 <br/> 
-					 <br/> 
-					   To better understand how the documentation generation works you can download this <a href="<c:url value="/resources/example/PersonCountry.ttl"/>">turtle example of an application profile specified in SHACL</a>
-					   , or the corresponding <a href="<c:url value="/resources/example/PersonCountry.xlsx"/>">Excel file</a>.<br/>
-					   This Excel file can be converted in SHACL using the <a href="https://skos-play.sparna.fr/play/convert" target="_blank">SKOS Play xls2rdf conversion tool</a>.
-					   All the details about the conversion rules are documented in the converter page. This documentation focuses on which SHACL constraints are used to generate the documentation.					   					
+					</p>
+					<h4>Sample file</h4>
+					<p> 
+					   To test, and to better understand how the documentation generation works you can download this <a href="<c:url value="/resources/example/PersonCountry.ttl"/>">turtle example of an application profile specified in SHACL</a>
+					   , or the corresponding <a href="<c:url value="/resources/example/PersonCountry.xlsx"/>">Excel file</a> This Excel file can be converted in SHACL using 
+					   the <a href="https://skos-play.sparna.fr/play/convert" target="_blank">SKOS Play xls2rdf conversion tool</a>. All the details about the conversion rules 
+					   are documented in the converter page. This documentation focuses on which SHACL constraints are used to produce the documentation.					   					
 					</p>
 
 
 					<div style="margin-top:2em;">
-						<h4>owl:Ontology</h4>
+						<h4>owl:Ontology header</h4>
 						<p>The documentation generation reads the following properties on a owl:Ontology entity in the SHACL file.</p>
 						
 						<table class="table table-bordered">
@@ -256,31 +256,31 @@
 									<th scope="row" width="30%"><code>rdfs:label</code></th>
 									<td>xsd:string</td>
 									<td>Yes</td>
-									<td class="text-break">Will be used to generate the title of the document</td>
+									<td class="text-break">Generates the title of the document</td>
 								</tr>
 								<tr>
 									<th scope="row"><code>rdfs:comment</code></th>
 									<td>xsd:string</td>
 									<td>No</td>
-									<td class="text-break">Will be used to generate an <b>Abstract</b> section in the documentation</td>
+									<td class="text-break">Generates an <b>Abstract</b> section in the documentation, if present.</td>
 							  	</tr>
 							  	<tr>
 							  		<th scope="row"><code>dcterms:description</code></th>
 							  		<td>xsd:string</td>
 							  		<td>No</td>
-							  		<td class="text-break">Will be used to insert a <b>Description</b> section in the generated documentation</td>
+							  		<td class="text-break">Generates a <b>Description</b> section in the generated documentation, if present.</td>
 							  	</tr>
 							  	<tr>
 							  		<th scope="row"><code>owl:versionInfo</code></th>
 							  		<td>xsd:string</td>
 							  		<td>No</td>
-							  		<td class="text-break">Will be shown in the header of the generated documentation</td>
+							  		<td class="text-break">Shown in the header of the generated documentation</td>
 							  	</tr>
 							  	<tr>
 							  		<th scope="row"><code>dcterms:modified</code></th>
 							  		<td>xsd:dateTime</td>
 							  		<td>No</td>
-							  		<td class="text-break">Will be shown in the header of the generated documentation</td>
+							  		<td class="text-break">Shown in the header of the generated documentation</td>
 							  	</tr>
 							</tbody>
 						</table>
@@ -300,17 +300,14 @@
 					</div>
 					
 					<div style="margin-top:2em;">
-						<h4>Prefixes</h4>
-						The prefixes of the SHACL file are inserted in a Namespaces section at the top of the documentation.
-						For example the following prefixes:
-						<br/>
+						<h4>Prefixes table</h4>
+						<p>The prefixes of the SHACL file are inserted in a ""Namespaces section at the top of the documentation.
+						For example the following prefixes:</p>
 						<img src="<c:url value="/resources/img/shacl_doc_prefixes_input.png"/>" width="80%"/>
 						<br/>
 						<br/>
-						Will generate the corresponding output table:
+						<p>Will generate the corresponding output table:</p>
 						<img src="<c:url value="/resources/img/shacl_doc_prefixes.png"/>" width="80%" />
-						<br/>
-						<br/>
 						
 					</div>
 					
@@ -332,32 +329,30 @@
 									<th scope="row" width="30%"><code>rdfs:label</code></th>
 									<td>xsd:string</td>
 									<td>Yes</td>
-									<td class="text-break">Label of the NodeShape that will be used as the label of the section in the documentation.</td>
+									<td class="text-break">Label of the NodeShape used as the label of the section in the documentation.</td>
 								</tr>
 								<tr>
 									<th scope="row"><code>sh:pattern</code></th>
 									<td>xsd:string</td>
 									<td>No</td>
-									<td class="text-break">URI pattern that the targets of the NodeShape must conform to.</td>
+									<td class="text-break">Regex specifying the URI pattern that the targets of the NodeShape must conform to.</td>
 							  	</tr>
 							  	<tr>
 							  		<th scope="row"><code>skos:example</code></th>
 							  		<td>xsd:string</td>
 							  		<td>No</td>
-							  		<td class="text-break">Example of an IRI of a target of this NodeShape.</td>
+							  		<td class="text-break">Example of an IRI for a target of this NodeShape.</td>
 							  	</tr>
 							  	<tr>
 							  		<th scope="row"><code>sh:order</code></th>
 							  		<td>xsd:integer</td>
 							  		<td>No</td>
-							  		<td class="text-break">Sections of the generated documentation are sorted according to sh:order.</td>
+							  		<td class="text-break">Sections of the generated documentation are sorted according to sh:order on sh:NodeShape, or by label if not present.</td>
 							  	</tr>					  	
 							</tbody>
 						</table>
-						<br/>
-						This is how it can typically look like in SHACL:
-						<br/>
-						<br/>
+
+						<p>This is how it can typically look like in SHACL:</p>
 						<img src="<c:url value="/resources/img/shacl_doc_nodeshape_shacl.png"/>" width="100%"/>
 						<br/>
 						<br/>
@@ -466,25 +461,22 @@
 							</tbody>
 						</table>
 						
-						<p>The <b><u>Expected value</u></b> column is generated by looking at the following properties in order of precedence :</p>
+						<p>The <b>Expected value</b> column is generated by looking at the following properties in order of precedence :</p>
 						<ul>
-							<li>If <code>sh:hasValue</code> is not null use it.</li>
-							<li>Otherwise use <code>sh:class</code> if present.</li>
-							<li>Otherwise use <code>sh:node</code> if present.</li>
-							<li>Otherwise use <code>sh:datatype</code> if present.</li>
-							<li>Otherwise use <code>sh:nodeKind</code> if present.</li>	
-							<li>Otherwise use <code>sh:or</code> if present; in this case, get the list items and read <code>sh:node</code> on each of them.</li>
+							<li>Use <code>sh:hasValue</code> if present.</li>
+							<li>Otherwise use <code>sh:class</code></li>
+							<li>Otherwise use <code>sh:node</code></li>
+							<li>Otherwise use <code>sh:datatype</code></li>
+							<li>Otherwise use <code>sh:nodeKind</code></li>	
+							<li>Otherwise use <code>sh:or</code>; in this case, get the list items and read <code>sh:node</code> on each of them.</li>
 							<li>Otherwise the column is left empty.</li>
 						</ul>
 						<p>Additionally, if <code>sh:in</code> is present, it is inserted as an additional information in the Expected value column.</p>
-						<p>This generates the following output:
-							<br/>
-							<br/>
-							<img src="<c:url value="/resources/img/shacl_doc_properties.png"/>" width="100%"/>
-							<br/>
-							<br/>
-							<img src="<c:url value="/resources/img/shacl_doc_properties_2.png"/>" width="100%"/>
-						</p>
+						<p>This generates the following output:</p>
+						<img src="<c:url value="/resources/img/shacl_doc_properties.png"/>" width="100%"/>
+						<br/>
+						<br/>
+						<img src="<c:url value="/resources/img/shacl_doc_properties_2.png"/>" width="100%"/>
 						
 					</div>
 					

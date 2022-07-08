@@ -314,25 +314,34 @@
  		
 			
 				<!-- Documentation -->	
-				<div  style="margin-top:2em;">
-					<h3>General Documentation</h3>
-					<fieldset id="documentation">
+				<div style="margin-top:3em;">
+					<h3>Documentation</h3>
+					<div id="documentation">
 						<h4>What is this tool ?</h4>
 						<p>
-						This is a SHACL-based SPARQL generator. It generates SPARQL queries used to extract a subset from a knowledge graph, based on the SHACL specification of the target dataset structure.
+						This is a SHACL-based SPARQL generator. It generates SPARQL queries used to extract a subset of data from a knowledge graph, 
+						based on the SHACL specification of the target dataset structure.
 						</p>
 						<p>
-						This tool takes into account a subset of SPARQL constraints such as <code><a href="https://www.w3.org/TR/shacl/#HasValueConstraintComponent" target="_blank">sh:hasValue</a></code> , <code><a href="https://www.w3.org/TR/shacl/#InConstraintComponent" target="_blank">sh:in</a></code>, <code><a href="https://www.w3.org/TR/shacl/#LanguageInConstraintComponent" target="_blank">sh:languageIn</a></code>, <code><a href="https://www.w3.org/TR/shacl/#NodeConstraintComponent" target="_blank">sh:node</a></code> or <code><a href="https://www.w3.org/TR/shacl/#property-path-inverse" target="_blank">sh:inversePath</a></code>.
+						This tool takes into account a subset of SHACL constraints such as <code><a href="https://www.w3.org/TR/shacl/#HasValueConstraintComponent" target="_blank">sh:hasValue</a></code> , <code><a href="https://www.w3.org/TR/shacl/#InConstraintComponent" target="_blank">sh:in</a></code>, <code><a href="https://www.w3.org/TR/shacl/#LanguageInConstraintComponent" target="_blank">sh:languageIn</a></code>, <code><a href="https://www.w3.org/TR/shacl/#NodeConstraintComponent" target="_blank">sh:node</a></code> or <code><a href="https://www.w3.org/TR/shacl/#property-path-inverse" target="_blank">sh:inversePath</a></code>.
 						</p>
 						<p>
-						The generated SPARQL queries are <code><a href="https://www.w3.org/TR/rdf-sparql-query/#construct" target="_blank">CONSTRUCT</a></code> queries to return an RDF graph as an output.
-						</p>					
-					</fieldset>
+						If generates <code><a href="https://www.w3.org/TR/rdf-sparql-query/#construct" target="_blank">CONSTRUCT</a></code> queries to return an RDF graph as an output.
+						</p>
+						<h4>Sample file</h4>
+						<p> 
+						   To test, and to better understand how the SPARQL query generation works you can download this <a href="<c:url value="/resources/example/PersonCountry.ttl"/>">turtle example of an application profile specified in SHACL</a>
+						   , or the corresponding <a href="<c:url value="/resources/example/PersonCountry.xlsx"/>">Excel file</a> This Excel file can be converted in SHACL using 
+						   the <a href="https://skos-play.sparna.fr/play/convert" target="_blank">SKOS Play xls2rdf conversion tool</a>. All the details about the conversion rules 
+						   are documented in the converter page. This documentation only explains the query generation algorithms.					   					
+						</p>				
+					</div>
 					
-					<fieldset style="margin-top:2em;">
+					<div style="margin-top:2em;">
 						<h4>SHACL file structure</h4>
 						<p>
-							The SPARQL query generation requires that there is at least one NodeShape with <a href="https://www.w3.org/TR/shacl-af/#SPARQLTarget">SPARQL-based target</a>, that is having a <code>sh:target</code> that itself has a <<code>sh:select</code> expressing the SPARQL query that defines the target of this shape.
+							The SPARQL query generation requires that there is at least one NodeShape with <a href="https://www.w3.org/TR/shacl-af/#SPARQLTarget">SPARQL-based target</a>, 
+							that is having a <code>sh:target</code> that itself has a <code>sh:select</code> giving the SPARQL query that defines the target of this shape.
 							The SPARQL query in the <code>sh:select</code> is the starting point and is inserted as a subquery.
 						</p>
 						<!-- img Shacl File -->
@@ -343,9 +352,9 @@
 							<p>
 								On property shapes, the following SHACL predicates and constraints are considered :
 							</p>
-							<a href="https://www.w3.org/TR/shacl/#property-shapes" target="_blank"><b>sh:path</b> (required)</a>
+							<h6>sh:path <small>(required)</small></h6>
 							<p>
-								The property indicated in sh:path is inserted in the CONSTRUCT clause as well as in the WHERE clause of the generated SPARQL query.
+								The property indicated in <a href="https://www.w3.org/TR/shacl/#property-shapes" target="_blank">sh:path</a> is inserted in the CONSTRUCT clause as well as in the WHERE clause of the generated SPARQL query.
 								<br>The only supported property paths in sh:path for the SPARQL query generation are <a href="https://www.w3.org/TR/shacl/#property-path-inverse">inverse property paths</a>.					
 							</p>
 							<h6>Optional filtering criterias</h6>
@@ -353,84 +362,75 @@
 								Within the property shape, 3 possible conditions are considered.
 							</p>
 							<ul>
-								<li><code><a href="https://www.w3.org/TR/shacl/#HasValueConstraintComponent" target="_blank">sh:hasValue</a></code>
-									<p>
-										Value nodes must be equal to the given RDF term. This generates a <code>VALUES ?x {...}</code> condition in the SPARQL query.
-									</p>
-								</li>
-								<li><code><a href="https://www.w3.org/TR/shacl/#InConstraintComponent" target="_blank">sh:in</a></code>
-									<p>
-										Value nodes must be a member of the provided list of values. This generates a <code>VALUES ?x {...}</code> condition in the SPARQL query.
-									</p>
-								</li>
-								<li><code><a href="https://www.w3.org/TR/shacl/#LanguageInConstraintComponent" target="_blank">sh:languageIn</a></code>
-									<p>
-										The language tags for each value node must be inside the given list of language tags. This generates a <code>FILTER (lang(?x) IN(...))</code> condition in the SPARQL query.						
-									</p>
-								</li>						
+								<li><code><a href="https://www.w3.org/TR/shacl/#HasValueConstraintComponent" target="_blank">sh:hasValue</a></code> : Value nodes must be equal to the given RDF term.
+								This generates a <code>VALUES ?x {...}</code> condition in the SPARQL query.</li>
+								<li><code><a href="https://www.w3.org/TR/shacl/#InConstraintComponent" target="_blank">sh:in</a></code> : Value nodes must be a member of the provided list of values.
+								This generates a <code>VALUES ?x {...}</code> condition in the SPARQL query.</li>
+								<li><code><a href="https://www.w3.org/TR/shacl/#LanguageInConstraintComponent" target="_blank">sh:languageIn</a></code> : The language tags for each value node must be inside the given list of language tags.
+								This generates a <code>FILTER (lang(?x) IN(...))</code> condition in the SPARQL query.</li>						
 							</ul>
 						
-							<a href="https://www.w3.org/TR/shacl/#NodeConstraintComponent" target="_blank"><b>sh:node</b> (optional)</a>
-								<p>
-									When a sh:path property has a <code>sh:node</code> constraint, the SPARQL query generation "follows" the sh:node to generate either another SPARQL query or another UNION clause (see below).
-								</p>
-								<p>
-									Multiple "target" sh:node are supported through the use of an <code><a href="https://www.w3.org/TR/shacl/#OrConstraintComponent" target="_blank">sh:or (optional)</a></code> constraint :
-									<br />
-									<code>sh:or([sh:node ex:nodeShape1][sh:node ex:nodeShape2])</code>
-									<br />
-									For each NodeShape indicated in the sh:or, a new SPARQL query or another UNION clause will be generated (see below).
-								</p>
-							<br/>
-							<a href="https://www.w3.org/TR/shacl/#property-path-inverse" target="_blank"><b>sh:inversePath</b> (optional)</a>
-								<p>A reverse path is a blank node that is the subject of exactly one triple. the object is a well-formed SHACL property path.
-									<br/>
-								   This property generates its own SPARQL queries with its relationships to other well-formed nodeshape.tr
-								</p>
+							<h6>sh:node <small>(optional)</small></h6>
+							<p>
+								When a sh:path property has a <a href="https://www.w3.org/TR/shacl/#NodeConstraintComponent" target="_blank">sh:node</a> constraint, the SPARQL query generation "follows" the sh:node to generate either another SPARQL query or another UNION clause (see below).
+							</p>
+							<p>
+								Multiple "target" sh:node are supported through the use of an <code><a href="https://www.w3.org/TR/shacl/#OrConstraintComponent" target="_blank">sh:or</a></code> constraint :
+								<br />
+								<code>sh:or([sh:node ex:nodeShape1][sh:node ex:nodeShape2])</code>
+								<br />
+								For each NodeShape indicated in the sh:or, a new SPARQL query or another UNION clause will be generated (see below).
+							</p>
+
+							<h6>sh:inversePath <small>(optional)</small></h6>
+							<p><a href="https://www.w3.org/TR/shacl/#property-path-inverse" target="_blank">sh:inversePath</a> used in sh:path contains a blank node that is the subject of exactly one triple.
+								<br/>
+							   Using this insert inverse property paths in the generated SPARQL query : <code>?x ^foaf:knows ?y</code>
+							</p>
 							<br/>
 							<img src="<c:url value="/resources/img/shacl_sparql_properties.png"/>" width="100%"/>
 							<br/>
 							<br/>
-					</fieldset>
+					</div>
 					
-					<fieldset>
-						<h4>SPARQL query generation</h4>
+					<div>
+						<h4>SPARQL query generation algorithm (multiple queries)</h4>
 						
 						<!-- Shacl code convert to SPARQL Query -->
 						<ol>
-							<li>A SPARQL query is generated if <code>sh:select</code> has a query value.</li>
-							<li>If the property shape has a <code>sh:hasValue</code> or <code>sh:in</code>, a VALUES clause is inserted, if it has <code>sh:languageIn</code> a FILTER clause will be inserted.<br/> 
+							<li>Start by looking at each NodeShape having a <code>sh:target</code> with a <code>sh:select</code>...</li>
+							<li>Generate one query for the "starting point" NodeShape. In this query, for each PropertyShape :</li>
+							<li>If the property shape has a <code>sh:hasValue</code> or <code>sh:in</code>, a VALUES clause is inserted, if it has <code>sh:languageIn</code> a FILTER clause will be inserted.
+								<br/>
+								<br/> 
 								Example:<br/>
 								<img src="<c:url value="/resources/img/Query0.png"/>" width="100%"/>
 								<br/>
 								<br/>
 							</li>
-							<li> if the property shape call others nodeshape in the <code>sh:node</code> or <code>sh:or</code> or <code>sh:inversePath</code> another SPARQL query will be generated.
-								
-								Example:<br/>
-									<p>
-										this example the <code>ex:Country</code> property in the Person NodeShape, call the City NodeShape.
+							<li>Then, for each NodeShape referred to in an <code>sh:node</code> (or <code>sh:or</code> containing multiple sh:node), follow to the target
+							NodeShape and apply the same algorithm recursively. The recursion stops when it encounters a NodeShape that was already processed.
+								<br/>
+								<br/>
+								<p>Example: the <code>ex:Country</code> property in the Person NodeShape, refers to the <code>ex:City</code> NodeShape, through the <code>ex:country</code> property.
+								This generates this second query:
 										<br/>
 										<!-- SPARQL Query from City -->
 										<img src="<c:url value="/resources/img/Query_sh_node.png"/>" width="100%"/>
-									</p>
+								</p>
 								
 							</li>
 						</ol>
 						<br/>
 						<br/>
-						<h4>What type  SPARQL Query output</h4>
-						<p>There are two types of SPARQL queries that can be generated.
-							<ol>
-								<li><b>Multiple SPARQL queries</b>: one SPARQL query is generated for each NodeShape of the SHACL code and its relationships.</li>
-								<li><b>Combined Queries</b>: A single SPARQL query is generated from the starting Nodeshape.</li>
-							</ol>
+						<h4>SPARQL query generation algorithm (single query)</h4>
+						<p>Instead of generating multiple queries, one for each "path" in the SHACL specification, it is possible to produce one single SPARQL query for each
+						"starting point" NodeShape having a sh:target with a sh:select. The query uses a serie of <code>UNION</code> clauses.
+						In this case, no filtering using <code>sh:hasValue</code> , <code>sh:in</code> or <code>sh:languageIn</code> happens. The query simply takes into account
+						the structure of the triples in the graph, but cannot filter on their value
 						</p>
+					</div>
 
-						<h4>Example:</h4>
-							<span class="help-block"><i>Download example :&nbsp;<a id="lien" href="https://shacl-play.sparna.fr/play/resources/example/sparql/PersonCountry.xlsx">Excel Template (simple exemple, in english)</a></i></span><br/>
-							<span class="help-block"><i>Download example :&nbsp;<a id="lien" href="https://shacl-play.sparna.fr/play/resources/example/sparql/PersonCountry.ttl">Turtle File (simple exemple, in english)</a></i></span>							
-					</fieldset>
 				</div>
 				
 				

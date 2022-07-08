@@ -199,6 +199,7 @@
 									</div>
 								</div>
 						</div>
+						<!-- PDF Option -->
 						<!--  
 						<div class="form-group row">
 						      	<div class="col-sm-12">

@@ -1,45 +1,31 @@
 package fr.sparna.rdf.shacl.doc.read;
 
-import java.io.BufferedOutputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.nio.file.FileSystems;
-import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
-import org.apache.jena.vocabulary.DCTerms;
 import org.apache.jena.vocabulary.OWL;
 import org.apache.jena.vocabulary.RDF;
-import org.apache.jena.vocabulary.RDFS;
 import org.topbraid.shacl.vocabulary.SH;
 
-import fr.sparna.rdf.shacl.diagram.PlantUmlBox;
 import fr.sparna.rdf.shacl.doc.ConstraintValueReader;
+import fr.sparna.rdf.shacl.doc.NodeShape;
+import fr.sparna.rdf.shacl.doc.NodeShapeReader;
+import fr.sparna.rdf.shacl.doc.OwlOntology;
 import fr.sparna.rdf.shacl.doc.PlantUmlSourceGenerator;
 import fr.sparna.rdf.shacl.doc.SVGGenerator;
-import fr.sparna.rdf.shacl.doc.ShaclBox;
-import fr.sparna.rdf.shacl.doc.ShaclBoxReader;
 import fr.sparna.rdf.shacl.doc.ShaclPrefixReader;
-import fr.sparna.rdf.shacl.doc.ShaclProperty;
 import fr.sparna.rdf.shacl.doc.model.NamespaceSection;
-import fr.sparna.rdf.shacl.doc.model.PropertyShapeDocumentation;
-import fr.sparna.rdf.shacl.doc.model.PropertyShapeDocumentationBuilder;
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentation;
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentationSection;
+import fr.sparna.rdf.shacl.doc.model.ShapesDocumentationSectionBuilder;
 import net.sourceforge.plantuml.code.Transcoder;
 import net.sourceforge.plantuml.code.TranscoderUtil;
-import net.sourceforge.plantuml.core.Diagram;
 
 public class ShapesDocumentationModelReader implements ShapesDocumentationReaderIfc {
 
@@ -64,15 +50,15 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 		List<Resource> nodeShapes = shaclGraph.listResourcesWithProperty(RDF.type, SH.NodeShape).toList();
 
 		// 1. Lire toutes les classes
-		ArrayList<ShaclBox> allNodeShapes = new ArrayList<>();
-		ShaclBoxReader reader = new ShaclBoxReader(lang);
+		ArrayList<NodeShape> allNodeShapes = new ArrayList<>();
+		NodeShapeReader reader = new NodeShapeReader(lang);
 		for (Resource nodeShape : nodeShapes) {
-			ShaclBox dbShacl = reader.read(nodeShape);
+			NodeShape dbShacl = reader.read(nodeShape);
 			allNodeShapes.add(dbShacl);
 		}
 
 		// sort node shapes
-		allNodeShapes.sort((ShaclBox ns1, ShaclBox ns2) -> {
+		allNodeShapes.sort((NodeShape ns1, NodeShape ns2) -> {
 			if (ns1.getShOrder() != null) {
 				if (ns2.getShOrder() != null) {
 					return ns1.getShOrder() - ns2.getShOrder();
@@ -103,7 +89,7 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 		});
 
 		// 2. Lire les propriétés
-		for (ShaclBox aBox : allNodeShapes) {
+		for (NodeShape aBox : allNodeShapes) {
 			aBox.setProperties(reader.readProperties(aBox.getNodeShape(), allNodeShapes));
 		}
 		
@@ -135,78 +121,30 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 		}		
 
 		// Lecture de OWL
-		ConstraintValueReader ReadValue = new ConstraintValueReader();
+		// this is tricky, because we can have multiple ones if SHACL is merged with OWL or imports OWL
 		List<Resource> sOWL = shaclGraph.listResourcesWithProperty(RDF.type, OWL.Ontology).toList();
-		String sOWLlabel = null;
-		String sOWLComment = null;
-		String sOWLDateModified = null;
-		String sOWLVersionInfo = null;
-		String sOWLDescDocument = null;
 		
-		String datecreated = null;
-		String dateissued = null;
-		String yearCopyRighted = null;
-		String license = null;
-		String creator = null;
-		String publisher = null;
-		String rightsHolder = null;		
+		// let's decide first to exclude the ones that are owl:import-ed from others
+		List<Resource> filteredOWL = sOWL.stream().filter(onto1 -> {
+			return !sOWL.stream().anyMatch(onto2 -> onto2.hasProperty(OWL.imports, onto1));
+		}).collect(Collectors.toList());
 		
-		for (Resource rOntology : sOWL) {
-			sOWLlabel = ReadValue.readValueconstraint(rOntology, RDFS.label, lang);
-			sOWLComment = ReadValue.readValueconstraint(rOntology, RDFS.comment, lang);
-			sOWLVersionInfo = ReadValue.readValueconstraint(rOntology,OWL.versionInfo, null);		
-			sOWLDateModified = ReadValue.readValueconstraint(rOntology,DCTerms.modified, null);
-			// Read Description for the document title
-			sOWLDescDocument = ReadValue.readValueconstraint(rOntology,DCTerms.description, lang);
-			
-			datecreated = ReadValue.readValueconstraint(rOntology,DCTerms.created, lang);
-			dateissued = ReadValue.readValueconstraint(rOntology,DCTerms.issued, lang);
-			yearCopyRighted = ReadValue.readValueconstraint(rOntology,DCTerms.dateCopyrighted, lang);;
-			license = ReadValue.readValueconstraint(rOntology,DCTerms.license, null);
-			creator = ReadValue.readValueconstraint(rOntology,DCTerms.creator, null);
-			publisher = ReadValue.readValueconstraint(rOntology,DCTerms.publisher, null);
-			rightsHolder = ReadValue.readValueconstraint(rOntology,DCTerms.rightsHolder, null);
-		}
-		
-		List<Resource> rRDFLabels = shaclGraph.listResourcesWithProperty(RDFS.label).toList();
-		for(Resource sinfoLabel : rRDFLabels) {
-			String label = ReadValue.readValueconstraint(sinfoLabel,RDFS.label, lang);
-			if(license != null && license.equals(sinfoLabel.getURI().toString())) {
-				license = label;				
-			}
-			if(creator != null && creator.equals(sinfoLabel.getURI().toString())) {
-				creator = label;
-			}
-			if(publisher != null && publisher.equals(sinfoLabel.getURI().toString())) {
-				publisher = label;
-			}
-			if(rightsHolder != null && rightsHolder.equals(sinfoLabel.getURI().toString())) {
-				rightsHolder = label;
-			}
+		OwlOntology ontologyObject = null;
+		if(filteredOWL.size() > 0) {
+			ontologyObject = new OwlOntology(filteredOWL.get(0), lang);
 		}
 		
 		// Code XML
-		ShapesDocumentation shapesDocumentation = new ShapesDocumentation();
-		shapesDocumentation.setTitle(sOWLlabel);
+		ShapesDocumentation shapesDocumentation = new ShapesDocumentation(ontologyObject);
 		shapesDocumentation.setImgLogo(this.imgLogo);
-		shapesDocumentation.setComment(sOWLComment);
-		shapesDocumentation.setDatecreated(datecreated);
-		shapesDocumentation.setDateissued(dateissued);
-		shapesDocumentation.setYearCopyRighted(yearCopyRighted);
-		shapesDocumentation.setModifiedDate(sOWLDateModified);
-		shapesDocumentation.setVersionInfo(sOWLVersionInfo);
-		shapesDocumentation.setLicense(license);
-		shapesDocumentation.setCreator(creator);
-		shapesDocumentation.setPublisher(publisher);
-		shapesDocumentation.setRightsHolder(rightsHolder);
 		shapesDocumentation.setSvgDiagram(sImgDiagramme);
 		shapesDocumentation.setPlantumlSource(plantUmlSourceDiagram);
 		shapesDocumentation.setPngDiagram(UrlDiagram);
-		shapesDocumentation.setDescriptionDocument(sOWLDescDocument);
+
 
 		// 3. Lire les prefixes
 		HashSet<String> gatheredPrefixes = new HashSet<>();
-		for (ShaclBox aBox : allNodeShapes) {
+		for (NodeShape aBox : allNodeShapes) {
 			List<String> prefixes = reader.readPrefixes(aBox.getNodeShape());
 			gatheredPrefixes.addAll(prefixes);
 		}
@@ -232,45 +170,10 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 		
 		List<ShapesDocumentationSection> sections = new ArrayList<>();
 		// For each NodeShape ...
-		for (ShaclBox nodeShape : allNodeShapes) {
-			// if (datanodeshape.getNametargetclass() != null) {
-			    
-			ShapesDocumentationSection currentSection = new ShapesDocumentationSection();
-			
-			if(nodeShape.getRdfsLabel() == null) {
-				currentSection.setTitle(nodeShape.getShortForm());
-			}else {
-				currentSection.setTitle(nodeShape.getRdfsLabel());
-			}
-			currentSection.setUri(nodeShape.getShortForm());
-			currentSection.setDescription(nodeShape.getRdfsComment());
-			if(nodeShape.getShTargetClass() != null) {
-				currentSection.setTargetClassLabel(shaclGraph.shortForm(nodeShape.getShTargetClass().getURI()));
-				currentSection.setTargetClassUri(nodeShape.getShTargetClass().getURI());
-			}
-			
-			currentSection.setPattern(nodeShape.getShPattern());
-			currentSection.setNodeKind(nodeShape.getShNodeKind());
-			if(nodeShape.getShClosed()) {
-				currentSection.setClosed(nodeShape.getShClosed());
-			}
-			//Get example data
-			currentSection.setSkosExample(nodeShape.getSkosExample());
-			
-			
-			// Read the property shape 
-
-			List<PropertyShapeDocumentation> ListPropriete = new ArrayList<>();
-			for (ShaclProperty propriete : nodeShape.getProperties()) {
-				PropertyShapeDocumentation psd = PropertyShapeDocumentationBuilder.build(propriete, allNodeShapes, shaclGraph, owlGraph, lang);				
-				ListPropriete.add(psd);
-			}
-			
-			currentSection.setPropertySections(ListPropriete);
-			sections.add(currentSection);
+		for (NodeShape nodeShape : allNodeShapes) {
+			ShapesDocumentationSection section = ShapesDocumentationSectionBuilder.build(nodeShape, allNodeShapes, shaclGraph, owlGraph, lang);
+			sections.add(section);
 		}
-
-		// }
 		shapesDocumentation.setSections(sections);
 		return shapesDocumentation;
 	}

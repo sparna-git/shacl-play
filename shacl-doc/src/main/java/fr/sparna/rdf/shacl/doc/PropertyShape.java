@@ -8,7 +8,7 @@ import org.apache.jena.rdf.model.Resource;
 
 import fr.sparna.rdf.shacl.doc.model.PropertyShapeDocumentationBuilder;
 
-public class ShaclProperty {
+public class PropertyShape {
 
 	private Resource resource;
 	
@@ -39,7 +39,7 @@ public class ShaclProperty {
 		this.shOr = shOr;
 	}
 
-	public ShaclProperty(Resource resource) {
+	public PropertyShape(Resource resource) {
 		super();
 		this.resource = resource;
 	}

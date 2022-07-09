@@ -3,22 +3,26 @@ package fr.sparna.rdf.shacl.doc;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.RDFList;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 
-public class ShaclBox {
+public class NodeShape {
 
 	private Resource nodeShape;
-	protected List<ShaclProperty> properties = new ArrayList<>();
-	protected String shPattern;
+	
+	protected Literal shPattern;
 	protected Resource shTargetClass;
 	protected String rdfsComment;
 	protected String rdfsLabel;
 	protected Integer shOrder;
-	protected String shNodeKind;
+	protected Resource shNodeKind;
 	protected Boolean shClosed;
 	protected String skosExample;
+	
+	protected List<PropertyShape> properties = new ArrayList<>();
+	
 	
 	
 	public String getSkosExample() {
@@ -29,7 +33,7 @@ public class ShaclBox {
 		this.skosExample = skosExample;
 	}
 
-	public ShaclBox(Resource nodeShape) {
+	public NodeShape(Resource nodeShape) {
 		this.nodeShape = nodeShape;
 	}
 
@@ -41,19 +45,19 @@ public class ShaclBox {
 		return nodeShape;
 	}
 
-	public List<ShaclProperty> getProperties() {
+	public List<PropertyShape> getProperties() {
 		return properties;
 	}
 
-	public void setProperties(List<ShaclProperty> properties) {
+	public void setProperties(List<PropertyShape> properties) {
 		this.properties = properties;
 	}
 
-	public String getShPattern() {
+	public Literal getShPattern() {
 		return shPattern;
 	}
 
-	public void setShPattern(String shPattern) {
+	public void setShPattern(Literal shPattern) {
 		this.shPattern = shPattern;
 	}
 
@@ -89,11 +93,11 @@ public class ShaclBox {
 		this.shOrder = shOrder;
 	}
 
-	public String getShNodeKind() {
+	public Resource getShNodeKind() {
 		return shNodeKind;
 	}
 
-	public void setShNodeKind(String shNodeKind) {
+	public void setShNodeKind(Resource shNodeKind) {
 		this.shNodeKind = shNodeKind;
 	}
 

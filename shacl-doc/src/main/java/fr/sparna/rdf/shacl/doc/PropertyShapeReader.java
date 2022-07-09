@@ -1,6 +1,7 @@
 package fr.sparna.rdf.shacl.doc;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Literal;
@@ -9,20 +10,20 @@ import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.topbraid.shacl.vocabulary.SH;
 
-public class ShaclPropertyReader {
+public class PropertyShapeReader {
 	
 	protected String lang;
-	protected List<ShaclBox> allBoxes;
+	protected List<NodeShape> allBoxes;
 
-	public ShaclPropertyReader(String lang, List<ShaclBox> allBoxes) {
+	public PropertyShapeReader(String lang, List<NodeShape> allBoxes) {
 		super();
 		this.lang = lang;
 		this.allBoxes = allBoxes;
 	}
 
-	public ShaclProperty read(Resource constraint) {
+	public PropertyShape read(Resource constraint) {
 
-		ShaclProperty shaclProperty = new ShaclProperty(constraint);
+		PropertyShape shaclProperty = new PropertyShape(constraint);
 
 		shaclProperty.setShPath(this.readShPath(constraint));
 		shaclProperty.setShDatatype(this.readShDatatype(constraint));
@@ -71,19 +72,11 @@ public class ShaclPropertyReader {
 	}
 
 	public RDFNode readShValue(Resource constraint) {
-		if (constraint.hasProperty(SH.hasValue)) {
-			return constraint.getProperty(SH.hasValue).getObject();
-		} else {
-			return null;
-		}
+		return Optional.ofNullable(constraint.getProperty(SH.hasValue)).map(s -> s.getObject()).orElse(null);
 	}
 
 	public Integer readShOrder(Resource constraint) {
-		Integer value = null;
-		if (constraint.hasProperty(SH.order)) {
-			value = Integer.parseInt(constraint.getProperty(SH.order).getLiteral().getString());
-		}
-		return value;
+		return Optional.ofNullable(constraint.getProperty(SH.order)).map(s -> Integer.parseInt(s.getString())).orElse(null);
 	}
 
 	public List<RDFNode> readShin(Resource constraint) {
@@ -104,69 +97,37 @@ public class ShaclPropertyReader {
 	}
 
 	public Resource readShPath(Resource constraint) {
-		if(constraint.hasProperty(SH.path)) {
-			return constraint.getPropertyResourceValue(SH.path);
-		} else {
-			return null;
-		}
+		return Optional.ofNullable(constraint.getProperty(SH.path)).map(s -> s.getResource()).orElse(null);
 	}
 
 	public Resource readShDatatype(Resource constraint) {
-		if(constraint.hasProperty(SH.datatype)) {
-			return constraint.getPropertyResourceValue(SH.datatype);
-		} else {
-			return null;
-		}
+		return Optional.ofNullable(constraint.getProperty(SH.datatype)).map(s -> s.getResource()).orElse(null);
 	}
 
-	public Resource readShNodeKind(Resource constraint) {
-		if(constraint.hasProperty(SH.nodeKind)) {
-			return constraint.getPropertyResourceValue(SH.nodeKind);
-		} else {
-			return null;
-		}
+	public Resource readShNodeKind(Resource constraint) {		
+		return Optional.ofNullable(constraint.getProperty(SH.nodeKind)).map(s -> s.getResource()).orElse(null);
 	}
 
 	
 	public Integer readShMinCount(Resource constraint) {
-		if (constraint.hasProperty(SH.minCount)) {
-			return Integer.parseInt(constraint.getProperty(SH.minCount).getLiteral().getString());
-		} else {
-			return null;
-		}
+		return Optional.ofNullable(constraint.getProperty(SH.minCount)).map(s -> Integer.parseInt(s.getString())).orElse(null);
 	}
 	
 	public Integer readShMaxCount(Resource constraint) {
-		if (constraint.hasProperty(SH.maxCount)) {
-			return Integer.parseInt(constraint.getProperty(SH.maxCount).getLiteral().getString());
-		} else {
-			return null;
-		}
+		return Optional.ofNullable(constraint.getProperty(SH.maxCount)).map(s -> Integer.parseInt(s.getString())).orElse(null);
 	}
 
 	public Literal readShPattern(Resource constraint) {
-		if (constraint.hasProperty(SH.pattern)) {
-			return constraint.getProperty(SH.pattern).getLiteral();
-		} else {
-			return null;
-		}
+		return Optional.ofNullable(constraint.getProperty(SH.pattern)).map(s -> s.getLiteral()).orElse(null);
 	}
 
 	// TODO : devrait retourner un ShaclBox
 	public Resource readNode(Resource constraint) {
-		if (constraint.hasProperty(SH.node)) {
-			return constraint.getPropertyResourceValue(SH.node);
-		} else {
-			return null;
-		}
+		return Optional.ofNullable(constraint.getProperty(SH.node)).map(s -> s.getResource()).orElse(null);
 	}
 
 	public Resource readShClass(Resource constraint) {
-		if (constraint.hasProperty(SH.class_)) {
-			return constraint.getPropertyResourceValue(SH.class_);
-		} else {
-			return null;
-		}
+		return Optional.ofNullable(constraint.getProperty(SH.class_)).map(s -> s.getResource()).orElse(null);
 	}
 
 }

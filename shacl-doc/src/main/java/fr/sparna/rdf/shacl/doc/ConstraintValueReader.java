@@ -10,6 +10,8 @@ import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.topbraid.shacl.vocabulary.SH;
 
+import fr.sparna.rdf.shacl.doc.model.PropertyShapeDocumentationBuilder;
+
 public class ConstraintValueReader { 
 
 	@Deprecated
@@ -67,7 +69,9 @@ public class ConstraintValueReader {
 		return null;
 	}
 	
-	
+	public static String readLiteralInLangAsString(Resource constraint, Property property, String lang) {
+		return PropertyShapeDocumentationBuilder.render(readLiteralInLang(constraint, property, lang), true);
+	}
 
 	
 	public static String renderShaclPropertyPath(Resource r) {
@@ -109,10 +113,9 @@ public class ConstraintValueReader {
 		}
 	}
 	
-	public static List<RDFNode> asJavaList( Resource resource )
-	  {
+	public static List<RDFNode> asJavaList( Resource resource ) {
 	  return (resource.as( RDFList.class )).asJavaList();
-	  }
+	}
 	
 	
 	

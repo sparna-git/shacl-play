@@ -10,14 +10,14 @@ import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.RDFS;
 
 import fr.sparna.rdf.shacl.doc.ConstraintValueReader;
-import fr.sparna.rdf.shacl.doc.ShaclBox;
-import fr.sparna.rdf.shacl.doc.ShaclProperty;
+import fr.sparna.rdf.shacl.doc.NodeShape;
+import fr.sparna.rdf.shacl.doc.PropertyShape;
 
 public class PropertyShapeDocumentationBuilder {
 
 	public static PropertyShapeDocumentation build(
-			ShaclProperty propertyShape,
-			List<ShaclBox> allNodeShapes,
+			PropertyShape propertyShape,
+			List<NodeShape> allNodeShapes,
 			Model shaclGraph,
 			Model owlGraph,
 			String lang) {
@@ -26,7 +26,7 @@ public class PropertyShapeDocumentationBuilder {
 		proprieteDoc.setLabel(selectLabel(propertyShape, shaclGraph.union(owlGraph), lang));
 		
 		if(propertyShape.getShNode() != null) {
-			for(ShaclBox aBox : allNodeShapes) {
+			for(NodeShape aBox : allNodeShapes) {
 				if(aBox.getNodeShape().getURI().equals(propertyShape.getShNode().getURI())) {
 					proprieteDoc.setLinkNodeShapeUri(aBox.getShortForm());
 					if(aBox.getRdfsLabel() == null) {
@@ -50,7 +50,7 @@ public class PropertyShapeDocumentationBuilder {
 		));
 		
 		if(propertyShape.getShClass() != null) {
-			for(ShaclBox aNodeShape : allNodeShapes) {
+			for(NodeShape aNodeShape : allNodeShapes) {
 				if(aNodeShape.getShTargetClass() != null && aNodeShape.getShTargetClass().getURI().equals(propertyShape.getShClass().getURI())) {
 					proprieteDoc.setLinkNodeShapeUri(aNodeShape.getShortForm()); //aName.getShortForm().getLocalName()
 					if(aNodeShape.getRdfsLabel() == null) {
@@ -82,7 +82,7 @@ public class PropertyShapeDocumentationBuilder {
 		return proprieteDoc;
 	}
 	
-	public static String selectLabel(ShaclProperty prop, Model owlModel, String lang) {
+	public static String selectLabel(PropertyShape prop, Model owlModel, String lang) {
 		// if we have a sh:name, take it
 		if(prop.getShName() != null) {
 			return render(prop.getShName(), true);
@@ -94,7 +94,7 @@ public class PropertyShapeDocumentationBuilder {
 		}
 	}
 	
-	public static String selectDescription(ShaclProperty prop, Model owlModel, String lang) {
+	public static String selectDescription(PropertyShape prop, Model owlModel, String lang) {
 		// if we have a sh:description, take it
 		if(prop.getShDescription() != null) {
 			return render(prop.getShDescription(), true);
@@ -168,8 +168,8 @@ public class PropertyShapeDocumentationBuilder {
 	public static String selectExpectedValueLabel(
 			Resource shClass,
 			Resource shNode,
-			Resource Value_datatype,
-			Resource Value_nodeKind,
+			Resource value_datatype,
+			Resource value_nodeKind,
 			RDFNode value_shValue
 	) {
 		String value = null;
@@ -180,19 +180,26 @@ public class PropertyShapeDocumentationBuilder {
 			value = render(shClass, false);
 		} else if (shNode != null) {
 			value = render(shNode, false);
-		} else if (Value_datatype != null) {
-			value = render(Value_datatype, false);
-		} else if (Value_nodeKind != null) {
-			String rendered = render(Value_nodeKind, false);
-			if (rendered.startsWith("sh:")) {
-				value = rendered.split(":")[1];	
-			} else {
-				value = rendered;
-			}
+		} else if (value_datatype != null) {
+			value = render(value_datatype, false);
+		} else if (value_nodeKind != null) {
+			value = renderNodeKind(value_nodeKind);
 		}
 		
 		return value;
 	}
-
+	
+	public static String renderNodeKind(Resource nodeKind) {
+		if(nodeKind == null) {
+			return null;
+		}
+		
+		String rendered = render(nodeKind, false);
+		if (rendered.startsWith("sh:")) {
+			return rendered.split(":")[1];	
+		} else {
+			return rendered;
+		}
+	}
 	
 }

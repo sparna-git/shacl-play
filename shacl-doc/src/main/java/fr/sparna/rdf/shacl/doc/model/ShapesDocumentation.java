@@ -1,9 +1,12 @@
 package fr.sparna.rdf.shacl.doc.model;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
+import fr.sparna.rdf.shacl.doc.OwlOntology;
 
 public class ShapesDocumentation {
 
@@ -33,6 +36,26 @@ public class ShapesDocumentation {
 	@JacksonXmlElementWrapper(localName="sections")
 	@JacksonXmlProperty(localName = "section")
 	protected List<ShapesDocumentationSection> sections;
+	
+	public ShapesDocumentation(OwlOntology ontology) {
+		if(ontology != null) {
+			this.setTitle(ontology.getRdfsLabel());			
+			this.setComment(ontology.getRdfsComment());
+			
+			this.setDatecreated(ontology.getDateCreated());
+			this.setDateissued(ontology.getDateIssued());
+			this.setYearCopyRighted(ontology.getDateCopyrighted());
+			this.setModifiedDate(ontology.getDateModified());
+			this.setVersionInfo(ontology.getOwlVersionInfo());
+			Optional.ofNullable(ontology.getLicense()).ifPresent(s -> this.setLicense(s.toString()));
+			Optional.ofNullable(ontology.getCreator()).ifPresent(s -> this.setCreator(s.toString()));
+			Optional.ofNullable(ontology.getPublisher()).ifPresent(s -> this.setPublisher(s.toString()));
+			Optional.ofNullable(ontology.getRightsHolder()).ifPresent(s -> this.setRightsHolder(s.toString()));
+			
+			this.setDescriptionDocument(ontology.getDescription());			
+		}
+	}
+	
 	
 	
 	public String getDatecreated() {

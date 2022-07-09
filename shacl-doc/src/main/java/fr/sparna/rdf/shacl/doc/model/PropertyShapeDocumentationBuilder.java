@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.RDFS;
 
 import fr.sparna.rdf.shacl.doc.ConstraintValueReader;
@@ -71,37 +72,51 @@ public class PropertyShapeDocumentationBuilder {
 			}					
 		}
 
-		proprieteDoc.setExpectedValueAdditionnalInfoIn(render(propertyShape.getShIn()));
+		proprieteDoc.setExpectedValueAdditionnalInfoIn(render(propertyShape.getShIn(), false));
 		proprieteDoc.setCardinalite(renderCardinalities(propertyShape.getShMinCount(), propertyShape.getShMaxCount()));
-		proprieteDoc.setDescription(render(propertyShape.getShDescription()), null);				
+		proprieteDoc.setDescription(selectDescription(propertyShape, shaclGraph.union(owlGraph), lang));
 		
 		// create a String of comma-separated short forms
-		proprieteDoc.setOr(render(propertyShape.getShOr()));
+		proprieteDoc.setOr(render(propertyShape.getShOr(), false));
 		
 		return proprieteDoc;
 	}
 	
 	public static String selectLabel(ShaclProperty prop, Model owlModel, String lang) {
+		// if we have a sh:name, take it
 		if(prop.getShName() != null) {
-			return render(prop.getShName());
+			return render(prop.getShName(), true);
 		} else if(prop.getShPath().isURIResource()) {
-			return render(ConstraintValueReader.readLiteralInLang(owlModel.getResource(prop.getShPath().getURI()), RDFS.label, lang));
+			// otherwise if we have rdfs:label on the property, take it
+			return render(ConstraintValueReader.readLiteralInLang(owlModel.getResource(prop.getShPath().getURI()), RDFS.label, lang), true);
 		} else {
 			return null;
 		}
 	}
 	
-	public static String render(List<? extends RDFNode> list) {
+	public static String selectDescription(ShaclProperty prop, Model owlModel, String lang) {
+		// if we have a sh:description, take it
+		if(prop.getShDescription() != null) {
+			return render(prop.getShDescription(), true);
+		} else if(prop.getShPath().isURIResource()) {
+			// otherwise if we have rdfs:comment on the property, take it
+			return render(ConstraintValueReader.readLiteralInLang(owlModel.getResource(prop.getShPath().getURI()), RDFS.comment, lang), true);
+		} else {
+			return null;
+		}
+	}
+	
+	public static String render(List<? extends RDFNode> list, boolean plainString) {
 		if(list == null) {
 			return null;
 		}
 		
 		return list.stream().map(item -> {
-			return render(item);
+			return render(item, plainString);
 		}).collect(Collectors.joining(", "));
 	}
 	
-	public static String render(RDFNode node) {
+	public static String render(RDFNode node, boolean plainString) {
 		if(node == null) {
 			return null;
 		}
@@ -111,10 +126,18 @@ public class PropertyShapeDocumentationBuilder {
 		} else if(node.isAnon()) {
 			return node.toString();
 		} else if(node.isLiteral()) {
-			if (node.asLiteral().getDatatype() != null) {
+			// if we asked for a plain string, just return the literal string
+			if(plainString) {
+				return node.asLiteral().getLexicalForm();
+			}
+			
+			if (node.asLiteral().getDatatype() != null && !node.asLiteral().getDatatypeURI().equals(RDF.langString.getURI())) {
 				// nicely prints datatypes with their short form
 				return "\"" + node.asLiteral().getLexicalForm() + "\"<sup>^^"
 						+ node.getModel().shortForm(node.asLiteral().getDatatype().getURI())+"</sup>";
+			} else if (node.asLiteral().getLanguage() != null) {
+				return "\"" + node.asLiteral().getLexicalForm() + "\"<sup>@"
+						+ node.asLiteral().getLanguage()+"</sup>";
 			} else {
 				return node.toString();
 			}
@@ -152,15 +175,15 @@ public class PropertyShapeDocumentationBuilder {
 		String value = null;
 
 		if (value_shValue != null) {
-			value = render(value_shValue);
+			value = render(value_shValue, false);
 		} else if (shClass != null) {
-			value = render(shClass);
+			value = render(shClass, false);
 		} else if (shNode != null) {
-			value = render(shNode);
+			value = render(shNode, false);
 		} else if (Value_datatype != null) {
-			value = render(Value_datatype);
+			value = render(Value_datatype, false);
 		} else if (Value_nodeKind != null) {
-			String rendered = render(Value_nodeKind);
+			String rendered = render(Value_nodeKind, false);
 			if (rendered.startsWith("sh:")) {
 				value = rendered.split(":")[1];	
 			} else {

@@ -89,12 +89,8 @@ public class PropertyShapeDocumentation {
 		return description;
 	}
 
-	public void setDescription(String shDescription, String propertyRdfsComment) {
-		if(shDescription != null) {
-			this.description = shDescription;
-		} else {
-			this.description = propertyRdfsComment;
-		}
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public String getLinkNodeShape() {

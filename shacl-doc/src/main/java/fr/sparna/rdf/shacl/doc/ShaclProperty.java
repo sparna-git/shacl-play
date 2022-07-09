@@ -139,11 +139,11 @@ public class ShaclProperty {
 	 * @return
 	 */
 	public String getShPathAsString() {
-		return (this.shPath.isURIResource())?PropertyShapeDocumentationBuilder.render(this.getShPath()):ConstraintValueReader.renderShaclPropertyPath(this.getShPath());
+		return (this.shPath.isURIResource())?PropertyShapeDocumentationBuilder.render(this.getShPath(), false):ConstraintValueReader.renderShaclPropertyPath(this.getShPath());
 	}
 	
 	public String getShNameAsString() {
-		return PropertyShapeDocumentationBuilder.render(this.getShName());
+		return PropertyShapeDocumentationBuilder.render(this.getShName(), true);
 	}
 	
 }

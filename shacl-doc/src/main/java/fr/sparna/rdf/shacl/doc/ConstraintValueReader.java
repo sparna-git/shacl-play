@@ -52,18 +52,15 @@ public class ConstraintValueReader {
 	
 	public static List<Literal> readLiteralInLang(Resource constraint, Property property, String lang) {
 		if (constraint.hasProperty(property)) {
-			if (lang != null) {
-				if(constraint.listProperties(property, lang).toList().size() > 0) {
-					return constraint.listProperties(property, lang).toList().stream()
-							.map(s -> s.getObject().asLiteral())
-							.collect(Collectors.toList());
-				}
-			} else {
-				if(constraint.listProperties(property).toList().size() > 0) {
-					return constraint.listProperties(property).toList().stream()
-							.map(s -> s.getObject().asLiteral())
-							.collect(Collectors.toList());
-				}
+			if (lang != null && constraint.listProperties(property, lang).toList().size() > 0) {
+				return constraint.listProperties(property, lang).toList().stream()
+						.map(s -> s.getObject().asLiteral())
+						.collect(Collectors.toList());
+			} else if(constraint.listProperties(property).toList().size() > 0) {
+				// even if lang was provided, we still search the property with no language
+				return constraint.listProperties(property).toList().stream()
+						.map(s -> s.getObject().asLiteral())
+						.collect(Collectors.toList());
 			}
 		}
 		

@@ -135,18 +135,18 @@ public class ShaclBoxReader {
 					return 1;
 				} else {
 					// both sh:order are null, try with sh:name
-					if(ps1.getName() != null) {
-						if(ps2.getName() != null) {
-							return ps1.getName().compareTo(ps2.getName());
+					if(ps1.getShName() != null) {
+						if(ps2.getShName() != null) {
+							return ps1.getShNameAsString().compareTo(ps2.getShNameAsString());
 						} else {
 							return -1;
 						}
 					} else {
-						if(ps2.getName() != null) {
+						if(ps2.getShName() != null) {
 							return 1;
 						} else {
 							// both sh:name are null, try with sh:path
-							return ps1.getPath().compareToIgnoreCase(ps2.getPath());
+							return ps1.getShPathAsString().compareToIgnoreCase(ps2.getShPathAsString());
 						}
 					}
 				}

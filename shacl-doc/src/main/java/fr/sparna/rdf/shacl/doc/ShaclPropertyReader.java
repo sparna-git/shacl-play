@@ -1,37 +1,16 @@
 package fr.sparna.rdf.shacl.doc;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
-import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-import org.apache.jena.graph.Node;
-import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.Property;
+import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.RDFList;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
-import org.apache.jena.rdf.model.Statement;
-import org.apache.jena.rdf.model.StmtIterator;
-import org.apache.jena.util.iterator.ExtendedIterator;
-import org.apache.jena.vocabulary.RDF;
-import org.apache.jena.vocabulary.RDFS;
-import org.topbraid.jenax.util.JenaDatatypes;
-import org.topbraid.jenax.util.JenaUtil;
-import org.topbraid.shacl.arq.functions.HasShapeFunction;
 import org.topbraid.shacl.vocabulary.SH;
 
-import fr.sparna.rdf.shacl.diagram.PlantUmlBox;
-
 public class ShaclPropertyReader {
-
-	private ConstraintValueReader constraintValueReader = new ConstraintValueReader();
-
+	
 	protected String lang;
 	protected List<ShaclBox> allBoxes;
 
@@ -45,17 +24,17 @@ public class ShaclPropertyReader {
 
 		ShaclProperty shaclProperty = new ShaclProperty(constraint);
 
-		shaclProperty.setPath(this.readPath(constraint));
-		shaclProperty.setDatatype(this.readDatatype(constraint));
-		shaclProperty.setNodeKind(this.readNodeKind(constraint));
-		shaclProperty.setCardinality(this.readCardinality(constraint));
-		shaclProperty.setNode(this.readNode(constraint));
-		shaclProperty.setPattern(this.readPattern(constraint));
+		shaclProperty.setShPath(this.readShPath(constraint));
+		shaclProperty.setShDatatype(this.readShDatatype(constraint));
+		shaclProperty.setShNodeKind(this.readShNodeKind(constraint));
+		shaclProperty.setShMinCount(this.readShMinCount(constraint));
+		shaclProperty.setShMaxCount(this.readShMaxCount(constraint));
+		shaclProperty.setShNode(this.readNode(constraint));
+		shaclProperty.setShPattern(this.readShPattern(constraint));
 		shaclProperty.setShClass(this.readShClass(constraint));
-		shaclProperty.setClass_property(this.readClass_property(constraint)); // Returne la valeur de TargetClass
-		shaclProperty.setDescription(this.readDescription(constraint));
-		shaclProperty.setName(this.readName(constraint));
-		shaclProperty.setShin(this.readShin(constraint));
+		shaclProperty.setShDescription(this.readDescription(constraint));
+		shaclProperty.setShName(this.readName(constraint));
+		shaclProperty.setShIn(this.readShin(constraint));
 		shaclProperty.setShValue(this.readShValue(constraint));
 		shaclProperty.setShOrder(this.readShOrder(constraint));
 		shaclProperty.setShOr(this.readShOr(constraint));
@@ -65,30 +44,38 @@ public class ShaclPropertyReader {
 	
 	
 	
-	public String readShOr(Resource constraint) {
-		String orValue = null;
-		if (constraint.hasProperty(SH.or)) {
-			//orValue = constraintValueReader.readValueconstraint(constraint, SH.or, null);
-			
-			//Chercher sur AllBox
+	public List<Resource> readShOr(Resource constraint) {
+		if (constraint.hasProperty(SH.or)) {			
 			Resource list = constraint.getProperty(SH.or).getList().asResource();
 			List<RDFNode> rdflist = list.as(RDFList.class).asJavaList();
-			// TODO : ne lire que les sh:node
-			orValue = rdflist.stream().map(item -> {
-				return item.asResource().listProperties().nextStatement().getModel().shortForm(item.asResource().listProperties().nextStatement().getObject().asResource().getURI());
-			}).collect(Collectors.joining(", "));					
-		}
-		
-	return orValue;
 
+			// read only the sh:node on list items
+			return rdflist.stream().map(item -> {
+				if(item.isResource()) {
+					if(item.asResource().hasProperty(SH.node)) {
+						return item.asResource().getPropertyResourceValue(SH.node);
+					} else if(item.asResource().hasProperty(SH.class_)) {
+						return item.asResource().getPropertyResourceValue(SH.class_);
+					} else if(item.asResource().hasProperty(SH.datatype)) {
+						return item.asResource().getPropertyResourceValue(SH.datatype);
+					} else {
+						return null;
+					}
+				} else {
+					return null;
+				}
+			}).collect(Collectors.toList());
+		} else {
+			return null;
+		}
 	}
 
-	public String readShValue(Resource constraint) {
-		String value = null;
+	public RDFNode readShValue(Resource constraint) {
 		if (constraint.hasProperty(SH.hasValue)) {
-			value = constraintValueReader.readValueconstraint(constraint, SH.hasValue, null);
+			return constraint.getProperty(SH.hasValue).getObject();
+		} else {
+			return null;
 		}
-		return value;
 	}
 
 	public Integer readShOrder(Resource constraint) {
@@ -99,148 +86,84 @@ public class ShaclPropertyReader {
 		return value;
 	}
 
-	public String readShin(Resource constraint) {
-		String value = null;
+	public List<RDFNode> readShin(Resource constraint) {
 		if (constraint.hasProperty(SH.in)) {
 			Resource list = constraint.getProperty(SH.in).getList().asResource();
-
-			List<RDFNode> rdflist = list.as(RDFList.class).asJavaList();
-			value = rdflist.stream().map(item -> {
-				if (item.isURIResource()) {
-					return item.getModel().shortForm(((Resource) item).getURI());
-				}
-				if (item.isLiteral() && item.asLiteral().getDatatype() != null) {
-					// nicely prints datatypes with their short form
-					return "\"" + item.asLiteral().getLexicalForm() + "\"^^"
-							+ item.getModel().shortForm(item.asLiteral().getDatatype().getURI());
-				} else {
-					return item.toString();
-				}
-			}).collect(Collectors.joining(", "));
-		}
-		return value;
-	}
-
-	public String readName(Resource constraint) {
-		String value = null;
-		if (constraint.hasProperty(SH.name)) {
-			value = constraintValueReader.readValueconstraint(constraint, SH.name, this.lang);
-		}
-		return value;
-	}
-
-	public String readDescription(Resource constraint) {
-		String value = null;
-		if (constraint.hasProperty(SH.description)) {
-			value = constraintValueReader.readValueconstraint(constraint, SH.description, this.lang);
-		}
-		return value;
-	}
-
-	public String readPath(Resource constraint) {
-		return constraintValueReader.readValueconstraint(constraint, SH.path, null);
-	}
-
-	public String readDatatype(Resource constraint) {
-		return constraintValueReader.readValueconstraint(constraint, SH.datatype, null);
-	}
-
-	public String readNodeKind(Resource constraint) {
-		String value = null;
-		value = constraintValueReader.readValueconstraint(constraint, SH.nodeKind, null);
-
-		return value;
-	}
-
-	// Cardinality Constraint Components
-
-	public String readCardinality(Resource constraint) {
-		String minCount = "0";
-		String maxCount = "*";
-		String uml_code = null;
-		if (constraint.hasProperty(SH.minCount)) {
-			minCount = constraint.getProperty(SH.minCount).getObject().asLiteral().getString();
-			if (minCount == "") {
-				minCount = "0";
-			}
-		}
-		if (constraint.hasProperty(SH.maxCount)) {
-			maxCount = constraint.getProperty(SH.maxCount).getObject().asLiteral().getString();
-			;
-			if (maxCount == "") {
-				maxCount = "*";
-			}
-		}
-		if ((constraint.hasProperty(SH.minCount)) || (constraint.hasProperty(SH.maxCount))) {
-			uml_code = minCount + ".." + maxCount;
+			return list.as(RDFList.class).asJavaList();
 		} else {
-			uml_code = null;
+			return null;
 		}
-
-		return uml_code;
 	}
 
-	public String readPattern(Resource constraint) {
-		return constraintValueReader.readValueconstraint(constraint, SH.pattern, null);
+	public List<Literal> readName(Resource constraint) {
+		return ConstraintValueReader.readLiteralInLang(constraint, SH.name, this.lang);
 	}
 
-	// Shape-based Constraint Components
+	public List<Literal> readDescription(Resource constraint) {
+		return ConstraintValueReader.readLiteralInLang(constraint, SH.description, this.lang);
+	}
+
+	public Resource readShPath(Resource constraint) {
+		if(constraint.hasProperty(SH.path)) {
+			return constraint.getPropertyResourceValue(SH.path);
+		} else {
+			return null;
+		}
+	}
+
+	public Resource readShDatatype(Resource constraint) {
+		if(constraint.hasProperty(SH.datatype)) {
+			return constraint.getPropertyResourceValue(SH.datatype);
+		} else {
+			return null;
+		}
+	}
+
+	public Resource readShNodeKind(Resource constraint) {
+		if(constraint.hasProperty(SH.nodeKind)) {
+			return constraint.getPropertyResourceValue(SH.nodeKind);
+		} else {
+			return null;
+		}
+	}
+
+	
+	public Integer readShMinCount(Resource constraint) {
+		if (constraint.hasProperty(SH.minCount)) {
+			return Integer.parseInt(constraint.getProperty(SH.minCount).getLiteral().getString());
+		} else {
+			return null;
+		}
+	}
+	
+	public Integer readShMaxCount(Resource constraint) {
+		if (constraint.hasProperty(SH.maxCount)) {
+			return Integer.parseInt(constraint.getProperty(SH.maxCount).getLiteral().getString());
+		} else {
+			return null;
+		}
+	}
+
+	public Literal readShPattern(Resource constraint) {
+		if (constraint.hasProperty(SH.pattern)) {
+			return constraint.getProperty(SH.pattern).getLiteral();
+		} else {
+			return null;
+		}
+	}
 
 	// TODO : devrait retourner un ShaclBox
-	public String readNode(Resource constraint) {
-		String value = null;
-		// 1. Lire la valeur de sh:node
-		value = constraintValueReader.readValueconstraint(constraint, SH.node, null);
-
-		return value;
-
-		// 2. Trouver le PlantUmlBox qui a ce nom
-//		if(nodeValue != null) {
-//			ShaclBox theBox = null;
-//			for (ShaclBox plantUmlBox : allBoxes) {
-//				if (plantUmlBox.getNameshape().equals(nodeValue)) {
-//					theBox = plantUmlBox;
-//					break;
-//				}
-//			}
-//
-//			if (theBox == null) {
-//				// on ne l'a pas trouve, on sort la valeur de sh:node
-//				this.node = nodeValue;
-//			}	
-//		}		
-	}
-
-	// TODO : devrait renvoyer une ShaclBox
-	public String readClass_property(Resource constraint) {
-		String value = null;
-
-		// 1. Lire la valeur de sh:node
-		if (constraint.hasProperty(SH.class_)) {
-			Resource idclass = constraint.getProperty(SH.class_).getResource();
-			List<Resource> nodetargets = constraint.getModel().listResourcesWithProperty(SH.targetClass, idclass)
-					.toList();
-
-			for (Resource nodeTarget : nodetargets) {
-				value = nodeTarget.getLocalName();
-			}
-
-			if (nodetargets.isEmpty()) {
-				if (idclass.hasProperty(RDF.type, RDFS.Class) && idclass.hasProperty(RDF.type, SH.NodeShape)) {
-					value = idclass.getLocalName();
-				} else { // Section quand il n'y a pas une targetClass
-					value = constraint.getProperty(SH.class_).getResource().getLocalName();
-				}
-			}
+	public Resource readNode(Resource constraint) {
+		if (constraint.hasProperty(SH.node)) {
+			return constraint.getPropertyResourceValue(SH.node);
+		} else {
+			return null;
 		}
-
-		return value;
 	}
 
 	public Resource readShClass(Resource constraint) {
 		if (constraint.hasProperty(SH.class_)) {
-			Resource idClass = constraint.getProperty(SH.class_).getResource();
-			return idClass;
+			return constraint.getPropertyResourceValue(SH.class_);
 		} else {
 			return null;
 		}

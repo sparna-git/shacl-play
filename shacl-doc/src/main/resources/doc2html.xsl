@@ -112,17 +112,16 @@
 
 				<style type="text/css">
 					.anchor {
-					float: left;
-					padding-right: 4px;
-					margin-left: -20px;
-					line-height: 1;
-					padding-top:12px;
+						float: left;
+						padding-right: 4px;
+						margin-left: -20px;
+						line-height: 1;
+						padding-top:12px;
 					}
 
 					.monospace {
-					font-family: SFMono-Regular,Menlo,Monaco,Consolas,"Liberation
-					Mono","Courier New",monospace;
-					font-size: 87.5%;
+						font-family: SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+						font-size: 87.5%;
 					}
 				</style>
 			</head>
@@ -494,15 +493,20 @@
 			<td>
 				<xsl:value-of select="label" />
 			</td>
-			<!-- Description URI -->
+			<!-- Property URI -->
 			<td>
-				<xsl:if test="shortForm != null or shortForm != ''">
-					<code>
-						<a href="{shortFormUri}">
-							<xsl:value-of select="shortForm" />
-						</a>
-					</code>
-				</xsl:if>
+				<xsl:choose>
+					<xsl:when test="propertyUri != ''">
+						<code>
+							<a href="{propertyUri}">
+								<xsl:value-of select="shortForm" />
+							</a>
+						</code>
+					</xsl:when>
+					<xsl:otherwise>
+						<code><xsl:value-of select="shortForm" /></code>
+					</xsl:otherwise>
+				</xsl:choose>
 			</td>
 			<!-- Expected Value -->
 			<td>
@@ -541,7 +545,8 @@
 							</xsl:when>
 							<xsl:otherwise>
 								<span class="monospace">
-									<xsl:value-of select="expectedValueLabel" />
+									<!-- disable output espacing as we may have <sup> in rendering -->
+									<xsl:value-of disable-output-escaping="yes" select="expectedValueLabel" />
 								</span>
 							</xsl:otherwise>
 						</xsl:choose>
@@ -551,7 +556,8 @@
 				<xsl:if test="expectedValueAdditionnalInfoIn/text()">
 					<p>
 						<small>
-							<xsl:value-of
+							<!-- disable output espacing as we may have <sup> in rendering -->
+							<xsl:value-of disable-output-escaping="yes"
 								select="concat('(',expectedValueAdditionnalInfoIn,')')" />
 						</small>
 					</p>

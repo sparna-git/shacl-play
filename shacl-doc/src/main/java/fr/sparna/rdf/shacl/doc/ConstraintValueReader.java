@@ -3,6 +3,7 @@ package fr.sparna.rdf.shacl.doc;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.RDFList;
 import org.apache.jena.rdf.model.RDFNode;
@@ -11,6 +12,7 @@ import org.topbraid.shacl.vocabulary.SH;
 
 public class ConstraintValueReader { 
 
+	@Deprecated
 	public String readValueconstraint(Resource constraint,Property property, String lang) {
 		
 		String value=null;
@@ -48,9 +50,28 @@ public class ConstraintValueReader {
 		return value;
 	}
 	
-//	public String readValueconstraint(Resource constraint,Property property) {
-//		return readValueconstraint(constraint,property, null);
-//	}
+	public static List<Literal> readLiteralInLang(Resource constraint, Property property, String lang) {
+		if (constraint.hasProperty(property)) {
+			if (lang != null) {
+				if(constraint.listProperties(property, lang).toList().size() > 0) {
+					return constraint.listProperties(property, lang).toList().stream()
+							.map(s -> s.getObject().asLiteral())
+							.collect(Collectors.toList());
+				}
+			} else {
+				if(constraint.listProperties(property).toList().size() > 0) {
+					return constraint.listProperties(property).toList().stream()
+							.map(s -> s.getObject().asLiteral())
+							.collect(Collectors.toList());
+				}
+			}
+		}
+		
+		return null;
+	}
+	
+	
+
 	
 	public static String renderShaclPropertyPath(Resource r) {
 		if(r == null) return "";
@@ -70,14 +91,6 @@ public class ConstraintValueReader {
 			else {
 				return "^("+renderShaclPropertyPath(value)+")";
 			}
-		} else if(r.canAs( RDFList.class )) {
-			RDFList rdfList = r.as( RDFList.class );
-			List<RDFNode> pathElements = rdfList.asJavaList();
-			/*return pathElements.stream().map(p -> {
-				return renderShaclPropertyPath((Resource)p);}).collect(Collectors.joining("/"));*/
-			return pathElements.stream().map(p ->{
-				return p.asResource().listProperties().nextStatement().getObject().asResource().getLocalName();
-			}).collect(Collectors.joining(","));
 		} else if(r.hasProperty(SH.zeroOrMorePath)) {
 			Resource value = r.getPropertyResourceValue(SH.zeroOrMorePath);
 			if(value.isURIResource()) {
@@ -95,7 +108,7 @@ public class ConstraintValueReader {
 				return "("+renderShaclPropertyPath(value)+")+";
 			}
 		} else {
-			return null; //"Unsupported path";
+			return null;
 		}
 	}
 	

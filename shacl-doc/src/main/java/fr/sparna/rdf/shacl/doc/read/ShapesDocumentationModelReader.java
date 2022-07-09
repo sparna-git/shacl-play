@@ -34,6 +34,7 @@ import fr.sparna.rdf.shacl.doc.ShaclPrefixReader;
 import fr.sparna.rdf.shacl.doc.ShaclProperty;
 import fr.sparna.rdf.shacl.doc.model.NamespaceSection;
 import fr.sparna.rdf.shacl.doc.model.PropertyShapeDocumentation;
+import fr.sparna.rdf.shacl.doc.model.PropertyShapeDocumentationBuilder;
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentation;
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentationSection;
 import net.sourceforge.plantuml.code.Transcoder;
@@ -170,16 +171,16 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 		List<Resource> rRDFLabels = shaclGraph.listResourcesWithProperty(RDFS.label).toList();
 		for(Resource sinfoLabel : rRDFLabels) {
 			String label = ReadValue.readValueconstraint(sinfoLabel,RDFS.label, lang);
-			if(license.equals(sinfoLabel.getURI().toString())) {
+			if(license != null && license.equals(sinfoLabel.getURI().toString())) {
 				license = label;				
 			}
-			if(creator.equals(sinfoLabel.getURI().toString())) {
+			if(creator != null && creator.equals(sinfoLabel.getURI().toString())) {
 				creator = label;
 			}
-			if(publisher.equals(sinfoLabel.getURI().toString())) {
+			if(publisher != null && publisher.equals(sinfoLabel.getURI().toString())) {
 				publisher = label;
 			}
-			if(rightsHolder.equals(sinfoLabel.getURI().toString())) {
+			if(rightsHolder != null && rightsHolder.equals(sinfoLabel.getURI().toString())) {
 				rightsHolder = label;
 			}
 		}
@@ -202,7 +203,6 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 		shapesDocumentation.setPlantumlSource(plantUmlSourceDiagram);
 		shapesDocumentation.setPngDiagram(UrlDiagram);
 		shapesDocumentation.setDescriptionDocument(sOWLDescDocument);
-		String pattern_node_nodeshape = null;
 
 		// 3. Lire les prefixes
 		HashSet<String> gatheredPrefixes = new HashSet<>();
@@ -262,89 +262,8 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 
 			List<PropertyShapeDocumentation> ListPropriete = new ArrayList<>();
 			for (ShaclProperty propriete : nodeShape.getProperties()) {
-				// Récuperation du pattern si le node est une NodeShape
-				
-									
-				if (propriete.getNode() != null && propriete.getNode() != "Unsupported path") {
-					for (ShaclBox pattern_other_nodeshape : allNodeShapes) {
-						if (propriete.getNode().contains(pattern_other_nodeshape.getShortForm())) //pattern_other_nodeshape.getShortForm().getLocalName() 
-							{
-							pattern_node_nodeshape = pattern_other_nodeshape.getShPattern();
-							break;
-						}							
-					}
-				}
-				//
-				PropertyShapeDocumentation proprieteDoc = new PropertyShapeDocumentation();
-				//
-				proprieteDoc.setLabel(propriete.getName(), null);
-				
-				if(propriete.getNode() != null) {
-					for(ShaclBox aName : allNodeShapes) {
-						if(aName.getShortForm().equals(propriete.getNode())) {
-							proprieteDoc.setLinkNodeShapeUri(aName.getShortForm()); //aName.getShortForm().getLocalName()
-							if(aName.getRdfsLabel() == null) {
-								proprieteDoc.setLinkNodeShape(aName.getShortForm());
-							}else {
-								proprieteDoc.setLinkNodeShape(aName.getRdfsLabel());
-							}							
-						}
-					}
-				}
-				
-				proprieteDoc.setShortForm(propriete.getPath());
-				// Identifier le lien avec une node vers la Propriete
-				if(proprieteDoc.getShortForm()!=null) {
-					if(proprieteDoc.getShortForm().contains(":")) {
-						for(NamespaceSection sPrefix : namespaceSections) {
-							if(sPrefix.getprefix().equals(proprieteDoc.getShortForm().split(":")[0])) {
-								proprieteDoc.setShortFormUri(sPrefix.getnamespace()+proprieteDoc.getShortForm().split(":")[1]);
-							    break;
-							}
-						}
-					}
-				}
-				
-				
-				proprieteDoc.setExpectedValueLabel(
-						propriete.getShClass(),
-						propriete.getNode(),
-						propriete.getClass_property(),
-						propriete.getDatatype(),
-						propriete.getNodeKind(),
-						propriete.getPath(),
-						propriete.getShValue()
-				);
-				
-				if(propriete.getShClass() != null) {
-					for(ShaclBox aNodeShape : allNodeShapes) {
-						if(aNodeShape.getShTargetClass() != null && aNodeShape.getShTargetClass().getURI().equals(propriete.getShClass().getURI())) {
-							proprieteDoc.setLinkNodeShapeUri(aNodeShape.getShortForm()); //aName.getShortForm().getLocalName()
-							if(aNodeShape.getRdfsLabel() == null) {
-								proprieteDoc.setLinkNodeShape(aNodeShape.getShortForm());
-							}else {
-								proprieteDoc.setLinkNodeShape(aNodeShape.getRdfsLabel());
-							}
-							break;
-						// checks that the URI of the NodeShape is itself equal to the sh:class
-						} else if (aNodeShape.getNodeShape().getURI().equals(propriete.getShClass().getURI())) {
-							proprieteDoc.setLinkNodeShapeUri(aNodeShape.getShortForm()); //aName.getShortForm().getLocalName()
-							if(aNodeShape.getRdfsLabel() == null) {
-								proprieteDoc.setLinkNodeShape(aNodeShape.getShortForm());
-							}else {
-								proprieteDoc.setLinkNodeShape(aNodeShape.getRdfsLabel());
-							}
-							break;
-						}
-					}					
-				}
-
-				proprieteDoc.setExpectedValueAdditionnalInfoIn(propriete.getShin());
-				//proprieteDoc.setExpectedValueAdditionnalInfoValue(propriete.getShValue());
-				proprieteDoc.setCardinalite(propriete.getCardinality());
-				proprieteDoc.setDescription(propriete.getDescription());				
-				proprieteDoc.setOr(propriete.getShOr());
-				ListPropriete.add(proprieteDoc);
+				PropertyShapeDocumentation psd = PropertyShapeDocumentationBuilder.build(propriete, allNodeShapes, shaclGraph, owlGraph, lang);				
+				ListPropriete.add(psd);
 			}
 			
 			currentSection.setPropertySections(ListPropriete);
@@ -355,5 +274,7 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 		shapesDocumentation.setSections(sections);
 		return shapesDocumentation;
 	}
+	
+
 
 }

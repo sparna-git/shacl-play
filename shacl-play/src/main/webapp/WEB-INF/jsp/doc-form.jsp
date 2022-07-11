@@ -332,6 +332,18 @@
 									<td class="text-break">Label of the NodeShape used as the label of the section in the documentation.</td>
 								</tr>
 								<tr>
+									<th scope="row" width="30%"><code>rdfs:comment</code></th>
+									<td>xsd:string</td>
+									<td>No</td>
+									<td class="text-break">Description minimun of the NodeShape .</td>
+								</tr>
+								<tr>
+									<th scope="row"><code>sh:targetClass</code></th>
+									<td>sh:IRI</td>
+									<td>No</td>
+									<td class="text-break">Declare all nodes that are instances of some class.</td>
+							  	</tr>
+								<tr>
 									<th scope="row"><code>sh:pattern</code></th>
 									<td>xsd:string</td>
 									<td>No</td>

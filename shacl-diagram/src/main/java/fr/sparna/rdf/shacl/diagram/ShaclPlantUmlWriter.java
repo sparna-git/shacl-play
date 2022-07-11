@@ -144,6 +144,6 @@ public class ShaclPlantUmlWriter {
 
 
 		return sourceuml.toString();
-	}
 
+	}
 }

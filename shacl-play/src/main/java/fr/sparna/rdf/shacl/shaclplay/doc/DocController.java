@@ -172,7 +172,7 @@ public class DocController {
 		response.setContentType("text/html");
 		response.setHeader("Content-Disposition", "inline; filename=\""+filename+".html\"");
 
-		ShapesDocumentationReaderIfc reader = new ShapesDocumentationModelReader(includeDiagram);
+		ShapesDocumentationReaderIfc reader = new ShapesDocumentationModelReader(includeDiagram, null);
 		ShapesDocumentation doc = reader.readShapesDocumentation(
 				shapesModel,
 				// OWL graph

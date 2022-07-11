@@ -47,6 +47,7 @@
 			<entry key="LABEL_PATTERNS" label="URIs : " />
 			<entry key="LABEL_CLOSE" label="Shape fermée" />
 			<entry key="LABEL_EXAMPLE" label="Exemple: "/>
+			<entry key="LABEL_SUPERCLASSES" label="Hérite de: "/>
 		</labels>
 	</xsl:variable>
 
@@ -88,6 +89,7 @@
 			<entry key="LABEL_PATTERNS" label="URI: " />
 			<entry key="LABEL_CLOSE" label="Closed shape" />
 			<entry key="LABEL_EXAMPLE" label="Example: "/>
+			<entry key="LABEL_SUPERCLASSES" label="Inherits from: "/>
 		</labels>
 	</xsl:variable>
 
@@ -398,12 +400,12 @@
 			</h2>
 
 			<xsl:if test="description != ''">
-				<em>
-					<xsl:value-of select="description" />
-				</em>
+				<p>
+					<em><xsl:value-of select="description" /></em>
+				</p>
 			</xsl:if>
 			<xsl:if
-				test="targetClassLabel != '' or nodeKind != '' or pattern != '' or (closed != '' and closed='true')">
+				test="targetClassLabel != '' or superClasses/link or nodeKind != '' or pattern != '' or closed='true' or skosExample != ''">
 				<ul>
 					<xsl:if test="targetClassLabel != ''">
 						<li>
@@ -412,6 +414,22 @@
 							<a href="{targetClassUri}">
 								<xsl:value-of select="targetClassLabel" />
 							</a>
+						</li>
+					</xsl:if>
+					<xsl:if test="superClasses/link">
+						<li>
+							<xsl:value-of
+								select="$LABELS/labels/entry[@key='LABEL_SUPERCLASSES']/@label" />
+							<xsl:for-each select="superClasses/link">
+								<xsl:choose>
+									<xsl:when test="position() = 1">
+						                <a href="{href}"><xsl:value-of select="label" /></a>
+						            </xsl:when>
+						            <xsl:otherwise>
+						                , <a href="{href}"><xsl:value-of select="label" /></a>
+						            </xsl:otherwise>
+								</xsl:choose>
+							</xsl:for-each>
 						</li>
 					</xsl:if>
 					<xsl:if test="nodeKind != ''">
@@ -431,7 +449,7 @@
 							</span>
 						</li>
 					</xsl:if>
-					<xsl:if test="closeNS != '' and closed='true'">
+					<xsl:if test="closed='true'">
 						<li>
 							<xsl:value-of
 								select="$LABELS/labels/entry[@key='LABEL_CLOSE']/@label" />

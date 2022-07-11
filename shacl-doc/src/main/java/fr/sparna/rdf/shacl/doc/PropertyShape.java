@@ -6,7 +6,7 @@ import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 
-import fr.sparna.rdf.shacl.doc.model.PropertyShapeDocumentationBuilder;
+import fr.sparna.rdf.shacl.doc.read.PropertyShapeDocumentationBuilder;
 
 public class PropertyShape {
 

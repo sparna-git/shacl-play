@@ -10,7 +10,7 @@ import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.topbraid.shacl.vocabulary.SH;
 
-import fr.sparna.rdf.shacl.doc.model.PropertyShapeDocumentationBuilder;
+import fr.sparna.rdf.shacl.doc.read.PropertyShapeDocumentationBuilder;
 
 public class ConstraintValueReader { 
 

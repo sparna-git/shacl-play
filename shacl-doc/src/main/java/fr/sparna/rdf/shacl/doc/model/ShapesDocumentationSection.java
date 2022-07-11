@@ -19,14 +19,22 @@ public class ShapesDocumentationSection {
 	private Boolean closed;
 	private String skosExample;
 	
+	@JacksonXmlElementWrapper(localName="superClasses")
+	@JacksonXmlProperty(localName = "link")
+	private List<Link> superClasses;
+	
 	@JacksonXmlElementWrapper(localName="properties")
 	@JacksonXmlProperty(localName = "property")
 	public List<PropertyShapeDocumentation> propertySections;
-	
-	
-	
-	
-	
+
+	public List<Link> getSuperClasses() {
+		return superClasses;
+	}
+
+	public void setSuperClasses(List<Link> superClasses) {
+		this.superClasses = superClasses;
+	}
+
 	public String getSkosExample() {
 		return skosExample;
 	}

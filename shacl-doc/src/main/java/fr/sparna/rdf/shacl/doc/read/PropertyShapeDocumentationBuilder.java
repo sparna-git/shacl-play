@@ -1,4 +1,4 @@
-package fr.sparna.rdf.shacl.doc.model;
+package fr.sparna.rdf.shacl.doc.read;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -12,6 +12,7 @@ import org.apache.jena.vocabulary.RDFS;
 import fr.sparna.rdf.shacl.doc.ConstraintValueReader;
 import fr.sparna.rdf.shacl.doc.NodeShape;
 import fr.sparna.rdf.shacl.doc.PropertyShape;
+import fr.sparna.rdf.shacl.doc.model.PropertyShapeDocumentation;
 
 public class PropertyShapeDocumentationBuilder {
 

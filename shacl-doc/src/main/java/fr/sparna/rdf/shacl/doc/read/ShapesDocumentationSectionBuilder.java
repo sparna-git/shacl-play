@@ -1,12 +1,18 @@
-package fr.sparna.rdf.shacl.doc.model;
+package fr.sparna.rdf.shacl.doc.read;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Model;
+import org.apache.jena.vocabulary.RDFS;
 
+import fr.sparna.rdf.shacl.doc.ConstraintValueReader;
 import fr.sparna.rdf.shacl.doc.NodeShape;
 import fr.sparna.rdf.shacl.doc.PropertyShape;
+import fr.sparna.rdf.shacl.doc.model.Link;
+import fr.sparna.rdf.shacl.doc.model.PropertyShapeDocumentation;
+import fr.sparna.rdf.shacl.doc.model.ShapesDocumentationSection;
 
 public class ShapesDocumentationSectionBuilder {
 
@@ -48,6 +54,22 @@ public class ShapesDocumentationSectionBuilder {
 		// skos:example
 		currentSection.setSkosExample(nodeShape.getSkosExample());
 		
+		// rdfs:subClassOf
+		currentSection.setSuperClasses(nodeShape.getRdfsSubClassOf().stream().map(r -> {
+			// use the label if present, otherwise use the short form
+			if(r.hasProperty(RDFS.label, lang)) {
+				return new Link(
+						"#"+r.getModel().shortForm(r.getURI()),
+						ConstraintValueReader.readLiteralInLangAsString(r, RDFS.label, lang)
+				);
+			} else {
+				return new Link(
+						"#"+r.getModel().shortForm(r.getURI()),
+						r.getModel().shortForm(r.getURI())
+				);
+			}
+			
+		}).collect(Collectors.toList()));
 		
 		// Read the property shapes
 		List<PropertyShapeDocumentation> ListPropriete = new ArrayList<>();

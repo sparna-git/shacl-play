@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-// RENAME : NamespaceSection
 public class NamespaceSection {
 	private String prefix;
 	private String namespace;

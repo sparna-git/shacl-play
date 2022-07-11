@@ -2,11 +2,14 @@ package fr.sparna.rdf.shacl.doc;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
+import org.apache.jena.vocabulary.OWL;
 import org.apache.jena.vocabulary.RDFS;
 import org.apache.jena.vocabulary.SKOS;
 import org.topbraid.shacl.vocabulary.SH;
@@ -22,60 +25,41 @@ public class NodeShapeReader {
 	
 	public NodeShape read(Resource nodeShape) {
 		
-		NodeShape box = new NodeShape(nodeShape);
+		NodeShape ns = new NodeShape(nodeShape);
 
-		box.setShTargetClass(this.readShTargetClass(nodeShape));
-		box.setRdfsComment(this.readRdfsComment(nodeShape));
-		box.setRdfsLabel(this.readRdfsLabel(nodeShape));
-		box.setShPattern(this.readShPattern(nodeShape));
-		box.setShNodeKind(this.readSNodeKind(nodeShape));
-		box.setShClosed(this.readShClosed(nodeShape));
-		box.setShOrder(this.readShOrder(nodeShape));
-		box.setSkosExample(this.readSkosExample(nodeShape));
+		ns.setShTargetClass(this.readShTargetClass(nodeShape));
+		ns.setRdfsComment(this.readRdfsComment(nodeShape));
+		ns.setRdfsLabel(this.readRdfsLabel(nodeShape));
+		ns.setShPattern(this.readShPattern(nodeShape));
+		ns.setShNodeKind(this.readSNodeKind(nodeShape));
+		ns.setShClosed(this.readShClosed(nodeShape));
+		ns.setShOrder(this.readShOrder(nodeShape));
+		ns.setSkosExample(this.readSkosExample(nodeShape));
 		
-		return box;
+		ns.setRdfsSubClassOf(this.readRdfsSubClassOf(nodeShape));
+		
+		return ns;
 	}
 	
 	
 	public String readSkosExample(Resource nodeShape) {
-		if(nodeShape.hasProperty(SKOS.example)) {
-			 return nodeShape.getProperty(SKOS.example).getLiteral().getString();
-		} else {
-			return null;
-		}
+		return Optional.ofNullable(nodeShape.getProperty(SKOS.example)).map(s -> s.getString()).orElse(null);
 	}
 	
 	public Resource readSNodeKind(Resource nodeShape) {	
-		if(nodeShape.hasProperty(SH.nodeKind)) {
-			 return nodeShape.getProperty(SH.nodeKind).getResource();
-		} else {
-			return null;
-		}
+		return Optional.ofNullable(nodeShape.getProperty(SH.nodeKind)).map(s -> s.getResource()).orElse(null);
 	}
 
 	public Boolean readShClosed(Resource nodeShape) {
-		if(nodeShape.hasProperty(SH.closed)) {
-			return Boolean.valueOf(nodeShape.getProperty(SH.closed).getLiteral().getBoolean());
-		} else {
-			return null;
-		}
-		
+		return Optional.ofNullable(nodeShape.getProperty(SH.closed)).map(s -> Boolean.valueOf(s.getBoolean())).orElse(null);
 	}
 
 	public Integer readShOrder(Resource nodeShape) {
-		Integer value = null;
-		if(nodeShape.hasProperty(SH.order)) {
-			value = Integer.parseInt(nodeShape.getProperty(SH.order).getLiteral().getString());
-		} 
-		return value;
+		return Optional.ofNullable(nodeShape.getProperty(SH.order)).map(s -> Integer.parseInt(s.getString())).orElse(null);
 	}
 
 	public Literal readShPattern(Resource nodeShape) {
-		if(nodeShape.hasProperty(SH.pattern)) {
-			 return nodeShape.getProperty(SH.pattern).getLiteral();
-		} else {
-			return null;
-		}
+		return Optional.ofNullable(nodeShape.getProperty(SH.pattern)).map(s -> s.getLiteral()).orElse(null);
 	}
 
 	public String readRdfsLabel(Resource nodeShape) {
@@ -87,7 +71,14 @@ public class NodeShapeReader {
 	}
 
 	public Resource readShTargetClass(Resource nodeShape) {
-		return nodeShape.getPropertyResourceValue(SH.targetClass);
+		return Optional.ofNullable(nodeShape.getProperty(SH.targetClass)).map(s -> s.getResource()).orElse(null);
+	}
+	
+	public List<Resource> readRdfsSubClassOf(Resource nodeShape) {
+		return nodeShape.listProperties(RDFS.subClassOf).toList().stream()
+				.map(s -> s.getResource())
+				.filter(r -> { return r.isURIResource() && !r.getURI().equals(OWL.Thing.getURI()); })
+				.collect(Collectors.toList());
 	}
 
 	public List<PropertyShape> readProperties(Resource nodeShape, List<NodeShape> allBoxes) {

@@ -20,6 +20,7 @@ public class NodeShape {
 	protected Resource shNodeKind;
 	protected Boolean shClosed;
 	protected String skosExample;
+	protected List<Resource> rdfsSubClassOf;
 	
 	protected List<PropertyShape> properties = new ArrayList<>();
 	
@@ -117,4 +118,12 @@ public class NodeShape {
 		return this.getNodeShape().getLocalName();
 	}
 
+	public List<Resource> getRdfsSubClassOf() {
+		return rdfsSubClassOf;
+	}
+
+	public void setRdfsSubClassOf(List<Resource> rdfsSubClassOf) {
+		this.rdfsSubClassOf = rdfsSubClassOf;
+	}
+	
 }

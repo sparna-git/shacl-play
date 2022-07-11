@@ -334,7 +334,7 @@
 								<tr>
 									<th scope="row" width="30%"><code>rdfs:comment</code></th>
 									<td>xsd:string</td>
-									<td>Yes</td>
+									<td>No</td>
 									<td class="text-break">Description minimun of the NodeShape .</td>
 								</tr>
 								<tr>

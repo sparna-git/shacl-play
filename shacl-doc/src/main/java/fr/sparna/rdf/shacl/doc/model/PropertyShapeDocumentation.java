@@ -13,7 +13,7 @@ public class PropertyShapeDocumentation {
 	private String expectedValueAdditionnalInfoIn;
 	private String expectedValueAdditionnalInfoValue;
 
-	private String cardinalite = "0..*";
+	private String cardinalite;
 	private String description;
 	private String Or;
 

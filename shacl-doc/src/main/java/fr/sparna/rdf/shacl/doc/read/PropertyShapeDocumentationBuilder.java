@@ -152,10 +152,6 @@ public class PropertyShapeDocumentationBuilder {
 		String minCount = "0";
 		String maxCount = "*";
 		
-		if(min == null && max == null) {
-			return null;
-		}
-		
 		if (min != null) {
 			minCount = min.toString();
 		}

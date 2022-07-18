@@ -55,20 +55,21 @@ public class ShapesDocumentationSectionBuilder {
 		currentSection.setSkosExample(nodeShape.getSkosExample());
 		
 		// rdfs:subClassOf
-		currentSection.setSuperClasses(nodeShape.getRdfsSubClassOf().stream().map(r -> {
-			// use the label if present, otherwise use the short form
-			if(r.hasProperty(RDFS.label, lang)) {
-				return new Link(
-						"#"+r.getModel().shortForm(r.getURI()),
-						ConstraintValueReader.readLiteralInLangAsString(r, RDFS.label, lang)
-				);
-			} else {
-				return new Link(
-						"#"+r.getModel().shortForm(r.getURI()),
-						r.getModel().shortForm(r.getURI())
-				);
-			}
-			
+		currentSection.setSuperClasses(nodeShape.getRdfsSubClassOf().stream()
+				.filter(r -> allNodeShapes.stream().anyMatch(ns -> ns.getNodeShape().toString().equals(r.toString())))
+				.map(r -> {
+					// use the label if present, otherwise use the short form
+					if(r.hasProperty(RDFS.label, lang)) {
+						return new Link(
+								"#"+r.getModel().shortForm(r.getURI()),
+								ConstraintValueReader.readLiteralInLangAsString(r, RDFS.label, lang)
+						);
+					} else {
+						return new Link(
+								"#"+r.getModel().shortForm(r.getURI()),
+								r.getModel().shortForm(r.getURI())
+						);
+					}
 		}).collect(Collectors.toList()));
 		
 		// Read the property shapes

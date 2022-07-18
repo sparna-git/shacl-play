@@ -13,7 +13,6 @@ import org.apache.jena.vocabulary.OWL;
 import org.apache.jena.vocabulary.RDF;
 import org.topbraid.shacl.vocabulary.SH;
 
-import fr.sparna.rdf.shacl.doc.ConstraintValueReader;
 import fr.sparna.rdf.shacl.doc.NodeShape;
 import fr.sparna.rdf.shacl.doc.NodeShapeReader;
 import fr.sparna.rdf.shacl.doc.OwlOntology;
@@ -30,7 +29,7 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 
 	protected boolean readDiagram = true;
 	protected String imgLogo = null;
-
+	
 	public ShapesDocumentationModelReader(boolean readDiagram,String imgLogo) {
 		super();
 		this.readDiagram = readDiagram;

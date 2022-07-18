@@ -199,8 +199,31 @@
 									</div>
 								</div>
 						</div>
+						<!-- Logo -->
+						<div class="form-group row">
+						    <div class="col-sm-12">
+								<div class="form-check">
+									<input class="form-check-input" type="checkbox" id="inputLogo" name="inputLogo"/>
+									<label class="form-check-label" for="inputLogo">
+										<fmt:message key="doc.options.logo" />
+									</label>
+									<div class="col-sm-9">
+								      	<input 
+								      		type="text"
+								      		class="form-control"
+								      		id="inputLogo"
+								      		name="inputLogo"
+								      		placeholder="<fmt:message key="doc.options.logo.placeholder" />"
+								      	>
+							      
+										<small class="form-text text-muted">
+											<fmt:message key="doc.options.logo.help" />
+										</small>
+									</div>
+								</div>
+							</div>
+						</div>
 						<!-- PDF Option -->
-						<!--  
 						<div class="form-group row">
 						      	<div class="col-sm-12">
 							      	<div class="form-check">
@@ -214,7 +237,7 @@
 									</div>
 								</div>
 						</div>
-						-->
+						
 					  </blockquote>
 					  
 				    <button type="submit" id="validate-button" class="btn btn-info btn-lg"><fmt:message key="doc.submit" /></button>			  	

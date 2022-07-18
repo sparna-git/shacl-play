@@ -62,11 +62,6 @@ public class Main {
 		writerXml.write(doc, outputLang, System.out);
 		writerXml.write(doc, outputLang, new FileOutputStream(new File("/tmp/output.xml")));
 		
-		// 3. write pdf file
-		/*if(outPdf) {
-			writerPDF.outfilepdf("/tmp/output.html");	
-		}
-		*/
 		
 	}
 	

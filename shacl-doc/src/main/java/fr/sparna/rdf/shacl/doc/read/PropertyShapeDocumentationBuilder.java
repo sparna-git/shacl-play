@@ -14,6 +14,9 @@ import fr.sparna.rdf.shacl.doc.NodeShape;
 import fr.sparna.rdf.shacl.doc.PropertyShape;
 import fr.sparna.rdf.shacl.doc.model.PropertyShapeDocumentation;
 
+import fr.sparna.rdf.shacl.doc.model.Link;
+
+
 public class PropertyShapeDocumentationBuilder {
 
 	public static PropertyShapeDocumentation build(
@@ -39,8 +42,11 @@ public class PropertyShapeDocumentationBuilder {
 			}
 		}
 		
-		proprieteDoc.setShortForm(propertyShape.getShPathAsString());
-		proprieteDoc.setPropertyUri(propertyShape.getShPath().isURIResource()?propertyShape.getShPath().getURI():null);				
+		//proprieteDoc.setShortForm(propertyShape.getShPathAsString());
+		//proprieteDoc.setPropertyUri(propertyShape.getShPath().isURIResource()?propertyShape.getShPath().getURI():null);				
+		
+		// URI in the raport
+		proprieteDoc.setPropertyUri(renderURIValue(propertyShape));
 		
 		proprieteDoc.setExpectedValueLabel(selectExpectedValueLabel(
 				propertyShape.getShClass(),
@@ -115,6 +121,17 @@ public class PropertyShapeDocumentationBuilder {
 		return list.stream().map(item -> {
 			return render(item, plainString);
 		}).collect(Collectors.joining(", "));
+	}
+	
+	public static Link renderURIValue(PropertyShape prop) {			
+		if(prop.getShPath().isURIResource()) {
+			return new Link(
+					"#"+prop.getShPath().getURI(),
+					prop.getShPathAsString()
+			);			
+		} else {
+			return null;
+		}
 	}
 	
 	public static String render(RDFNode node, boolean plainString) {

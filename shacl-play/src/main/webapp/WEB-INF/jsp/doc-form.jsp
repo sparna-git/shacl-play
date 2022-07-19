@@ -335,7 +335,7 @@
 									<th scope="row" width="30%"><code>rdfs:comment</code></th>
 									<td>xsd:string</td>
 									<td>No</td>
-									<td class="text-break">Description minimun of the NodeShape .</td>
+									<td class="text-break">Description of the NodeShape.</td>
 								</tr>
 								<tr>
 									<th scope="row"><code>sh:targetClass</code></th>
@@ -407,13 +407,15 @@
 									<th scope="row"><code>sh:name</code></th>
 									<td>xsd:string</td>
 									<td>No</td>
-									<td class="text-break">Used to display the name of the property. If not provided, the column will be empty.</td>
+									<td class="text-break">Used to display the name of the property. If not provided, and if sh:path points to a URI, then an <code>rdfs:label</code>
+							  		is searched on the property URI indicated in the sh:path. This implies the SHACL file also contains the OWL definition. Otherwise, the column will be empty.</td>
 							  	</tr>
 							  	<tr>
 							  		<th scope="row"><code>sh:description</code></th>
 							  		<td>xsd:string</td>
 							  		<td>No</td>
-							  		<td class="text-break">Populated the <b>Description</b> column of the table. If not provided, the column will be empty.</td>
+							  		<td class="text-break">Populates the <b>Description</b> column of the table. If not provided, and if sh:path points to a URI, then an <code>rdfs:comment</code>
+							  		is searched on the property URI indicated in the sh:path. This implies the SHACL file also contains the OWL definition. Otherwise the column will be empty.</td>
 							  	</tr>
 							  	<tr>
 							  		<th scope="row"><code>sh:minCount</code> / <code>sh:maxCount</code></th>

@@ -4,10 +4,8 @@ public class PropertyShapeDocumentation {
 
 	private String label;
 	
-	// short form of the URI or path - always present
-	private String shortForm;
 	// null if sh:path is a property path
-	private String propertyUri;
+	private Link propertyUri;
 	private String expectedValueLabel;
 
 	private String expectedValueAdditionnalInfoIn;
@@ -37,19 +35,11 @@ public class PropertyShapeDocumentation {
 		this.label = label;
 	}
 
-	public String getShortForm() {
-		return shortForm;
-	}
-
-	public void setShortForm(String shortForm) {
-		this.shortForm = shortForm;
-	}
-
-	public String getPropertyUri() {
+	public Link getPropertyUri() {
 		return propertyUri;
 	}
 
-	public void setPropertyUri(String propertyUri) {
+	public void setPropertyUri(Link propertyUri) {
 		this.propertyUri = propertyUri;
 	}
 

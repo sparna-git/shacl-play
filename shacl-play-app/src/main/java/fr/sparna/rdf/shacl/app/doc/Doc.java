@@ -1,9 +1,11 @@
 package fr.sparna.rdf.shacl.app.doc;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.net.URI;
-import java.net.URL;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -13,6 +15,8 @@ import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.openhtmltopdf.pdfboxout.PdfRendererBuilder;
 
 import fr.sparna.rdf.shacl.app.CliCommandIfc;
 import fr.sparna.rdf.shacl.app.InputModelReader;
@@ -61,8 +65,6 @@ public class Doc implements CliCommandIfc {
 				Path sourceImg = FileSystems.getDefault().getPath(a.getImgLogo().toString());
 				Path outputDirImg = FileSystems.getDefault().getPath(fileOut.getParentFile().getPath()+"\\"+name_img);
 				try {
-					System.out.println(sourceImg);
-					System.out.println(outputDirImg);
 					Files.copy(sourceImg, outputDirImg, StandardCopyOption.REPLACE_EXISTING);
 					
 				} catch (Exception e) {
@@ -74,9 +76,13 @@ public class Doc implements CliCommandIfc {
 			}
 		}
 		
+		if(a.getPdf()) {
+			a.setDiagramShacl(false);
+		}
+		
 		// generate doc
 		// true to read diagram
-		ShapesDocumentationReaderIfc reader = new ShapesDocumentationModelReader(true,name_img);
+		ShapesDocumentationReaderIfc reader = new ShapesDocumentationModelReader(a.getDiagramShacl(),name_img);
 		ShapesDocumentation doc = reader.readShapesDocumentation(
 				shapesModel,
 				owlModel,
@@ -86,18 +92,74 @@ public class Doc implements CliCommandIfc {
 				true
 		);
 		
+		
 		FileOutputStream out = new FileOutputStream(a.getOutput());
-		if(a.getOutput().getName().endsWith(".xml")) {
-			// 2. write Documentation structure to XML
-			ShapesDocumentationWriterIfc writer = new ShapesDocumentationXmlWriter();
-			writer.write(doc, a.getLanguage(), out);
-		} else {
-			// 2. write Documentation structure to HTML
-			ShapesDocumentationWriterIfc writer = new ShapesDocumentationJacksonXsltWriter();
-			writer.write(doc, a.getLanguage(), out);
-		}
-		out.close();
-	
+		if(a.getPdf()) {
+			
+			System.out.println("Creation pdf file");
+			
+			// 1. write Documentation structure to HTML
+			FileOutputStream inputHTML = new FileOutputStream(new File("/temp/inputHTML.html"));
+			ShapesDocumentationWriterIfc writerHTML = new ShapesDocumentationJacksonXsltWriter();
+			writerHTML.write(doc, a.getLanguage(), inputHTML);
+			
+			//read file html
+			if(!a.getOutput().exists()) {
+				System.out.println("pdf file exist");
+			 
+			}
+			htmltopdfFile(readFileHTML("/temp/inputHTML.html"),a.getOutput());
+			
+			
+		}else {
+			
+			if(a.getOutput().getName().endsWith(".xml")) {
+				// 2. write Documentation structure to XML
+				ShapesDocumentationWriterIfc writer = new ShapesDocumentationXmlWriter();
+				writer.write(doc, a.getLanguage(), out);
+			} else {
+				// 2. write Documentation structure to HTML
+				ShapesDocumentationWriterIfc writer = new ShapesDocumentationJacksonXsltWriter();
+				writer.write(doc, a.getLanguage(), out);
+			}
+			out.close();
+		}	
 	}
 	
+	
+	public String readFileHTML(String string) throws IOException {
+		FileReader fr=new FileReader(string);
+		BufferedReader br= new BufferedReader(fr);
+		StringBuilder contentHTML=new StringBuilder(1024);
+		String s;
+		while((s=br.readLine())!=null)
+		    {
+			contentHTML.append(s);
+		    } 
+		br.close();
+		
+		return contentHTML.toString();		
+	}
+	
+	
+	public void htmltopdfFile(String codeHtml,File outFile) throws IOException {
+		System.out.println("Pdf path "+outFile);
+		
+		try (OutputStream os = new FileOutputStream(outFile)) {
+		   System.out.println("building construct");
+		   PdfRendererBuilder _builder = new PdfRendererBuilder();
+		   _builder.useFastMode();
+		   _builder.withHtmlContent(codeHtml, "/");
+		   
+		   _builder.toStream(os);
+		  
+		   _builder.run();
+		   
+		   //os.close(); 
+		   
+		   System.out.println("pdf file created ...");
+		}
+		 
+		
+	}
 }

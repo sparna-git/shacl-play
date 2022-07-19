@@ -3,7 +3,7 @@
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
 	<!-- controls output style -->
-	<xsl:output indent="yes" method="xml" />
+	<xsl:output indent="yes" method="xml" omit-xml-declaration="yes"/>
 
 	<!-- Language parameter to the XSLT -->
 	<xsl:param name="LANG">
@@ -107,10 +107,13 @@
 	<xsl:template match="ShapesDocumentation">
 		<html lang="en">
 			<head>
+				<!--  
 				<link rel="stylesheet"
 					href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
 					integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
 					crossorigin="anonymous" />
+					
+				-->
 
 				<style type="text/css">
 					.anchor {
@@ -125,25 +128,152 @@
 						font-family: SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
 						font-size: 87.5%;
 					}
+					
+					<!-- CSS  -->
+					.CONTAINER{
+				         width: calc(100% - 40px);
+				         max-width: 1000px;
+				         margin-left: auto;
+				         margin-right: auto;
+				      }
+				
+				      h2 {
+				         margin: 0px 0px 5px 0px;
+				      }
+				
+				      ul{
+				         margin: 0.5em
+				      }
+				      
+				      a {
+                      color: #007bff;
+                      text-decoration: none;
+                      background-color: transparent;
+	                  }
+	
+	                  a:-webkit-any-link {
+	                      cursor: pointer;                      
+	                  }
+	                  
+				      
+				     <!-- Table  -->
+				     table {
+						    display: table;
+						    border-spacing: 0px;
+							margin-botton: 1rem;
+						}
+						
+						tr:nth-child(even) {
+						    background-color: #eee;
+						}
+						
+						
+						.prefixes table {
+						    border-collapse: collapse;
+						    margin-bottom: 1rem;
+						    color: #212529;
+						}
+						
+						
+						.prefixes td {
+						    padding: 0.25rem;
+						    vertical-align: top;
+						    border-top: 1px solid #dee2e6;
+						}
+						
+						
+						
+						.propertyshapes table {
+						    border-collapse: collapse;
+						}
+			
+			
+						.propertyshapes thead {
+						    display: table-header-group;
+						    vertical-align: middle;
+						    border-color: inherit;
+						}
+						
+						
+						.propertyshapes tr {
+						    display: table-row;
+						    vertical-align: inherit;
+						    border-color: inherit;
+						}
+						
+						p {
+					      font-size: 0.875em;
+					    }
+						
+						@media only print {
+							
+						}
+						
+						@page {
+								size: A4 portrait;
+								margin-top: 1.2cm;
+								margin-bottom: 1.2cm;
+								margin-left: 1.2cm;
+								margin-right: 1.2cm;
+								background-repeat: no-repeat;
+								background-position: 40px 10px;
+								 @bottom-center {
+								 	content: counter(page);
+								 }
+						}
+						
+						<!-- fot the cardinality colum -->
+						.propertyshapes th:nth-child(4) {
+						    width: 6%;
+						}
+						
+						.propertyshapes td {
+						    padding: 0.75rem;
+						    vertical-align: top;
+						    border-top: 1px solid #dee2e6;
+						}
+						
+						.propertyshapes tbody {
+						    display: table-row-group;
+						    vertical-align: middle;
+						    border-color: inherit;
+						}
+			
+			
+						.propertyshapes tbody tr {
+						    display: table-row;
+						    vertical-align: inherit;
+						    border-color: inherit;
+						}
+						
+						.text-break {
+						    word-break: break-word;
+						}
+						
+						body {
+						         margin: 0;
+						         font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans","Liberation Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+						         background-color: #fff;
+						      }
+				     
+				     			
+					<!-- fin CSS -->
+					
+					
 				</style>
 			</head>
 			<body>
-				<div class="container-md">
+				<div class="container">
 					<br />
-					<div class="container">
-					  <div class="row row-cols-auto">
-					    <xsl:if test="imgLogo != ''">
-					    	<div class="col-sm-1"><img src="{imgLogo}"/></div>
-					    </xsl:if>
-					    <div class="col" >
-					    	<center>
-						    	<h1>
-									<xsl:value-of select="title" />								
-								</h1>
-							</center>
-					    </div>
-					  </div>
-					</div>
+					<table>
+			            <tr>
+			            	<xsl:if test="imgLogo != ''">
+			               		<td width="20%"><img src="{imgLogo}"/></td>
+			               	</xsl:if>
+			               	<td width="80%"><center><h1><xsl:value-of select="title" /></h1></center></td>
+			            </tr>  
+			         </table>
+					<br />
 					<br />
 					<xsl:if test="datecreated != ''">
 						<b>
@@ -355,7 +485,7 @@
 				<xsl:value-of
 					select="$LABELS/labels/entry[@key='PREFIXES.TITLE']/@label" />
 			</h2>
-			<table class="table table-striped table-sm" style="width:60%">
+			<table class="prefixes" style="width:60%">
 				<thead>
 					<tr>
 						<th>
@@ -465,7 +595,7 @@
 				</ul>
 			</xsl:if>
 			<xsl:if test="count(properties/property)>0">
-				<table class="table table-striped" style="width:100%">
+				<table class="propertyshapes" style="width:100%">
 					<thead>
 						<tr>
 							<th>
@@ -513,18 +643,22 @@
 			</td>
 			<!-- Property URI -->
 			<td>
-				<xsl:choose>
-					<xsl:when test="propertyUri != ''">
-						<code>
-							<a href="{propertyUri}">
-								<xsl:value-of select="shortForm" />
-							</a>
-						</code>
-					</xsl:when>
-					<xsl:otherwise>
-						<code><xsl:value-of select="shortForm" /></code>
-					</xsl:otherwise>
-				</xsl:choose>
+				<xsl:if test="propertyUri">
+					<xsl:for-each select="propertyUri">
+						<xsl:choose>
+							<xsl:when test="href">
+								<code>
+									<a href="{href}"><xsl:value-of select="label" /></a>							
+								</code>	
+							</xsl:when>
+							<xsl:otherwise>
+								<code><xsl:value-of select="label" /></code>
+							</xsl:otherwise>
+						</xsl:choose>
+						
+						
+					</xsl:for-each>
+				</xsl:if>				
 			</td>
 			<!-- Expected Value -->
 			<td>
@@ -595,7 +729,9 @@
 			</td>
 			<!-- Description properties -->
 			<td class="text-break">
-				<xsl:value-of select="description" />
+				<p>
+					<xsl:value-of select="description" />
+				</p>
 			</td>
 		</tr>
 	</xsl:template>

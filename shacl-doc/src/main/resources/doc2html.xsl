@@ -138,11 +138,12 @@
 				      }
 				
 				      h2 {
-				         margin: 0px 0px 5px 0px;
+				         margin: 10px 0px 10px 0px;
 				      }
 				
 				      ul{
 				         margin: 0.5em
+				         margin-bottom: 1rem;
 				      }
 				      
 				      a {
@@ -265,13 +266,18 @@
 			<body>
 				<div class="container">
 					<br />
-					<table>
-			            <tr>
-			            	<xsl:if test="imgLogo != ''">
-			               		<td width="20%"><img src="{imgLogo}"/></td>
-			               	</xsl:if>
-			               	<td width="80%"><center><h1><xsl:value-of select="title" /></h1></center></td>
-			            </tr>  
+					<table style="width:100%">
+			            <xsl:choose>
+			            	<xsl:when test="imgLogo != ''">
+			            		<tr>
+			            			<td width="20%"><img src="{imgLogo}"/></td>
+			            			<td width="80%"><div><center><h1><xsl:value-of select="title" /></h1></center></div></td>		
+			            		</tr>	
+			            	</xsl:when>
+			            	<xsl:otherwise>
+			            			<div><center><h1><xsl:value-of select="title" /></h1></center></div>
+			            	</xsl:otherwise>
+			            </xsl:choose>			            
 			         </table>
 					<br />
 					<br />
@@ -589,7 +595,9 @@
 					<xsl:if test="skosExample != ''">
 						<li>
 							<xsl:value-of select="$LABELS/labels/entry[@key='LABEL_EXAMPLE']/@label"/>
-							<xsl:value-of select="skosExample"/>
+							<span class="monospace">
+								<xsl:value-of select="skosExample"/>
+							</span>							
 						</li>
 					</xsl:if>
 				</ul>

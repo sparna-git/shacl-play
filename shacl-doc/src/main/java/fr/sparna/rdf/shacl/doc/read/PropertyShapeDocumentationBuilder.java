@@ -46,7 +46,7 @@ public class PropertyShapeDocumentationBuilder {
 		//proprieteDoc.setPropertyUri(propertyShape.getShPath().isURIResource()?propertyShape.getShPath().getURI():null);				
 		
 		// URI in the raport
-		proprieteDoc.setPropertyUri(renderURIValue(propertyShape));
+		proprieteDoc.setPropertyUri(buildPathLink(propertyShape));
 		
 		proprieteDoc.setExpectedValueLabel(selectExpectedValueLabel(
 				propertyShape.getShClass(),
@@ -123,14 +123,17 @@ public class PropertyShapeDocumentationBuilder {
 		}).collect(Collectors.joining(", "));
 	}
 	
-	public static Link renderURIValue(PropertyShape prop) {			
+	public static Link buildPathLink(PropertyShape prop) {			
 		if(prop.getShPath().isURIResource()) {
 			return new Link(
-					"#"+prop.getShPath().getURI(),
+					prop.getShPath().getURI(),
 					prop.getShPathAsString()
 			);			
 		} else {
-			return null;
+			return new Link(
+					null,
+					prop.getShPathAsString()
+			);
 		}
 	}
 	

@@ -227,7 +227,7 @@
 						<div class="form-group row">
 						      	<div class="col-sm-12">
 							      	<div class="form-check">
-									  <input class="form-check-input" type="checkbox" id="printPDF" name="printPDF" checked="checked"/>
+									  <input class="form-check-input" type="checkbox" id="printPDF" name="printPDF" />
 									  <label class="form-check-label" for="printPDF">
 									    <fmt:message key="doc.options.printPDF" />
 									  </label>

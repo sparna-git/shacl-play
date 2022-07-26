@@ -562,6 +562,12 @@
 							</xsl:for-each>
 						</li>
 					</xsl:if>
+					<xsl:if test="closed='true'">
+						<li>
+							<xsl:value-of
+								select="$LABELS/labels/entry[@key='LABEL_CLOSE']/@label" />
+						</li>
+					</xsl:if>
 					<xsl:if test="nodeKind != ''">
 						<li>
 							<xsl:value-of
@@ -577,12 +583,6 @@
 							<span class="monospace">
 								<xsl:value-of select="pattern" />
 							</span>
-						</li>
-					</xsl:if>
-					<xsl:if test="closed='true'">
-						<li>
-							<xsl:value-of
-								select="$LABELS/labels/entry[@key='LABEL_CLOSE']/@label" />
 						</li>
 					</xsl:if>
 					<!-- Example -->
@@ -644,20 +644,16 @@
 			<!-- Property URI -->
 			<td>
 				<xsl:if test="propertyUri">
-					<xsl:for-each select="propertyUri">
-						<xsl:choose>
-							<xsl:when test="href">
-								<code>
-									<a href="{href}"><xsl:value-of select="label" /></a>							
-								</code>	
-							</xsl:when>
-							<xsl:otherwise>
-								<code><xsl:value-of select="label" /></code>
-							</xsl:otherwise>
-						</xsl:choose>
-						
-						
-					</xsl:for-each>
+					<xsl:choose>
+						<xsl:when test="propertyUri/href != ''">
+							<code>
+								<a href="{propertyUri/href}"><xsl:value-of select="propertyUri/label" /></a>							
+							</code>	
+						</xsl:when>
+						<xsl:otherwise>
+							<code><xsl:value-of select="propertyUri/label" /></code>
+						</xsl:otherwise>
+					</xsl:choose>
 				</xsl:if>				
 			</td>
 			<!-- Expected Value -->

@@ -725,7 +725,9 @@
 			</td>
 			<!-- Cardinality -->
 			<td>
-				<xsl:value-of select="cardinalite" />
+				<div style="width:30px">
+					<xsl:value-of select="cardinalite" />
+				</div>								
 			</td>
 			<!-- Description properties -->
 			<td class="text-break">

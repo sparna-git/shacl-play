@@ -1,18 +1,8 @@
 package fr.sparna.rdf.shacl.shaclplay.doc;
 
-import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
-import java.net.URLDecoder;
 import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,7 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
-import org.jsoup.Jsoup;
 import org.owasp.encoder.Encode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -196,36 +185,7 @@ public class DocController {
 		response.setContentType("text/html");
 		response.setHeader("Content-Disposition", "inline; filename=\""+filename+".html\"");
 
-		//Logo
-		String name_img=null;
-		if(urlLogo != null) {
-			String logo=null;
-			if(urlLogo.contains("url,") || urlLogo.contains("on,") ) {
-				logo=urlLogo.split(",")[1];
-			}else {
-				logo=urlLogo;
-			}
-			
-			if(new File(logo).exists() && !printPDF) {
-				File fileImg = new File(logo); 
-				File fileOut = new File(logo);
-				name_img = fileImg.getName();
-				// copy imagen file in the output directory
-				Path sourceImg = FileSystems.getDefault().getPath(logo);
-				Path outputDirImg = FileSystems.getDefault().getPath(fileOut.getParentFile().getPath()+"\\"+name_img);
-				try {
-					Files.copy(sourceImg, outputDirImg, StandardCopyOption.REPLACE_EXISTING);
-					
-				} catch (Exception e) {
-					// TODO: handle exception
-					System.out.println(e);
-				}
-			}else {
-				name_img = logo;
-			}
-		}
-		
-		ShapesDocumentationReaderIfc reader = new ShapesDocumentationModelReader(includeDiagram, name_img);
+		ShapesDocumentationReaderIfc reader = new ShapesDocumentationModelReader(includeDiagram, urlLogo);
 		ShapesDocumentation doc = reader.readShapesDocumentation(
 				shapesModel,
 				// OWL graph
@@ -241,49 +201,22 @@ public class DocController {
 			
 			// 1. write Documentation structure to XML
 			ShapesDocumentationWriterIfc writerHTML = new ShapesDocumentationJacksonXsltWriter();
-			FileOutputStream inputHTML = new FileOutputStream(new File("/temp/inputHTML.html"));
-			writerHTML.write(doc, "en", inputHTML);
+			ByteArrayOutputStream htmlBytes = new ByteArrayOutputStream();
+			writerHTML.write(doc, "en", htmlBytes);
 			
 			//read file html
-			FileReader fr=new FileReader("/temp/inputHTML.html");
-			BufferedReader br= new BufferedReader(fr);
-			StringBuilder contentHTML=new StringBuilder(1024);
-			String s;
-			while((s=br.readLine())!=null)
-			    {
-				contentHTML.append(s);
-			    } 
-			
-			String htmlCode =  contentHTML.toString();
-			
-			
-			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+			String htmlCode = new String(htmlBytes.toByteArray());
 			
 			// Convert
-			
-			PdfRendererBuilder _builder = new PdfRendererBuilder();
-			 
-			
-			String baseUri = FileSystems.getDefault()
-		              .getPath("C:/", "temp/")
-		              .toUri()
-		              .toString();
+			response.setContentType("application/pdf");
+			PdfRendererBuilder _builder = new PdfRendererBuilder();			 
 			
 			_builder.useFastMode();
-			_builder.withHtmlContent(htmlCode, baseUri);
+			_builder.withHtmlContent(htmlCode, "http://shacl-play.sparna.fr/play");			
 			
-			
-			_builder.toStream(outputStream);
+			_builder.toStream(response.getOutputStream());
 			_builder.testMode(false);
 			_builder.run();
-			
-			
-			// View in html
-			response.setContentType("application/pdf");
-	        response.setContentLength(outputStream.size());
-	        response.getOutputStream().write(outputStream.toByteArray());
-	        response.getOutputStream().flush();
-	        outputStream.close();			
 		}else {
 			ShapesDocumentationWriterIfc writer = new ShapesDocumentationJacksonXsltWriter();
 			writer.write(doc, "en", response.getOutputStream());

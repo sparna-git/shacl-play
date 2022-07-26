@@ -12,7 +12,7 @@ public class ShapesDocumentationTestReader implements ShapesDocumentationReaderI
 
 	@Override
 	public ShapesDocumentation readShapesDocumentation(Model shaclGraph, Model owlGraph, String lang , String fileName, boolean outExpandDiagram) {
-		ShapesDocumentation shapesDocumentation = new ShapesDocumentation(null);
+		ShapesDocumentation shapesDocumentation = new ShapesDocumentation(null, lang);
 		
 		// HERE : READ Model and populate shapesDocumentation
 		shapesDocumentation.setTitle("Test title");

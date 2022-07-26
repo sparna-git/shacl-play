@@ -133,7 +133,7 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 		}
 		
 		// Code XML
-		ShapesDocumentation shapesDocumentation = new ShapesDocumentation(ontologyObject);
+		ShapesDocumentation shapesDocumentation = new ShapesDocumentation(ontologyObject, lang);
 		shapesDocumentation.setImgLogo(this.imgLogo);
 		shapesDocumentation.setSvgDiagram(sImgDiagramme);
 		shapesDocumentation.setPlantumlSource(plantUmlSourceDiagram);

@@ -3,6 +3,8 @@ package fr.sparna.rdf.shacl.doc.model;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.jena.vocabulary.RDFS;
+
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
@@ -23,10 +25,10 @@ public class ShapesDocumentation {
 	protected String datecreated;
 	protected String dateissued;
 	protected String yearCopyRighted;
-	protected String license;
-	protected String creator;
-	protected String publisher;
-	protected String rightsHolder;
+	protected Link license;
+	protected Link creator;
+	protected Link publisher;
+	protected Link rightsHolder;
 	
 	
 	@JacksonXmlElementWrapper(localName="prefixes")
@@ -37,7 +39,7 @@ public class ShapesDocumentation {
 	@JacksonXmlProperty(localName = "section")
 	protected List<ShapesDocumentationSection> sections;
 	
-	public ShapesDocumentation(OwlOntology ontology) {
+	public ShapesDocumentation(OwlOntology ontology, String lang) {
 		if(ontology != null) {
 			this.setTitle(ontology.getRdfsLabel());			
 			this.setComment(ontology.getRdfsComment());
@@ -47,10 +49,34 @@ public class ShapesDocumentation {
 			this.setYearCopyRighted(ontology.getDateCopyrighted());
 			this.setModifiedDate(ontology.getDateModified());
 			this.setVersionInfo(ontology.getOwlVersionInfo());
-			Optional.ofNullable(ontology.getLicense()).ifPresent(s -> this.setLicense(s.toString()));
-			Optional.ofNullable(ontology.getCreator()).ifPresent(s -> this.setCreator(s.toString()));
-			Optional.ofNullable(ontology.getPublisher()).ifPresent(s -> this.setPublisher(s.toString()));
-			Optional.ofNullable(ontology.getRightsHolder()).ifPresent(s -> this.setRightsHolder(s.toString()));
+			Optional.ofNullable(ontology.getLicense()).ifPresent(s -> {
+				if(s.isURIResource() && !s.asResource().listProperties(RDFS.label, lang).toList().isEmpty()) {
+					this.setLicense(new Link(s.asResource().getURI(), s.asResource().listProperties(RDFS.label, lang).toList().get(0).getLiteral().getLexicalForm()));
+				} else {
+					this.setLicense(new Link(s.toString(), s.toString()));
+				}
+			});
+			Optional.ofNullable(ontology.getCreator()).ifPresent(s -> {
+				if(s.isURIResource() && !s.asResource().listProperties(RDFS.label, lang).toList().isEmpty()) {
+					this.setCreator(new Link(s.asResource().getURI(), s.asResource().listProperties(RDFS.label, lang).toList().get(0).getLiteral().getLexicalForm()));
+				} else {
+					this.setCreator(new Link(s.toString(), s.toString()));
+				}
+			});
+			Optional.ofNullable(ontology.getPublisher()).ifPresent(s -> {
+				if(s.isURIResource() && !s.asResource().listProperties(RDFS.label, lang).toList().isEmpty()) {
+					this.setPublisher(new Link(s.asResource().getURI(), s.asResource().listProperties(RDFS.label, lang).toList().get(0).getLiteral().getLexicalForm()));
+				} else {
+					this.setPublisher(new Link(s.toString(), s.toString()));
+				}
+			});
+			Optional.ofNullable(ontology.getRightsHolder()).ifPresent(s -> {
+				if(s.isURIResource() && !s.asResource().listProperties(RDFS.label, lang).toList().isEmpty()) {
+					this.setRightsHolder(new Link(s.asResource().getURI(), s.asResource().listProperties(RDFS.label, lang).toList().get(0).getLiteral().getLexicalForm()));
+				} else {
+					this.setRightsHolder(new Link(s.toString(), s.toString()));
+				}
+			});
 			
 			this.setDescriptionDocument(ontology.getDescription());			
 		}
@@ -76,28 +102,28 @@ public class ShapesDocumentation {
 	public void setYearCopyRighted(String yearCopyRighted) {
 		this.yearCopyRighted = yearCopyRighted;
 	}
-	public String getLicense() {
+	public Link getLicense() {
 		return license;
 	}
-	public void setLicense(String license) {
+	public void setLicense(Link license) {
 		this.license = license;
 	}
-	public String getCreator() {
+	public Link getCreator() {
 		return creator;
 	}
-	public void setCreator(String creator) {
+	public void setCreator(Link creator) {
 		this.creator = creator;
 	}
-	public String getPublisher() {
+	public Link getPublisher() {
 		return publisher;
 	}
-	public void setPublisher(String publisher) {
+	public void setPublisher(Link publisher) {
 		this.publisher = publisher;
 	}
-	public String getRightsHolder() {
+	public Link getRightsHolder() {
 		return rightsHolder;
 	}
-	public void setRightsHolder(String rightsHolder) {
+	public void setRightsHolder(Link rightsHolder) {
 		this.rightsHolder = rightsHolder;
 	}
 	public String getImgLogo() {

@@ -315,62 +315,62 @@
 						<xsl:value-of select="versionInfo" />
 						<br />
 					</xsl:if>
-					<xsl:if test="license != ''">
+					<xsl:if test="license/label != ''">
 						<b>
 							<xsl:value-of
 								select="$LABELS/labels/entry[@key='METADATA.LICENSE']/@label" />
 						</b>
 						<xsl:choose>
-							<xsl:when test="starts-with(license,'http') or starts-with(license,'https')">
-								<a href="{license}" target="_blank"><xsl:value-of select="license" /></a>	
+							<xsl:when test="license/href">
+								<a href="{license/href}" target="_blank"><xsl:value-of select="license/label" /></a>
 							</xsl:when>
 							<xsl:otherwise>
-								<xsl:value-of select="license"/>
+								<xsl:value-of select="license/label"/>
 							</xsl:otherwise>
-						</xsl:choose>						
+						</xsl:choose>					
 						<br />
 					</xsl:if>
-					<xsl:if test="creator != ''">
+					<xsl:if test="creator/label != ''">
 						<b>
 							<xsl:value-of
 								select="$LABELS/labels/entry[@key='METADATA.CREATOR']/@label" />
 						</b>
 						<xsl:choose>
-							<xsl:when test="starts-with(creator,'http') or starts-with(creator,'https')">
-								<a href="{creator}" target="_blank"><xsl:value-of select="creator" /></a>	
+							<xsl:when test="creator/href">
+								<a href="{creator/href}" target="_blank"><xsl:value-of select="creator/label" /></a>
 							</xsl:when>
 							<xsl:otherwise>
-								<xsl:value-of select="creator"/>
+								<xsl:value-of select="creator/label"/>
 							</xsl:otherwise>
 						</xsl:choose>	
 						<br />
 					</xsl:if>
-					<xsl:if test="publisher != ''">
+					<xsl:if test="publisher/label != ''">
 						<b>
 							<xsl:value-of
 								select="$LABELS/labels/entry[@key='METADATA.PUBLISHER']/@label" />
 						</b>
 						<xsl:choose>
-							<xsl:when test="starts-with(publisher,'http') or starts-with(publisher,'https')">
-								<a href="{publisher}" target="_blank"><xsl:value-of select="publisher" /></a>	
+							<xsl:when test="publisher/href">
+								<a href="{publisher/href}" target="_blank"><xsl:value-of select="publisher/label" /></a>
 							</xsl:when>
 							<xsl:otherwise>
-								<xsl:value-of select="publisher"/>
+								<xsl:value-of select="publisher/label"/>
 							</xsl:otherwise>
 						</xsl:choose>
 						<br />
 					</xsl:if>
-					<xsl:if test="rightsHolder != ''">
+					<xsl:if test="rightsHolder/label != ''">
 						<b>
 							<xsl:value-of
 								select="$LABELS/labels/entry[@key='METADATA.RIGHTHOLDER']/@label" />
 						</b>
 						<xsl:choose>
-							<xsl:when test="starts-with(rightsHolder,'http') or starts-with(rightsHolder,'https')">
-								<a href="{rightsHolder}" target="_blank"><xsl:value-of select="rightsHolder" /></a>			
+							<xsl:when test="rightsHolder/href">
+								<a href="{rightsHolder/href}" target="_blank"><xsl:value-of select="rightsHolder/label" /></a>
 							</xsl:when>
 							<xsl:otherwise>
-								<xsl:value-of select="rightsHolder"/>
+								<xsl:value-of select="rightsHolder/label"/>
 							</xsl:otherwise>
 						</xsl:choose>
 					</xsl:if>

@@ -41,7 +41,13 @@ public class ShapesDocumentation {
 	
 	public ShapesDocumentation(OwlOntology ontology, String lang) {
 		if(ontology != null) {
-			this.setTitle(ontology.getRdfsLabel());			
+			
+			if(ontology.getDctTitle() != null) {
+				this.setTitle(ontology.getDctTitle());
+			}else {
+				this.setTitle(ontology.getRdfsLabel());
+			}
+						
 			this.setComment(ontology.getRdfsComment());
 			
 			this.setDatecreated(ontology.getDateCreated());

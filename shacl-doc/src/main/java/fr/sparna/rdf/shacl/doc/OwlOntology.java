@@ -7,11 +7,11 @@ import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.vocabulary.DCTerms;
 import org.apache.jena.vocabulary.OWL;
 import org.apache.jena.vocabulary.RDFS;
-import org.topbraid.shacl.vocabulary.SH;
 
 public class OwlOntology {
 	
 	protected String rdfsLabel = null;
+	protected String dctTitle = null;
 	protected String rdfsComment = null;
 	protected String owlVersionInfo = null;
 	protected String description = null;
@@ -27,6 +27,7 @@ public class OwlOntology {
 	
 	public OwlOntology(Resource rOntology, String lang) {
 		this.rdfsLabel = ConstraintValueReader.readLiteralInLangAsString(rOntology, RDFS.label, lang);
+		this.dctTitle = ConstraintValueReader.readLiteralInLangAsString(rOntology, DCTerms.title, lang);
 		this.rdfsComment = ConstraintValueReader.readLiteralInLangAsString(rOntology, RDFS.comment, lang);
 		this.owlVersionInfo = ConstraintValueReader.readLiteralInLangAsString(rOntology,OWL.versionInfo, null);		
 		this.description = ConstraintValueReader.readLiteralInLangAsString(rOntology,DCTerms.description, lang);
@@ -40,6 +41,17 @@ public class OwlOntology {
 		creator = Optional.ofNullable(rOntology.getProperty(DCTerms.creator)).map(s -> s.getObject()).orElse(null);
 		publisher = Optional.ofNullable(rOntology.getProperty(DCTerms.publisher)).map(s -> s.getObject()).orElse(null);
 		rightsHolder = Optional.ofNullable(rOntology.getProperty(DCTerms.rightsHolder)).map(s -> s.getObject()).orElse(null);
+	}
+	
+	
+	
+
+	public String getDctTitle() {
+		return dctTitle;
+	}
+
+	public void setDctTitle(String dctTitle) {
+		this.dctTitle = dctTitle;
 	}
 
 	public String getRdfsLabel() {

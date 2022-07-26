@@ -138,12 +138,12 @@
 				      }
 				
 				      h2 {
-				         margin: 10px 0px 10px 0px;
+				         margin: 25px 0px 10px 0px;
 				      }
 				
 				      ul{
 				         margin: 0.5em
-				         margin-bottom: 1rem;
+				         margin-bottom: 2rem;
 				      }
 				      
 				      a {
@@ -668,9 +668,11 @@
 			<td>
 				<xsl:choose>
 					<xsl:when test="linkNodeShape != ''">
-						<a href="{concat('#',linkNodeShapeUri)}">
-							<xsl:value-of select="linkNodeShape" />
-						</a>
+						<code>
+							<a href="{concat('#',linkNodeShapeUri)}">
+								<xsl:value-of select="linkNodeShape" />
+							</a>
+						</code>	
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:choose>
@@ -689,12 +691,14 @@
 										</xsl:choose>
 									</xsl:variable>
 									<xsl:variable name="sDataOrg" select="." />
-									<a href="{concat('#',$sDataOrg)}">
-										<xsl:value-of select="concat($sDataOrg,' ')" />
-									</a>
+									<code>	
+										<a href="{concat('#',$sDataOrg)}">
+											<xsl:value-of select="concat($sDataOrg,' ')" />
+										</a>
+									</code>
 									<xsl:choose>
 										<xsl:when test="$nfois &gt; $countData">
-											<xsl:text>or </xsl:text>
+											<xsl:text>or</xsl:text>
 										</xsl:when>
 									</xsl:choose>
 								</xsl:for-each>

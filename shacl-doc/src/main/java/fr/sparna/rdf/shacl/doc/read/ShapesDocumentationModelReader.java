@@ -89,33 +89,6 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 		// 2. Lire les propriétés
 		for (NodeShape aBox : allNodeShapes) {
 			aBox.setProperties(reader.readProperties(aBox.getNodeShape(), allNodeShapes));
-		}
-		
-		// Option pour créer le diagramme
-		String sImgDiagramme = null;
-		String plantUmlSourceDiagram = null;
-		String plantUmlSourceCode = null;
-		String fileNameGenerationpng = null;
-		String UrlDiagram = null;
-		
-		if (this.readDiagram) {
-			SVGGenerator gImgSvg = new SVGGenerator();
-			PlantUmlSourceGenerator sourceGenerator = new PlantUmlSourceGenerator();
-			try {
-				sImgDiagramme = gImgSvg.generateSvgDiagram(shaclGraph, owlGraph,avoidArrowsToEmptyBoxes);
-				plantUmlSourceDiagram = sourceGenerator.generatePlantUmlDiagram(shaclGraph, owlGraph,false,true,avoidArrowsToEmptyBoxes);
-				// Read source Uml
-				plantUmlSourceCode = sourceGenerator.generatePlantUmlDiagram(shaclGraph, owlGraph,false,false,avoidArrowsToEmptyBoxes);
-				// if source uml is true generate png file
-				if(!plantUmlSourceCode.isEmpty()) {	
-					// Write the first image to "png"
-					Transcoder t = TranscoderUtil.getDefaultTranscoder();
-					String url = t.encode(plantUmlSourceCode);
-					UrlDiagram = "http://www.plantuml.com/plantuml/png/"+url;
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}			
 		}		
 
 		// Lecture de OWL
@@ -135,9 +108,36 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 		// Code XML
 		ShapesDocumentation shapesDocumentation = new ShapesDocumentation(ontologyObject, lang);
 		shapesDocumentation.setImgLogo(this.imgLogo);
-		shapesDocumentation.setSvgDiagram(sImgDiagramme);
-		shapesDocumentation.setPlantumlSource(plantUmlSourceDiagram);
-		shapesDocumentation.setPngDiagram(UrlDiagram);
+		
+		
+		
+		// Option pour créer le diagramme		
+		if (this.readDiagram) {
+			SVGGenerator gImgSvg = new SVGGenerator();
+			PlantUmlSourceGenerator sourceGenerator = new PlantUmlSourceGenerator();
+			try {
+				System.out.println("Generating diagram");
+				String svgDiagramme = gImgSvg.generateSvgDiagram(shaclGraph, owlGraph,avoidArrowsToEmptyBoxes);
+				String plantUmlSourceDiagram = sourceGenerator.generatePlantUmlDiagram(shaclGraph, owlGraph,false,true,avoidArrowsToEmptyBoxes);
+				// Read source Uml
+				String plantUmlSourceCode = sourceGenerator.generatePlantUmlDiagram(shaclGraph, owlGraph,false,false,avoidArrowsToEmptyBoxes);
+				
+				System.out.println(svgDiagramme);
+				shapesDocumentation.setSvgDiagram(svgDiagramme);
+				shapesDocumentation.setPlantumlSource(plantUmlSourceDiagram);
+				
+				// if source uml is true generate png file
+				if(!plantUmlSourceCode.isEmpty()) {	
+					// Write the first image to "png"
+					shapesDocumentation.setPngDiagram("http://www.plantuml.com/plantuml/png/"+TranscoderUtil.getDefaultTranscoder().encode(plantUmlSourceCode));
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}			
+		}
+		
+		
+		
 
 
 		// 3. Lire les prefixes

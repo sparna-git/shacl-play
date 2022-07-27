@@ -203,8 +203,8 @@
 						<div class="form-group row">
 						    <div class="col-sm-12">
 								<div class="form-check">
-									<input class="form-check-input" type="checkbox" id="inputLogo" name="inputLogo"/>
-									<label class="form-check-label" for="inputLogo">
+									<input class="form-check-input" type="checkbox" id="inputLogoCheckbox" name="inputLogoCheckbox"/>
+									<label class="form-check-label" for="inputLogoCheckbox">
 										<fmt:message key="doc.options.logo" />
 									</label>
 									<div class="col-sm-9">
@@ -276,7 +276,7 @@
 							</thead>
 							<tbody>
 								<tr>
-									<th scope="row" width="30%"><code>rdfs:label</code></th>
+									<th scope="row" width="30%"><code>dcterms:title</code> if present, or <code>rdfs:label</code></th>
 									<td>xsd:string</td>
 									<td>Yes</td>
 									<td class="text-break">Generates the title of the document</td>
@@ -294,14 +294,60 @@
 							  		<td class="text-break">Generates a <b>Description</b> section in the generated documentation, if present.</td>
 							  	</tr>
 							  	<tr>
-							  		<th scope="row"><code>owl:versionInfo</code></th>
-							  		<td>xsd:string</td>
+							  		<th scope="row"><code>dcterms:modified</code></th>
+							  		<td>xsd:dateTime</td>
 							  		<td>No</td>
 							  		<td class="text-break">Shown in the header of the generated documentation</td>
 							  	</tr>
 							  	<tr>
-							  		<th scope="row"><code>dcterms:modified</code></th>
+							  		<th scope="row"><code>dcterms:created</code></th>
 							  		<td>xsd:dateTime</td>
+							  		<td>No</td>
+							  		<td class="text-break">Shown in the header of the generated documentation</td>
+							  	</tr>
+							  	<tr>
+							  		<th scope="row"><code>dcterms:creator</code> (+ <code>rdfs:label</code>)</th>
+							  		<td>IRI or Literal</td>
+							  		<td>No</td>
+							  		<td class="text-break">Shown in the header of the generated documentation. 
+							  		If the value is an IRI, and if it has an rdfs:label, use this as the label of the link; otherwise the URI will be shown.</td>
+							  	</tr>
+							  	<tr>
+							  		<th scope="row"><code>dcterms:dateCopyrighted</code></th>
+							  		<td>xsd:dateTime</td>
+							  		<td>No</td>
+							  		<td class="text-break">Shown in the header of the generated documentation</td>
+							  	</tr>
+							  	<tr>
+							  		<th scope="row"><code>dcterms:issued</code></th>
+							  		<td>xsd:dateTime</td>
+							  		<td>No</td>
+							  		<td class="text-break">Shown in the header of the generated documentation</td>
+							  	</tr>							  	
+							  	<tr>
+							  		<th scope="row"><code>dcterms:license</code> (+ <code>rdfs:label</code>)</th>
+							  		<td>IRI or Literal</td>
+							  		<td>No</td>
+							  		<td class="text-break">Shown in the header of the generated documentation. 
+							  		If the value is an IRI, and if it has an rdfs:label, use this as the label of the link; otherwise the URI will be shown.</td>
+							  	</tr>							  	
+							  	<tr>
+							  		<th scope="row"><code>dcterms:publisher</code> (+ <code>rdfs:label</code>)</th>
+							  		<td>IRI or Literal</td>
+							  		<td>No</td>
+							  		<td class="text-break">Shown in the header of the generated documentation. 
+							  		If the value is an IRI, and if it has an rdfs:label, use this as the label of the link; otherwise the URI will be shown.</td>
+							  	</tr>
+							  	<tr>
+							  		<th scope="row"><code>dcterms:rightsHolder</code> (+ <code>rdfs:label</code>)</th>
+							  		<td>IRI or Literal</td>
+							  		<td>No</td>
+							  		<td class="text-break">Shown in the header of the generated documentation. 
+							  		If the value is an IRI, and if it has an rdfs:label, use this as the label of the link; otherwise the URI will be shown.</td>
+							  	</tr>
+							  	<tr>
+							  		<th scope="row"><code>owl:versionInfo</code></th>
+							  		<td>xsd:string</td>
 							  		<td>No</td>
 							  		<td class="text-break">Shown in the header of the generated documentation</td>
 							  	</tr>
@@ -358,13 +404,19 @@
 									<th scope="row" width="30%"><code>rdfs:comment</code></th>
 									<td>xsd:string</td>
 									<td>No</td>
-									<td class="text-break">Description of the NodeShape.</td>
+									<td class="text-break">Small descriptive paragraph under the section title.</td>
 								</tr>
 								<tr>
 									<th scope="row"><code>sh:targetClass</code></th>
 									<td>sh:IRI</td>
 									<td>No</td>
 									<td class="text-break">Declare all nodes that are instances of some class.</td>
+							  	</tr>
+							  	<tr>
+									<th scope="row"><code>sh:closed</code></th>
+									<td>xsd:boolean</td>
+									<td>No</td>
+									<td class="text-break">Indicates if the shape is closed.</td>
 							  	</tr>
 								<tr>
 									<th scope="row"><code>sh:pattern</code></th>
@@ -374,9 +426,9 @@
 							  	</tr>
 							  	<tr>
 							  		<th scope="row"><code>skos:example</code></th>
-							  		<td>xsd:string</td>
+							  		<td>IRI or xsd:string</td>
 							  		<td>No</td>
-							  		<td class="text-break">Example of an IRI for a target of this NodeShape.</td>
+							  		<td class="text-break">Example of an IRI for a target of this NodeShape. Can be given as an IRI reference or a string.</td>
 							  	</tr>
 							  	<tr>
 							  		<th scope="row"><code>sh:order</code></th>

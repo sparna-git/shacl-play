@@ -2,18 +2,24 @@ package fr.sparna.rdf.shacl.doc.model;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
+import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.vocabulary.RDFS;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 import fr.sparna.rdf.shacl.doc.OwlOntology;
 
+@JsonInclude(Include.NON_NULL)
 public class ShapesDocumentation {
 
 	protected String title;	
-	protected String comment;
+	protected String abstract_;
 	protected String modifiedDate;
 	protected String versionInfo;
 	protected String svgDiagram;
@@ -25,10 +31,18 @@ public class ShapesDocumentation {
 	protected String datecreated;
 	protected String dateissued;
 	protected String yearCopyRighted;
-	protected Link license;
-	protected Link creator;
-	protected Link publisher;
-	protected Link rightsHolder;
+	@JacksonXmlElementWrapper(localName="licenses")
+	@JacksonXmlProperty(localName = "license")
+	protected List<Link> license;
+	@JacksonXmlElementWrapper(localName="creators")
+	@JacksonXmlProperty(localName = "creator")
+	protected List<Link> creator;
+	@JacksonXmlElementWrapper(localName="publishers")
+	@JacksonXmlProperty(localName = "publisher")
+	protected List<Link> publisher;
+	@JacksonXmlElementWrapper(localName="rightsHolders")
+	@JacksonXmlProperty(localName = "rightsHolder")
+	protected List<Link> rightsHolder;
 	
 	
 	@JacksonXmlElementWrapper(localName="prefixes")
@@ -44,44 +58,40 @@ public class ShapesDocumentation {
 			
 			if(ontology.getDctTitle() != null) {
 				this.setTitle(ontology.getDctTitle());
-			}else {
+			} else {
 				this.setTitle(ontology.getRdfsLabel());
 			}
 						
-			this.setComment(ontology.getRdfsComment());
+			this.setAbstract_(ontology.getRdfsComment());
 			
 			this.setDatecreated(ontology.getDateCreated());
 			this.setDateissued(ontology.getDateIssued());
 			this.setYearCopyRighted(ontology.getDateCopyrighted());
 			this.setModifiedDate(ontology.getDateModified());
 			this.setVersionInfo(ontology.getOwlVersionInfo());
-			Optional.ofNullable(ontology.getLicense()).ifPresent(s -> {
-				if(s.isURIResource() && !s.asResource().listProperties(RDFS.label, lang).toList().isEmpty()) {
-					this.setLicense(new Link(s.asResource().getURI(), s.asResource().listProperties(RDFS.label, lang).toList().get(0).getLiteral().getLexicalForm()));
-				} else {
-					this.setLicense(new Link(s.toString(), s.toString()));
-				}
+			
+			Optional.ofNullable(ontology.getLicense()).ifPresent(list -> {
+				this.license = list.stream()
+				.map(new RDFNodeToLinkMapper(lang))
+				.collect(Collectors.toList());
 			});
-			Optional.ofNullable(ontology.getCreator()).ifPresent(s -> {
-				if(s.isURIResource() && !s.asResource().listProperties(RDFS.label, lang).toList().isEmpty()) {
-					this.setCreator(new Link(s.asResource().getURI(), s.asResource().listProperties(RDFS.label, lang).toList().get(0).getLiteral().getLexicalForm()));
-				} else {
-					this.setCreator(new Link(s.toString(), s.toString()));
-				}
+			
+			Optional.ofNullable(ontology.getCreator()).ifPresent(list -> {
+				this.creator = list.stream()
+				.map(new RDFNodeToLinkMapper(lang))
+				.collect(Collectors.toList());
 			});
-			Optional.ofNullable(ontology.getPublisher()).ifPresent(s -> {
-				if(s.isURIResource() && !s.asResource().listProperties(RDFS.label, lang).toList().isEmpty()) {
-					this.setPublisher(new Link(s.asResource().getURI(), s.asResource().listProperties(RDFS.label, lang).toList().get(0).getLiteral().getLexicalForm()));
-				} else {
-					this.setPublisher(new Link(s.toString(), s.toString()));
-				}
+			
+			Optional.ofNullable(ontology.getPublisher()).ifPresent(list -> {
+				this.publisher = list.stream()
+				.map(new RDFNodeToLinkMapper(lang))
+				.collect(Collectors.toList());
 			});
-			Optional.ofNullable(ontology.getRightsHolder()).ifPresent(s -> {
-				if(s.isURIResource() && !s.asResource().listProperties(RDFS.label, lang).toList().isEmpty()) {
-					this.setRightsHolder(new Link(s.asResource().getURI(), s.asResource().listProperties(RDFS.label, lang).toList().get(0).getLiteral().getLexicalForm()));
-				} else {
-					this.setRightsHolder(new Link(s.toString(), s.toString()));
-				}
+			
+			Optional.ofNullable(ontology.getRightsHolder()).ifPresent(list -> {
+				this.rightsHolder = list.stream()
+				.map(new RDFNodeToLinkMapper(lang))
+				.collect(Collectors.toList());
 			});
 			
 			this.setDescriptionDocument(ontology.getDescription());			
@@ -108,28 +118,28 @@ public class ShapesDocumentation {
 	public void setYearCopyRighted(String yearCopyRighted) {
 		this.yearCopyRighted = yearCopyRighted;
 	}
-	public Link getLicense() {
+	public List<Link> getLicense() {
 		return license;
 	}
-	public void setLicense(Link license) {
+	public void setLicense(List<Link> license) {
 		this.license = license;
 	}
-	public Link getCreator() {
+	public List<Link> getCreator() {
 		return creator;
 	}
-	public void setCreator(Link creator) {
+	public void setCreator(List<Link> creator) {
 		this.creator = creator;
 	}
-	public Link getPublisher() {
+	public List<Link> getPublisher() {
 		return publisher;
 	}
-	public void setPublisher(Link publisher) {
+	public void setPublisher(List<Link> publisher) {
 		this.publisher = publisher;
 	}
-	public Link getRightsHolder() {
+	public List<Link> getRightsHolder() {
 		return rightsHolder;
 	}
-	public void setRightsHolder(Link rightsHolder) {
+	public void setRightsHolder(List<Link> rightsHolder) {
 		this.rightsHolder = rightsHolder;
 	}
 	public String getImgLogo() {
@@ -164,13 +174,20 @@ public class ShapesDocumentation {
 	public void setSvgDiagram(String svgDiagram) {
 		this.svgDiagram = svgDiagram;
 	}
-	public String getComment() {
-		return comment;
-	}
-	public void setComment(String commentOntology) {
-		this.comment = commentOntology;
-	}
 	
+	
+	public String getAbstract_() {
+		return abstract_;
+	}
+
+
+
+	public void setAbstract_(String abstract_) {
+		this.abstract_ = abstract_;
+	}
+
+
+
 	public String getVersionInfo() {
 		return versionInfo;
 	}
@@ -204,6 +221,28 @@ public class ShapesDocumentation {
 		this.plantumlSource = plantumlSource;
 	}
 	
-	
+	class RDFNodeToLinkMapper implements Function<RDFNode, Link>{
+		protected String lang;
+
+		public RDFNodeToLinkMapper(String lang) {
+			super();
+			this.lang = lang;
+		}
+
+		@Override
+		public Link apply(RDFNode node) {
+			if(node.isURIResource() && !node.asResource().listProperties(RDFS.label, lang).toList().isEmpty()) {
+				return new Link(node.asResource().getURI(), node.asResource().listProperties(RDFS.label, lang).toList().get(0).getLiteral().getLexicalForm());
+			} else if(node.isURIResource()) {
+				return new Link(node.toString(), node.toString());
+			} else if(node.isLiteral()) {
+				return new Link(null, node.asLiteral().getLexicalForm());
+			} else {
+				return new Link(null, node.toString());
+			}
+		}
+		
+		
+	}
 	
 }

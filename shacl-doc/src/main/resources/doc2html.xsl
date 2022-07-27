@@ -281,46 +281,11 @@
 			         </table>
 					<br />
 					<br />
-					<xsl:if test="datecreated">
-						<b>
-							<xsl:value-of
-								select="$LABELS/labels/entry[@key='METADATA.DATECREATED']/@label" />
-						</b>
-						<xsl:value-of select="datecreated" />
-						<br />
-					</xsl:if>
-					<xsl:if test="dateissued">
-						<b>
-							<xsl:value-of
-								select="$LABELS/labels/entry[@key='METADATA.DATEISSUED']/@label" />
-						</b>
-						<xsl:value-of select="dateissued" />
-						<br />
-					</xsl:if>
-					<xsl:if test="modifiedDate">
-						<b>
-							<xsl:value-of
-								select="$LABELS/labels/entry[@key='METADATA.DATE']/@label" />
-						</b>
-						<xsl:value-of select="modifiedDate" />
-						<br />
-					</xsl:if>
-					<xsl:if test="yearCopyRighted">
-						<b>
-							<xsl:value-of
-								select="$LABELS/labels/entry[@key='METADATA.DATECOPYRIGHTED']/@label" />
-						</b>
-						<xsl:value-of select="yearCopyRighted" />
-						<br />
-					</xsl:if>
-					<xsl:if test="versionInfo">
-						<b>
-							<xsl:value-of
-								select="$LABELS/labels/entry[@key='METADATA.VERSION']/@label" />
-						</b>
-						<xsl:value-of select="versionInfo" />
-						<br />
-					</xsl:if>
+					<xsl:apply-templates select="datecreated" />
+					<xsl:apply-templates select="dateissued" />
+					<xsl:apply-templates select="modifiedDate" />
+					<xsl:apply-templates select="yearCopyRighted" />
+					<xsl:apply-templates select="versionInfo" />
 					<xsl:apply-templates select="licenses" />
 					<xsl:apply-templates select="creators" />
 					<xsl:apply-templates select="publishers" />
@@ -328,65 +293,107 @@
 					<br />
 					<hr />
 					<br />
-					<xsl:if test="comment">
-						<div id="abstract">
-							<h2>
-								<xsl:value-of
-									select="$LABELS/labels/entry[@key='METADATA.INTRODUCTION']/@label" />
-							</h2>
-							<!--  disable output escaping so that HTML is preserved -->
-							<xsl:value-of select="comment" disable-output-escaping="yes" />
-							<br />
-						</div>
-						<br />
-					</xsl:if>
+					<xsl:apply-templates select="abstract_" />
 					
-					<div>
-						<!-- Table de matieres -->
-						<h2>
-							<xsl:value-of
-								select="$LABELS/labels/entry[@key='TOC']/@label" />
-						</h2>
-						<!-- Diagram -->
-						<xsl:if test="svgDiagram != ''">
-							<a href="#diagram">
-								<xsl:value-of
-									select="$LABELS/labels/entry[@key='DIAGRAM.TITLE']/@label" />
-							</a>
-							<br />
-						</xsl:if>
-						<!-- Description -->
-						<xsl:if test="descriptionDocument != ''">
-							<a href="#description">
-								<xsl:value-of select="$LABELS/labels/entry[@key='DESCRIPTION.TITLE']/@label"/>
-							</a>	
-							<br/>
-						</xsl:if>						
-						<!-- Prefixes -->
-						<a href="#prefixes">
-							<xsl:value-of
-								select="$LABELS/labels/entry[@key='PREFIXES.TITLE']/@label" />
-						</a>
-						<br />
-						<!-- Section -->
-						<xsl:for-each select="sections/section">
-							<xsl:sort select="title"/>
-							<xsl:variable name="TitleNodeSapetab" select="uri" />
-							<xsl:variable name="Title" select="title" />
-							
-							<a href="{concat('#',$TitleNodeSapetab)}">
-								<xsl:value-of select="$Title" />
-							</a>
-							<br />
-						</xsl:for-each>
-					</div>
-					<br />
+					<xsl:apply-templates select="." mode="TOC" />
+					
+					<xsl:apply-templates select="svgDiagram" />
+					<xsl:apply-templates select="descriptionDocument" />
+					<xsl:apply-templates select="prefixes" />
 					<xsl:apply-templates select="sections" />
 				</div>
 			</body>
 		</html>
 	</xsl:template>
+	
+	<xsl:template match="ShapesDocumentation" mode="TOC">
+		<div>
+			<!-- Table de matieres -->
+			<h2>
+				<xsl:value-of
+					select="$LABELS/labels/entry[@key='TOC']/@label" />
+			</h2>
+			<!-- Diagram -->
+			<xsl:if test="svgDiagram">
+				<a href="#diagram">
+					<xsl:value-of
+						select="$LABELS/labels/entry[@key='DIAGRAM.TITLE']/@label" />
+				</a>
+				<br />
+			</xsl:if>
+			<!-- Description -->
+			<xsl:if test="descriptionDocument">
+				<a href="#description">
+					<xsl:value-of select="$LABELS/labels/entry[@key='DESCRIPTION.TITLE']/@label"/>
+				</a>	
+				<br/>
+			</xsl:if>						
+			<!-- Prefixes -->
+			<a href="#prefixes">
+				<xsl:value-of
+					select="$LABELS/labels/entry[@key='PREFIXES.TITLE']/@label" />
+			</a>
+			<br />
+			<!-- Section -->
+			<xsl:for-each select="sections/section">
+				<xsl:sort select="title"/>
+				<xsl:variable name="TitleNodeSapetab" select="uri" />
+				<xsl:variable name="Title" select="title" />
+				
+				<a href="{concat('#',$TitleNodeSapetab)}">
+					<xsl:value-of select="$Title" />
+				</a>
+				<br />
+			</xsl:for-each>
+		</div>
+		<br />
+	</xsl:template>
 
+	<xsl:template match="datecreated">
+		<b>
+			<xsl:value-of
+				select="$LABELS/labels/entry[@key='METADATA.DATECREATED']/@label" />
+		</b>
+		<xsl:value-of select="." />
+		<br />
+	</xsl:template>
+	
+	<xsl:template match="dateissued">
+		<b>
+			<xsl:value-of
+				select="$LABELS/labels/entry[@key='METADATA.DATEISSUED']/@label" />
+		</b>
+		<xsl:value-of select="." />
+		<br />
+	</xsl:template>
+	
+	<xsl:template match="modifiedDate">
+		<b>
+			<xsl:value-of
+				select="$LABELS/labels/entry[@key='METADATA.DATE']/@label" />
+		</b>
+		<xsl:value-of select="." />
+		<br />
+	</xsl:template>
+	
+	<xsl:template match="yearCopyRighted">
+		<b>
+			<xsl:value-of
+				select="$LABELS/labels/entry[@key='METADATA.DATECOPYRIGHTED']/@label" />
+		</b>
+		<xsl:value-of select="." />
+		<br />
+	</xsl:template>
+	
+	<xsl:template match="versionInfo">
+		<b>
+			<xsl:value-of
+				select="$LABELS/labels/entry[@key='METADATA.VERSION']/@label" />
+		</b>
+		<xsl:value-of select="." />
+		<br />
+	</xsl:template>
+	
 	<xsl:template match="creators">
 		<b>
 			<xsl:value-of
@@ -395,6 +402,7 @@
 		<xsl:apply-templates />
 		<br />
 	</xsl:template>
+	
 	<xsl:template match="publishers">
 		<b>
 			<xsl:value-of
@@ -403,6 +411,7 @@
 		<xsl:apply-templates />
 		<br />
 	</xsl:template>
+	
 	<xsl:template match="rightsHolders">
 		<b>
 			<xsl:value-of
@@ -411,6 +420,7 @@
 		<xsl:apply-templates />
 		<br />
 	</xsl:template>
+	
 	<xsl:template match="licenses">
 		<b>
 			<xsl:value-of
@@ -419,6 +429,8 @@
 		<xsl:apply-templates />
 		<br />
 	</xsl:template>
+	
+	<!--  shared template for all values -->
 	<xsl:template match="creator | publisher | rightsHolder | license">
 		<xsl:choose>
 			<xsl:when test="href">
@@ -430,6 +442,19 @@
 		</xsl:choose>
 		<!-- if we have following sibling nodes, add a comma -->
 		<xsl:if test="following-sibling::*">, </xsl:if>
+	</xsl:template>
+	
+	<xsl:template match="abstract_">
+		<div id="abstract">
+			<h2>
+				<xsl:value-of
+					select="$LABELS/labels/entry[@key='METADATA.INTRODUCTION']/@label" />
+			</h2>
+			<!--  disable output escaping so that HTML is preserved -->
+			<xsl:value-of select="." disable-output-escaping="yes" />
+			<br />
+		</div>
+		<br />
 	</xsl:template>
 
 	<xsl:template match="svgDiagram[text() != '']">
@@ -458,7 +483,7 @@
 	</xsl:template>
 
 	<!-- Description Title -->
-	<xsl:template match="descriptionDocument">
+	<xsl:template match="descriptionDocument[text() != '']">
 		<div id="description">
 			<h2>
 				<xsl:value-of select="$LABELS/labels/entry[@key='DESCRIPTION.TITLE']/@label" />
@@ -505,7 +530,7 @@
 				<xsl:value-of select="prefix" />
 			</td>
 			<td>
-				<xsl:value-of select="namespace" />
+				<span class="monospace"><a href="{namespace}" target="_blank"><xsl:value-of select="namespace" /></a></span>
 			</td>
 		</tr>
 	</xsl:template>
@@ -524,7 +549,8 @@
 
 			<xsl:if test="description != ''">
 				<p>
-					<em><xsl:value-of select="description" /></em>
+					<!--  disable output escaping so that HTML is preserved -->
+					<em><xsl:value-of select="description" disable-output-escaping="yes" /></em>
 				</p>
 			</xsl:if>
 			<xsl:if

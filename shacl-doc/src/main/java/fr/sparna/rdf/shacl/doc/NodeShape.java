@@ -19,18 +19,18 @@ public class NodeShape {
 	protected Integer shOrder;
 	protected Resource shNodeKind;
 	protected Boolean shClosed;
-	protected String skosExample;
+	protected RDFNode skosExample;
 	protected List<Resource> rdfsSubClassOf;
 	
 	protected List<PropertyShape> properties = new ArrayList<>();
 	
 	
 	
-	public String getSkosExample() {
+	public RDFNode getSkosExample() {
 		return skosExample;
 	}
 
-	public void setSkosExample(String skosExample) {
+	public void setSkosExample(RDFNode skosExample) {
 		this.skosExample = skosExample;
 	}
 

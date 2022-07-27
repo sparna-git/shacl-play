@@ -52,7 +52,7 @@ public class ShapesDocumentationSectionBuilder {
 		}
 		
 		// skos:example
-		currentSection.setSkosExample(nodeShape.getSkosExample());
+		currentSection.setSkosExample((nodeShape.getSkosExample() != null)?nodeShape.getSkosExample().toString():null);
 		
 		// rdfs:subClassOf
 		currentSection.setSuperClasses(nodeShape.getRdfsSubClassOf().stream()

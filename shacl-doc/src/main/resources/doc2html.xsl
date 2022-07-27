@@ -27,13 +27,13 @@
 			<entry key="METADATA.VERSION" label="Version : " />
 			<entry key="METADATA.INTRODUCTION" label="Introduction" />
 			<entry key="METADATA.DATECREATED" label="Date de création: " />
-			<entry key="METADATA.DATE" label="Dernière modification :" />
+			<entry key="METADATA.DATE" label="Dernière modification:" />
 			<entry key="METADATA.DATEISSUED" label="Date de publication: " />
-			<entry key="METADATA.DATECOPYRIGHTED" label="Date du droit d'auteur  " />
+			<entry key="METADATA.DATECOPYRIGHTED" label="Date du droit d'auteur: " />
 			<entry key="METADATA.LICENSE" label="License: " />
 			<entry key="METADATA.CREATOR" label="Creator: " />
 			<entry key="METADATA.PUBLISHER" label="Editeur: " />
-			<entry key="METADATA.RIGHTHOLDER" label="Titulaire de droits: " />
+			<entry key="METADATA.RIGHTHOLDER" label="Titulaire des droits: " />
 
 			<entry key="DIAGRAM.TITLE" label="Diagramme du dataset" />
 			<entry key="DIAGRAM.HELP"
@@ -69,12 +69,12 @@
 			<entry key="METADATA.VERSION" label="Version: " />
 			<entry key="METADATA.INTRODUCTION" label="Abstract" />
 			<entry key="METADATA.DATECREATED" label="Created date: " />
-			<entry key="METADATA.DATEISSUED" label="Issued dare: " />
-			<entry key="METADATA.DATECOPYRIGHTED" label="Copyright date  " />
+			<entry key="METADATA.DATEISSUED" label="Issued date: " />
+			<entry key="METADATA.DATECOPYRIGHTED" label="Copyright date: " />
 			<entry key="METADATA.LICENSE" label="License: " />
 			<entry key="METADATA.CREATOR" label="Creator: " />
 			<entry key="METADATA.PUBLISHER" label="Publisher: " />
-			<entry key="METADATA.RIGHTHOLDER" label="Rightholder: " />
+			<entry key="METADATA.RIGHTHOLDER" label="Rightsholder: " />
 			
 
 			<entry key="DIAGRAM.TITLE" label="Dataset diagram" />
@@ -268,7 +268,7 @@
 					<br />
 					<table style="width:100%">
 			            <xsl:choose>
-			            	<xsl:when test="imgLogo != ''">
+			            	<xsl:when test="imgLogo">
 			            		<tr>
 			            			<td width="20%"><img src="{imgLogo}"/></td>
 			            			<td width="80%"><div><center><h1><xsl:value-of select="title" /></h1></center></div></td>		
@@ -281,7 +281,7 @@
 			         </table>
 					<br />
 					<br />
-					<xsl:if test="datecreated != ''">
+					<xsl:if test="datecreated">
 						<b>
 							<xsl:value-of
 								select="$LABELS/labels/entry[@key='METADATA.DATECREATED']/@label" />
@@ -289,7 +289,7 @@
 						<xsl:value-of select="datecreated" />
 						<br />
 					</xsl:if>
-					<xsl:if test="dateissued != ''">
+					<xsl:if test="dateissued">
 						<b>
 							<xsl:value-of
 								select="$LABELS/labels/entry[@key='METADATA.DATEISSUED']/@label" />
@@ -297,7 +297,7 @@
 						<xsl:value-of select="dateissued" />
 						<br />
 					</xsl:if>
-					<xsl:if test="modifiedDate != ''">
+					<xsl:if test="modifiedDate">
 						<b>
 							<xsl:value-of
 								select="$LABELS/labels/entry[@key='METADATA.DATE']/@label" />
@@ -305,7 +305,7 @@
 						<xsl:value-of select="modifiedDate" />
 						<br />
 					</xsl:if>
-					<xsl:if test="yearCopyRighted != ''">
+					<xsl:if test="yearCopyRighted">
 						<b>
 							<xsl:value-of
 								select="$LABELS/labels/entry[@key='METADATA.DATECOPYRIGHTED']/@label" />
@@ -313,7 +313,7 @@
 						<xsl:value-of select="yearCopyRighted" />
 						<br />
 					</xsl:if>
-					<xsl:if test="versionInfo !=''">
+					<xsl:if test="versionInfo">
 						<b>
 							<xsl:value-of
 								select="$LABELS/labels/entry[@key='METADATA.VERSION']/@label" />
@@ -321,79 +321,26 @@
 						<xsl:value-of select="versionInfo" />
 						<br />
 					</xsl:if>
-					<xsl:if test="license/label != ''">
-						<b>
-							<xsl:value-of
-								select="$LABELS/labels/entry[@key='METADATA.LICENSE']/@label" />
-						</b>
-						<xsl:choose>
-							<xsl:when test="license/href">
-								<a href="{license/href}" target="_blank"><xsl:value-of select="license/label" /></a>
-							</xsl:when>
-							<xsl:otherwise>
-								<xsl:value-of select="license/label"/>
-							</xsl:otherwise>
-						</xsl:choose>					
-						<br />
-					</xsl:if>
-					<xsl:if test="creator/label != ''">
-						<b>
-							<xsl:value-of
-								select="$LABELS/labels/entry[@key='METADATA.CREATOR']/@label" />
-						</b>
-						<xsl:choose>
-							<xsl:when test="creator/href">
-								<a href="{creator/href}" target="_blank"><xsl:value-of select="creator/label" /></a>
-							</xsl:when>
-							<xsl:otherwise>
-								<xsl:value-of select="creator/label"/>
-							</xsl:otherwise>
-						</xsl:choose>	
-						<br />
-					</xsl:if>
-					<xsl:if test="publisher/label != ''">
-						<b>
-							<xsl:value-of
-								select="$LABELS/labels/entry[@key='METADATA.PUBLISHER']/@label" />
-						</b>
-						<xsl:choose>
-							<xsl:when test="publisher/href">
-								<a href="{publisher/href}" target="_blank"><xsl:value-of select="publisher/label" /></a>
-							</xsl:when>
-							<xsl:otherwise>
-								<xsl:value-of select="publisher/label"/>
-							</xsl:otherwise>
-						</xsl:choose>
-						<br />
-					</xsl:if>
-					<xsl:if test="rightsHolder/label != ''">
-						<b>
-							<xsl:value-of
-								select="$LABELS/labels/entry[@key='METADATA.RIGHTHOLDER']/@label" />
-						</b>
-						<xsl:choose>
-							<xsl:when test="rightsHolder/href">
-								<a href="{rightsHolder/href}" target="_blank"><xsl:value-of select="rightsHolder/label" /></a>
-							</xsl:when>
-							<xsl:otherwise>
-								<xsl:value-of select="rightsHolder/label"/>
-							</xsl:otherwise>
-						</xsl:choose>
-					</xsl:if>
+					<xsl:apply-templates select="licenses" />
+					<xsl:apply-templates select="creators" />
+					<xsl:apply-templates select="publishers" />
+					<xsl:apply-templates select="rightsHolders" />
 					<br />
 					<hr />
 					<br />
-					<xsl:if test="comment != ''">
-						<h2>
-							<xsl:value-of
-								select="$LABELS/labels/entry[@key='METADATA.INTRODUCTION']/@label" />
-						</h2>
-						<xsl:value-of select="comment" />
+					<xsl:if test="comment">
+						<div id="abstract">
+							<h2>
+								<xsl:value-of
+									select="$LABELS/labels/entry[@key='METADATA.INTRODUCTION']/@label" />
+							</h2>
+							<!--  disable output escaping so that HTML is preserved -->
+							<xsl:value-of select="comment" disable-output-escaping="yes" />
+							<br />
+						</div>
 						<br />
 					</xsl:if>
-					<br />
-
-
+					
 					<div>
 						<!-- Table de matieres -->
 						<h2>
@@ -408,14 +355,14 @@
 							</a>
 							<br />
 						</xsl:if>
-						<!-- Document Title -->
+						<!-- Description -->
 						<xsl:if test="descriptionDocument != ''">
 							<a href="#description">
 								<xsl:value-of select="$LABELS/labels/entry[@key='DESCRIPTION.TITLE']/@label"/>
 							</a>	
 							<br/>
 						</xsl:if>						
-						<!-- NameSpace Table -->
+						<!-- Prefixes -->
 						<a href="#prefixes">
 							<xsl:value-of
 								select="$LABELS/labels/entry[@key='PREFIXES.TITLE']/@label" />
@@ -423,7 +370,6 @@
 						<br />
 						<!-- Section -->
 						<xsl:for-each select="sections/section">
-
 							<xsl:sort select="title"/>
 							<xsl:variable name="TitleNodeSapetab" select="uri" />
 							<xsl:variable name="Title" select="title" />
@@ -432,55 +378,96 @@
 								<xsl:value-of select="$Title" />
 							</a>
 							<br />
-
 						</xsl:for-each>
 					</div>
 					<br />
-					<xsl:apply-templates />
+					<xsl:apply-templates select="sections" />
 				</div>
 			</body>
 		</html>
 	</xsl:template>
 
-	<xsl:template match="svgDiagram">
-		<xsl:if test=". != ''">
-			<div id="diagram">
-				<h2>
-					<xsl:value-of
-						select="$LABELS/labels/entry[@key='DIAGRAM.TITLE']/@label" />
-				</h2>
-				<div>
-					<!-- @disable-output-escaping prints the raw XML string as XML in the 
-						document and removes XML-encoding of the characters -->
-					<xsl:value-of select="." disable-output-escaping="yes" />
-				</div>
-				<small class="form-text text-muted">
-					<xsl:variable name="pngImg" select="../pngDiagram" />
-					<xsl:value-of
-						select="$LABELS/labels/entry[@key='DIAGRAM.HELP']/@label" />
-					<xsl:text> | </xsl:text>
-					<a href="{$pngImg}" target="_blank">
-						<xsl:value-of
-							select="$LABELS/labels/entry[@key='DIAGRAM.VIEW']/@label" />
-					</a>
-				</small>
-				<br />
+	<xsl:template match="creators">
+		<b>
+			<xsl:value-of
+				select="$LABELS/labels/entry[@key='METADATA.CREATOR']/@label" />
+		</b>
+		<xsl:apply-templates />
+		<br />
+	</xsl:template>
+	<xsl:template match="publishers">
+		<b>
+			<xsl:value-of
+				select="$LABELS/labels/entry[@key='METADATA.PUBLISHER']/@label" />
+		</b>
+		<xsl:apply-templates />
+		<br />
+	</xsl:template>
+	<xsl:template match="rightsHolders">
+		<b>
+			<xsl:value-of
+				select="$LABELS/labels/entry[@key='METADATA.RIGHTHOLDER']/@label" />
+		</b>
+		<xsl:apply-templates />
+		<br />
+	</xsl:template>
+	<xsl:template match="licenses">
+		<b>
+			<xsl:value-of
+				select="$LABELS/labels/entry[@key='METADATA.LICENSE']/@label" />
+		</b>
+		<xsl:apply-templates />
+		<br />
+	</xsl:template>
+	<xsl:template match="creator | publisher | rightsHolder | license">
+		<xsl:choose>
+			<xsl:when test="href">
+				<a href="{href}" target="_blank"><xsl:value-of select="label" /></a>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="label"/>
+			</xsl:otherwise>
+		</xsl:choose>
+		<!-- if we have following sibling nodes, add a comma -->
+		<xsl:if test="following-sibling::*">, </xsl:if>
+	</xsl:template>
+
+	<xsl:template match="svgDiagram[text() != '']">
+		<div id="diagram">
+			<h2>
+				<xsl:value-of
+					select="$LABELS/labels/entry[@key='DIAGRAM.TITLE']/@label" />
+			</h2>
+			<div>
+				<!-- @disable-output-escaping prints the raw XML string as XML in the 
+					document and removes XML-encoding of the characters -->
+				<xsl:value-of select="." disable-output-escaping="yes" />
 			</div>
-		</xsl:if>
+			<small class="form-text text-muted">
+				<xsl:variable name="pngImg" select="../pngDiagram" />
+				<xsl:value-of
+					select="$LABELS/labels/entry[@key='DIAGRAM.HELP']/@label" />
+				<xsl:text> | </xsl:text>
+				<a href="{$pngImg}" target="_blank">
+					<xsl:value-of
+						select="$LABELS/labels/entry[@key='DIAGRAM.VIEW']/@label" />
+				</a>
+			</small>
+			<br />
+		</div>
 	</xsl:template>
 
 	<!-- Description Title -->
 	<xsl:template match="descriptionDocument">
-		<xsl:if test=". != ''">
-			<div id="description">
-				<h2>
-					<xsl:value-of select="$LABELS/labels/entry[@key='DESCRIPTION.TITLE']/@label" />
-				</h2>
-				<br/>
-				<xsl:value-of select="."/>			
-			</div>
+		<div id="description">
+			<h2>
+				<xsl:value-of select="$LABELS/labels/entry[@key='DESCRIPTION.TITLE']/@label" />
+			</h2>
 			<br/>
-		</xsl:if>	
+			<!--  disable output escaping so that HTML is preserved -->
+			<xsl:value-of select="."  disable-output-escaping="yes"/>			
+		</div>
+		<br/>
 	</xsl:template>
 	
 	
@@ -668,11 +655,9 @@
 			<td>
 				<xsl:choose>
 					<xsl:when test="linkNodeShape != ''">
-						<code>
-							<a href="{concat('#',linkNodeShapeUri)}">
-								<xsl:value-of select="linkNodeShape" />
-							</a>
-						</code>	
+						<a href="{concat('#',linkNodeShapeUri)}">
+							<xsl:value-of select="linkNodeShape" />
+						</a>
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:choose>
@@ -691,11 +676,9 @@
 										</xsl:choose>
 									</xsl:variable>
 									<xsl:variable name="sDataOrg" select="." />
-									<code>	
 										<a href="{concat('#',$sDataOrg)}">
 											<xsl:value-of select="concat($sDataOrg,' ')" />
 										</a>
-									</code>
 									<xsl:choose>
 										<xsl:when test="$nfois &gt; $countData">
 											<xsl:text>or</xsl:text>
@@ -704,10 +687,10 @@
 								</xsl:for-each>
 							</xsl:when>
 							<xsl:otherwise>
-								<span class="monospace">
+								<code>
 									<!-- disable output espacing as we may have <sup> in rendering -->
 									<xsl:value-of disable-output-escaping="yes" select="expectedValueLabel" />
-								</span>
+								</code>
 							</xsl:otherwise>
 						</xsl:choose>
 					</xsl:otherwise>

@@ -42,8 +42,8 @@ public class NodeShapeReader {
 	}
 	
 	
-	public String readSkosExample(Resource nodeShape) {
-		return Optional.ofNullable(nodeShape.getProperty(SKOS.example)).map(s -> s.getString()).orElse(null);
+	public RDFNode readSkosExample(Resource nodeShape) {
+		return Optional.ofNullable(nodeShape.getProperty(SKOS.example)).map(s -> s.getObject()).orElse(null);
 	}
 	
 	public Resource readSNodeKind(Resource nodeShape) {	

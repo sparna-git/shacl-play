@@ -1,5 +1,6 @@
 package fr.sparna.rdf.shacl.doc;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -69,8 +70,24 @@ public class ConstraintValueReader {
 		return null;
 	}
 	
-	public static String readLiteralInLangAsString(Resource constraint, Property property, String lang) {
-		return PropertyShapeDocumentationBuilder.render(readLiteralInLang(constraint, property, lang), true);
+	public static String readLiteralInLangAsString(Resource r, Property property, String lang) {
+		return PropertyShapeDocumentationBuilder.render(readLiteralInLang(r, property, lang), true);
+	}
+	
+	public static List<RDFNode> readObjectAsResourceOrLiteralInLang(Resource r, Property property, String lang) {
+		if(r.hasProperty(property)) {
+			List<RDFNode> result = new ArrayList<RDFNode>();
+			for(RDFNode n : r.listProperties(property).toList().stream().map(s -> s.getObject()).collect(Collectors.toList())) {
+				// we keep it either if it is not a Literal or if Literal has no language or the requested language
+				if(!n.isLiteral() || n.asLiteral().getLanguage() == null || n.asLiteral().getLanguage().equals("") || n.asLiteral().getLanguage().equals(lang)) {
+					result.add(n);
+				}
+			}
+			
+			return result;
+		}
+		
+		return null;
 	}
 
 	

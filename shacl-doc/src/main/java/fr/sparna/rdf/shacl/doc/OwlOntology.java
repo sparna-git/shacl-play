@@ -1,5 +1,6 @@
 package fr.sparna.rdf.shacl.doc;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.apache.jena.rdf.model.RDFNode;
@@ -20,10 +21,10 @@ public class OwlOntology {
 	protected String dateCreated = null;
 	protected String dateIssued = null;
 	protected String dateCopyrighted = null;	
-	protected RDFNode license = null;
-	protected RDFNode creator = null;
-	protected RDFNode publisher = null;
-	protected RDFNode rightsHolder = null;		
+	protected List<RDFNode> license = null;
+	protected List<RDFNode> creator = null;
+	protected List<RDFNode> publisher = null;
+	protected List<RDFNode> rightsHolder = null;		
 	
 	public OwlOntology(Resource rOntology, String lang) {
 		this.rdfsLabel = ConstraintValueReader.readLiteralInLangAsString(rOntology, RDFS.label, lang);
@@ -37,10 +38,10 @@ public class OwlOntology {
 		this.dateIssued = ConstraintValueReader.readLiteralInLangAsString(rOntology,DCTerms.issued, null);
 		this.dateCopyrighted = ConstraintValueReader.readLiteralInLangAsString(rOntology,DCTerms.dateCopyrighted, null);
 		
-		license = Optional.ofNullable(rOntology.getProperty(DCTerms.license)).map(s -> s.getObject()).orElse(null);
-		creator = Optional.ofNullable(rOntology.getProperty(DCTerms.creator)).map(s -> s.getObject()).orElse(null);
-		publisher = Optional.ofNullable(rOntology.getProperty(DCTerms.publisher)).map(s -> s.getObject()).orElse(null);
-		rightsHolder = Optional.ofNullable(rOntology.getProperty(DCTerms.rightsHolder)).map(s -> s.getObject()).orElse(null);
+		license = ConstraintValueReader.readObjectAsResourceOrLiteralInLang(rOntology, DCTerms.license, lang);
+		creator = ConstraintValueReader.readObjectAsResourceOrLiteralInLang(rOntology, DCTerms.creator, lang);
+		publisher = ConstraintValueReader.readObjectAsResourceOrLiteralInLang(rOntology, DCTerms.publisher, lang);
+		rightsHolder = ConstraintValueReader.readObjectAsResourceOrLiteralInLang(rOntology, DCTerms.rightsHolder, lang);
 	}
 	
 	
@@ -86,21 +87,20 @@ public class OwlOntology {
 		return dateCopyrighted;
 	}
 
-	public RDFNode getLicense() {
+	public List<RDFNode> getLicense() {
 		return license;
 	}
 
-	public RDFNode getCreator() {
+	public List<RDFNode> getCreator() {
 		return creator;
 	}
 
-	public RDFNode getPublisher() {
+	public List<RDFNode> getPublisher() {
 		return publisher;
 	}
 
-	public RDFNode getRightsHolder() {
+	public List<RDFNode> getRightsHolder() {
 		return rightsHolder;
-	}
-	
+	}	
 	
 }

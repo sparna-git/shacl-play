@@ -9,6 +9,9 @@
 	<xsl:param name="LANG">
 		en
 	</xsl:param>
+	
+	<!-- Param for get diagram -->
+	<xsl:param name="diagramforPDF" required="no"/>
 
 	<!-- french labels -->
 	<xsl:variable name="LABELS_FR">
@@ -34,6 +37,8 @@
 			<entry key="METADATA.CREATOR" label="Creator: " />
 			<entry key="METADATA.PUBLISHER" label="Editeur: " />
 			<entry key="METADATA.RIGHTHOLDER" label="Titulaire des droits: " />
+
+			<entry key="DIAGRAM.TITLE_PIC" label="Diagramme du XXXXXXX Pic" />
 
 			<entry key="DIAGRAM.TITLE" label="Diagramme du dataset" />
 			<entry key="DIAGRAM.HELP"
@@ -76,6 +81,7 @@
 			<entry key="METADATA.PUBLISHER" label="Publisher: " />
 			<entry key="METADATA.RIGHTHOLDER" label="Rightsholder: " />
 			
+			<entry key="DIAGRAM.TITLE_PIC" label="Diagramme du XXXXXXX Pic" />
 
 			<entry key="DIAGRAM.TITLE" label="Dataset diagram" />
 			<entry key="DIAGRAM.HELP"
@@ -295,6 +301,9 @@
 					<br />
 					<xsl:apply-templates select="abstract_" />
 					
+					<xsl:apply-templates select="diagramOWLs"/>
+					<xsl:apply-templates select="diagramforPDF"/>
+					
 					<xsl:apply-templates select="." mode="TOC" />
 					
 					<xsl:apply-templates select="svgDiagram" />
@@ -403,6 +412,7 @@
 		<br />
 	</xsl:template>
 	
+	
 	<xsl:template match="publishers">
 		<b>
 			<xsl:value-of
@@ -457,6 +467,31 @@
 		<br />
 	</xsl:template>
 
+	<xsl:template match="diagramOWLs">
+		<h2>
+			<xsl:value-of select="$LABELS/labels/entry[@key='DIAGRAM.TITLE_PIC']/@label" />
+		</h2>
+		<xsl:apply-templates/>
+		<br />
+	</xsl:template>
+	
+	<xsl:template match="diagramOWL">
+		<img src="{.}" style="width=100%"/>
+	</xsl:template>
+
+	<xsl:template match="diagramforPDF">
+		<div id="diagram">
+			<h2>
+				<xsl:value-of
+					select="$LABELS/labels/entry[@key='DIAGRAM.TITLE']/@label" />
+			</h2>
+			<div>
+				<img src="{.}" style="width=100%"/>
+			</div>
+		</div>		
+	</xsl:template>
+
+	
 	<xsl:template match="svgDiagram[text() != '']">
 		<div id="diagram">
 			<h2>
@@ -681,9 +716,11 @@
 			<td>
 				<xsl:choose>
 					<xsl:when test="linkNodeShape != ''">
-						<a href="{concat('#',linkNodeShapeUri)}">
-							<xsl:value-of select="linkNodeShape" />
-						</a>
+						<code>
+							<a href="{concat('#',linkNodeShapeUri)}">
+								<xsl:value-of select="linkNodeShape" />
+							</a>
+						</code>
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:choose>
@@ -702,12 +739,16 @@
 										</xsl:choose>
 									</xsl:variable>
 									<xsl:variable name="sDataOrg" select="." />
-										<a href="{concat('#',$sDataOrg)}">
-											<xsl:value-of select="concat($sDataOrg,' ')" />
-										</a>
+										<code>
+											<a href="{concat('#',$sDataOrg)}">
+												<xsl:value-of select="concat($sDataOrg,' ')" />
+											</a>
+										</code>
 									<xsl:choose>
 										<xsl:when test="$nfois &gt; $countData">
-											<xsl:text>or</xsl:text>
+											<code>
+												<xsl:text>or</xsl:text>
+											</code>
 										</xsl:when>
 									</xsl:choose>
 								</xsl:for-each>

@@ -1,5 +1,8 @@
 package fr.sparna.rdf.shacl.doc.read;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -149,6 +152,17 @@ public class PropertyShapeDocumentationBuilder {
 		} else if(node.isLiteral()) {
 			// if we asked for a plain string, just return the literal string
 			if(plainString) {
+				
+				if(node.asLiteral().getDatatypeURI().equals("http://www.w3.org/2001/XMLSchema#dateTime")) {
+					try {
+						return fmtDate(node.asLiteral().getLexicalForm(), node.asLiteral().getDatatypeURI());
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}else {
+					
+				}
 				return node.asLiteral().getLexicalForm();
 			}
 			
@@ -167,6 +181,32 @@ public class PropertyShapeDocumentationBuilder {
 			return node.toString();
 		}
 	}
+	
+	public static String fmtDate(String inputDate, String fmt) throws ParseException {
+		String dateFmt = null;
+		if (inputDate != null) {
+			if(fmt.equals("http://www.w3.org/2001/XMLSchema#date")) {
+				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MMM-dd");
+				
+				if(!formatter.equals(inputDate)) {
+					Date date = formatter.parse(inputDate);
+					dateFmt = formatter.format(date);
+				}else {
+					dateFmt = inputDate;
+				}
+								
+			}
+			
+			if(fmt.equals("http://www.w3.org/2001/XMLSchema#dateTime")) {
+				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+				SimpleDateFormat outputformatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				Date date = formatter.parse(inputDate);
+				dateFmt = outputformatter.format(date);
+			}
+		}
+		return dateFmt;
+	}
+	
 	
 	public static String renderCardinalities(Integer min, Integer max) {
 		String minCount = "0";

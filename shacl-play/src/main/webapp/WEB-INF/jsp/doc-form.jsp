@@ -199,14 +199,10 @@
 									<label for="choice_Language"><b><fmt:message key="doc.language.title"/></b></label>
 									<br/>
 									<label><b><fmt:message key="doc.language.option"/></b></label>
-									<input list="languageOption" name="language" style="width:4em;" placeholder="en">
+									<input list="languageOption" name="language" style="width:4em;" value="en">
 									<datalist id="languageOption" style="top: 25px; left: 15px; width: 0.0552516px; display: block; overflow: hidden; height: 0.157862px; padding: 0px; margin: 0px; opacity: 0.000986636;">
-										<option value="de">
 										<option value="en">
-										<option value="es">
-										<option value="fr">
-										<option value="it">
-										<option value="ru">
+										<option value="fr">										
 									</datalist>
 								</div>	
 							</div>
@@ -252,7 +248,6 @@
 									</div>
 								</div>
 						</div>
-						
 						<!-- PDF Option -->
 						<div class="form-group row">
 						      	<div class="col-sm-12">

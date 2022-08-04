@@ -1,6 +1,7 @@
 package fr.sparna.rdf.shacl.app.doc;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
@@ -20,12 +21,14 @@ import com.openhtmltopdf.pdfboxout.PdfRendererBuilder;
 
 import fr.sparna.rdf.shacl.app.CliCommandIfc;
 import fr.sparna.rdf.shacl.app.InputModelReader;
+import fr.sparna.rdf.shacl.doc.PlantUmlSourceGenerator;
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentation;
 import fr.sparna.rdf.shacl.doc.read.ShapesDocumentationModelReader;
 import fr.sparna.rdf.shacl.doc.read.ShapesDocumentationReaderIfc;
 import fr.sparna.rdf.shacl.doc.write.ShapesDocumentationJacksonXsltWriter;
 import fr.sparna.rdf.shacl.doc.write.ShapesDocumentationWriterIfc;
 import fr.sparna.rdf.shacl.doc.write.ShapesDocumentationXmlWriter;
+import net.sourceforge.plantuml.code.TranscoderUtil;
 
 public class Doc implements CliCommandIfc {
 
@@ -94,21 +97,37 @@ public class Doc implements CliCommandIfc {
 		
 		
 		FileOutputStream out = new FileOutputStream(a.getOutput());
+		String urlPngDiagram = null;
 		if(a.getPdf()) {
 			
 			System.out.println("Creation pdf file");
 			
 			// 1. write Documentation structure to HTML
-			FileOutputStream inputHTML = new FileOutputStream(new File("/temp/inputHTML.html"));
+			// Option pour créer le diagramme	 	
+			PlantUmlSourceGenerator sourceGenerator = new PlantUmlSourceGenerator();
+			try {
+				// Read source Uml
+				String plantUmlSourceCode = sourceGenerator.generatePlantUmlDiagram(shapesModel, ModelFactory.createDefaultModel(),false,false,false);
+				// if source uml is true generate png file
+				if(!plantUmlSourceCode.isEmpty()) {
+					// Write the first image to "png"
+					urlPngDiagram = "http://www.plantuml.com/plantuml/png/"+TranscoderUtil.getDefaultTranscoder().encode(plantUmlSourceCode);
+				}
+			} catch (IOException e) {
+			}
+			
 			ShapesDocumentationWriterIfc writerHTML = new ShapesDocumentationJacksonXsltWriter();
-			writerHTML.write(doc, a.getLanguage(), inputHTML);
+			ByteArrayOutputStream htmlBytes = new ByteArrayOutputStream();
+			writerHTML.write(doc, a.getLanguage(), htmlBytes,urlPngDiagram);
 			
 			//read file html
 			if(!a.getOutput().exists()) {
 				System.out.println("pdf file exist");
 			 
 			}
-			htmltopdfFile(readFileHTML("/temp/inputHTML.html"),a.getOutput());
+			//read file html
+			String htmlCode = new String(htmlBytes.toByteArray());
+			htmltopdfFile(htmlCode,a.getOutput());
 			
 			
 		}else {
@@ -116,11 +135,11 @@ public class Doc implements CliCommandIfc {
 			if(a.getOutput().getName().endsWith(".xml")) {
 				// 2. write Documentation structure to XML
 				ShapesDocumentationWriterIfc writer = new ShapesDocumentationXmlWriter();
-				writer.write(doc, a.getLanguage(), out);
+				writer.write(doc, a.getLanguage(), out,urlPngDiagram);
 			} else {
 				// 2. write Documentation structure to HTML
 				ShapesDocumentationWriterIfc writer = new ShapesDocumentationJacksonXsltWriter();
-				writer.write(doc, a.getLanguage(), out);
+				writer.write(doc, a.getLanguage(), out,urlPngDiagram);
 			}
 			out.close();
 		}	

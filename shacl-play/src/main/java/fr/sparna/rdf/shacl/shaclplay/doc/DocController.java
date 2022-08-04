@@ -2,6 +2,7 @@ package fr.sparna.rdf.shacl.shaclplay.doc;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.util.List;
 
@@ -215,7 +216,7 @@ public class DocController {
 		);
 		
 		
-		
+		String urlPngDiagram = "";
 		if(printPDF) {
 			
 			// 1. write Documentation structure to XML
@@ -224,10 +225,8 @@ public class DocController {
 			
 			//
 			// Option pour créer le diagramme	 	
-			String urlPngDiagram = null;
 			PlantUmlSourceGenerator sourceGenerator = new PlantUmlSourceGenerator();
 			try {
-				
 				// Read source Uml
 				String plantUmlSourceCode = sourceGenerator.generatePlantUmlDiagram(shapesModel, ModelFactory.createDefaultModel(),false,false,false);
 				// if source uml is true generate png file
@@ -240,7 +239,7 @@ public class DocController {
 			
 			//
 			ByteArrayOutputStream htmlBytes = new ByteArrayOutputStream();
-			writerHTML.write(doc,languageInput, htmlBytes);
+			writerHTML.write(doc,languageInput, htmlBytes,urlPngDiagram);
 			
 			//read file html
 			String htmlCode = new String(htmlBytes.toByteArray());
@@ -254,14 +253,12 @@ public class DocController {
 			
 			_builder.toStream(response.getOutputStream());
 			_builder.testMode(false);
-			_builder.run();
-			
-			System.out.println("Diagram img"+ urlPngDiagram);
-			
+			_builder.run();					
 		}else {
+			System.out.println("Language "+languageInput);
 			ShapesDocumentationWriterIfc writer = new ShapesDocumentationJacksonXsltWriter();
-			writer.write(doc, "en", response.getOutputStream());
-		
+			writer.write(doc, languageInput, response.getOutputStream(), urlPngDiagram);
+			
 		}
 		
 	}

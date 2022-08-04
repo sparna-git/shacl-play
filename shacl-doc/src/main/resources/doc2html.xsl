@@ -6,10 +6,7 @@
 	<xsl:output indent="yes" method="xml" omit-xml-declaration="yes"/>
 
 	<!-- Language parameter to the XSLT -->
-	<xsl:param name="LANG">
-		en
-	</xsl:param>
-	
+	<xsl:param name="LANG"/>
 	<!-- Param for get diagram -->
 	<xsl:param name="diagramforPDF" required="no"/>
 
@@ -37,6 +34,8 @@
 			<entry key="METADATA.CREATOR" label="Creator: " />
 			<entry key="METADATA.PUBLISHER" label="Editeur: " />
 			<entry key="METADATA.RIGHTHOLDER" label="Titulaire des droits: " />
+			
+			<entry key="METADATA.FORMATS" label="Télécharger serialization : " />
 
 			<entry key="DIAGRAM.TITLE_PIC" label="Diagramme du XXXXXXX Pic" />
 
@@ -81,6 +80,8 @@
 			<entry key="METADATA.PUBLISHER" label="Publisher: " />
 			<entry key="METADATA.RIGHTHOLDER" label="Rightsholder: " />
 			
+			<entry key="METADATA.FORMATS" label="Download serialization : " />
+			
 			<entry key="DIAGRAM.TITLE_PIC" label="Diagramme du XXXXXXX Pic" />
 
 			<entry key="DIAGRAM.TITLE" label="Dataset diagram" />
@@ -101,8 +102,7 @@
 
 
 	<!-- Select labels based on language param -->
-	<xsl:variable name="LABELS"
-		select="if($LANG = 'fr') then $LABELS_FR else $LABELS_EN" />
+	<xsl:variable name="LABELS" select="if($LANG = 'fr') then $LABELS_FR else $LABELS_EN" />
 
 
 	<!-- Principal -->
@@ -111,7 +111,7 @@
 	</xsl:template>
 
 	<xsl:template match="ShapesDocumentation">
-		<html lang="en">
+		<html lang="{$LANG}">
 			<head>
 				<!--  
 				<link rel="stylesheet"
@@ -120,6 +120,8 @@
 					crossorigin="anonymous" />
 					
 				-->
+				
+				<meta charset="UTF-8"/>
 
 				<style type="text/css">
 					.anchor {
@@ -266,7 +268,6 @@
 				     			
 					<!-- fin CSS -->
 					
-					
 				</style>
 			</head>
 			<body>
@@ -274,7 +275,7 @@
 					<br />
 					<table style="width:100%">
 			            <xsl:choose>
-			            	<xsl:when test="imgLogo">
+			            	<xsl:when test="imgLogo != null">
 			            		<tr>
 			            			<td width="20%"><img src="{imgLogo}"/></td>
 			            			<td width="80%"><div><center><h1><xsl:value-of select="title" /></h1></center></div></td>		
@@ -297,12 +298,13 @@
 					<xsl:apply-templates select="publishers" />
 					<xsl:apply-templates select="rightsHolders" />
 					<br />
+					<!-- section for the formats -->
+					<xsl:apply-templates select="formats" />
 					<hr />
 					<br />
 					<xsl:apply-templates select="abstract_" />
 					
 					<xsl:apply-templates select="diagramOWLs"/>
-					<xsl:apply-templates select="diagramforPDF"/>
 					
 					<xsl:apply-templates select="." mode="TOC" />
 					
@@ -311,6 +313,16 @@
 					<xsl:apply-templates select="prefixes" />
 					<xsl:apply-templates select="sections" />
 				</div>
+				
+				<!-- Anchor for the document -->
+				<script src="https://cdn.jsdelivr.net/npm/anchor-js/anchor.min.js">//</script>
+    			<script>				
+					anchors.options = {
+	                    icon: '#'
+	                  };
+               		anchors.options.placement = 'left';
+					anchors.add();		
+				</script>				
 			</body>
 		</html>
 	</xsl:template>
@@ -318,14 +330,13 @@
 	<xsl:template match="ShapesDocumentation" mode="TOC">
 		<div>
 			<!-- Table de matieres -->
-			<h2>
-				<xsl:value-of
-					select="$LABELS/labels/entry[@key='TOC']/@label" />
+			<h2 id="Index">
+				<xsl:value-of select="$LABELS/labels/entry[@key='TOC']/@label" />
 			</h2>
 			<!-- Diagram -->
 			<xsl:if test="svgDiagram">
 				<a href="#diagram">
-					<xsl:value-of
+				<xsl:value-of
 						select="$LABELS/labels/entry[@key='DIAGRAM.TITLE']/@label" />
 				</a>
 				<br />
@@ -356,6 +367,18 @@
 			</xsl:for-each>
 		</div>
 		<br />
+		<br />
+		<xsl:if test="$diagramforPDF != ''">
+			<div>
+				<h2 id="diagram">
+					<xsl:value-of
+					select="$LABELS/labels/entry[@key='DIAGRAM.TITLE']/@label" />
+				</h2>
+				<div>
+					<img src="{$diagramforPDF}" style="width=100%"/>
+				</div>
+			</div>		
+		</xsl:if>
 	</xsl:template>
 
 	<xsl:template match="datecreated">
@@ -402,7 +425,7 @@
 		<xsl:value-of select="." />
 		<br />
 	</xsl:template>
-	
+
 	<xsl:template match="creators">
 		<b>
 			<xsl:value-of
@@ -455,8 +478,8 @@
 	</xsl:template>
 	
 	<xsl:template match="abstract_">
-		<div id="abstract">
-			<h2>
+		<div>
+			<h2 id="abstract">
 				<xsl:value-of
 					select="$LABELS/labels/entry[@key='METADATA.INTRODUCTION']/@label" />
 			</h2>
@@ -466,9 +489,32 @@
 		</div>
 		<br />
 	</xsl:template>
+	
+	<xsl:template match="formats">
+		<b>
+			<xsl:value-of select="$LABELS/labels/entry[@key='METADATA.FORMATS']/@label" />
+		</b>
+		<div>
+			<xsl:apply-templates/>		
+		</div>
+		<br />
+	</xsl:template>
 
+	<xsl:template match="format">
+		<span>
+			<xsl:choose>
+				<xsl:when test="format">
+					<a href="ontology.json" target="_blank">
+						<img src="https://img.shields.io/badge/Format-JSON_LD-blue.svg" alt="JSON-LD" />
+					</a>	
+				</xsl:when>	
+			</xsl:choose>
+			
+		</span>
+	</xsl:template>
+	
 	<xsl:template match="diagramOWLs">
-		<h2>
+		<h2 id="DiagramOWL">
 			<xsl:value-of select="$LABELS/labels/entry[@key='DIAGRAM.TITLE_PIC']/@label" />
 		</h2>
 		<xsl:apply-templates/>
@@ -479,22 +525,9 @@
 		<img src="{.}" style="width=100%"/>
 	</xsl:template>
 
-	<xsl:template match="diagramforPDF">
-		<div id="diagram">
-			<h2>
-				<xsl:value-of
-					select="$LABELS/labels/entry[@key='DIAGRAM.TITLE']/@label" />
-			</h2>
-			<div>
-				<img src="{.}" style="width=100%"/>
-			</div>
-		</div>		
-	</xsl:template>
-
-	
 	<xsl:template match="svgDiagram[text() != '']">
-		<div id="diagram">
-			<h2>
+		<div>
+			<h2 id="Diagram">
 				<xsl:value-of
 					select="$LABELS/labels/entry[@key='DIAGRAM.TITLE']/@label" />
 			</h2>
@@ -519,8 +552,8 @@
 
 	<!-- Description Title -->
 	<xsl:template match="descriptionDocument[text() != '']">
-		<div id="description">
-			<h2>
+		<div>
+			<h2 id="Description">
 				<xsl:value-of select="$LABELS/labels/entry[@key='DESCRIPTION.TITLE']/@label" />
 			</h2>
 			<br/>
@@ -533,8 +566,8 @@
 	
 	<!-- Prefix -->
 	<xsl:template match="prefixes">
-		<div id="prefixes">
-			<h2>
+		<div>
+			<h2 id="Prefixes">
 				<xsl:value-of
 					select="$LABELS/labels/entry[@key='PREFIXES.TITLE']/@label" />
 			</h2>
@@ -577,8 +610,8 @@
 	
 	<xsl:template match="section">
 		<xsl:variable name="TitleNodeSape" select="uri" />
-		<div id="{$TitleNodeSape}">
-			<h2>
+		<div>
+			<h2 id="{$TitleNodeSape}">
 				<xsl:value-of select="title" />
 			</h2>
 

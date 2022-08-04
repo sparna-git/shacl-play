@@ -15,6 +15,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 import fr.sparna.rdf.shacl.doc.OwlFormat;
 import fr.sparna.rdf.shacl.doc.OwlOntology;
+import net.sf.saxon.trans.SymbolicName.F;
 
 @JsonInclude(Include.NON_NULL)
 public class ShapesDocumentation {
@@ -36,7 +37,7 @@ public class ShapesDocumentation {
 	
 	@JacksonXmlElementWrapper(localName="formats")
 	@JacksonXmlProperty(localName = "format")
-	protected List<Link> format;
+	protected List<OwlFormat> format;
 	
 	@JacksonXmlElementWrapper(localName="licenses")
 	@JacksonXmlProperty(localName = "license")
@@ -111,21 +112,20 @@ public class ShapesDocumentation {
 			});
 			
 			
-			Optional.ofNullable(ontology.getFormatDistribution()).ifPresent(list -> {
-				this.format = list.stream()
-						.map(new RDFNodeToLinkMapper(lang))
-						.collect(Collectors.toList());
-			});
+			for (OwlFormat of : ontology.getOwlFormat()) {
+				System.out.println(of.getDctFormat()+"=>"+of.getDcatURL());
+			}
 			
+			this.setFormat(ontology.getOwlFormat());
 			
 		}		
 	}
 	
 	
-	public List<Link> getFormat() {
+	public List<OwlFormat> getFormat() {
 		return format;
 	}
-	public void setFormat(List<Link> format) {
+	public void setFormat(List<OwlFormat> format) {
 		this.format = format;
 	}
 	public List<String> getDiagramOWL() {

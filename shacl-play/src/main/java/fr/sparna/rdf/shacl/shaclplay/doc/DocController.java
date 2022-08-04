@@ -255,10 +255,8 @@ public class DocController {
 			_builder.testMode(false);
 			_builder.run();					
 		}else {
-			System.out.println("Language "+languageInput);
 			ShapesDocumentationWriterIfc writer = new ShapesDocumentationJacksonXsltWriter();
-			writer.write(doc, languageInput, response.getOutputStream(), urlPngDiagram);
-			
+			writer.write(doc, languageInput, response.getOutputStream(), urlPngDiagram);			
 		}
 		
 	}

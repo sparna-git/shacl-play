@@ -113,14 +113,6 @@
 	<xsl:template match="ShapesDocumentation">
 		<html lang="{$LANG}">
 			<head>
-				<!--  
-				<link rel="stylesheet"
-					href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
-					integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
-					crossorigin="anonymous" />
-					
-				-->
-				
 				<meta charset="UTF-8"/>
 
 				<style type="text/css">
@@ -299,7 +291,9 @@
 					<xsl:apply-templates select="rightsHolders" />
 					<br />
 					<!-- section for the formats -->
-					<xsl:apply-templates select="formats" />
+					<xsl:if test="$diagramforPDF=''">
+						<xsl:apply-templates select="formats" />
+					</xsl:if> 
 					<hr />
 					<br />
 					<xsl:apply-templates select="abstract_" />
@@ -477,6 +471,37 @@
 		<xsl:if test="following-sibling::*">, </xsl:if>
 	</xsl:template>
 	
+	<xsl:template match="formats">
+		<b id="formats">
+			<xsl:value-of select="$LABELS/labels/entry[@key='METADATA.FORMATS']/@label" />
+		</b>
+		<br/>
+		<span>
+				<xsl:apply-templates/>
+		</span>		
+	</xsl:template>
+	
+	<xsl:template match="format">
+		<xsl:message><xsl:value-of select="."/></xsl:message>
+		<a href="{dcatURL}" target="_blank">
+			<xsl:choose>
+				<xsl:when test="dctFormat = 'https://www.iana.org/assignments/media-types/application/ld+json'">
+					<img src="https://img.shields.io/badge/Format-JSON_LD-blue.svg" alt="JSON-LD" />
+				</xsl:when>
+				<xsl:when test="dctFormat = 'https://www.iana.org/assignments/media-types/application/n-triples'">
+					<img src="https://img.shields.io/badge/Format-N_Triples-blue.svg" alt="N-Triples" />
+				</xsl:when>
+				<xsl:when test="dctFormat = 'https://www.iana.org/assignments/media-types/application/rdf+xml'">
+					<img src="https://img.shields.io/badge/Format-RDF/XML-blue.svg" alt="RDF/XML" />
+				</xsl:when>
+				<xsl:when test="dctFormat = 'https://www.iana.org/assignments/media-types/text/turtle'">
+					<img src="https://img.shields.io/badge/Format-TTL-blue.svg" alt="TTL" />
+				</xsl:when>
+			</xsl:choose>
+		</a>		
+	</xsl:template>
+	
+	
 	<xsl:template match="abstract_">
 		<div>
 			<h2 id="abstract">
@@ -488,29 +513,6 @@
 			<br />
 		</div>
 		<br />
-	</xsl:template>
-	
-	<xsl:template match="formats">
-		<b>
-			<xsl:value-of select="$LABELS/labels/entry[@key='METADATA.FORMATS']/@label" />
-		</b>
-		<div>
-			<xsl:apply-templates/>		
-		</div>
-		<br />
-	</xsl:template>
-
-	<xsl:template match="format">
-		<span>
-			<xsl:choose>
-				<xsl:when test="format">
-					<a href="ontology.json" target="_blank">
-						<img src="https://img.shields.io/badge/Format-JSON_LD-blue.svg" alt="JSON-LD" />
-					</a>	
-				</xsl:when>	
-			</xsl:choose>
-			
-		</span>
 	</xsl:template>
 	
 	<xsl:template match="diagramOWLs">

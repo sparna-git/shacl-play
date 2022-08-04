@@ -8,10 +8,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
+import org.apache.jena.rdf.model.StmtIterator;
 import org.apache.jena.sparql.vocabulary.FOAF;
 import org.apache.jena.vocabulary.DCAT;
 import org.apache.jena.vocabulary.DCTerms;
@@ -34,12 +37,8 @@ public class OwlOntology {
 	protected List<RDFNode> creator = null;
 	protected List<RDFNode> publisher = null;
 	protected List<RDFNode> rightsHolder = null;		
-	
 	protected List<RDFNode> Depiction = null;
-	
-	protected List<RDFNode> FormatDistribution = null;
-	
-	protected List<OwlFormat> oFormat = new ArrayList<OwlFormat>(); 
+	protected List<OwlFormat> owlFormat = new ArrayList<OwlFormat>(); 
 	
 		
 	public OwlOntology(Resource rOntology, String lang) {
@@ -62,63 +61,38 @@ public class OwlOntology {
 		
 		this.Depiction = ConstraintValueReader.readObjectAsResourceOrLiteralInLang(rOntology, FOAF.depiction, null);
 		
-		oFormat = readDactDistibution(rOntology);
-		
-		this.FormatDistribution = ConstraintValueReader.readObjectAsResourceOrLiteralInLang(rOntology, DCAT.distribution, null);
+		this.owlFormat = readDactDistibution(rOntology);
 		
 	}
 	
 	public List<OwlFormat> readDactDistibution(Resource owlOntology) {
 		
 		List<OwlFormat> lOFormat = new ArrayList<OwlFormat>();
-		OwlFormat oFormat = new OwlFormat();
-		
 		if(owlOntology.hasProperty(DCAT.distribution)) {
-			List<Statement> rDistribution = owlOntology.listProperties(DCAT.distribution, null).toList();
-			for (Statement read : rDistribution) {
-				
-				switch (read.getResource().getURI()) {
-				case "https://www.iana.org/assignments/media-types/text/turtle": {
-					oFormat.setDctFormat(read.getResource());
-					oFormat.setDcatURL(read.getResource());
-					break;
+			List<Statement> rformat = owlOntology.listProperties(DCAT.distribution).toList();
+			for (Statement read : rformat) {				
+				if(read.getProperty(DCTerms.format).getResource().getURI().toString().equals("https://www.iana.org/assignments/media-types/text/turtle") ||
+				   read.getProperty(DCTerms.format).getResource().getURI().toString().equals("https://www.iana.org/assignments/media-types/application/rdf+xml") ||
+				   read.getProperty(DCTerms.format).getResource().getURI().toString().equals("https://www.iana.org/assignments/media-types/application/n-triples") ||
+				   read.getProperty(DCTerms.format).getResource().getURI().toString().equals("https://www.iana.org/assignments/media-types/application/ld+json")
+						) {
+					OwlFormat owlformat = new OwlFormat();
+					owlformat.setDctFormat(read.getProperty(DCTerms.format).getResource().getURI().toString());
+					owlformat.setDcatURL(read.getProperty(DCAT.downloadURL).getResource().getURI().toString());
+					lOFormat.add(owlformat);					
 				}
-				case "https://www.iana.org/assignments/media-types/application/rdf+xml": {
-					
-					break;
-				}
-				case "https://www.iana.org/assignments/media-types/application/n-triples": {
-					
-					break;
-				}
-				case "https://www.iana.org/assignments/media-types/application/ld+json": {
-					
-					break;
-				}
-				default:
-					throw new IllegalArgumentException("Unexpected value: " + read.getResource().getURI());
-				}
-				lOFormat.add(oFormat);
 			}
 		}		
 		return lOFormat;		
 	}
 	
-	public List<RDFNode> getFormatDistribution() {
-		return FormatDistribution;
+	
+	public List<OwlFormat> getOwlFormat() {
+		return owlFormat;
 	}
 
-	public void setFormatDistribution(List<RDFNode> FormatDistribution) {
-		this.FormatDistribution = FormatDistribution;
-	}
-	
-	
-	public List<OwlFormat> getoFormat() {
-		return oFormat;
-	}
-
-	public void setoFormat(List<OwlFormat> oFormat) {
-		this.oFormat = oFormat;
+	public void setOwlFormat(List<OwlFormat> owlFormat) {
+		this.owlFormat = owlFormat;
 	}
 
 	public List<RDFNode> getDepiction() {

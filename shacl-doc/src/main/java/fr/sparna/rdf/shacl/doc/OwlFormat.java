@@ -1,23 +1,21 @@
 package fr.sparna.rdf.shacl.doc;
 
-import org.apache.jena.rdf.model.Resource;
-
 public class OwlFormat {
 
-	protected Resource dctFormat;
-	protected Resource dcatURL;
+	protected String dctFormat;
+	protected String dcatURL;
 	
 	
-	public Resource getDctFormat() {
+	public String getDctFormat() {
 		return dctFormat;
 	}
-	public void setDctFormat(Resource dctFormat) {
+	public void setDctFormat(String dctFormat) {
 		this.dctFormat = dctFormat;
 	}
-	public Resource getDcatURL() {
+	public String getDcatURL() {
 		return dcatURL;
 	}
-	public void setDcatURL(Resource dcatURL) {
+	public void setDcatURL(String dcatURL) {
 		this.dcatURL = dcatURL;
 	}
 	

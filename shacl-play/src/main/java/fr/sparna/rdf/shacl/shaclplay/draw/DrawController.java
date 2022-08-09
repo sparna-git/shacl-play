@@ -194,7 +194,8 @@ public class DrawController {
 				false,
 				// avoid arrows to empty boxes
 				true);
-		String plantumlString = writer.writeInPlantUml(
+		
+		List<String> plantumlString = writer.writeInPlantUml(
 				shapesModel,
 				// OWL Model
 				ModelFactory.createDefaultModel()
@@ -204,12 +205,18 @@ public class DrawController {
 		response.setHeader("Content-Disposition", "inline; filename=\""+filename+"."+format.extension+"\"");
 
 		if(format == FORMAT.TXT) {
-			response.setCharacterEncoding("UTF-8");
-			response.getOutputStream().write(plantumlString.getBytes("UTF-8"));
-			response.getOutputStream().flush();
+			
+			for (String pumlString : plantumlString) {
+				response.setCharacterEncoding("UTF-8");
+				response.getOutputStream().write(pumlString.getBytes("UTF-8"));
+				response.getOutputStream().flush();
+			}
+			
 		} else {
-			SourceStringReader reader = new SourceStringReader(plantumlString);
-			reader.generateImage(response.getOutputStream(), new FileFormatOption(format.plantUmlFileFormat));
+			for (String pUmlString : plantumlString) {
+				SourceStringReader reader = new SourceStringReader(pUmlString);
+				reader.generateImage(response.getOutputStream(), new FileFormatOption(format.plantUmlFileFormat));
+			}
 		}
 
 	}

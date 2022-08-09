@@ -11,6 +11,8 @@ import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -97,7 +99,7 @@ public class Doc implements CliCommandIfc {
 		
 		
 		FileOutputStream out = new FileOutputStream(a.getOutput());
-		String urlPngDiagram = null;
+		List<String> urlPngDiagram = new ArrayList<String>();
 		if(a.getPdf()) {
 			
 			System.out.println("Creation pdf file");
@@ -107,11 +109,13 @@ public class Doc implements CliCommandIfc {
 			PlantUmlSourceGenerator sourceGenerator = new PlantUmlSourceGenerator();
 			try {
 				// Read source Uml
-				String plantUmlSourceCode = sourceGenerator.generatePlantUmlDiagram(shapesModel, ModelFactory.createDefaultModel(),false,false,false);
+				List<String> plantUmlSourceCode = sourceGenerator.generatePlantUmlDiagram(shapesModel, ModelFactory.createDefaultModel(),false,false,false);
 				// if source uml is true generate png file
 				if(!plantUmlSourceCode.isEmpty()) {
-					// Write the first image to "png"
-					urlPngDiagram = "http://www.plantuml.com/plantuml/png/"+TranscoderUtil.getDefaultTranscoder().encode(plantUmlSourceCode);
+					for (String sourceCode : plantUmlSourceCode) {
+						// Write the first image to "png"
+						urlPngDiagram.add("http://www.plantuml.com/plantuml/png/"+TranscoderUtil.getDefaultTranscoder().encode(sourceCode));
+					}
 				}
 			} catch (IOException e) {
 			}

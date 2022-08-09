@@ -4,7 +4,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -216,7 +219,7 @@ public class DocController {
 		);
 		
 		
-		String urlPngDiagram = "";
+		List<String> urlPngDiagram = new ArrayList<String>();
 		if(printPDF) {
 			
 			// 1. write Documentation structure to XML
@@ -228,11 +231,13 @@ public class DocController {
 			PlantUmlSourceGenerator sourceGenerator = new PlantUmlSourceGenerator();
 			try {
 				// Read source Uml
-				String plantUmlSourceCode = sourceGenerator.generatePlantUmlDiagram(shapesModel, ModelFactory.createDefaultModel(),false,false,false);
+				List<String> plantUmlSourceCode = sourceGenerator.generatePlantUmlDiagram(shapesModel, ModelFactory.createDefaultModel(),false,false,false);
 				// if source uml is true generate png file
-				if(!plantUmlSourceCode.isEmpty()) {
-					// Write the first image to "png"
-					urlPngDiagram = "http://www.plantuml.com/plantuml/png/"+TranscoderUtil.getDefaultTranscoder().encode(plantUmlSourceCode);
+				if(plantUmlSourceCode.size() > 0) {
+					for (String code : plantUmlSourceCode) {
+						// Write the first image to "png"
+						urlPngDiagram.add("http://www.plantuml.com/plantuml/png/"+TranscoderUtil.getDefaultTranscoder().encode(code));
+					}
 				}
 			} catch (IOException e) {
 			}		
@@ -242,13 +247,13 @@ public class DocController {
 			writerHTML.write(doc,languageInput, htmlBytes,urlPngDiagram);
 			
 			//read file html
-			String htmlCode = new String(htmlBytes.toByteArray());
+			String htmlCode = new String(htmlBytes.toByteArray(),"UTF-8");
 			
 			// Convert
 			response.setContentType("application/pdf");
 			PdfRendererBuilder _builder = new PdfRendererBuilder();			 
-			
 			_builder.useFastMode();
+			
 			_builder.withHtmlContent(htmlCode, "http://shacl-play.sparna.fr/play");			
 			
 			_builder.toStream(response.getOutputStream());

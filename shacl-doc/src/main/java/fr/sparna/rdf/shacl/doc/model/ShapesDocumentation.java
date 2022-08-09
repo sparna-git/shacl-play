@@ -15,7 +15,6 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 import fr.sparna.rdf.shacl.doc.OwlFormat;
 import fr.sparna.rdf.shacl.doc.OwlOntology;
-import net.sf.saxon.trans.SymbolicName.F;
 
 @JsonInclude(Include.NON_NULL)
 public class ShapesDocumentation {
@@ -24,8 +23,8 @@ public class ShapesDocumentation {
 	protected String abstract_;
 	protected String modifiedDate;
 	protected String versionInfo;
-	protected String svgDiagram;
-	protected String plantumlSource;
+	protected List<String> svgDiagram;
+	protected List<String> plantumlSource;
 	protected String pngDiagram;
 	protected String descriptionDocument;
 	protected String imgLogo;
@@ -34,6 +33,9 @@ public class ShapesDocumentation {
 	protected String dateissued;
 	protected String yearCopyRighted;
 	
+	@JacksonXmlElementWrapper(localName="svgDiagrams")
+	@JacksonXmlProperty(localName = "svgDiagramMulti")
+	protected List<String> svgDiagramMulti;
 	
 	@JacksonXmlElementWrapper(localName="formats")
 	@JacksonXmlProperty(localName = "format")
@@ -111,17 +113,18 @@ public class ShapesDocumentation {
 						.collect(Collectors.toList());
 			});
 			
-			
-			for (OwlFormat of : ontology.getOwlFormat()) {
-				System.out.println(of.getDctFormat()+"=>"+of.getDcatURL());
-			}
-			
 			this.setFormat(ontology.getOwlFormat());
 			
 		}		
 	}
 	
 	
+	public List<String> getSvgDiagramMulti() {
+		return svgDiagramMulti;
+	}
+	public void setSvgDiagramMulti(List<String> svgDiagramMulti) {
+		this.svgDiagramMulti = svgDiagramMulti;
+	}
 	public List<OwlFormat> getFormat() {
 		return format;
 	}
@@ -203,10 +206,10 @@ public class ShapesDocumentation {
 		this.modifiedDate = modifiedDate;
 	}
 	
-	public String getSvgDiagram() {
+	public List<String> getSvgDiagram() {
 		return svgDiagram;
 	}
-	public void setSvgDiagram(String svgDiagram) {
+	public void setSvgDiagram(List<String> svgDiagram) {
 		this.svgDiagram = svgDiagram;
 	}
 	
@@ -249,10 +252,10 @@ public class ShapesDocumentation {
 	public void setPrefixe(List<NamespaceSection> prefixe) {
 		this.prefixe = prefixe;
 	}
-	public String getPlantumlSource() {
+	public List<String> getPlantumlSource() {
 		return plantumlSource;
 	}
-	public void setPlantumlSource(String plantumlSource) {
+	public void setPlantumlSource(List<String> plantumlSource) {
 		this.plantumlSource = plantumlSource;
 	}
 	

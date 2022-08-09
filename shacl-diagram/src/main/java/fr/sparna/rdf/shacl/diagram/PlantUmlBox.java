@@ -14,30 +14,37 @@ public class PlantUmlBox {
 	protected String packageName;	
 	protected String version;
 	protected String colorClass;
+	protected List<String> diagrams;
+	protected String diagramaName;
 	
 	protected List<PlantUmlProperty> properties = new ArrayList<>();
 	protected List<PlantUmlBox> superClasses = new ArrayList<>();
 
-	
-	
-	
-	
+		
+	public String getDiagramaName() {
+		return diagramaName;
+	}
+	public void setDiagramaName(String diagramaName) {
+		this.diagramaName = diagramaName;
+	}
+	public List<String> getDiagrams() {
+		return diagrams;
+	}
+	public void setDiagrams(List<String> diagrams) {
+		this.diagrams = diagrams;
+	}
 	public String getColorClass() {
 		return colorClass;
 	}
-
 	public void setColorClass(String colorClass) {
 		this.colorClass = colorClass;
 	}
-
 	public String getVersion() {
 		return version;
 	}
-
 	public void setVersion(String version) {
 		this.version = version;
 	}
-
 	public PlantUmlBox(Resource nodeShape) {  
 	    this.nodeShape = nodeShape;		
 	}

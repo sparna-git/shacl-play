@@ -27,7 +27,7 @@
 			<entry key="METADATA.VERSION" label="Version : " />
 			<entry key="METADATA.INTRODUCTION" label="Introduction" />
 			<entry key="METADATA.DATECREATED" label="Date de création: " />
-			<entry key="METADATA.DATE" label="Dernière modification:" />
+			<entry key="METADATA.DATE" label="Dernière modification: " />
 			<entry key="METADATA.DATEISSUED" label="Date de publication: " />
 			<entry key="METADATA.DATECOPYRIGHTED" label="Date du droit d'auteur: " />
 			<entry key="METADATA.LICENSE" label="License: " />
@@ -291,7 +291,7 @@
 					<xsl:apply-templates select="rightsHolders" />
 					<br />
 					<!-- section for the formats -->
-					<xsl:if test="$diagramforPDF=''">
+					<xsl:if test="$diagramforPDF = null">
 						<xsl:apply-templates select="formats" />
 					</xsl:if> 
 					<hr />
@@ -302,7 +302,11 @@
 					
 					<xsl:apply-templates select="." mode="TOC" />
 					
+					<!--  
 					<xsl:apply-templates select="svgDiagram" />
+					-->
+					<xsl:apply-templates select="svgDiagrams" />
+					
 					<xsl:apply-templates select="descriptionDocument" />
 					<xsl:apply-templates select="prefixes" />
 					<xsl:apply-templates select="sections" />
@@ -363,15 +367,17 @@
 		<br />
 		<br />
 		<xsl:if test="$diagramforPDF != ''">
-			<div>
-				<h2 id="diagram">
-					<xsl:value-of
-					select="$LABELS/labels/entry[@key='DIAGRAM.TITLE']/@label" />
-				</h2>
+			<xsl:for-each select="$diagramforPDF">
 				<div>
-					<img src="{$diagramforPDF}" style="width=100%"/>
+					<h2 id="diagram">
+						<xsl:value-of
+						select="$LABELS/labels/entry[@key='DIAGRAM.TITLE']/@label" />
+					</h2>
+					<div>
+						<img src="{.}" style="width=100%"/>
+					</div>
 				</div>
-			</div>		
+			</xsl:for-each>
 		</xsl:if>
 	</xsl:template>
 
@@ -477,7 +483,7 @@
 		</b>
 		<br/>
 		<span>
-				<xsl:apply-templates/>
+			<xsl:apply-templates/>
 		</span>		
 	</xsl:template>
 	
@@ -527,6 +533,9 @@
 		<img src="{.}" style="width=100%"/>
 	</xsl:template>
 
+	<!-- @disable-output-escaping prints the raw XML string as XML in the 
+					document and removes XML-encoding of the characters
+				
 	<xsl:template match="svgDiagram[text() != '']">
 		<div>
 			<h2 id="Diagram">
@@ -534,8 +543,6 @@
 					select="$LABELS/labels/entry[@key='DIAGRAM.TITLE']/@label" />
 			</h2>
 			<div>
-				<!-- @disable-output-escaping prints the raw XML string as XML in the 
-					document and removes XML-encoding of the characters -->
 				<xsl:value-of select="." disable-output-escaping="yes" />
 			</div>
 			<small class="form-text text-muted">
@@ -551,6 +558,53 @@
 			<br />
 		</div>
 	</xsl:template>
+	 -->
+	 
+	<xsl:template match="svgDiagrams">
+		<h2 id="Diagram">
+			<xsl:value-of select="$LABELS/labels/entry[@key='DIAGRAM.TITLE']/@label" />
+		</h2>
+		<div>
+			<xsl:choose>
+				<xsl:when test="count(./svgDiagramMulti) &gt; 1">
+					<xsl:apply-templates mode="Multi"/>					
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:apply-templates mode="DiagramGral"/>
+				</xsl:otherwise>
+			</xsl:choose>			
+		</div>
+	</xsl:template>
+	
+	<xsl:template match="svgDiagramMulti" mode="Multi">
+		<!-- @disable-output-escaping prints the raw XML string as XML in the 
+				document and removes XML-encoding of the characters
+				[text() != ''] 
+		-->
+		<div style="border:1px solid green;">
+			<center><xsl:value-of select="." disable-output-escaping="yes" /></center>
+		</div>
+				
+	</xsl:template>
+	
+	<!-- @disable-output-escaping prints the raw XML string as XML in the 
+					document and removes XML-encoding of the characters 
+					-->
+	<xsl:template match="svgDiagramMulti[text() != '']" mode="DiagramGral">
+		<div>
+			<xsl:value-of select="." disable-output-escaping="yes" />
+		</div>
+		<small class="form-text text-muted">
+			<xsl:variable name="pngImg" select="../../pngDiagram" />
+			<xsl:value-of
+					select="$LABELS/labels/entry[@key='DIAGRAM.HELP']/@label" />
+			<xsl:text> | </xsl:text>
+			<a href="{$pngImg}" target="_blank">
+				<xsl:value-of select="$LABELS/labels/entry[@key='DIAGRAM.VIEW']/@label" />
+			</a>
+		</small>
+	</xsl:template>
+	
 
 	<!-- Description Title -->
 	<xsl:template match="descriptionDocument[text() != '']">

@@ -4,6 +4,8 @@ package fr.sparna.rdf.shacl.diagram;
 import java.io.File;
 import java.io.FileInputStream;
 import java.nio.file.attribute.UserPrincipalNotFoundException;
+import java.util.List;
+import java.util.Map;
 
 //import org.apache.jena.datatypes.RDFDatatype;
 import org.apache.jena.rdf.model.Model; 
@@ -38,27 +40,26 @@ public class Main {
 		
 
 		ShaclPlantUmlWriter writer = new ShaclPlantUmlWriter(true, false, outExpandDiagram);
-		String output = writer.writeInPlantUml(shaclGraph,owlGraph);
+		List<String> output = writer.writeInPlantUml(shaclGraph,owlGraph);
 		
 		String outputDirectory ="C:/Temp" ; //args[1];
 		
 		// determine output filename
 		File inputFile = new File(shaclFile);
-		String fileName = inputFile.getName();
+		String fileName = inputFile.getName().substring(0, inputFile.getName().lastIndexOf('.'));
 		
-		// output raw string
-		OutFileUml outfile = new OutFileUml(new File(outputDirectory));
-		outfile.outfileuml(output, fileName.substring(0, fileName.lastIndexOf('.'))+".iuml");
-
-		// output in svg
-		OutFileSVGUml fileplantuml = new OutFileSVGUml(new File(outputDirectory));
-		fileplantuml.outfilesvguml(output, fileName.substring(0, fileName.lastIndexOf('.'))+".svg");
-		
-		// output in svg
-		OutFilePNGuml fileplantumlpng = new OutFilePNGuml(new File(outputDirectory));
-		fileplantumlpng.outfilepnguml(output, fileName.substring(0, fileName.lastIndexOf('.'))+".png");
-		
-		
-
+		for (int i = 0; i < output.size(); i++) {
+			// output raw string
+			OutFileUml outfile = new OutFileUml(new File(outputDirectory));
+			outfile.outfileuml(output.get(i), fileName+'_'+i+".iuml");
+	
+			// output in svg
+			OutFileSVGUml fileplantuml = new OutFileSVGUml(new File(outputDirectory));
+			fileplantuml.outfilesvguml(output.get(i), fileName+'_'+i+".svg");
+			
+			// output in svg
+			OutFilePNGuml fileplantumlpng = new OutFilePNGuml(new File(outputDirectory));
+			fileplantumlpng.outfilepnguml(output.get(i), fileName+'_'+i+".png");
+		}			
 	}
 }

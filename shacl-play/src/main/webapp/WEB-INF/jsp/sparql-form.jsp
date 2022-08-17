@@ -461,6 +461,8 @@
 	
     <script type="text/javascript" src="<c:url value="/resources/jasny-bootstrap/jasny-bootstrap.min.js" />"></script>
 
+	<!-- anchorjs -->
+    <script src="https://cdn.jsdelivr.net/npm/anchor-js/anchor.min.js"></script>
     
     <script>
     	$(document).ready(function () {
@@ -487,6 +489,14 @@
   		});
     	
     </script>
+    <!-- API Anchor -->
+    <script>
+		anchors.options = {
+			  icon: '#'
+			};
+		anchors.options.placement = 'left';
+		anchors.add();		
+	</script>
     
   </body>
 </html>

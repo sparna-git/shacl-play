@@ -13,6 +13,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
+import fr.sparna.rdf.shacl.doc.OwlFormat;
 import fr.sparna.rdf.shacl.doc.OwlOntology;
 
 @JsonInclude(Include.NON_NULL)
@@ -22,8 +23,8 @@ public class ShapesDocumentation {
 	protected String abstract_;
 	protected String modifiedDate;
 	protected String versionInfo;
-	protected String svgDiagram;
-	protected String plantumlSource;
+	protected List<String> svgDiagram;
+	protected List<String> plantumlSource;
 	protected String pngDiagram;
 	protected String descriptionDocument;
 	protected String imgLogo;
@@ -31,6 +32,15 @@ public class ShapesDocumentation {
 	protected String datecreated;
 	protected String dateissued;
 	protected String yearCopyRighted;
+	
+	@JacksonXmlElementWrapper(localName="svgDiagrams")
+	@JacksonXmlProperty(localName = "svgDiagramMulti")
+	protected List<String> svgDiagramMulti;
+	
+	@JacksonXmlElementWrapper(localName="formats")
+	@JacksonXmlProperty(localName = "format")
+	protected List<OwlFormat> format;
+	
 	@JacksonXmlElementWrapper(localName="licenses")
 	@JacksonXmlProperty(localName = "license")
 	protected List<Link> license;
@@ -43,12 +53,12 @@ public class ShapesDocumentation {
 	@JacksonXmlElementWrapper(localName="rightsHolders")
 	@JacksonXmlProperty(localName = "rightsHolder")
 	protected List<Link> rightsHolder;
-	
-	
+	@JacksonXmlElementWrapper(localName="diagramOWLs")
+	@JacksonXmlProperty(localName = "diagramOWL")
+	protected List<String> diagramOWL;
 	@JacksonXmlElementWrapper(localName="prefixes")
 	@JacksonXmlProperty(localName = "prefixe")
 	protected List<NamespaceSection> prefixe;
-	
 	@JacksonXmlElementWrapper(localName="sections")
 	@JacksonXmlProperty(localName = "section")
 	protected List<ShapesDocumentationSection> sections;
@@ -94,12 +104,40 @@ public class ShapesDocumentation {
 				.collect(Collectors.toList());
 			});
 			
-			this.setDescriptionDocument(ontology.getDescription());			
-		}
+			this.setDescriptionDocument(ontology.getDescription());
+			
+			Optional.ofNullable(ontology.getDepiction()).ifPresent(list -> {
+				this.diagramOWL = list
+						.stream()
+						.map(u -> u.asResource().getURI())
+						.collect(Collectors.toList());
+			});
+			
+			this.setFormat(ontology.getOwlFormat());
+			
+		}		
 	}
 	
 	
-	
+	public List<String> getSvgDiagramMulti() {
+		return svgDiagramMulti;
+	}
+	public void setSvgDiagramMulti(List<String> svgDiagramMulti) {
+		this.svgDiagramMulti = svgDiagramMulti;
+	}
+	public List<OwlFormat> getFormat() {
+		return format;
+	}
+	public void setFormat(List<OwlFormat> format) {
+		this.format = format;
+	}
+	public List<String> getDiagramOWL() {
+		return diagramOWL;
+	}
+	public void setDiagramOWL(List<String> diagramOWL) {
+		this.diagramOWL = diagramOWL;
+	}
+
 	public String getDatecreated() {
 		return datecreated;
 	}
@@ -168,10 +206,10 @@ public class ShapesDocumentation {
 		this.modifiedDate = modifiedDate;
 	}
 	
-	public String getSvgDiagram() {
+	public List<String> getSvgDiagram() {
 		return svgDiagram;
 	}
-	public void setSvgDiagram(String svgDiagram) {
+	public void setSvgDiagram(List<String> svgDiagram) {
 		this.svgDiagram = svgDiagram;
 	}
 	
@@ -214,10 +252,10 @@ public class ShapesDocumentation {
 	public void setPrefixe(List<NamespaceSection> prefixe) {
 		this.prefixe = prefixe;
 	}
-	public String getPlantumlSource() {
+	public List<String> getPlantumlSource() {
 		return plantumlSource;
 	}
-	public void setPlantumlSource(String plantumlSource) {
+	public void setPlantumlSource(List<String> plantumlSource) {
 		this.plantumlSource = plantumlSource;
 	}
 	

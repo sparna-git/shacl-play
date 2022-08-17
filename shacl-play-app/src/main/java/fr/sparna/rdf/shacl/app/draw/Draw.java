@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+import java.util.List;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -39,7 +40,7 @@ public class Draw implements CliCommandIfc {
 				true
 		);
 		// TODO : add parameter with OWL file
-		String plantUmlString = writer.writeInPlantUml(shapesModel, ModelFactory.createDefaultModel());
+		List<String> plantUmlStringList = writer.writeInPlantUml(shapesModel, ModelFactory.createDefaultModel());
 		
 		for(File outputFile : a.getOutput()) {
 			
@@ -50,29 +51,31 @@ public class Draw implements CliCommandIfc {
 			}
 			
 			log.debug("Drawing to "+outputFile.getAbsolutePath());
-	
-			if(outputFile.getName().endsWith(".iuml")) {
-				// output raw string
-				write(plantUmlString, outputFile);
-			} else if(outputFile.getName().endsWith(".svg")) {				
-				FileOutputStream out = new FileOutputStream(outputFile);
-				SourceStringReader reader = new SourceStringReader(plantUmlString);
-				reader.generateImage(out, new FileFormatOption(FileFormat.SVG));
-				out.close();
-			} else if(outputFile.getName().endsWith(".png")) {				
-				FileOutputStream out = new FileOutputStream(outputFile);
-				SourceStringReader reader = new SourceStringReader(plantUmlString);
-				reader.generateImage(out, new FileFormatOption(FileFormat.PNG));
-				out.close();
-			} else if(outputFile.getName().endsWith(".pdf")) {				
-				FileOutputStream out = new FileOutputStream(outputFile);
-				SourceStringReader reader = new SourceStringReader(plantUmlString);
-				reader.generateImage(out, new FileFormatOption(FileFormat.PDF));
-				out.close();
-			} else {
-				// raw string by default
-				write(plantUmlString, outputFile);
-			}
+			
+			for (String plantUmlString : plantUmlStringList) {
+				if(outputFile.getName().endsWith(".iuml")) {
+					// output raw string
+					write(plantUmlString, outputFile);
+				} else if(outputFile.getName().endsWith(".svg")) {				
+					FileOutputStream out = new FileOutputStream(outputFile);
+					SourceStringReader reader = new SourceStringReader(plantUmlString);
+					reader.generateImage(out, new FileFormatOption(FileFormat.SVG));
+					out.close();
+				} else if(outputFile.getName().endsWith(".png")) {				
+					FileOutputStream out = new FileOutputStream(outputFile);
+					SourceStringReader reader = new SourceStringReader(plantUmlString);
+					reader.generateImage(out, new FileFormatOption(FileFormat.PNG));
+					out.close();
+				} else if(outputFile.getName().endsWith(".pdf")) {				
+					FileOutputStream out = new FileOutputStream(outputFile);
+					SourceStringReader reader = new SourceStringReader(plantUmlString);
+					reader.generateImage(out, new FileFormatOption(FileFormat.PDF));
+					out.close();
+				} else {
+					// raw string by default
+					write(plantUmlString, outputFile);
+				}
+			}		
 		}		
 	}
 	

@@ -2,18 +2,15 @@ package fr.sparna.rdf.shacl.diagram;
 
 	
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
-import org.apache.jena.sparql.function.library.max;
 import org.apache.jena.vocabulary.RDF;
 import org.topbraid.shacl.vocabulary.SH;
 
@@ -34,7 +31,7 @@ public class ShaclPlantUmlWriter {
 		this.avoidArrowsToEmptyBoxes = avoidArrowsToEmptyBoxes;
 	}
 
-	public String writeInPlantUml(Model shaclGraph, Model owlGraph) {
+	public List<String> writeInPlantUml(Model shaclGraph, Model owlGraph) {
 
 		// read everything typed as NodeShape
 		List<Resource> nodeShapes = shaclGraph.listResourcesWithProperty(RDF.type, SH.NodeShape).toList();
@@ -57,7 +54,6 @@ public class ShaclPlantUmlWriter {
 		
 		// 1. Lire toutes les box
 		PlantUmlBoxReader nodeShapeReader = new PlantUmlBoxReader();		
-		
 		List<PlantUmlBox> plantUmlBoxes = nodeShapes.stream().map(res -> nodeShapeReader.read(res, nodeShapes)).sorted((b1,b2) -> {
 			if (b1.getNametargetclass() != null) {
 				if(b2.getNametargetclass() != null) {
@@ -99,51 +95,59 @@ public class ShaclPlantUmlWriter {
 			}
 		}
 		
+		//for split diagrams
+		BoxforDiagram bDiagram = new BoxforDiagram();
+		List<List<PlantUmlDiagram>> optDiagrams = bDiagram.readBox(plantUmlBoxesA);
 		
-		
-		
+		// Section PlantUML
 		StringBuffer sourceuml = new StringBuffer();
-		sourceuml.append("@startuml\n");
-		sourceuml.append("skinparam classFontSize 14"+"\n");
-		sourceuml.append("!define LIGHTORANGE\n");
-		
-		//skinparam linetype ortho        // l'instruction cr�er des lignes droits  
-		//source +="!includeurl https://raw.githubusercontent.com/Drakemor/RedDress-PlantUML/master/style.puml\n\n";
-		
-		sourceuml.append("skinparam componentStyle uml2\n");
-		sourceuml.append("skinparam wrapMessageWidth 100\n");
-		sourceuml.append("skinparam ArrowColor #Maroon\n");
-		//sourceuml.append("skinparam linetype ortho\n");
-		//sourceuml.append("skinparam dpi 80 \n\n");
-
-		PlantUmlRenderer renderer = new PlantUmlRenderer();
-		renderer.setGenerateAnchorHyperlink(this.generateAnchorHyperlink);
+		List<StringBuffer> listSourceUML = new ArrayList<StringBuffer>();
+		if(optDiagrams.size() > 0) {
+			for (int i = 0; i < optDiagrams.size(); i++) {
+				List<PlantUmlDiagram> plantUml = optDiagrams.get(i);
+				listSourceUML.add(new WriteDiagrams().writeUML(plantUml, generateAnchorHyperlink, avoidArrowsToEmptyBoxes));
+			}
+		}else {
+			sourceuml.append("@startuml\n");
+			sourceuml.append("skinparam classFontSize 14"+"\n");
+			sourceuml.append("!define LIGHTORANGE\n");
+			sourceuml.append("skinparam componentStyle uml2\n");
+			sourceuml.append("skinparam wrapMessageWidth 100\n");
+			sourceuml.append("skinparam ArrowColor #Maroon\n");
 			
-		
-		// retrieve all package declaration
-		Set<String> packages = plantUmlBoxesA.stream().map(b -> b.getPackageName()).collect(Collectors.toSet());
-		for(String aPackage : packages ) {
-			if(!aPackage.equals("")) {
-				sourceuml.append("namespace "+aPackage+" "+"{\n");
+			PlantUmlRenderer renderer = new PlantUmlRenderer();
+			renderer.setGenerateAnchorHyperlink(this.generateAnchorHyperlink);
+				
+			// retrieve all package declaration
+			Set<String> packages = plantUmlBoxesA.stream().map(b -> b.getPackageName()).collect(Collectors.toSet());
+			for(String aPackage : packages ) {
+				if(!aPackage.equals("")) {
+					sourceuml.append("namespace "+aPackage+" "+"{\n");
+				}
+				
+				for (PlantUmlBox plantUmlBox : plantUmlBoxesA.stream().filter(b -> b.getPackageName().equals(aPackage)).collect(Collectors.toList())) {
+						sourceuml.append(renderer.renderNodeShape(plantUmlBox,plantUmlBoxesA,this.avoidArrowsToEmptyBoxes));
+				}
+				
+				if(!aPackage.equals("")) {
+					sourceuml.append("}\n");
+				}			
 			}
 			
-			for (PlantUmlBox plantUmlBox : plantUmlBoxesA.stream().filter(b -> b.getPackageName().equals(aPackage)).collect(Collectors.toList())) {
-				sourceuml.append(renderer.renderNodeShape(plantUmlBox,plantUmlBoxesA,this.avoidArrowsToEmptyBoxes));
-			}
+			sourceuml.append("hide circle\n");
+			sourceuml.append("hide methods\n");
+			sourceuml.append("hide empty members\n");
+			sourceuml.append("@enduml\n");
 			
-			if(!aPackage.equals("")) {
-				sourceuml.append("}\n");
-			}			
+			listSourceUML.add(sourceuml);			
 		}
 		
-		sourceuml.append("hide circle\n");
-		// source += "hide methods\n";
-		sourceuml.append("hide methods\n");
-		sourceuml.append("hide empty members\n");
-		sourceuml.append("@enduml\n");
-
-
-		return sourceuml.toString();
+		
+		List<String> codePlantUml = listSourceUML.stream().map(c -> c.toString()).collect(Collectors.toList());
+		
+		
+		return codePlantUml; //sourceuml.toString();
+		
 
 	}
 }

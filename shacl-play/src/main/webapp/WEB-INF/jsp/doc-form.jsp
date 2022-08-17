@@ -35,8 +35,16 @@
 			}
 
 	    </script>
-		
-		
+		<!--  
+		<style>
+			.anchorjs-link {
+	        	transition: all .25s linear;
+	      		}
+	      	*:hover > .anchorjs-link {
+	        	margin-left: -1.125em !important;
+	      	}
+		</style>
+		-->
 	</head>
 	<body>
 
@@ -180,16 +188,57 @@
 									  <fmt:message key="doc.shapes.inline.help" />
 								  </small>
 							    </div>	
-						      </div>						      		
+						      </div>
+						      <br/>
+						      						      		
 					      </blockquote>					  
 					  
+					  	<blockquote>
+					  		<div class="form-group row">
+					  			<div class="col-sm-12">
+									<label for="choice_Language"><b><fmt:message key="doc.language.title"/></b></label>
+									<br/>
+									<label><b><fmt:message key="doc.language.option"/></b></label>
+									<input list="languageOption" name="language" style="width:4em;" value="en">
+									<datalist id="languageOption" style="top: 25px; left: 15px; width: 0.0552516px; display: block; overflow: hidden; height: 0.157862px; padding: 0px; margin: 0px; opacity: 0.000986636;">
+										<option value="en">
+										<option value="fr">										
+									</datalist>
+								</div>	
+							</div>
+					  	</blockquote>
 					  
 					  <h2><i class="fal fa-tools"></i>&nbsp;&nbsp;<fmt:message key="doc.options.title" /></h2>
 				      <blockquote class="blockquote bq-warning">
+				      	<!-- Logo -->
+						<div class="form-group row">
+						    <div class="col-sm-12">
+								<div class="form-check">
+									<input class="form-check-input" type="checkbox" id="inputLogoCheckbox" name="inputLogoCheckbox"/>
+									<label class="form-check-label" for="inputLogoCheckbox">
+										<fmt:message key="doc.options.logo" />
+									</label>
+									<div class="col-sm-9">
+								      	<input type="text" 
+								      			class="form-control" id="inputLogo" name="inputLogo" 
+								      			oninput="inputtextlogo()"
+								      			placeholder="<fmt:message key="doc.options.logo.placeholder"/>"
+								      			disabled
+								      		>
+							      
+										<small class="form-text text-muted">
+											<fmt:message key="doc.options.logo.help" />
+										</small>
+									</div>
+								</div>
+							</div>
+						</div>
+				      	<!-- Diagram -->
 				      	<div class="form-group row">
 						      	<div class="col-sm-12">
 							      	<div class="form-check">
-									  <input class="form-check-input" type="checkbox" id="includeDiagram" name="includeDiagram" />
+									  <input class="form-check-input" type="checkbox" id="includeDiagram" name="includeDiagram" onclick='chkbDiagramClick(this);' />
+									 <p id="text" style="display:none">Checkbox is CHECKED!</p>
 									  <label class="form-check-label" for="includeDiagram">
 									    <fmt:message key="doc.options.includeDiagram" />
 									  </label>
@@ -199,35 +248,11 @@
 									</div>
 								</div>
 						</div>
-						<!-- Logo -->
-						<div class="form-group row">
-						    <div class="col-sm-12">
-								<div class="form-check">
-									<input class="form-check-input" type="checkbox" id="inputLogoCheckbox" name="inputLogoCheckbox"/>
-									<label class="form-check-label" for="inputLogoCheckbox">
-										<fmt:message key="doc.options.logo" />
-									</label>
-									<div class="col-sm-9">
-								      	<input 
-								      		type="text"
-								      		class="form-control"
-								      		id="inputLogo"
-								      		name="inputLogo"
-								      		placeholder="<fmt:message key="doc.options.logo.placeholder" />"
-								      	>
-							      
-										<small class="form-text text-muted">
-											<fmt:message key="doc.options.logo.help" />
-										</small>
-									</div>
-								</div>
-							</div>
-						</div>
 						<!-- PDF Option -->
 						<div class="form-group row">
 						      	<div class="col-sm-12">
 							      	<div class="form-check">
-									  <input class="form-check-input" type="checkbox" id="printPDF" name="printPDF" />
+									  <input class="form-check-input" type="checkbox" id="printPDF" name="printPDF" onclick='chkbPDFClick(this)' />
 									  <label class="form-check-label" for="printPDF">
 									    <fmt:message key="doc.options.printPDF" />
 									  </label>
@@ -244,15 +269,15 @@
 			  	</form>
  				
  				<!-- Documentation -->	
-				<div id="documentation" style="margin-top:3em;">
-					<h3>Documentation</h3>
+				<div style="margin-top:3em;">
+					<h3 id="documentation">Documentation</h3>
 
 					<p>This documentation generation utility prints an <em>application profile specified in SHACL</em>. It supports a subset of SHACL constraints.<p/>
 					<p>
 					   The generated documentation describes all the properties allowed on each class/shape of the application profile, and includes a diagram, namespace table, introduction, 
 					   and some metadata at the top of the document.
 					</p>
-					<h4>Sample file</h4>
+					<h4 id="Sample-file">Sample file</h4>
 					<p> 
 					   To test, and to better understand how the documentation generation works you can download this <a href="<c:url value="/resources/example/PersonCountry.ttl"/>">turtle example of an application profile specified in SHACL</a>
 					   , or the corresponding <a href="<c:url value="/resources/example/PersonCountry.xlsx"/>">Excel file</a> This Excel file can be converted in SHACL using 
@@ -262,7 +287,7 @@
 
 
 					<div style="margin-top:2em;">
-						<h4>owl:Ontology header</h4>
+						<h4 id="ontology">owl:Ontology header</h4>
 						<p>The documentation generation reads the following properties on a owl:Ontology entity in the SHACL file.</p>
 						
 						<table class="table table-bordered">
@@ -369,7 +394,7 @@
 					</div>
 					
 					<div style="margin-top:2em;">
-						<h4>Prefixes table</h4>
+						<h4 id="prefix">Prefixes table</h4>
 						<p>The prefixes of the SHACL file are inserted in a ""Namespaces section at the top of the documentation.
 						For example the following prefixes:</p>
 						<img src="<c:url value="/resources/img/shacl_doc_prefixes_input.png"/>" width="80%"/>
@@ -381,7 +406,7 @@
 					</div>
 					
 					<div style="margin-top:2em;">
-						<h4>Documentation of Node Shapes</h4>
+						<h4 id="nodeShape">Documentation of Node Shapes</h4>
 						<p>The following properties are read on each sh:NodeShape to populate the header of each section of the generated documentation.</p>
 						
 						<table class="table table-bordered">
@@ -459,7 +484,7 @@
 					</div>
 					
 					<div style="margin-top:2em;">
-						<h4>Documentation of Property Shapes</h4>
+						<h4 id="propertyShape">Documentation of Property Shapes</h4>
 						<p>The following properties are read on each sh:PropertyShape to populate the properties table in the generated documentation.</p>
 						
 						<table class="table table-bordered">
@@ -590,6 +615,8 @@
 	
     <script type="text/javascript" src="<c:url value="/resources/jasny-bootstrap/jasny-bootstrap.min.js" />"></script>
 
+    <!-- anchorjs -->
+    <script src="https://cdn.jsdelivr.net/npm/anchor-js/anchor.min.js"></script>
     
     <script>
     	$(document).ready(function () {
@@ -609,7 +636,71 @@
 	        // var editor = CodeMirror.fromTextArea(sourceText, editorOptions);
 	        // editor.on("change", function(cm, event) { enabledInput('text'); });
     	});
+    	
+    	// CheckBox Control
+    	function chkbDiagramClick(cb) {
+    		  if(cb.checked){
+    		    if(printPDF.checked){
+    		    	printPDF.checked = false;
+    		    }
+    		    // Validate section logo
+    		    if(inputLogoCheckbox.checked ){
+    		    	if(inputLogo.value = null){
+    		    		inputLogoCheckbox.checked = false;	
+    		    	}
+    		    }
+    		}
+    	}
+    	
+    	function chkbPDFClick(cb) {
+  		  if(cb.checked){
+  		    if(includeDiagram.checked){
+  		    	includeDiagram.checked = false;
+  		    }
+  			// Validate section logo
+		    if(inputLogoCheckbox.checked){
+		    	if(inputLogo.value = null){
+		    		inputLogoCheckbox.checked = false;	
+		    	}
+		    }
+  		}
+  		}
+    </script>
+    <script>
+    	inputLogo.oninput = function(){
+    		if(inputLogo.value != null){
+    			if(!inputLogoCheckbox.checked){
+    				inputLogoCheckbox.checked = true;
+    			}
+    		}
+    	}
+    	
+    	inputLogo.onchange = function(){
+    		  if(!inputLogo.value){
+    		    if(inputLogoCheckbox.checked){
+    		    	inputLogoCheckbox.checked = false;
+    		    }
+    		  }
+    	}
+    	
+    	inputLogoCheckbox.onclick = function(){
+    		  if(inputLogoCheckbox.checked){
+    		    document.getElementById("inputLogo").disabled = false;
+    		  }
+    		  if(!inputLogoCheckbox.checked){
+    		    document.getElementById("inputLogo").disabled = true;
+    		  }
+    		  
+    		}
     </script>
     
+    <!-- API Anchor -->
+    <script>
+		anchors.options = {
+			  icon: '#'
+			};
+		anchors.options.placement = 'left';
+		anchors.add();		
+	</script>
   </body>
 </html>

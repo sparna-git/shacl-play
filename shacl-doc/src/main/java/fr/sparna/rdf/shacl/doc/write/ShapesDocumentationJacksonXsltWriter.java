@@ -3,6 +3,8 @@ package fr.sparna.rdf.shacl.doc.write;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.StringWriter;
+import java.net.URL;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -31,7 +33,7 @@ import fr.sparna.rdf.shacl.doc.model.ShapesDocumentation;
 public class ShapesDocumentationJacksonXsltWriter implements ShapesDocumentationWriterIfc {
 
 	@Override
-	public void write(ShapesDocumentation documentation, String outputLang, OutputStream output) throws IOException {
+	public void write(ShapesDocumentation documentation, String outputLang, OutputStream output, List<String> urlDiagram) throws IOException {
 		Document xmlDocument;
 		XMLStreamWriter xmlStreamWriter;
 		try {
@@ -65,6 +67,8 @@ public class ShapesDocumentationJacksonXsltWriter implements ShapesDocumentation
 	        
 	        // pass in the output language
 	        transformer.setParameter("LANG", outputLang);
+	        // pass in the link to diagram PlantUML for the pdf file only
+	        transformer.setParameter("diagramforPDF", urlDiagram);
 	        
 	        transformer.transform(xmlInput, xmlOutput);
 			

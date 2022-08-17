@@ -9,7 +9,7 @@ public class PlantUmlRenderer {
 	protected boolean displayPatterns = false;
 	List<String> inverseList = new ArrayList<String>();
 
-	public String render(PlantUmlProperty property, String boxName, Boolean ctrlExpDiagramm) {
+	public String render(PlantUmlProperty property, String boxName, Boolean ctrlExpDiagramm, String NodeShapeId) {
 		
 		//get the color for the arrow drawn
 		String colorArrowProperty = "";
@@ -25,7 +25,7 @@ public class PlantUmlRenderer {
 		} else if (property.getValue_qualifiedvalueshape() != null) {
 			return renderAsQualifiedShapeReference(property, boxName,colorArrowProperty);
 		} else if (property.getValue_shor().size() > 0) {
-			return renderAsOr(property, boxName,colorArrowProperty);
+			return renderAsOr(property, boxName,colorArrowProperty, NodeShapeId);
 		} else {
 			return renderDefault(property, boxName);
 		}
@@ -154,9 +154,10 @@ public class PlantUmlRenderer {
 	}
 
 	// value = uml_shape+" --> "+"\""+uml_or;
-	public String renderAsOr(PlantUmlProperty property, String boxName, String colorArrow) {
+	public String renderAsOr(PlantUmlProperty property, String boxName, String colorArrow, String NodeShapeId) {
 		// use property local name to garantee unicity of diamond
-		String sNameDiamond = "diamond_" + property.getPropertyShape().getLocalName().replace("-", "_");
+		String nodeshapeId = NodeShapeId.contains(":")?NodeShapeId.split(":")[1]:NodeShapeId;
+		String sNameDiamond = "diamond_" + nodeshapeId+"_"+property.getPropertyShape().getLocalName().replace("-", "_");
 		// diamond declaration
 		String output = "<> " + sNameDiamond + "\n";
 
@@ -326,7 +327,7 @@ public class PlantUmlRenderer {
 						}
 					}
 					
-					declaration += this.render(plantUmlproperty, "\"" + box.getLabel() + "\"", valueIsNodeShape);
+					declaration += this.render(plantUmlproperty, "\"" + box.getLabel() + "\"", valueIsNodeShape,box.getLabel());
 				}
 			}
 		} else {
@@ -350,7 +351,7 @@ public class PlantUmlRenderer {
 			}
 
 			for (PlantUmlProperty plantUmlproperty : box.getProperties()) {
-				declaration += this.render(plantUmlproperty, "\"" + box.getLabel() + "\"", false);
+				declaration += this.render(plantUmlproperty, "\"" + box.getLabel() + "\"", false,box.getLabel());
 			}
 		}
 		return declaration;

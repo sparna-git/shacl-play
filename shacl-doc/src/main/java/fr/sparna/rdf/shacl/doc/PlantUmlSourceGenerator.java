@@ -1,6 +1,7 @@
 package fr.sparna.rdf.shacl.doc;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -9,7 +10,7 @@ import fr.sparna.rdf.shacl.diagram.ShaclPlantUmlWriter;
 
 public class PlantUmlSourceGenerator {
 
-	public String generatePlantUmlDiagram(
+	public List<String> generatePlantUmlDiagram(
 			Model shapesModel,
 			Model owlModel,
 			boolean subclasssOf,
@@ -25,8 +26,10 @@ public class PlantUmlSourceGenerator {
 		if(owlModel != null) {
 			finalModel.add(owlModel);
 		}
-		//String plantUmlString = writer.writeInPlantUml(finalModel,,outExpandDiagram);
-		String plantUmlString = writer.writeInPlantUml(shapesModel,owlModel);
+		
+		//String plantUmlString = writer.writeInPlantUml(shapesModel,owlModel);
+		List<String> plantUmlString = writer.writeInPlantUml(shapesModel,owlModel);
+		
 		return plantUmlString;
 	}
 

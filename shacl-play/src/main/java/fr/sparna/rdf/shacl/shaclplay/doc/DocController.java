@@ -2,8 +2,12 @@ package fr.sparna.rdf.shacl.shaclplay.doc;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,6 +27,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.openhtmltopdf.pdfboxout.PdfRendererBuilder;
 
+import fr.sparna.rdf.shacl.doc.PlantUmlSourceGenerator;
+import fr.sparna.rdf.shacl.doc.SVGGenerator;
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentation;
 import fr.sparna.rdf.shacl.doc.read.ShapesDocumentationModelReader;
 import fr.sparna.rdf.shacl.doc.read.ShapesDocumentationReaderIfc;
@@ -34,6 +40,7 @@ import fr.sparna.rdf.shacl.shaclplay.ControllerModelFactory.SOURCE_TYPE;
 import fr.sparna.rdf.shacl.shaclplay.catalog.AbstractCatalogEntry;
 import fr.sparna.rdf.shacl.shaclplay.catalog.shapes.ShapesCatalog;
 import fr.sparna.rdf.shacl.shaclplay.catalog.shapes.ShapesCatalogService;
+import net.sourceforge.plantuml.code.TranscoderUtil;
 
 
 @Controller
@@ -76,6 +83,8 @@ public class DocController {
 			@RequestParam(value="printPDF", required=false) boolean printPDF,
 			// Logo Option
 			@RequestParam(value="inputLogo", required=false) String urlLogo,
+			// Language Option
+			@RequestParam(value="language", required=false) String languageInput,
 			HttpServletRequest request,
 			HttpServletResponse response
 	){
@@ -86,6 +95,11 @@ public class DocController {
 			ControllerModelFactory modelPopulator = new ControllerModelFactory(this.catalogService.getShapesCatalog());
 			modelPopulator.populateModelFromUrl(shapesModel, shapesUrl);
 			log.debug("Done Loading Shapes. Model contains "+shapesModel.size()+" triples");
+			
+			if(languageInput == null) {
+				languageInput ="en";
+			}
+			
 			doOutputDoc(
 					shapesModel,
 					// true to read diagram
@@ -93,6 +107,7 @@ public class DocController {
 					printPDF,
 					urlLogo,
 					modelPopulator.getSourceName(),
+					languageInput,
 					response);
 			return null;
 		} catch (Exception e) {
@@ -123,6 +138,8 @@ public class DocController {
 			@RequestParam(value="printPDF", required=false) boolean printPDF,
 			// Logo Option
 			@RequestParam(value="inputLogo", required=false) String urlLogo,
+			// Language Option
+			@RequestParam(value="language", required=false) String languageInput,
 			HttpServletRequest request,
 			HttpServletResponse response
 	) {
@@ -156,6 +173,10 @@ public class DocController {
 			);
 			log.debug("Done Loading Shapes. Model contains "+shapesModel.size()+" triples");
 			
+			if(languageInput == null) {
+				languageInput ="en";
+			}
+			
 			doOutputDoc(
 					shapesModel,
 					// true to read diagram
@@ -163,6 +184,7 @@ public class DocController {
 					printPDF,
 					urlLogo,
 					modelPopulator.getSourceName(),
+					languageInput,
 					response
 			);
 			return null;
@@ -180,6 +202,7 @@ public class DocController {
 			boolean printPDF,
 			String urlLogo,
 			String filename,
+			String languageInput,
 			HttpServletResponse response
 	) throws IOException {		
 		response.setContentType("text/html");
@@ -190,37 +213,57 @@ public class DocController {
 				shapesModel,
 				// OWL graph
 				ModelFactory.createDefaultModel(),
-				"en",
+				languageInput,
 				filename,
 				false
 		);
 		
 		
-		
+		List<String> urlPngDiagram = new ArrayList<String>();
 		if(printPDF) {
 			
 			// 1. write Documentation structure to XML
 			ShapesDocumentationWriterIfc writerHTML = new ShapesDocumentationJacksonXsltWriter();
+			
+			
+			//
+			// Option pour créer le diagramme	 	
+			PlantUmlSourceGenerator sourceGenerator = new PlantUmlSourceGenerator();
+			try {
+				// Read source Uml
+				List<String> plantUmlSourceCode = sourceGenerator.generatePlantUmlDiagram(shapesModel, ModelFactory.createDefaultModel(),false,false,false);
+				// if source uml is true generate png file
+				if(plantUmlSourceCode.size() > 0) {
+					for (String code : plantUmlSourceCode) {
+						// Write the first image to "png"
+						urlPngDiagram.add("http://www.plantuml.com/plantuml/png/"+TranscoderUtil.getDefaultTranscoder().encode(code));
+					}
+				}
+			} catch (IOException e) {
+			}		
+			
+			//
 			ByteArrayOutputStream htmlBytes = new ByteArrayOutputStream();
-			writerHTML.write(doc, "en", htmlBytes);
+			writerHTML.write(doc,languageInput, htmlBytes,urlPngDiagram);
 			
 			//read file html
-			String htmlCode = new String(htmlBytes.toByteArray());
+			String htmlCode = new String(htmlBytes.toByteArray(),"UTF-8");
 			
 			// Convert
 			response.setContentType("application/pdf");
 			PdfRendererBuilder _builder = new PdfRendererBuilder();			 
-			
 			_builder.useFastMode();
+			
 			_builder.withHtmlContent(htmlCode, "http://shacl-play.sparna.fr/play");			
 			
 			_builder.toStream(response.getOutputStream());
 			_builder.testMode(false);
-			_builder.run();
+			_builder.run();					
 		}else {
 			ShapesDocumentationWriterIfc writer = new ShapesDocumentationJacksonXsltWriter();
-			writer.write(doc, "en", response.getOutputStream());
+			writer.write(doc, languageInput, response.getOutputStream(), urlPngDiagram);			
 		}
+		
 	}
 		
 	/**

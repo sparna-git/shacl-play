@@ -6,9 +6,9 @@
 	<xsl:output indent="yes" method="xml" omit-xml-declaration="yes"/>
 
 	<!-- Language parameter to the XSLT -->
-	<xsl:param name="LANG">
-		en
-	</xsl:param>
+	<xsl:param name="LANG"/>
+	<!-- Param for get diagram -->
+	<xsl:param name="diagramforPDF" required="no"/>
 
 	<!-- french labels -->
 	<xsl:variable name="LABELS_FR">
@@ -27,13 +27,17 @@
 			<entry key="METADATA.VERSION" label="Version : " />
 			<entry key="METADATA.INTRODUCTION" label="Introduction" />
 			<entry key="METADATA.DATECREATED" label="Date de création: " />
-			<entry key="METADATA.DATE" label="Dernière modification:" />
+			<entry key="METADATA.DATE" label="Dernière modification: " />
 			<entry key="METADATA.DATEISSUED" label="Date de publication: " />
 			<entry key="METADATA.DATECOPYRIGHTED" label="Date du droit d'auteur: " />
 			<entry key="METADATA.LICENSE" label="License: " />
 			<entry key="METADATA.CREATOR" label="Creator: " />
 			<entry key="METADATA.PUBLISHER" label="Editeur: " />
 			<entry key="METADATA.RIGHTHOLDER" label="Titulaire des droits: " />
+			
+			<entry key="METADATA.FORMATS" label="Télécharger serialization : " />
+
+			<entry key="DIAGRAM.TITLE_PIC" label="Diagramme du XXXXXXX Pic" />
 
 			<entry key="DIAGRAM.TITLE" label="Diagramme du dataset" />
 			<entry key="DIAGRAM.HELP"
@@ -76,6 +80,9 @@
 			<entry key="METADATA.PUBLISHER" label="Publisher: " />
 			<entry key="METADATA.RIGHTHOLDER" label="Rightsholder: " />
 			
+			<entry key="METADATA.FORMATS" label="Download serialization : " />
+			
+			<entry key="DIAGRAM.TITLE_PIC" label="Diagramme du XXXXXXX Pic" />
 
 			<entry key="DIAGRAM.TITLE" label="Dataset diagram" />
 			<entry key="DIAGRAM.HELP"
@@ -95,8 +102,7 @@
 
 
 	<!-- Select labels based on language param -->
-	<xsl:variable name="LABELS"
-		select="if($LANG = 'fr') then $LABELS_FR else $LABELS_EN" />
+	<xsl:variable name="LABELS" select="if($LANG = 'fr') then $LABELS_FR else $LABELS_EN" />
 
 
 	<!-- Principal -->
@@ -105,15 +111,9 @@
 	</xsl:template>
 
 	<xsl:template match="ShapesDocumentation">
-		<html lang="en">
+		<html lang="{$LANG}">
 			<head>
-				<!--  
-				<link rel="stylesheet"
-					href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
-					integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
-					crossorigin="anonymous" />
-					
-				-->
+				<meta charset="UTF-8"/>
 
 				<style type="text/css">
 					.anchor {
@@ -260,7 +260,6 @@
 				     			
 					<!-- fin CSS -->
 					
-					
 				</style>
 			</head>
 			<body>
@@ -268,7 +267,7 @@
 					<br />
 					<table style="width:100%">
 			            <xsl:choose>
-			            	<xsl:when test="imgLogo">
+			            	<xsl:when test="imgLogo != null">
 			            		<tr>
 			            			<td width="20%"><img src="{imgLogo}"/></td>
 			            			<td width="80%"><div><center><h1><xsl:value-of select="title" /></h1></center></div></td>		
@@ -291,18 +290,38 @@
 					<xsl:apply-templates select="publishers" />
 					<xsl:apply-templates select="rightsHolders" />
 					<br />
+					<!-- section for the formats -->
+					<xsl:if test="$diagramforPDF = null">
+						<xsl:apply-templates select="formats" />
+					</xsl:if> 
 					<hr />
 					<br />
 					<xsl:apply-templates select="abstract_" />
 					
+					<xsl:apply-templates select="diagramOWLs"/>
+					
 					<xsl:apply-templates select="." mode="TOC" />
 					
-					
+
+					<!--  
 					<xsl:apply-templates select="svgDiagram" />
+					-->
+					<xsl:apply-templates select="svgDiagrams" />
+					
 					<xsl:apply-templates select="descriptionDocument" />
 					<xsl:apply-templates select="prefixes" />
 					<xsl:apply-templates select="sections" />
 				</div>
+				
+				<!-- Anchor for the document -->
+				<script src="https://cdn.jsdelivr.net/npm/anchor-js/anchor.min.js">//</script>
+    			<script>				
+					anchors.options = {
+	                    icon: '#'
+	                  };
+               		anchors.options.placement = 'left';
+					anchors.add();		
+				</script>				
 			</body>
 		</html>
 	</xsl:template>
@@ -310,14 +329,13 @@
 	<xsl:template match="ShapesDocumentation" mode="TOC">
 		<div>
 			<!-- Table de matieres -->
-			<h2>
-				<xsl:value-of
-					select="$LABELS/labels/entry[@key='TOC']/@label" />
+			<h2 id="Index">
+				<xsl:value-of select="$LABELS/labels/entry[@key='TOC']/@label" />
 			</h2>
 			<!-- Diagram -->
 			<xsl:if test="svgDiagram">
 				<a href="#diagram">
-					<xsl:value-of
+				<xsl:value-of
 						select="$LABELS/labels/entry[@key='DIAGRAM.TITLE']/@label" />
 				</a>
 				<br />
@@ -348,6 +366,20 @@
 			</xsl:for-each>
 		</div>
 		<br />
+		<br />
+		<xsl:if test="$diagramforPDF != ''">
+			<xsl:for-each select="$diagramforPDF">
+				<div>
+					<h2 id="diagram">
+						<xsl:value-of
+						select="$LABELS/labels/entry[@key='DIAGRAM.TITLE']/@label" />
+					</h2>
+					<div>
+						<img src="{.}" style="width=100%"/>
+					</div>
+				</div>
+			</xsl:for-each>
+		</xsl:if>
 	</xsl:template>
 
 	<xsl:template match="datecreated">
@@ -394,7 +426,7 @@
 		<xsl:value-of select="." />
 		<br />
 	</xsl:template>
-	
+
 	<xsl:template match="creators">
 		<b>
 			<xsl:value-of
@@ -403,6 +435,7 @@
 		<xsl:apply-templates />
 		<br />
 	</xsl:template>
+	
 	
 	<xsl:template match="publishers">
 		<b>
@@ -445,9 +478,40 @@
 		<xsl:if test="following-sibling::*">, </xsl:if>
 	</xsl:template>
 	
+	<xsl:template match="formats">
+		<b id="formats">
+			<xsl:value-of select="$LABELS/labels/entry[@key='METADATA.FORMATS']/@label" />
+		</b>
+		<br/>
+		<span>
+			<xsl:apply-templates/>
+		</span>		
+	</xsl:template>
+	
+	<xsl:template match="format">
+		<xsl:message><xsl:value-of select="."/></xsl:message>
+		<a href="{dcatURL}" target="_blank">
+			<xsl:choose>
+				<xsl:when test="dctFormat = 'https://www.iana.org/assignments/media-types/application/ld+json'">
+					<img src="https://img.shields.io/badge/Format-JSON_LD-blue.svg" alt="JSON-LD" />
+				</xsl:when>
+				<xsl:when test="dctFormat = 'https://www.iana.org/assignments/media-types/application/n-triples'">
+					<img src="https://img.shields.io/badge/Format-N_Triples-blue.svg" alt="N-Triples" />
+				</xsl:when>
+				<xsl:when test="dctFormat = 'https://www.iana.org/assignments/media-types/application/rdf+xml'">
+					<img src="https://img.shields.io/badge/Format-RDF/XML-blue.svg" alt="RDF/XML" />
+				</xsl:when>
+				<xsl:when test="dctFormat = 'https://www.iana.org/assignments/media-types/text/turtle'">
+					<img src="https://img.shields.io/badge/Format-TTL-blue.svg" alt="TTL" />
+				</xsl:when>
+			</xsl:choose>
+		</a>		
+	</xsl:template>
+	
+	
 	<xsl:template match="abstract_">
-		<div id="abstract">
-			<h2>
+		<div>
+			<h2 id="abstract">
 				<xsl:value-of
 					select="$LABELS/labels/entry[@key='METADATA.INTRODUCTION']/@label" />
 			</h2>
@@ -457,16 +521,29 @@
 		</div>
 		<br />
 	</xsl:template>
+	
+	<xsl:template match="diagramOWLs">
+		<h2 id="DiagramOWL">
+			<xsl:value-of select="$LABELS/labels/entry[@key='DIAGRAM.TITLE_PIC']/@label" />
+		</h2>
+		<xsl:apply-templates/>
+		<br />
+	</xsl:template>
+	
+	<xsl:template match="diagramOWL">
+		<img src="{.}" style="width=100%"/>
+	</xsl:template>
 
+	<!-- @disable-output-escaping prints the raw XML string as XML in the 
+					document and removes XML-encoding of the characters
+				
 	<xsl:template match="svgDiagram[text() != '']">
-		<div id="diagram">
-			<h2>
+		<div>
+			<h2 id="Diagram">
 				<xsl:value-of
 					select="$LABELS/labels/entry[@key='DIAGRAM.TITLE']/@label" />
 			</h2>
 			<div>
-				<!-- @disable-output-escaping prints the raw XML string as XML in the 
-					document and removes XML-encoding of the characters -->
 				<xsl:value-of select="." disable-output-escaping="yes" />
 			</div>
 			<small class="form-text text-muted">
@@ -482,11 +559,58 @@
 			<br />
 		</div>
 	</xsl:template>
+	 -->
+	 
+	<xsl:template match="svgDiagrams">
+		<h2 id="Diagram">
+			<xsl:value-of select="$LABELS/labels/entry[@key='DIAGRAM.TITLE']/@label" />
+		</h2>
+		<div>
+			<xsl:choose>
+				<xsl:when test="count(./svgDiagramMulti) &gt; 1">
+					<xsl:apply-templates mode="Multi"/>					
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:apply-templates mode="DiagramGral"/>
+				</xsl:otherwise>
+			</xsl:choose>			
+		</div>
+	</xsl:template>
+	
+	<xsl:template match="svgDiagramMulti" mode="Multi">
+		<!-- @disable-output-escaping prints the raw XML string as XML in the 
+				document and removes XML-encoding of the characters
+				[text() != ''] 
+		-->
+		<div style="border:1px solid green;">
+			<center><xsl:value-of select="." disable-output-escaping="yes" /></center>
+		</div>
+				
+	</xsl:template>
+	
+	<!-- @disable-output-escaping prints the raw XML string as XML in the 
+					document and removes XML-encoding of the characters 
+					-->
+	<xsl:template match="svgDiagramMulti[text() != '']" mode="DiagramGral">
+		<div>
+			<xsl:value-of select="." disable-output-escaping="yes" />
+		</div>
+		<small class="form-text text-muted">
+			<xsl:variable name="pngImg" select="../../pngDiagram" />
+			<xsl:value-of
+					select="$LABELS/labels/entry[@key='DIAGRAM.HELP']/@label" />
+			<xsl:text> | </xsl:text>
+			<a href="{$pngImg}" target="_blank">
+				<xsl:value-of select="$LABELS/labels/entry[@key='DIAGRAM.VIEW']/@label" />
+			</a>
+		</small>
+	</xsl:template>
+	
 
 	<!-- Description Title -->
 	<xsl:template match="descriptionDocument[text() != '']">
-		<div id="description">
-			<h2>
+		<div>
+			<h2 id="Description">
 				<xsl:value-of select="$LABELS/labels/entry[@key='DESCRIPTION.TITLE']/@label" />
 			</h2>
 			<!--  disable output escaping so that HTML is preserved -->
@@ -498,8 +622,8 @@
 	
 	<!-- Prefix -->
 	<xsl:template match="prefixes">
-		<div id="prefixes">
-			<h2>
+		<div>
+			<h2 id="Prefixes">
 				<xsl:value-of
 					select="$LABELS/labels/entry[@key='PREFIXES.TITLE']/@label" />
 			</h2>
@@ -542,8 +666,8 @@
 	
 	<xsl:template match="section">
 		<xsl:variable name="TitleNodeSape" select="uri" />
-		<div id="{$TitleNodeSape}">
-			<h2>
+		<div>
+			<h2 id="{$TitleNodeSape}">
 				<xsl:value-of select="title" />
 			</h2>
 
@@ -681,9 +805,11 @@
 			<td>
 				<xsl:choose>
 					<xsl:when test="linkNodeShape != ''">
-						<a href="{concat('#',linkNodeShapeUri)}">
-							<xsl:value-of select="linkNodeShape" />
-						</a>
+						<code>
+							<a href="{concat('#',linkNodeShapeUri)}">
+								<xsl:value-of select="linkNodeShape" />
+							</a>
+						</code>
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:choose>
@@ -702,12 +828,16 @@
 										</xsl:choose>
 									</xsl:variable>
 									<xsl:variable name="sDataOrg" select="." />
-										<a href="{concat('#',$sDataOrg)}">
-											<xsl:value-of select="concat($sDataOrg,' ')" />
-										</a>
+										<code>
+											<a href="{concat('#',$sDataOrg)}">
+												<xsl:value-of select="concat($sDataOrg,' ')" />
+											</a>
+										</code>
 									<xsl:choose>
 										<xsl:when test="$nfois &gt; $countData">
-											<xsl:text>or</xsl:text>
+											<code>
+												<xsl:text>or</xsl:text>
+											</code>
 										</xsl:when>
 									</xsl:choose>
 								</xsl:for-each>

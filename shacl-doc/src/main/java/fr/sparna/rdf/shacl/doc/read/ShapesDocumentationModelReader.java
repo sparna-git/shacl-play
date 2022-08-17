@@ -22,7 +22,6 @@ import fr.sparna.rdf.shacl.doc.ShaclPrefixReader;
 import fr.sparna.rdf.shacl.doc.model.NamespaceSection;
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentation;
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentationSection;
-import net.sourceforge.plantuml.code.Transcoder;
 import net.sourceforge.plantuml.code.TranscoderUtil;
 
 public class ShapesDocumentationModelReader implements ShapesDocumentationReaderIfc {
@@ -117,19 +116,25 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 			PlantUmlSourceGenerator sourceGenerator = new PlantUmlSourceGenerator();
 			try {
 				System.out.println("Generating diagram");
-				String svgDiagramme = gImgSvg.generateSvgDiagram(shaclGraph, owlGraph,avoidArrowsToEmptyBoxes);
-				String plantUmlSourceDiagram = sourceGenerator.generatePlantUmlDiagram(shaclGraph, owlGraph,false,true,avoidArrowsToEmptyBoxes);
-				// Read source Uml
-				String plantUmlSourceCode = sourceGenerator.generatePlantUmlDiagram(shaclGraph, owlGraph,false,false,avoidArrowsToEmptyBoxes);
+				List<String> svgDiagramme = gImgSvg.generateSvgDiagram(shaclGraph, owlGraph,avoidArrowsToEmptyBoxes);
 				
-				System.out.println(svgDiagramme);
-				shapesDocumentation.setSvgDiagram(svgDiagramme);
-				shapesDocumentation.setPlantumlSource(plantUmlSourceDiagram);
+				List<String> plantUmlSourceDiagram = sourceGenerator.generatePlantUmlDiagram(shaclGraph, owlGraph,false,true,avoidArrowsToEmptyBoxes);
+				// Read source Uml
+				List<String> plantUmlSourceCode = sourceGenerator.generatePlantUmlDiagram(shaclGraph, owlGraph,false,false,avoidArrowsToEmptyBoxes);
+				
+				//System.out.println(svgDiagramme);
+				//shapesDocumentation.setSvgDiagram(svgDiagramme);
+				shapesDocumentation.setSvgDiagramMulti(svgDiagramme);
+				
+				shapesDocumentation.setPlantumlSource(plantUmlSourceCode);
 				
 				// if source uml is true generate png file
-				if(!plantUmlSourceCode.isEmpty()) {	
+				if(!plantUmlSourceCode.isEmpty() && plantUmlSourceCode.size() < 2) {	
 					// Write the first image to "png"
-					shapesDocumentation.setPngDiagram("http://www.plantuml.com/plantuml/png/"+TranscoderUtil.getDefaultTranscoder().encode(plantUmlSourceCode));
+					for (String dataSource : plantUmlSourceCode) {
+						shapesDocumentation.setPngDiagram("http://www.plantuml.com/plantuml/png/"+TranscoderUtil.getDefaultTranscoder().encode(dataSource));
+					}
+					
 				}
 			} catch (IOException e) {
 				e.printStackTrace();

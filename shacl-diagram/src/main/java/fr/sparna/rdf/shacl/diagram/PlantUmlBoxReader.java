@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.RDFList;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
@@ -22,10 +23,38 @@ public class PlantUmlBoxReader {
 		box.setNametargetclass(this.readNametargetclass(nodeShape));
 		box.setVersion(this.readVersion(nodeShape, allNodeShapes));
 		box.setColorClass(this.readColorClass(nodeShape, allNodeShapes));
+		box.setDiagrams(this.readAllSectionDiagrams(nodeShape, allNodeShapes));
+		box.setDiagramaName(this.readDiagramaName(nodeShape, allNodeShapes));
 		return box;
 	}
 	
 	
+	public String readDiagramaName(Resource nodeShape, List<Resource> allNodeShapes) {
+		String value = null;	
+		try {
+			value = nodeShape.getProperty(nodeShape.getModel().createProperty("https://shacl-play.sparna.fr/ontology#diagram_name")).getLiteral().getString();
+		} catch (Exception e) {
+			value = null;
+		}		
+		return value;
+	}
+	
+	
+	public List<String> readAllSectionDiagrams(Resource nodeShape, List<Resource> allNodeShapes) {
+		List<String> node= new ArrayList<>();
+		
+		if(nodeShape.getProperty(nodeShape.getModel().createProperty("https://shacl-play.sparna.fr/ontology#diagram")) != null) {
+		
+			RDFList r = nodeShape.getProperty(nodeShape.getModel().createProperty("https://shacl-play.sparna.fr/ontology#diagram")).getList();
+			List<RDFNode> pathElements = r.asJavaList();
+				
+			for (RDFNode rdfNodeL : pathElements) {
+					String d = rdfNodeL.toString();
+					node.add(d);
+			}
+		}				
+		return node;
+	}
 	
 	public String readColorClass(Resource nodeShape, List<Resource> allNodeShapes) {
 		String value = null;	

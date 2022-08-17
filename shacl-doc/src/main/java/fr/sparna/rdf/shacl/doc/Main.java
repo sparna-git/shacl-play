@@ -56,13 +56,11 @@ public class Main {
 		ShapesDocumentationWriterIfc writer = new ShapesDocumentationJacksonXsltWriter();
 		//OutFilePDF writerPDF = new OutFilePDF();
 		ShapesDocumentationXmlWriter writerXml = new ShapesDocumentationXmlWriter();
-		writer.write(doc, outputLang, System.out);
-		writer.write(doc, outputLang, new FileOutputStream(new File("/tmp/output.html")));
+		writer.write(doc, outputLang, System.out,null);
+		writer.write(doc, outputLang, new FileOutputStream(new File("/tmp/output.html")),null);
 		
-		writerXml.write(doc, outputLang, System.out);
-		writerXml.write(doc, outputLang, new FileOutputStream(new File("/tmp/output.xml")));
-		
-		
+		writerXml.write(doc, outputLang, System.out,null);
+		writerXml.write(doc, outputLang, new FileOutputStream(new File("/tmp/output.xml")),null);		
 	}
 	
 

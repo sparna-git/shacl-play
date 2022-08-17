@@ -297,6 +297,7 @@
 					
 					<xsl:apply-templates select="." mode="TOC" />
 					
+					
 					<xsl:apply-templates select="svgDiagram" />
 					<xsl:apply-templates select="descriptionDocument" />
 					<xsl:apply-templates select="prefixes" />
@@ -488,7 +489,6 @@
 			<h2>
 				<xsl:value-of select="$LABELS/labels/entry[@key='DESCRIPTION.TITLE']/@label" />
 			</h2>
-			<br/>
 			<!--  disable output escaping so that HTML is preserved -->
 			<xsl:value-of select="."  disable-output-escaping="yes"/>			
 		</div>

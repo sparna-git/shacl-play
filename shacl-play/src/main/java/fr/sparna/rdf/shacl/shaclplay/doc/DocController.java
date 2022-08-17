@@ -2,12 +2,9 @@ package fr.sparna.rdf.shacl.shaclplay.doc;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,7 +25,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.openhtmltopdf.pdfboxout.PdfRendererBuilder;
 
 import fr.sparna.rdf.shacl.doc.PlantUmlSourceGenerator;
-import fr.sparna.rdf.shacl.doc.SVGGenerator;
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentation;
 import fr.sparna.rdf.shacl.doc.read.ShapesDocumentationModelReader;
 import fr.sparna.rdf.shacl.doc.read.ShapesDocumentationReaderIfc;
@@ -254,11 +250,13 @@ public class DocController {
 			PdfRendererBuilder _builder = new PdfRendererBuilder();			 
 			_builder.useFastMode();
 			
-			_builder.withHtmlContent(htmlCode, "http://shacl-play.sparna.fr/play");			
+			_builder.withHtmlContent(htmlCode,"http://shacl-play.sparna.fr/play");			
 			
 			_builder.toStream(response.getOutputStream());
 			_builder.testMode(false);
-			_builder.run();					
+			_builder.run();
+			
+			
 		}else {
 			ShapesDocumentationWriterIfc writer = new ShapesDocumentationJacksonXsltWriter();
 			writer.write(doc, languageInput, response.getOutputStream(), urlPngDiagram);			

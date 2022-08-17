@@ -193,23 +193,33 @@
 						      						      		
 					      </blockquote>					  
 					  
+					  <!--  
 					  	<blockquote>
 					  		<div class="form-group row">
 					  			<div class="col-sm-12">
 									<label for="choice_Language"><b><fmt:message key="doc.language.title"/></b></label>
 									<br/>
 									<label><b><fmt:message key="doc.language.option"/></b></label>
-									<input list="languageOption" name="language" style="width:4em;" value="en">
-									<datalist id="languageOption" style="top: 25px; left: 15px; width: 0.0552516px; display: block; overflow: hidden; height: 0.157862px; padding: 0px; margin: 0px; opacity: 0.000986636;">
+									<input list="languageOptionO" name="language" style="width:4em;" value="en">
+									<datalist id="languageOptionO" style="top: 25px; left: 15px; width: 0.0552516px; display: block; overflow: hidden; height: 0.157862px; padding: 0px; margin: 0px; opacity: 0.000986636;">
 										<option value="en">
 										<option value="fr">										
 									</datalist>
 								</div>	
 							</div>
 					  	</blockquote>
-					  
+					  -->
 					  <h2><i class="fal fa-tools"></i>&nbsp;&nbsp;<fmt:message key="doc.options.title" /></h2>
 				      <blockquote class="blockquote bq-warning">
+				      	<!-- Language -->
+				      	<div class="form-group row">
+				      		<div class="col-sm-12">
+				      			<label for="choice_Language"><fmt:message key="doc.language.title"/></label>
+				      			<br/>
+								<label><fmt:message key="doc.language.option"/></label>
+								<input list="languageOption" name="language" style="width:4em;" value="en">
+				      		</div>
+				      	</div>
 				      	<!-- Logo -->
 						<div class="form-group row">
 						    <div class="col-sm-12">
@@ -642,13 +652,7 @@
     		  if(cb.checked){
     		    if(printPDF.checked){
     		    	printPDF.checked = false;
-    		    }
-    		    // Validate section logo
-    		    if(inputLogoCheckbox.checked ){
-    		    	if(inputLogo.value = null){
-    		    		inputLogoCheckbox.checked = false;	
-    		    	}
-    		    }
+    		    }    		    
     		}
     	}
     	
@@ -656,37 +660,16 @@
   		  if(cb.checked){
   		    if(includeDiagram.checked){
   		    	includeDiagram.checked = false;
-  		    }
-  			// Validate section logo
-		    if(inputLogoCheckbox.checked){
-		    	if(inputLogo.value = null){
-		    		inputLogoCheckbox.checked = false;	
-		    	}
-		    }
-  		}
+  		    }  			
+  		  }
   		}
     </script>
     <script>
-    	inputLogo.oninput = function(){
-    		if(inputLogo.value != null){
-    			if(!inputLogoCheckbox.checked){
-    				inputLogoCheckbox.checked = true;
-    			}
-    		}
-    	}
-    	
-    	inputLogo.onchange = function(){
-    		  if(!inputLogo.value){
-    		    if(inputLogoCheckbox.checked){
-    		    	inputLogoCheckbox.checked = false;
-    		    }
-    		  }
-    	}
-    	
     	inputLogoCheckbox.onclick = function(){
     		  if(inputLogoCheckbox.checked){
     		    document.getElementById("inputLogo").disabled = false;
     		  }
+    		  
     		  if(!inputLogoCheckbox.checked){
     		    document.getElementById("inputLogo").disabled = true;
     		  }

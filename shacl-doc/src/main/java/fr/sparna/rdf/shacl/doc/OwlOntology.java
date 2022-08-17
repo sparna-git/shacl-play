@@ -1,20 +1,11 @@
 package fr.sparna.rdf.shacl.doc;
 
-import static org.junit.Assert.assertNotNull;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
-import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
-import org.apache.jena.rdf.model.StmtIterator;
 import org.apache.jena.sparql.vocabulary.FOAF;
 import org.apache.jena.vocabulary.DCAT;
 import org.apache.jena.vocabulary.DCTerms;
@@ -79,11 +70,28 @@ public class OwlOntology {
 					OwlFormat owlformat = new OwlFormat();
 					owlformat.setDctFormat(read.getProperty(DCTerms.format).getResource().getURI().toString());
 					owlformat.setDcatURL(read.getProperty(DCAT.downloadURL).getResource().getURI().toString());
-					lOFormat.add(owlformat);					
+					lOFormat.add(owlformat);
 				}
 			}
-		}		
-		return lOFormat;		
+		}
+		
+		String[] orderFormat = {
+				"https://www.iana.org/assignments/media-types/application/ld+json",
+				"https://www.iana.org/assignments/media-types/application/rdf+xml",
+				"https://www.iana.org/assignments/media-types/application/n-triples",
+				"https://www.iana.org/assignments/media-types/text/turtle"
+		};
+		
+		List<OwlFormat> OutFormat = new ArrayList<OwlFormat>();
+		for (String fmt : orderFormat) {
+			for (OwlFormat owlfmt : lOFormat) {
+				if(owlfmt.getDctFormat().equals(fmt)) {
+					OutFormat.add(owlfmt);
+				}
+			}
+		}
+		
+		return OutFormat;		
 	}
 	
 	

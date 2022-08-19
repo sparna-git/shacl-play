@@ -2,7 +2,10 @@ package fr.sparna.rdf.shacl.shaclplay.draw;
 
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.nio.charset.Charset;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,7 +23,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import fr.sparna.rdf.shacl.diagram.ShaclPlantUmlWriter;
+import fr.sparna.rdf.shacl.diagram.PlantUmlDiagramGenerator;
+import fr.sparna.rdf.shacl.diagram.PlantUmlDiagramOutput;
 import fr.sparna.rdf.shacl.shaclplay.ApplicationData;
 import fr.sparna.rdf.shacl.shaclplay.ControllerModelFactory;
 import fr.sparna.rdf.shacl.shaclplay.ControllerModelFactory.SOURCE_TYPE;
@@ -187,7 +191,7 @@ public class DrawController {
 	) throws IOException {
 		
 		
-		ShaclPlantUmlWriter writer = new ShaclPlantUmlWriter(
+		PlantUmlDiagramGenerator writer = new PlantUmlDiagramGenerator(
 				// includes the subClassOf links in the generated diagram
 				true,
 				// don't generate hyperlinks
@@ -195,30 +199,61 @@ public class DrawController {
 				// avoid arrows to empty boxes
 				true);
 		
-		List<String> plantumlString = writer.writeInPlantUml(
+		List<PlantUmlDiagramOutput> diagrams = writer.generateDiagrams(
 				shapesModel,
 				// OWL Model
 				ModelFactory.createDefaultModel()
 		);
 		
-		response.setContentType(format.mimeType);
-		response.setHeader("Content-Disposition", "inline; filename=\""+filename+"."+format.extension+"\"");
-
-		if(format == FORMAT.TXT) {
+		if(diagrams.size() == 1) {
+			response.setContentType(format.mimeType);
+			response.setHeader("Content-Disposition", "inline; filename=\""+filename+"."+format.extension+"\"");
 			
-			for (String pumlString : plantumlString) {
+			if(format == FORMAT.TXT) {
 				response.setCharacterEncoding("UTF-8");
-				response.getOutputStream().write(pumlString.getBytes("UTF-8"));
+				response.getOutputStream().write(diagrams.get(0).getPlantUmlString().getBytes("UTF-8"));
 				response.getOutputStream().flush();
-			}
-			
-		} else {
-			for (String pUmlString : plantumlString) {
-				SourceStringReader reader = new SourceStringReader(pUmlString);
+			} else {
+				SourceStringReader reader = new SourceStringReader(diagrams.get(0).getPlantUmlString());
 				reader.generateImage(response.getOutputStream(), new FileFormatOption(format.plantUmlFileFormat));
 			}
-		}
+		} else {
+			// create a zip
+			response.setContentType("application/zip");
+			response.setHeader("Content-Disposition", "inline; filename=\""+filename+".zip\"");
 
+			ZipOutputStream zos = new ZipOutputStream(response.getOutputStream(), Charset.forName("UTF-8"));
+			zos.setLevel(9);
+			
+			for (PlantUmlDiagramOutput oneDiagram : diagrams) {
+				String uri = oneDiagram.getDiagramUri();
+				String localPart;
+				if(uri.indexOf('#') > -1) {
+					localPart = uri.substring(uri.lastIndexOf('#')+1);
+				} else {
+					localPart = uri.substring(uri.lastIndexOf('/')+1);
+				}
+				
+				
+				if(format == FORMAT.TXT) {
+					String entryName = URLEncoder.encode(localPart, "UTF-8") + ".txt";
+					zos.putNextEntry(new ZipEntry(entryName));
+					zos.write(oneDiagram.getPlantUmlString().getBytes("UTF-8"));
+					zos.closeEntry();
+				} else {
+					String entryName = URLEncoder.encode(localPart, "UTF-8") + "." + format.extension;
+					zos.putNextEntry(new ZipEntry(entryName));
+					SourceStringReader reader = new SourceStringReader(oneDiagram.getPlantUmlString());
+					reader.generateImage(zos, new FileFormatOption(format.plantUmlFileFormat));
+					zos.closeEntry();
+				}
+				
+			}
+			
+			zos.flush();
+			zos.close();
+			response.flushBuffer();
+		}
 	}
 		
 	/**

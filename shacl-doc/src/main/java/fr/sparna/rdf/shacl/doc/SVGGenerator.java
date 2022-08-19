@@ -6,33 +6,18 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.ModelFactory;
-
-import fr.sparna.rdf.shacl.diagram.ShaclPlantUmlWriter;
+import fr.sparna.rdf.shacl.diagram.PlantUmlDiagramOutput;
 import net.sourceforge.plantuml.FileFormat;
 import net.sourceforge.plantuml.FileFormatOption;
 import net.sourceforge.plantuml.SourceStringReader;
 
 public class SVGGenerator {
 
-	public List<String> generateSvgDiagram(Model shapesModel, Model owlModel,boolean avoidArrowsToEmptyBoxes) throws IOException {
-
-		// draw - without subclasses links
-		// set first parameter to true to draw subclassOf links
-		ShaclPlantUmlWriter writer = new ShaclPlantUmlWriter(true, true, avoidArrowsToEmptyBoxes);
-		Model finalModel = ModelFactory.createDefaultModel();
-		finalModel.add(shapesModel);
-		if(owlModel != null) {
-			finalModel.add(owlModel);
-		}
-		
-		//String plantUmlString = writer.writeInPlantUml(shapesModel,owlModel);
-		List<String> plantUmlString = writer.writeInPlantUml(shapesModel,owlModel);
-		
+	public List<String> generateSvgDiagram(List<PlantUmlDiagramOutput> diagrams) throws IOException {
 		List<String> svg = new ArrayList<String>();
 		
-		for (String puml : plantUmlString) {
+		for (PlantUmlDiagramOutput d : diagrams) {
+			String puml = d.getPlantUmlString();
 			SourceStringReader reader = new SourceStringReader(puml);
 			final ByteArrayOutputStream out = new ByteArrayOutputStream();
 			reader.generateImage(out, new FileFormatOption(FileFormat.SVG));
@@ -42,18 +27,7 @@ public class SVGGenerator {
 			String svgStr = new String(out.toByteArray(), Charset.forName("UTF-8"));
 			svg.add(svgStr);
 		}
-			
 		
-		/*
-		SourceStringReader reader = new SourceStringReader(plantUmlString);
-		final ByteArrayOutputStream out = new ByteArrayOutputStream();
-		reader.generateImage(out, new FileFormatOption(FileFormat.SVG));
-		out.close();
-		*/
-
-		// The XML is stored into svg
-		//String svg = new String(out.toByteArray(), Charset.forName("UTF-8"));
-
 		return svg;
 	}
 

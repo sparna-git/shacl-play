@@ -1,24 +1,31 @@
 package fr.sparna.rdf.shacl.diagram;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class PlantUmlDiagram {
-	protected PlantUmlBox diagrams;
-	protected String description;
-	
-	public PlantUmlBox getDiagrams() {
-		return diagrams;
-	}
-	public void setDiagrams(PlantUmlBox diagrams) {
-		this.diagrams = diagrams;
-	}
-	public String getDescription() {
-		return description;
-	}
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	
-	
+import org.apache.jena.rdf.model.Resource;
 
+public class PlantUmlDiagram {
+	protected Resource resource;
+	protected List<PlantUmlBox> boxes = new ArrayList<>();
+	protected String label;
+	
+	public List<PlantUmlBox> getBoxes() {
+		return boxes;
+	}
+	public void setBoxes(List<PlantUmlBox> boxes) {
+		this.boxes = boxes;
+	}
+	public Resource getResource() {
+		return resource;
+	}
+	public void setResource(Resource resource) {
+		this.resource = resource;
+	}
+	public String getLabel() {
+		return label;
+	}
+	public void setLabel(String label) {
+		this.label = label;
+	}
 }

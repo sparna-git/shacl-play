@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,6 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.openhtmltopdf.pdfboxout.PdfRendererBuilder;
 
+import fr.sparna.rdf.shacl.diagram.PlantUmlDiagramOutput;
 import fr.sparna.rdf.shacl.doc.PlantUmlSourceGenerator;
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentation;
 import fr.sparna.rdf.shacl.doc.read.ShapesDocumentationModelReader;
@@ -221,21 +223,20 @@ public class DocController {
 			// 1. write Documentation structure to XML
 			ShapesDocumentationWriterIfc writerHTML = new ShapesDocumentationJacksonXsltWriter();
 			
-			
-			//
 			// Option pour créer le diagramme	 	
 			PlantUmlSourceGenerator sourceGenerator = new PlantUmlSourceGenerator();
 			try {
 				// Read source Uml
-				List<String> plantUmlSourceCode = sourceGenerator.generatePlantUmlDiagram(shapesModel, ModelFactory.createDefaultModel(),false,false,false);
+				List<PlantUmlDiagramOutput> plantUmlSourceCode = sourceGenerator.generatePlantUmlDiagram(shapesModel, ModelFactory.createDefaultModel(),false,false,false);
+				
 				// if source uml is true generate png file
 				if(plantUmlSourceCode.size() > 0) {
-					for (String code : plantUmlSourceCode) {
-						// Write the first image to "png"
-						urlPngDiagram.add("http://www.plantuml.com/plantuml/png/"+TranscoderUtil.getDefaultTranscoder().encode(code));
+					for (String sourceCode : plantUmlSourceCode.stream().map(o -> o.getPlantUmlString()).collect(Collectors.toList())) {
+						urlPngDiagram.add("http://www.plantuml.com/plantuml/png/"+TranscoderUtil.getDefaultTranscoder().encode(sourceCode));
 					}
 				}
 			} catch (IOException e) {
+				e.printStackTrace();
 			}		
 			
 			//

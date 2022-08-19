@@ -9,8 +9,6 @@ import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.util.FileUtils;
 import org.apache.jena.vocabulary.RDF;
 
-import fr.sparna.rdf.shacl.diagram.OutFileUml;
-import fr.sparna.rdf.shacl.diagram.ShaclPlantUmlWriter;
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentation;
 import fr.sparna.rdf.shacl.doc.read.ShapesDocumentationModelReader;
 import fr.sparna.rdf.shacl.doc.read.ShapesDocumentationReaderIfc;

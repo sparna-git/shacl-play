@@ -4,10 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.RDFList;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
+import org.apache.jena.sparql.vocabulary.FOAF;
+import org.apache.jena.vocabulary.OWL;
 import org.apache.jena.vocabulary.RDFS;
 import org.topbraid.shacl.vocabulary.SH;;
 
@@ -23,43 +24,27 @@ public class PlantUmlBoxReader {
 		box.setNametargetclass(this.readNametargetclass(nodeShape));
 		box.setVersion(this.readVersion(nodeShape, allNodeShapes));
 		box.setColorClass(this.readColorClass(nodeShape, allNodeShapes));
-		box.setDiagrams(this.readAllSectionDiagrams(nodeShape, allNodeShapes));
-		box.setDiagramaName(this.readDiagramaName(nodeShape, allNodeShapes));
+		box.setDiagramReferences(this.readDiagramReferences(nodeShape, allNodeShapes));
 		return box;
 	}
 	
 	
-	public String readDiagramaName(Resource nodeShape, List<Resource> allNodeShapes) {
-		String value = null;	
-		try {
-			value = nodeShape.getProperty(nodeShape.getModel().createProperty("https://shacl-play.sparna.fr/ontology#diagram_name")).getLiteral().getString();
-		} catch (Exception e) {
-			value = null;
-		}		
-		return value;
-	}
-	
-	
-	public List<String> readAllSectionDiagrams(Resource nodeShape, List<Resource> allNodeShapes) {
-		List<String> node= new ArrayList<>();
+	public List<Resource> readDiagramReferences(Resource nodeShape, List<Resource> allNodeShapes) {
+		List<Resource> result = new ArrayList<>();
 		
-		if(nodeShape.getProperty(nodeShape.getModel().createProperty("https://shacl-play.sparna.fr/ontology#diagram")) != null) {
-		
-			RDFList r = nodeShape.getProperty(nodeShape.getModel().createProperty("https://shacl-play.sparna.fr/ontology#diagram")).getList();
-			List<RDFNode> pathElements = r.asJavaList();
-				
-			for (RDFNode rdfNodeL : pathElements) {
-					String d = rdfNodeL.toString();
-					node.add(d);
+		if(nodeShape.getProperty(FOAF.depiction) != null) {			
+			for(Statement s : nodeShape.listProperties(FOAF.depiction).toList()) {
+				result.add(s.getObject().asResource());
 			}
-		}				
-		return node;
+		}
+		
+		return result;
 	}
 	
 	public String readColorClass(Resource nodeShape, List<Resource> allNodeShapes) {
 		String value = null;	
 		try {
-			value = nodeShape.getProperty(nodeShape.getModel().createProperty("https://shacl-play.sparna.fr/ontology#color")).getLiteral().getString();
+			value = nodeShape.getProperty(nodeShape.getModel().createProperty(SHACL_PLAY.COLOR)).getLiteral().getString();
 		} catch (Exception e) {
 			value = null;
 		}		
@@ -70,7 +55,7 @@ public class PlantUmlBoxReader {
 	public String readVersion(Resource nodeShape, List<Resource> allNodeShapes) {
 		String value = null;	
 		try {
-			value = nodeShape.getProperty(nodeShape.getModel().createProperty("http://www.w3.org/2002/07/owl#versionInfo")).getLiteral().getString();
+			value = nodeShape.getProperty(OWL.versionInfo).getLiteral().getString();
 		} catch (Exception e) {
 			value = null;
 		}		
@@ -188,7 +173,7 @@ public class PlantUmlBoxReader {
 	public String readPackageName(Resource nodeShape) {
 		String idpackage = "";
 		try {
-			idpackage = nodeShape.getProperty(nodeShape.getModel().createProperty("https://shacl-play.sparna.fr/ontology#package")).getResource().getLocalName();
+			idpackage = nodeShape.getProperty(nodeShape.getModel().createProperty(SHACL_PLAY.PACKAGE)).getResource().getLocalName();
 		} catch (Exception e) {
 			idpackage = "";
 		}

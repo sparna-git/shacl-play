@@ -2,14 +2,29 @@ package fr.sparna.rdf.shacl.diagram;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class PlantUmlRenderer {
 
 	protected boolean generateAnchorHyperlink = false;
 	protected boolean displayPatterns = false;
-	List<String> inverseList = new ArrayList<String>();
+	protected boolean avoidArrowsToEmptyBoxes = true;
+	
+	protected List<String> inverseList = new ArrayList<String>();
+	
+	public PlantUmlRenderer() {
+		super();
+	}
 
-	public String render(PlantUmlProperty property, String boxName, Boolean ctrlExpDiagramm, String NodeShapeId) {
+	public PlantUmlRenderer(boolean generateAnchorHyperlink, boolean displayPatterns, boolean avoidArrowsToEmptyBoxes) {
+		super();
+		this.generateAnchorHyperlink = generateAnchorHyperlink;
+		this.displayPatterns = displayPatterns;
+		this.avoidArrowsToEmptyBoxes = avoidArrowsToEmptyBoxes;
+	}
+
+	private String render(PlantUmlProperty property, String boxName, boolean renderAsDatatypeProperty, String NodeShapeId) {
 		
 		//get the color for the arrow drawn
 		String colorArrowProperty = "";
@@ -19,9 +34,9 @@ public class PlantUmlRenderer {
 		
 		
 		if (property.getValue_node() != null) {
-			return renderAsNodeReference(property, boxName, ctrlExpDiagramm, colorArrowProperty);
+			return renderAsNodeReference(property, boxName, renderAsDatatypeProperty, colorArrowProperty);
 		} else if (property.getValue_class_property() != null) {
-			return renderAsClassReference(property, boxName);
+			return renderAsClassReference(property, boxName, renderAsDatatypeProperty);
 		} else if (property.getValue_qualifiedvalueshape() != null) {
 			return renderAsQualifiedShapeReference(property, boxName,colorArrowProperty);
 		} else if (property.getValue_shor().size() > 0) {
@@ -33,14 +48,14 @@ public class PlantUmlRenderer {
 
 	// uml_shape+ " --> " +"\""+uml_node+"\""+" : "+uml_path+uml_datatype+"
 	// "+uml_literal+" "+uml_pattern+" "+uml_nodekind(uml_nodekind)+"\n";
-	public String renderAsNodeReference(PlantUmlProperty property, String boxName, Boolean ctrlExpDiagramm, String colorArrow) {
+	private String renderAsNodeReference(PlantUmlProperty property, String boxName, Boolean renderAsDatatypeProperty, String colorArrow) {
 
 		// find in property if has attribut
 		String output = null;
 		String ctrlnodeOrigen = null;
 		String ctrlnodeDest = null;
 
-		if (ctrlExpDiagramm) {
+		if (renderAsDatatypeProperty) {
 				
 				output = boxName + " : +" + property.getValue_path() + " : " + property.getValue_node().getLabel();	
 				
@@ -154,7 +169,7 @@ public class PlantUmlRenderer {
 	}
 
 	// value = uml_shape+" --> "+"\""+uml_or;
-	public String renderAsOr(PlantUmlProperty property, String boxName, String colorArrow, String NodeShapeId) {
+	private String renderAsOr(PlantUmlProperty property, String boxName, String colorArrow, String NodeShapeId) {
 		// use property local name to garantee unicity of diamond
 		String nodeshapeId = NodeShapeId.contains(":")?NodeShapeId.split(":")[1]:NodeShapeId;
 		String sNameDiamond = "diamond_" + nodeshapeId+"_"+property.getPropertyShape().getLocalName().replace("-", "_");
@@ -187,7 +202,7 @@ public class PlantUmlRenderer {
 
 	// value = uml_shape+ " --> " +"\""+uml_qualifiedvalueshape+"\""+" :
 	// "+uml_path+uml_datatype+" "+uml_qualifiedMinMaxCount+"\n";
-	public String renderAsQualifiedShapeReference(PlantUmlProperty property, String boxName, String colorArrow) {
+	private String renderAsQualifiedShapeReference(PlantUmlProperty property, String boxName, String colorArrow) {
 		String output = boxName + " -"+colorArrow+"-> \"" + property.getValue_qualifiedvalueshape().getLabel() + "\" : "
 				+ property.getValue_path();
 
@@ -202,37 +217,56 @@ public class PlantUmlRenderer {
 
 	// value = uml_shape+" --> "+"\""+uml_class_property+"\""+" :
 	// "+uml_path+uml_literal+" "+uml_pattern+" "+uml_nodekind+"\n";
-	public String renderAsClassReference(PlantUmlProperty property, String boxName) {
+	private String renderAsClassReference(PlantUmlProperty property, String boxName, boolean renderAsDatatypeProperty) {
 
 		String output = "";
 		
-		String labelColor = "";
-		String labelColorClose = "";
-		if(property.getValue_colorProperty() != null) {
-			labelColor = "<color:"+property.getValue_colorProperty()+">"+" ";
-			labelColorClose = "</color>";
+		// TODO : this can never work as the renderAsDatatypeProperty is true only when sh:node is used
+		if (renderAsDatatypeProperty) {
+			
+			output = boxName + " : +" + property.getValue_path() + " : " + property.getValue_node().getLabel();	
+			
+			if (property.getValue_cardinality() != null) {
+				output += " " + property.getValue_cardinality() + " ";
+			}
+			if (property.getValue_pattern() != null && this.displayPatterns) {
+				output += "(" + property.getValue_pattern() + ")" + " ";
+			}
+			if (property.getValue_nodeKind() != null && !property.getValue_nodeKind().equals("sh:IRI")) {
+				output += property.getValue_nodeKind() + " ";
+			}
+			
+		} else {
+			String labelColor = "";
+			String labelColorClose = "";
+			if(property.getValue_colorProperty() != null) {
+				labelColor = "<color:"+property.getValue_colorProperty()+">"+" ";
+				labelColorClose = "</color>";
+			}
+			
+			// attempt with dotted lines
+			// output = boxName + " -[dotted]-> \"" + property.getValue_class_property() + "\" : " + property.getValue_path();
+			output = boxName + " --> \""+""+labelColor+ property.getValue_class_property() + "\" : " + property.getValue_path()+" ";
+			
+
+			if (property.getValue_cardinality() != null) {
+				output += " " + property.getValue_cardinality() + " ";
+			}
+			if (property.getValue_pattern() != null && this.displayPatterns) {
+				output += "(" + property.getValue_pattern() + ")" + " ";
+			}
+			if (property.getValue_nodeKind() != null && !property.getValue_nodeKind().equals("sh:IRI")) {
+				output += property.getValue_nodeKind() + " ";
+			}
+
+			output += labelColorClose+" \n";
 		}
 		
-		// attempt with dotted lines
-		// output = boxName + " -[dotted]-> \"" + property.getValue_class_property() + "\" : " + property.getValue_path();
-		output = boxName + " --> \""+""+labelColor+ property.getValue_class_property() + "\" : " + property.getValue_path()+" ";
-		
 
-		if (property.getValue_cardinality() != null) {
-			output += " " + property.getValue_cardinality() + " ";
-		}
-		if (property.getValue_pattern() != null && this.displayPatterns) {
-			output += "(" + property.getValue_pattern() + ")" + " ";
-		}
-		if (property.getValue_nodeKind() != null && !property.getValue_nodeKind().equals("sh:IRI")) {
-			output += property.getValue_nodeKind() + " ";
-		}
-
-		output += labelColorClose+" \n";
 		return output;
 	}
 
-	public String renderDefault(PlantUmlProperty property, String boxName) {
+	private String renderDefault(PlantUmlProperty property, String boxName) {
 		
 		String labelColor = "";
 		String labelColorClose = "";
@@ -264,6 +298,47 @@ public class PlantUmlRenderer {
 
 		return output;
 	}
+	
+	public PlantUmlDiagramOutput renderDiagram(PlantUmlDiagram diagram) {
+		StringBuffer sourceuml = new StringBuffer();	
+		sourceuml.append("@startuml\n");
+		sourceuml.append("skinparam classFontSize 14"+"\n");
+		sourceuml.append("!define LIGHTORANGE\n");
+		sourceuml.append("skinparam componentStyle uml2\n");
+		sourceuml.append("skinparam wrapMessageWidth 100\n");
+		sourceuml.append("skinparam ArrowColor #Maroon\n");
+		
+		PlantUmlRenderer renderer = new PlantUmlRenderer();
+		renderer.setGenerateAnchorHyperlink(this.generateAnchorHyperlink);
+			
+		// retrieve all package declaration
+		Set<String> packages = diagram.getBoxes().stream().map(b -> b.getPackageName()).collect(Collectors.toSet());
+		for(String aPackage : packages ) {
+			if(!aPackage.equals("")) {
+				sourceuml.append("namespace "+aPackage+" "+"{\n");
+			}
+			
+			for (PlantUmlBox plantUmlBox : diagram.getBoxes().stream().filter(b -> b.getPackageName().equals(aPackage)).collect(Collectors.toList())) {
+					sourceuml.append(renderer.renderNodeShape(plantUmlBox,diagram.getBoxes(),this.avoidArrowsToEmptyBoxes));
+			}
+			
+			if(!aPackage.equals("")) {
+				sourceuml.append("}\n");
+			}			
+		}
+		
+		sourceuml.append("hide circle\n");
+		sourceuml.append("hide methods\n");
+		sourceuml.append("hide empty members\n");
+		sourceuml.append("@enduml\n");
+		
+		// create output
+		PlantUmlDiagramOutput output = new PlantUmlDiagramOutput(sourceuml.toString());
+		if(diagram.getResource() != null) {
+			output.setDiagramUri(diagram.getResource().getURI());
+		}
+		return output;
+	}
 
 	public String renderNodeShape(PlantUmlBox box, List<PlantUmlBox> GlobalBox, boolean avoidArrowsToEmptyBoxes) {
 		// String declaration = "Class"+"
@@ -284,31 +359,33 @@ public class PlantUmlRenderer {
 		// Array for control inverse
 		
 
-		if (avoidArrowsToEmptyBoxes) {
-			if (box.getProperties().size() > 0) {
-				if (box.getNodeShape().isAnon()) {
-					declaration = "Class" + " " + box.getLabel() +" as " +"\""+" \"";
-				} else {
-					if(this.generateAnchorHyperlink) {
-						declaration = "Class" + " " + "\"" + box.getLabel() + "\"";
-					}else {
-						declaration = "Class" + " " + "\"" + box.getLabel() + "\""+" "+ versionColorClass;
-					}
+		
+		if (box.getProperties().size() > 0 || box.getSuperClasses().size() > 0) {
+			if (box.getNodeShape().isAnon()) {
+				declaration = "Class" + " " + box.getLabel() +" as " +"\""+" \"";
+			} else {
+				if(this.generateAnchorHyperlink) {
+					declaration = "Class" + " " + "\"" + box.getLabel() + "\"";
+				}else {
+					declaration = "Class" + " " + "\"" + box.getLabel() + "\""+" "+ versionColorClass;
 				}
-				declaration += (this.generateAnchorHyperlink) ? " [[#" + box.getLabel() + "]]"+" "+ versionColorClass + "\n" : "\n";
-				if (box.getSuperClasses() != null) {
-					for (PlantUmlBox aSuperClass : box.getSuperClasses()) {
-						// generate an "up" arrow
-						declaration += "\""+box.getLabel()+"\"" + "-up-|>" + "\""+aSuperClass.getLabel()+"\"" + "\n";
-					}
+			}
+			declaration += (this.generateAnchorHyperlink) ? " [[#" + box.getLabel() + "]]"+" "+ versionColorClass + "\n" : "\n";
+			if (box.getSuperClasses() != null) {
+				for (PlantUmlBox aSuperClass : box.getSuperClasses()) {
+					// generate an "up" arrow
+					declaration += "\""+box.getLabel()+"\"" + " -up[#gray,bold]-|> " + "\""+aSuperClass.getLabel()+"\"" + "\n";
 				}
+			}
 
-				// 
-				for (PlantUmlProperty plantUmlproperty : box.getProperties()) {
-					Boolean valueIsNodeShape = false;
+			for (PlantUmlProperty plantUmlproperty : box.getProperties()) {
+				boolean displayAsDatatypeProperty = false;
+				
+				if (avoidArrowsToEmptyBoxes) {
 					if (plantUmlproperty.value_node != null) {
-						if (plantUmlproperty.value_node.getProperties().size() < 1) {
-							Integer nCount = 0;
+						if (plantUmlproperty.value_node.getProperties().size() == 0) {
+							// count number of times it is used
+							int nCount = 0;
 							for (PlantUmlBox plantumlbox : GlobalBox) {
 								for (PlantUmlProperty UmlProperty : plantumlbox.getProperties()) {
 									if (UmlProperty.value_node != null) {
@@ -319,41 +396,18 @@ public class PlantUmlRenderer {
 									}
 								}
 							}
-							if (nCount > 1) {
-								valueIsNodeShape = false;
-							} else {
-								valueIsNodeShape = true;
+							// if used more than once, then dispay the box, otherwise don't display it
+							if (nCount <= 1) {
+								displayAsDatatypeProperty = true;
 							}
 						}
 					}
-					
-					declaration += this.render(plantUmlproperty, "\"" + box.getLabel() + "\"", valueIsNodeShape,box.getLabel());
 				}
-			}
-		} else {
-			
-			if (box.getNodeShape().isAnon()) {
-				declaration = "Class" + " " + box.getLabel() +" as " +"\""+" \"";
-			} else {
-				if(this.generateAnchorHyperlink) {
-					declaration = "Class" + " " + "\"" + box.getLabel() + "\"";
-				}else {
-					declaration = "Class" + " " + "\"" + box.getLabel() + "\""+" "+ versionColorClass;
-				}				
-			}
-						
-			declaration += (this.generateAnchorHyperlink) ? " [[#" + box.getLabel() + "]]"+" "+ versionColorClass + "\n" : "\n";
-			if (box.getSuperClasses() != null) {
-				for (PlantUmlBox aSuperClass : box.getSuperClasses()) {
-					// generate an "up" arrow
-					declaration += "\""+box.getLabel()+"\"" + "-up-|>" + "\""+aSuperClass.getLabel()+"\"" + "\n";
-				}
-			}
-
-			for (PlantUmlProperty plantUmlproperty : box.getProperties()) {
-				declaration += this.render(plantUmlproperty, "\"" + box.getLabel() + "\"", false,box.getLabel());
+				
+				declaration += this.render(plantUmlproperty, "\"" + box.getLabel() + "\"", displayAsDatatypeProperty,box.getLabel());
 			}
 		}
+
 		return declaration;
 	}
 
@@ -372,5 +426,14 @@ public class PlantUmlRenderer {
 	public void setDisplayPatterns(boolean displayPatterns) {
 		this.displayPatterns = displayPatterns;
 	}
+
+	public boolean isAvoidArrowsToEmptyBoxes() {
+		return avoidArrowsToEmptyBoxes;
+	}
+
+	public void setAvoidArrowsToEmptyBoxes(boolean avoidArrowsToEmptyBoxes) {
+		this.avoidArrowsToEmptyBoxes = avoidArrowsToEmptyBoxes;
+	}
+	
 
 }

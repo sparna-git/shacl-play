@@ -16,7 +16,8 @@ import org.slf4j.LoggerFactory;
 
 import fr.sparna.rdf.shacl.app.CliCommandIfc;
 import fr.sparna.rdf.shacl.app.InputModelReader;
-import fr.sparna.rdf.shacl.diagram.ShaclPlantUmlWriter;
+import fr.sparna.rdf.shacl.diagram.PlantUmlDiagramGenerator;
+import fr.sparna.rdf.shacl.diagram.PlantUmlDiagramOutput;
 import net.sourceforge.plantuml.FileFormat;
 import net.sourceforge.plantuml.FileFormatOption;
 import net.sourceforge.plantuml.SourceStringReader;
@@ -34,13 +35,13 @@ public class Draw implements CliCommandIfc {
 		InputModelReader.populateModel(shapesModel, a.getInput(), null);
 		
 		// draw
-		ShaclPlantUmlWriter writer = new ShaclPlantUmlWriter(
+		PlantUmlDiagramGenerator writer = new PlantUmlDiagramGenerator(
 				a.isIncludeSubclasses(),
 				false,
 				true
 		);
 		// TODO : add parameter with OWL file
-		List<String> plantUmlStringList = writer.writeInPlantUml(shapesModel, ModelFactory.createDefaultModel());
+		List<PlantUmlDiagramOutput> plantUmlStringList = writer.generateDiagrams(shapesModel, ModelFactory.createDefaultModel());
 		
 		for(File outputFile : a.getOutput()) {
 			
@@ -52,30 +53,32 @@ public class Draw implements CliCommandIfc {
 			
 			log.debug("Drawing to "+outputFile.getAbsolutePath());
 			
-			for (String plantUmlString : plantUmlStringList) {
-				if(outputFile.getName().endsWith(".iuml")) {
-					// output raw string
-					write(plantUmlString, outputFile);
-				} else if(outputFile.getName().endsWith(".svg")) {				
-					FileOutputStream out = new FileOutputStream(outputFile);
-					SourceStringReader reader = new SourceStringReader(plantUmlString);
-					reader.generateImage(out, new FileFormatOption(FileFormat.SVG));
-					out.close();
-				} else if(outputFile.getName().endsWith(".png")) {				
-					FileOutputStream out = new FileOutputStream(outputFile);
-					SourceStringReader reader = new SourceStringReader(plantUmlString);
-					reader.generateImage(out, new FileFormatOption(FileFormat.PNG));
-					out.close();
-				} else if(outputFile.getName().endsWith(".pdf")) {				
-					FileOutputStream out = new FileOutputStream(outputFile);
-					SourceStringReader reader = new SourceStringReader(plantUmlString);
-					reader.generateImage(out, new FileFormatOption(FileFormat.PDF));
-					out.close();
-				} else {
-					// raw string by default
-					write(plantUmlString, outputFile);
-				}
-			}		
+			// TODO : handle multiple diagram output
+			String plantUmlString = plantUmlStringList.get(0).getPlantUmlString();
+
+			if(outputFile.getName().endsWith(".iuml")) {
+				// output raw string
+				write(plantUmlString, outputFile);
+			} else if(outputFile.getName().endsWith(".svg")) {				
+				FileOutputStream out = new FileOutputStream(outputFile);
+				SourceStringReader reader = new SourceStringReader(plantUmlString);
+				reader.generateImage(out, new FileFormatOption(FileFormat.SVG));
+				out.close();
+			} else if(outputFile.getName().endsWith(".png")) {				
+				FileOutputStream out = new FileOutputStream(outputFile);
+				SourceStringReader reader = new SourceStringReader(plantUmlString);
+				reader.generateImage(out, new FileFormatOption(FileFormat.PNG));
+				out.close();
+			} else if(outputFile.getName().endsWith(".pdf")) {				
+				FileOutputStream out = new FileOutputStream(outputFile);
+				SourceStringReader reader = new SourceStringReader(plantUmlString);
+				reader.generateImage(out, new FileFormatOption(FileFormat.PDF));
+				out.close();
+			} else {
+				// raw string by default
+				write(plantUmlString, outputFile);
+			}
+	
 		}		
 	}
 	

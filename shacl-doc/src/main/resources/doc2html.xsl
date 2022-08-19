@@ -2,13 +2,14 @@
 <xsl:stylesheet version="2.0"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
+
 	<!-- controls output style -->
 	<xsl:output indent="yes" method="xml" omit-xml-declaration="yes"/>
-
+	
 	<!-- Language parameter to the XSLT -->
 	<xsl:param name="LANG"/>
 	<!-- Param for get diagram -->
-	<xsl:param name="diagramforPDF" required="no"/>
+	<xsl:param name="diagramforPDF"/>
 
 	<!-- french labels -->
 	<xsl:variable name="LABELS_FR">
@@ -26,18 +27,18 @@
 
 			<entry key="METADATA.VERSION" label="Version : " />
 			<entry key="METADATA.INTRODUCTION" label="Introduction" />
-			<entry key="METADATA.DATECREATED" label="Date de création: " />
-			<entry key="METADATA.DATE" label="Dernière modification: " />
-			<entry key="METADATA.DATEISSUED" label="Date de publication: " />
-			<entry key="METADATA.DATECOPYRIGHTED" label="Date du droit d'auteur: " />
-			<entry key="METADATA.LICENSE" label="License: " />
-			<entry key="METADATA.CREATOR" label="Creator: " />
-			<entry key="METADATA.PUBLISHER" label="Editeur: " />
-			<entry key="METADATA.RIGHTHOLDER" label="Titulaire des droits: " />
+			<entry key="METADATA.DATECREATED" label="Date de création : " />
+			<entry key="METADATA.DATE" label="Dernière modification : " />
+			<entry key="METADATA.DATEISSUED" label="Date de publication : " />
+			<entry key="METADATA.DATECOPYRIGHTED" label="Date de copyright : " />
+			<entry key="METADATA.LICENSE" label="License : " />
+			<entry key="METADATA.CREATOR" label="Auteur : " />
+			<entry key="METADATA.PUBLISHER" label="Editeur : " />
+			<entry key="METADATA.RIGHTHOLDER" label="Titulaire des droits : " />
 			
-			<entry key="METADATA.FORMATS" label="Télécharger serialization : " />
+			<entry key="METADATA.FORMATS" label="Télécharger les données : " />
 
-			<entry key="DIAGRAM.TITLE_PIC" label="Diagramme du XXXXXXX Pic" />
+			<entry key="DIAGRAM.TITLE_PIC" label="Diagrammes" />
 
 			<entry key="DIAGRAM.TITLE" label="Diagramme du dataset" />
 			<entry key="DIAGRAM.HELP"
@@ -46,12 +47,12 @@
 
 			<entry key="DESCRIPTION.TITLE" label="Titre de la documentation"/>
 
-			<entry key="LABEL_TARGETCLASS" label="Classe de Target: " />
-			<entry key="LABEL_NODEKIND" label="Types de noeud : " />
+			<entry key="LABEL_TARGETCLASS" label="Classe cible : " />
+			<entry key="LABEL_NODEKIND" label="Type de noeud : " />
 			<entry key="LABEL_PATTERNS" label="URIs : " />
 			<entry key="LABEL_CLOSE" label="Shape fermée" />
-			<entry key="LABEL_EXAMPLE" label="Exemple: "/>
-			<entry key="LABEL_SUPERCLASSES" label="Hérite de: "/>
+			<entry key="LABEL_EXAMPLE" label="Exemple : "/>
+			<entry key="LABEL_SUPERCLASSES" label="Hérite de : "/>
 		</labels>
 	</xsl:variable>
 
@@ -82,7 +83,7 @@
 			
 			<entry key="METADATA.FORMATS" label="Download serialization : " />
 			
-			<entry key="DIAGRAM.TITLE_PIC" label="Diagramme du XXXXXXX Pic" />
+			<entry key="DIAGRAM.TITLE_PIC" label="Diagrams" />
 
 			<entry key="DIAGRAM.TITLE" label="Dataset diagram" />
 			<entry key="DIAGRAM.HELP"
@@ -123,6 +124,10 @@
 						line-height: 1;
 						padding-top:12px;
 					}
+					
+					span{
+						margin: 2px;
+					}
 
 					.monospace {
 						font-family: SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
@@ -130,7 +135,7 @@
 					}
 					
 					<!-- CSS  -->
-					.CONTAINER{
+					.container{
 				         width: calc(100% - 40px);
 				         max-width: 1000px;
 				         margin-left: auto;
@@ -263,11 +268,12 @@
 				</style>
 			</head>
 			<body>
+				
 				<div class="container">
 					<br />
 					<table style="width:100%">
 			            <xsl:choose>
-			            	<xsl:when test="imgLogo != null">
+			            	<xsl:when test="string-length(imgLogo) &gt; 0">
 			            		<tr>
 			            			<td width="20%"><img src="{imgLogo}"/></td>
 			            			<td width="80%"><div><center><h1><xsl:value-of select="title" /></h1></center></div></td>		
@@ -291,14 +297,12 @@
 					<xsl:apply-templates select="rightsHolders" />
 					<br />
 					<!-- section for the formats -->
-					<xsl:if test="$diagramforPDF = null">
+					<xsl:if test="string-length(formats) &gt; 0">
 						<xsl:apply-templates select="formats" />
-					</xsl:if> 
+					</xsl:if>
 					<hr />
 					<br />
 					<xsl:apply-templates select="abstract_" />
-					
-					<xsl:apply-templates select="diagramOWLs"/>
 					
 					<xsl:apply-templates select="." mode="TOC" />
 					
@@ -309,6 +313,9 @@
 					<xsl:apply-templates select="svgDiagrams" />
 					
 					<xsl:apply-templates select="descriptionDocument" />
+					<xsl:if test="not(svgDiagrams)">
+						<xsl:apply-templates select="diagramOWLs"/>
+					</xsl:if>
 					<xsl:apply-templates select="prefixes" />
 					<xsl:apply-templates select="sections" />
 				</div>
@@ -375,7 +382,7 @@
 						select="$LABELS/labels/entry[@key='DIAGRAM.TITLE']/@label" />
 					</h2>
 					<div>
-						<img src="{.}" style="width=100%"/>
+						<img src="{.}" style="width:100%;"/>
 					</div>
 				</div>
 			</xsl:for-each>
@@ -471,7 +478,7 @@
 				<a href="{href}" target="_blank"><xsl:value-of select="label" /></a>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:value-of select="label"/>
+				<xsl:value-of select="label"/>				
 			</xsl:otherwise>
 		</xsl:choose>
 		<!-- if we have following sibling nodes, add a comma -->
@@ -483,29 +490,32 @@
 			<xsl:value-of select="$LABELS/labels/entry[@key='METADATA.FORMATS']/@label" />
 		</b>
 		<br/>
-		<span>
+		<div>
 			<xsl:apply-templates/>
-		</span>		
+		</div>								
 	</xsl:template>
 	
 	<xsl:template match="format">
-		<xsl:message><xsl:value-of select="."/></xsl:message>
-		<a href="{dcatURL}" target="_blank">
-			<xsl:choose>
-				<xsl:when test="dctFormat = 'https://www.iana.org/assignments/media-types/application/ld+json'">
-					<img src="https://img.shields.io/badge/Format-JSON_LD-blue.svg" alt="JSON-LD" />
-				</xsl:when>
-				<xsl:when test="dctFormat = 'https://www.iana.org/assignments/media-types/application/n-triples'">
-					<img src="https://img.shields.io/badge/Format-N_Triples-blue.svg" alt="N-Triples" />
-				</xsl:when>
-				<xsl:when test="dctFormat = 'https://www.iana.org/assignments/media-types/application/rdf+xml'">
-					<img src="https://img.shields.io/badge/Format-RDF/XML-blue.svg" alt="RDF/XML" />
-				</xsl:when>
-				<xsl:when test="dctFormat = 'https://www.iana.org/assignments/media-types/text/turtle'">
-					<img src="https://img.shields.io/badge/Format-TTL-blue.svg" alt="TTL" />
-				</xsl:when>
-			</xsl:choose>
-		</a>		
+		<span>
+			<a href="{dcatURL}" target="_blank">
+				<!-- JSON -->
+				<xsl:if test="dctFormat = 'https://www.iana.org/assignments/media-types/application/ld+json'">
+					<img src="https://img.shields.io/badge/Format-JSON_LD-blue.png" alt="JSON-LD" /> 
+				</xsl:if>
+				<!-- XML -->
+				<xsl:if test="dctFormat = 'https://www.iana.org/assignments/media-types/application/rdf+xml'">
+					<img src="https://img.shields.io/badge/Format-RDF/XML-blue.png" alt="RDF/XML" /> 
+				</xsl:if>			
+				<!-- N3 -->
+				<xsl:if test="dctFormat = 'https://www.iana.org/assignments/media-types/application/n-triples'">
+					<img src="https://img.shields.io/badge/Format-N_Triples-blue.png" alt="N-Triples" /> 			
+				</xsl:if>
+				<!-- ttl -->
+				<xsl:if test="dctFormat = 'https://www.iana.org/assignments/media-types/text/turtle'">
+					<img src="https://img.shields.io/badge/Format-TTL-blue.png" alt="TTL" /> 
+				</xsl:if>				
+			</a>
+		</span>
 	</xsl:template>
 	
 	
@@ -531,7 +541,7 @@
 	</xsl:template>
 	
 	<xsl:template match="diagramOWL">
-		<img src="{.}" style="width=100%"/>
+		<img src="{.}" style="width:100%;"/>
 	</xsl:template>
 
 	<!-- @disable-output-escaping prints the raw XML string as XML in the 
@@ -602,8 +612,20 @@
 			<xsl:text> | </xsl:text>
 			<a href="{$pngImg}" target="_blank">
 				<xsl:value-of select="$LABELS/labels/entry[@key='DIAGRAM.VIEW']/@label" />
-			</a>
+			</a>			
 		</small>
+		
+		<xsl:variable name="depictionValues" select="../../diagramOWLs"/>
+		
+		<xsl:if test="../../diagramOWLs">
+			<br/>
+			<xsl:for-each select="../../diagramOWLs/diagramOWL">
+				<div class="section_Depiction">
+					<img src="{.}" style="width:100%;"/>
+				</div>
+			</xsl:for-each>
+		</xsl:if>
+		<br/>
 	</xsl:template>
 	
 

@@ -11,6 +11,7 @@ import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.RDFS;
+import org.apache.jena.vocabulary.XSD;
 
 import fr.sparna.rdf.shacl.doc.ConstraintValueReader;
 import fr.sparna.rdf.shacl.doc.NodeShape;
@@ -151,19 +152,25 @@ public class PropertyShapeDocumentationBuilder {
 			return node.toString();
 		} else if(node.isLiteral()) {
 			// if we asked for a plain string, just return the literal string
-			if(plainString) {
+			if(plainString) {				
 				
-				if(node.asLiteral().getDatatypeURI().equals("http://www.w3.org/2001/XMLSchema#dateTime")) {
-					try {
-						return fmtDate(node.asLiteral().getLexicalForm(), node.asLiteral().getDatatypeURI());
-					} catch (ParseException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+				try {
+					if(node.asLiteral().getDatatypeURI().equals(XSD.date.getURI())) {
+						SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");					
+						Date date = formatter.parse(node.asLiteral().getLexicalForm());
+						return formatter.format(date);
+					} else if (node.asLiteral().getDatatypeURI().equals(XSD.dateTime.getURI())) {
+						SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+						SimpleDateFormat outputformatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+						Date date = formatter.parse(node.asLiteral().getLexicalForm());
+						return outputformatter.format(date);
+					} else {
+						return node.asLiteral().getLexicalForm();
 					}
-				}else {
-					
+				} catch (ParseException e) {
+					e.printStackTrace();
+					node.asLiteral().getLexicalForm();
 				}
-				return node.asLiteral().getLexicalForm();
 			}
 			
 			if (node.asLiteral().getDatatype() != null && !node.asLiteral().getDatatypeURI().equals(RDF.langString.getURI())) {
@@ -180,33 +187,7 @@ public class PropertyShapeDocumentationBuilder {
 			// default, should never get there
 			return node.toString();
 		}
-	}
-	
-	public static String fmtDate(String inputDate, String fmt) throws ParseException {
-		String dateFmt = null;
-		if (inputDate != null) {
-			if(fmt.equals("http://www.w3.org/2001/XMLSchema#date")) {
-				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MMM-dd");
-				
-				if(!formatter.equals(inputDate)) {
-					Date date = formatter.parse(inputDate);
-					dateFmt = formatter.format(date);
-				}else {
-					dateFmt = inputDate;
-				}
-								
-			}
-			
-			if(fmt.equals("http://www.w3.org/2001/XMLSchema#dateTime")) {
-				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-				SimpleDateFormat outputformatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-				Date date = formatter.parse(inputDate);
-				dateFmt = outputformatter.format(date);
-			}
-		}
-		return dateFmt;
-	}
-	
+	}	
 	
 	public static String renderCardinalities(Integer min, Integer max) {
 		String minCount = "0";

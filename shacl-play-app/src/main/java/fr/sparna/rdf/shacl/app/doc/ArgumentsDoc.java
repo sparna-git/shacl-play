@@ -46,7 +46,7 @@ public class ArgumentsDoc {
 	private String language;
 	
 	@Parameter(
-			names = { "-d", "--dgm" },
+			names = { "-d", "--diagram" },
 			description = "Include diagram in the generated documentation.",
 			required = false
 	)

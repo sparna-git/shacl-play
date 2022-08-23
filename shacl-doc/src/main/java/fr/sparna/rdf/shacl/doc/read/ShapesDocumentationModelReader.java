@@ -114,7 +114,6 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 		
 		// Option pour créer le diagramme		
 		if (this.readDiagram) {
-			SVGGenerator svgGen = new SVGGenerator();
 			PlantUmlSourceGenerator sourceGenerator = new PlantUmlSourceGenerator();
 			List<PlantUmlDiagramOutput> plantUmlDiagrams = sourceGenerator.generatePlantUmlDiagram(
 					shaclGraph,

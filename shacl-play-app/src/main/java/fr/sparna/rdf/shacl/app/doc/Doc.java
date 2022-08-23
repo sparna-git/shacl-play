@@ -1,11 +1,8 @@
 package fr.sparna.rdf.shacl.app.doc;
 
-import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
@@ -13,7 +10,6 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -24,15 +20,13 @@ import com.openhtmltopdf.pdfboxout.PdfRendererBuilder;
 
 import fr.sparna.rdf.shacl.app.CliCommandIfc;
 import fr.sparna.rdf.shacl.app.InputModelReader;
-import fr.sparna.rdf.shacl.diagram.PlantUmlDiagramOutput;
-import fr.sparna.rdf.shacl.doc.PlantUmlSourceGenerator;
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentation;
 import fr.sparna.rdf.shacl.doc.read.ShapesDocumentationModelReader;
 import fr.sparna.rdf.shacl.doc.read.ShapesDocumentationReaderIfc;
 import fr.sparna.rdf.shacl.doc.write.ShapesDocumentationJacksonXsltWriter;
 import fr.sparna.rdf.shacl.doc.write.ShapesDocumentationWriterIfc;
+import fr.sparna.rdf.shacl.doc.write.ShapesDocumentationWriterIfc.MODE;
 import fr.sparna.rdf.shacl.doc.write.ShapesDocumentationXmlWriter;
-import net.sourceforge.plantuml.code.TranscoderUtil;
 
 public class Doc implements CliCommandIfc {
 
@@ -78,13 +72,10 @@ public class Doc implements CliCommandIfc {
 					// TODO: handle exception
 					System.out.println(e);
 				}
-			}else {
+			} else {
+				// not an axisting file, take it as a URL
 				name_img = a.getImgLogo();
 			}
-		}
-		
-		if(a.getPdf()) {
-			a.setDiagramShacl(false);
 		}
 		
 		// generate doc
@@ -101,89 +92,40 @@ public class Doc implements CliCommandIfc {
 		
 		
 		FileOutputStream out = new FileOutputStream(a.getOutput());
-		List<String> urlPngDiagram = new ArrayList<String>();
 		if(a.getPdf()) {
 			
-			System.out.println("Creation pdf file");
-			
-			// 1. write Documentation structure to HTML
-			// Option pour créer le diagramme	 	
-			PlantUmlSourceGenerator sourceGenerator = new PlantUmlSourceGenerator();
-			try {
-				// Read source Uml
-				List<PlantUmlDiagramOutput> plantUmlSourceCode = sourceGenerator.generatePlantUmlDiagram(shapesModel, ModelFactory.createDefaultModel(),false,false,false);
-				// if source uml is true generate png file
-				if(!plantUmlSourceCode.isEmpty()) {
-					for (String sourceCode : plantUmlSourceCode.stream().map(o -> o.getPlantUmlString()).collect(Collectors.toList())) {
-						urlPngDiagram.add("http://www.plantuml.com/plantuml/png/"+TranscoderUtil.getDefaultTranscoder().encode(sourceCode));
-					}
-				}
-			} catch (IOException e) {
-			}
-			
+			// 1. write Documentation structure to XML
 			ShapesDocumentationWriterIfc writerHTML = new ShapesDocumentationJacksonXsltWriter();
 			ByteArrayOutputStream htmlBytes = new ByteArrayOutputStream();
-			writerHTML.write(doc, a.getLanguage(), htmlBytes,urlPngDiagram);
+			writerHTML.write(doc,a.getLanguage(), htmlBytes,MODE.PDF);
 			
 			//read file html
-			if(!a.getOutput().exists()) {
-				System.out.println("pdf file exist");
-			 
-			}
-			//read file html
-			String htmlCode = new String(htmlBytes.toByteArray());
-			htmltopdfFile(htmlCode,a.getOutput());
+			String htmlCode = new String(htmlBytes.toByteArray(),"UTF-8");
 			
+			// Convert
+			PdfRendererBuilder _builder = new PdfRendererBuilder();			 
+			_builder.useFastMode();
 			
+			_builder.withHtmlContent(htmlCode,"http://shacl-play.sparna.fr/play");			
+			
+			try (OutputStream os = new FileOutputStream(a.getOutput())) {
+				_builder.toStream(os);
+				_builder.testMode(false);
+				_builder.run();
+			}			
 		}else {
 			
 			if(a.getOutput().getName().endsWith(".xml")) {
 				// 2. write Documentation structure to XML
 				ShapesDocumentationWriterIfc writer = new ShapesDocumentationXmlWriter();
-				writer.write(doc, a.getLanguage(), out,urlPngDiagram);
+				writer.write(doc, a.getLanguage(), out,MODE.HTML);
 			} else {
 				// 2. write Documentation structure to HTML
 				ShapesDocumentationWriterIfc writer = new ShapesDocumentationJacksonXsltWriter();
-				writer.write(doc, a.getLanguage(), out,urlPngDiagram);
+				writer.write(doc, a.getLanguage(), out,MODE.HTML);
 			}
 			out.close();
 		}	
 	}
-	
-	
-	public String readFileHTML(String string) throws IOException {
-		FileReader fr=new FileReader(string);
-		BufferedReader br= new BufferedReader(fr);
-		StringBuilder contentHTML=new StringBuilder(1024);
-		String s;
-		while((s=br.readLine())!=null)
-		    {
-			contentHTML.append(s);
-		    } 
-		br.close();
-		
-		return contentHTML.toString();		
-	}
-	
-	
-	public void htmltopdfFile(String codeHtml,File outFile) throws IOException {
-		System.out.println("Pdf path "+outFile);
-		
-		try (OutputStream os = new FileOutputStream(outFile)) {
-		   System.out.println("building construct");
-		   PdfRendererBuilder _builder = new PdfRendererBuilder();
-		   _builder.useFastMode();
-		   _builder.withHtmlContent(codeHtml, "/");
-		   
-		   _builder.toStream(os);
-		  
-		   _builder.run();
-		   
-		   //os.close(); 
-		   
-		   System.out.println("pdf file created ...");
-		}
-		 
-		
-	}
+
 }

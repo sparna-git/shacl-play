@@ -38,7 +38,9 @@ public class Draw implements CliCommandIfc {
 		PlantUmlDiagramGenerator writer = new PlantUmlDiagramGenerator(
 				a.isIncludeSubclasses(),
 				false,
-				true
+				true,
+				// language
+				null
 		);
 		// TODO : add parameter with OWL file
 		List<PlantUmlDiagramOutput> plantUmlStringList = writer.generateDiagrams(shapesModel, ModelFactory.createDefaultModel());

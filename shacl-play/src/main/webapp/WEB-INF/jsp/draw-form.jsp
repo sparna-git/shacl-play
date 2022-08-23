@@ -193,9 +193,10 @@
 							</label>
 						    <div class="col-sm-9">
 					    		<select class="form-control" id="format" name="format" >
-					    			<option value="svg">SVG</option>
-					    			<option value="png">PNG</option>
-					    			<option value="txt">TXT</option>
+					    			<option value="SVG">SVG</option>
+					    			<option value="PNG">PNG</option>
+					    			<option value="TXT">TXT</option>
+					    			<option value="HTML">HTML (with SVG inside) (includes all diagrams)</option>
 							    </select>
 						    </div>
 								    
@@ -204,6 +205,124 @@
 					  
 				    <button type="submit" id="validate-button" class="btn btn-info btn-lg"><fmt:message key="draw.submit" /></button>			  	
 			  	</form>
+ 		
+ 		
+ 				<!-- Documentation -->	
+				<div style="margin-top:3em;">
+					<h3 id="documentation">Documentation</h3>
+
+					<p>This diagram generation utility displays an <em>application profile specified in SHACL</em> in the form of one or more diagrams.
+					 It supports a subset of SHACL constraints.<p/>
+					<p>
+					   The diagrams generated can be embeded in the <a href="doc">documentation generation utility</a>.
+					</p>
+					
+					<div style="margin-top:2em;">
+						<h4 id="arrows">Finding links between boxes</h4>
+						<p>The diagram generation utility will generate a link between 2 boxes if it finds:</p>
+						<ul>
+							<li>An <code>sh:node</code> reference to another NodeShape</li>
+							<li>An <code>sh:class</code> reference that is the <code>sh:targetClass</code> of another NodeShape</li>
+							<li>An <code>sh:class</code> reference that is not the <code>sh:targetClass</code> of another NodeShape (in that case a box will be generated corresponding to the sh:class)</li>
+						</ul>	
+					</div>
+					
+					<div style="margin-top:2em;">
+						<h4 id="simplification">Limiting the number of arrows/boxes</h4>
+						<p>If a property shape refer to a node shape that does not have any property, and only one reference is made to that node shape, then the arrow will
+						not be printed and will be replaced by a property inside the node shape box.</p>	
+					</div>
+
+					<div style="margin-top:2em;">
+						<h4 id="custom-nodeShapes">Customizing NodeShapes</h4>
+						<p>In addition to SHACL constraints, the following properties can be used to customise the output of NodeShapes</p>
+						<table class="table table-bordered">
+							<thead>
+								<tr align="center">
+									<th scope="col">Property</th>
+								    <th scope="col">Type</th>
+								    <th scope="col">Description</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<th scope="row" width="30%"><code>foaf:depiction</code><br />+ <code>dcterms:title</code> <br />+ <code>dcterms:description</code></th>
+									<td>IRI or blank node</td>
+									<td class="text-break">
+									<p>Indicates the IRI of a diagram in which the NodeShape will appear. This allows to split the visual representation
+									in multiple diagrams.</p>
+									<p>If <code>foaf:depiction</code> is never used on any NodeShape
+									in the SHACL data, a single diagram will be generated with all the NodeShapes. If <code>foaf:depiction</code> is used at least once on a NodeShape,
+									then one diagram will be generated for each value of <code>foaf:depiction</code>, and each diagram will include only the NodeShapes that refer
+									to it.</p>
+									<p>Each diagram can be described with <code>dcterms:title</code> and <code>dcterms:description</code> to indicate its title and description.</p>
+									<p>Depending on the output format option, you will get a ZIP file containing all PNGs or SVGs, or an HTML page containing all generated diagrams.</p>
+									</td>
+								</tr>
+								<tr>
+									<th scope="row" width="30%"><code>https://shacl-play.sparna.fr/ontology#color</code></th>
+									<td>xsd:string</td>
+									<td class="text-break">
+									Indicates the hexadecimal color code to use to display the corresponding box in the diagram. Example value are <code>"Green"</code> or <code></code>
+									</td>
+								</tr>
+								<tr>
+									<th scope="row" width="30%"><code>rdfs:subClassOf</code></th>
+									<td>IRI</td>
+									<td class="text-break">
+									<code>rdfs:subClassOf</code> links are displayed in bold grey. It implies the NodeShapes are also classes, and it of course implies that the submitted
+									file contains the <code>rdfs:subClassOf</code> links.
+									</td>
+								</tr>
+								<tr>
+									<th scope="row" width="30%"><code>https://shacl-play.sparna.fr/ontology#color</code></th>
+									<td>xsd:string</td>
+									<td class="text-break">Color of the line around the box. Values can be a color name, like <code>"Green"</code>
+									or an hex code, like <code>"4456BB"</code>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					
+					<div style="margin-top:2em;">
+						<h4 id="custom-propertyShapes">Customizing PropertyShapes</h4>
+						<p>In addition to SHACL constraints, the following properties can be used to customize the appearance of Property Shapes</p>
+						<table class="table table-bordered">
+							<thead>
+								<tr align="center">
+									<th scope="col">Property</th>
+								    <th scope="col">Type</th>
+								    <th scope="col">Description</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<th scope="row" width="30%"><code>sh:order</code></th>
+									<td>xsd:integer</td>
+									<td class="text-break">
+									Properties are sorted according to sh:order
+									</td>
+								</tr>
+								<tr>
+									<th scope="row" width="30%"><code>https://shacl-play.sparna.fr/ontology#color</code></th>
+									<td>xsd:string</td>
+									<td class="text-break">Color of the property name (inside the box) or arrow link. Values can be a color name, like <code>"Green"</code>
+									or an hex code, like <code>"4456BB"</code>
+									</td>
+								</tr>
+								<tr>
+									<th scope="row" width="30%"><code>owl:inverseOf</code> on the IRI indicated on <code>sh:path</code></th>
+									<td>IRI</td>
+									<td class="text-break">If the property indicated in <code>sh:path</code> is known to have an inverse, then a single arrow
+									will be printed instead of 2.</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				
+
  		
 			</div>
 		</div>
@@ -225,6 +344,8 @@
 	
     <script type="text/javascript" src="<c:url value="/resources/jasny-bootstrap/jasny-bootstrap.min.js" />"></script>
 
+    <!-- anchorjs -->
+    <script src="https://cdn.jsdelivr.net/npm/anchor-js/anchor.min.js"></script>
     
     <script>
     	$(document).ready(function () {
@@ -244,6 +365,12 @@
 	        // var editor = CodeMirror.fromTextArea(sourceText, editorOptions);
 	        // editor.on("change", function(cm, event) { enabledInput('text'); });
     	});
+    	
+		anchors.options = {
+			  icon: '#'
+			};
+		anchors.options.placement = 'left';
+		anchors.add();		
     </script>
     
   </body>

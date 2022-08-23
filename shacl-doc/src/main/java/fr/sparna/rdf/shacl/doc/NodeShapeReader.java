@@ -63,11 +63,11 @@ public class NodeShapeReader {
 	}
 
 	public String readRdfsLabel(Resource nodeShape) {
-		return valueReader.readValueconstraint(nodeShape, RDFS.label, this.lang);
+		return ConstraintValueReader.readLiteralInLangAsString(nodeShape, RDFS.label, this.lang);
 	}
 
 	public String readRdfsComment(Resource nodeShape) {
-		return valueReader.readValueconstraint(nodeShape, RDFS.comment, this.lang);
+		return ConstraintValueReader.readLiteralInLangAsString(nodeShape, RDFS.comment, this.lang);
 	}
 
 	public Resource readShTargetClass(Resource nodeShape) {

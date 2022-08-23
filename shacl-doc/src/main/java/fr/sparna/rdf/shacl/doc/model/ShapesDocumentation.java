@@ -1,5 +1,6 @@
 package fr.sparna.rdf.shacl.doc.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
@@ -13,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
-import fr.sparna.rdf.shacl.doc.OwlFormat;
+import fr.sparna.rdf.shacl.doc.DcatDistribution;
 import fr.sparna.rdf.shacl.doc.OwlOntology;
 
 @JsonInclude(Include.NON_NULL)
@@ -23,9 +24,6 @@ public class ShapesDocumentation {
 	protected String abstract_;
 	protected String modifiedDate;
 	protected String versionInfo;
-	protected List<String> svgDiagram;
-	protected List<String> plantumlSource;
-	protected String pngDiagram;
 	protected String descriptionDocument;
 	protected String imgLogo;
 	
@@ -33,13 +31,13 @@ public class ShapesDocumentation {
 	protected String dateissued;
 	protected String yearCopyRighted;
 	
-	@JacksonXmlElementWrapper(localName="svgDiagrams")
-	@JacksonXmlProperty(localName = "svgDiagramMulti")
-	protected List<String> svgDiagramMulti;
+	@JacksonXmlElementWrapper(localName="diagrams")
+	@JacksonXmlProperty(localName = "diagram")
+	protected List<ShapesDocumentationDiagram> diagrams = new ArrayList<>();
 	
 	@JacksonXmlElementWrapper(localName="formats")
 	@JacksonXmlProperty(localName = "format")
-	protected List<OwlFormat> format;
+	protected List<DcatDistribution> format;
 	
 	@JacksonXmlElementWrapper(localName="licenses")
 	@JacksonXmlProperty(localName = "license")
@@ -53,9 +51,9 @@ public class ShapesDocumentation {
 	@JacksonXmlElementWrapper(localName="rightsHolders")
 	@JacksonXmlProperty(localName = "rightsHolder")
 	protected List<Link> rightsHolder;
-	@JacksonXmlElementWrapper(localName="diagramOWLs")
-	@JacksonXmlProperty(localName = "diagramOWL")
-	protected List<String> diagramOWL;
+	@JacksonXmlElementWrapper(localName="depictions")
+	@JacksonXmlProperty(localName = "depiction")
+	protected List<String> depictions;
 	@JacksonXmlElementWrapper(localName="prefixes")
 	@JacksonXmlProperty(localName = "prefixe")
 	protected List<NamespaceSection> prefixe;
@@ -107,7 +105,7 @@ public class ShapesDocumentation {
 			this.setDescriptionDocument(ontology.getDescription());
 			
 			Optional.ofNullable(ontology.getDepiction()).ifPresent(list -> {
-				this.diagramOWL = list
+				this.depictions = list
 						.stream()
 						.map(u -> u.asResource().getURI())
 						.collect(Collectors.toList());
@@ -118,26 +116,18 @@ public class ShapesDocumentation {
 		}		
 	}
 	
-	
-	public List<String> getSvgDiagramMulti() {
-		return svgDiagramMulti;
-	}
-	public void setSvgDiagramMulti(List<String> svgDiagramMulti) {
-		this.svgDiagramMulti = svgDiagramMulti;
-	}
-	public List<OwlFormat> getFormat() {
+	public List<DcatDistribution> getFormat() {
 		return format;
 	}
-	public void setFormat(List<OwlFormat> format) {
+	public void setFormat(List<DcatDistribution> format) {
 		this.format = format;
 	}
-	public List<String> getDiagramOWL() {
-		return diagramOWL;
+	public List<String> getDepictions() {
+		return depictions;
 	}
-	public void setDiagramOWL(List<String> diagramOWL) {
-		this.diagramOWL = diagramOWL;
+	public void setDepictions(List<String> depictions) {
+		this.depictions = depictions;
 	}
-
 	public String getDatecreated() {
 		return datecreated;
 	}
@@ -191,41 +181,19 @@ public class ShapesDocumentation {
 	}
 	public void setDescriptionDocument(String descriptionDocument) {
 		this.descriptionDocument = descriptionDocument;
-	}
-	public String getPngDiagram() {
-		return pngDiagram;
-	}
-	public void setPngDiagram(String pngDiagram) {
-		this.pngDiagram = pngDiagram;
-	}
-	
+	}	
 	public String getModifiedDate() {
 		return modifiedDate;
 	}
 	public void setModifiedDate(String modifiedDate) {
 		this.modifiedDate = modifiedDate;
-	}
-	
-	public List<String> getSvgDiagram() {
-		return svgDiagram;
-	}
-	public void setSvgDiagram(List<String> svgDiagram) {
-		this.svgDiagram = svgDiagram;
-	}
-	
-	
+	}	
 	public String getAbstract_() {
 		return abstract_;
 	}
-
-
-
 	public void setAbstract_(String abstract_) {
 		this.abstract_ = abstract_;
 	}
-
-
-
 	public String getVersionInfo() {
 		return versionInfo;
 	}
@@ -252,13 +220,16 @@ public class ShapesDocumentation {
 	public void setPrefixe(List<NamespaceSection> prefixe) {
 		this.prefixe = prefixe;
 	}
-	public List<String> getPlantumlSource() {
-		return plantumlSource;
+	public List<ShapesDocumentationDiagram> getDiagrams() {
+		return diagrams;
 	}
-	public void setPlantumlSource(List<String> plantumlSource) {
-		this.plantumlSource = plantumlSource;
+
+	public void setDiagrams(List<ShapesDocumentationDiagram> diagrams) {
+		this.diagrams = diagrams;
 	}
-	
+
+
+
 	class RDFNodeToLinkMapper implements Function<RDFNode, Link>{
 		protected String lang;
 

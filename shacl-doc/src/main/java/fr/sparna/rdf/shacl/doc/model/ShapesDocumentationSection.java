@@ -2,8 +2,6 @@ package fr.sparna.rdf.shacl.doc.model;
 
 import java.util.List;
 
-import org.apache.jena.rdf.model.Resource;
-
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 

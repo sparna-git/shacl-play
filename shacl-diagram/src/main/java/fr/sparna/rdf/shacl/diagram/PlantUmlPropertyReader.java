@@ -51,34 +51,24 @@ public class PlantUmlPropertyReader {
 		p.setValue_qualifiedMaxMinCount(this.readShQualifiedMinCountQualifiedMaxCount(constraint));
 		p.setValue_inverseOf(this.readOwlInverseOf(owlGraph, p.getValue_path()));
 		p.setValue_shor(this.readShOrConstraint(constraint));
-		p.setValue_version(this.readShVersion(constraint));
-		p.setValue_colorProperty(this.readShColor(constraint));
+		p.setValue_colorProperty(this.readColor(constraint));
 		
 		return p;
 	}
 	
 	
 	
-	public String readShColor(Resource constraint) {
-		String value=null;
+	public String readColor(Resource nodeShape) {	
+		String value = null;
 		try {
-			value = constraint.getProperty(constraint.getModel().createProperty("https://shacl-play.sparna.fr/ontology#color")).getString();
+			if(nodeShape.hasProperty(nodeShape.getModel().createProperty(SHACL_PLAY.COLOR))) {
+				value= nodeShape.getProperty(nodeShape.getModel().createProperty(SHACL_PLAY.COLOR)).getLiteral().getString();
+			}
 		} catch (Exception e) {
-			value = null;
+			e.printStackTrace();
 		}
 		return value;
-	}
-	
-	public String readShVersion(Resource constraint) {
-		String value=null;
-		try {
-			value = constraint.getProperty(constraint.getModel().createProperty("http://www.w3.org/2002/07/owl#versionInfo")).getLiteral().getString();
-		} catch (Exception e) {
-			value = null;
-		}
-		return value;
-	}
-	
+	}	
 	
 	public List<String> readOwlInverseOf(Model owlGraph, String path) {
 		List<String> inverBox = new ArrayList<>();
@@ -278,23 +268,6 @@ public class PlantUmlPropertyReader {
 			}
 			
 			return theBox;
-			
-			
-		
-		
-		/*
-		 * if(constraint.hasProperty(SH.node)) { // 1. Lire la valeur de sh:node
-		 * Resource nodeValue =
-		 * constraint.asResource().getProperty(SH.node).getResource();
-		 * 
-		 * // 2. Trouver le PlantUmlBox qui a ce nom
-		 * 
-		 * if (nodeValue != null) { for (PlantUmlBox plantUmlBox : allBoxes) {
-		 * if(plantUmlBox.getNodeShape().toString().equals(nodeValue.toString())) {
-		 * theBox = plantUmlBox; break; } } } }
-		 * 
-		 * return theBox;
-		 */
 	}
 	
 

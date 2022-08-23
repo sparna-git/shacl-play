@@ -9,6 +9,11 @@ import fr.sparna.rdf.shacl.doc.model.ShapesDocumentation;
 
 public interface ShapesDocumentationWriterIfc {
 
-	public void write(ShapesDocumentation documentation, String outputLang, OutputStream output, List<String> urlDiagram) throws IOException;
+	public enum MODE {
+		HTML,
+		PDF
+	}
+	
+	public void write(ShapesDocumentation documentation, String outputLang, OutputStream output, MODE mode) throws IOException;
 	
 }

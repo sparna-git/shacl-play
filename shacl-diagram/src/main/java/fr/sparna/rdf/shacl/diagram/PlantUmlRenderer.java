@@ -221,10 +221,9 @@ public class PlantUmlRenderer {
 
 		String output = "";
 		
-		// TODO : this can never work as the renderAsDatatypeProperty is true only when sh:node is used
 		if (renderAsDatatypeProperty) {
 			
-			output = boxName + " : +" + property.getValue_path() + " : " + property.getValue_node().getLabel();	
+			output = boxName + " : +" + property.getValue_path() + " : " + property.getValue_class_property();	
 			
 			if (property.getValue_cardinality() != null) {
 				output += " " + property.getValue_cardinality() + " ";
@@ -259,10 +258,11 @@ public class PlantUmlRenderer {
 				output += property.getValue_nodeKind() + " ";
 			}
 
-			output += labelColorClose+" \n";
+			output += labelColorClose;
 		}
 		
-
+		output += " \n";
+		
 		return output;
 	}
 
@@ -299,7 +299,7 @@ public class PlantUmlRenderer {
 		return output;
 	}
 	
-	public PlantUmlDiagramOutput renderDiagram(PlantUmlDiagram diagram) {
+	public String renderDiagram(PlantUmlDiagram diagram) {
 		StringBuffer sourceuml = new StringBuffer();	
 		sourceuml.append("@startuml\n");
 		sourceuml.append("skinparam classFontSize 14"+"\n");
@@ -319,7 +319,7 @@ public class PlantUmlRenderer {
 			}
 			
 			for (PlantUmlBox plantUmlBox : diagram.getBoxes().stream().filter(b -> b.getPackageName().equals(aPackage)).collect(Collectors.toList())) {
-					sourceuml.append(renderer.renderNodeShape(plantUmlBox,diagram.getBoxes(),this.avoidArrowsToEmptyBoxes));
+					sourceuml.append(renderer.renderNodeShape(plantUmlBox,diagram,this.avoidArrowsToEmptyBoxes));
 			}
 			
 			if(!aPackage.equals("")) {
@@ -332,48 +332,38 @@ public class PlantUmlRenderer {
 		sourceuml.append("hide empty members\n");
 		sourceuml.append("@enduml\n");
 		
-		// create output
-		PlantUmlDiagramOutput output = new PlantUmlDiagramOutput(sourceuml.toString());
-		if(diagram.getResource() != null) {
-			output.setDiagramUri(diagram.getResource().getURI());
-		}
-		return output;
+		// return output
+		return sourceuml.toString();
 	}
 
-	public String renderNodeShape(PlantUmlBox box, List<PlantUmlBox> GlobalBox, boolean avoidArrowsToEmptyBoxes) {
+	public String renderNodeShape(PlantUmlBox box, PlantUmlDiagram diagram, boolean avoidArrowsToEmptyBoxes) {
 		// String declaration = "Class"+"
 		// "+"\""+box.getNameshape()+"\""+((box.getNametargetclass() != null)?"
 		// "+"<"+box.getNametargetclass()+">":"");
 		String declaration = "";
 		
 		
-		String versionColorClass = "";
+		String color = "";
 		if(box.getColorClass() != null) {
-			versionColorClass = "#line:"+box.getColorClass()+";";
+			color = "#line:"+box.getColorClass()+";";
 		}else {
-			versionColorClass = "";
+			color = "";
 		}
-
-		//String defaultColorRow = "[bold,#green]";
-		String colorDrawnClass = "";
-		// Array for control inverse
-		
-
 		
 		if (box.getProperties().size() > 0 || box.getSuperClasses().size() > 0) {
 			if (box.getNodeShape().isAnon()) {
+				// give it an ampty label
 				declaration = "Class" + " " + box.getLabel() +" as " +"\""+" \"";
 			} else {
-				if(this.generateAnchorHyperlink) {
-					declaration = "Class" + " " + "\"" + box.getLabel() + "\"";
-				}else {
-					declaration = "Class" + " " + "\"" + box.getLabel() + "\""+" "+ versionColorClass;
-				}
+				declaration = "Class" + " " + "\"" + box.getLabel() + "\"";
 			}
-			declaration += (this.generateAnchorHyperlink) ? " [[#" + box.getLabel() + "]]"+" "+ versionColorClass + "\n" : "\n";
+
+			declaration += (this.generateAnchorHyperlink) ? " [[#" + box.getLabel() + "]]" : "";
+			declaration += " " + color + "\n";
+			
 			if (box.getSuperClasses() != null) {
 				for (PlantUmlBox aSuperClass : box.getSuperClasses()) {
-					// generate an "up" arrow
+					// generate an "up" arrow - bolder and gray to distinguish it from other arrows
 					declaration += "\""+box.getLabel()+"\"" + " -up[#gray,bold]-|> " + "\""+aSuperClass.getLabel()+"\"" + "\n";
 				}
 			}
@@ -381,25 +371,39 @@ public class PlantUmlRenderer {
 			for (PlantUmlProperty plantUmlproperty : box.getProperties()) {
 				boolean displayAsDatatypeProperty = false;
 				
+				// if we want to avoid arrows to empty boxes...
 				if (avoidArrowsToEmptyBoxes) {
-					if (plantUmlproperty.value_node != null) {
-						if (plantUmlproperty.value_node.getProperties().size() == 0) {
-							// count number of times it is used
-							int nCount = 0;
-							for (PlantUmlBox plantumlbox : GlobalBox) {
-								for (PlantUmlProperty UmlProperty : plantumlbox.getProperties()) {
-									if (UmlProperty.value_node != null) {
-										if (UmlProperty.value_node.getNodeShape()
-												.equals(plantUmlproperty.value_node.getNodeShape())) {
-											nCount += 1;
-										}
-									}
-								}
-							}
-							// if used more than once, then dispay the box, otherwise don't display it
-							if (nCount <= 1) {
-								displayAsDatatypeProperty = true;
-							}
+					// then see if there is a reference to a box
+					String arrowReference = plantUmlproperty.getShNodeOrShClassReference();
+					PlantUmlBox boxReference = diagram.findBoxById(arrowReference);
+					
+					// if the box is empty...
+					if (
+							arrowReference != null
+							&&
+							(
+									// no box : the reference is an sh:class pointing to a URI
+									// that does not correspond to a NodeShape
+									boxReference == null
+									||
+									(
+											// points to an existing NodeShape, but with no property
+											boxReference.getProperties().size() == 0
+											&&
+											// and does not have a super class
+											boxReference.getSuperClasses().size() == 0
+									)
+							)							
+					) {
+						// count number of times it is used
+						int nCount = 0;
+						for (PlantUmlBox plantumlbox : diagram.getBoxes()) {
+							nCount += plantumlbox.countShNodeOrShClassReferencesTo(arrowReference);
+						}
+						
+						// if used more than once, then display the box, otherwise don't display it
+						if (nCount <= 1) {
+							displayAsDatatypeProperty = true;
 						}
 					}
 				}

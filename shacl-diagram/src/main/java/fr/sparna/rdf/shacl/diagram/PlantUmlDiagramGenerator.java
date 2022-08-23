@@ -16,16 +16,19 @@ public class PlantUmlDiagramGenerator {
 	protected boolean includeSubclassLinks = true;
 	protected boolean generateAnchorHyperlink = false;
 	protected boolean avoidArrowsToEmptyBoxes = true;
+	protected String lang;
 	
 	public PlantUmlDiagramGenerator(
 			boolean includeSubclassLinks,
 			boolean generateAnchorHyperlink,
-			boolean avoidArrowsToEmptyBoxes
+			boolean avoidArrowsToEmptyBoxes,
+			String lang
 	) {
 		super();
 		this.includeSubclassLinks = includeSubclassLinks;
 		this.generateAnchorHyperlink = generateAnchorHyperlink;
 		this.avoidArrowsToEmptyBoxes = avoidArrowsToEmptyBoxes;
+		this.lang = lang;
 	}
 
 	public List<PlantUmlDiagramOutput> generateDiagrams(Model shaclGraph, Model owlGraph) {
@@ -78,14 +81,14 @@ public class PlantUmlDiagramGenerator {
 		
 		// then create the PlanUmlDiagrams
 		PlantUmlDiagramReader diagramsReader = new PlantUmlDiagramReader();
-		List<PlantUmlDiagram> diagrams = diagramsReader.readDiagrams(plantUmlBoxes);
+		List<PlantUmlDiagram> diagrams = diagramsReader.readDiagrams(plantUmlBoxes, lang);
 		
 		// and then render each diagram
 		PlantUmlRenderer renderer = new PlantUmlRenderer();
 		renderer.setGenerateAnchorHyperlink(this.generateAnchorHyperlink);
 		renderer.setAvoidArrowsToEmptyBoxes(avoidArrowsToEmptyBoxes);
 		
-		List<PlantUmlDiagramOutput> codePlantUml = diagrams.stream().map(d -> renderer.renderDiagram(d)).collect(Collectors.toList());
+		List<PlantUmlDiagramOutput> codePlantUml = diagrams.stream().map(d -> new PlantUmlDiagramOutput(d, renderer)).collect(Collectors.toList());
 		
 		return codePlantUml; //sourceuml.toString();
 		

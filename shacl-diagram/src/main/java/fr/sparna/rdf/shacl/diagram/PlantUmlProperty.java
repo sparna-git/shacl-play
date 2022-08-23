@@ -18,6 +18,7 @@ public class PlantUmlProperty {
 	protected String value_language;
 	protected String value_uniquelang;
 	protected PlantUmlBox value_node;
+	// contains a shortForm of the sh:class
 	protected String value_class_property;
 	protected Integer value_order_shacl;
 	protected String value_hasValue;
@@ -25,8 +26,29 @@ public class PlantUmlProperty {
 	protected String value_qualifiedMaxMinCount;
 	protected List<String> value_inverseOf;
 	protected List<PlantUmlBox> value_shor;
-	protected String value_version;
 	protected String value_colorProperty;
+	
+	/**
+	 * Returns the identifier of the arrow reference (a shortForm), either through an sh:node to an existing NodeShape,
+	 * an sh:class to an existing NodeShape, or an sh:class to a class that is not a NodeShape or targeted by a NodeShape
+	 * 
+	 * @param allBoxes
+	 * @return
+	 */
+	public String getShNodeOrShClassReference() {
+		if(this.value_node != null) {
+			return this.value_node.getLabel();
+		} else if(this.value_class_property != null) {			
+			// sh:class may not be targeted to a NodeShape
+			// PlantUML will make up a box with the class shortForm automatically
+			// we need to return it to indicate the property will generate an arrow in the diagram
+			// we don't jave to search in the PlantUmlBoxes
+			return this.value_class_property;
+			
+			// TODO : we may be interested to get the references made through a sh:or ?
+		}
+		return null;
+	}
 	
 	
 	public String getValue_colorProperty() {
@@ -35,14 +57,6 @@ public class PlantUmlProperty {
 
 	public void setValue_colorProperty(String value_colorProperty) {
 		this.value_colorProperty = value_colorProperty;
-	}
-
-	public String getValue_version() {
-		return value_version;
-	}
-
-	public void setValue_version(String value_version) {
-		this.value_version = value_version;
 	}
 
 	public List<String> getValue_inverseOf() {

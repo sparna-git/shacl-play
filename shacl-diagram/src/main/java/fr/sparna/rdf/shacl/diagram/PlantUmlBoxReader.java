@@ -8,7 +8,6 @@ import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.sparql.vocabulary.FOAF;
-import org.apache.jena.vocabulary.OWL;
 import org.apache.jena.vocabulary.RDFS;
 import org.topbraid.shacl.vocabulary.SH;;
 
@@ -19,11 +18,10 @@ public class PlantUmlBoxReader {
 	public PlantUmlBox read(Resource nodeShape, List<Resource> allNodeShapes) {
 		PlantUmlBox box = new PlantUmlBox(nodeShape);
 		
-		box.setLabel(this.readLabel(nodeShape, allNodeShapes));
+		box.setLabel(this.readLabel(nodeShape));
 		box.setPackageName(this.readPackageName(nodeShape));
 		box.setNametargetclass(this.readNametargetclass(nodeShape));
-		box.setVersion(this.readVersion(nodeShape, allNodeShapes));
-		box.setColorClass(this.readColorClass(nodeShape, allNodeShapes));
+		box.setColorClass(this.readColor(nodeShape));
 		box.setDiagramReferences(this.readDiagramReferences(nodeShape, allNodeShapes));
 		return box;
 	}
@@ -41,55 +39,24 @@ public class PlantUmlBoxReader {
 		return result;
 	}
 	
-	public String readColorClass(Resource nodeShape, List<Resource> allNodeShapes) {
-		String value = null;	
-		try {
-			value = nodeShape.getProperty(nodeShape.getModel().createProperty(SHACL_PLAY.COLOR)).getLiteral().getString();
-		} catch (Exception e) {
-			value = null;
-		}		
-		return value;
-	}
-	
-	
-	public String readVersion(Resource nodeShape, List<Resource> allNodeShapes) {
-		String value = null;	
-		try {
-			value = nodeShape.getProperty(OWL.versionInfo).getLiteral().getString();
-		} catch (Exception e) {
-			value = null;
-		}		
-		return value;
-	}
-	
-	
-	public String readLabel(Resource nodeShape, List<Resource> allNodeShapes) {
-		// strip out hyphens
+	public String readColor(Resource nodeShape) {	
 		String value = null;
-		if(nodeShape.isURIResource()) {
-			value = nodeShape.asResource().getModel().shortForm(nodeShape.getURI());
-		}else {
-			value = nodeShape.toString();
+		try {
+			if(nodeShape.hasProperty(nodeShape.getModel().createProperty(SHACL_PLAY.COLOR))) {
+				value= nodeShape.getProperty(nodeShape.getModel().createProperty(SHACL_PLAY.COLOR)).getLiteral().getString();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		
 		return value;
-		
-	//	if(nodeShape.isURIResource()) {
-	//		return nodeShape.getLocalName().replaceAll("-", "");
-	//	} else {
-//			return nodeShape.toString();
-	//		StringBuffer sb = new StringBuffer();
-	//		for(int i=0;i<allNodeShapes.size();i++) {
-	//			if(allNodeShapes.get(i).isAnon()) {
-	//				sb.append(" ");
-	//			}
-				// stop when we have found our nodeshape
-	//			if(allNodeShapes.get(i).toString().equals(nodeShape.toString())) {
-	//				break;
-	//			}
-	//		}
-	//		return sb.toString();
-	//	}
+	}	
+	
+	public String readLabel(Resource nodeShape) {
+		if(nodeShape.isURIResource()) {
+			return nodeShape.asResource().getModel().shortForm(nodeShape.getURI());
+		} else {
+			return nodeShape.toString();
+		}
 	}
 	
 	public List<PlantUmlProperty> readProperties(Resource nodeShape, List<PlantUmlBox> allBoxes,Model owlGraph) {

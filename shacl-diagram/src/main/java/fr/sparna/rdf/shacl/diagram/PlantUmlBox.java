@@ -10,6 +10,7 @@ public class PlantUmlBox {
 	private Resource nodeShape;
 	
 	protected String label;
+	// contains a shortForm of sh:targetClass
 	protected String nametargetclass; 
 	protected String packageName;	
 	protected String version;
@@ -19,6 +20,19 @@ public class PlantUmlBox {
 	protected List<PlantUmlProperty> properties = new ArrayList<>();
 	protected List<PlantUmlBox> superClasses = new ArrayList<>();
 
+	public int countShNodeOrShClassReferencesTo(String id) {
+		int count = 0;
+		for (PlantUmlProperty p : this.properties) {
+			if (
+					p.getShNodeOrShClassReference() != null
+					&&
+					p.getShNodeOrShClassReference().equals(id)
+			) {
+				count++;
+			}
+		}
+		return count;
+	}
 		
 	
 	public List<Resource> getDiagramReferences() {
@@ -32,12 +46,6 @@ public class PlantUmlBox {
 	}
 	public void setColorClass(String colorClass) {
 		this.colorClass = colorClass;
-	}
-	public String getVersion() {
-		return version;
-	}
-	public void setVersion(String version) {
-		this.version = version;
 	}
 	public PlantUmlBox(Resource nodeShape) {  
 	    this.nodeShape = nodeShape;		

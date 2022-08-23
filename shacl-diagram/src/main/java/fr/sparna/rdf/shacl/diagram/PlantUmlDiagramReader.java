@@ -6,12 +6,17 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.vocabulary.DCTerms;
+import org.apache.jena.vocabulary.OWL;
+import org.apache.jena.vocabulary.RDFS;
+import org.topbraid.shacl.vocabulary.SH;
 
 public class PlantUmlDiagramReader {
 
 	
-	public List<PlantUmlDiagram> readDiagrams(List<PlantUmlBox> boxes) {
+	public List<PlantUmlDiagram> readDiagrams(List<PlantUmlBox> boxes, String lang) {
 		List<PlantUmlDiagram> diagrams = new ArrayList<>();
 		
 		Set<Resource> allDiagramReferences = new HashSet<>();
@@ -36,12 +41,38 @@ public class PlantUmlDiagramReader {
 						d.getBoxes().add(oneBox);
 					}
 				}
+				
+				// then read an rdfs:label
+				d.setTitle(this.readDctTitle(aRef, lang));
+
+				// then read an rdfs:commebt
+				d.setDescription(this.readDctDescription(aRef, lang));
+				
+				// and an order
+				
 				diagrams.add(d);
 			}
 		}
 		
 		
 		return diagrams;
+	}
+	
+	public String readDctTitle(Resource r, String lang) {
+		return ConstraintValueReader.readLiteralInLangAsString(r, DCTerms.title, lang);
+	}
+	
+	public String readDctDescription(Resource r, String lang) {
+		return ConstraintValueReader.readLiteralInLangAsString(r, DCTerms.description, lang);
+	}
+	
+	public int readShOrder(Resource r) {
+		List<Literal> values = ConstraintValueReader.readLiteralInLang(r, SH.order, null);
+		if(values != null && values.size() > 0) {
+			return values.get(0).asLiteral().getInt();
+		} else {
+			return -1;
+		}
 	}
 	
 }

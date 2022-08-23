@@ -287,6 +287,7 @@
 					   The generated documentation describes all the properties allowed on each class/shape of the application profile, and includes a diagram, namespace table, introduction, 
 					   and some metadata at the top of the document.
 					</p>
+					<p>The diagram generation is <a href="draw#documentation">documented in a separate page</a>.<p/>
 					<h4 id="Sample-file">Sample file</h4>
 					<p> 
 					   To test, and to better understand how the documentation generation works you can download this <a href="<c:url value="/resources/example/PersonCountry.ttl"/>">turtle example of an application profile specified in SHACL</a>
@@ -328,6 +329,44 @@
 							  		<td>No</td>
 							  		<td class="text-break">Generates a <b>Description</b> section in the generated documentation, if present.</td>
 							  	</tr>
+							  	<tr>
+							  		<th scope="row"><code>dcat:distribution</code> <br/>(+ <code>dcterms:format</code> + <code>dcat:downloadURL</code>)</th>
+							  		<td>IRI or blank node</td>
+							  		<td>No</td>
+							  		<td class="text-break">Generates download links for the various distributions of the application profiles. Each <code>dcat:distribution</code>
+							  		must point to a resource (IRI or blank node) that have both a <code>dcterms:format</code> indicating the format of the file and a
+							  		<code>dcat:downloadURL</code> giving the download URL. Supported values for dcterms:format are:
+							  		<ul>
+							  			<li>https://www.iana.org/assignments/media-types/text/turtle for Turtle distribution</li>
+							  			<li>https://www.iana.org/assignments/media-types/application/rdf+xml for RDF/XML distribution</li>
+							  			<li>https://www.iana.org/assignments/media-types/application/n-triples for NTriple distribution </li>
+							  			<li>https://www.iana.org/assignments/media-types/application/ld+json for JSON-LD distribution</li>
+							  		</ul>
+							  		This can be repeated to point to multiple distributions.
+							  		</td>
+							  	</tr>
+							  	<tr>
+							  		<th scope="row"><code>foaf:depiction</code></th>
+							  		<td>IRI</td>
+							  		<td>No</td>
+							  		<td class="text-break">If present, refer to the URL of a diagram giving a depiction of the application profile, that will 
+							  		be included in the "Diagrams" section of the generated documentation. This can be repeated to include more than one diagram.</td>
+							  	</tr>
+							</tbody>
+						</table>
+						
+						<p>The following properties are also read on the owl:Ontology to populate the metadata header at the top of the document.</p>
+						
+						<table class="table table-bordered">
+							<thead>
+								<tr align="center">
+									<th scope="col">Property</th>
+								    <th scope="col">Type</th>
+								    <th scope="col" width="auto">Required</th>
+								    <th scope="col">Description</th>
+								</tr>
+							</thead>
+							<tbody>
 							  	<tr>
 							  		<th scope="row"><code>dcterms:modified</code></th>
 							  		<td>xsd:dateTime</td>
@@ -388,9 +427,13 @@
 							  	</tr>
 							</tbody>
 						</table>
-												  
+					</div>
+					
+					<div style="margin-top:2em;">
+						<h4 id="ontology-example">Example</h4>
+						
 						<br/>
-						<p>This is an example of such a header:</p>
+						<p>This is an example of metadata on the owl:Ontology:</p>
 						<br/>
 						<!-- OWL -->
 						<img src="<c:url value="/resources/img/shacl_doc_owl.png"/>" width="100%"/>
@@ -400,7 +443,7 @@
 						<br/>
 						<br/>
 						<img src="<c:url value="/resources/img/shacl_doc_header.png"/>" width="100%"/>
-						<br/>
+						<br/>						
 					</div>
 					
 					<div style="margin-top:2em;">
@@ -646,23 +689,6 @@
 	        // var editor = CodeMirror.fromTextArea(sourceText, editorOptions);
 	        // editor.on("change", function(cm, event) { enabledInput('text'); });
     	});
-    	
-    	// CheckBox Control
-    	function chkbDiagramClick(cb) {
-    		  if(cb.checked){
-    		    if(printPDF.checked){
-    		    	printPDF.checked = false;
-    		    }    		    
-    		}
-    	}
-    	
-    	function chkbPDFClick(cb) {
-  		  if(cb.checked){
-  		    if(includeDiagram.checked){
-  		    	includeDiagram.checked = false;
-  		    }  			
-  		  }
-  		}
     </script>
     <script>
     	inputLogoCheckbox.onclick = function(){

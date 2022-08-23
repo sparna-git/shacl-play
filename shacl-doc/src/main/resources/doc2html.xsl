@@ -8,8 +8,9 @@
 	
 	<!-- Language parameter to the XSLT -->
 	<xsl:param name="LANG"/>
-	<!-- Param for get diagram -->
-	<xsl:param name="diagramforPDF"/>
+	
+	<!-- Indicates if we are producing the HTML for an HTML output of for a PDF conversion -->
+	<xsl:param name="MODE">HTML</xsl:param>
 
 	<!-- french labels -->
 	<xsl:variable name="LABELS_FR">
@@ -38,14 +39,13 @@
 			
 			<entry key="METADATA.FORMATS" label="Télécharger les données : " />
 
-			<entry key="DIAGRAM.TITLE_PIC" label="Diagrammes" />
+			<entry key="DIAGRAM.TITLE" label="Diagrammes" />
 
-			<entry key="DIAGRAM.TITLE" label="Diagramme du dataset" />
 			<entry key="DIAGRAM.HELP"
 				label="Cliquez sur le diagramme pour naviguer vers la section correspondante" />
-			<entry key="DIAGRAM.VIEW" label="Voit le diagramme comme PNG" />
+			<entry key="DIAGRAM.VIEW" label="Voir le diagramme en PNG" />
 
-			<entry key="DESCRIPTION.TITLE" label="Titre de la documentation"/>
+			<entry key="DESCRIPTION.TITLE" label="Description"/>
 
 			<entry key="LABEL_TARGETCLASS" label="Classe cible : " />
 			<entry key="LABEL_NODEKIND" label="Type de noeud : " />
@@ -81,16 +81,14 @@
 			<entry key="METADATA.PUBLISHER" label="Publisher: " />
 			<entry key="METADATA.RIGHTHOLDER" label="Rightsholder: " />
 			
-			<entry key="METADATA.FORMATS" label="Download serialization : " />
+			<entry key="METADATA.FORMATS" label="Download serialization: " />
 			
-			<entry key="DIAGRAM.TITLE_PIC" label="Diagrams" />
-
-			<entry key="DIAGRAM.TITLE" label="Dataset diagram" />
+			<entry key="DIAGRAM.TITLE" label="Diagrams" />
 			<entry key="DIAGRAM.HELP"
 				label="Click diagram to navigate to corresponding section" />
 			<entry key="DIAGRAM.VIEW" label="View as PNG" />
 			
-			<entry key="DESCRIPTION.TITLE" label="Description "/>
+			<entry key="DESCRIPTION.TITLE" label="Description"/>
 
 			<entry key="LABEL_TARGETCLASS" label="Target Class: " />
 			<entry key="LABEL_NODEKIND" label="Nodes: " />
@@ -305,18 +303,22 @@
 					<xsl:apply-templates select="abstract_" />
 					
 					<xsl:apply-templates select="." mode="TOC" />
-					
 
-					<!--  
-					<xsl:apply-templates select="svgDiagram" />
-					-->
-					<xsl:apply-templates select="svgDiagrams" />
+					<xsl:apply-templates select="prefixes" />
+
+					<xsl:if test="diagrams or depictions">
+						<h2 id="diagrams">
+							<xsl:value-of select="$LABELS/labels/entry[@key='DIAGRAM.TITLE']/@label" />
+						</h2>
+						<div>
+							<xsl:apply-templates select="diagrams" />
+							<xsl:apply-templates select="depictions"/>
+						</div>
+					</xsl:if>
 					
 					<xsl:apply-templates select="descriptionDocument" />
-					<xsl:if test="not(svgDiagrams)">
-						<xsl:apply-templates select="diagramOWLs"/>
-					</xsl:if>
-					<xsl:apply-templates select="prefixes" />
+					
+					
 					<xsl:apply-templates select="sections" />
 				</div>
 				
@@ -339,9 +341,15 @@
 			<h2 id="Index">
 				<xsl:value-of select="$LABELS/labels/entry[@key='TOC']/@label" />
 			</h2>
+			<!-- Prefixes -->
+			<a href="#prefixes">
+				<xsl:value-of
+					select="$LABELS/labels/entry[@key='PREFIXES.TITLE']/@label" />
+			</a>
+			<br />
 			<!-- Diagram -->
-			<xsl:if test="svgDiagram">
-				<a href="#diagram">
+			<xsl:if test="diagrams or depictions">
+				<a href="#diagrams">
 				<xsl:value-of
 						select="$LABELS/labels/entry[@key='DIAGRAM.TITLE']/@label" />
 				</a>
@@ -353,13 +361,8 @@
 					<xsl:value-of select="$LABELS/labels/entry[@key='DESCRIPTION.TITLE']/@label"/>
 				</a>	
 				<br/>
-			</xsl:if>						
-			<!-- Prefixes -->
-			<a href="#prefixes">
-				<xsl:value-of
-					select="$LABELS/labels/entry[@key='PREFIXES.TITLE']/@label" />
-			</a>
-			<br />
+			</xsl:if>	
+			
 			<!-- Section -->
 			<xsl:for-each select="sections/section">
 				<xsl:sort select="title"/>
@@ -372,21 +375,6 @@
 				<br />
 			</xsl:for-each>
 		</div>
-		<br />
-		<br />
-		<xsl:if test="$diagramforPDF != ''">
-			<xsl:for-each select="$diagramforPDF">
-				<div>
-					<h2 id="diagram">
-						<xsl:value-of
-						select="$LABELS/labels/entry[@key='DIAGRAM.TITLE']/@label" />
-					</h2>
-					<div>
-						<img src="{.}" style="width:100%;"/>
-					</div>
-				</div>
-			</xsl:for-each>
-		</xsl:if>
 	</xsl:template>
 
 	<xsl:template match="datecreated">
@@ -532,102 +520,53 @@
 		<br />
 	</xsl:template>
 	
-	<xsl:template match="diagramOWLs">
-		<h2 id="DiagramOWL">
-			<xsl:value-of select="$LABELS/labels/entry[@key='DIAGRAM.TITLE_PIC']/@label" />
-		</h2>
+	<xsl:template match="depictions">
 		<xsl:apply-templates/>
 		<br />
 	</xsl:template>
 	
-	<xsl:template match="diagramOWL">
+	<xsl:template match="depiction">
 		<img src="{.}" style="width:100%;"/>
 	</xsl:template>
-
-	<!-- @disable-output-escaping prints the raw XML string as XML in the 
-					document and removes XML-encoding of the characters
-				
-	<xsl:template match="svgDiagram[text() != '']">
-		<div>
-			<h2 id="Diagram">
-				<xsl:value-of
-					select="$LABELS/labels/entry[@key='DIAGRAM.TITLE']/@label" />
-			</h2>
-			<div>
-				<xsl:value-of select="." disable-output-escaping="yes" />
-			</div>
-			<small class="form-text text-muted">
-				<xsl:variable name="pngImg" select="../pngDiagram" />
-				<xsl:value-of
-					select="$LABELS/labels/entry[@key='DIAGRAM.HELP']/@label" />
-				<xsl:text> | </xsl:text>
-				<a href="{$pngImg}" target="_blank">
-					<xsl:value-of
-						select="$LABELS/labels/entry[@key='DIAGRAM.VIEW']/@label" />
-				</a>
-			</small>
-			<br />
-		</div>
-	</xsl:template>
-	 -->
 	 
-	<xsl:template match="svgDiagrams">
-		<h2 id="Diagram">
-			<xsl:value-of select="$LABELS/labels/entry[@key='DIAGRAM.TITLE']/@label" />
-		</h2>
-		<div>
-			<xsl:choose>
-				<xsl:when test="count(./svgDiagramMulti) &gt; 1">
-					<xsl:apply-templates mode="Multi"/>					
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:apply-templates mode="DiagramGral"/>
-				</xsl:otherwise>
-			</xsl:choose>			
-		</div>
+	<xsl:template match="diagrams">
+		<xsl:apply-templates />
+		<br />	
 	</xsl:template>
 	
-	<xsl:template match="svgDiagramMulti" mode="Multi">
-		<!-- @disable-output-escaping prints the raw XML string as XML in the 
-				document and removes XML-encoding of the characters
-				[text() != ''] 
-		-->
-		<div style="border:1px solid green;">
-			<center><xsl:value-of select="." disable-output-escaping="yes" /></center>
-		</div>
-				
-	</xsl:template>
-	
-	<!-- @disable-output-escaping prints the raw XML string as XML in the 
-					document and removes XML-encoding of the characters 
-					-->
-	<xsl:template match="svgDiagramMulti[text() != '']" mode="DiagramGral">
-		<div>
-			<xsl:value-of select="." disable-output-escaping="yes" />
-		</div>
-		<small class="form-text text-muted">
-			<xsl:variable name="pngImg" select="../../pngDiagram" />
-			<xsl:value-of
-					select="$LABELS/labels/entry[@key='DIAGRAM.HELP']/@label" />
-			<xsl:text> | </xsl:text>
-			<a href="{$pngImg}" target="_blank">
-				<xsl:value-of select="$LABELS/labels/entry[@key='DIAGRAM.VIEW']/@label" />
-			</a>			
-		</small>
-		
-		<xsl:variable name="depictionValues" select="../../diagramOWLs"/>
-		
-		<xsl:if test="../../diagramOWLs">
-			<br/>
-			<xsl:for-each select="../../diagramOWLs/diagramOWL">
-				<div class="section_Depiction">
-					<img src="{.}" style="width:100%;"/>
-				</div>
-			</xsl:for-each>
+	<xsl:template match="diagram">
+		<xsl:if test="displayTitle">
+			<h3><xsl:value-of select="displayTitle" /></h3> 
 		</xsl:if>
-		<br/>
+		<xsl:if test="diagramDescription">
+			<p><xsl:value-of select="diagramDescription" /></p> 
+		</xsl:if>
+		<xsl:choose>
+			<xsl:when test="$MODE = 'PDF'">
+				<!--  When outputting PDF, inserts the PNG image -->
+				<img src="{pngLink}" style="width:100%;" alt="a diagram representing this application profile" />
+			</xsl:when>
+			<xsl:otherwise>
+				<!-- @disable-output-escaping prints the raw XML string as XML in the 
+					document and removes XML-encoding of the characters
+				-->
+				<div>
+					<xsl:value-of select="svg" disable-output-escaping="yes" />
+				</div>
+				<small class="form-text text-muted">
+					<xsl:value-of
+							select="$LABELS/labels/entry[@key='DIAGRAM.HELP']/@label" />
+					<xsl:text> | </xsl:text>
+					<a href="{pngLink}" target="_blank">
+						<xsl:value-of select="$LABELS/labels/entry[@key='DIAGRAM.VIEW']/@label" />
+					</a>			
+				</small>
+				<xsl:comment>
+					<xsl:value-of select="plantUmlString" disable-output-escaping="yes" />
+				</xsl:comment>	
+			</xsl:otherwise>
+		</xsl:choose>			
 	</xsl:template>
-	
 
 	<!-- Description Title -->
 	<xsl:template match="descriptionDocument[text() != '']">
@@ -683,7 +622,10 @@
 
 	<!-- Sections -->
 	<xsl:template match="sections">
-		<xsl:apply-templates />
+		<xsl:for-each select="section">
+			<xsl:sort select="title"/>
+			<xsl:apply-templates select="." />
+		</xsl:for-each>
 	</xsl:template>
 	
 	<xsl:template match="section">

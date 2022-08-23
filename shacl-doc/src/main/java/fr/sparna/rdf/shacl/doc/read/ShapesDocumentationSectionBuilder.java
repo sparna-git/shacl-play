@@ -29,7 +29,7 @@ public class ShapesDocumentationSectionBuilder {
 		currentSection.setUri(nodeShape.getShortForm());
 		
 		// title : either rdfs:label or the URI short form
-		currentSection.setTitle(nodeShape.getRdfsLabel() != null ? nodeShape.getRdfsLabel() : nodeShape.getShortForm());
+		currentSection.setTitle((nodeShape.getRdfsLabel() != null && !nodeShape.getRdfsLabel().isEmpty()) ? nodeShape.getRdfsLabel() : nodeShape.getShortForm());
 		
 		// rdfs:comment
 		currentSection.setDescription(nodeShape.getRdfsComment());

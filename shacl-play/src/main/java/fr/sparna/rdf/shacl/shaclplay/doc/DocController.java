@@ -32,6 +32,7 @@ import fr.sparna.rdf.shacl.doc.read.ShapesDocumentationModelReader;
 import fr.sparna.rdf.shacl.doc.read.ShapesDocumentationReaderIfc;
 import fr.sparna.rdf.shacl.doc.write.ShapesDocumentationJacksonXsltWriter;
 import fr.sparna.rdf.shacl.doc.write.ShapesDocumentationWriterIfc;
+import fr.sparna.rdf.shacl.doc.write.ShapesDocumentationWriterIfc.MODE;
 import fr.sparna.rdf.shacl.shaclplay.ApplicationData;
 import fr.sparna.rdf.shacl.shaclplay.ControllerModelFactory;
 import fr.sparna.rdf.shacl.shaclplay.ControllerModelFactory.SOURCE_TYPE;
@@ -171,6 +172,7 @@ public class DocController {
 			);
 			log.debug("Done Loading Shapes. Model contains "+shapesModel.size()+" triples");
 			
+			// defaults to english
 			if(languageInput == null) {
 				languageInput ="en";
 			}
@@ -216,32 +218,12 @@ public class DocController {
 				false
 		);
 		
-		
-		List<String> urlPngDiagram = new ArrayList<String>();
 		if(printPDF) {
 			
 			// 1. write Documentation structure to XML
 			ShapesDocumentationWriterIfc writerHTML = new ShapesDocumentationJacksonXsltWriter();
-			
-			// Option pour créer le diagramme	 	
-			PlantUmlSourceGenerator sourceGenerator = new PlantUmlSourceGenerator();
-			try {
-				// Read source Uml
-				List<PlantUmlDiagramOutput> plantUmlSourceCode = sourceGenerator.generatePlantUmlDiagram(shapesModel, ModelFactory.createDefaultModel(),false,false,false);
-				
-				// if source uml is true generate png file
-				if(plantUmlSourceCode.size() > 0) {
-					for (String sourceCode : plantUmlSourceCode.stream().map(o -> o.getPlantUmlString()).collect(Collectors.toList())) {
-						urlPngDiagram.add("http://www.plantuml.com/plantuml/png/"+TranscoderUtil.getDefaultTranscoder().encode(sourceCode));
-					}
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}		
-			
-			//
 			ByteArrayOutputStream htmlBytes = new ByteArrayOutputStream();
-			writerHTML.write(doc,languageInput, htmlBytes,urlPngDiagram);
+			writerHTML.write(doc,languageInput, htmlBytes,MODE.PDF);
 			
 			//read file html
 			String htmlCode = new String(htmlBytes.toByteArray(),"UTF-8");
@@ -258,9 +240,10 @@ public class DocController {
 			_builder.run();
 			
 			
-		}else {
+		} else {
 			ShapesDocumentationWriterIfc writer = new ShapesDocumentationJacksonXsltWriter();
-			writer.write(doc, languageInput, response.getOutputStream(), urlPngDiagram);			
+			response.setContentType("text/html");
+			writer.write(doc, languageInput, response.getOutputStream(), MODE.HTML);			
 		}
 		
 	}

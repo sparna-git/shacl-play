@@ -51,6 +51,8 @@ public class DrawController {
 		
 		SVG("image/svg+xml", FileFormat.SVG, "svg"),
 		PNG("image/png", FileFormat.PNG, "png"),
+		// html page that will contain the SVG diagrams
+		HTML("text/html", null, "html"),
 		TXT("text/pain", null, "txt");
 		
 		protected String mimeType;
@@ -197,7 +199,10 @@ public class DrawController {
 				// don't generate hyperlinks
 				false,
 				// avoid arrows to empty boxes
-				true);
+				true,
+				// a language for label and description reading
+				"en"
+		);
 		
 		List<PlantUmlDiagramOutput> diagrams = writer.generateDiagrams(
 				shapesModel,
@@ -205,56 +210,84 @@ public class DrawController {
 				ModelFactory.createDefaultModel()
 		);
 		
-		if(diagrams.size() == 1) {
-			response.setContentType(format.mimeType);
-			response.setHeader("Content-Disposition", "inline; filename=\""+filename+"."+format.extension+"\"");
+		
+		switch(format) {
+		case PNG :
+		case SVG :
+		case TXT : {
 			
-			if(format == FORMAT.TXT) {
-				response.setCharacterEncoding("UTF-8");
-				response.getOutputStream().write(diagrams.get(0).getPlantUmlString().getBytes("UTF-8"));
-				response.getOutputStream().flush();
-			} else {
-				SourceStringReader reader = new SourceStringReader(diagrams.get(0).getPlantUmlString());
-				reader.generateImage(response.getOutputStream(), new FileFormatOption(format.plantUmlFileFormat));
-			}
-		} else {
-			// create a zip
-			response.setContentType("application/zip");
-			response.setHeader("Content-Disposition", "inline; filename=\""+filename+".zip\"");
-
-			ZipOutputStream zos = new ZipOutputStream(response.getOutputStream(), Charset.forName("UTF-8"));
-			zos.setLevel(9);
-			
-			for (PlantUmlDiagramOutput oneDiagram : diagrams) {
-				String uri = oneDiagram.getDiagramUri();
-				String localPart;
-				if(uri.indexOf('#') > -1) {
-					localPart = uri.substring(uri.lastIndexOf('#')+1);
-				} else {
-					localPart = uri.substring(uri.lastIndexOf('/')+1);
-				}
-				
+			if(diagrams.size() == 1) {
+				response.setContentType(format.mimeType);
+				response.setHeader("Content-Disposition", "inline; filename=\""+filename+"."+format.extension+"\"");
 				
 				if(format == FORMAT.TXT) {
-					String entryName = URLEncoder.encode(localPart, "UTF-8") + ".txt";
-					zos.putNextEntry(new ZipEntry(entryName));
-					zos.write(oneDiagram.getPlantUmlString().getBytes("UTF-8"));
-					zos.closeEntry();
+					response.setCharacterEncoding("UTF-8");
+					response.getOutputStream().write(diagrams.get(0).getPlantUmlString().getBytes("UTF-8"));
+					response.getOutputStream().flush();
 				} else {
-					String entryName = URLEncoder.encode(localPart, "UTF-8") + "." + format.extension;
-					zos.putNextEntry(new ZipEntry(entryName));
-					SourceStringReader reader = new SourceStringReader(oneDiagram.getPlantUmlString());
-					reader.generateImage(zos, new FileFormatOption(format.plantUmlFileFormat));
-					zos.closeEntry();
+					SourceStringReader reader = new SourceStringReader(diagrams.get(0).getPlantUmlString());
+					reader.generateImage(response.getOutputStream(), new FileFormatOption(format.plantUmlFileFormat));
+				}
+			} else {
+				// create a zip
+				response.setContentType("application/zip");
+				response.setHeader("Content-Disposition", "inline; filename=\""+filename+".zip\"");
+
+				ZipOutputStream zos = new ZipOutputStream(response.getOutputStream(), Charset.forName("UTF-8"));
+				zos.setLevel(9);
+				
+				for (PlantUmlDiagramOutput oneDiagram : diagrams) {
+					String uri = oneDiagram.getDiagramUri();
+					String localPart;
+					if(uri.indexOf('#') > -1) {
+						localPart = uri.substring(uri.lastIndexOf('#')+1);
+					} else {
+						localPart = uri.substring(uri.lastIndexOf('/')+1);
+					}
+					
+					
+					if(format == FORMAT.TXT) {
+						String entryName = URLEncoder.encode(localPart, "UTF-8") + ".txt";
+						zos.putNextEntry(new ZipEntry(entryName));
+						zos.write(oneDiagram.getPlantUmlString().getBytes("UTF-8"));
+						zos.closeEntry();
+					} else {
+						String entryName = URLEncoder.encode(localPart, "UTF-8") + "." + format.extension;
+						zos.putNextEntry(new ZipEntry(entryName));
+						SourceStringReader reader = new SourceStringReader(oneDiagram.getPlantUmlString());
+						reader.generateImage(zos, new FileFormatOption(format.plantUmlFileFormat));
+						zos.closeEntry();
+					}
+					
 				}
 				
+				zos.flush();
+				zos.close();
+				response.flushBuffer();
+
 			}
 			
-			zos.flush();
-			zos.close();
-			response.flushBuffer();
+			break;
 		}
-	}
+		case HTML : {
+			response.setContentType("text/html");
+			response.setHeader("Content-Disposition", "inline; filename=\""+filename+".html\"");
+			for (PlantUmlDiagramOutput oneDiagram : diagrams) {
+				SourceStringReader reader = new SourceStringReader(oneDiagram.getPlantUmlString());
+				response.getOutputStream().write(("<h2>"+oneDiagram.getDisplayTitle()+"</h2>\n").getBytes());
+				if(oneDiagram.getDiagramDescription() != null) {
+					response.getOutputStream().write(("<p>"+oneDiagram.getDiagramDescription()+"</p>\n").getBytes());
+				}
+				// render in SVG inside HTML
+				reader.generateImage(response.getOutputStream(), new FileFormatOption(FORMAT.SVG.plantUmlFileFormat));
+				response.getOutputStream().write("\n".getBytes());
+				response.getOutputStream().write("<hr /><br />\n".getBytes());
+			}
+			response.flushBuffer();
+			break;
+		}
+		} // end switch
+		} // end else
 		
 	/**
 	 * Handles an error in the validation form (stores the message in the Model, then forward to the view).

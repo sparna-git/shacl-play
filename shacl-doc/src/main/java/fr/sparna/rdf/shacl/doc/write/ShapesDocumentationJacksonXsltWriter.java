@@ -29,11 +29,12 @@ import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator;
 
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentation;
+import fr.sparna.rdf.shacl.doc.write.ShapesDocumentationWriterIfc.MODE;
 
 public class ShapesDocumentationJacksonXsltWriter implements ShapesDocumentationWriterIfc {
 
 	@Override
-	public void write(ShapesDocumentation documentation, String outputLang, OutputStream output, List<String> urlDiagram) throws IOException {
+	public void write(ShapesDocumentation documentation, String outputLang, OutputStream output, MODE mode) throws IOException {
 		Document xmlDocument;
 		XMLStreamWriter xmlStreamWriter;
 		try {
@@ -68,7 +69,7 @@ public class ShapesDocumentationJacksonXsltWriter implements ShapesDocumentation
 	        // pass in the output language
 	        transformer.setParameter("LANG", outputLang);
 	        // pass in the link to diagram PlantUML for the pdf file only
-	        transformer.setParameter("diagramforPDF", urlDiagram);
+	        transformer.setParameter("MODE", mode.toString());
 	        
 	        transformer.transform(xmlInput, xmlOutput);
 			

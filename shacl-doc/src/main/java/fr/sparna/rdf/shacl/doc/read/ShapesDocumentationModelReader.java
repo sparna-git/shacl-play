@@ -22,6 +22,7 @@ import fr.sparna.rdf.shacl.doc.SVGGenerator;
 import fr.sparna.rdf.shacl.doc.ShaclPrefixReader;
 import fr.sparna.rdf.shacl.doc.model.NamespaceSection;
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentation;
+import fr.sparna.rdf.shacl.doc.model.ShapesDocumentationDiagram;
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentationSection;
 import net.sourceforge.plantuml.code.TranscoderUtil;
 
@@ -113,26 +114,16 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 		
 		// Option pour créer le diagramme		
 		if (this.readDiagram) {
-			SVGGenerator gImgSvg = new SVGGenerator();
+			SVGGenerator svgGen = new SVGGenerator();
 			PlantUmlSourceGenerator sourceGenerator = new PlantUmlSourceGenerator();
-			List<PlantUmlDiagramOutput> plantUmlSourceCode = sourceGenerator.generatePlantUmlDiagram(shaclGraph, owlGraph,false,false,avoidArrowsToEmptyBoxes);
+			List<PlantUmlDiagramOutput> plantUmlDiagrams = sourceGenerator.generatePlantUmlDiagram(
+					shaclGraph,
+					owlGraph,
+					lang
+			);
 			
-			try {
-				List<String> svgDiagramme = gImgSvg.generateSvgDiagram(plantUmlSourceCode);
-
-				//System.out.println(svgDiagramme);
-				//shapesDocumentation.setSvgDiagram(svgDiagramme);
-				shapesDocumentation.setSvgDiagramMulti(svgDiagramme);
-				
-				shapesDocumentation.setPlantumlSource(plantUmlSourceCode.stream().map(d -> d.getPlantUmlString()).collect(Collectors.toList()));
-				
-				// if source uml is true generate png file
-				if(!plantUmlSourceCode.isEmpty() && plantUmlSourceCode.size() < 2) {
-					shapesDocumentation.setPngDiagram("http://www.plantuml.com/plantuml/png/"+TranscoderUtil.getDefaultTranscoder().encode(plantUmlSourceCode.get(0).getPlantUmlString()));					
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}			
+			// turn diagrams into output data structure
+			plantUmlDiagrams.stream().forEach(d -> shapesDocumentation.getDiagrams().add(new ShapesDocumentationDiagram(d)));			
 		}
 		
 		

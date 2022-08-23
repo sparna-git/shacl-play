@@ -1,15 +1,18 @@
 package fr.sparna.rdf.shacl.diagram;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
+import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.RDFList;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
-import org.apache.jena.rdf.model.StmtIterator;
+import org.apache.jena.vocabulary.RDF;
+import org.apache.jena.vocabulary.XSD;
 import org.topbraid.shacl.vocabulary.SH;
 
 public class ConstraintValueReader { 
@@ -51,6 +54,68 @@ public class ConstraintValueReader {
 			value = null;
 		}
 		return value;
+	}
+	
+	public static List<Literal> readLiteralInLang(Resource constraint, Property property, String lang) {
+		if (constraint.hasProperty(property)) {
+			if (lang != null && constraint.listProperties(property, lang).toList().size() > 0) {
+				return constraint.listProperties(property, lang).toList().stream()
+						.map(s -> s.getObject().asLiteral())
+						.collect(Collectors.toList());
+			} else if(constraint.listProperties(property).toList().size() > 0) {
+				// even if lang was provided, we still search the property with no language
+				return constraint.listProperties(property).toList().stream()
+						.map(s -> s.getObject().asLiteral())
+						.collect(Collectors.toList());
+			}
+		}
+		
+		return null;
+	}
+	
+	public static String readLiteralInLangAsString(Resource r, Property property, String lang) {
+		return render(readLiteralInLang(r, property, lang), true);
+	}
+	
+	public static String render(List<? extends RDFNode> list, boolean plainString) {
+		if(list == null) {
+			return null;
+		}
+		
+		return list.stream().map(item -> {
+			return render(item, plainString);
+		}).collect(Collectors.joining(", "));
+	}
+	
+	public static String render(RDFNode node, boolean plainString) {
+		if(node == null) {
+			return null;
+		}
+		
+		if(node.isURIResource()) {
+			return node.getModel().shortForm(node.asResource().getURI());
+		} else if(node.isAnon()) {
+			return node.toString();
+		} else if(node.isLiteral()) {
+			// if we asked for a plain string, just return the literal string
+			if(plainString) {				
+				return node.asLiteral().getLexicalForm();
+			}
+			
+			if (node.asLiteral().getDatatype() != null && !node.asLiteral().getDatatypeURI().equals(RDF.langString.getURI())) {
+				// nicely prints datatypes with their short form
+				return "\"" + node.asLiteral().getLexicalForm() + "\"<sup>^^"
+						+ node.getModel().shortForm(node.asLiteral().getDatatype().getURI())+"</sup>";
+			} else if (node.asLiteral().getLanguage() != null) {
+				return "\"" + node.asLiteral().getLexicalForm() + "\"<sup>@"
+						+ node.asLiteral().getLanguage()+"</sup>";
+			} else {
+				return node.toString();
+			}
+		} else {
+			// default, should never get there
+			return node.toString();
+		}
 	}
 	
 	public static String renderShaclPropertyPath(Resource r) {

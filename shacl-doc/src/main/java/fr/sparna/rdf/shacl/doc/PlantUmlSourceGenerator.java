@@ -13,14 +13,19 @@ public class PlantUmlSourceGenerator {
 	public List<PlantUmlDiagramOutput> generatePlantUmlDiagram(
 			Model shapesModel,
 			Model owlModel,
-			boolean subclasssOf,
-			boolean Classlink,
-			boolean avoidArrowsToEmptyBoxes
+			String lang
 	) {
 
 		// draw - without subclasses links
 		// set first parameter to true to draw subclassOf links
-		PlantUmlDiagramGenerator writer = new PlantUmlDiagramGenerator(subclasssOf, Classlink, avoidArrowsToEmptyBoxes);
+		PlantUmlDiagramGenerator writer = new PlantUmlDiagramGenerator(
+				// includes the subClassOf links
+				true,
+				// include anchors
+				true,
+				// avoid arrows to empty boxes
+				true,
+				lang);
 		Model finalModel = ModelFactory.createDefaultModel();
 		finalModel.add(shapesModel);
 		if(owlModel != null) {

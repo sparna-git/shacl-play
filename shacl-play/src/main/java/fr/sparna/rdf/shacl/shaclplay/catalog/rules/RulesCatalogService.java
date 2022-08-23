@@ -14,7 +14,13 @@ public class RulesCatalogService {
 	
 	public RulesCatalog getRulesCatalog() {
 		Model catalogModel = ModelFactory.createDefaultModel();
-		catalogModel.read("https://raw.githubusercontent.com/sparna-git/SHACL-Catalog/master/rules-catalog.ttl", null, Lang.TURTLE.getName());
+		try {
+			catalogModel.read("https://raw.githubusercontent.com/sparna-git/SHACL-Catalog/master/rules-catalog.ttl", null, Lang.TURTLE.getName());
+		} catch (Exception e) {
+			// if we are offline, then just silently skip
+			e.printStackTrace();
+			log.warn("Errow when reading rules catalog");
+		}
 		
 		return new RulesCatalogModelFactory().fromModel(catalogModel);
 	}

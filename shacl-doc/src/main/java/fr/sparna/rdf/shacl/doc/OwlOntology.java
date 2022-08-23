@@ -28,8 +28,8 @@ public class OwlOntology {
 	protected List<RDFNode> creator = null;
 	protected List<RDFNode> publisher = null;
 	protected List<RDFNode> rightsHolder = null;		
-	protected List<RDFNode> Depiction = null;
-	protected List<OwlFormat> owlFormat = new ArrayList<OwlFormat>(); 
+	protected List<RDFNode> depiction = null;
+	protected List<DcatDistribution> owlFormat = new ArrayList<DcatDistribution>(); 
 	
 		
 	public OwlOntology(Resource rOntology, String lang) {
@@ -50,15 +50,15 @@ public class OwlOntology {
 		publisher = ConstraintValueReader.readObjectAsResourceOrLiteralInLang(rOntology, DCTerms.publisher, lang);
 		rightsHolder = ConstraintValueReader.readObjectAsResourceOrLiteralInLang(rOntology, DCTerms.rightsHolder, lang);
 		
-		this.Depiction = ConstraintValueReader.readObjectAsResourceOrLiteralInLang(rOntology, FOAF.depiction, null);
+		this.depiction = ConstraintValueReader.readObjectAsResource(rOntology, FOAF.depiction);
 		
-		this.owlFormat = readDactDistibution(rOntology);
+		this.owlFormat = readDcatDistibution(rOntology);
 		
 	}
 	
-	public List<OwlFormat> readDactDistibution(Resource owlOntology) {
+	public List<DcatDistribution> readDcatDistibution(Resource owlOntology) {
 		
-		List<OwlFormat> lOFormat = new ArrayList<OwlFormat>();
+		List<DcatDistribution> lOFormat = new ArrayList<DcatDistribution>();
 		if(owlOntology.hasProperty(DCAT.distribution)) {
 			List<Statement> rformat = owlOntology.listProperties(DCAT.distribution).toList();
 			for (Statement read : rformat) {				
@@ -67,7 +67,7 @@ public class OwlOntology {
 				   read.getProperty(DCTerms.format).getResource().getURI().toString().equals("https://www.iana.org/assignments/media-types/application/n-triples") ||
 				   read.getProperty(DCTerms.format).getResource().getURI().toString().equals("https://www.iana.org/assignments/media-types/application/ld+json")
 						) {
-					OwlFormat owlformat = new OwlFormat();
+					DcatDistribution owlformat = new DcatDistribution();
 					owlformat.setDctFormat(read.getProperty(DCTerms.format).getResource().getURI().toString());
 					owlformat.setDcatURL(read.getProperty(DCAT.downloadURL).getResource().getURI().toString());
 					lOFormat.add(owlformat);
@@ -82,9 +82,9 @@ public class OwlOntology {
 				"https://www.iana.org/assignments/media-types/text/turtle"
 		};
 		
-		List<OwlFormat> OutFormat = new ArrayList<OwlFormat>();
+		List<DcatDistribution> OutFormat = new ArrayList<DcatDistribution>();
 		for (String fmt : orderFormat) {
-			for (OwlFormat owlfmt : lOFormat) {
+			for (DcatDistribution owlfmt : lOFormat) {
 				if(owlfmt.getDctFormat().equals(fmt)) {
 					OutFormat.add(owlfmt);
 				}
@@ -95,19 +95,19 @@ public class OwlOntology {
 	}
 	
 	
-	public List<OwlFormat> getOwlFormat() {
+	public List<DcatDistribution> getOwlFormat() {
 		return owlFormat;
 	}
 
-	public void setOwlFormat(List<OwlFormat> owlFormat) {
+	public void setOwlFormat(List<DcatDistribution> owlFormat) {
 		this.owlFormat = owlFormat;
 	}
 
 	public List<RDFNode> getDepiction() {
-		return Depiction;
+		return depiction;
 	}
 	public void setDepiction(List<RDFNode> depiction) {
-		Depiction = depiction;
+		this.depiction = depiction;
 	}
 	public String getDctTitle() {
 		return dctTitle;

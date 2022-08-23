@@ -359,6 +359,8 @@ public class ValidateController {
 			log.debug("Determining Shapes source...");
 			
 			Model shapesModel = ModelFactory.createDefaultModel();
+			// OntModel shapesModel = ModelFactory.createOntologyModel();
+			// shapesModel.setDynamicImports(true);
 			ControllerModelFactory modelPopulator = new ControllerModelFactory(this.catalogService.getShapesCatalog());
 			modelPopulator.populateModel(
 					shapesModel,

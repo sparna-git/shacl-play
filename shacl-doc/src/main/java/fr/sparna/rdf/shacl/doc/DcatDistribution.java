@@ -1,6 +1,6 @@
 package fr.sparna.rdf.shacl.doc;
 
-public class OwlFormat {
+public class DcatDistribution {
 
 	protected String dctFormat;
 	protected String dcatURL;

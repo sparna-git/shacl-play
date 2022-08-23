@@ -49,7 +49,7 @@ public class Main {
 		}
 		
 
-		PlantUmlDiagramGenerator writer = new PlantUmlDiagramGenerator(true, false, outExpandDiagram);
+		PlantUmlDiagramGenerator writer = new PlantUmlDiagramGenerator(true, false, outExpandDiagram, "en");
 		List<PlantUmlDiagramOutput> output = writer.generateDiagrams(shaclGraph,owlGraph);
 		
 		String outputDirectory ="C:/Temp" ; //args[1];

@@ -1,10 +1,13 @@
 package fr.sparna.rdf.shacl.doc;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Literal;
+import org.apache.jena.rdf.model.RDFList;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
+import org.topbraid.shacl.vocabulary.SH;
 
 import fr.sparna.rdf.shacl.doc.read.PropertyShapeDocumentationBuilder;
 
@@ -139,11 +142,51 @@ public class PropertyShape {
 	 * @return
 	 */
 	public String getShPathAsString() {
-		return (this.shPath.isURIResource())?PropertyShapeDocumentationBuilder.render(this.getShPath(), false):ConstraintValueReader.renderShaclPropertyPath(this.getShPath());
+		return (this.shPath.isURIResource())?PropertyShapeDocumentationBuilder.render(this.getShPath(), false):PropertyShape.renderShaclPropertyPath(this.getShPath());
 	}
 	
 	public String getShNameAsString() {
 		return PropertyShapeDocumentationBuilder.render(this.getShName(), true);
+	}
+	
+	
+	public static String renderShaclPropertyPath(Resource r) {
+		if(r == null) return "";
+		
+		if(r.isURIResource()) {
+			return r.getModel().shortForm(r.getURI());
+		} else if(r.hasProperty(SH.alternativePath)) {
+			Resource alternatives = r.getPropertyResourceValue(SH.alternativePath);
+			RDFList rdfList = alternatives.as( RDFList.class );
+			List<RDFNode> pathElements = rdfList.asJavaList();
+			return pathElements.stream().map(p -> renderShaclPropertyPath((Resource)p)).collect(Collectors.joining("|"));
+		} else if(r.hasProperty(SH.inversePath)) {
+			Resource value = r.getPropertyResourceValue(SH.inversePath);
+			if(value.isURIResource()) {
+				return "^"+renderShaclPropertyPath(value);
+			}
+			else {
+				return "^("+renderShaclPropertyPath(value)+")";
+			}
+		} else if(r.hasProperty(SH.zeroOrMorePath)) {
+			Resource value = r.getPropertyResourceValue(SH.zeroOrMorePath);
+			if(value.isURIResource()) {
+				return renderShaclPropertyPath(value)+"*";
+			}
+			else {
+				return "("+renderShaclPropertyPath(value)+")*";
+			}
+		} else if(r.hasProperty(SH.oneOrMorePath)) {
+			Resource value = r.getPropertyResourceValue(SH.oneOrMorePath);
+			if(value.isURIResource()) {
+				return renderShaclPropertyPath(value)+"+";
+			}
+			else {
+				return "("+renderShaclPropertyPath(value)+")+";
+			}
+		} else {
+			return null;
+		}
 	}
 	
 }

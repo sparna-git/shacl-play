@@ -8,7 +8,12 @@ import org.apache.jena.rdf.model.Resource;
 public class PlantUmlDiagram {
 	protected Resource resource;
 	protected List<PlantUmlBox> boxes = new ArrayList<>();
-	protected String label;
+	protected String title;
+	protected String description;
+	
+	public PlantUmlBox findBoxById(String id) {
+		return this.boxes.stream().filter(b -> b.getLabel().equals(id)).findFirst().orElse(null);
+	}
 	
 	public List<PlantUmlBox> getBoxes() {
 		return boxes;
@@ -22,10 +27,19 @@ public class PlantUmlDiagram {
 	public void setResource(Resource resource) {
 		this.resource = resource;
 	}
-	public String getLabel() {
-		return label;
+	public String getTitle() {
+		return title;
 	}
-	public void setLabel(String label) {
-		this.label = label;
+	public void setTitle(String title) {
+		this.title = title;
 	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	
 }

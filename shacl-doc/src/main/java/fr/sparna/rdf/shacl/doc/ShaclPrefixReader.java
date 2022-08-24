@@ -12,8 +12,6 @@ import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.topbraid.shacl.vocabulary.SH;
 
-import fr.sparna.rdf.shacl.doc.model.NamespaceSection;
-
 public class ShaclPrefixReader {
 	
 	public List<String> readPrefixes(Resource resource) {

@@ -274,7 +274,9 @@ public class DrawController {
 			response.setHeader("Content-Disposition", "inline; filename=\""+filename+".html\"");
 			for (PlantUmlDiagramOutput oneDiagram : diagrams) {
 				SourceStringReader reader = new SourceStringReader(oneDiagram.getPlantUmlString());
-				response.getOutputStream().write(("<h2>"+oneDiagram.getDisplayTitle()+"</h2>\n").getBytes());
+				if(oneDiagram.getDisplayTitle() != null) {
+					response.getOutputStream().write(("<h2>"+oneDiagram.getDisplayTitle()+"</h2>\n").getBytes());
+				}
 				if(oneDiagram.getDiagramDescription() != null) {
 					response.getOutputStream().write(("<p>"+oneDiagram.getDiagramDescription()+"</p>\n").getBytes());
 				}

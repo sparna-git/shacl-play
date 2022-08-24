@@ -2,10 +2,14 @@ package fr.sparna.rdf.shacl.doc.model;
 
 import java.io.IOException;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 import fr.sparna.rdf.shacl.diagram.PlantUmlDiagramOutput;
 import fr.sparna.rdf.shacl.doc.SVGGenerator;
 import net.sourceforge.plantuml.code.TranscoderUtil;
 
+@JsonInclude(Include.NON_NULL)
 public class ShapesDocumentationDiagram {
 
 	private String plantUmlString;
@@ -23,6 +27,7 @@ public class ShapesDocumentationDiagram {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		// can be null for default diagram
 		this.displayTitle = diagramGenerationOutput.getDisplayTitle();
 		this.diagramDescription = diagramGenerationOutput.getDiagramDescription();
 	}

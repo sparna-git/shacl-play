@@ -56,8 +56,7 @@ public class Doc implements CliCommandIfc {
 		}
 		
 		String name_img = null;
-		if(a.getImgLogo() != null) {
-			
+		if(a.getImgLogo() != null) {			
 			if(new File(a.getImgLogo()).exists()) {
 				File fileImg = new File(a.getImgLogo()); 
 				File fileOut = new File(a.getOutput().toString());

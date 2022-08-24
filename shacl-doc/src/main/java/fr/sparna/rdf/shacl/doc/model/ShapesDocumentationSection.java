@@ -2,9 +2,12 @@ package fr.sparna.rdf.shacl.doc.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
+@JsonInclude(Include.NON_NULL)
 public class ShapesDocumentationSection {
 
 	private String title;

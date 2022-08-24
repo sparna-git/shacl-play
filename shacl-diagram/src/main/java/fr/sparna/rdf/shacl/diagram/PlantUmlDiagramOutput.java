@@ -31,8 +31,11 @@ public class PlantUmlDiagramOutput {
 	public String getDisplayTitle() {
 		if(this.diagramTitle != null) {
 			return diagramTitle;
-		} else {
+			// can be null for default diagram
+		} else if (this.diagramUri != null){
 			return getLocalName(this.diagramUri);
+		} else {
+			return null;
 		}
 	}
 	

@@ -260,13 +260,6 @@
 									</td>
 								</tr>
 								<tr>
-									<th scope="row" width="30%"><code>https://shacl-play.sparna.fr/ontology#color</code></th>
-									<td>xsd:string</td>
-									<td class="text-break">
-									Indicates the hexadecimal color code to use to display the corresponding box in the diagram. Example value are <code>"Green"</code> or <code></code>
-									</td>
-								</tr>
-								<tr>
 									<th scope="row" width="30%"><code>rdfs:subClassOf</code></th>
 									<td>IRI</td>
 									<td class="text-break">

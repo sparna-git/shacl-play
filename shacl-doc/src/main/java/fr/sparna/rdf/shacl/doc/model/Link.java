@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
  * Href can be null.
  *
  */
+@JsonInclude(Include.NON_NULL)
 public class Link {
 
 	// do not include an empty <href /> in XML when null

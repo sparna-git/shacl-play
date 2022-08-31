@@ -1,6 +1,7 @@
 package fr.sparna.rdf.shacl.doc.model;
 
 import java.io.IOException;
+import java.util.regex.Pattern;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -12,6 +13,8 @@ import net.sourceforge.plantuml.code.TranscoderUtil;
 @JsonInclude(Include.NON_NULL)
 public class ShapesDocumentationDiagram {
 
+	private static Pattern SVG_ID_FIX_PATTERN = Pattern.compile("(.*)(id=\")(.*)(\" rx=)");
+	
 	private String plantUmlString;
 	private String svg;
 	private String pngLink;
@@ -24,6 +27,8 @@ public class ShapesDocumentationDiagram {
 			this.pngLink = "http://www.plantuml.com/plantuml/png/"+TranscoderUtil.getDefaultTranscoder().encode(diagramGenerationOutput.getPlantUmlString());
 			SVGGenerator svgGen = new SVGGenerator();
 			this.svg = svgGen.generateSvgDiagram(diagramGenerationOutput.getPlantUmlString());
+			// adjust the SVG ids
+			this.svg = SVG_ID_FIX_PATTERN.matcher(this.svg).replaceAll("$1$2uml_$3$4");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

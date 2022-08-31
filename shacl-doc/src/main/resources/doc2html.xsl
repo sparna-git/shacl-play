@@ -59,7 +59,7 @@
 	<!-- English labels -->
 	<xsl:variable name="LABELS_EN">
 		<labels>
-			<entry key="TOC" label="Table of Content" />
+			<entry key="TOC" label="Table of Contents" />
 			<entry key="COLUMN_PROPERTY" label="Property name" />
 			<entry key="COLUMN_URI" label="URI" />
 			<entry key="COLUMN_EXPECTED_VALUE" label="Expected value" />
@@ -73,8 +73,8 @@
 			<entry key="METADATA.DATE" label="Last updated: " />
 			<entry key="METADATA.VERSION" label="Version: " />
 			<entry key="METADATA.INTRODUCTION" label="Abstract" />
-			<entry key="METADATA.DATECREATED" label="Created date: " />
-			<entry key="METADATA.DATEISSUED" label="Issued date: " />
+			<entry key="METADATA.DATECREATED" label="Creation date: " />
+			<entry key="METADATA.DATEISSUED" label="Issue date: " />
 			<entry key="METADATA.DATECOPYRIGHTED" label="Copyright date: " />
 			<entry key="METADATA.LICENSE" label="License: " />
 			<entry key="METADATA.CREATOR" label="Creator: " />
@@ -110,6 +110,7 @@
 	</xsl:template>
 
 	<xsl:template match="ShapesDocumentation">
+		<xsl:text disable-output-escaping='yes'>&lt;!DOCTYPE html&gt;</xsl:text>
 		<html lang="{$LANG}">
 			<head>
 				<meta charset="UTF-8"/>
@@ -150,9 +151,9 @@
 				      }
 				      
 				      a {
-                      color: #007bff;
-                      text-decoration: none;
-                      background-color: transparent;
+                      	color: #007bff;
+                      	text-decoration: none;
+                      	background-color: transparent;
 	                  }
 	
 	                  a:-webkit-any-link {
@@ -233,7 +234,6 @@
 						
 						.propertyshapes td {
 						    padding: 0.75rem;
-						    vertical-align: top;
 						    border-top: 1px solid #dee2e6;
 						}
 						
@@ -839,9 +839,7 @@
 			</td>
 			<!-- Description properties -->
 			<td class="text-break">
-				<p>
-					<xsl:value-of select="description" />
-				</p>
+				<xsl:value-of select="description" />
 			</td>
 		</tr>
 	</xsl:template>

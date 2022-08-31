@@ -151,10 +151,10 @@ public class DocController {
 			
 			// if source is a ULR, redirect to the API
 			if(shapesSource == SOURCE_TYPE.URL) {
-				return new ModelAndView("redirect:/doc?url="+URLEncoder.encode(shapesUrl, "UTF-8")+"&includeDiagram="+includeDiagram);
+				return new ModelAndView("redirect:/doc?url="+URLEncoder.encode(shapesUrl, "UTF-8")+"&includeDiagram="+includeDiagram+((urlLogo != null)?"&inputLogo="+URLEncoder.encode(urlLogo, "UTF-8"):""));
 			} else if (shapesSource == SOURCE_TYPE.CATALOG) {
 				AbstractCatalogEntry entry = this.catalogService.getShapesCatalog().getCatalogEntryById(shapesCatalogId);
-				return new ModelAndView("redirect:/doc?url="+URLEncoder.encode(entry.getTurtleDownloadUrl().toString(), "UTF-8")+"&includeDiagram="+includeDiagram);
+				return new ModelAndView("redirect:/doc?url="+URLEncoder.encode(entry.getTurtleDownloadUrl().toString(), "UTF-8")+"&includeDiagram="+includeDiagram+((urlLogo != null)?"&inputLogo="+URLEncoder.encode(urlLogo, "UTF-8"):""));
 			}
 			
 			

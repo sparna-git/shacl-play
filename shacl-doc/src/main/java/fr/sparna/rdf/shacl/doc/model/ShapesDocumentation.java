@@ -61,6 +61,12 @@ public class ShapesDocumentation {
 	@JacksonXmlProperty(localName = "section")
 	protected List<ShapesDocumentationSection> sections;
 	
+	@JacksonXmlElementWrapper(localName="feedbacks")
+	@JacksonXmlProperty(localName = "feedback")
+	protected List<Link> feedback;
+	
+	
+	
 	public ShapesDocumentation(OwlOntology ontology, String lang) {
 		if(ontology != null) {
 			
@@ -70,7 +76,12 @@ public class ShapesDocumentation {
 				this.setTitle(ontology.getRdfsLabel());
 			}
 						
-			this.setAbstract_(ontology.getRdfsComment());
+			
+			if(ontology.getDctermsAbstract() != null) {
+				this.setAbstract_(ontology.getDctermsAbstract());
+			}else {
+				this.setAbstract_(ontology.getRdfsComment());
+			}
 			
 			this.setDatecreated(ontology.getDateCreated());
 			this.setDateissued(ontology.getDateIssued());
@@ -113,7 +124,23 @@ public class ShapesDocumentation {
 			
 			this.setFormat(ontology.getOwlFormat());
 			
+			Optional.ofNullable(ontology.getFeedback()).ifPresent(list -> {
+				this.feedback = list.stream()
+				.map(new RDFNodeToLinkMapper(lang))
+				.collect(Collectors.toList());
+			});
+			
+			
 		}		
+	}
+	
+	
+	public List<Link> getFeedback() {
+		return feedback;
+	}
+
+	public void setFeedback(List<Link> feedback) {
+		this.feedback = feedback;
 	}
 	
 	public List<DcatDistribution> getFormat() {

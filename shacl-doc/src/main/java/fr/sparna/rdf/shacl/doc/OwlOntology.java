@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
+import org.apache.jena.sparql.vocabulary.DOAP;
 import org.apache.jena.sparql.vocabulary.FOAF;
 import org.apache.jena.vocabulary.DCAT;
 import org.apache.jena.vocabulary.DCTerms;
@@ -16,7 +17,10 @@ public class OwlOntology {
 	
 	protected String rdfsLabel = null;
 	protected String dctTitle = null;
+	
+	protected String dctermsAbstract = null;
 	protected String rdfsComment = null;
+	
 	protected String owlVersionInfo = null;
 	protected String description = null;
 	
@@ -31,11 +35,16 @@ public class OwlOntology {
 	protected List<RDFNode> depiction = null;
 	protected List<DcatDistribution> owlFormat = new ArrayList<DcatDistribution>(); 
 	
+	protected List<RDFNode> feedback = null;
+	
 		
 	public OwlOntology(Resource rOntology, String lang) {
 		this.rdfsLabel = ConstraintValueReader.readLiteralInLangAsString(rOntology, RDFS.label, lang);
 		this.dctTitle = ConstraintValueReader.readLiteralInLangAsString(rOntology, DCTerms.title, lang);
+		
+		this.dctermsAbstract = ConstraintValueReader.readLiteralInLangAsString(rOntology, DCTerms.abstract_, lang);
 		this.rdfsComment = ConstraintValueReader.readLiteralInLangAsString(rOntology, RDFS.comment, lang);
+		
 		this.owlVersionInfo = ConstraintValueReader.readLiteralInLangAsString(rOntology,OWL.versionInfo, null);		
 		this.description = ConstraintValueReader.readLiteralInLangAsString(rOntology,DCTerms.description, lang);
 		
@@ -53,6 +62,8 @@ public class OwlOntology {
 		this.depiction = ConstraintValueReader.readObjectAsResource(rOntology, FOAF.depiction);
 		
 		this.owlFormat = readDcatDistibution(rOntology);
+		
+		this.feedback = ConstraintValueReader.readObjectAsResourceOrLiteralInLang(rOntology, DOAP.repository, lang);
 		
 	}
 	
@@ -95,6 +106,16 @@ public class OwlOntology {
 	}
 	
 	
+	
+	
+	public List<RDFNode> getFeedback() {
+		return feedback;
+	}
+
+	public void setFeedback(List<RDFNode> feedback) {
+		this.feedback = feedback;
+	}
+
 	public List<DcatDistribution> getOwlFormat() {
 		return owlFormat;
 	}
@@ -119,6 +140,14 @@ public class OwlOntology {
 
 	public String getRdfsLabel() {
 		return rdfsLabel;
+	}
+
+	public String getDctermsAbstract() {
+		return dctermsAbstract;
+	}
+
+	public void setDctermsAbstract(String dctermsAbstract) {
+		this.dctermsAbstract = dctermsAbstract;
 	}
 
 	public String getRdfsComment() {

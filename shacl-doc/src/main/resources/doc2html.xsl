@@ -36,6 +36,7 @@
 			<entry key="METADATA.CREATOR" label="Auteur : " />
 			<entry key="METADATA.PUBLISHER" label="Editeur : " />
 			<entry key="METADATA.RIGHTHOLDER" label="Titulaire des droits : " />
+			<entry key="METADATA.FEEDBACK" label="Feedback : " />
 			
 			<entry key="METADATA.FORMATS" label="Télécharger les données : " />
 
@@ -80,6 +81,7 @@
 			<entry key="METADATA.CREATOR" label="Creator: " />
 			<entry key="METADATA.PUBLISHER" label="Publisher: " />
 			<entry key="METADATA.RIGHTHOLDER" label="Rightsholder: " />
+			<entry key="METADATA.FEEDBACK" label="Feedback : " />
 			
 			<entry key="METADATA.FORMATS" label="Download serialization: " />
 			
@@ -456,8 +458,18 @@
 		<br />
 	</xsl:template>
 	
+	<xsl:template match="feedbacks">
+		<b>
+			<xsl:value-of
+				select="$LABELS/labels/entry[@key='METADATA.FEEDBACK']/@label" />
+		</b>
+		<xsl:apply-templates />
+		<br />
+	</xsl:template>
+	
+	
 	<!--  shared template for all values -->
-	<xsl:template match="creator | publisher | rightsHolder | license">
+	<xsl:template match="creator | publisher | rightsHolder | license | feedback">
 		<xsl:choose>
 			<xsl:when test="href">
 				<a href="{href}" target="_blank"><xsl:value-of select="label" /></a>

@@ -1,0 +1,190 @@
+.anchor {
+			float: left;
+			padding-right: 4px;
+			margin-left: -20px;
+			line-height: 1;
+			padding-top:12px;
+		}
+
+
+span{
+		margin: 2px;
+	}
+
+.monospace {
+		font-family: SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+		font-size: 87.5%;
+	}
+
+
+.container{
+     width: calc(100% - 40px);
+     max-width: 1000px;
+     margin-left: auto;
+     margin-right: auto;
+  }
+
+h2 {
+ margin: 25px 0px 10px 0px;
+}
+
+ul{
+	margin: 0.5em;
+ 	margin-bottom: 2rem;
+}
+
+a {
+	color: #007bff;
+	text-decoration: none;
+	background-color: transparent;
+}
+
+a:-webkit-any-link {
+  cursor: pointer;                      
+}
+
+
+table {
+    display: table;
+    border-spacing: 0px;
+	margin-botton: 1rem;
+}
+
+tr:nth-child(even) {
+    background-color: #eee;
+}
+
+
+.prefixes table {
+    border-collapse: collapse;
+    margin-bottom: 1rem;
+    color: #212529;
+}
+
+
+.prefixes td {
+    padding: 0.25rem;
+    vertical-align: top;
+    border-top: 1px solid #dee2e6;
+}
+
+
+
+.propertyshapes table {
+    border-collapse: collapse;
+}
+
+
+.propertyshapes thead {
+    display: table-header-group;
+    vertical-align: middle;
+    border-color: inherit;
+}
+
+
+.propertyshapes tr {
+    display: table-row;
+    vertical-align: inherit;
+    border-color: inherit;
+}
+
+.p {
+  font-size: 0.875em;
+}
+
+@media only print {
+	
+}
+
+@page {
+		size: A4 portrait;
+		margin-top: 1.2cm;
+		margin-bottom: 1.2cm;
+		margin-left: 1.2cm;
+		margin-right: 1.2cm;
+		background-repeat: no-repeat;
+		background-position: 40px 10px;
+		 @bottom-center {
+		 	content: counter(page);
+		 }
+}
+
+
+.propertyshapes th:nth-child(4) {
+    width: 6%;
+}
+
+.propertyshapes td {
+    padding: 0.75rem;
+    vertical-align: top;
+    border-top: 1px solid #dee2e6;
+}
+
+.propertyshapes tbody {
+    display: table-row-group;
+    vertical-align: middle;
+    border-color: inherit;
+}
+
+
+.propertyshapes tbody tr {
+    display: table-row;
+    vertical-align: inherit;
+    border-color: inherit;
+}
+
+.text-break {
+    word-break: break-word;
+}
+
+body {
+         margin: 0;
+         font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans","Liberation Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+         background-color: #fff;
+      }
+
+
+.pt-4{
+	padding-top: 2.5rem!important;
+}
+
+mb-4 {
+	margin-bottom: 2.5rem!important;
+}
+
+
+.row {
+	display: flex;
+    flex-wrap: wrap;
+    margin-right: -10px;
+    margin-left: -10px;
+}
+
+.mt-3 {
+	margin-top: 1.875rem!important;	
+}
+
+col {
+	flex-basis: 0;
+    flex-grow: 1;
+    max-width: 100%;	
+    position: relative;
+    width: 100%;
+    min-height: 1px;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+.sp_list-menu {
+	list-style-type: none;
+}
+
+ul {
+	display: block;
+    list-style-type: disc;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    padding-inline-start: 40px;
+}

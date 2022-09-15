@@ -283,29 +283,11 @@
 						.sp_section_subtitle {
 						font-family: Georgia, Garamond, serif;	
 					}	
-					
-					
+					 
 					table {
 						display: table;
-						border-collapse: collapse;
-						box-sizing: border-box;
-						text-indent: initial;
-						white-space: normal;
-						line-height: normal;
-						font-weight: normal;
-						font-size: medium;
-						font-style: normal;
-						color: -internal-quirk-inherit;
-						text-align: start;
-						border-spacing: 2px;
-						border-color: grey;
-						font-variant: normal;
-					}
-					
-					.sp_table .table {
-						width: 100%;
-						margin-bottom: 1rem;
-						color: #212529;
+						border-spacing: 0px;
+						margin-botton: 1rem;
 					}
 					
 					.table-responsive {
@@ -315,63 +297,67 @@
 						-webkit-overflow-scrolling: touch;
 						-ms-overflow-style: -ms-autohiding-scrollbar;
 					}
-					
-					.sp_table thead {
-						display: table-header-group;
-						vertical-align: middle;
-						border-color: inherit;
-					}
-					
-					.sp_table thead th {
-						vertical-align: bottom;
-						border-bottom: 2px solid #d1d3d4;
-					}
-					
-					.sp_table td, .table th {
-						padding: 0.75rem;
-						vertical-align: top;
-						border-top: 1px solid #d1d3d4;
-					}
-					
-					.sp_table th {
-						text-align: inherit;
-					}
-					
-					.sp_table tr {
-						display: table-row;
-						vertical-align: inherit;
-						border-color: inherit;
-					}
-					
-					.sp_table tr:nth-child(even) {
+											
+					tr:nth-child(even) {
 						background-color: #eee;
 					}
 					
-					.sp_table td {
+					.sp_table_prefixes table {
+						border-collapse: collapse;
+						margin-bottom: 1rem;
+						color: #212529;
+					}
+											
+											
+					.sp_table_prefixes td {
 						padding: 0.25rem;
 						vertical-align: top;
 						border-top: 1px solid #dee2e6;
 					}
 					
-					.sp_description_column .sp_table th:nth-child(4) {
+					.sp_table_propertyshapes table {
+						border-collapse: collapse;
+					}
+								
+								
+					.sp_table_propertyshapes thead {
+						display: table-header-group;
+						vertical-align: middle;
+						border-color: inherit;
+					}
+											
+											
+					.sp_table_propertyshapes tr {
+					    display: table-row;
+					    vertical-align: inherit;
+					    border-color: inherit;
+					}
+											
+					.sp_table_propertyshapes th:nth-child(4) {
 						width: 6%;
 					}
+											
+					.sp_table_propertyshapes td {
+						padding: 0.75rem;
+						border-top: 1px solid #dee2e6;
+					}
+											
+					.sp_table_propertyshapes tbody {
+						display: table-row-group;
+						vertical-align: middle;
+						border-color: inherit;
+					}
+								
+								
+					.sp_table_propertyshapes tbody tr {
+						display: table-row;
+						vertical-align: inherit;
+						border-color: inherit;
+					}
 					
-					code {
-						font-size: 87.5%;
-						color: #e83e8c;
+					.text-break {
 						word-break: break-word;
-					}
-					
-					code, kbd, pre, samp {
-						font-family: SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono,
-							Courier New, monospace;
-					}
-					
-					code, kbd, pre, samp {
-						font-family: monospace, monospace;
-						font-size: 1em;
-					}
+					}					
 				</style>
 				
 				<base href="/"/>
@@ -738,7 +724,7 @@
 						<xsl:value-of
 							select="$LABELS/labels/entry[@key='PREFIXES.TITLE']/@label" />
 					</h2>
-					<table class="sp_table table table-responsive" style="width:60%">
+					<table class="sp_table_prefixes table-responsive">
 						<thead>
 							<tr>
 								<th>
@@ -852,7 +838,7 @@
 						</ul>
 					</xsl:if>
 					<xsl:if test="count(properties/property)>0">
-						<table class="sp_table table table-responsive" style="width:100%">
+						<table class="sp_table_propertyshapes table-responsive">
 							<thead>
 								<tr>
 									<th>
@@ -990,7 +976,7 @@
 				</div>								
 			</td>
 			<!-- Description properties -->
-			<td>
+			<td class="text-break">
 				<p>
 					<xsl:value-of select="description" />
 				</p>

@@ -3,7 +3,7 @@
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 	
 	<!-- controls output style -->
-	<xsl:output indent="yes" method="xml" omit-xml-declaration="yes"/>
+	<xsl:output indent="yes" method="html" omit-xml-declaration="yes"/>
 	
 	<!-- Language parameter to the XSLT -->
 	<xsl:param name="LANG"/>
@@ -115,7 +115,7 @@
 		<html lang="{$LANG}">
 			<head>
 			
-				<link rel="stylesheet" href="shaclplay-toc.css"/> 
+				<link rel="stylesheet" href="resources/css/shaclplay-doc.css"/> 
 			
 				<base href="/"/>
 				
@@ -132,10 +132,12 @@
 				
 				<xsl:variable name="var_title" select="title"/>
 				
-				<title><xsl:value-of select="$var_title"/></title>
-				<meta name="apple-mobile-web-app-title" content="{$var_title}"/>
-				<meta name="twitter:title" content="{$var_title}"/>
-				<meta property="og:title" content="{$var_title}"/>
+				<xsl:if test="$var_title != ''">
+					<title><xsl:value-of select="$var_title"/></title>
+					<meta name="apple-mobile-web-app-title" content="{$var_title}"/>
+					<meta name="twitter:title" content="{$var_title}"/>
+					<meta property="og:title" content="{$var_title}"/>
+				</xsl:if>
 								
 			</head>
 			<body>

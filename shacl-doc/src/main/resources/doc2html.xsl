@@ -3,7 +3,7 @@
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 	
 	<!-- controls output style -->
-	<xsl:output indent="yes" method="html" omit-xml-declaration="yes"/>
+	<xsl:output indent="yes" method="xml" omit-xml-declaration="yes"/>
 	
 	<!-- Language parameter to the XSLT -->
 	<xsl:param name="LANG"/>
@@ -114,9 +114,266 @@
 		<xsl:text disable-output-escaping='yes'>&lt;!DOCTYPE html&gt;</xsl:text>
 		<html lang="{$LANG}">
 			<head>
-			
-				<link rel="stylesheet" href="resources/css/shaclplay-doc.css"/> 
-			
+				
+				<style>
+					body {
+						margin: 0;
+						font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+							"Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif,
+							"Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+							"Noto Color Emoji";
+						background-color: #fff;
+					}
+					
+					.monospace {
+						font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+							"Courier New", monospace;
+						font-size: 87.5%;
+					}
+					
+					.anchor {
+						float: left;
+						padding-right: 4px;
+						margin-left: -20px;
+						line-height: 1;
+						padding-top: 12px;
+					}
+					sp_section_col
+					
+					.sp_section_row {
+						display: flex;
+						flex-wrap: wrap;
+						margin-right: -10px;
+						margin-left: -10px;
+					}
+					
+					.mt-3 {
+						margin-top: 1.875rem !important;
+					}
+					
+					.sp_section_col {
+						flex-basis: 0;
+						flex-grow: 1;
+						max-width: 100%;
+						position: relative;
+						width: 100%;
+						min-height: 1px;
+						padding-right: 10px;
+						padding-left: 10px;
+					}
+					
+					a {
+						color: #007bff;
+						text-decoration: none;
+						background-color: transparent;
+					}
+					
+					a:-webkit-any-link {
+						cursor: pointer;
+					}
+					
+					.p {
+						font-size: 0.875em;
+					}
+					
+					@media only print {
+					}
+					
+					@page {
+						size: A4 portrait;
+						margin-top: 1.2cm;
+						margin-bottom: 1.2cm;
+						margin-left: 1.2cm;
+						margin-right: 1.2cm;
+						background-repeat: no-repeat;
+						background-position: 40px 10px;
+						
+						@bottom-center
+						{
+						content
+						:
+						counter(
+						page
+						);
+					}
+					
+					}
+					
+					/* This section draw the format web */
+					.sp_container_principal {
+						width: calc(100% - 40px);
+						max-width: 1000px;
+						margin-left: auto;
+						margin-right: auto;
+					}
+					
+					.pt-4 {
+						padding-top: 2.5rem !important;
+					}
+					
+					.sp_list_toc {
+						margin: 0.5em;
+						margin-bottom: 2rem;
+					}
+					
+					.ul_type_none {
+						list-style-type: none;
+					}
+					
+					.sp_list_description_properties ul {
+						display: block;
+						list-style-type: disc;
+						margin-block-start: 1em;
+						margin-block-end: 1em;
+						margin-inline-start: 0px;
+						margin-inline-end: 0px;
+						padding-inline-start: 40px;
+					}
+					
+					dl, ol, ul {
+						margin-top: 0;
+						margin-bottom: 1rem;
+					}
+					
+					li {
+						display: list-item;
+						text-align: -webkit-match-parent;
+					}
+					
+					ul {
+						list-style-type: disc;
+					}
+					
+					.sp_section_title_header {
+						margin-top: 0;
+						margin-bottom: 2.5rem !important;
+						margin-block-start: 0.67em;
+					    margin-block-end: 0.67em;
+					    margin-inline-start: 0px;
+					    margin-inline-end: 0px;    
+					}
+					
+					.sp_section_title_header {
+					    font-size: 1.5625rem;
+					}
+					
+					
+					.sp_section_title_toc, .sp_section_subtitle {
+						margin-top: 0;
+					}
+					
+					.sp_section_title_toc, .sp_section_subtitle ,.sp_section_title_table {
+						margin-block-start: 0.83em;
+					    margin-block-end: 0.83em;
+					    margin-inline-start: 0px;
+					    margin-inline-end: 0px;    
+					}
+					
+					.sp_section_title_header, .sp_section_title_toc, .sp_section_subtitle, .sp_section_title_table {
+						margin-bottom: 0.5rem;
+						display: block;
+						font-weight: 500;
+						color: #1e1e1f;
+						line-height: 1.2em;
+					}
+					
+					.sp_section_title_header, 
+						.sp_section_title_toc, 
+						.sp_section_title_table, 
+						.sp_section_subtitle {
+						font-family: Georgia, Garamond, serif;	
+					}	
+					
+					
+					table {
+						display: table;
+						border-collapse: collapse;
+						box-sizing: border-box;
+						text-indent: initial;
+						white-space: normal;
+						line-height: normal;
+						font-weight: normal;
+						font-size: medium;
+						font-style: normal;
+						color: -internal-quirk-inherit;
+						text-align: start;
+						border-spacing: 2px;
+						border-color: grey;
+						font-variant: normal;
+					}
+					
+					.sp_table .table {
+						width: 100%;
+						margin-bottom: 1rem;
+						color: #212529;
+					}
+					
+					.table-responsive {
+						display: block;
+						width: 100%;
+						overflow-x: auto;
+						-webkit-overflow-scrolling: touch;
+						-ms-overflow-style: -ms-autohiding-scrollbar;
+					}
+					
+					.sp_table thead {
+						display: table-header-group;
+						vertical-align: middle;
+						border-color: inherit;
+					}
+					
+					.sp_table thead th {
+						vertical-align: bottom;
+						border-bottom: 2px solid #d1d3d4;
+					}
+					
+					.sp_table td, .table th {
+						padding: 0.75rem;
+						vertical-align: top;
+						border-top: 1px solid #d1d3d4;
+					}
+					
+					.sp_table th {
+						text-align: inherit;
+					}
+					
+					.sp_table tr {
+						display: table-row;
+						vertical-align: inherit;
+						border-color: inherit;
+					}
+					
+					.sp_table tr:nth-child(even) {
+						background-color: #eee;
+					}
+					
+					.sp_table td {
+						padding: 0.25rem;
+						vertical-align: top;
+						border-top: 1px solid #dee2e6;
+					}
+					
+					.sp_description_column .sp_table th:nth-child(4) {
+						width: 6%;
+					}
+					
+					code {
+						font-size: 87.5%;
+						color: #e83e8c;
+						word-break: break-word;
+					}
+					
+					code, kbd, pre, samp {
+						font-family: SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono,
+							Courier New, monospace;
+					}
+					
+					code, kbd, pre, samp {
+						font-family: monospace, monospace;
+						font-size: 1em;
+					}
+				</style>
+				
 				<base href="/"/>
 				
 				<meta charset="UTF-8"/>
@@ -148,12 +405,12 @@
 			            		<table style="width:100%">
 				            		<tr>
 				            			<td width="20%"><img src="{imgLogo}"/></td>
-				            			<td width="80%"><h1 class="mb-4"><xsl:value-of select="title" /></h1></td>		
+				            			<td width="80%"><h1 class="sp_section_title_header"><xsl:value-of select="title" /></h1></td>		
 				            		</tr>	
 			            		</table>
 			            	</xsl:when>
 			            	<xsl:otherwise>
-			            			<h1 class="mb-4"><xsl:value-of select="title" /></h1>
+			            			<h1 class="sp_section_title_header"><xsl:value-of select="title" /></h1>
 			            	</xsl:otherwise>
 			            </xsl:choose>			            
 			         
@@ -176,16 +433,20 @@
 					<xsl:apply-templates select="abstract_" />
 					<xsl:apply-templates select="." mode="TOC" />
 					<xsl:apply-templates select="prefixes" />
-					<xsl:if test="diagrams or depictions">
+					<xsl:if test="diagrams or depictions">						
 						<xsl:if test="string-length(diagrams) &gt; 0 ">
-							<h2 id="diagrams">
-								<xsl:value-of select="$LABELS/labels/entry[@key='DIAGRAM.TITLE']/@label" />
-							</h2>
-						</xsl:if>
-						<div>
-							<xsl:apply-templates select="diagrams" />
-							<xsl:apply-templates select="depictions"/>
-						</div>
+							<div class="sp_section_row mt-3">
+								<div class="sp_section_col">
+									<section>
+										<h2 id="diagrams" class="sp_section_subtitle">
+											<xsl:value-of select="$LABELS/labels/entry[@key='DIAGRAM.TITLE']/@label" />
+										</h2>
+										<xsl:apply-templates select="diagrams" />
+										<xsl:apply-templates select="depictions"/>
+									</section>
+								</div>
+							</div>	
+						</xsl:if>						
 					</xsl:if>
 				
 					<xsl:apply-templates select="descriptionDocument" />
@@ -207,13 +468,13 @@
 	</xsl:template>
 	
 	<xsl:template match="ShapesDocumentation" mode="TOC">
-		<div class="row mt-3">
-			<div class="col">
+		<div class="sp_section_row mt-3">
+			<div class="sp_section_col">
 				<section>
 					<!-- Table de matieres -->
-					<h2 id="Index" class="sp_font_title_h2"><xsl:value-of select="$LABELS/labels/entry[@key='TOC']/@label" /></h2>
+					<h2 id="Index" class="sp_section_title_toc"><xsl:value-of select="$LABELS/labels/entry[@key='TOC']/@label" /></h2>
 					
-					<ul class="sp_list ul_type_none">
+					<ul class="sp_list_toc ul_type_none">
 						<li>
 							<!-- Prefixes -->
 							<a href="#prefixes"><xsl:value-of select="$LABELS/labels/entry[@key='PREFIXES.TITLE']/@label" /></a>
@@ -251,94 +512,103 @@
 	</xsl:template>
 
 	<xsl:template match="datecreated">
-		<b>
-			<xsl:value-of
-				select="$LABELS/labels/entry[@key='METADATA.DATECREATED']/@label" />
-		</b>
-		<xsl:value-of select="." />
-		<br/>
+		<div>
+			<b>
+				<xsl:value-of
+					select="$LABELS/labels/entry[@key='METADATA.DATECREATED']/@label" />
+			</b>
+			<xsl:value-of select="." />
+		</div>		
 	</xsl:template>
 	
 	<xsl:template match="dateissued">
-		<b>
-			<xsl:value-of
-				select="$LABELS/labels/entry[@key='METADATA.DATEISSUED']/@label" />
-		</b>
-		<xsl:value-of select="." />
-		<br/>
+		<div>
+			<b>
+				<xsl:value-of
+					select="$LABELS/labels/entry[@key='METADATA.DATEISSUED']/@label" />
+			</b>
+			<xsl:value-of select="." />
+		</div>
 	</xsl:template>
 	
 	<xsl:template match="modifiedDate">
-		<b>
-			<xsl:value-of
-				select="$LABELS/labels/entry[@key='METADATA.DATE']/@label" />
-		</b>
-		<xsl:value-of select="." />
-		<br/>		
+		<div>
+			<b>
+				<xsl:value-of
+					select="$LABELS/labels/entry[@key='METADATA.DATE']/@label" />
+			</b>
+			<xsl:value-of select="." />
+		</div>		
 	</xsl:template>
 	
 	<xsl:template match="yearCopyRighted">
-		<b>
-			<xsl:value-of
-				select="$LABELS/labels/entry[@key='METADATA.DATECOPYRIGHTED']/@label" />
-		</b>
-		<xsl:value-of select="." />
-		<br/>
+		<div>
+			<b>
+				<xsl:value-of
+					select="$LABELS/labels/entry[@key='METADATA.DATECOPYRIGHTED']/@label" />
+			</b>
+			<xsl:value-of select="." />
+		</div>
 	</xsl:template>
 	
 	<xsl:template match="versionInfo">
-		<b>
-			<xsl:value-of
-				select="$LABELS/labels/entry[@key='METADATA.VERSION']/@label" />
-		</b>
-		<xsl:value-of select="." />
-		<br/>		
+		<div>
+			<b>
+				<xsl:value-of
+					select="$LABELS/labels/entry[@key='METADATA.VERSION']/@label" />
+			</b>
+			<xsl:value-of select="." />
+		</div>		
 	</xsl:template>
 
 	<xsl:template match="creators">
-		<b>
-			<xsl:value-of
-				select="$LABELS/labels/entry[@key='METADATA.CREATOR']/@label" />
-		</b>
-		<xsl:apply-templates />
-		<br/>
+		<div>
+			<b>
+				<xsl:value-of
+					select="$LABELS/labels/entry[@key='METADATA.CREATOR']/@label" />
+			</b>
+			<xsl:apply-templates />
+		</div>
 	</xsl:template>
 	
-	
 	<xsl:template match="publishers">
-		<b>
-			<xsl:value-of
-				select="$LABELS/labels/entry[@key='METADATA.PUBLISHER']/@label" />
-		</b>
-		<xsl:apply-templates />
-		<br/>		
+		<div>
+			<b>
+				<xsl:value-of
+					select="$LABELS/labels/entry[@key='METADATA.PUBLISHER']/@label" />
+			</b>
+			<xsl:apply-templates />
+		</div>	
 	</xsl:template>
 	
 	<xsl:template match="rightsHolders">
-		<b>
-			<xsl:value-of
-				select="$LABELS/labels/entry[@key='METADATA.RIGHTHOLDER']/@label" />
-		</b>
-		<xsl:apply-templates />
-		<br/>		
+		<div>
+			<b>
+				<xsl:value-of
+					select="$LABELS/labels/entry[@key='METADATA.RIGHTHOLDER']/@label" />
+			</b>
+			<xsl:apply-templates />
+		</div>	
 	</xsl:template>
 	
 	<xsl:template match="licenses">
-		<b>
-			<xsl:value-of
-				select="$LABELS/labels/entry[@key='METADATA.LICENSE']/@label" />
-		</b>
-		<xsl:apply-templates />
-		<br/>
+		<div>
+			<b>
+				<xsl:value-of
+					select="$LABELS/labels/entry[@key='METADATA.LICENSE']/@label" />
+			</b>
+			<xsl:apply-templates />
+		</div>
 	</xsl:template>
 	
 	<xsl:template match="feedbacks">
-		<b>
-			<xsl:value-of
-				select="$LABELS/labels/entry[@key='METADATA.FEEDBACK']/@label" />
-		</b>
-		<xsl:apply-templates />	
-		<br/>	
+		<div>
+			<b>
+				<xsl:value-of
+					select="$LABELS/labels/entry[@key='METADATA.FEEDBACK']/@label" />
+			</b>
+			<xsl:apply-templates />	
+		</div>
 	</xsl:template>
 	
 	<!--  shared template for all values -->
@@ -389,21 +659,20 @@
 	
 	
 	<xsl:template match="abstract_">
-		<div>
-			<h2 id="abstract">
-				<xsl:value-of
-					select="$LABELS/labels/entry[@key='METADATA.INTRODUCTION']/@label" />
-			</h2>
-			<!--  disable output escaping so that HTML is preserved -->
-			<xsl:value-of select="." disable-output-escaping="yes" />
-			<br />
+		<div class="sp_section_row mt-3">
+			<div class="sp_section_col">
+				<h2 id="abstract" class="sp_section_subtitle">
+					<xsl:value-of
+						select="$LABELS/labels/entry[@key='METADATA.INTRODUCTION']/@label" />
+				</h2>
+				<!--  disable output escaping so that HTML is preserved -->
+				<xsl:value-of select="." disable-output-escaping="yes" />			
+			</div>
 		</div>
-		<br />
 	</xsl:template>
 	
 	<xsl:template match="depictions">
-		<xsl:apply-templates/>
-		<br />
+		<xsl:apply-templates/>		
 	</xsl:template>
 	
 	<xsl:template match="depiction">
@@ -411,8 +680,7 @@
 	</xsl:template>
 	 
 	<xsl:template match="diagrams">
-		<xsl:apply-templates />
-		<br />	
+		<xsl:apply-templates />		
 	</xsl:template>
 	
 	<xsl:template match="diagram">
@@ -452,22 +720,21 @@
 	<!-- Description Title -->
 	<xsl:template match="descriptionDocument[text() != '']">
 		<div>
-			<h2 id="Description">
+			<h2 id="Description" class="sp_section_subtitle">
 				<xsl:value-of select="$LABELS/labels/entry[@key='DESCRIPTION.TITLE']/@label" />
 			</h2>
 			<!--  disable output escaping so that HTML is preserved -->
 			<xsl:value-of select="."  disable-output-escaping="yes"/>			
 		</div>
-		<br/>
 	</xsl:template>
 	
 	
 	<!-- Prefix -->
 	<xsl:template match="prefixes">
-		<div class="row mt-3">
-			<div class="col">
+		<div class="sp_section_row mt-3">
+			<div class="sp_section_col">
 				<section>
-					<h2 id="prefixes" class="sp_font_title_h2">
+					<h2 id="prefixes" class="sp_section_title_table">
 						<xsl:value-of
 							select="$LABELS/labels/entry[@key='PREFIXES.TITLE']/@label" />
 					</h2>
@@ -490,8 +757,7 @@
 					</table>
 				</section>
 			</div>
-		</div>
-		<br />
+		</div>		
 	</xsl:template>
 
 	<xsl:template match="prefixe">
@@ -515,108 +781,110 @@
 	
 	<xsl:template match="section">
 		<xsl:variable name="TitleNodeSape" select="uri" />
-		<div>
-			<h2 id="{$TitleNodeSape}" class="sp_font_title_h2">
-				<xsl:value-of select="title" />
-			</h2>
-
-			<xsl:if test="description != ''">
-				<p>
-					<!--  disable output escaping so that HTML is preserved -->
-					<em><xsl:value-of select="description" disable-output-escaping="yes" /></em>
-				</p>
-			</xsl:if>
-			<xsl:if
-				test="targetClassLabel != '' or superClasses/link or nodeKind != '' or pattern != '' or closed='true' or skosExample != ''">
-				<ul class="sp_list_description_properties lu">
-					<xsl:if test="targetClassLabel != ''">
-						<li>
-							<xsl:value-of
-								select="$LABELS/labels/entry[@key='LABEL_TARGETCLASS']/@label" />
-							<a href="{targetClassUri}">
-								<xsl:value-of select="targetClassLabel" />
-							</a>
-						</li>
+		<div class="sp_section_row mt-3">
+			<div class="sp_section_col">
+				<section>
+					<h2 id="{$TitleNodeSape}" class="sp_section_title_table">
+						<xsl:value-of select="title" />
+					</h2>
+					<xsl:if test="description != ''">
+						<p>
+							<!--  disable output escaping so that HTML is preserved -->
+							<em><xsl:value-of select="description" disable-output-escaping="yes" /></em>
+						</p>
 					</xsl:if>
-					<xsl:if test="superClasses/link">
-						<li>
-							<xsl:value-of
-								select="$LABELS/labels/entry[@key='LABEL_SUPERCLASSES']/@label" />
-							<xsl:for-each select="superClasses/link">
-								<xsl:choose>
-									<xsl:when test="position() = 1">
-						                <a href="{href}"><xsl:value-of select="label" /></a>
-						            </xsl:when>
-						            <xsl:otherwise>
-						                , <a href="{href}"><xsl:value-of select="label" /></a>
-						            </xsl:otherwise>
-								</xsl:choose>
-							</xsl:for-each>
-						</li>
+					<xsl:if
+						test="targetClassLabel != '' or superClasses/link or nodeKind != '' or pattern != '' or closed='true' or skosExample != ''">
+						<ul class="sp_list_description_properties lu">
+							<xsl:if test="targetClassLabel != ''">
+								<li>
+									<xsl:value-of
+										select="$LABELS/labels/entry[@key='LABEL_TARGETCLASS']/@label" />
+									<a href="{targetClassUri}">
+										<xsl:value-of select="targetClassLabel" />
+									</a>
+								</li>
+							</xsl:if>
+							<xsl:if test="superClasses/link">
+								<li>
+									<xsl:value-of
+										select="$LABELS/labels/entry[@key='LABEL_SUPERCLASSES']/@label" />
+									<xsl:for-each select="superClasses/link">
+										<xsl:choose>
+											<xsl:when test="position() = 1">
+								                <a href="{href}"><xsl:value-of select="label" /></a>
+								            </xsl:when>
+								            <xsl:otherwise>
+								                , <a href="{href}"><xsl:value-of select="label" /></a>
+								            </xsl:otherwise>
+										</xsl:choose>
+									</xsl:for-each>
+								</li>
+							</xsl:if>
+							<xsl:if test="closed='true'">
+								<li>
+									<xsl:value-of
+										select="$LABELS/labels/entry[@key='LABEL_CLOSE']/@label" />
+								</li>
+							</xsl:if>
+							<xsl:if test="nodeKind != ''">
+								<li>
+									<xsl:value-of
+										select="$LABELS/labels/entry[@key='LABEL_NODEKIND']/@label" />
+									<xsl:value-of select="nodeKind" />
+								</li>
+							</xsl:if>
+		
+							<xsl:if test="pattern != ''">
+								<li>
+									<xsl:value-of
+										select="$LABELS/labels/entry[@key='LABEL_PATTERNS']/@label" />
+									<xsl:value-of select="pattern" />							
+								</li>
+							</xsl:if>
+							<!-- Example -->
+							<xsl:if test="skosExample != ''">
+								<li>
+									<xsl:value-of select="$LABELS/labels/entry[@key='LABEL_EXAMPLE']/@label"/>
+									<xsl:value-of select="skosExample"/>										
+								</li>
+							</xsl:if>
+						</ul>
 					</xsl:if>
-					<xsl:if test="closed='true'">
-						<li>
-							<xsl:value-of
-								select="$LABELS/labels/entry[@key='LABEL_CLOSE']/@label" />
-						</li>
+					<xsl:if test="count(properties/property)>0">
+						<table class="sp_table table table-responsive" style="width:100%">
+							<thead>
+								<tr>
+									<th>
+										<xsl:value-of
+											select="$LABELS/labels/entry[@key='COLUMN_PROPERTY']/@label" />
+									</th>
+									<th >
+										<xsl:value-of
+											select="$LABELS/labels/entry[@key='COLUMN_URI']/@label" />
+									</th>
+									<th>
+										<xsl:value-of
+											select="$LABELS/labels/entry[@key='COLUMN_EXPECTED_VALUE']/@label" />
+									</th>
+									<th>
+										<xsl:value-of
+											select="$LABELS/labels/entry[@key='COLUMN_CARD']/@label" />
+									</th>
+									<th class="sp_description_column">
+										<xsl:value-of
+											select="$LABELS/labels/entry[@key='COLUMN_DESCRIPTION']/@label" />
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								<xsl:apply-templates />
+							</tbody>
+						</table>
 					</xsl:if>
-					<xsl:if test="nodeKind != ''">
-						<li>
-							<xsl:value-of
-								select="$LABELS/labels/entry[@key='LABEL_NODEKIND']/@label" />
-							<xsl:value-of select="nodeKind" />
-						</li>
-					</xsl:if>
-
-					<xsl:if test="pattern != ''">
-						<li>
-							<xsl:value-of
-								select="$LABELS/labels/entry[@key='LABEL_PATTERNS']/@label" />
-							<xsl:value-of select="pattern" />							
-						</li>
-					</xsl:if>
-					<!-- Example -->
-					<xsl:if test="skosExample != ''">
-						<li>
-							<xsl:value-of select="$LABELS/labels/entry[@key='LABEL_EXAMPLE']/@label"/>
-							<xsl:value-of select="skosExample"/>										
-						</li>
-					</xsl:if>
-				</ul>
-			</xsl:if>
-			<xsl:if test="count(properties/property)>0">
-				<table class="sp_table table table-responsive" style="width:100%">
-					<thead>
-						<tr>
-							<th>
-								<xsl:value-of
-									select="$LABELS/labels/entry[@key='COLUMN_PROPERTY']/@label" />
-							</th>
-							<th >
-								<xsl:value-of
-									select="$LABELS/labels/entry[@key='COLUMN_URI']/@label" />
-							</th>
-							<th>
-								<xsl:value-of
-									select="$LABELS/labels/entry[@key='COLUMN_EXPECTED_VALUE']/@label" />
-							</th>
-							<th>
-								<xsl:value-of
-									select="$LABELS/labels/entry[@key='COLUMN_CARD']/@label" />
-							</th>
-							<th class="sp_description_column">
-								<xsl:value-of
-									select="$LABELS/labels/entry[@key='COLUMN_DESCRIPTION']/@label" />
-							</th>
-						</tr>
-					</thead>
-					<tbody>
-						<xsl:apply-templates />
-					</tbody>
-				</table>
-			</xsl:if>
+				</section>
+			</div>
 		</div>
-		<br />
 	</xsl:template>
 
 	<!-- Properties -->

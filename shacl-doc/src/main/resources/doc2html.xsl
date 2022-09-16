@@ -2,14 +2,16 @@
 <xsl:stylesheet version="2.0"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 	
-	<!-- controls output style -->
-	<xsl:output indent="yes" method="xml" omit-xml-declaration="yes"/>
-	
 	<!-- Language parameter to the XSLT -->
 	<xsl:param name="LANG"/>
 	
 	<!-- Indicates if we are producing the HTML for an HTML output of for a PDF conversion -->
 	<xsl:param name="MODE">HTML</xsl:param>
+
+	<!-- controls output style -->
+	<!--
+	<xsl:output indent="yes" method="xhtml" omit-xml-declaration="yes"/>
+	 -->
 
 	<!-- french labels -->
 	<xsl:variable name="LABELS_FR">
@@ -107,11 +109,20 @@
 
 	<!-- Principal -->
 	<xsl:template match="/">
-		<xsl:apply-templates />
+		<xsl:variable name="method">
+			<xsl:choose>
+				<xsl:when test="$MODE='PDF'">xhtml</xsl:when>
+				<xsl:otherwise>html</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		<xsl:result-document method="{$method}" omit-xml-declaration="yes" indent="yes">
+			<xsl:apply-templates />
+		</xsl:result-document>
 	</xsl:template>
 
 	<xsl:template match="ShapesDocumentation">
-		<xsl:text disable-output-escaping='yes'>&lt;!DOCTYPE html&gt;</xsl:text>
+		<!-- <xsl:text disable-output-escaping='yes'>&lt;!DOCTYPE html&gt;</xsl:text> -->
+		<!-- <xsl:text disable-output-escaping='yes'>&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"&gt;</xsl:text>  -->
 		<html lang="{$LANG}">
 			<head>
 				
@@ -290,6 +301,7 @@
 						margin-botton: 1rem;
 					}
 					
+					/*
 					.table-responsive {
 						display: block;
 						width: 100%;
@@ -297,6 +309,7 @@
 						-webkit-overflow-scrolling: touch;
 						-ms-overflow-style: -ms-autohiding-scrollbar;
 					}
+					*/
 											
 					tr:nth-child(even) {
 						background-color: #eee;
@@ -315,8 +328,9 @@
 						border-top: 1px solid #dee2e6;
 					}
 					
-					.sp_table_propertyshapes table {
+					.sp_table_propertyshapes {
 						border-collapse: collapse;
+						width: 100%;
 					}
 								
 								
@@ -360,18 +374,11 @@
 					}					
 				</style>
 				
-				<base href="/"/>
-				
 				<meta charset="UTF-8"/>
 				<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 				<meta name="viewport" content="width=device-width, initial-scale=1"/>
-				<meta name="robots" content="index, follow, noodp, noydir, notranslate, noarchive"/>
-				<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
-				<meta property="og:type" content="website"/>
 				<meta name="lang" content="{$LANG}"/>
 				<meta property="og:locale" content="{$LANG}"/>
-				
-				<meta property="og:url" content="{}"/>
 				
 				<xsl:variable name="var_title" select="title"/>
 				
@@ -384,19 +391,19 @@
 								
 			</head>
 			<body>
-				<div class="sp_container_principal pt-4">
+				<div class="sp_container_principal container pt-4">
 					
 			            <xsl:choose>
 			            	<xsl:when test="string-length(imgLogo) &gt; 0">
 			            		<table style="width:100%">
 				            		<tr>
 				            			<td width="20%"><img src="{imgLogo}"/></td>
-				            			<td width="80%"><h1 class="sp_section_title_header"><xsl:value-of select="title" /></h1></td>		
+				            			<td width="80%"><h1 class="mb-4 sp_section_title_header"><xsl:value-of select="title" /></h1></td>		
 				            		</tr>	
 			            		</table>
 			            	</xsl:when>
 			            	<xsl:otherwise>
-			            			<h1 class="sp_section_title_header"><xsl:value-of select="title" /></h1>
+			            			<h1 class="mb-4 sp_section_title_header"><xsl:value-of select="title" /></h1>
 			            	</xsl:otherwise>
 			            </xsl:choose>			            
 			         
@@ -498,103 +505,92 @@
 	</xsl:template>
 
 	<xsl:template match="datecreated">
-		<div>
-			<b>
-				<xsl:value-of
-					select="$LABELS/labels/entry[@key='METADATA.DATECREATED']/@label" />
-			</b>
-			<xsl:value-of select="." />
-		</div>		
+		<b>
+			<xsl:value-of
+				select="$LABELS/labels/entry[@key='METADATA.DATECREATED']/@label" />
+		</b>
+		<xsl:value-of select="." />	
+		<br />
 	</xsl:template>
 	
 	<xsl:template match="dateissued">
-		<div>
-			<b>
-				<xsl:value-of
-					select="$LABELS/labels/entry[@key='METADATA.DATEISSUED']/@label" />
-			</b>
-			<xsl:value-of select="." />
-		</div>
+		<b>
+			<xsl:value-of
+				select="$LABELS/labels/entry[@key='METADATA.DATEISSUED']/@label" />
+		</b>
+		<xsl:value-of select="." />
+		<br />
 	</xsl:template>
 	
 	<xsl:template match="modifiedDate">
-		<div>
-			<b>
-				<xsl:value-of
-					select="$LABELS/labels/entry[@key='METADATA.DATE']/@label" />
-			</b>
-			<xsl:value-of select="." />
-		</div>		
+		<b>
+			<xsl:value-of
+				select="$LABELS/labels/entry[@key='METADATA.DATE']/@label" />
+		</b>
+		<xsl:value-of select="." /><br />	
 	</xsl:template>
 	
 	<xsl:template match="yearCopyRighted">
-		<div>
-			<b>
-				<xsl:value-of
-					select="$LABELS/labels/entry[@key='METADATA.DATECOPYRIGHTED']/@label" />
-			</b>
-			<xsl:value-of select="." />
-		</div>
+		<b>
+			<xsl:value-of
+				select="$LABELS/labels/entry[@key='METADATA.DATECOPYRIGHTED']/@label" />
+		</b>
+		<xsl:value-of select="." />
+		<br />
 	</xsl:template>
 	
 	<xsl:template match="versionInfo">
-		<div>
-			<b>
-				<xsl:value-of
-					select="$LABELS/labels/entry[@key='METADATA.VERSION']/@label" />
-			</b>
-			<xsl:value-of select="." />
-		</div>		
+		<b>
+			<xsl:value-of
+				select="$LABELS/labels/entry[@key='METADATA.VERSION']/@label" />
+		</b>
+		<xsl:value-of select="." />
+		<br />	
 	</xsl:template>
 
 	<xsl:template match="creators">
-		<div>
-			<b>
-				<xsl:value-of
-					select="$LABELS/labels/entry[@key='METADATA.CREATOR']/@label" />
-			</b>
-			<xsl:apply-templates />
-		</div>
+		<b>
+			<xsl:value-of
+				select="$LABELS/labels/entry[@key='METADATA.CREATOR']/@label" />
+		</b>
+		<xsl:apply-templates />
+		<br />
 	</xsl:template>
 	
 	<xsl:template match="publishers">
-		<div>
-			<b>
-				<xsl:value-of
-					select="$LABELS/labels/entry[@key='METADATA.PUBLISHER']/@label" />
-			</b>
-			<xsl:apply-templates />
-		</div>	
+		<b>
+			<xsl:value-of
+				select="$LABELS/labels/entry[@key='METADATA.PUBLISHER']/@label" />
+		</b>
+		<xsl:apply-templates />
+		<br />	
 	</xsl:template>
 	
 	<xsl:template match="rightsHolders">
-		<div>
-			<b>
-				<xsl:value-of
-					select="$LABELS/labels/entry[@key='METADATA.RIGHTHOLDER']/@label" />
-			</b>
-			<xsl:apply-templates />
-		</div>	
+		<b>
+			<xsl:value-of
+				select="$LABELS/labels/entry[@key='METADATA.RIGHTHOLDER']/@label" />
+		</b>
+		<xsl:apply-templates />
+		<br />
 	</xsl:template>
 	
 	<xsl:template match="licenses">
-		<div>
-			<b>
-				<xsl:value-of
-					select="$LABELS/labels/entry[@key='METADATA.LICENSE']/@label" />
-			</b>
-			<xsl:apply-templates />
-		</div>
+		<b>
+			<xsl:value-of
+				select="$LABELS/labels/entry[@key='METADATA.LICENSE']/@label" />
+		</b>
+		<xsl:apply-templates />
+		<br />
 	</xsl:template>
 	
 	<xsl:template match="feedbacks">
-		<div>
-			<b>
-				<xsl:value-of
-					select="$LABELS/labels/entry[@key='METADATA.FEEDBACK']/@label" />
-			</b>
-			<xsl:apply-templates />	
-		</div>
+		<b>
+			<xsl:value-of
+				select="$LABELS/labels/entry[@key='METADATA.FEEDBACK']/@label" />
+		</b>
+		<xsl:apply-templates />	
+		<br />
 	</xsl:template>
 	
 	<!--  shared template for all values -->

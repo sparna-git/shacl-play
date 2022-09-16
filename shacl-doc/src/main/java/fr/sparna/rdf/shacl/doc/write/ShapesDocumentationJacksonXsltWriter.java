@@ -68,7 +68,7 @@ public class ShapesDocumentationJacksonXsltWriter implements ShapesDocumentation
 	        
 	        // pass in the output language
 	        transformer.setParameter("LANG", outputLang);
-	        // pass in the link to diagram PlantUML for the pdf file only
+	        // set the mode PDF/HTML
 	        transformer.setParameter("MODE", mode.toString());
 	        
 	        transformer.transform(xmlInput, xmlOutput);

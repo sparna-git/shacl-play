@@ -83,7 +83,7 @@ public class DocController {
 			// Logo Option
 			@RequestParam(value="inputLogo", required=false) String urlLogo,
 			// Language Option
-			@RequestParam(value="language", required=false) String languageInput,
+			@RequestParam(value="language", required=false) String language,
 			HttpServletRequest request,
 			HttpServletResponse response
 	){
@@ -95,8 +95,8 @@ public class DocController {
 			modelPopulator.populateModelFromUrl(shapesModel, shapesUrl);
 			log.debug("Done Loading Shapes. Model contains "+shapesModel.size()+" triples");
 			
-			if(languageInput == null) {
-				languageInput ="en";
+			if(language == null) {
+				language ="en";
 			}
 			
 			doOutputDoc(
@@ -106,7 +106,7 @@ public class DocController {
 					printPDF,
 					urlLogo,
 					modelPopulator.getSourceName(),
-					languageInput,
+					language,
 					response);
 			return null;
 		} catch (Exception e) {
@@ -138,7 +138,7 @@ public class DocController {
 			// Logo Option
 			@RequestParam(value="inputLogo", required=false) String urlLogo,
 			// Language Option
-			@RequestParam(value="language", required=false) String languageInput,
+			@RequestParam(value="language", required=false) String language,
 			HttpServletRequest request,
 			HttpServletResponse response
 	) {
@@ -151,10 +151,10 @@ public class DocController {
 			
 			// if source is a ULR, redirect to the API
 			if(shapesSource == SOURCE_TYPE.URL) {
-				return new ModelAndView("redirect:/doc?url="+URLEncoder.encode(shapesUrl, "UTF-8")+"&includeDiagram="+includeDiagram+((urlLogo != null)?"&inputLogo="+URLEncoder.encode(urlLogo, "UTF-8"):""));
+				return new ModelAndView("redirect:/doc?url="+URLEncoder.encode(shapesUrl, "UTF-8")+"&includeDiagram="+includeDiagram+((printPDF)?"&printPDF=true":"")+((!language.equals("en"))?"&language="+language:"")+((urlLogo != null)?"&inputLogo="+URLEncoder.encode(urlLogo, "UTF-8"):""));
 			} else if (shapesSource == SOURCE_TYPE.CATALOG) {
 				AbstractCatalogEntry entry = this.catalogService.getShapesCatalog().getCatalogEntryById(shapesCatalogId);
-				return new ModelAndView("redirect:/doc?url="+URLEncoder.encode(entry.getTurtleDownloadUrl().toString(), "UTF-8")+"&includeDiagram="+includeDiagram+((urlLogo != null)?"&inputLogo="+URLEncoder.encode(urlLogo, "UTF-8"):""));
+				return new ModelAndView("redirect:/doc?url="+URLEncoder.encode(entry.getTurtleDownloadUrl().toString(), "UTF-8")+"&includeDiagram="+includeDiagram+((printPDF)?"&printPDF=true":"")+((!language.equals("en"))?"&language="+language:"")+((urlLogo != null)?"&inputLogo="+URLEncoder.encode(urlLogo, "UTF-8"):""));
 			}
 			
 			
@@ -173,8 +173,8 @@ public class DocController {
 			log.debug("Done Loading Shapes. Model contains "+shapesModel.size()+" triples");
 			
 			// defaults to english
-			if(languageInput == null) {
-				languageInput ="en";
+			if(language == null) {
+				language ="en";
 			}
 			
 			doOutputDoc(
@@ -184,7 +184,7 @@ public class DocController {
 					printPDF,
 					urlLogo,
 					modelPopulator.getSourceName(),
-					languageInput,
+					language,
 					response
 			);
 			return null;
@@ -205,7 +205,6 @@ public class DocController {
 			String languageInput,
 			HttpServletResponse response
 	) throws IOException {		
-		response.setContentType("text/html");
 		response.setHeader("Content-Disposition", "inline; filename=\""+filename+".html\"");
 
 		ShapesDocumentationReaderIfc reader = new ShapesDocumentationModelReader(includeDiagram, urlLogo);
@@ -227,6 +226,7 @@ public class DocController {
 			
 			//read file html
 			String htmlCode = new String(htmlBytes.toByteArray(),"UTF-8");
+			// htmlCode.replace("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">", "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />");
 			
 			// Convert
 			response.setContentType("application/pdf");
@@ -243,6 +243,7 @@ public class DocController {
 		} else {
 			ShapesDocumentationWriterIfc writer = new ShapesDocumentationJacksonXsltWriter();
 			response.setContentType("text/html");
+			// response.setContentType("application/xhtml+xml");
 			writer.write(doc, languageInput, response.getOutputStream(), MODE.HTML);			
 		}
 		

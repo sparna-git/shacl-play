@@ -336,14 +336,13 @@
 				<meta property="og:locale" content="{$LANG}"/>
 				
 				<xsl:variable name="var_title" select="title"/>
-				
 				<xsl:if test="$var_title != ''">
 					<title><xsl:value-of select="$var_title"/></title>
 					<meta name="apple-mobile-web-app-title" content="{$var_title}"/>
 					<meta name="twitter:title" content="{$var_title}"/>
 					<meta property="og:title" content="{$var_title}"/>
 				</xsl:if>
-								
+												
 			</head>
 			<body>
 				<div class="sp_container_principal container pt-4">

@@ -88,10 +88,23 @@ public class PlantUmlDiagramGenerator {
 		renderer.setGenerateAnchorHyperlink(this.generateAnchorHyperlink);
 		renderer.setAvoidArrowsToEmptyBoxes(avoidArrowsToEmptyBoxes);
 		
-		List<PlantUmlDiagramOutput> codePlantUml = diagrams.stream().map(d -> new PlantUmlDiagramOutput(d, renderer)).collect(Collectors.toList());
+		List<PlantUmlDiagramOutput> codePlantUml = diagrams.stream().map(d -> new PlantUmlDiagramOutput(d, renderer)).sorted((o1,o2) -> {
+			if(o1.getDiagramOrder() > 0) {
+				if(o2.getDiagramOrder() != null) {
+					return o1.getDiagramOrder().compareTo(o2.getDiagramOrder());					
+				}else {
+					return -1;
+				}
+			} else {
+				if(o2.getDiagramOrder() > 0) {
+					return 1;					
+				}else {
+					return o1.getDiagramTitle().compareTo(o2.getDiagramTitle());
+				}
+			}
+		}).collect(Collectors.toList());
 		
-		return codePlantUml; //sourceuml.toString();
-		
+		return codePlantUml; //sourceuml.toString();	
 
 	}
 }

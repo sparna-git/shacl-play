@@ -65,7 +65,7 @@ public class Main {
 			// output in svg
 			outfilesvguml(output.get(i).getPlantUmlString(), new File( outputDirectory, fileName+'_'+i+".svg") );
 			
-			// output in svg
+			// output in png
 			outfilepnguml(output.get(i).getPlantUmlString(), new File( outputDirectory, fileName+'_'+i+".png")  );
 		}			
 	}

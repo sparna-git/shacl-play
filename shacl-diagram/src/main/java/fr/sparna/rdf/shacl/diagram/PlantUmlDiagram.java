@@ -10,6 +10,7 @@ public class PlantUmlDiagram {
 	protected List<PlantUmlBox> boxes = new ArrayList<>();
 	protected String title;
 	protected String description;
+	protected Integer OrderDiagram;
 	
 	public PlantUmlBox findBoxById(String id) {
 		return this.boxes.stream().filter(b -> b.getLabel().equals(id)).findFirst().orElse(null);
@@ -41,5 +42,12 @@ public class PlantUmlDiagram {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
+
+	public Integer getOrderDiagram() {
+		return OrderDiagram;
+	}
+
+	public void setOrderDiagram(Integer orderDiagram) {
+		OrderDiagram = orderDiagram;
+	}
 }

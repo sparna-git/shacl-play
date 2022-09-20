@@ -49,6 +49,7 @@ public class PlantUmlDiagramReader {
 				d.setDescription(this.readDctDescription(aRef, lang));
 				
 				// and an order
+				d.setOrderDiagram(this.readShOrder(aRef));
 				
 				diagrams.add(d);
 			}

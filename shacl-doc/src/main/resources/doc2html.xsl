@@ -158,6 +158,8 @@
 						font-size: 0.875em;
 					}
 					
+					h2 {margin: 25px 0px 10px 0px;}
+					
 					@media only print {
 					}
 					
@@ -308,49 +310,47 @@
 						word-break: break-word;
 					}
 							
-					.sp_section_title_toc {
-						margin-block-start: 0.83em;
-					    margin-block-end: 0.83em;
-					    margin-inline-start: 0px;
-					    margin-inline-end: 0px;    
-					}
+					<xsl:choose>
+						<xsl:when test="$MODE = 'PDF'">
+							.toc { }
+							.sp_section_title_toc {
+								margin-block-start: 0.83em;
+							    margin-block-end: 0.83em;
+							    margin-inline-start: 0px;
+							    margin-inline-end: 0px;    
+							}
+									
+							.sp_section_title_toc {
+								margin-bottom: 0.5rem;
+								display: block;
+								font-weight: 500;
+								color: #1e1e1f;
+								line-height: 1.2em;
+							}
 							
-					.sp_section_title_toc {
-						margin-bottom: 0.5rem;
-						display: block;
-						font-weight: 500;
-						color: #1e1e1f;
-						line-height: 1.2em;
-					}
+							.sp_container_principal {
+										width: calc(100% - 40px);
+										max-width: 1000px;
+										margin-left: auto;
+										margin-right: auto;
+							}
+							
+							.pt-4 {
+								padding-top: 2.5rem !important;
+							}
+						</xsl:when>
+						<xsl:otherwise>
+							.container {
+							    width: calc(100% - 40px);
+							    max-width: 1000px;
+							    margin-left: auto;
+							    margin-right: auto;
+							}
+							.container {width: calc(100% - 500px);}
+							.toc {position: fixed;top: 0;left: 0;font-size: small;padding: 10px 20px;width: 179px;border-right: solid 2px #eeeeee;bottom: 0;}	
+						</xsl:otherwise>
+					</xsl:choose>
 					
-					.sp_container_principal {
-								width: calc(100% - 40px);
-								max-width: 1000px;
-								margin-left: auto;
-								margin-right: auto;
-					}
-			
-					.pt-4 {
-						padding-top: 2.5rem !important;
-					}
-					
-					/* Condition if html option get the container if not use the sp_* funtion*/		
-					@supports(--css: $MODE) {
-						.container {
-							width: calc(100% - 40px);
-						    max-width: 1000px;
-						    margin-left: auto;
-						    margin-right: auto;
-						}						
-						.container {width:calc(100% - 500px);}
-						.toc {position:fixed;top:0;left:0;font-size:small;padding:10px 20px;width:170px;border-right:solid 2px #eeeeee;bottom:0;}		
-								
-						--my-container: container;
-						--my-toc: toc;
-								
-						toc: var(--my-toc, sp_section_title_toc);
-						container: var(--my-container, sp_container_principal);
-					}
 				</style>
 				
 				
@@ -444,7 +444,7 @@
 	<xsl:template match="ShapesDocumentation" mode="TOC">
 		<!-- Table de matieres -->
 		<div class="sp_section_title_toc toc">
-			<h2 id="Index"><xsl:value-of select="$LABELS/labels/entry[@key='TOC']/@label" /></h2>					
+			<h2 id="Index"><xsl:value-of select="$LABELS/labels/entry[@key='TOC']/@label" /></h2>
 			<ul role="list" class="sp_list_toc ul_type_none t-x-mode">
 				<li>
 					<!-- Prefixes -->

@@ -2,6 +2,7 @@
 .settings
 target
 .project
+deploy.sh
 
 *.versionsBackup
 

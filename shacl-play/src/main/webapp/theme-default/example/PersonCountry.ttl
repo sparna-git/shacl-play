@@ -2,6 +2,7 @@
 @prefix dc: <http://purl.org/dc/elements/1.1/> .
 @prefix dcat: <http://www.w3.org/ns/dcat#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix doap: <http://usefulinc.com/ns/doap#> .
 @prefix euvoc: <http://publications.europa.eu/ontology/euvoc#> .
 @prefix ex: <http://data.sparna.fr/demo/> .
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
@@ -26,17 +27,18 @@
 <https://data.sparna.fr/sparna#> a owl:Ontology;
   dcterms:description "Description of the Document"@en;
   dcterms:modified "2022-06-02T00:00:00.000Z"^^xsd:dateTime;
+  doap:repository <https://github.com/sparna-git/shacl-play>;
   rdfs:comment "This is an abstract in English"@en, "Un résumé en français"@fr;
   rdfs:label "Title of the Document"@en, "Un titre sans langue";
   owl:versionInfo "0.1";
-  dcat:distribution _:node1g8tmdfl9x11197 .
+  dcat:distribution _:node1gdfqmuaux34 .
 
-_:node1g8tmdfl9x11197 dcterms:format <https://www.iana.org/assignments/media-types/text/turtle>;
+_:node1gdfqmuaux34 dcterms:format <https://www.iana.org/assignments/media-types/text/turtle>;
   dcat:downloadURL <http://fake.download.url.of.turtle.distribution.ttl> .
 
-<https://data.sparna.fr/sparna#> dcat:distribution _:node1g8tmdfl9x11198 .
+<https://data.sparna.fr/sparna#> dcat:distribution _:node1gdfqmuaux35 .
 
-_:node1g8tmdfl9x11198 dcterms:format <https://www.iana.org/assignments/media-types/application/rdf+xml>;
+_:node1gdfqmuaux35 dcterms:format <https://www.iana.org/assignments/media-types/application/rdf+xml>;
   dcat:downloadURL <http://fake.download.url.of.rdfxml.distribution.rdf> .
 
 <https://data.sparna.fr/sparna#> foaf:depiction <https://d2slcw3kip6qmk.cloudfront.net/marketing/pages/chart/UML-Class-Diagram-Example-Transparent.png> .
@@ -131,15 +133,15 @@ sparna:P14 sh:description "Country of the person"@en;
   sh:path ex:country .
 
 sparna:P15 sh:description "Language Speak"@en;
-  sh:languageIn _:node1g8tmdfl9x11201 .
+  sh:languageIn _:node1gdfqmuaux38 .
 
-_:node1g8tmdfl9x11201 rdf:first "fr";
-  rdf:rest _:node1g8tmdfl9x11202 .
+_:node1gdfqmuaux38 rdf:first "fr";
+  rdf:rest _:node1gdfqmuaux39 .
 
-_:node1g8tmdfl9x11202 rdf:first "en";
-  rdf:rest _:node1g8tmdfl9x11203 .
+_:node1gdfqmuaux39 rdf:first "en";
+  rdf:rest _:node1gdfqmuaux40 .
 
-_:node1g8tmdfl9x11203 rdf:first "es";
+_:node1gdfqmuaux40 rdf:first "es";
   rdf:rest rdf:nil .
 
 sparna:P15 sh:minCount 1;
@@ -149,25 +151,25 @@ sparna:P15 sh:minCount 1;
 
 sparna:P16 sh:name "creator"@en;
   sh:nodeKind sh:IRI;
-  sh:or _:node1g8tmdfl9x11204 .
+  sh:or _:node1gdfqmuaux41 .
 
-_:node1g8tmdfl9x11204 rdf:first _:node1g8tmdfl9x11205 .
+_:node1gdfqmuaux41 rdf:first _:node1gdfqmuaux42 .
 
-_:node1g8tmdfl9x11205 sh:node sparna:PersonReference .
+_:node1gdfqmuaux42 sh:node sparna:PersonReference .
 
-_:node1g8tmdfl9x11204 rdf:rest _:node1g8tmdfl9x11206 .
+_:node1gdfqmuaux41 rdf:rest _:node1gdfqmuaux43 .
 
-_:node1g8tmdfl9x11206 rdf:first _:node1g8tmdfl9x11207 .
+_:node1gdfqmuaux43 rdf:first _:node1gdfqmuaux44 .
 
-_:node1g8tmdfl9x11207 sh:node sparna:OrganizationReference .
+_:node1gdfqmuaux44 sh:node sparna:OrganizationReference .
 
-_:node1g8tmdfl9x11206 rdf:rest rdf:nil .
+_:node1gdfqmuaux43 rdf:rest rdf:nil .
 
 sparna:P16 sh:path dcterms:creator .
 
-sparna:P18 sh:in _:node1g8tmdfl9x11208 .
+sparna:P18 sh:in _:node1gdfqmuaux45 .
 
-_:node1g8tmdfl9x11208 rdf:first resource:France;
+_:node1gdfqmuaux45 rdf:first resource:France;
   rdf:rest rdf:nil .
 
 sparna:P18 sh:maxCount 1;
@@ -184,9 +186,9 @@ sparna:P19 sh:datatype xsd:integer;
   sh:path ex:CodeCountry .
 
 sparna:P20 sh:datatype rdf:langString;
-  sh:languageIn _:node1g8tmdfl9x11209 .
+  sh:languageIn _:node1gdfqmuaux46 .
 
-_:node1g8tmdfl9x11209 rdf:first "fr";
+_:node1gdfqmuaux46 rdf:first "fr";
   rdf:rest rdf:nil .
 
 sparna:P20 sh:maxCount 1;

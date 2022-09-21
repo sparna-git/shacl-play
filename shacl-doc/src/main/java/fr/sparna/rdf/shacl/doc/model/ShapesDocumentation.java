@@ -124,7 +124,7 @@ public class ShapesDocumentation {
 			
 			this.setFormat(ontology.getOwlFormat());
 			
-			Optional.ofNullable(ontology.getFeedback()).ifPresent(list -> {
+			Optional.ofNullable(ontology.getRepository()).ifPresent(list -> {
 				this.feedback = list.stream()
 				.map(new RDFNodeToLinkMapper(lang))
 				.collect(Collectors.toList());

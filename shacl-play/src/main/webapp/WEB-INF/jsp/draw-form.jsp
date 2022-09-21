@@ -246,7 +246,7 @@
 							</thead>
 							<tbody>
 								<tr>
-									<th scope="row" width="30%"><code>foaf:depiction</code><br />+ <code>dcterms:title</code> <br />+ <code>dcterms:description</code></th>
+									<th scope="row" width="30%"><code>foaf:depiction</code><br />+ <code>dcterms:title</code> <br />+ <code>dcterms:description</code><br />+ <code>sh:order</code></th>
 									<td>IRI or blank node</td>
 									<td class="text-break">
 									<p>Indicates the IRI of a diagram in which the NodeShape will appear. This allows to split the visual representation
@@ -255,7 +255,8 @@
 									in the SHACL data, a single diagram will be generated with all the NodeShapes. If <code>foaf:depiction</code> is used at least once on a NodeShape,
 									then one diagram will be generated for each value of <code>foaf:depiction</code>, and each diagram will include only the NodeShapes that refer
 									to it.</p>
-									<p>Each diagram can be described with <code>dcterms:title</code> and <code>dcterms:description</code> to indicate its title and description.</p>
+									<p>Each diagram can be described with <code>dcterms:title</code> and <code>dcterms:description</code> to indicate its title and description. 
+									<code>sh:order</code> can be used with an xsd:integer value to control the order of the diagrams.</p>
 									<p>Depending on the output format option, you will get a ZIP file containing all PNGs or SVGs, or an HTML page containing all generated diagrams.</p>
 									</td>
 								</tr>

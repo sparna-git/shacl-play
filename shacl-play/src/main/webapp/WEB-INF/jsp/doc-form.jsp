@@ -350,7 +350,8 @@
 							  		<td>IRI</td>
 							  		<td>No</td>
 							  		<td class="text-break">If present, refer to the URL of a diagram giving a depiction of the application profile, that will 
-							  		be included in the "Diagrams" section of the generated documentation. This can be repeated to include more than one diagram.</td>
+							  		be included in the "Diagrams" section of the generated documentation. This can be repeated to include more than one diagram.
+							  		See the <a href="draw#documentation">diagram generation documentation</a> for more information.</td>
 							  	</tr>
 							</tbody>
 						</table>

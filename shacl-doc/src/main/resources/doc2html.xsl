@@ -309,6 +309,10 @@
 					.sp_table_propertyshapes_col_description {
 						word-break: break-word;
 					}
+					
+					.sp_serialization_badge {
+						margin-right: 0.5em;
+					}
 							
 					<xsl:choose>
 						<xsl:when test="$MODE = 'PDF'">
@@ -397,6 +401,7 @@
 						<xsl:apply-templates select="creators" />
 						<xsl:apply-templates select="publishers" />
 						<xsl:apply-templates select="rightsHolders" />
+						<xsl:apply-templates select="feedbacks" />
 						<!-- section for the formats -->
 						<xsl:if test="string-length(formats) &gt; 0">
 							<xsl:apply-templates select="formats" />
@@ -595,7 +600,7 @@
 	</xsl:template>
 	
 	<xsl:template match="format">
-		<span>
+		<span class="sp_serialization_badge">
 			<a href="{dcatURL}" target="_blank">
 				<!-- JSON -->
 				<xsl:if test="dctFormat = 'https://www.iana.org/assignments/media-types/application/ld+json'">
@@ -680,7 +685,7 @@
 	<!-- Description Title -->
 	<xsl:template match="descriptionDocument[text() != '']">
 		<div>
-			<h2 id="Description" class="sp_section_subtitle">
+			<h2 id="description" class="sp_section_subtitle">
 				<xsl:value-of select="$LABELS/labels/entry[@key='DESCRIPTION.TITLE']/@label" />
 			</h2>
 			<!--  disable output escaping so that HTML is preserved -->

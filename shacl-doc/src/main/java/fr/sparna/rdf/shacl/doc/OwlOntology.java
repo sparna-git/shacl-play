@@ -35,7 +35,7 @@ public class OwlOntology {
 	protected List<RDFNode> depiction = null;
 	protected List<DcatDistribution> owlFormat = new ArrayList<DcatDistribution>(); 
 	
-	protected List<RDFNode> feedback = null;
+	protected List<RDFNode> repository = null;
 	
 		
 	public OwlOntology(Resource rOntology, String lang) {
@@ -63,7 +63,7 @@ public class OwlOntology {
 		
 		this.owlFormat = readDcatDistibution(rOntology);
 		
-		this.feedback = ConstraintValueReader.readObjectAsResourceOrLiteralInLang(rOntology, DOAP.repository, lang);
+		this.repository = ConstraintValueReader.readObjectAsResourceOrLiteralInLang(rOntology, DOAP.repository, lang);
 		
 	}
 	
@@ -108,12 +108,12 @@ public class OwlOntology {
 	
 	
 	
-	public List<RDFNode> getFeedback() {
-		return feedback;
+	public List<RDFNode> getRepository() {
+		return repository;
 	}
 
-	public void setFeedback(List<RDFNode> feedback) {
-		this.feedback = feedback;
+	public void setRepository(List<RDFNode> feedback) {
+		this.repository = feedback;
 	}
 
 	public List<DcatDistribution> getOwlFormat() {

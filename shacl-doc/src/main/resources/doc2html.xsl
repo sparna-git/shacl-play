@@ -351,7 +351,18 @@
 							    margin-right: auto;
 							}
 							.container {width: calc(100% - 500px);}
-							.toc {position: fixed;top: 0;left: 0;font-size: small;padding: 10px 20px;width: auto;border-right: solid 2px #eeeeee;bottom: 0;overflow-y: overlay;background-color:white;}
+							.toc {
+								position: fixed;
+								top: 0;
+								left: 0;
+								font-size: small;
+								padding: 10px 20px;
+								width: auto;
+								border-right: solid 2px #eeeeee;
+								bottom: 0;
+								overflow-y: scroll;
+								background-color:white;
+							}
 							.sp_list_toc {padding-left: 0px;}							
 						</xsl:otherwise>
 					</xsl:choose>

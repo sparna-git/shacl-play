@@ -172,7 +172,11 @@ public class PlantUmlRenderer {
 	private String renderAsOr(PlantUmlProperty property, String boxName, String colorArrow, String NodeShapeId) {
 		// use property local name to garantee unicity of diamond
 		String nodeshapeId = NodeShapeId.contains(":")?NodeShapeId.split(":")[1]:NodeShapeId;
-		String sNameDiamond = "diamond_" + nodeshapeId+"_"+property.getPropertyShape().getLocalName().replace("-", "_");
+		String localName = property.getPropertyShape().getLocalName();
+		if (localName == null) {
+		    localName = property.getPropertyShape().getId().getLabelString();
+		}
+		String sNameDiamond = "diamond_" + nodeshapeId + "_" + localName.replace("-", "_");
 		// diamond declaration
 		String output = "<> " + sNameDiamond + "\n";
 

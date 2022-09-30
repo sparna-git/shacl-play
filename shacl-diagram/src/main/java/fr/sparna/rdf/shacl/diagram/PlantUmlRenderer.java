@@ -177,7 +177,6 @@ public class PlantUmlRenderer {
 		    localName = property.getPropertyShape().getId().getLabelString();
 		}
 		String sNameDiamond = "diamond_" + nodeshapeId + "_" + localName.replace("-", "_");
-		String sNameDiamond = "diamond_" + nodeshapeId+"_"+property.getPropertyShape().getLocalName().replace("-", "_");
 		// diamond declaration
 		String output = "<> " + sNameDiamond + "\n";
 

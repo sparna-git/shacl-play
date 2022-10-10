@@ -99,7 +99,11 @@ public class PlantUmlDiagramGenerator {
 				if(o2.getDiagramOrder() > 0) {
 					return 1;					
 				}else {
-					return o1.getDiagramTitle().compareTo(o2.getDiagramTitle());
+					if(o1.getDiagramTitle() != null) {
+						return o1.getDiagramTitle().compareTo(o2.getDiagramTitle());
+					}else {
+						return o1.getDiagramUri().compareTo(o2.getDiagramUri());
+					}
 				}
 			}
 		}).collect(Collectors.toList());

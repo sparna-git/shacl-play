@@ -14,6 +14,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
+import fr.sparna.rdf.shacl.doc.AdmsMetadata;
 import fr.sparna.rdf.shacl.doc.DcatDistribution;
 import fr.sparna.rdf.shacl.doc.OwlOntology;
 
@@ -65,7 +66,9 @@ public class ShapesDocumentation {
 	@JacksonXmlProperty(localName = "feedback")
 	protected List<Link> feedback;
 	
-	
+	@JacksonXmlElementWrapper(localName="admstatus")
+	@JacksonXmlProperty(localName = "admsstatus")
+	protected List<Link> admsstatus;
 	
 	public ShapesDocumentation(OwlOntology ontology, String lang) {
 		if(ontology != null) {
@@ -131,10 +134,26 @@ public class ShapesDocumentation {
 			});
 			
 			
+			Optional.ofNullable(ontology.getAdmsStatus()).ifPresent(list -> {
+				this.admsstatus = list.stream().map(new RDFNodeToLinkMapper(null))
+						.collect(Collectors.toList());
+			});
+			
 		}		
 	}
 	
 	
+	
+
+
+	public List<Link> getAdmsstatus() {
+		return admsstatus;
+	}
+
+	public void setAdmsstatus(List<Link> admsstatus) {
+		this.admsstatus = admsstatus;
+	}
+
 	public List<Link> getFeedback() {
 		return feedback;
 	}

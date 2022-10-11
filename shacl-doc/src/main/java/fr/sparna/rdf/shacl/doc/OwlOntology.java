@@ -37,6 +37,8 @@ public class OwlOntology {
 	
 	protected List<RDFNode> repository = null;
 	
+	protected List<RDFNode> admsStatus = null;
+	
 		
 	public OwlOntology(Resource rOntology, String lang) {
 		this.rdfsLabel = ConstraintValueReader.readLiteralInLangAsString(rOntology, RDFS.label, lang);
@@ -64,6 +66,9 @@ public class OwlOntology {
 		this.owlFormat = readDcatDistibution(rOntology);
 		
 		this.repository = ConstraintValueReader.readObjectAsResourceOrLiteralInLang(rOntology, DOAP.repository, lang);
+		
+		//Read Asset Description Metadata Schema (ADMS) Metadata
+		this.admsStatus = new AdmsMetadata(rOntology).getAdms_Status();
 		
 	}
 	
@@ -106,8 +111,14 @@ public class OwlOntology {
 	}
 	
 	
-	
-	
+	public List<RDFNode> getAdmsStatus() {
+		return admsStatus;
+	}
+
+	public void setAdmsStatus(List<RDFNode> admsStatus) {
+		this.admsStatus = admsStatus;
+	}
+
 	public List<RDFNode> getRepository() {
 		return repository;
 	}

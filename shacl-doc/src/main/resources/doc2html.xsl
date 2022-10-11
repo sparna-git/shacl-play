@@ -38,6 +38,7 @@
 			<entry key="METADATA.PUBLISHER" label="Editeur : " />
 			<entry key="METADATA.RIGHTHOLDER" label="Titulaire des droits : " />
 			<entry key="METADATA.FEEDBACK" label="Feedback : " />
+			<entry key="METADATA.STATUS" label="Statut : " />
 			
 			<entry key="METADATA.FORMATS" label="Télécharger les données : " />
 
@@ -83,7 +84,7 @@
 			<entry key="METADATA.PUBLISHER" label="Publisher: " />
 			<entry key="METADATA.RIGHTHOLDER" label="Rightsholder: " />
 			<entry key="METADATA.FEEDBACK" label="Feedback : " />
-			
+			<entry key="METADATA.STATUS" label="Status : " />
 			<entry key="METADATA.FORMATS" label="Download serialization: " />
 			
 			<entry key="DIAGRAM.TITLE" label="Diagrams" />
@@ -413,6 +414,7 @@
 						<xsl:apply-templates select="publishers" />
 						<xsl:apply-templates select="rightsHolders" />
 						<xsl:apply-templates select="feedbacks" />
+						<xsl:apply-templates select="admstatus" />
 						<!-- section for the formats -->
 						<xsl:if test="string-length(formats) &gt; 0">
 							<xsl:apply-templates select="formats" />
@@ -633,6 +635,18 @@
 		</span>
 	</xsl:template>
 	
+	<xsl:template match="admstatus">
+		<b>
+			<xsl:value-of
+				select="$LABELS/labels/entry[@key='METADATA.STATUS']/@label" />
+		</b>
+		<xsl:apply-templates />	
+		<br />
+	</xsl:template>
+	
+	<xsl:template match="admsstatus">
+		<a href="{href}" target="_blank"><xsl:value-of select="label" /></a>
+	</xsl:template>	
 	
 	<xsl:template match="abstract_">
 		<div class="row mt-3">

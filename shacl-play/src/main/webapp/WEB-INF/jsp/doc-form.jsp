@@ -318,10 +318,10 @@
 									<td class="text-break">Generates the title of the document</td>
 								</tr>
 								<tr>
-									<th scope="row"><code>rdfs:comment</code></th>
+									<th scope="row"><code>dcterms:abstract</code> (+ <code>rdfs:comment</code>)</th>
 									<td>xsd:string</td>
 									<td>No</td>
-									<td class="text-break">Generates an <b>Abstract</b> section in the documentation, if present.</td>
+									<td class="text-break">Generates an <b>Abstract</b> section in the documentation, if present. If dcterms:abstract values is null, use rdfs:comment</td>
 							  	</tr>
 							  	<tr>
 							  		<th scope="row"><code>dcterms:description</code></th>
@@ -419,14 +419,6 @@
 							  		<td>No</td>
 							  		<td class="text-break">Shown in the header of the generated documentation. 
 							  		If the value is an IRI, and if it has an rdfs:label, use this as the label of the link; otherwise the URI will be shown.</td>
-							  	</tr>
-							  	<tr>
-							  		<th scope="row"><code>dcterms:abstract</code> (+ <code>rdfs:comment</code>)</th>
-							  		<td>xsd:string</td>
-							  		<td>No</td>
-							  		<td class="text-break">Shown in the header of the generated documentation.
-							  		if the dcterms:abstract values is null, use rdfs:comment
-							  		</td>
 							  	</tr>
 							  	<tr>
 							  		<th scope="row"><code>owl:versionInfo</code></th>

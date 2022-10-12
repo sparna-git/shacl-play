@@ -1,8 +1,5 @@
 package fr.sparna.rdf.shacl.diagram;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -12,12 +9,11 @@ import org.apache.jena.rdf.model.RDFList;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.vocabulary.RDF;
-import org.apache.jena.vocabulary.XSD;
 import org.topbraid.shacl.vocabulary.SH;
 
 public class ConstraintValueReader { 
 
-	public String readValueconstraint(Resource constraint,Property property) {
+	public String readValueconstraint(Resource constraint, Property property) {
 		
 		String value=null;
 		try {
@@ -138,17 +134,10 @@ public class ConstraintValueReader {
 			}
 		} else if(r.canAs( RDFList.class )) {
 			RDFList rdfList = r.as( RDFList.class );
-			List<RDFNode> pathElements = rdfList.asJavaList();
-			
-			/*return pathElements.stream().map(p -> {
+			List<RDFNode> pathElements = rdfList.asJavaList();			
+			return pathElements.stream().map(p -> {
 				return renderShaclPropertyPath((Resource)p);
-				}).collect(Collectors.joining("/"));
-			*/
-			return pathElements.stream().map(p ->{
-				return p.asResource().listProperties().nextStatement().getObject().asResource().getModel().shortForm(p.asResource().listProperties().nextStatement().getObject().asResource().getURI()); //.getLocalName();
-			}).collect(Collectors.joining(","));
-			
-			     
+			}).collect(Collectors.joining("/"));    
 		} else if(r.hasProperty(SH.zeroOrMorePath)) {
 			Resource value = r.getPropertyResourceValue(SH.zeroOrMorePath);
 			if(value.isURIResource()) {

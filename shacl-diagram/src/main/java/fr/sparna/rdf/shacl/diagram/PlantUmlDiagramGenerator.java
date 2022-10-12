@@ -3,6 +3,7 @@ package fr.sparna.rdf.shacl.diagram;
 	
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Model;
@@ -90,16 +91,17 @@ public class PlantUmlDiagramGenerator {
 		
 		List<PlantUmlDiagramOutput> codePlantUml = diagrams.stream().map(d -> new PlantUmlDiagramOutput(d, renderer)).sorted((o1,o2) -> {
 			if(o1.getDiagramOrder() > 0) {
-				if(o2.getDiagramOrder() != null) {
-					return o1.getDiagramOrder().compareTo(o2.getDiagramOrder());					
+				if(o2.getDiagramOrder() > 0) {
+					return o1.getDiagramOrder() - o2.getDiagramOrder();					
 				}else {
 					return -1;
 				}
 			} else {
 				if(o2.getDiagramOrder() > 0) {
 					return 1;					
-				}else {
-					return o1.getDiagramTitle().compareTo(o2.getDiagramTitle());
+				} else {
+					// no order, try with title or URI
+					return Optional.ofNullable(o1.getDiagramTitle()).orElse(o1.getDiagramUri()).compareTo(Optional.ofNullable(o2.getDiagramTitle()).orElse(o2.getDiagramUri()));
 				}
 			}
 		}).collect(Collectors.toList());

@@ -6,7 +6,7 @@ public class PlantUmlDiagramOutput {
 	private String diagramUri;
 	private String diagramTitle;
 	private String diagramDescription;
-	private Integer diagramOrder;
+	private int diagramOrder;
 	
 	public PlantUmlDiagramOutput(PlantUmlDiagram d, PlantUmlRenderer renderer) {
 		super();
@@ -77,11 +77,11 @@ public class PlantUmlDiagramOutput {
 		return plantUmlString;
 	}
 
-	public Integer getDiagramOrder() {
+	public int getDiagramOrder() {
 		return diagramOrder;
 	}
 
-	public void setDiagramOrder(Integer diagramOrder) {
+	public void setDiagramOrder(int diagramOrder) {
 		this.diagramOrder = diagramOrder;
 	}
 	

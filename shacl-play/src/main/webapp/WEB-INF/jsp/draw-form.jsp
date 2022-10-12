@@ -214,7 +214,7 @@
 					<p>This diagram generation utility displays an <em>application profile specified in SHACL</em> in the form of one or more diagrams.
 					 It supports a subset of SHACL constraints.<p/>
 					<p>
-					   The diagrams generated can be embeded in the <a href="doc">documentation generation utility</a>.
+					   The diagrams generated can be embedded in the <a href="doc">documentation generation utility</a>.
 					</p>
 					
 					<div style="margin-top:2em;">
@@ -224,6 +224,7 @@
 							<li>An <code>sh:node</code> reference to another NodeShape</li>
 							<li>An <code>sh:class</code> reference that is the <code>sh:targetClass</code> of another NodeShape</li>
 							<li>An <code>sh:class</code> reference that is not the <code>sh:targetClass</code> of another NodeShape (in that case a box will be generated corresponding to the sh:class)</li>
+							<li>An <code>sh:or</code> containing sh:node or sh:class resolved using the same algorithm as above</li>
 						</ul>	
 					</div>
 					

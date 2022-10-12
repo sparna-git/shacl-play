@@ -87,21 +87,36 @@ public class PlantUmlPropertyReader {
 	}
 	
 	public List<PlantUmlBox> readShOrConstraint (Resource constraint) {
+		List<PlantUmlBox> orBoxes = new ArrayList<>();
 		// 1. Lire la valeur de sh:or
-		String OrValue = constraintValueReader.readValueconstraint(constraint, SH.or);
-		// 2. Trouver le PlantUmlBox qui a ce nom
-		List<PlantUmlBox> theBox = new ArrayList<>();
-		if (OrValue != null) {	
-			for(String sValueOr : OrValue.split(",")) {				
-				for (PlantUmlBox plantUmlBox : allBoxes) {
-					if(plantUmlBox.getLabel().equals(sValueOr)) {
-						theBox.add(plantUmlBox);
-						break;
+		if (constraint.hasProperty(SH.or)) {
+			Resource theOr = constraint.getProperty(SH.or).getResource();
+			// now read all sh:node or sh:class inside
+			List<RDFNode> rdfList = theOr.as( RDFList.class ).asJavaList();
+			for (RDFNode node : rdfList) {
+				if(node.canAs(Resource.class)) {
+					Resource value = null;
+					if (node.asResource().hasProperty(SH.node)) {
+						value = node.asResource().getProperty(SH.node).getResource();
+					} else if (node.asResource().hasProperty(SH.class_)) {
+						value = node.asResource().getProperty(SH.class_).getResource();
+					}
+					
+					if(value != null) {
+						String shortForm = value.getModel().shortForm(value.getURI());
+						// 2. Trouver le PlantUmlBox qui a ce nom		
+						for (PlantUmlBox plantUmlBox : allBoxes) {
+							if(plantUmlBox.getLabel().equals(shortForm)) {
+								orBoxes.add(plantUmlBox);
+								break;
+							}
+						}
 					}
 				}				
-			}			
+			}
 		}
-		return theBox;
+		
+		return orBoxes;
 	}
 	
 	public String readShPath(Resource constraint) {		

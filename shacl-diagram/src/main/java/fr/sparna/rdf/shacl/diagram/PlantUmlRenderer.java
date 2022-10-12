@@ -349,7 +349,7 @@ public class PlantUmlRenderer {
 		
 		String color = "";
 		if(box.getColorClass() != null) {
-			color = "#line:"+box.getColorClass()+";";
+			color = "#back:"+box.getColorClass()+";";
 		}else {
 			color = "";
 		}

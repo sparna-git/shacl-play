@@ -322,9 +322,6 @@
 							    margin-block-end: 0.83em;
 							    margin-inline-start: 0px;
 							    margin-inline-end: 0px;    
-							}
-									
-							.sp_section_title_toc {
 								margin-bottom: 0.5rem;
 								display: block;
 								font-weight: 500;
@@ -333,10 +330,10 @@
 							}
 							
 							.sp_container_principal {
-										width: calc(100% - 40px);
-										max-width: 1000px;
-										margin-left: auto;
-										margin-right: auto;
+								width: calc(100% - 40px);
+								max-width: 1000px;
+								margin-left: auto;
+								margin-right: auto;
 							}
 							
 							.pt-4 {
@@ -362,6 +359,7 @@
 								bottom: 0;
 								overflow-y: scroll;
 								background-color:white;
+								max-width:275px;
 							}
 							.sp_list_toc {padding-left: 0px;}							
 						</xsl:otherwise>

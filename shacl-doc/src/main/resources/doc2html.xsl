@@ -485,8 +485,7 @@
 					</li>
 				</xsl:if>
 				<!-- Section -->
-				<xsl:for-each select="sections/section">
-					<xsl:sort select="title"/>				
+				<xsl:for-each select="sections/section">			
 					<li>
 						<a href="{concat('#',uri)}">
 						<xsl:value-of select="title" />
@@ -751,7 +750,6 @@
 	<!-- Sections -->
 	<xsl:template match="sections">
 		<xsl:for-each select="section">
-			<xsl:sort select="title"/>
 			<xsl:apply-templates select="." />
 		</xsl:for-each>
 	</xsl:template>

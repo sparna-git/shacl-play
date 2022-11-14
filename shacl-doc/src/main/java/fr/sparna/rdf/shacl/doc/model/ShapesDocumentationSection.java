@@ -97,15 +97,6 @@ public class ShapesDocumentationSection {
 	}
 
 	public void setNodeKind(String nodeKind) {
-		String value =null;
-		if(nodeKind != null) {
-			if(nodeKind.contains(":")) {
-				value = nodeKind.split(":")[1];
-			}else {
-				value = nodeKind;
-			}
-			
-		}
 		this.nodeKind = nodeKind;
 	}
 

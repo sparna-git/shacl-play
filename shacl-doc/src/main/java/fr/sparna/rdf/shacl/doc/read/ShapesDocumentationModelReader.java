@@ -49,8 +49,7 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 		ArrayList<NodeShape> allNodeShapes = new ArrayList<>();
 		NodeShapeReader reader = new NodeShapeReader(lang);
 		for (Resource nodeShape : nodeShapes) {
-			NodeShape dbShacl = reader.read(nodeShape);
-			allNodeShapes.add(dbShacl);
+			allNodeShapes.add(reader.read(nodeShape));
 		}
 
 		// sort node shapes

@@ -26,7 +26,11 @@ public class ShapesDocumentationSectionBuilder {
 		ShapesDocumentationSection currentSection = new ShapesDocumentationSection();
 		
 		// URI
-		currentSection.setUri(nodeShape.getShortForm());
+		currentSection.setSectionId(nodeShape.getShortForm());
+		// if the node shape is itself a class, set its subtitle to the URI
+		if(nodeShape.isAClass()) {
+			currentSection.setSubtitleUri(nodeShape.getNodeShape().getURI());
+		}
 		
 		// title : either rdfs:label or the URI short form
 		currentSection.setTitle((nodeShape.getRdfsLabel() != null && !nodeShape.getRdfsLabel().isEmpty()) ? nodeShape.getRdfsLabel() : nodeShape.getShortForm());
@@ -36,8 +40,18 @@ public class ShapesDocumentationSectionBuilder {
 		
 		// sh:targetClass
 		if(nodeShape.getShTargetClass() != null) {
-			currentSection.setTargetClassLabel(nodeShape.getShTargetClass().getModel().shortForm(nodeShape.getShTargetClass().getURI()));
-			currentSection.setTargetClassUri(nodeShape.getShTargetClass().getURI());
+			currentSection.setTargetClass(
+				new Link(
+						nodeShape.getShTargetClass().getURI(),
+						// label of link is the short form of the class URI
+						nodeShape.getShTargetClass().getModel().shortForm(nodeShape.getShTargetClass().getURI())
+				)				
+			);
+		}
+		
+		// sparql target
+		if(nodeShape.getShTargetShSelect() != null) {
+			currentSection.setSparqlTarget(nodeShape.getShTargetShSelect().getString());
 		}
 		
 		// sh:pattern

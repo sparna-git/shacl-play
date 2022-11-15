@@ -10,15 +10,30 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 @JsonInclude(Include.NON_NULL)
 public class ShapesDocumentationSection {
 
+	
+	/**
+	 * The section ID, set to the URI short form
+	 */
+	private String sectionId;
 	private String title;
-	private String uri;
+	/**
+	 * The subtitle to display, set to the full URI. Can be null
+	 */
+	private String subtitleUri;	
 	private String description;
-	private String targetClassLabel;
-	private String targetClassUri;
+	
+	private Link targetClass;
+	
+	// private String targetClassLabel;
+	// private String targetClassUri;
 	private String pattern;
 	private String nodeKind;
 	private Boolean closed;
 	private String skosExample;
+	/**
+	 * The target of the shape when it is expressed using a SPARQL query
+	 */
+	private String sparqlTarget;
 	
 	@JacksonXmlElementWrapper(localName="superClasses")
 	@JacksonXmlProperty(localName = "link")
@@ -52,12 +67,12 @@ public class ShapesDocumentationSection {
 		this.title = title;
 	}
 	
-	public String getUri() {
-		return uri;
+	public String getSubtitleUri() {
+		return subtitleUri;
 	}
 
-	public void setUri(String uri) {
-		this.uri = uri;
+	public void setSubtitleUri(String subtitleUri) {
+		this.subtitleUri = subtitleUri;
 	}
 	
 	public String getDescription() {
@@ -68,22 +83,22 @@ public class ShapesDocumentationSection {
 		this.description = description;
 	}
 	
-	public String getTargetClassLabel() {
-		return targetClassLabel;
+	public Link getTargetClass() {
+		return targetClass;
 	}
 
-	public void setTargetClassLabel(String targetClassLabel) {
-		this.targetClassLabel = targetClassLabel;
-	}
-	
-	public String getTargetClassUri() {
-		return targetClassUri;
+	public void setTargetClass(Link targetClass) {
+		this.targetClass = targetClass;
 	}
 
-	public void setTargetClassUri(String targetClassUri) {
-		this.targetClassUri = targetClassUri;
+	public String getSparqlTarget() {
+		return sparqlTarget;
 	}
-	
+
+	public void setSparqlTarget(String sparqlTarget) {
+		this.sparqlTarget = sparqlTarget;
+	}
+
 	public String getPattern() {
 		return pattern;
 	}
@@ -113,5 +128,14 @@ public class ShapesDocumentationSection {
 	}
 	public void setPropertySections(List<PropertyShapeDocumentation> propertySections) {
 		this.propertySections = propertySections;
-	}	
+	}
+
+	public String getSectionId() {
+		return sectionId;
+	}
+
+	public void setSectionId(String sectionId) {
+		this.sectionId = sectionId;
+	}
+
 }

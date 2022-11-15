@@ -21,6 +21,9 @@ public class NodeShape {
 	protected Boolean shClosed;
 	protected RDFNode skosExample;
 	protected List<Resource> rdfsSubClassOf;
+	protected boolean isAClass = false;
+	// SPARQL query expressing the target of the shape
+	protected Literal shTargetShSelect;
 	
 	protected List<PropertyShape> properties = new ArrayList<>();
 	
@@ -125,5 +128,23 @@ public class NodeShape {
 	public void setRdfsSubClassOf(List<Resource> rdfsSubClassOf) {
 		this.rdfsSubClassOf = rdfsSubClassOf;
 	}
+
+	public boolean isAClass() {
+		return isAClass;
+	}
+
+	public void setAClass(boolean isAClass) {
+		this.isAClass = isAClass;
+	}
+
+	public Literal getShTargetShSelect() {
+		return shTargetShSelect;
+	}
+
+	public void setShTargetShSelect(Literal shTargetShSelect) {
+		this.shTargetShSelect = shTargetShSelect;
+	}
+	
+	
 	
 }

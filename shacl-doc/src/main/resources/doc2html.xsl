@@ -49,9 +49,9 @@
 
 			<entry key="DESCRIPTION.TITLE" label="Description"/>
 
-			<entry key="LABEL_TARGETCLASS" label="Classe cible : " />
+			<entry key="LABEL_TARGETCLASS" label="S'applique à : " />
 			<entry key="LABEL_NODEKIND" label="Type de noeud : " />
-			<entry key="LABEL_PATTERNS" label="URIs : " />
+			<entry key="LABEL_PATTERNS" label="Structure des URIs: " />
 			<entry key="LABEL_CLOSE" label="Shape fermée" />
 			<entry key="LABEL_EXAMPLE" label="Exemple : "/>
 			<entry key="LABEL_SUPERCLASSES" label="Hérite de : "/>
@@ -93,9 +93,9 @@
 			
 			<entry key="DESCRIPTION.TITLE" label="Description"/>
 
-			<entry key="LABEL_TARGETCLASS" label="Target Class: " />
+			<entry key="LABEL_TARGETCLASS" label="Applies to: " />
 			<entry key="LABEL_NODEKIND" label="Nodes: " />
-			<entry key="LABEL_PATTERNS" label="URI: " />
+			<entry key="LABEL_PATTERNS" label="URI pattern: " />
 			<entry key="LABEL_CLOSE" label="Closed shape" />
 			<entry key="LABEL_EXAMPLE" label="Example: "/>
 			<entry key="LABEL_SUPERCLASSES" label="Inherits from: "/>
@@ -158,7 +158,9 @@
 						font-size: 0.875em;
 					}
 					
-					h2 {margin: 25px 0px 10px 0px;}
+					h2 {
+						margin: 25px 0px 10px 0px;
+					}
 					
 					@media only print {
 					}
@@ -188,14 +190,9 @@
 						list-style-type: none;
 					}
 					
-					.sp_list_description_properties ul {
-						display: block;
-						list-style-type: disc;
-						margin-block-start: 1em;
-						margin-block-end: 1em;
-						margin-inline-start: 0px;
-						margin-inline-end: 0px;
-						padding-inline-start: 40px;
+					.sp_list_description_properties {
+						/* don't set it lower otherwise it gets hidden in PDF */
+						padding-left: 20px;
 					}
 					
 					dl, ol, ul {
@@ -207,50 +204,53 @@
 						display: list-item;
 						text-align: -webkit-match-parent;
 					}
-							
-					.sp_ul {
-						list-style-type: disc;
-					}
 					
 					.sp_section_title_header {
-						margin-top: 0;
-						margin-bottom: 2.5rem !important;
-						margin-block-start: 0.67em;
-					    margin-block-end: 0.67em;
-					    margin-inline-start: 0px;
-					    margin-inline-end: 0px;    
-					}
-					
-					.sp_section_title_header {
+						font-family: Georgia, Garamond, serif;	
+						margin-top: 25px;
+						margin-bottom: 2.5rem;
 					    font-size: 1.5625rem;
+						display: block;
+						font-weight: 500;
+						color: #1e1e1f;
+						line-height: 1.2em;   
 					}
-					
 					
 					.sp_section_subtitle {
+						font-family: Georgia, Garamond, serif;	
 						margin-top: 0;
-					}
-					
-					.sp_section_subtitle ,.sp_section_title_table {
-						margin-block-start: 0.83em;
-					    margin-block-end: 0.83em;
-					    margin-inline-start: 0px;
-					    margin-inline-end: 0px;    
-					}
-							
-					.sp_section_title_header, .sp_section_subtitle, .sp_section_title_table {
 						margin-bottom: 0.5rem;
 						display: block;
 						font-weight: 500;
 						color: #1e1e1f;
-						line-height: 1.2em;
+						line-height: 1.2em;  
 					}
 					
-					.sp_section_title_header, 
-						.sp_section_title_toc, 
-						.sp_section_title_table, 
-						.sp_section_subtitle {
+					.sp_section_title_table {
 						font-family: Georgia, Garamond, serif;	
-					}	
+						/* 0 because URI is right under */
+						margin-bottom: 0rem;
+						display: block;
+						font-weight: 500;
+						color: #1e1e1f;
+						line-height: 1.2em; 
+					}
+							
+
+					.sp_section_title_toc {
+						font-family: Georgia, Garamond, serif;	
+					}
+
+					/* URI below the title of the section */
+					.sp_section_uri	 {
+						margin-top: 0px;
+					}
+
+					/* div wrapping section title and URI below - same as a paragraph margin */
+					.sp_section_title_table_wrapper {
+						margin-bottom: 16px;
+					}
+					
 					 
 					table {
 						display: table;
@@ -485,7 +485,7 @@
 				<!-- Section -->
 				<xsl:for-each select="sections/section">			
 					<li>
-						<a href="{concat('#',uri)}">
+						<a href="{concat('#',sectionId)}">
 						<xsl:value-of select="title" />
 						</a>
 					</li>
@@ -707,7 +707,7 @@
 		<div class="row mt-3">
 			<div class="col">
 				<section id="prefixes">
-					<h2 class="sp_section_title_table">
+					<h2 class="sp_section_subtitle">
 						<xsl:value-of
 							select="$LABELS/labels/entry[@key='PREFIXES.TITLE']/@label" />
 					</h2>
@@ -753,13 +753,17 @@
 	</xsl:template>
 	
 	<xsl:template match="section">
-		<xsl:variable name="TitleNodeSape" select="uri" />
 		<div class="row mt-3">
 			<div class="col">
-				<section id="{$TitleNodeSape}">
-					<h2 class="sp_section_title_table">
-						<xsl:value-of select="title" />
-					</h2>
+				<section id="{sectionId}">
+					<div class="sp_section_title_table_wrapper">
+						<h2 class="sp_section_title_table">
+							<xsl:value-of select="title" />
+						</h2>
+						<xsl:if test="subtitleUri">
+							<code class="sp_section_uri"><xsl:value-of select="subtitleUri" /></code>
+						</xsl:if>
+					</div>
 					<xsl:if test="description != ''">
 						<p>
 							<!--  disable output escaping so that HTML is preserved -->
@@ -767,14 +771,14 @@
 						</p>
 					</xsl:if>
 					<xsl:if
-						test="targetClassLabel != '' or superClasses/link or nodeKind != '' or pattern != '' or closed='true' or skosExample != ''">
-						<ul class="sp_list_description_properties sp_ul">
-							<xsl:if test="targetClassLabel != ''">
+						test="targetClass/href or superClasses/link or nodeKind != '' or pattern != '' or closed='true' or skosExample != ''">
+						<ul class="sp_list_description_properties">
+							<xsl:if test="targetClass/href">
 								<li>
 									<xsl:value-of
 										select="$LABELS/labels/entry[@key='LABEL_TARGETCLASS']/@label" />
-									<a href="{targetClassUri}">
-										<xsl:value-of select="targetClassLabel" />
+									<a href="{targetClass/href}">
+										<xsl:value-of select="targetClass/label" />
 									</a>
 								</li>
 							</xsl:if>
@@ -794,12 +798,6 @@
 									</xsl:for-each>
 								</li>
 							</xsl:if>
-							<xsl:if test="closed='true'">
-								<li>
-									<xsl:value-of
-										select="$LABELS/labels/entry[@key='LABEL_CLOSE']/@label" />
-								</li>
-							</xsl:if>
 							<xsl:if test="nodeKind != ''">
 								<li>
 									<xsl:value-of
@@ -807,22 +805,33 @@
 									<xsl:value-of select="nodeKind" />
 								</li>
 							</xsl:if>
-		
+							<xsl:if test="closed='true'">
+								<li>
+									<xsl:value-of
+										select="$LABELS/labels/entry[@key='LABEL_CLOSE']/@label" />
+								</li>
+							</xsl:if>
 							<xsl:if test="pattern != ''">
 								<li>
 									<xsl:value-of
 										select="$LABELS/labels/entry[@key='LABEL_PATTERNS']/@label" />
-									<xsl:value-of select="pattern" />							
+									<code><xsl:value-of select="pattern" /></code>							
 								</li>
 							</xsl:if>
 							<!-- Example -->
 							<xsl:if test="skosExample != ''">
 								<li>
 									<xsl:value-of select="$LABELS/labels/entry[@key='LABEL_EXAMPLE']/@label"/>
-									<xsl:value-of select="skosExample"/>										
+									<code><xsl:value-of select="skosExample"/></code>
 								</li>
 							</xsl:if>
 						</ul>
+					</xsl:if>
+					<xsl:if test="sparqlTarget">
+					<xsl:value-of select="$LABELS/labels/entry[@key='LABEL_TARGETCLASS']/@label" /><br/>
+					<code><pre>
+<xsl:value-of select="sparqlTarget" />					
+					</pre></code>
 					</xsl:if>
 					<xsl:if test="count(properties/property)>0">
 						<table class="sp_table_propertyshapes table-striped table-responsive">

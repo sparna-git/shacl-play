@@ -10,6 +10,7 @@ import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.vocabulary.OWL;
+import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.RDFS;
 import org.apache.jena.vocabulary.SKOS;
 import org.topbraid.shacl.vocabulary.SH;
@@ -33,8 +34,10 @@ public class NodeShapeReader {
 		ns.setShPattern(this.readShPattern(nodeShape));
 		ns.setShNodeKind(this.readSNodeKind(nodeShape));
 		ns.setShClosed(this.readShClosed(nodeShape));
+		ns.setAClass(this.readIsAClass(nodeShape));
 		ns.setShOrder(this.readShOrder(nodeShape));
 		ns.setSkosExample(this.readSkosExample(nodeShape));
+		ns.setShTargetShSelect(this.readShTargetShSelect(nodeShape));
 		
 		ns.setRdfsSubClassOf(this.readRdfsSubClassOf(nodeShape));
 		
@@ -42,6 +45,16 @@ public class NodeShapeReader {
 	}
 	
 	
+	private Literal readShTargetShSelect(Resource nodeShape) {
+		return Optional.ofNullable(nodeShape.getPropertyResourceValue(SH.target)).map(
+				r -> Optional.ofNullable(r.getProperty(SH.select)).map(l -> l.getLiteral()).orElse(null)
+		).orElse(null);
+	}
+
+	private boolean readIsAClass(Resource nodeShape) {
+		return nodeShape.hasProperty(RDF.type, RDFS.Class);
+	}
+
 	public RDFNode readSkosExample(Resource nodeShape) {
 		return Optional.ofNullable(nodeShape.getProperty(SKOS.example)).map(s -> s.getObject()).orElse(null);
 	}

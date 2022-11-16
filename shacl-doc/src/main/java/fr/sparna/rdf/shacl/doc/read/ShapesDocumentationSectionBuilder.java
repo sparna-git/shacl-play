@@ -43,7 +43,7 @@ public class ShapesDocumentationSectionBuilder {
 			currentSection.setTargetClass(
 				new Link(
 						nodeShape.getShTargetClass().getURI(),
-						// label of link is the short form of the class URI
+						// label of link is the label if known, otherwise it is the short form
 						nodeShape.getShTargetClass().getModel().shortForm(nodeShape.getShTargetClass().getURI())
 				)				
 			);
@@ -73,10 +73,11 @@ public class ShapesDocumentationSectionBuilder {
 				.filter(r -> allNodeShapes.stream().anyMatch(ns -> ns.getNodeShape().toString().equals(r.toString())))
 				.map(r -> {
 					// use the label if present, otherwise use the short form
-					if(r.hasProperty(RDFS.label, lang)) {
+					String label = ConstraintValueReader.readLiteralInLangAsString(r, RDFS.label, lang);
+					if(label != null) {
 						return new Link(
 								"#"+r.getModel().shortForm(r.getURI()),
-								ConstraintValueReader.readLiteralInLangAsString(r, RDFS.label, lang)
+								label
 						);
 					} else {
 						return new Link(

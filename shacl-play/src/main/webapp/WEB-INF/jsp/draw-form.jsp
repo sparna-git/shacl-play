@@ -272,7 +272,7 @@
 								<tr>
 									<th scope="row" width="30%"><code>https://shacl-play.sparna.fr/ontology#color</code></th>
 									<td>xsd:string</td>
-									<td class="text-break">Color of the line around the box. Values can be a color name, like <code>"Green"</code>
+									<td class="text-break">Color of the box. Values can be a color name, like <code>"Green"</code>
 									or an hex code, like <code>"4456BB"</code>
 									</td>
 								</tr>

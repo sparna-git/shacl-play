@@ -483,8 +483,14 @@
 									<th scope="row" width="30%"><code>rdfs:label</code></th>
 									<td>xsd:string</td>
 									<td>Yes</td>
-									<td class="text-break">Label of the NodeShape used as the label of the section in the documentation.</td>
+									<td class="text-break">Label of the NodeShape used as the title of the section in the documentation.</td>
 								</tr>
+								<tr>
+									<th scope="row"><code>rdf:type rdfs:Class</code></th>
+									<td>sh:IRI</td>
+									<td>No</td>
+									<td class="text-break">If the NodeShape is also an instance of <code>rdfs:Class</code>, then its URI will be displayed under the section title.</td>
+							  	</tr>
 								<tr>
 									<th scope="row" width="30%"><code>rdfs:comment</code></th>
 									<td>xsd:string</td>
@@ -495,7 +501,13 @@
 									<th scope="row"><code>sh:targetClass</code></th>
 									<td>sh:IRI</td>
 									<td>No</td>
-									<td class="text-break">Declare all nodes that are instances of some class.</td>
+									<td class="text-break">The class to which the NodeShape applies.</td>
+							  	</tr>
+							  	<tr>
+									<th scope="row"><code>sh:target/sh:select</code></th>
+									<td>sh:Literal</td>
+									<td>No</td>
+									<td class="text-break">If the target of the Shape is provided as a SPARQL query, it will be included in the section header.</td>
 							  	</tr>
 							  	<tr>
 									<th scope="row"><code>sh:closed</code></th>

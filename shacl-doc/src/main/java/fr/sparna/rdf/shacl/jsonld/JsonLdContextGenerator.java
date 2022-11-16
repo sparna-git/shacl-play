@@ -63,10 +63,11 @@ public class JsonLdContextGenerator {
 		List<Resource> propertyShapes = JsonLdContextGenerator.findAllPropertyShapes(model);
 		
 		// find each paths in property shapes
-		List<Resource> paths = propertyShapes.stream().map(r -> r.getRequiredProperty(SH.path).getResource())
+		List<Resource> paths = new ArrayList<>(propertyShapes.stream().map(r -> r.getRequiredProperty(SH.path).getResource())
 				// exclude blank nodes / property paths
 				.filter(r -> r.isURIResource())
-				.collect(Collectors.toList());
+				.collect(Collectors.toSet())
+		);
 		// sort the list
 		paths.sort((p1,p2) -> p1.getLocalName().compareToIgnoreCase(p2.getLocalName()));
 		

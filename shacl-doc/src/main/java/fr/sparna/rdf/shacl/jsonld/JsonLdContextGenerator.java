@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Property;
@@ -19,6 +20,8 @@ import org.slf4j.LoggerFactory;
 import org.topbraid.shacl.vocabulary.SH;
 
 public class JsonLdContextGenerator {
+
+	private static final String SHORTNAME = "https://shacl-play.sparna.fr/ontology#shortname";
 
 	private Logger log = LoggerFactory.getLogger(this.getClass().getName());
 	
@@ -73,6 +76,16 @@ public class JsonLdContextGenerator {
 		
 		// ### map each paths...
 		for(Resource path : paths) {
+			// ### determine the term : the shacl-play:shortname annotation, or the localName by default
+			Set<String> shortnames = findShortNamesOfPath(path, model);
+			if(shortnames.isEmpty()) {
+				shortnames.add(path.getLocalName());
+			} 
+			String term = shortnames.iterator().next();
+			if(shortnames.size() > 1) {
+				log.warn("Found multiple shortnames for path "+path+", will use only one : '"+term+"'");
+			}
+			
 			// ### determine the @type
 			// if there is a sh:datatype, set type as the datatype
 			String type = null;
@@ -96,7 +109,8 @@ public class JsonLdContextGenerator {
 				type = "@id";
 			}
 			
-			context.add(new JsonLdMapping(path.getLocalName(),path.getModel().shortForm(path.getURI()), type));
+			
+			context.add(new JsonLdMapping(term,path.getModel().shortForm(path.getURI()), type));
 			
 			// ### map @language
 			// if the datatype is rdf:langString, then...
@@ -164,9 +178,23 @@ public class JsonLdContextGenerator {
 		}
 		return nodeKinds;		
 	}
+
+	private static Set<String> findShortNamesOfPath(Resource path, Model model) {
+		List<Resource> propertyShapesWithPath = findPropertyShapesWithPath(path, model);
+		Set<String> shortnames = new HashSet<>();
+		for (Resource resource : propertyShapesWithPath) {
+			// read shortname constraint
+			shortnames.addAll(JsonLdContextGenerator.readDatatypeProperty(resource, model.createProperty(SHORTNAME)).stream().map(l -> l.getString()).collect(Collectors.toSet()));
+		}
+		return shortnames;		
+	}
 	
 	private static List<Resource> readObjectProperty(Resource r, Property p) {
 		return r.listProperties(p).toList().stream().map(s -> s.getObject()).filter(n -> n.isResource()).map(n -> n.asResource()).collect(Collectors.toList());
+	}
+
+	private static List<Literal> readDatatypeProperty(Resource r, Property p) {
+		return r.listProperties(p).toList().stream().map(s -> s.getObject()).filter(n -> n.isLiteral()).map(n -> n.asLiteral()).collect(Collectors.toList());
 	}
 	
 	public static void main(String... args) throws Exception {

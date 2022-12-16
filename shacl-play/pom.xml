@@ -19,7 +19,7 @@
        
 
         <!-- library versions -->
-        <spring.version>4.3.5.RELEASE</spring.version>
+        <spring.version>5.2.20.RELEASE</spring.version>
 		<jackson.version>2.9.8</jackson.version>
     </properties>
 

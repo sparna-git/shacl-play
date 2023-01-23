@@ -26,6 +26,7 @@ import org.owasp.encoder.Encode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResourceLoader;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -63,6 +64,8 @@ public class ConvertController {
 	public ModelAndView validate(
 			@RequestParam(value="url", required=true) String url,
 			@RequestParam(value="shapes", required=true) String shapesCatalogId,
+			// Output format
+			@RequestParam(value="format", required=false, defaultValue = "Turtle") String format,
 			HttpServletRequest request,
 			HttpServletResponse response
 	){
@@ -91,7 +94,7 @@ public class ConvertController {
 			String dateString = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 			String outputName = dataName+"-"+shapesCatalogId+"-"+dateString;
 			
-			return doConvert(shapesModel, dataModel, permalink, outputName, response);
+			return doConvert(shapesModel, dataModel, permalink, outputName, format,response);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return handleConvertFormError(request, e.getClass().getName() +" : "+e.getMessage(), e);
@@ -160,6 +163,8 @@ public class ConvertController {
 			@RequestParam(value="inputShapeFile", required=false) List<MultipartFile> shapesFiles,
 			// inline Shapes if shapeSource=sourceShape-inputShapeInline
 			@RequestParam(value="inputShapeInline", required=false) String shapesText,
+			// Output format
+			@RequestParam(value="format", required=false, defaultValue = "Turtle") String format,
 			HttpServletRequest request,
 			HttpServletResponse response
 	) {
@@ -218,7 +223,7 @@ public class ConvertController {
 			String dateString = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 			String outputName = dataName+"-"+shapeName+"-"+dateString;
 			
-			return doConvert(shapesModel, dataModel, permalink, outputName, response);
+			return doConvert(shapesModel, dataModel, permalink, outputName, format,response);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return handleConvertFormError(request, e.getClass().getName() +" : "+e.getMessage(), e);
@@ -230,6 +235,7 @@ public class ConvertController {
 			Model dataModel,
 			String permalink,
 			String filename,
+			String FileFmt,
 			HttpServletResponse response
 	) throws Exception {
 		
@@ -251,7 +257,8 @@ public class ConvertController {
 		postProcessLists(results, SH.ignoredProperties);
 		
 		// determine language
-		String langName="Turtle";
+		//String langName="Turtle";
+		String langName = FileFmt;
 		Lang l = RDFLanguages.nameToLang(langName);
 		if(l == null) {
 			l = Lang.RDFXML;

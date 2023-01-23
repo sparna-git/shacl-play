@@ -289,11 +289,24 @@
 					  
 					  <h2><i class="fal fa-tools"></i>&nbsp;&nbsp;<fmt:message key="convert.options.title" /></h2>
 				      <blockquote class="blockquote bq-warning">
-				      <div class="form-group row">
-				      	<div class="col-sm-12">
-
-						</div>
-					  </div>
+					      <div class="form-group row">
+					      	<div class="col-sm-12">
+								<label for="inputShapeCatalog" class="col-sm-3 col-form-label">
+									<fmt:message key="draw.options.format" />					    
+								</label>
+							    <div class="col-sm-2">
+						    		<select class="form-control" id="format" name="format" >
+						    			<option value="Turtle">Turtle</option>
+						    			<option value="RDF/XML">RDF/XML</option>
+						    			<option value="N-Triples">N-Triples</option>
+						    			<option value="N-Quads">N-Quads</option>
+						    			<option value="N3">N3</option>
+						    			<option value="TriG">TriG</option>
+						    			<option value="JSON-LD">Json-LD</option>
+									</select>
+								</div>
+							</div>
+						  </div>
 					  </blockquote>
 					  
 				    <button type="submit" id="validate-button" class="btn btn-info btn-lg"><fmt:message key="convert.submit" /></button>			  	

@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.riot.Lang;
+import org.apache.jena.riot.RDFLanguages;
 import org.apache.jena.riot.RiotException;
 import org.apache.jena.util.FileUtils;
 import org.slf4j.Logger;
@@ -63,7 +64,7 @@ public class ControllerModelFactory {
 						log.debug("Detected a zip extension");
 						ControllerCommons.populateModelFromZip(model, f.getInputStream());
 					} else {
-						String lang = FileUtils.guessLang(f.getOriginalFilename(), "RDF/XML");
+						String lang = RDFLanguages.filenameToLang(f.getOriginalFilename(), Lang.TURTLE.getName());
 						log.debug("Detected RDF format "+lang+" from file name "+f.getOriginalFilename());
 						ControllerCommons.populateModel(model, f.getInputStream(), lang);
 					}

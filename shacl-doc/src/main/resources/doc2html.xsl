@@ -344,7 +344,7 @@
 							.container {
 							    width: calc(100% - 40px);
 							    max-width: 1000px;
-							    margin-left: auto;
+							    margin-left: 300px;
 							    margin-right: auto;
 							}
 							.container {width: calc(100% - 500px);}

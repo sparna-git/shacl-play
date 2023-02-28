@@ -145,7 +145,9 @@
 								<br>
 
 								<h3>
+									<!--  
 									<button onclick="myFunction()">Try it</button>
+									-->
 									<a href="http://localhost:8080/shacl-play/rules#${rules.getShSparqlRuleName()}"><span class="glyphicon glyphicon-link" aria-hidden="true"></span></a>
 									&nbsp;${rules.getShSparqlRuleName()} <a type="button"
 										href="<c:url value="#content" />"><i

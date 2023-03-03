@@ -131,11 +131,10 @@
 					<article id="Target">
 						<h2>Target</h2>
 						<form>
-							<c:forEach items="${Shape.getTarget()}" var="target">
-								<textarea class="js_editor">${target.getShSelect()}
-					</textarea>
-							</c:forEach>
-						</form>
+				            <c:forEach items="${Shape.getTarget()}" var="target">
+				              <textarea class="js_editor">${target.getShSelect()}</textarea>
+				            </c:forEach>
+				        </form>
 					</article>
 					<br>
 					<article id="Rules">

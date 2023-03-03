@@ -1,0 +1,14 @@
+PREFIX rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+select distinct ?property {
+  ?uri
+    ?property ?value.
+    filter (?property != rdf:type)
+    
+   {
+   	 select ?uri where {
+   	   ?uri a $type .
+   	 }
+   	 LIMIT 100
+   }
+}

@@ -1,0 +1,3 @@
+select distinct ?type {
+  ?uri a ?type.
+}

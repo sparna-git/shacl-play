@@ -131,11 +131,10 @@
 					<article id="Target">
 						<h2>Target</h2>
 						<form>
-							<c:forEach items="${Shape.getTarget()}" var="target">
-								<textarea class="js_editor">${target.getShSelect()}
-					</textarea>
-							</c:forEach>
-						</form>
+				            <c:forEach items="${Shape.getTarget()}" var="target">
+				              <textarea class="js_editor">${target.getShSelect()}</textarea>
+				            </c:forEach>
+				        </form>
 					</article>
 					<br>
 					<article id="Rules">
@@ -145,7 +144,9 @@
 								<br>
 
 								<h3>
+									<!--  
 									<button onclick="myFunction()">Try it</button>
+									-->
 									<a href="http://localhost:8080/shacl-play/rules#${rules.getShSparqlRuleName()}"><span class="glyphicon glyphicon-link" aria-hidden="true"></span></a>
 									&nbsp;${rules.getShSparqlRuleName()} <a type="button"
 										href="<c:url value="#content" />"><i

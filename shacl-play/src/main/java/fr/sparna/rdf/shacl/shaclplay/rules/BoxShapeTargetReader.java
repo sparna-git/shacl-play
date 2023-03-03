@@ -1,14 +1,10 @@
 package fr.sparna.rdf.shacl.shaclplay.rules;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.Resource;
-import org.apache.jena.vocabulary.RDF;
 import org.topbraid.shacl.vocabulary.SH;
 
-import fr.sparna.rdf.shacl.diagram.PlantUmlBox;
 import fr.sparna.rdf.shacl.shaclplay.rules.model.BoxShape;
 import fr.sparna.rdf.shacl.shaclplay.rules.model.BoxShapeTarget;
 
@@ -22,16 +18,14 @@ public class BoxShapeTargetReader {
 
 	// Inicio de la recoleccion de informacion.
 	
-	public List<BoxShapeTarget> readTargetProperties(Resource nodeShape,List<BoxShape> allBoxes, List<Resource> Shape) {	
-				
-		List<BoxShapeTarget> aTarget = new ArrayList<>();		
-		for(Resource rTarget : Shape) {
-			BoxShapeTarget target = new BoxShapeTarget();
-			target.setShPrefix(this.readPrefixes(rTarget));
-			target.setShSelect(this.readTargetSelect(rTarget));
-			aTarget.add(target);
-		}
-		return aTarget;
+	public BoxShapeTarget readTargetProperties(Resource nodeShape) {	
+		
+		BoxShapeTarget target = new BoxShapeTarget();
+		target.setShPrefix(this.readPrefixes(nodeShape));
+		target.setShSelect(this.readTargetSelect(nodeShape));
+		
+		return target;
+		
 	}
 
 	public String readPrefixes(Resource nodeShapeTarget) {

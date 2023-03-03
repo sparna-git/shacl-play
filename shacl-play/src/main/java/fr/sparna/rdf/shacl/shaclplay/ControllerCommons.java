@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.jena.query.Dataset;
+import org.apache.jena.query.DatasetFactory;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
@@ -39,7 +41,13 @@ public class ControllerCommons {
 	
 	public static Model populateModel(Model model, InputStream in, String lang) throws RiotException {
 		try {
-			model.read(in, RDF.getURI(), lang);
+			// 1. Read as a Dataset with named graphs, to deal with JSON-LD situations
+			Dataset d = DatasetFactory.create();
+			RDFDataMgr.read(d, in, RDF.getURI(), RDFLanguages.nameToLang(lang));
+			// 2. load the UNION of all graphs in our model
+			// Note : getUnionModel does not include the default model, this is why we need to add it explicitely
+			model.add(d.getUnionModel());
+			model.add(d.getDefaultModel());
 			return model;
 		} finally {
 			if(in != null) { try {in.close();} catch(Exception e) {}}
@@ -53,12 +61,16 @@ public class ControllerCommons {
 		} catch (Exception e) {
 			// default to Turtle to be able to parse catalog entries without ttl extension at the end
 			log.debug("Simple read() failed based on conneg, will use "+ RDFLanguages.filenameToLang(url.getFile(), Lang.TURTLE)+" RDF language");  
+			
+			Dataset d = DatasetFactory.create();
 			RDFDataMgr.read(
-					model,
+					d,
 					url.openConnection().getInputStream(),
 					url.toString(),
 					RDFLanguages.filenameToLang(url.getFile(), Lang.TURTLE)
 			);
+			model.add(d.getUnionModel());
+			model.add(d.getDefaultModel());
 		}
 		return model;
 	}
@@ -114,7 +126,9 @@ public class ControllerCommons {
     public static Model populateModelFromZip(Model model, InputStream in) throws RiotException, IOException {
 
     	try(ZipInputStream zis = new ZipInputStream(in)) {
-	    	ZipEntry entry;	    	
+	    	ZipEntry entry;
+	    	
+	    	Dataset d = DatasetFactory.create();
 	    	while ((entry = zis.getNextEntry()) != null) {
 	    		if(!entry.isDirectory()) {
 	    			String lang = FileUtils.guessLang(entry.getName(), "RDF/XML");
@@ -124,8 +138,13 @@ public class ControllerCommons {
 	    			// byte[] buffer = zis.readAllBytes();
 	    			byte[] buffer = IOUtils.toByteArray(zis);
 	    			ByteArrayInputStream bais = new ByteArrayInputStream(buffer);
-	    			try {
-						model.read(bais, RDF.getURI(), FileUtils.guessLang(entry.getName(), "RDF/XML"));
+	    			try {	    				
+	    				RDFDataMgr.read(
+	    						d,
+	    						bais,
+	    						RDF.getURI(),
+	    						RDFLanguages.filenameToLang(entry.getName(), Lang.RDFXML)
+	    				);
 						log.debug("Success");
 					} catch (Exception e) {
 						log.warn("Failed reading zip entry : "+entry.getName()+", error is "+e.getMessage()+", skipping.");
@@ -133,6 +152,10 @@ public class ControllerCommons {
 	    			
 	    		}            
 	        }
+	    	
+	    	// flatten all named graphs in a single graph
+	    	model.add(d.getUnionModel());
+			model.add(d.getDefaultModel());
     	}
     	
     	return model;
@@ -147,8 +170,8 @@ public class ControllerCommons {
 	 */
 	public static void serialize(Model m, Lang format, String filename, HttpServletResponse response)
 	throws IOException {
-		log.debug("Setting response content type to "+format.getContentType().getContentType());
-		response.setContentType(format.getContentType().getContentType());
+		log.debug("Setting response content type to "+format.getContentType().getContentTypeStr());
+		response.setContentType(format.getContentType().getContentTypeStr());
 		response.setHeader("Content-Disposition", "inline; filename=\""+filename+"."+format.getFileExtensions().get(0)+"\"");
 		RDFDataMgr.write(response.getOutputStream(), m, format) ;		
 	}

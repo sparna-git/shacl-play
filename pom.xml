@@ -23,7 +23,7 @@
         <!-- library versions -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>8</java.version>
-        <jena.version>3.11.0</jena.version>
+        <jena.version>4.7.0</jena.version>
         <jtwig.version>5.87.0.RELEASE</jtwig.version>
         <jackson.version>2.13.3</jackson.version>
     </properties>
@@ -117,6 +117,11 @@ eclipse.preferences.version=1
                 <groupId>org.topbraid</groupId>
                 <artifactId>shacl</artifactId>
                 <version>1.3.2</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.apache.jena</groupId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <!-- Fremarker -->

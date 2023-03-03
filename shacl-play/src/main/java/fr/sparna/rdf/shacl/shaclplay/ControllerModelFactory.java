@@ -64,7 +64,7 @@ public class ControllerModelFactory {
 						log.debug("Detected a zip extension");
 						ControllerCommons.populateModelFromZip(model, f.getInputStream());
 					} else {
-						String lang = RDFLanguages.filenameToLang(f.getOriginalFilename(), Lang.TURTLE.getName());
+						String lang = RDFLanguages.filenameToLang(f.getOriginalFilename(), Lang.RDFXML).getName();
 						log.debug("Detected RDF format "+lang+" from file name "+f.getOriginalFilename());
 						ControllerCommons.populateModel(model, f.getInputStream(), lang);
 					}

@@ -1,0 +1,3 @@
+select ?uri {
+  ?uri a $type .
+}

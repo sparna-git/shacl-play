@@ -1,4 +1,6 @@
-package fr.sparna.rdf.shacl.data2rdf;
+package fr.sparna.rdf.jena;
+
+import java.util.List;
 
 import org.apache.jena.query.DatasetFactory;
 import org.apache.jena.query.QueryExecution;
@@ -19,26 +21,23 @@ public class QueryExecutionService {
 	private static final Logger log = LoggerFactory.getLogger(QueryExecutionService.class);
 	
 	private Model inputModel;
-	private String endpointUrl;
-
-	
+	private String endpointUrl;	
 	
 	public QueryExecutionService(Model inputModel) {
 		super();
 		this.inputModel = inputModel;
-	}
-	
-	
+	}	
 
 	public QueryExecutionService(String endpointUrl) {
 		super();
 		this.endpointUrl = endpointUrl;
 	}
 
-
-
 	public <R> R executeSelectQuery(String query, QuerySolution bindings, JenaResultSetHandler<R> resultSetHandler) {
 		try(QueryExecution queryExecution = this.getQueryExecutionBuilder().query(query).substitution(bindings).build()) {
+			if(log.isDebugEnabled()) {
+				log.debug(queryExecution.getQueryString());
+			}
 			ResultSet resultSet = queryExecution.execSelect();
 			return resultSetHandler.handle(resultSet);
 		}
@@ -71,6 +70,12 @@ public class QueryExecutionService {
 	public static QuerySolution buildQuerySolution(String varName, RDFNode value) {
 		QuerySolutionMap qs = new QuerySolutionMap();
 		qs.add(varName, value);
+		return qs;
+	}
+	
+	public static QuerySolution buildQuerySolution(String varName, List<RDFNode> values) {
+		QuerySolutionMap qs = new QuerySolutionMap();
+		values.stream().forEach(v -> qs.add(varName, v));		
 		return qs;
 	}
 

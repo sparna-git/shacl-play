@@ -1,0 +1,5 @@
+select distinct ?objectType {
+  ?uri a $type .
+  ?uri $property ?x.
+  ?x a ?objectType.
+}

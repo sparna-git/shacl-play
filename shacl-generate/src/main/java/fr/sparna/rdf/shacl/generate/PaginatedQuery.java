@@ -1,11 +1,8 @@
-package fr.sparna.rdf.shacl.data2rdf;
+package fr.sparna.rdf.shacl.generate;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.jena.query.QuerySolution;
@@ -16,7 +13,15 @@ import org.apache.jena.rdf.model.RDFNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import fr.sparna.rdf.jena.JenaResultSetHandler;
+import fr.sparna.rdf.jena.JenaResultSetHandlers;
+import fr.sparna.rdf.jena.QueryExecutionService;
 
+/**
+ * Executes SPARQL queries in batches using LIMIT x OFFSET y to get large result sets
+ * @author thomas
+ *
+ */
 public class PaginatedQuery {
 
   private static final Logger log = LoggerFactory.getLogger(PaginatedQuery.class);
@@ -52,7 +57,7 @@ public class PaginatedQuery {
   public List<Map<String, RDFNode>> select(QueryExecutionService service, String query, QuerySolution bindings) {
     // skip if there is a limit
     if (hasLimitAtEnd(query)) {
-      return service.executeSelectQuery(query, JenaResultSetHandlers::convertToListOfMaps);
+      return service.executeSelectQuery(query, bindings, JenaResultSetHandlers::convertToListOfMaps);
     }
 
     long batchNumber = 0;
@@ -85,39 +90,7 @@ public class PaginatedQuery {
   }
 
   private List<Map<String, RDFNode>> runQuery(QueryExecutionService service, String query, QuerySolution bindings) {
-    JenaResultSetHandler<List<Map<String, RDFNode>>> convertToListOfMaps = JenaResultSetHandlers::convertToListOfMaps;
-    return service.executeSelectQuery(query, bindings, convertToListOfMaps);
-  }
-
-  /**
-   * Since result currently is somewhat inflexible, we are adding flexibility with convertors.
-   */
-  public List<String> convertSingleColumnUriToStringList(List<Map<String, RDFNode>> results) {
-    return convertSingleColumnToList(results, input -> input.asResource().getURI());
-  }
-
-  /**
-   * Converts single column result set to a certain type using a conversion function.
-   *
-   * @param results    rows after query
-   * @param conversion conversion function
-   * @param <T>        type of elements in the list
-   * @return list of results
-   * @throws RuntimeException in case there is not exactly one column
-   */
-  public <T> List<T> convertSingleColumnToList(List<Map<String, RDFNode>> results,
-                                               Function<RDFNode, T> conversion) {
-    if (results.isEmpty()) return Collections.emptyList();
-
-    Map<String, RDFNode> firstRow = results.get(0);
-    if (firstRow.size() != 1)
-      throw new RuntimeException("Expected exactly one result per row. Found row size of '" + firstRow.size() + "'");
-
-    String columnName = firstRow.keySet().stream().findFirst().get();
-    return results.stream()
-                  .map(row -> row.get(columnName))
-                  .map(conversion)
-                  .collect(Collectors.toList());
+    return service.executeSelectQuery(query, bindings, JenaResultSetHandlers::convertToListOfMaps);
   }
 
 }

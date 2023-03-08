@@ -1,4 +1,4 @@
-package fr.sparna.rdf.shacl.data2rdf;
+package fr.sparna.rdf.shacl.generate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +8,9 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.ListUtils;
 
 public class Configuration {
+  
   private String shapesNamespace;
+  private String shapesNamespacePrefix;
 
   private List<String> ignoredClasses = new ArrayList<>();
 
@@ -22,11 +24,12 @@ public class Configuration {
 	  this.ignoredNamespaces.add("http://www.w3.org/2002/07/owl#");
 	  this.ignoredNamespaces.add("http://www.w3.org/2000/01/rdf-schema#");
 	  this.ignoredNamespaces.add("http://www.w3.org/1999/02/22-rdf-syntax-ns#");
-	  
   }
 
-  public Configuration(String shapesNamespace) {
-    this.shapesNamespace = shapesNamespace;
+  public Configuration(String shapesNamespace, String shapesNamespacePrefix) {
+    this();
+	this.shapesNamespace = shapesNamespace;
+    this.shapesNamespacePrefix = shapesNamespacePrefix;
   }
 
   public String getShapesNamespace() {
@@ -35,6 +38,14 @@ public class Configuration {
 
   public void setShapesNamespace(String shapesNamespace) {
     this.shapesNamespace = shapesNamespace;
+  }
+  
+  public String getShapesNamespacePrefix() {
+	return shapesNamespacePrefix;
+  }
+  
+  public void setShapesNamespacePrefix(String shapesNamespacePrefix) {
+	this.shapesNamespacePrefix = shapesNamespacePrefix;
   }
 
   public List<String> getIgnoredClasses() {

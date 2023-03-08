@@ -16,7 +16,9 @@ import fr.sparna.rdf.jena.JenaResultSetHandlers;
 import fr.sparna.rdf.jena.QueryExecutionService;
 
 /**
- * Executes SPARQL queries by taking a sample of results
+ * Executes SPARQL queries by taking a sample of results over the entire triplestore.
+ * Uses LIMIT x OFFSET y but not in consecutive pages. Increment the offset by a stepSize parameter.
+ * 
  * @author thomas
  *
  */
@@ -24,8 +26,11 @@ public class SamplingQuery {
 
   private static final Logger log = LoggerFactory.getLogger(SamplingQuery.class);
 
+  // LIMIT parameter : number of items to read at each iteration
   private final long batchSize;
+  // size of increment of the OFFSET at each iteration
   private final long stepSize;
+  // maximum number of iterations that the sampling process will use
   private final long maxIterations;
 
   public SamplingQuery(long batchSize, long stepSize, long maxIterations) {

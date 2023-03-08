@@ -2,6 +2,11 @@ package fr.sparna.rdf.shacl.generate;
 
 import java.util.List;
 
+/**
+ * Defines the interface of objects that feed data to the SHACL generation algorithm
+ * @author thomas
+ *
+ */
 public interface ShaclGeneratorDataProviderIfc {
 
 	/**

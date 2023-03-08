@@ -7,6 +7,11 @@ import java.util.Objects;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.ListUtils;
 
+/**
+ * Configuration parameters for SHACL generation
+ * @author thomas
+ *
+ */
 public class Configuration {
   
   private String shapesNamespace;

@@ -17,7 +17,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.helpers.MessageFormatter;
 
-
+/**
+ * Algorithm to generation a SHACL model from data. Does not do any read operation by itself but reads its input from a data provider.
+ * @author thomas
+ *
+ */
 public class ShaclGenerator {
 
 	private static final Logger log = LoggerFactory.getLogger(ShaclGenerator.class);
@@ -26,10 +30,10 @@ public class ShaclGenerator {
 
 
 	/**
-	 * Generates shapes from target remote endpoint
+	 * Generates shapes using the given configuration and the given data provider
 	 * 
 	 * @param configuration
-	 * @param endpointUrl
+	 * @param dataProvider
 	 * @return
 	 */
 	public Model generateShapes(
@@ -40,6 +44,12 @@ public class ShaclGenerator {
 		return generateShapes(configuration);
 	}
 	
+	/**
+	 * Starts SHACL generation process
+	 * 
+	 * @param configuration
+	 * @return
+	 */
 	private Model generateShapes(
 		Configuration configuration
 	) {
@@ -56,6 +66,12 @@ public class ShaclGenerator {
 		return shacl;
 	}
 
+	/**
+	 * Derives all NodeShapes from types in the data
+	 * 
+	 * @param configuration
+	 * @param shacl
+	 */
 	private void addTypes(
 			Configuration configuration,
 			Model shacl
@@ -66,6 +82,13 @@ public class ShaclGenerator {
 	}
 
 
+	/**
+	 * Derives a single NodeShape from a type
+	 * 
+	 * @param configuration
+	 * @param shacl
+	 * @param typeUri
+	 */
 	private void addType(
 			Configuration configuration,
 			Model shacl,
@@ -79,16 +102,25 @@ public class ShaclGenerator {
 		Resource targetClass = ResourceFactory.createResource(typeUri);
 		Resource typeShape = calculateShapeBasedOnResource(configuration, shacl, null, targetClass);
 
+		// add the 2 triples in the output Model
 		shacl.add(typeShape, RDF.type, SHACLM.NodeShape);
 		shacl.add(typeShape, SHACLM.targetClass, targetClass);
 
 		if (log.isDebugEnabled())
 			log.debug("(addType) shape name '{}' for targetClass '{}'", typeShape.getURI(), targetClass.getURI());
 
+		// add the property shapes on this NodeShape
 		addProperties(configuration, shacl, typeShape, targetClass);
 	}
 	
-	
+	/**
+	 * Add all property shapes on a NodeShape
+	 * 
+	 * @param configuration
+	 * @param shacl
+	 * @param typeShape
+	 * @param targetClass
+	 */
 	private void addProperties(
 			Configuration configuration,
 			Model shacl,
@@ -111,7 +143,15 @@ public class ShaclGenerator {
 		}
 	}
 	
-	
+	/**
+	 * Derives a single property shape from the given property on the given NodeShapes
+	 * 
+	 * @param configuration
+	 * @param shacl
+	 * @param typeShape
+	 * @param targetClass
+	 * @param property
+	 */
 	private void addProperty(
 		Configuration configuration,
 		Model shacl,
@@ -131,6 +171,7 @@ public class ShaclGenerator {
 		// this is not mandatory, so remove it
 		// shacl.add(propertyShape, RDF.type, SHACLM.PropertyShape);
 
+		// add the sh:path triple to the output Model
 		shacl.add(propertyShape, SHACLM.path, path);
 
 //		setMinCount(rdfStoreService, shacl, targetClass, path, propertyShape);
@@ -139,7 +180,15 @@ public class ShaclGenerator {
 		setNodeKind(configuration, shacl, targetClass, path, propertyShape);
 	}
 
-	
+	/**
+	 * Assigns the sh:nodeKind constraint on the property shape
+	 * 
+	 * @param configuration
+	 * @param shacl
+	 * @param targetClass
+	 * @param path
+	 * @param propertyShape
+	 */
 	private void setNodeKind(
 			Configuration configuration,
 			Model shacl,
@@ -172,6 +221,14 @@ public class ShaclGenerator {
 		}
 	}
 
+	/**
+	 * Computes sh:nodeKind value based on flags retrieved in the data
+	 * 
+	 * @param hasIri
+	 * @param hasBlank
+	 * @param hasLiteral
+	 * @return
+	 */
 	private Resource calculateNodeKind(boolean hasIri, boolean hasBlank, boolean hasLiteral) {
 		if (hasIri && !hasBlank && !hasLiteral) return SHACLM.IRI;
 		if (!hasIri && hasBlank && !hasLiteral) return SHACLM.BlankNode;
@@ -182,6 +239,15 @@ public class ShaclGenerator {
 		return null;
 	}	
 	
+	/**
+	 * Assignes the sh:class constraint on the property shape
+	 * 
+	 * @param configuration
+	 * @param shacl
+	 * @param targetClass
+	 * @param path
+	 * @param propertyShape
+	 */
 	private void setShaclClass(
 			Configuration configuration,
 			Model shacl,

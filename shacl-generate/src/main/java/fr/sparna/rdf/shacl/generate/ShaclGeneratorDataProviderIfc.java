@@ -16,10 +16,29 @@ public interface ShaclGeneratorDataProviderIfc {
 	public List<String> getTypes();
 	
 	/**
+	 * Count the number of instances of this class in the dataset,
+	 * or returns a negative integer if this is not implemented.
+	 * 
+	 * @param classUri
+	 * @return
+	 */
+	public int countInstances(String classUri);
+	
+	/**
 	 * Returns all properties found on the given class
 	 * @return
 	 */
 	public List<String> getProperties(String classUri);
+	
+	/**
+	 * Counts the number of statements on the instances of the given class with the given property,
+	 * or returns a negative integer if this is not implemented.
+	 * 
+	 * @param subjectClassUri
+	 * @param propertyUri
+	 * @return
+	 */
+	public int countStatements(String subjectClassUri, String propertyUri);
 	
 	/**
 	 * Tests if at least one instance of the class does not have a value for the property
@@ -93,6 +112,13 @@ public interface ShaclGeneratorDataProviderIfc {
 	 */
 	public List<String> getObjectTypes(String classUri, String propertyUri);
 	
-	
+	/**
+	 * Returns a name for the provided class or property URI
+	 * 
+	 * @param classOrPropertyUri
+	 * @param lang
+	 * @return
+	 */
+	public String getName(String classOrPropertyUri, String lang);
 	
 }

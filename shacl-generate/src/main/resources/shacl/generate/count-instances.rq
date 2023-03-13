@@ -1,0 +1,3 @@
+select (count(?uri) as ?count) {
+  ?uri a $type.
+}

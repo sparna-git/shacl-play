@@ -1,6 +1,7 @@
 package fr.sparna.rdf.shacl.generate;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -9,10 +10,15 @@ import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.ResourceFactory;
 import org.apache.jena.shacl.vocabulary.SHACLM;
+import org.apache.jena.vocabulary.DCTerms;
+import org.apache.jena.vocabulary.OWL;
 import org.apache.jena.vocabulary.RDF;
+import org.apache.jena.vocabulary.RDFS;
+import org.apache.jena.vocabulary.XSD;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.helpers.MessageFormatter;
@@ -56,15 +62,36 @@ public class ShaclGenerator {
 		Model shacl = ModelFactory.createDefaultModel();
 		// add sh namespace, always
 		shacl.setNsPrefix("sh", SHACLM.NS);
+		shacl.setNsPrefix("xsd", XSD.NS);
+		shacl.setNsPrefix("rdfs", RDFS.uri);
+		
 		// add the prefix from the shapes namespace, if set
 		if(configuration.getShapesNamespace() != null && configuration.getShapesNamespacePrefix() != null) {
 			shacl.setNsPrefix(configuration.getShapesNamespacePrefix(), configuration.getShapesNamespace());
 		}
+		
+		// generate node shapes corresponding to types
 		addTypes(configuration, shacl);
 		log.debug("(generate) add types done");
 
+		// add an ontology header
+		if(configuration.getShapesOntology() != null) {
+			addOntology(configuration, shacl);
+		}
+		
 		return shacl;
 	}
+	
+	private void addOntology(
+		Configuration configuration,
+		Model shacl
+	) {
+		Resource onto = shacl.createResource(configuration.getShapesOntology());
+		shacl.add(onto, RDF.type, OWL.Ontology);
+		shacl.add(onto, DCTerms.created, shacl.createTypedLiteral(Calendar.getInstance()));
+		shacl.add(onto, DCTerms.description, shacl.createLiteral("Created by SHACL Play", "en"));
+	}
+	
 
 	/**
 	 * Derives all NodeShapes from types in the data
@@ -100,7 +127,7 @@ public class ShaclGenerator {
 		}
 
 		Resource targetClass = ResourceFactory.createResource(typeUri);
-		Resource typeShape = calculateShapeBasedOnResource(configuration, shacl, null, targetClass);
+		Resource typeShape = buildShapeURIFromResource(configuration, shacl, null, targetClass);
 
 		// add the 2 triples in the output Model
 		shacl.add(typeShape, RDF.type, SHACLM.NodeShape);
@@ -111,6 +138,19 @@ public class ShaclGenerator {
 
 		// add the property shapes on this NodeShape
 		addProperties(configuration, shacl, typeShape, targetClass);
+		
+		// add the name
+		String name = this.dataProvider.getName(typeUri, configuration.getLang());		
+		if(name != null) {
+			shacl.add(typeShape, RDFS.label, shacl.createLiteral(name, configuration.getLang()));
+		}	
+				
+		// add the count
+		int count = this.dataProvider.countInstances(typeUri);		
+		if(count > 0) {
+			// TODO : find more suitable property to store number of instances
+			shacl.add(typeShape, RDFS.comment, count+" instances");
+		}
 	}
 	
 	/**
@@ -161,15 +201,12 @@ public class ShaclGenerator {
 	) {
 
 		Resource path = ResourceFactory.createResource(property);
-		Resource propertyShape = calculateShapeBasedOnResource(configuration, shacl, targetClass.getLocalName(), path);
+		Resource propertyShape = buildShapeURIFromResource(configuration, shacl, targetClass.getLocalName(), path);
 
 		if (log.isDebugEnabled())
 			log.debug("(addProperty) shape '{}' gets '{}'", typeShape.getLocalName(), propertyShape.getLocalName());
 
 		shacl.add(typeShape, SHACLM.property, propertyShape);
-		
-		// this is not mandatory, so remove it
-		// shacl.add(propertyShape, RDF.type, SHACLM.PropertyShape);
 
 		// add the sh:path triple to the output Model
 		shacl.add(propertyShape, SHACLM.path, path);
@@ -178,6 +215,19 @@ public class ShaclGenerator {
 //		setMaxCount(rdfStoreService, shacl, targetClass, path, propertyShape);
 //
 		setNodeKind(configuration, shacl, targetClass, path, propertyShape);
+	
+		// add the name
+		String name = this.dataProvider.getName(property, configuration.getLang());		
+		if(name != null) {
+			shacl.add(propertyShape, SHACLM.name, shacl.createLiteral(name, configuration.getLang()));
+		}	
+		
+		// add the count
+		int count = this.dataProvider.countStatements(targetClass.getURI(), property);		
+		if(count > 0) {
+			// TODO : find more suitable property to store number of instances
+			shacl.add(propertyShape, SHACLM.description, count+" statements");
+		}
 	}
 
 	/**
@@ -214,11 +264,27 @@ public class ShaclGenerator {
 		}
 
 		if (nodeKindValue == SHACLM.Literal) {
-			// setShaclDatatype(rdfStore, shacl, targetClass, path, propertyShape);
-		}
-		else if (nodeKindValue == SHACLM.IRI) {
+			setShaclDatatype(configuration, shacl, targetClass, path, propertyShape);
+		} else if (nodeKindValue == SHACLM.IRI) {
 			setShaclClass(configuration, shacl, targetClass, path, propertyShape);
 		}
+	}
+
+	private void setShaclDatatype(
+			Configuration configuration,
+			Model shacl,
+			Resource targetClass,
+			Resource path,
+			Resource propertyShape
+	) {
+		List<String> datatypes = this.dataProvider.getDatatypes(targetClass.getURI(), path.getURI());
+		
+		if(datatypes.size() > 1) {
+			log.warn(datatypes.size()+" datatypes found for property '{}' in class '{}'", path.getURI(), targetClass.getURI());
+		} else {
+			shacl.add(propertyShape, SHACLM.datatype, shacl.createResource(datatypes.get(0)));
+		}
+		
 	}
 
 	/**
@@ -303,7 +369,7 @@ public class ShaclGenerator {
 	}
 	
 	
-	private Resource calculateShapeBasedOnResource(
+	private Resource buildShapeURIFromResource(
 		Configuration configuration,
 		Model shacl,
 		String firstPart,
@@ -318,28 +384,19 @@ public class ShaclGenerator {
 			String localName = firstPart == null ? originalResource.getLocalName()
 					: firstPart + "_" + originalResource.getLocalName();
 			
-			return shacl.createResource(configuration.getShapesNamespace() + localName);
-			
 			// Create a resource with that URI
-			// Resource typeShape = ResourceFactory.createResource(configuration.getShapesNamespace() + localName);
+			Resource resource = ResourceFactory.createResource(configuration.getShapesNamespace() + localName);
 
-			// determine if Resource with that URI already exists, in which case return it
-//			boolean hasSameTypeShape = shacl.contains(typeShape, null, (RDFNode) null);
-//			if (!hasSameTypeShape) {
-//				return typeShape;
-//			} else {
-//				return typeShape;
-//			}
-
-			//		String namespacePrefix = shacl.getNsURIPrefix(originalResource.getNameSpace());
-			//		if (namespacePrefix == null) {
-			//			namespacePrefix = "ns" + getAvailableNamespaceIndex(shacl);
-			//			shacl.setNsPrefix(namespacePrefix, originalResource.getNameSpace());
-			//		}
-			//
-			//		String prefixLocalName = firstPart == null ? namespacePrefix + "_" + localName
-			//				: firstPart + "_" + namespacePrefix + "_" + localName;
-			//		return ResourceFactory.createResource(configuration.getShapesNamespace() + prefixLocalName);	
+			// determine if Resource with that URI already exists
+			// deal with the case of edm:rights vs. dc:rights, edm:type vs. dc:type, etc.
+			boolean hasSameTypeShape = shacl.contains(resource, null, (RDFNode) null);
+			if (!hasSameTypeShape) {
+				return resource;
+			} else {
+				// if there was already one, compute a second URI
+				localName = localName+"_2";
+				return ResourceFactory.createResource(configuration.getShapesNamespace() + localName);
+			}	
 		}
 		
 	}

@@ -1,5 +1,6 @@
 package fr.sparna.rdf.jena;
 
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -35,8 +36,27 @@ public abstract class JenaResultSetHandlers {
   }
   
   public static List<RDFNode> convertSingleColumnUriToRDFNodeList(List<Map<String, RDFNode>> results) {
-	    return convertSingleColumnToList(results, input -> input.asResource());
+	return convertSingleColumnToList(results, input -> input.asResource());
+  }
+  
+  public static List<Integer> convertSingleColumnToIntegerList(List<Map<String, RDFNode>> results) {
+	return convertSingleColumnToList(results, input -> input.asLiteral().getInt());
+  }
+  
+  /**
+   * Reads the result of a count query and returns an int directly
+   * 
+   * @param results
+   * @return
+   */
+  public static int convertToInt(ResultSet resultSet) {
+	  List<Map<String, RDFNode>> results = JenaResultSetHandlers.convertToListOfMaps(resultSet);
+	  if(results.size() != 1) {
+		  throw new InvalidParameterException("Can only read count queries with a single row and single column, but got "+results.size());
 	  }
+	  String singleKey = results.get(0).keySet().iterator().next();
+	  return results.get(0).get(singleKey).asLiteral().getInt();
+  }
 
   /**
    * Converts single column result set to a certain type using a conversion function.

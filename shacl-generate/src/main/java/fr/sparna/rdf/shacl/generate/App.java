@@ -28,6 +28,7 @@ public class App
 					RDFLanguages.filenameToLang(args[0], Lang.TTL)
 					);
 			Configuration config = new Configuration("http://exemple.be/shapes/", "myshapes");
+			config.setShapesOntology("http://exemple.be/shapes");
 			
 			SamplingShaclGeneratorDataProvider dataProvider1 = new SamplingShaclGeneratorDataProvider(new PaginatedQuery(100), input);
 		
@@ -43,7 +44,9 @@ public class App
 			shapes.write(System.out,"Turtle");
 
 			// shapes = generator.generateShapes(config, "https://data.bnf.fr/sparql");
-			SamplingShaclGeneratorDataProvider dataProvider2 = new SamplingShaclGeneratorDataProvider(new PaginatedQuery(100), "http://sparql.europeana.eu");
+			// final String ENDPOINT = "http://sparql.europeana.eu"; 
+			final String ENDPOINT = "https://data.bnf.fr/sparql";
+			SamplingShaclGeneratorDataProvider dataProvider2 = new SamplingShaclGeneratorDataProvider(new PaginatedQuery(100), ENDPOINT);
 			shapes = generator.generateShapes(config, dataProvider2);
 			shapes.write(System.out,"Turtle");
 		}

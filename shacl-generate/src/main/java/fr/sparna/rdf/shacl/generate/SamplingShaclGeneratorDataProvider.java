@@ -86,14 +86,15 @@ public class SamplingShaclGeneratorDataProvider implements ShaclGeneratorDataPro
 		return new ArrayList<String>(properties);
 		*/
 		
-		SamplingQuery samplingQuery = new SamplingQuery(2, 50000, 50);
-		List<Map<String, RDFNode>> instanceRows = samplingQuery.select(
+		SamplingQuery paginatedQuery = new SamplingQuery(2, 50000, 50);
+		List<Map<String, RDFNode>> instanceRows = paginatedQuery.select(
 				this.queryExecutionService,
 				readQuery("select-instances-sample.rq"),
 				QueryExecutionService.buildQuerySolution("type", ResourceFactory.createResource(classUri))
 		);
 		List<RDFNode> instances = JenaResultSetHandlers.convertSingleColumnUriToRDFNodeList(instanceRows);
 		
+		/*
 		Set<String> properties = new HashSet<>();
 		for (RDFNode rdfNode : instances) {
 			List<Map<String, RDFNode>> rows = this.paginatedQuery.select(
@@ -103,6 +104,12 @@ public class SamplingShaclGeneratorDataProvider implements ShaclGeneratorDataPro
 			);
 			properties.addAll(JenaResultSetHandlers.convertSingleColumnUriToStringList(rows));
 		}
+		*/
+		
+		Set<String> properties = new HashSet<>();
+		ValuesQuery valuesQuery = new ValuesQuery(10);
+		List<Map<String, RDFNode>> rows = valuesQuery.select(queryExecutionService, readQuery("select-instances-properties.rq"), "uri", instances);
+		properties.addAll(JenaResultSetHandlers.convertSingleColumnUriToStringList(rows));
 		
 		return new ArrayList<String>(properties);
 	}
@@ -145,8 +152,17 @@ public class SamplingShaclGeneratorDataProvider implements ShaclGeneratorDataPro
 
 	@Override
 	public List<String> getDatatypes(String classUri, String propertyUri) {
-		// TODO Auto-generated method stub
-		return null;
+		QuerySolutionMap qs = new QuerySolutionMap();
+		qs.add("type", ResourceFactory.createResource(classUri));
+		qs.add("property", ResourceFactory.createResource(propertyUri));
+		
+		return JenaResultSetHandlers.convertSingleColumnUriToStringList(
+				this.queryExecutionService.executeSelectQuery(
+						readQuery("select-datatypes.rq"),
+						qs,
+						JenaResultSetHandlers::convertToListOfMaps
+						)
+				);
 	}
 
 	@Override
@@ -169,6 +185,38 @@ public class SamplingShaclGeneratorDataProvider implements ShaclGeneratorDataPro
 		List<Map<String, RDFNode>> rows = this.paginatedQuery.select(this.queryExecutionService, readQuery("select-object-types.rq"), qs);
 		List<String> types = JenaResultSetHandlers.convertSingleColumnUriToStringList(rows);
 		return types;
+	}
+
+	@Override
+	public String getName(String classOrPropertyUri, String lang) {
+		// TODO : query to read a label, or dereference URI to get its description
+		return ResourceFactory.createResource(classOrPropertyUri).getLocalName();
+	}
+	
+	@Override
+	public int countInstances(String classUri) {
+		int count = this.queryExecutionService.executeSelectQuery(
+				readQuery("count-instances.rq"),
+				QueryExecutionService.buildQuerySolution("type", ResourceFactory.createResource(classUri)),
+				JenaResultSetHandlers::convertToInt
+				
+		);
+		return count;
+	}
+
+	@Override
+	public int countStatements(String subjectClassUri, String propertyUri) {
+		QuerySolutionMap qs = new QuerySolutionMap();
+		qs.add("type", ResourceFactory.createResource(subjectClassUri));
+		qs.add("property", ResourceFactory.createResource(propertyUri));
+		
+		int count = this.queryExecutionService.executeSelectQuery(
+				readQuery("count-instances.rq"),
+				qs,
+				JenaResultSetHandlers::convertToInt
+				
+		);
+		return count;
 	}
 
 	private String readQuery(String resourceName) {

@@ -35,6 +35,7 @@ public class QueryExecutionService {
 
 	public <R> R executeSelectQuery(String query, QuerySolution bindings, JenaResultSetHandler<R> resultSetHandler) {
 		try(QueryExecution queryExecution = this.getQueryExecutionBuilder().query(query).substitution(bindings).build()) {
+			System.out.println(queryExecution.getQueryString());
 			if(log.isDebugEnabled()) {
 				log.debug(queryExecution.getQueryString());
 			}
@@ -82,7 +83,8 @@ public class QueryExecutionService {
 	private QueryExecutionBuilder getQueryExecutionBuilder() {
 		if(this.endpointUrl != null) {
 			// here we can customize HTTP headers etc.
-			return QueryExecutionHTTPBuilder.service(this.endpointUrl);
+			// we send Query 
+			return QueryExecutionHTTPBuilder.service(this.endpointUrl).postQuery();
 		} else {
 			return QueryExecutionDatasetBuilder.create().dataset(DatasetFactory.create(this.inputModel));
 		}

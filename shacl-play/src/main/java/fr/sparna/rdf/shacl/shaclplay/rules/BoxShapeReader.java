@@ -23,12 +23,30 @@ public class BoxShapeReader {
 		List<Resource> nodeShapes =  GraphModel.listResourcesWithProperty(RDF.type, SH.NodeShape).toList();
 		List<BoxShape> BoxShapeAll = nodeShapes.stream().map(res -> readShape(res, nodeShapes)).collect(Collectors.toList());
 		List<BoxShape> boxShape = new ArrayList<>();
-		
+	
 		/*
 		 * Leemos el node e integramos las propriedades de SparqlTarget y SparqlRules 
 		 */
 		// Lectura de los datos de SparqlTarget
 		BoxShapeTargetReader TargetReader = new BoxShapeTargetReader(BoxShapeAll); 
+		
+		BoxShapeAll
+			.sort((o1, o2) -> {
+				if(o1.getLabel() != null) {
+					if(o2.getLabel() != null) {
+						return o1.getLabel().compareTo(o2.getLabel());
+					} else {
+						return -1;
+					}
+				} else {
+					if(o2.getLabel() != null) {
+						return o2.getLabel().compareTo(o1.getLabel());						
+					} else {
+						return o2.getNodeShape().getURI().toString().compareTo(o1.getNodeShape().getURI().toString());
+					}
+				}
+			});
+		
 		for(BoxShape shape : BoxShapeAll) {
 			
 			/* id for Target SPARQL */
@@ -48,7 +66,8 @@ public class BoxShapeReader {
 			if (aTarget.size() > 0) {
 				shape.setTarget(aTarget);
 			}
-
+			
+			
 			/*
 			 * Lectura de la informacion de SparqlRules 
 			 * */
@@ -61,11 +80,35 @@ public class BoxShapeReader {
 			}
 			
 			if (aRules.size() > 0) {
+		
 				shape.setRules(aRules);
+				
+				shape.getRules().sort((BoxShapeRules r1, BoxShapeRules r2) -> {
+					if (r1.getShOrder() != null) {
+						if (r2.getShOrder() != null) {
+							return r1.getShOrder() - r2.getShOrder();
+						} else {
+							return -1;
+						}
+					} else {
+						if (r2.getShOrder() != null) {
+							return 1;
+						} else {
+							if (r1.getShSparqlRuleName() != null && r2.getShSparqlRuleName() != null) {
+								return r1.getShSparqlRuleName().compareTo(r2.getShSparqlRuleName());
+							} else {
+								return r1.getShOrder();
+							}
+						}
+					}
+				});
+				
+				
 			}
 			
 			boxShape.add(shape);
-		}	
+		}
+		
 		return boxShape;
 	}
 	

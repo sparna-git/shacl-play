@@ -1,6 +1,7 @@
 package fr.sparna.rdf.shacl.generate;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * Defines the interface of objects that feed data to the SHACL generation algorithm
@@ -120,5 +121,7 @@ public interface ShaclGeneratorDataProviderIfc {
 	 * @return
 	 */
 	public String getName(String classOrPropertyUri, String lang);
+	
+	public void registerMessageListener(Consumer<String> listener);
 	
 }

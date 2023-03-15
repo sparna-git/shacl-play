@@ -1,10 +1,7 @@
 package fr.sparna.rdf.shacl.generate;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -15,236 +12,139 @@ import org.apache.jena.query.QuerySolutionMap;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.ResourceFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import fr.sparna.rdf.jena.JenaResultSetHandlers;
 import fr.sparna.rdf.jena.QueryExecutionService;
 
-public class SamplingShaclGeneratorDataProvider implements ShaclGeneratorDataProviderIfc {
+public class SamplingShaclGeneratorDataProvider extends BaseShaclGeneratorDataProvider implements ShaclGeneratorDataProviderIfc {
 
-	// root where SPARQL queries are located
-	private static final String CLASSPATH_ROOT = "shacl/generate/";
+	private static final Logger log = LoggerFactory.getLogger(SamplingShaclGeneratorDataProvider.class);
 
-	// executes SPARQL queries either on local Model or remote endpoint
-	private final QueryExecutionService queryExecutionService;
-
-	// paginates through SPARQL queries
-	private final PaginatedQuery paginatedQuery;
-
+	private Map<String, List<RDFNode>> sampleInstancesCache = new HashMap<>();
 
 	public SamplingShaclGeneratorDataProvider(PaginatedQuery paginatedQuery, String endpointUrl) {
-		super();
-		this.queryExecutionService = new QueryExecutionService(endpointUrl);
-		this.paginatedQuery = paginatedQuery;
+		super(paginatedQuery, endpointUrl);
 	}
 
 	public SamplingShaclGeneratorDataProvider(PaginatedQuery paginatedQuery, Model inputModel) {
-		super();
-		this.queryExecutionService = new QueryExecutionService(inputModel);
-		this.paginatedQuery = paginatedQuery;
+		super(paginatedQuery, inputModel);
 	}
 
 	@Override
-	public List<String> getTypes() {
-		List<Map<String, RDFNode>> rows = this.paginatedQuery.select(this.queryExecutionService, readQuery("select-types.rq"));
-		List<String> types = JenaResultSetHandlers.convertSingleColumnUriToStringList(rows);
+	public List<String> getTypes() {		
+		try {
+			// try with normal query
+			return super.getTypes();
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.warn("Could not get complete list of types, will use a sampling technique");
+			
+			List<String> types = new ArrayList<>();
+			String ORIGINAL_QUERY = readQuery("sampling/select-one-type.rq");
+	
+			while(true) {
+				String filterClause = (types.isEmpty())?"":"filter (?type not in("+types.stream().map(t -> "<"+t+">").collect(Collectors.joining(", "))+"))";
+				String filteredQuery = ORIGINAL_QUERY.replace("FILTER_CLAUSE", filterClause);
+				
+				List<String> typesBatch;
+				try {
+					typesBatch = JenaResultSetHandlers.convertSingleColumnUriToStringList(
+							this.queryExecutionService.executeSelectQuery(filteredQuery, JenaResultSetHandlers::convertToListOfMaps)
+					);
+				} catch (RuntimeException e2) {
+					e2.printStackTrace();
+					log.warn("Got an exception when sampling types, probably a timeout : breaking");
+					this.messageListener.accept("Warning, list of classes could be incomplete");
+					break;
+				}
+				
+				if(typesBatch.isEmpty())
+					break;
+				
+				types.addAll(typesBatch);
+			}
 
-		// types.sort(getIriComparator(configuration));
-
-		return types;
+			return types;
+		}
 	}
 
 	@Override
 	public List<String> getProperties(String classUri) {
-		/*
-		List<Map<String, RDFNode>> rows = this.paginatedQuery.select(
-				this.queryExecutionService,
-				readQuery("select-properties-sample.rq"),
-				QueryExecutionService.buildQuerySolution("type", ResourceFactory.createResource(classUri))
-		);
-		
-		List<String> properties = paginatedQuery.convertSingleColumnUriToStringList(rows);
-		*/
-		
-		/*
-		List<Map<String, RDFNode>> instanceRows = this.paginatedQuery.select(
-				this.queryExecutionService,
-				readQuery("select-instances-sample.rq"),
-				QueryExecutionService.buildQuerySolution("type", ResourceFactory.createResource(classUri))
-		);
-		List<RDFNode> instances = JenaResultSetHandlers.convertSingleColumnUriToRDFNodeList(instanceRows);
-		
-		Set<String> properties = new HashSet<>();
-		for (RDFNode rdfNode : instances) {
-			List<Map<String, RDFNode>> rows = this.paginatedQuery.select(
+		try {
+			// try with normal query
+			return super.getProperties(classUri);
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.warn("Could not get complete list of properties of "+classUri+", will use a sample");
+			
+			SamplingQuery samplingQuery = new SamplingQuery(2, 50000, 50);
+			List<Map<String, RDFNode>> instanceRows = samplingQuery.select(
 					this.queryExecutionService,
-					readQuery("select-instances-properties.rq"),
-					QueryExecutionService.buildQuerySolution("uri", rdfNode)
+					readQuery("sampling/select-instances.rq"),
+					QueryExecutionService.buildQuerySolution("type", ResourceFactory.createResource(classUri))
 			);
-			properties.addAll(JenaResultSetHandlers.convertSingleColumnUriToStringList(rows));
+			List<RDFNode> instances = JenaResultSetHandlers.convertSingleColumnUriToRDFNodeList(instanceRows);
+			
+			// store the instance sample in cache
+			this.sampleInstancesCache.put(classUri, instances);
+			
+			ValuesQuery valuesQuery = new ValuesQuery(20);
+			List<Map<String, RDFNode>> rows = valuesQuery.select(queryExecutionService, readQuery("sampling/select-instances-properties.rq"), "uri", instances);
+			
+			this.messageListener.accept("Warning, properties read on a sample of "+this.sampleInstancesCache.get(classUri).size()+" entities");
+			List<String> duplicatedList = JenaResultSetHandlers.convertSingleColumnUriToStringList(rows);
+			Set<String> dedupList = new HashSet<String>(duplicatedList);
+			return new ArrayList<String>(dedupList);
 		}
-		
-		return new ArrayList<String>(properties);
-		*/
-		
-		SamplingQuery paginatedQuery = new SamplingQuery(2, 50000, 50);
-		List<Map<String, RDFNode>> instanceRows = paginatedQuery.select(
-				this.queryExecutionService,
-				readQuery("select-instances-sample.rq"),
-				QueryExecutionService.buildQuerySolution("type", ResourceFactory.createResource(classUri))
-		);
-		List<RDFNode> instances = JenaResultSetHandlers.convertSingleColumnUriToRDFNodeList(instanceRows);
-		
-		/*
-		Set<String> properties = new HashSet<>();
-		for (RDFNode rdfNode : instances) {
-			List<Map<String, RDFNode>> rows = this.paginatedQuery.select(
-					this.queryExecutionService,
-					readQuery("select-instances-properties.rq"),
-					QueryExecutionService.buildQuerySolution("uri", rdfNode)
-			);
-			properties.addAll(JenaResultSetHandlers.convertSingleColumnUriToStringList(rows));
+	}
+
+	@Override
+	public List<String> getDatatypes(String classUri, String propertyUri) {	
+		try {
+			// try with normal query
+			return super.getDatatypes(classUri, propertyUri);
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.warn("Could not get complete list of datatypes for "+propertyUri+" on class "+classUri+", will use only the sample");
+			
+			QuerySolutionMap qs = new QuerySolutionMap();
+			qs.add("type", ResourceFactory.createResource(classUri));
+			qs.add("property", ResourceFactory.createResource(propertyUri));
+			
+			ValuesQuery valuesQuery = new ValuesQuery(20);
+			List<Map<String, RDFNode>> rows = valuesQuery.select(queryExecutionService, readQuery("select-datatypes.rq"), "uri", this.sampleInstancesCache.get(classUri));
+			
+			this.messageListener.accept("Warning, sh:datatype read on a sample of "+this.sampleInstancesCache.get(classUri).size()+" entities");
+			List<String> duplicatedList = JenaResultSetHandlers.convertSingleColumnUriToStringList(rows);
+			Set<String> dedupList = new HashSet<String>(duplicatedList);
+			return new ArrayList<String>(dedupList);
 		}
-		*/
-		
-		Set<String> properties = new HashSet<>();
-		ValuesQuery valuesQuery = new ValuesQuery(10);
-		List<Map<String, RDFNode>> rows = valuesQuery.select(queryExecutionService, readQuery("select-instances-properties.rq"), "uri", instances);
-		properties.addAll(JenaResultSetHandlers.convertSingleColumnUriToStringList(rows));
-		
-		return new ArrayList<String>(properties);
-	}
-
-	@Override
-	public boolean hasInstanceWithoutProperty(String classUri, String propertyUri) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean hasInstanceWithTwoProperties(String classUri, String propertyUri) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean hasIriObject(String classUri, String propertyUri) {
-		QuerySolutionMap qs = new QuerySolutionMap();
-		qs.add("type", ResourceFactory.createResource(classUri));
-		qs.add("property", ResourceFactory.createResource(propertyUri));
-		return this.queryExecutionService.executeAskQuery(readQuery("nodekind-is-iri.rq"), qs);
-	}
-
-	@Override
-	public boolean hasLiteralObject(String classUri, String propertyUri) {
-		QuerySolutionMap qs = new QuerySolutionMap();
-		qs.add("type", ResourceFactory.createResource(classUri));
-		qs.add("property", ResourceFactory.createResource(propertyUri));
-		return this.queryExecutionService.executeAskQuery(readQuery("nodekind-is-literal.rq"), qs);
-	}
-
-	@Override
-	public boolean hasBlankNodeObject(String classUri, String propertyUri) {
-		QuerySolutionMap qs = new QuerySolutionMap();
-		qs.add("type", ResourceFactory.createResource(classUri));
-		qs.add("property", ResourceFactory.createResource(propertyUri));
-		return this.queryExecutionService.executeAskQuery(readQuery("nodekind-is-blank.rq"), qs);
-	}
-
-	@Override
-	public List<String> getDatatypes(String classUri, String propertyUri) {
-		QuerySolutionMap qs = new QuerySolutionMap();
-		qs.add("type", ResourceFactory.createResource(classUri));
-		qs.add("property", ResourceFactory.createResource(propertyUri));
-		
-		return JenaResultSetHandlers.convertSingleColumnUriToStringList(
-				this.queryExecutionService.executeSelectQuery(
-						readQuery("select-datatypes.rq"),
-						qs,
-						JenaResultSetHandlers::convertToListOfMaps
-						)
-				);
-	}
-
-	@Override
-	public boolean isNotUniqueLang(String classUri, String propertyUri) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public List<String> getLanguages(String classUri, String propertyUri) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
 	public List<String> getObjectTypes(String classUri, String propertyUri) {
-		QuerySolutionMap qs = new QuerySolutionMap();
-		qs.add("type", ResourceFactory.createResource(classUri));
-		qs.add("property", ResourceFactory.createResource(propertyUri));
-		List<Map<String, RDFNode>> rows = this.paginatedQuery.select(this.queryExecutionService, readQuery("select-object-types.rq"), qs);
-		List<String> types = JenaResultSetHandlers.convertSingleColumnUriToStringList(rows);
-		return types;
-	}
-
-	@Override
-	public String getName(String classOrPropertyUri, String lang) {
-		// TODO : query to read a label, or dereference URI to get its description
-		return ResourceFactory.createResource(classOrPropertyUri).getLocalName();
+		try {
+			return super.getObjectTypes(classUri, propertyUri);
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.warn("Could not get complete list of object types for "+propertyUri+" on class "+classUri+", will use only the sample");
+			
+			QuerySolutionMap qs = new QuerySolutionMap();
+			qs.add("type", ResourceFactory.createResource(classUri));
+			qs.add("property", ResourceFactory.createResource(propertyUri));
+			
+			ValuesQuery valuesQuery = new ValuesQuery(20);
+			List<Map<String, RDFNode>> rows = valuesQuery.select(queryExecutionService, readQuery("select-object-types.rq"), "uri", this.sampleInstancesCache.get(classUri));
+			
+			this.messageListener.accept("Warning, sh:class read on a sample of "+this.sampleInstancesCache.get(classUri).size()+" entities");
+			List<String> duplicatedList = JenaResultSetHandlers.convertSingleColumnUriToStringList(rows);
+			Set<String> dedupList = new HashSet<String>(duplicatedList);
+			return new ArrayList<String>(dedupList);
+		}
 	}
 	
-	@Override
-	public int countInstances(String classUri) {
-		int count = this.queryExecutionService.executeSelectQuery(
-				readQuery("count-instances.rq"),
-				QueryExecutionService.buildQuerySolution("type", ResourceFactory.createResource(classUri)),
-				JenaResultSetHandlers::convertToInt
-				
-		);
-		return count;
-	}
-
-	@Override
-	public int countStatements(String subjectClassUri, String propertyUri) {
-		QuerySolutionMap qs = new QuerySolutionMap();
-		qs.add("type", ResourceFactory.createResource(subjectClassUri));
-		qs.add("property", ResourceFactory.createResource(propertyUri));
-		
-		int count = this.queryExecutionService.executeSelectQuery(
-				readQuery("count-instances.rq"),
-				qs,
-				JenaResultSetHandlers::convertToInt
-				
-		);
-		return count;
-	}
-
-	private String readQuery(String resourceName) {
-		try {
-			return getResourceFileAsString(CLASSPATH_ROOT+resourceName);
-		} catch (IOException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-
-
-	/**
-	 * Reads given resource file as a string.
-	 *
-	 * @param fileName path to the resource file
-	 * @return the file's contents
-	 * @throws IOException if read fails for any reason
-	 */
-	static String getResourceFileAsString(String fileName) throws IOException {
-		ClassLoader classLoader = ClassLoader.getSystemClassLoader();
-		try (InputStream is = classLoader.getResourceAsStream(fileName)) {
-			if (is == null) return null;
-			try (InputStreamReader isr = new InputStreamReader(is);
-					BufferedReader reader = new BufferedReader(isr)) {
-				return reader.lines().collect(Collectors.joining(System.lineSeparator()));
-			}
-		}
-	}
+	
 
 }

@@ -77,7 +77,7 @@ public class SamplingQuery {
 	  String limit;
 	  // first iteration : take more instances
 	  if(batchNumber == 0) {
-		  limit = " limit " + (batchSize*100);
+		  limit = " limit " + (batchSize*10);
 	  } else {
 		  limit = " limit " + batchSize + " offset " + (stepSize * batchNumber);
 	  }

@@ -1,0 +1,6 @@
+select ?type
+where {
+  ?x a ?type .
+  # here will be inserted a FILTER (?type NOT IN(...)) clause
+  FILTER_CLAUSE
+} limit 1

@@ -44,8 +44,8 @@ public class App
 			shapes.write(System.out,"Turtle");
 
 			// shapes = generator.generateShapes(config, "https://data.bnf.fr/sparql");
-			// final String ENDPOINT = "http://sparql.europeana.eu"; 
-			final String ENDPOINT = "https://data.bnf.fr/sparql";
+			final String ENDPOINT = "http://sparql.europeana.eu"; 
+			// final String ENDPOINT = "https://data.bnf.fr/sparql";
 			SamplingShaclGeneratorDataProvider dataProvider2 = new SamplingShaclGeneratorDataProvider(new PaginatedQuery(100), ENDPOINT);
 			shapes = generator.generateShapes(config, dataProvider2);
 			shapes.write(System.out,"Turtle");

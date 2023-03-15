@@ -42,11 +42,17 @@ public class ValuesQuery {
 	  int batchNumber = 0;
 	  List<Map<String, RDFNode>> result = new ArrayList<>();
 	  while (true) {
-		  List<RDFNode> valuesBatch = values.subList(batchNumber*this.batchSize, batchSize);
-		  if(valuesBatch.size() == 0) {
+		  int fromIndex = batchNumber*this.batchSize;
+		  int toIndex = (batchNumber*this.batchSize)+batchSize;
+		  
+		  // we have reached a size greater than the list length, so stop
+		  if(fromIndex >= values.size()) {
 			  break;
 		  }
 		  
+		  List<RDFNode> valuesBatch = (values.size() < toIndex)?
+				  values.subList(fromIndex, values.size())
+				  :values.subList(fromIndex, toIndex);
 		  
 		  List<Map<String, RDFNode>> batchMap = selectBatch(service, query, varName, valuesBatch);
 		  result.addAll(batchMap);

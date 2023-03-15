@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.ResourceFactory;
@@ -70,18 +71,23 @@ public class ShaclGenerator {
 			shacl.setNsPrefix(configuration.getShapesNamespacePrefix(), configuration.getShapesNamespace());
 		}
 		
-		// generate node shapes corresponding to types
-		addTypes(configuration, shacl);
-		log.debug("(generate) add types done");
-
 		// add an ontology header
 		if(configuration.getShapesOntology() != null) {
 			addOntology(configuration, shacl);
 		}
 		
+		// generate node shapes corresponding to types
+		addTypes(configuration, shacl);
+		log.debug("(generate) add types done");
+		
 		return shacl;
 	}
 	
+	/**
+	 * Adds an ontology header with a few basic metadata
+	 * @param configuration
+	 * @param shacl
+	 */
 	private void addOntology(
 		Configuration configuration,
 		Model shacl
@@ -103,6 +109,9 @@ public class ShaclGenerator {
 			Configuration configuration,
 			Model shacl
 	) {
+		this.dataProvider.registerMessageListener(
+				s -> concatOnProperty(shacl.getResource(configuration.getShapesOntology()), RDFS.comment, s)
+		);
 		List<String> types = this.dataProvider.getTypes();
 		log.debug("(addTypes) found {} types", types.size());
 		types.forEach(type -> addType(configuration, shacl, type));
@@ -130,14 +139,14 @@ public class ShaclGenerator {
 		Resource typeShape = buildShapeURIFromResource(configuration, shacl, null, targetClass);
 
 		// add the 2 triples in the output Model
+		log.debug("(addType) shape name '{}' for targetClass '{}'", typeShape.getURI(), targetClass.getURI());
 		shacl.add(typeShape, RDF.type, SHACLM.NodeShape);
 		shacl.add(typeShape, SHACLM.targetClass, targetClass);
 
-		if (log.isDebugEnabled())
-			log.debug("(addType) shape name '{}' for targetClass '{}'", typeShape.getURI(), targetClass.getURI());
-
-		// add the property shapes on this NodeShape
-		addProperties(configuration, shacl, typeShape, targetClass);
+		// if the data provider send us any message, store them on the rdfs:comment property of the shape
+		this.dataProvider.registerMessageListener(
+				s -> concatOnProperty(typeShape, RDFS.comment, s)
+		);
 		
 		// add the name
 		String name = this.dataProvider.getName(typeUri, configuration.getLang());		
@@ -148,9 +157,14 @@ public class ShaclGenerator {
 		// add the count
 		int count = this.dataProvider.countInstances(typeUri);		
 		if(count > 0) {
+			log.debug("  (count) node shape '{}' gets count '{}'", typeShape.getLocalName(), count);
 			// TODO : find more suitable property to store number of instances
-			shacl.add(typeShape, RDFS.comment, count+" instances");
+			concatOnProperty(typeShape, RDFS.comment, count+" instances");
 		}
+		
+		// add the property shapes on this NodeShape
+		addProperties(configuration, shacl, typeShape, targetClass);
+
 	}
 	
 	/**
@@ -168,8 +182,7 @@ public class ShaclGenerator {
 			Resource targetClass) {
 		try {
 			List<String> properties = this.dataProvider.getProperties(targetClass.getURI());
-			if (log.isDebugEnabled())
-				log.debug("(addProperties) shape '{}' has {} properties", typeShape.getLocalName(), properties.size());
+			log.debug("(addProperties) shape '{}' has {} properties", typeShape.getLocalName(), properties.size());
 
 			properties.forEach(property -> addProperty(
 					configuration,
@@ -199,23 +212,22 @@ public class ShaclGenerator {
 		Resource targetClass,
 		String property
 	) {
-
+		
 		Resource path = ResourceFactory.createResource(property);
 		Resource propertyShape = buildShapeURIFromResource(configuration, shacl, targetClass.getLocalName(), path);
 
-		if (log.isDebugEnabled())
-			log.debug("(addProperty) shape '{}' gets '{}'", typeShape.getLocalName(), propertyShape.getLocalName());
+		// if the data provider sends us any message, store them on the sh:description property of the property shape
+		this.dataProvider.registerMessageListener(
+				s -> concatOnProperty(propertyShape, SHACLM.description, s)
+		);
+		
+		log.debug("(addProperty) shape '{}' gets '{}'", typeShape.getLocalName(), propertyShape.getLocalName());
 
 		shacl.add(typeShape, SHACLM.property, propertyShape);
 
 		// add the sh:path triple to the output Model
 		shacl.add(propertyShape, SHACLM.path, path);
 
-//		setMinCount(rdfStoreService, shacl, targetClass, path, propertyShape);
-//		setMaxCount(rdfStoreService, shacl, targetClass, path, propertyShape);
-//
-		setNodeKind(configuration, shacl, targetClass, path, propertyShape);
-	
 		// add the name
 		String name = this.dataProvider.getName(property, configuration.getLang());		
 		if(name != null) {
@@ -225,9 +237,17 @@ public class ShaclGenerator {
 		// add the count
 		int count = this.dataProvider.countStatements(targetClass.getURI(), property);		
 		if(count > 0) {
+			log.debug("  (count) property shape '{}' gets count '{}'", propertyShape.getLocalName(), count);
 			// TODO : find more suitable property to store number of instances
-			shacl.add(propertyShape, SHACLM.description, count+" statements");
+			concatOnProperty(propertyShape, SHACLM.description, count+" statements");
 		}
+		
+//		setMinCount(rdfStoreService, shacl, targetClass, path, propertyShape);
+//		setMaxCount(rdfStoreService, shacl, targetClass, path, propertyShape);
+//
+		setNodeKind(configuration, shacl, targetClass, path, propertyShape);
+	
+
 	}
 
 	/**
@@ -254,13 +274,11 @@ public class ShaclGenerator {
 
 		Resource nodeKindValue = calculateNodeKind(hasIri, hasBlank, hasLiteral);
 		if (nodeKindValue != null) {
+			log.debug("  (setNodeKind) property shape '{}' gets node kind '{}'", propertyShape.getLocalName(), nodeKindValue.getLocalName());
 			shacl.add(propertyShape, SHACLM.nodeKind, nodeKindValue);
-			if (log.isDebugEnabled())
-				log.debug("  (setNodeKind) property shape '{}' gets node kind '{}'", propertyShape.getLocalName(), nodeKindValue.getLocalName());
-
 		}
 		else {
-			log.warn("No sh:nodeKind could be derived for '{}'", propertyShape.getURI());
+			log.warn("  (setNodeKind) no sh:nodeKind could be derived for '{}'", propertyShape.getURI());
 		}
 
 		if (nodeKindValue == SHACLM.Literal) {
@@ -281,7 +299,9 @@ public class ShaclGenerator {
 		
 		if(datatypes.size() > 1) {
 			log.warn(datatypes.size()+" datatypes found for property '{}' in class '{}'", path.getURI(), targetClass.getURI());
+			concatOnProperty(propertyShape, SHACLM.description, "Multiple datatypes found : "+datatypes);
 		} else {
+			log.debug("  (setShaclDatatype) property shape '{}' gets sh:datatype '{}'", propertyShape.getLocalName(), datatypes.get(0));
 			shacl.add(propertyShape, SHACLM.datatype, shacl.createResource(datatypes.get(0)));
 		}
 		
@@ -306,7 +326,7 @@ public class ShaclGenerator {
 	}	
 	
 	/**
-	 * Assignes the sh:class constraint on the property shape
+	 * Assigns the sh:class constraint on the property shape
 	 * 
 	 * @param configuration
 	 * @param shacl
@@ -324,14 +344,17 @@ public class ShaclGenerator {
 		List<String> classes = calculateClasses(configuration, targetClass, path);
 
 		if (classes.isEmpty()) {
-			String message = getMessage("type '{}' and property '{}' is considered an 'rdfs:Resource'.",
-					shortenUri(shacl, targetClass), shortenUri(shacl, path));
+			String message = getMessage(
+					"type '{}' and property '{}' is considered an 'rdfs:Resource'.",
+					shortenUri(shacl, targetClass),
+					shortenUri(shacl, path)
+			);
 			log.warn(message);
 			return;
 		}
 
 
-		if (classes.size() != 1) {
+		if (classes.size() > 1) {
 			String message = getMessage(
 					"type '{}' and property '{}' does not have exactly one class: {}",
 					shortenUri(shacl, targetClass),
@@ -339,11 +362,12 @@ public class ShaclGenerator {
 					shortenUri(shacl, classes)
 			);
 			log.warn(message);
+			concatOnProperty(propertyShape, SHACLM.description, "Multiple classes found : "+classes);
 			return;
 		}
 
-		Resource classValue = ResourceFactory.createResource(classes.get(0));
-		shacl.add(propertyShape, SHACLM.class_, classValue);
+		log.debug("  (setShaclClass) property shape '{}' gets sh:class '{}'", propertyShape.getLocalName(), classes.get(0));
+		shacl.add(propertyShape, SHACLM.class_, shacl.createResource(classes.get(0)));
 	}
 	
 	private List<String> calculateClasses(
@@ -385,7 +409,7 @@ public class ShaclGenerator {
 					: firstPart + "_" + originalResource.getLocalName();
 			
 			// Create a resource with that URI
-			Resource resource = ResourceFactory.createResource(configuration.getShapesNamespace() + localName);
+			Resource resource = shacl.createResource(configuration.getShapesNamespace() + localName);
 
 			// determine if Resource with that URI already exists
 			// deal with the case of edm:rights vs. dc:rights, edm:type vs. dc:type, etc.
@@ -395,7 +419,7 @@ public class ShaclGenerator {
 			} else {
 				// if there was already one, compute a second URI
 				localName = localName+"_2";
-				return ResourceFactory.createResource(configuration.getShapesNamespace() + localName);
+				return shacl.createResource(configuration.getShapesNamespace() + localName);
 			}	
 		}
 		
@@ -421,6 +445,16 @@ public class ShaclGenerator {
 	private String getMessage(String messagePattern, Object... parameters) {
 		return MessageFormatter.arrayFormat(messagePattern, parameters)
 				.getMessage();
+	}
+	
+	private static void concatOnProperty(Resource r, Property p, String s) {
+		if(r.getProperty(p) != null) {
+			String currentValue = r.getProperty(p).getObject().asLiteral().getLexicalForm();
+			r.removeAll(p);
+			r.addProperty(p, currentValue+".\n"+s);
+		} else {
+			r.addProperty(p, s);
+		}
 	}
 
 }

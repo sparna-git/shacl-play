@@ -5,7 +5,7 @@ public class BoxShapeRules {
 	protected String ShSparqlRuleName;
 	protected String RdfsLabel;
 	protected String RdfsComments;
-	protected String ShOrder;
+	protected Integer ShOrder;
 	protected String ShPrefixes;
 	protected String ShConstruct;
 	
@@ -29,10 +29,10 @@ public class BoxShapeRules {
 	public void setRdfsComments(String rdfsComments) {
 		RdfsComments = rdfsComments;
 	}
-	public String getShOrder() {
+	public Integer getShOrder() {
 		return ShOrder;
 	}
-	public void setShOrder(String shOrder) {
+	public void setShOrder(Integer shOrder) {
 		ShOrder = shOrder;
 	}
 	public String getShPrefixes() {

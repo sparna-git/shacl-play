@@ -56,10 +56,10 @@ public class BoxShapeRulesReader_code {
 		return value;
 	}
 	
-	public String readShRulesOrder(Resource nodeShapeRules) {
-		String value = null;
+	public Integer readShRulesOrder(Resource nodeShapeRules) {
+		int value = 0;
 		if(nodeShapeRules.hasProperty(SH.order)) {
-			value = nodeShapeRules.getProperty(SH.order).getString();
+			value = nodeShapeRules.getProperty(SH.order).getInt();
 		}
 		return value;
 	}

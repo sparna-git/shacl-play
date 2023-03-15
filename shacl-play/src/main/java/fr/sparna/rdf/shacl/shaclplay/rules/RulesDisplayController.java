@@ -26,6 +26,8 @@ import fr.sparna.rdf.shacl.shaclplay.catalog.AbstractCatalogEntry;
 import fr.sparna.rdf.shacl.shaclplay.catalog.rules.RulesCatalog;
 import fr.sparna.rdf.shacl.shaclplay.catalog.rules.RulesCatalogService;
 import fr.sparna.rdf.shacl.shaclplay.rules.model.BoxRules;
+import fr.sparna.rdf.shacl.shaclplay.rules.model.BoxShape;
+import fr.sparna.rdf.shacl.shaclplay.rules.model.BoxShapeTarget;
 
 
 @Controller
@@ -140,7 +142,7 @@ public class RulesDisplayController {
 			
 			BoxRulesReader p = new BoxRulesReader();
 			BoxRules box = p.read(shapesModel);
-			
+						
 			return new ModelAndView("display-rules", BoxRules.class.getSimpleName(), box);
 			
 				

@@ -56,15 +56,11 @@ public class BoxRulesReader {
 		 * 
 		 */
 		
-		//Lectura de todos los nodos que existan en el modelo
-		List<Resource> nodeShapes =  GraphModel.listResourcesWithProperty(RDF.type, SH.NodeShape).toList();
+		//Lectura de todos los nodos que existan en el modelo, 
 		BoxShapeReader nodeShapeReader = new BoxShapeReader();
-		List<BoxShape> BoxShapeAll = nodeShapes.stream().map(res -> nodeShapeReader.readShape(res, nodeShapes)).collect(Collectors.toList());
-		List<BoxShapeTarget> aShape = new ArrayList<>();
 		//Recuperamos los datos de las propiedades (Target y Rules)
-		for(BoxShape aBoxshape : BoxShapeAll) {
-			p.setShapeRules(nodeShapeReader.read(GraphModel));			
-		}			
+		p.setShapeRules(nodeShapeReader.read(GraphModel));					
+		
 		return p;		
 	}
 	
@@ -84,7 +80,6 @@ public class BoxRulesReader {
 		}
 		return value;
 	}
-	
 	
 	public String readOwlLabel(Resource nodeShape) {
 		String value = null;

@@ -356,7 +356,7 @@ public class PlantUmlRenderer {
 		
 		if (box.getProperties().size() > 0 || box.getSuperClasses().size() > 0) {
 			if (box.getNodeShape().isAnon()) {
-				// give it an ampty label
+				// give it an empty label
 				declaration = "Class" + " " + box.getLabel() +" as " +"\""+" \"";
 			} else {
 				declaration = "Class" + " " + "\"" + box.getLabel() + "\"";
@@ -376,7 +376,8 @@ public class PlantUmlRenderer {
 				boolean displayAsDatatypeProperty = false;
 				
 				// if we want to avoid arrows to empty boxes...
-				if (avoidArrowsToEmptyBoxes) {
+				// note that this behavior is triggered only if the diagram has a certain size
+				if (avoidArrowsToEmptyBoxes && diagram.getBoxes().size() > 8) {
 					// then see if there is a reference to a box
 					String arrowReference = plantUmlproperty.getShNodeOrShClassReference();
 					PlantUmlBox boxReference = diagram.findBoxById(arrowReference);

@@ -42,7 +42,7 @@ public class PlantUmlDiagramReader {
 				// then read an rdfs:label
 				d.setTitle(this.readDctTitle(aRef, lang));
 
-				// then read an rdfs:commebt
+				// then read an rdfs:comment
 				d.setDescription(this.readDctDescription(aRef, lang));
 				
 				// and an order

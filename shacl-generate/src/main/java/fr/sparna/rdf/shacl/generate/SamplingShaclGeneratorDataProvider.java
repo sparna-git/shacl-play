@@ -141,7 +141,10 @@ public class SamplingShaclGeneratorDataProvider extends BaseShaclGeneratorDataPr
 			this.messageListener.accept("Warning, sh:class read on a sample of "+this.sampleInstancesCache.get(classUri).size()+" entities");
 			List<String> duplicatedList = JenaResultSetHandlers.convertSingleColumnUriToStringList(rows);
 			Set<String> dedupList = new HashSet<String>(duplicatedList);
+			
 			return new ArrayList<String>(dedupList);
+			
+			
 		}
 	}
 	

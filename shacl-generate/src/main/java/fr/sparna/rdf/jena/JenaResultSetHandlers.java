@@ -43,6 +43,10 @@ public abstract class JenaResultSetHandlers {
 	return convertSingleColumnToList(results, input -> input.asLiteral().getInt());
   }
   
+  public static List<String> convertSingleColumnLiteralToList(List<Map<String, RDFNode>> results) {
+	return convertSingleColumnToList(results, input -> input.asLiteral().getLexicalForm());
+  }
+  
   /**
    * Reads the result of a count query and returns an int directly
    * 

@@ -1,6 +1,8 @@
 package fr.sparna.rdf.shacl.generate;
 
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -44,11 +46,19 @@ public class App
 			shapes.write(System.out,"Turtle");
 
 			// shapes = generator.generateShapes(config, "https://data.bnf.fr/sparql");
-			final String ENDPOINT = "http://sparql.europeana.eu"; 
+			// final String ENDPOINT = "http://sparql.europeana.eu"; 
+			// final String ENDPOINT = "http://openarchaeo.huma-num.fr/federation/sparql";
+			final String ENDPOINT = "http://graphdb.sparna.fr/repositories/europeana-poc";
+			// final String ENDPOINT = "http://51.159.140.210/graphdb/repositories/sparnatural-demo-anf?infer=false";
 			// final String ENDPOINT = "https://data.bnf.fr/sparql";
 			SamplingShaclGeneratorDataProvider dataProvider2 = new SamplingShaclGeneratorDataProvider(new PaginatedQuery(100), ENDPOINT);
 			shapes = generator.generateShapes(config, dataProvider2);
 			shapes.write(System.out,"Turtle");
+			
+			File output = new File("/home/thomas/auto-shapes.ttl");
+			try(FileOutputStream out = new FileOutputStream(output)) {
+				shapes.write(out,"Turtle");
+			}
 		}
 
 

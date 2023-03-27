@@ -1,5 +1,5 @@
 ask {
   ?uri a $type .
   ?uri $property ?x.
-  filter (isuri(?x))
+  filter (isIRI(?x))
 }

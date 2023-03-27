@@ -1,0 +1,3 @@
+select (count(*) as ?count) {
+  ?s ?p ?o .
+}

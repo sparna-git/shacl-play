@@ -47,6 +47,18 @@ public class BaseShaclGeneratorDataProvider implements ShaclGeneratorDataProvide
 		this.queryExecutionService = new QueryExecutionService(inputModel);
 		this.paginatedQuery = paginatedQuery;
 	}
+	
+	
+
+	@Override
+	public int countTriples() {
+		int count = this.queryExecutionService.executeSelectQuery(
+				readQuery("count-triples.rq"),
+				JenaResultSetHandlers::convertToInt
+				
+		);
+		return count;
+	}
 
 	@Override
 	public List<String> getTypes() {
@@ -72,14 +84,18 @@ public class BaseShaclGeneratorDataProvider implements ShaclGeneratorDataProvide
 
 	@Override
 	public boolean hasInstanceWithoutProperty(String classUri, String propertyUri) {
-		// TODO Auto-generated method stub
-		return false;
+		QuerySolutionMap qs = new QuerySolutionMap();
+		qs.add("type", ResourceFactory.createResource(classUri));
+		qs.add("property", ResourceFactory.createResource(propertyUri));
+		return this.queryExecutionService.executeAskQuery(readQuery("has-instance-without-property.rq"), qs);
 	}
 
 	@Override
 	public boolean hasInstanceWithTwoProperties(String classUri, String propertyUri) {
-		// TODO Auto-generated method stub
-		return false;
+		QuerySolutionMap qs = new QuerySolutionMap();
+		qs.add("type", ResourceFactory.createResource(classUri));
+		qs.add("property", ResourceFactory.createResource(propertyUri));
+		return this.queryExecutionService.executeAskQuery(readQuery("has-instance-with-two-properties.rq"), qs);
 	}
 
 	@Override
@@ -129,8 +145,17 @@ public class BaseShaclGeneratorDataProvider implements ShaclGeneratorDataProvide
 
 	@Override
 	public List<String> getLanguages(String classUri, String propertyUri) {
-		// TODO Auto-generated method stub
-		return null;
+		QuerySolutionMap qs = new QuerySolutionMap();
+		qs.add("type", ResourceFactory.createResource(classUri));
+		qs.add("property", ResourceFactory.createResource(propertyUri));
+		
+		return JenaResultSetHandlers.convertSingleColumnLiteralToList(
+				this.queryExecutionService.executeSelectQuery(
+						readQuery("select-languages.rq"),
+						qs,
+						JenaResultSetHandlers::convertToListOfMaps
+						)
+				);
 	}
 
 	@Override

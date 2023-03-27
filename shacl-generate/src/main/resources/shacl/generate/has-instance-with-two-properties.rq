@@ -1,0 +1,6 @@
+ask {
+  ?uri a $type .
+  ?uri $property ?x, ?y.
+
+  filter (?x != ?y)
+}

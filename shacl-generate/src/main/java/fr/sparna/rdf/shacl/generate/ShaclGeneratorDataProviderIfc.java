@@ -11,6 +11,13 @@ import java.util.function.Consumer;
 public interface ShaclGeneratorDataProviderIfc {
 
 	/**
+	 * Counts the total number of triples in the dataset.
+	 * 
+	 * @return
+	 */
+	public int countTriples();
+	
+	/**
 	 * Returns all types found in the data
 	 * @return
 	 */

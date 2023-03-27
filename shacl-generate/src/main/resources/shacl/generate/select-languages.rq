@@ -1,0 +1,9 @@
+select distinct ?value {
+  ?uri a $type .
+  ?uri $property ?x.
+  bind (lang(?x) as ?value)
+
+  # only 'real' languages
+  filter (bound(?value) && ?value != "")
+}
+order by ?value

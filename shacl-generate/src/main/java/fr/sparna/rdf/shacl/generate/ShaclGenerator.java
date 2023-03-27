@@ -8,9 +8,12 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.apache.jena.datatypes.xsd.XSDDatatype;
+import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Property;
+import org.apache.jena.rdf.model.RDFList;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.ResourceFactory;
@@ -95,7 +98,15 @@ public class ShaclGenerator {
 		Resource onto = shacl.createResource(configuration.getShapesOntology());
 		shacl.add(onto, RDF.type, OWL.Ontology);
 		shacl.add(onto, DCTerms.created, shacl.createTypedLiteral(Calendar.getInstance()));
-		shacl.add(onto, DCTerms.description, shacl.createLiteral("Created by SHACL Play", "en"));
+		
+		// count the total number of triples
+		int count = this.dataProvider.countTriples();		
+		if(count > 0) {
+			log.debug("(count) ontology '{}' gets count '{}'", onto.getLocalName(), count);
+			concatOnProperty(onto, DCTerms.abstract_, "Total triples in the data:"+count);
+		}
+		
+		concatOnProperty(onto, DCTerms.abstract_, "Created automatically by SHACL Play!");
 	}
 	
 
@@ -242,9 +253,8 @@ public class ShaclGenerator {
 			concatOnProperty(propertyShape, SHACLM.description, count+" statements");
 		}
 		
-//		setMinCount(rdfStoreService, shacl, targetClass, path, propertyShape);
-//		setMaxCount(rdfStoreService, shacl, targetClass, path, propertyShape);
-//
+		setMinCount(shacl, targetClass, path, propertyShape);
+		setMaxCount(shacl, targetClass, path, propertyShape);
 		setNodeKind(configuration, shacl, targetClass, path, propertyShape);
 	
 
@@ -303,6 +313,10 @@ public class ShaclGenerator {
 		} else {
 			log.debug("  (setShaclDatatype) property shape '{}' gets sh:datatype '{}'", propertyShape.getLocalName(), datatypes.get(0));
 			shacl.add(propertyShape, SHACLM.datatype, shacl.createResource(datatypes.get(0)));
+			
+			if (RDF.langString.getURI().equals(datatypes.get(0))) {
+		      setLanguageIn(shacl, targetClass, path, propertyShape);
+		    }
 		}
 		
 	}
@@ -343,6 +357,9 @@ public class ShaclGenerator {
 	) {
 		List<String> classes = calculateClasses(configuration, targetClass, path);
 
+		// always remove owl:NamedIndividual from the result
+		classes.remove("http://www.w3.org/2002/07/owl#NamedIndividual");
+		
 		if (classes.isEmpty()) {
 			String message = getMessage(
 					"type '{}' and property '{}' is considered an 'rdfs:Resource'.",
@@ -391,7 +408,48 @@ public class ShaclGenerator {
 		// we tried, return as what's left
 		return new ArrayList<>(classes);
 	}
-	
+
+	private void setMinCount(
+			Model shacl,
+			Resource targetClass,
+			Resource path,
+			Resource propertyShape
+			) {
+		if (log.isTraceEnabled()) log.trace("(setMinCount) start");
+
+		boolean hasInstanceWithoutProperty = this.dataProvider.hasInstanceWithoutProperty(targetClass.getURI(), path.getURI());
+		if (!hasInstanceWithoutProperty) {
+			shacl.add(propertyShape, SHACLM.minCount, ResourceFactory.createTypedLiteral("1", XSDDatatype.XSDinteger));
+		}
+	}
+
+	private void setMaxCount(
+			Model shacl,
+			Resource targetClass,
+			Resource path,
+			Resource propertyShape
+			) {
+		if (log.isTraceEnabled()) log.trace("(setMaxCount) start");
+
+		boolean hasInstanceWithTwoProperties = this.dataProvider.hasInstanceWithTwoProperties(targetClass.getURI(), path.getURI());
+		if (!hasInstanceWithTwoProperties) {
+			shacl.add(propertyShape, SHACLM.maxCount, ResourceFactory.createTypedLiteral("1", XSDDatatype.XSDinteger));
+		}
+	}
+
+	private void setLanguageIn(
+			Model shacl,
+			Resource targetClass,
+			Resource path,
+			Resource propertyShape) {
+		List<String> languages = this.dataProvider.getLanguages(targetClass.getURI(), path.getURI());
+
+		List<Literal> languagesAsLiterals = languages.stream().map(s -> shacl.createLiteral(s)).collect(Collectors.toList());
+		RDFList languagesList = shacl.createList(languagesAsLiterals.iterator());
+
+		log.debug("  (setLanguageIn) property shape '{}' gets sh:languageIn '{}'", propertyShape.getLocalName(), languages);
+		shacl.add(propertyShape, SHACLM.languageIn, languagesList);
+	}
 	
 	private Resource buildShapeURIFromResource(
 		Configuration configuration,
@@ -430,6 +488,8 @@ public class ShaclGenerator {
 	}
 
 	private static String shortenUri(Model shacl, Resource resource) {
+		if(resource.isAnon()) return resource.toString();
+		
 		String prefix = shacl.getNsURIPrefix(resource.getNameSpace());
 		if (prefix == null) return resource.getURI();
 

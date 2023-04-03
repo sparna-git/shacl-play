@@ -1,0 +1,6 @@
+SELECT (COUNT(DISTINCT ?x) AS ?count)
+WHERE {
+  ?uri a $type .
+  ?uri $property ?x .
+}
+HAVING(?count < $limit)

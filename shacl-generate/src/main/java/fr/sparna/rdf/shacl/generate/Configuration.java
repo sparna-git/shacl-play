@@ -3,9 +3,12 @@ package fr.sparna.rdf.shacl.generate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Predicate;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.ListUtils;
+import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.shacl.vocabulary.SHACLM;
 
 /**
  * Configuration parameters for SHACL generation
@@ -103,6 +106,27 @@ public class Configuration {
 
 	public void setShapesOntology(String shapesOntology) {
 		this.shapesOntology = shapesOntology;
+	}
+	
+	public Predicate<Resource> getRequiresShValueInPredicate() {
+		/*
+		return (propertyShape -> {
+			return false;
+		});
+		*/
+		return (propertyShape -> {
+			return propertyShape.getProperty(SHACLM.minCount) != null
+					&&
+					propertyShape.getProperty(SHACLM.minCount).getObject().isLiteral()
+					&&
+					propertyShape.getProperty(SHACLM.minCount).getObject().asLiteral().getInt() == 1
+					&&
+					propertyShape.getProperty(SHACLM.maxCount) != null
+					&&
+					propertyShape.getProperty(SHACLM.maxCount).getObject().isLiteral()
+					&&
+					propertyShape.getProperty(SHACLM.maxCount).getObject().asLiteral().getInt() == 1;
+		});
 	}
 	
 	

@@ -10,6 +10,8 @@ import java.util.Map;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
+import org.apache.jena.datatypes.RDFDatatype;
+import org.apache.jena.datatypes.xsd.XSDDatatype;
 import org.apache.jena.query.QuerySolutionMap;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.RDFNode;
@@ -204,6 +206,29 @@ public class BaseShaclGeneratorDataProvider implements ShaclGeneratorDataProvide
 	@Override
 	public void registerMessageListener(Consumer<String> listener) {
 		this.messageListener = listener;		
+	}
+	
+	
+
+	@Override
+	public boolean hasLessThanValues(String classUri, String propertyUri, int limit) {
+		QuerySolutionMap qs = new QuerySolutionMap();
+		qs.add("type", ResourceFactory.createResource(classUri));
+		qs.add("property", ResourceFactory.createResource(propertyUri));
+		qs.add("limit", ResourceFactory.createTypedLiteral(Integer.toString(limit), XSDDatatype.XSDinteger));
+		
+		List<Map<String, RDFNode>> rows = this.paginatedQuery.select(
+				this.queryExecutionService,
+				readQuery("has-less-than-number-of-values.rq"),
+				qs
+		);
+		if(rows.size() == 0) {
+			return false;
+		} else {
+			int count = JenaResultSetHandlers.convertSingleColumnToIntegerList(rows).get(0);
+			log.debug("Counted "+count+" distinct values.");
+			return true;
+		}
 	}
 
 	protected String readQuery(String resourceName) {

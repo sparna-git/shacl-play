@@ -51,6 +51,7 @@ public class App
 			final String ENDPOINT = "http://graphdb.sparna.fr/repositories/europeana-poc";
 			// final String ENDPOINT = "http://51.159.140.210/graphdb/repositories/sparnatural-demo-anf?infer=false";
 			// final String ENDPOINT = "https://data.bnf.fr/sparql";
+			// final String ENDPOINT = "https://query.linkedopendata.eu/sparql";
 			SamplingShaclGeneratorDataProvider dataProvider2 = new SamplingShaclGeneratorDataProvider(new PaginatedQuery(100), ENDPOINT);
 			shapes = generator.generateShapes(config, dataProvider2);
 			shapes.write(System.out,"Turtle");

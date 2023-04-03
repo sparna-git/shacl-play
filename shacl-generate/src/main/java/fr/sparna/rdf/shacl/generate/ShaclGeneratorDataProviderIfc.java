@@ -129,6 +129,15 @@ public interface ShaclGeneratorDataProviderIfc {
 	 */
 	public String getName(String classOrPropertyUri, String lang);
 	
+	/**
+	 * Returns the number of values if the given property for the given class has less than the provided number of values
+	 * @param classUri
+	 * @param propertyUri
+	 * @param limit
+	 * @return
+	 */
+	public int hasLessThanValues(String classUri, String propertyUri, int limit);
+	
 	public void registerMessageListener(Consumer<String> listener);
 	
 }

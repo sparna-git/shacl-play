@@ -253,8 +253,16 @@ public class ShaclGenerator {
 			concatOnProperty(propertyShape, SHACLM.description, count+" statements");
 		}
 		
+		// add min and max
 		setMinCount(shacl, targetClass, path, propertyShape);
 		setMaxCount(shacl, targetClass, path, propertyShape);
+		
+		// if it makes sense, try to find sh:valueIn
+		if(configuration.getRequiresShValueInPredicate() != null && configuration.getRequiresShValueInPredicate().test(propertyShape)) {
+			setInOrHasValue(shacl, targetClass, path, propertyShape);
+		}
+		
+		// add nodeKind and other more detailled properties
 		setNodeKind(configuration, shacl, targetClass, path, propertyShape);
 	
 
@@ -449,6 +457,21 @@ public class ShaclGenerator {
 
 		log.debug("  (setLanguageIn) property shape '{}' gets sh:languageIn '{}'", propertyShape.getLocalName(), languages);
 		shacl.add(propertyShape, SHACLM.languageIn, languagesList);
+	}
+	
+	private void setInOrHasValue(
+			Model shacl,
+			Resource targetClass,
+			Resource path,
+			Resource propertyShape
+			) {
+		
+		if (log.isTraceEnabled()) log.trace("(setInOrHasValue) start");
+
+		if(this.dataProvider.hasLessThanValues(targetClass.getURI(), path.getURI(), 10)) {
+			
+		}
+		
 	}
 	
 	private Resource buildShapeURIFromResource(

@@ -211,24 +211,26 @@ public class BaseShaclGeneratorDataProvider implements ShaclGeneratorDataProvide
 	
 
 	@Override
-	public boolean hasLessThanValues(String classUri, String propertyUri, int limit) {
-		QuerySolutionMap qs = new QuerySolutionMap();
-		qs.add("type", ResourceFactory.createResource(classUri));
-		qs.add("property", ResourceFactory.createResource(propertyUri));
-		qs.add("limit", ResourceFactory.createTypedLiteral(Integer.toString(limit), XSDDatatype.XSDinteger));
+	public int hasLessThanValues(String classUri, String propertyUri, int limit) {
+//		QuerySolutionMap qs = new QuerySolutionMap();
+//		qs.add("type", ResourceFactory.createResource(classUri));
+//		qs.add("property", ResourceFactory.createResource(propertyUri));
+//		qs.add("limit", ResourceFactory.createTypedLiteral(Integer.toString(limit), XSDDatatype.XSDinteger));
+//		
+//		List<Map<String, RDFNode>> rows = this.paginatedQuery.select(
+//				this.queryExecutionService,
+//				readQuery("has-less-than-number-of-values.rq"),
+//				qs
+//		);
+//		if(rows.size() == 0) {
+//			return -1;
+//		} else {
+//			int count = JenaResultSetHandlers.convertSingleColumnToIntegerList(rows).get(0);
+//			log.debug("Counted "+count+" distinct values.");
+//			return count;
+//		}
 		
-		List<Map<String, RDFNode>> rows = this.paginatedQuery.select(
-				this.queryExecutionService,
-				readQuery("has-less-than-number-of-values.rq"),
-				qs
-		);
-		if(rows.size() == 0) {
-			return false;
-		} else {
-			int count = JenaResultSetHandlers.convertSingleColumnToIntegerList(rows).get(0);
-			log.debug("Counted "+count+" distinct values.");
-			return true;
-		}
+		return -1;
 	}
 
 	protected String readQuery(String resourceName) {

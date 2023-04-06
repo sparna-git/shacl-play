@@ -317,7 +317,18 @@ public class ShaclGenerator {
 		
 		if(datatypes.size() > 1) {
 			log.warn(datatypes.size()+" datatypes found for property '{}' in class '{}'", path.getURI(), targetClass.getURI());
-			concatOnProperty(propertyShape, SHACLM.description, "Multiple datatypes found : "+datatypes);
+			
+			// add sh:or list to property shape:
+			//    first create RDF list and then add it to property shape		
+			List<Resource> orInstances = datatypes.stream().map(datatype -> {
+				Resource orInstance = ResourceFactory.createResource(propertyShape.getURI() + "_datatype_" + datatypes.indexOf(datatype));
+				shacl.add(orInstance, SHACLM.datatype, shacl.createResource(datatype));				
+				return orInstance;
+			}).collect(Collectors.toList());
+			
+			
+			RDFList orInstancesList = shacl.createList(orInstances.iterator());
+			shacl.add(propertyShape, SHACLM.or, orInstancesList);
 		} else {
 			log.debug("  (setShaclDatatype) property shape '{}' gets sh:datatype '{}'", propertyShape.getLocalName(), datatypes.get(0));
 			shacl.add(propertyShape, SHACLM.datatype, shacl.createResource(datatypes.get(0)));
@@ -379,15 +390,17 @@ public class ShaclGenerator {
 		}
 
 
-		if (classes.size() > 1) {
-			String message = getMessage(
-					"type '{}' and property '{}' does not have exactly one class: {}",
-					shortenUri(shacl, targetClass),
-					shortenUri(shacl, path),
-					shortenUri(shacl, classes)
-			);
-			log.warn(message);
-			concatOnProperty(propertyShape, SHACLM.description, "Multiple classes found : "+classes);
+		if (classes.size() > 1) {			
+			// add sh:or list to property shape:
+			//    first create RDF list and then add it to property shape
+			List<Resource> orInstances = classes.stream().map(aClass -> {				
+			Resource orInstance = ResourceFactory.createResource(propertyShape.getURI() + "_class_" + classes.indexOf(aClass));
+				shacl.add(orInstance, SHACLM.class_, shacl.createResource(aClass));				
+				return orInstance;
+			}).collect(Collectors.toList());			
+			
+			RDFList orInstancesList = shacl.createList(orInstances.iterator());
+			shacl.add(propertyShape, SHACLM.or, orInstancesList);
 			return;
 		}
 
@@ -468,8 +481,9 @@ public class ShaclGenerator {
 		
 		if (log.isTraceEnabled()) log.trace("(setInOrHasValue) start");
 
-		if(this.dataProvider.hasLessThanValues(targetClass.getURI(), path.getURI(), 10)) {
-			
+		int valueCount = this.dataProvider.hasLessThanValues(targetClass.getURI(), path.getURI(), 10);
+		if(valueCount > 0) {
+			log.debug("  (setInOrHasValue) found '{}' different values", valueCount);
 		}
 		
 	}

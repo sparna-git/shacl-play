@@ -88,6 +88,7 @@ public class PlantUmlPropertyReader {
 	
 	public List<PlantUmlBox> readShOrConstraint (Resource constraint) {
 		List<PlantUmlBox> orBoxes = new ArrayList<>();
+		
 		// 1. Lire la valeur de sh:or
 		if (constraint.hasProperty(SH.or)) {
 			Resource theOr = constraint.getProperty(SH.or).getResource();
@@ -109,6 +110,17 @@ public class PlantUmlPropertyReader {
 							if(plantUmlBox.getLabel().equals(shortForm)) {
 								orBoxes.add(plantUmlBox);
 								break;
+							}
+						}
+						
+						// in case of sh:class, look for NodeShape with this class as targetClass
+						String resolvedClassReference = this.resolveShClassReference(constraint.getModel(), value);
+						if(resolvedClassReference != null) {
+							for (PlantUmlBox plantUmlBox : allBoxes) {
+								if(plantUmlBox.getLabel().equals(constraint.getModel().shortForm(resolvedClassReference))) {
+									orBoxes.add(plantUmlBox);
+									break;
+								}
 							}
 						}
 					}
@@ -288,32 +300,36 @@ public class PlantUmlPropertyReader {
 
 	public String readShClass(Resource constraint) {
 		if (constraint.hasProperty(SH.class_)) {
-			Resource idclass = constraint.getProperty(SH.class_).getResource();
-			
-			// 1. search for NodeShapes with an sh:targetClass
-			List<Resource> nodeShapes = constraint.getModel().listResourcesWithProperty(SH.targetClass,idclass).toList();
-			for(Resource aNodeShape : nodeShapes) {
-				for (PlantUmlBox plantUmlBox : allBoxes) {
-					if(plantUmlBox.getLabel().equals(idclass.getModel().shortForm(aNodeShape.getURI()))) {
-						return plantUmlBox.getQualifiedName();
-					}
-				}
-			}
-			
-			// 2. Not found, could be that the nodeShape is type rdfs:class
-			if(idclass.hasProperty(RDF.type, RDFS.Class) && idclass.hasProperty(RDF.type, SH.NodeShape)) {
-				return idclass.getModel().shortForm(constraint.getProperty(SH.class_).getResource().toString());	
-			} 
-			
-			// 3. default
-			if (constraint.getProperty(SH.class_).getResource().isURIResource()) {   // Section quand il n'y a pas une targetClass
-				return constraint.getProperty(SH.class_).getResource().getModel().shortForm(constraint.getProperty(SH.class_).getResource().getURI()); //constraint.getProperty(SH.class_).getResource().getLocalName();
-			} else {
-				log.warn("Found a blank sh:class reference on a shape with sh:path "+constraint.getModel().shortForm(constraint.getProperty(SH.path).getResource().getURI())+", cannot handle it");
-			}
+			Resource idclass = constraint.getProperty(SH.class_).getResource();			
+			return resolveShClassReference(constraint.getModel(), idclass);
 		}
 		
 		return null;
+	}
+	
+	public String resolveShClassReference(Model model, Resource classUri) {
+		// 1. search for NodeShapes with an sh:targetClass
+		List<Resource> nodeShapes = model.listResourcesWithProperty(SH.targetClass,classUri).toList();
+		for(Resource aNodeShape : nodeShapes) {
+			for (PlantUmlBox plantUmlBox : allBoxes) {
+				if(plantUmlBox.getLabel().equals(model.shortForm(aNodeShape.getURI()))) {
+					return plantUmlBox.getQualifiedName();
+				}
+			}
+		}
+		
+		// 2. Not found, could be that the nodeShape is type rdfs:class
+		if(classUri.hasProperty(RDF.type, RDFS.Class) && classUri.hasProperty(RDF.type, SH.NodeShape)) {
+			return model.shortForm(classUri.toString());	
+		} 
+		
+		// 3. default
+		if (classUri.isURIResource()) { 
+			return model.shortForm(classUri.getURI());
+		} else {
+			log.warn("Found a blank sh:class reference on a shape with sh:path "+classUri+", cannot handle it");
+			return null;
+		}
 	}
 	
 	

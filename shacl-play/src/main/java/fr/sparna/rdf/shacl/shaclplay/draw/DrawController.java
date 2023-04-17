@@ -1,6 +1,8 @@
 package fr.sparna.rdf.shacl.shaclplay.draw;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.util.List;
@@ -153,10 +155,12 @@ public class DrawController {
 			} else if (shapesSource == SOURCE_TYPE.CATALOG) {
 				AbstractCatalogEntry entry = this.catalogService.getShapesCatalog().getCatalogEntryById(shapesCatalogId);
 				return new ModelAndView("redirect:/draw?format="+fmt.name().toLowerCase()+"&url="+URLEncoder.encode(entry.getTurtleDownloadUrl().toString(), "UTF-8"));
+			} else {
+				
 			}
 			
 			
-			// initialize shapes first
+			// initialize shapes first			
 			log.debug("Determining Shapes source...");
 			Model shapesModel = ModelFactory.createDefaultModel();
 			ControllerModelFactory modelPopulator = new ControllerModelFactory(this.catalogService.getShapesCatalog());
@@ -225,8 +229,24 @@ public class DrawController {
 					response.getOutputStream().write(diagrams.get(0).getPlantUmlString().getBytes("UTF-8"));
 					response.getOutputStream().flush();
 				} else {
-					SourceStringReader reader = new SourceStringReader(diagrams.get(0).getPlantUmlString());
-					reader.generateImage(response.getOutputStream(), new FileFormatOption(format.plantUmlFileFormat));
+					
+			        SourceStringReader reader = new SourceStringReader(diagrams.get(0).getPlantUmlString());
+			        
+			        // fixe the problem when is generated a svg file
+			        if (format.plantUmlFileFormat.toString() == "SVG") {
+			        	ByteArrayOutputStream baos = new ByteArrayOutputStream();
+				        reader.outputImage(baos, new FileFormatOption(format.plantUmlFileFormat));
+				        String diagram = baos.toString("UTF-8");
+				        
+				        String postProcessedString = diagram.replace("g xmlns=\"\"","g");
+				        
+				        response.setCharacterEncoding("UTF-8");
+						response.getOutputStream().write(postProcessedString.getBytes("UTF-8"));
+						response.getOutputStream().flush();
+			        
+			        } else {
+			        	reader.outputImage(response.getOutputStream(), new FileFormatOption(format.plantUmlFileFormat));
+			        }			        
 				}
 			} else {
 				// create a zip

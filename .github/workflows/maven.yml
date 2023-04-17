@@ -6,12 +6,12 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-name: Deploy SHACL War
+name: Deploy SHACL-Play
 
 on:
-  workflow_dispatch:
-  # push:
-  #  branches: [ "master" ]
+  #workflow_dispatch:
+   push:
+    branches: [ "master" ]
   # pull_request:
   # branches: [ "master" ]
 

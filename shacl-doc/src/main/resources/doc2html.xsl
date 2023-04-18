@@ -255,7 +255,7 @@
 					table {
 						display: table;
 						border-spacing: 0px;
-						margin-botton: 1rem;
+						margin-bottom: 1rem;
 					}
 					
 					tr:nth-child(even) {

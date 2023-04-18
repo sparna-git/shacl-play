@@ -41,9 +41,7 @@ public class PlantUmlDiagramGenerator {
 		List<RDFNode> nodesAndQualifedValueShapesValues = shaclGraph.listStatements(null, SH.node, (RDFNode)null)
 				.andThen(shaclGraph.listStatements(null, SH.qualifiedValueShape, (RDFNode)null))
 				.toList().stream()
-				.map(
-					s -> s.getObject()
-						)
+				.map(s -> s.getObject())
 				.collect(Collectors.toList());
 		
 		// add those to our list

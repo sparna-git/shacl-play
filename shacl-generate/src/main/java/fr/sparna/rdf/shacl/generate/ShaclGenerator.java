@@ -99,13 +99,6 @@ public class ShaclGenerator {
 		shacl.add(onto, RDF.type, OWL.Ontology);
 		shacl.add(onto, DCTerms.created, shacl.createTypedLiteral(Calendar.getInstance()));
 		
-		// count the total number of triples
-		int count = this.dataProvider.countTriples();		
-		if(count > 0) {
-			log.debug("(count) ontology '{}' gets count '{}'", onto.getLocalName(), count);
-			concatOnProperty(onto, DCTerms.abstract_, "Total triples in the data:"+count);
-		}
-		
 		concatOnProperty(onto, DCTerms.abstract_, "Created automatically by SHACL Play!");
 	}
 	
@@ -164,14 +157,6 @@ public class ShaclGenerator {
 		if(name != null) {
 			shacl.add(typeShape, RDFS.label, shacl.createLiteral(name, configuration.getLang()));
 		}	
-				
-		// add the count
-		int count = this.dataProvider.countInstances(typeUri);		
-		if(count > 0) {
-			log.debug("  (count) node shape '{}' gets count '{}'", typeShape.getLocalName(), count);
-			// TODO : find more suitable property to store number of instances
-			concatOnProperty(typeShape, RDFS.comment, count+" instances");
-		}
 		
 		// add the property shapes on this NodeShape
 		addProperties(configuration, shacl, typeShape, targetClass);
@@ -244,14 +229,6 @@ public class ShaclGenerator {
 		if(name != null) {
 			shacl.add(propertyShape, SHACLM.name, shacl.createLiteral(name, configuration.getLang()));
 		}	
-		
-		// add the count
-		int count = this.dataProvider.countStatements(targetClass.getURI(), property);		
-		if(count > 0) {
-			log.debug("  (count) property shape '{}' gets count '{}'", propertyShape.getLocalName(), count);
-			// TODO : find more suitable property to store number of instances
-			concatOnProperty(propertyShape, SHACLM.description, count+" statements");
-		}
 		
 		// add min and max
 		setMinCount(shacl, targetClass, path, propertyShape);
@@ -440,7 +417,10 @@ public class ShaclGenerator {
 
 		boolean hasInstanceWithoutProperty = this.dataProvider.hasInstanceWithoutProperty(targetClass.getURI(), path.getURI());
 		if (!hasInstanceWithoutProperty) {
+			log.debug("  (setMinCount) property shape '{}' gets sh:minCount '{}'", propertyShape.getLocalName(), 1);
 			shacl.add(propertyShape, SHACLM.minCount, ResourceFactory.createTypedLiteral("1", XSDDatatype.XSDinteger));
+		} else {
+			log.debug("  (setMinCount) property shape '{}' cannot have sh:minCount", propertyShape.getLocalName());
 		}
 	}
 
@@ -454,7 +434,10 @@ public class ShaclGenerator {
 
 		boolean hasInstanceWithTwoProperties = this.dataProvider.hasInstanceWithTwoProperties(targetClass.getURI(), path.getURI());
 		if (!hasInstanceWithTwoProperties) {
+			log.debug("  (setMaxCount) property shape '{}' gets sh:maxCount '{}'", propertyShape.getLocalName(), 1);
 			shacl.add(propertyShape, SHACLM.maxCount, ResourceFactory.createTypedLiteral("1", XSDDatatype.XSDinteger));
+		} else {
+			log.debug("  (setMaxCount) property shape '{}' cannot have sh:maxCount", propertyShape.getLocalName());
 		}
 	}
 
@@ -544,7 +527,7 @@ public class ShaclGenerator {
 				.getMessage();
 	}
 	
-	private static void concatOnProperty(Resource r, Property p, String s) {
+	public static void concatOnProperty(Resource r, Property p, String s) {
 		if(r.getProperty(p) != null) {
 			String currentValue = r.getProperty(p).getObject().asLiteral().getLexicalForm();
 			r.removeAll(p);

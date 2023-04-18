@@ -1,0 +1,50 @@
+# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-maven
+
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: Deploy SHACL-Play
+
+on:
+  #workflow_dispatch:
+   push:
+    branches: [ "master" ]
+  # pull_request:
+  # branches: [ "master" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: CheckOut
+      uses: actions/checkout@v3
+      
+    - name: Set up JDK 11
+      uses: actions/setup-java@v3
+      with:
+          distribution: 'oracle'
+          java-version: '17'
+          cache: maven
+    
+    - name: Cache the Maven packages to speed up build
+      uses: actions/cache@v1
+      with:
+        path: ~/.m2
+        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+        restore-keys: ${{ runner.os }}-m2   
+          
+    - name: Build with Maven
+      run: mvn --batch-mode --update-snapshots verify
+      
+    #- name: Packaging
+    #  run: mkdir staging && cp target/*.jar staging
+      
+    #- uses: actions/upload-artifact@v3
+    #  with:
+    #    name: Package
+    #    path: staging

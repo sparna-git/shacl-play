@@ -14,6 +14,14 @@
 		  <url>https://maven.pkg.github.com/sparna-git/shacl-play</url>          
 		</repository>
 	</distributionManagement>
+
+	<servers>
+		<server>
+	    	<id>github</id>
+	    	<username>jorge.aquino.jaq@gmail.com</username>
+	    	<password>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</password>
+	    </server>
+	</servers>
 	
 
     <name>SHACL-Play root pom</name>

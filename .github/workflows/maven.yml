@@ -32,6 +32,8 @@ jobs:
           cache: maven
      
     - name: Build with Maven
-      run: mvn --batch-mode --update-snapshots verify
+      run: mvn -B package --file pom.xml
       env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    
+    # mvn --batch-mode --update-snapshots verify

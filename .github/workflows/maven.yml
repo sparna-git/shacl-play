@@ -32,19 +32,4 @@ jobs:
           cache: maven
           
     - name: Build with Maven
-      run: mvn compile
-      
-    - name: Test with Maven
-      run: mvn test
-      
-    - name: Package with maven
-      run: mvn package
-      
-    - run: mkdir artifact && cp target/*.jar artifact
-    - uses: actions/upload-artifact@v2
-      with:
-       name: Package
-       path: artifact
-          
-    #- name: Build with Maven
-    #  run: mvn --batch-mode --update-snapshots verify
+      run: mvn --batch-mode --update-snapshots verify

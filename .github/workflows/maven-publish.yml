@@ -30,7 +30,7 @@ jobs:
       run: mvn -B package --file pom.xml
     
     - name: Created folder
-      run: mkdir ${{ github.workspace }}/target && cp target/*.jar ${{ github.workspace }}/target
+      run: mkdir ${{ github.workspace }}/package_war && cp target/*.jar ${{ github.workspace }}/package_war
     
     # Upload Target Folder - This step uploads target folder so it could be used in further steps for generating reports.
     - name: Upload target folder
@@ -38,5 +38,5 @@ jobs:
       with:
         name: target
         path: |
-          ${{ github.workspace }}/target
+          ${{ github.workspace }}/package_war
         if-no-files-found: error

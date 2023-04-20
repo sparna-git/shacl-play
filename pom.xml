@@ -7,6 +7,7 @@
     <version>0.6.2</version>
     <packaging>pom</packaging>
 
+    <!--  
     <distributionManagement>
 		<repository>
 		  <id>github</id>
@@ -22,7 +23,7 @@
 	    	<password>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</password>
 	    </server>
 	</servers>
-	
+	-->
 
     <name>SHACL-Play root pom</name>
 

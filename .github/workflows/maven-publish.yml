@@ -24,16 +24,10 @@ jobs:
         distribution: 'oracle'
     
     - name: Build with Maven
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: mvn -B package --file pom.xml
+      run: mvn --batch-mode --update-snapshots verify
     
-    - name: Step 1 - Create a temporary artifact downloads folder
-      run: mkdir target_downloads
-    
-    # Upload Target Folder - This step uploads target folder so it could be used in further steps for generating reports.
-    - name: Upload target folder
-      uses: actions/download-artifact@v3
+    - run: mkdir staging && cp target/*.war staging
+    - uses: actions/upload-artifact@v3
       with:
-        path: target_downloads
-        if-no-files-found: error
+        name: Package
+        path: staging

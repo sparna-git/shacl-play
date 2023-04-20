@@ -23,8 +23,14 @@ jobs:
         java-version: '17'
         distribution: 'oracle'
         cache: maven
-       
+    
     - name: Build with Maven
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: mvn deploy
+    
+    - run: mkdir staging && cp target/*.jar staging
+    - uses: actions/upload-artifact@v3
+      with:
+        name: Package
+        path: staging

@@ -52,12 +52,10 @@ jobs:
         distribution: 'temurin'
    
     - name: Artifact download
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: target
-        path: |
-          ${{ github.workspace }}/target
-    
+        
     - name: Display structure of downloaded files
       run: ls -R
     

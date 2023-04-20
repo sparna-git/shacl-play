@@ -36,7 +36,33 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file pom.xml 
 
+  Publish:
+    needs: Build_Maven
+    runs-on: ubuntu-latest
+    
+    steps:
+    
+    - name: CheckOut
+      uses: actions/checkout@v3
+    
+    - name: Set up JDK 11
+      uses: actions/setup-java@v1
+      with:
+        java-version: '11'
+        distribution: 'temurin'
+    
+    #- name: Create GitHub Release
+    #  uses: actions/create-release@v1
+    #  env:
+    #    GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}} 
+    #  with: 
+    #    tag_name: v${{github.run_number}}
+    #    release_name: Release V${{github.run_number}}
+        
+    #- name: Update version
+    #  run: mvn -B versions:set -DnewVersion=v${{github.run_number}} -DgenerateBackupPoms=false
+    
     - name: Publish to GitHub Packages Apache Maven
-      run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml
+      run: mvn -B deploy -DskipTests --file pom.xml
       env:
         GITHUB_TOKEN: ${{ github.token }}

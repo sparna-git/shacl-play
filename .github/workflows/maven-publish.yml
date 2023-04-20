@@ -33,8 +33,8 @@ jobs:
     
     # Upload Target Folder - This step uploads target folder so it could be used in further steps for generating reports.
     - name: Upload target folder
-      uses: actions/upload-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: assets-for-download
-        path: ./target_downloads
+        path: target_downloads
         if-no-files-found: error

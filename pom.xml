@@ -7,7 +7,9 @@
     <version>0.6.2</version>
     <packaging>pom</packaging>
 
-    
+    <!-- https://maven.apache.org/pom.html#distribution-management
+
+     -->
     <distributionManagement>
 		<repository>
 		  <id>github</id>
@@ -50,7 +52,7 @@
 
     <build>
         <plugins>
-			
+            <!--  
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>                      						 
                 <artifactId>maven-eclipse-plugin</artifactId>          
@@ -65,8 +67,8 @@ eclipse.preferences.version=1
                         </file>
                     </additionalConfig>
                 </configuration>
-            </plugin>
-            
+            </plugin>            
+            -->
             <plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>

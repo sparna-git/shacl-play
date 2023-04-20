@@ -22,12 +22,13 @@ jobs:
       with:
         java-version: '17'
         distribution: 'oracle'
+        server-id: github
+        settings-path: ${{ github.workspace }}
     
     - name: Build with Maven
-      run: mvn --batch-mode --update-snapshots verify
+      run: mvn clean package 
     
-    - run: mkdir staging && cp target/*.war staging
-    - uses: actions/upload-artifact@v3
-      with:
-        name: Package
-        path: staging
+    - name: Publish to GitHub Packages Apache Maven
+      run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml
+      env:
+         GITHUB_TOKEN: ${{ github.token }}

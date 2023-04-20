@@ -30,7 +30,7 @@ jobs:
       run: mvn -B package --file pom.xml
     
     - name: Created folder
-      run: mkdir ${{ github.workspace }}/package_war && cp target/*.jar ${{ github.workspace }}/package_war
+      run: mkdir ${{ github.workspace }}/package_war && cp ${{ github.workspace }}/target/*.war ${{ github.workspace }}/package_war
     
     # Upload Target Folder - This step uploads target folder so it could be used in further steps for generating reports.
     - name: Upload target folder

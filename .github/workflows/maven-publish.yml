@@ -36,5 +36,5 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: assets-for-download
-        path: target_downloads
+        path: ./target_downloads
         if-no-files-found: error

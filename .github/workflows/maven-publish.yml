@@ -27,10 +27,12 @@ jobs:
     - name: Build with Maven
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: mvn deploy
+      run: mvn -B package --file pom.xml
     
-    - run: mkdir staging && cp target/*.jar staging
-    - uses: actions/upload-artifact@v3
+    # Upload Target Folder - This step uploads target folder so it could be used in further steps for generating reports.
+    - name: Upload target folder
+      uses: actions/upload-artifact@v2
       with:
-        name: Package
-        path: staging
+        name: target
+        path: |
+          ${{ github.workspace }}/target

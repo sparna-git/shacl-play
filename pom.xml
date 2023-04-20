@@ -7,7 +7,7 @@
     <version>0.6.2</version>
     <packaging>pom</packaging>
 
-    <!--  
+    
     <distributionManagement>
 		<repository>
 		  <id>github</id>
@@ -16,7 +16,8 @@
 		</repository>
 	</distributionManagement>
 
-	<servers>
+	<!--  
+    <servers>
 		<server>
 	    	<id>github</id>
 	    	<username>jorge.aquino.jaq@gmail.com</username>

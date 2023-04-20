@@ -22,21 +22,19 @@ jobs:
       with:
         java-version: '17'
         distribution: 'oracle'
-        cache: maven
     
     - name: Build with Maven
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: mvn -B package --file pom.xml
     
-    - name: Created folder
-      run: mkdir ${{ github.workspace }}/package_war && cp ${{ github.workspace }}/target/*.war ${{ github.workspace }}/package_war
+    - name: Step 1 - Create a temporary artifact downloads folder
+      run: mkdir target_downloads
     
     # Upload Target Folder - This step uploads target folder so it could be used in further steps for generating reports.
     - name: Upload target folder
       uses: actions/upload-artifact@v2
       with:
-        name: target
-        path: |
-          ${{ github.workspace }}/package_war
+        name: assets-for-download
+        path: target_downloads
         if-no-files-found: error

@@ -5,8 +5,8 @@ on:
     
   #push:
   #  branches: [ "master" ]
-  #pull_request:
-  #  branches: [ "master" ]
+  pull_request:
+    branches: [ "actions_shaclplay" ]
 
 jobs:
   Build_Maven:
@@ -30,22 +30,22 @@ jobs:
           server-username: ${{ github.ACTOR }}
           server-password: ${{ github.token }}
           settings-path: ${{ github.workspace }} # location for the settings.xml file
-                  
+      
+      - run: |
+          echo "setting File : " ${{ github.workspace }}/settings.xml
 
       # This step generate a war file
       - name: Build with Maven
         run: mvn -B package --file pom.xml 
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
       # Publish
       - name: Publish to Github Package Apache Maven
         run: |
-          mvn deploy -s settings.xml
+          mvn -e -X deploy -s settings.xml
         env: 
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          
-      
-      
       
       - name: Display structure of downloaded files
         run: ls -R
@@ -64,11 +64,16 @@ jobs:
         with:
           java-version: '11'
           distribution: 'temurin'
-          server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
-          server-username: ${{ github.ACTOR }}
-          server-password: ${{ github.token }}
-          settings-path: ${{ github.workspace }} # location for the settings.xml file
-
+      
+      - name: Run the Maven verify phase
+        run: mvn --batch-mode --update-snapshots verify
+      
+      - name: Publish to GitHub Packages Apache Maven
+        run: mvn --batch-mode deploy
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+     
+      
       
     #- name: Create GitHub Release
     #  uses: actions/create-release@v1

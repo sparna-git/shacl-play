@@ -42,7 +42,7 @@ jobs:
         uses: garygrossgarten/github-action-scp@release
         with:
           local: ${{ github.workspace }}/shacl-play/target/shacl-play-0.6.2.war
-          remote: /tmp
+          remote: "~"
           host: ${{ secrets.HOST }}
+          privateKey: ${{ secrets.SERVER_SSH_KEY }}          
           username: ${{ secrets.SSH_USER }}
-          password: ${{ secrets.PASSWORD }}

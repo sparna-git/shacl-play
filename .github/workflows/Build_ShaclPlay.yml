@@ -26,15 +26,11 @@ jobs:
         with:
           java-version: '11'
           distribution: 'temurin'
-          server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
-          server-username: ${{ github.ACTOR }}
-          server-password: ${{ github.token }}
-          settings-path: ${{ github.workspace }} # location for the settings.xml file
+          # server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
+          # server-username: ${{ github.ACTOR }}
+          # server-password: ${{ github.token }}
+          # settings-path: ${{ github.workspace }} # location for the settings.xml file
        
-      - name: Read setting.xml 
-        run: |
-          echo "Read setting.xml file ${{ github.workspace }}/settings.xml"
-
       # This step generate a war file
       - name: Build with Maven
         run: mvn -B package --file pom.xml 
@@ -45,4 +41,4 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: SHACL-PLAY
-          path: ${{ github.workspace }}/target/shacl-play-0.6.2.war
+          path: ${{ github.workspace }}/shacl-play/target/shacl-play-0.6.2.war

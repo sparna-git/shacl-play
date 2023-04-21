@@ -37,15 +37,13 @@ jobs:
         run: mvn -B package --file pom.xml 
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
       # Publish
       - name: Publish to Github Package Apache Maven
         run: |
-          mvn deploy -s settings.xml
+          mvn deploy
         env: 
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          
-      
-      
       
       - name: Display structure of downloaded files
         run: ls -R
@@ -64,10 +62,11 @@ jobs:
         with:
           java-version: '11'
           distribution: 'temurin'
-          server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
-          server-username: ${{ github.ACTOR }}
-          server-password: ${{ github.token }}
-          settings-path: ${{ github.workspace }} # location for the settings.xml file
+     
+      - name: Publish to GitHub Packages Apache Maven
+        run: mvn --batch-mode deploy
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
 
       
     #- name: Create GitHub Release
@@ -81,7 +80,4 @@ jobs:
     #- name: Update version
     #  run: mvn -B versions:set -DnsewVersion=v${{github.run_number}} -DgenerateBackupPoms=false
     
-    #- name: Publish to GitHub Packages Apache Maven
-    #  run: mvn -B deploy -DskipTests --file pom.xml
-    #  env:
-    #    GITHUB_TOKEN: ${{ github.token }}
+    #

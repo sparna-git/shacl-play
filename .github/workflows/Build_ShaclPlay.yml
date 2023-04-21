@@ -39,10 +39,12 @@ jobs:
           path: ${{ github.workspace }}/shacl-play/target/shacl-play-0.6.2.war
       
       - name: Send a war file to Server SHACL-PLAY SCP
-        uses: garygrossgarten/github-action-scp@release
-        with:
-          local: ${{ github.workspace }}/shacl-play/target/shacl-play-0.6.2.war
-          remote: "~"
-          host: ${{ secrets.HOST }}
-          privateKey: ${{ secrets.SERVER_SSH_KEY }}          
-          username: ${{ secrets.SSH_USER }}
+        run: scp ${{ secrets.SERVER_SSH_KEY }} ${{ github.workspace }}/shacl-play/target/shacl-play-0.6.2.war ${{ secrets.SSH_USER }}@${{ secrets.HOST }}:~
+        
+        #uses: garygrossgarten/github-action-scp@release
+        #with:
+        #  local: ${{ github.workspace }}/shacl-play/target/shacl-play-0.6.2.war
+        #  remote: "~"
+        #  host: ${{ secrets.HOST }}
+        #  privateKey: ${{ secrets.SERVER_SSH_KEY }}          
+        #  username: ${{ secrets.SSH_USER }}

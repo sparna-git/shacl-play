@@ -38,13 +38,6 @@ jobs:
           name: SHACL-PLAY
           path: ${{ github.workspace }}/shacl-play/target/shacl-play-0.6.2.war
       
-    
-  Publish:
-    needs: [Build_Maven]
-    runs-on: ubuntu-latest
-    
-    steps:
-    
       - name: Send a war file to Server SHACL-PLAY SCP
         uses: garygrossgarten/github-action-scp@release
         with:

@@ -30,7 +30,10 @@ jobs:
           server-username: ${{ github.ACTOR }}
           server-password: ${{ github.token }}
           settings-path: ${{ github.workspace }} # location for the settings.xml file
-                  
+       
+      - name: Read setting.xml 
+        run: |
+          echo "Read setting.xml file ${{ github.workspace }}/settings.xml"
 
       # This step generate a war file
       - name: Build with Maven
@@ -40,10 +43,10 @@ jobs:
           
       # Publish
       - name: Publish to Github Package Apache Maven
-        run: |
-          mvn deploy
+        run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml
         env: 
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        working-directory: ${{ github.workspace }}
       
       - name: Display structure of downloaded files
         run: ls -R
@@ -64,7 +67,7 @@ jobs:
           distribution: 'temurin'
      
       - name: Publish to GitHub Packages Apache Maven
-        run: mvn --batch-mode deploy
+        run: mvn -e -X --batch-mode deploy
         env:
           GITHUB_TOKEN: ${{ github.token }}
 

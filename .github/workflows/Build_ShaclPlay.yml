@@ -50,5 +50,14 @@ jobs:
       - name: Adding Known Hosts
         run: ssh-keyscan -H ${{ secrets.HOST }} >> ~/.ssh/known_hosts
         
-      - name: Deploy with rsync
+      - name: Transfer with scp
         run: scp ${{ github.workspace }}/shacl-play/target/shacl-play-0.6.2.war ${{ secrets.SSH_USER }}@${{ secrets.HOST }}:~
+      
+      - name: Deploy SHACL-PLAY
+        run: >
+          ssh -t ${{ secrets.SSH_USER }}@${{ secrets.HOST }} 'su -c " 
+          rm -rf /var/lib/tomcat8/tomcat8-instance1/webapps/play.war
+          rm -rf /var/lib/tomcat8/tomcat8-instance1/webapps/play
+          service tomcat8-instance1 stop
+          cp /home/${{ secrets.SSH_USER }}/shacl-play-0.6.2.war /var/lib/tomcat8/tomcat8-instance1/webapps/play.war
+          service tomcat8-instance1 start"'

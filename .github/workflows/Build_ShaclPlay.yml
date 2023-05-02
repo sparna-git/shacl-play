@@ -1,0 +1,59 @@
+name: Java CI with Maven
+
+on:
+  workflow_dispatch:
+    
+  #push:
+  #  branches: [ "master" ]
+  #pull_request:
+  #  branches: [ "master" ]
+
+jobs:
+  Build_Maven:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: CheckOut
+        uses: actions/checkout@v3
+        
+      - name: Setup Maven
+        uses: stCarolas/setup-maven@v.4.5
+        with:
+         maven-version: 3.8.7
+
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+       
+      # This step generate a war file
+      - name: Build with Maven
+        run: mvn -B package --file pom.xml 
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
+      - uses: actions/upload-artifact@v3
+        with:
+          name: SHACL-PLAY
+          path: ${{ github.workspace }}/shacl-play/target/shacl-play-0.6.2.war
+      
+      #- name: Send a war file to Server SHACL-PLAY scp
+        #run: scp -i ${{ secrets.SERVER_SSH_KEY }} ${{ github.workspace }}/shacl-play/target/shacl-play-0.6.2.war ${{ secrets.SSH_USER }}@${{ secrets.HOST }}:~
+        
+      - name: Install SSH Key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          known_hosts: 'just-a-placeholder-so-we-dont-get-errors'
+          
+      - name: Adding Known Hosts
+        run: ssh-keyscan -H ${{ secrets.HOST }} >> ~/.ssh/known_hosts
+        
+      - name: Transfer with scp
+        run: scp ${{ github.workspace }}/shacl-play/target/shacl-play-0.6.2.war ${{ secrets.SSH_USER }}@${{ secrets.HOST }}:~
+      
+      - name: Deploy SHACL-PLAY
+        run: |
+          ssh -t ${{ secrets.SSH_USER }}@${{ secrets.HOST }} 'echo "${{ secrets.SSH_PASSWORD }}" | sudo -S su -c "rm -rf /var/lib/tomcat8/tomcat8-instance1/webapps/play.war & rm -rf /var/lib/tomcat8/tomcat8-instance1/webapps/play & service tomcat8-instance1 stop & cp /home/${{ secrets.SSH_USER }}/shacl-play-0.6.2.war /var/lib/tomcat8/tomcat8-instance1/webapps/play.war && service tomcat8-instance1 start"'
+          

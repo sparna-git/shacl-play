@@ -7,14 +7,18 @@
     <version>0.6.2</version>
     <packaging>pom</packaging>
 
+    <!-- https://maven.apache.org/pom.html#distribution-management
+
+     -->
     <distributionManagement>
 		<repository>
-		  <id>mvn-repo</id>
-		  <name>jorge.aquino.jaq@gmail.com</name>
+		  <id>github</id>
+		  <name>GitHub Packages</name>
 		  <url>https://maven.pkg.github.com/sparna-git/shacl-play</url>          
 		</repository>
-	 </distributionManagement>
+	</distributionManagement>
 
+	
     <name>SHACL-Play root pom</name>
 
     <modules>
@@ -39,16 +43,10 @@
 
     <build>
         <plugins>
+            <!--  
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <!--      						 
-                <artifactId>maven-eclipse-plugin</artifactId>
-                -->
-                <artifactId>maven-war-plugin</artifactId>
-                <version>3.3.1</version>
-
-
-
+                <groupId>org.apache.maven.plugins</groupId>                      						 
+                <artifactId>maven-eclipse-plugin</artifactId>          
                 <configuration>
                     <additionalConfig>
                         <file>
@@ -60,8 +58,13 @@ eclipse.preferences.version=1
                         </file>
                     </additionalConfig>
                 </configuration>
-
-            </plugin>
+            </plugin>            
+            -->
+            <plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>3.3.2</version>
+			</plugin>
         </plugins>  
     </build>
 

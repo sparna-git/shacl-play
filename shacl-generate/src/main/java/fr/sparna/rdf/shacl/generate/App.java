@@ -58,6 +58,10 @@ public class App
 			// final String ENDPOINT = "https://data.bnf.fr/sparql";
 			// final String ENDPOINT = "https://query.linkedopendata.eu/sparql";
 			// final String ENDPOINT = "https://nakala.fr/sparql";
+			
+			
+			
+			/** DEBUT CODE A INTEGRER DANS LE FORMULAIRE **/
 			final String ENDPOINT = "https://sage-ails.ails.ece.ntua.gr/api/content/semanticsearch-digital-repository-of-ireland/sparql";
 			SamplingShaclGeneratorDataProvider dataProvider2 = new SamplingShaclGeneratorDataProvider(new PaginatedQuery(100), ENDPOINT);
 			shapes = generator.generateShapes(config, dataProvider2);
@@ -65,16 +69,16 @@ public class App
 			// add count
 			ShaclModel modelStructure = new ShaclModel(shapes);
 			modelStructure.visit(new ComputeStatisticsVisitor(dataProvider2, ENDPOINT, true));
-			
-			
+			modelStructure.visit(new FilterOnStatisticsVisitor());			
 			shapes.write(System.out,"Turtle");
+			/** FIN DU CODE A INTEGRER DANS LE FORMULAIRE **/
 			
 			File output = new File("/home/thomas/auto-shapes-unfiltered.ttl");
 			try(FileOutputStream out = new FileOutputStream(output)) {
 				shapes.write(out,"Turtle");
 			}
 			
-			modelStructure.visit(new FilterOnStatisticsVisitor());
+			// modelStructure.visit(new FilterOnStatisticsVisitor());
 			modelStructure.visit(new AddNamespacesVisitor());
 			
 			File outputFiltered = new File("/home/thomas/auto-shapes-filtered.ttl");

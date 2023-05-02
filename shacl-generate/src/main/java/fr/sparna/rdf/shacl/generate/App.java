@@ -57,7 +57,8 @@ public class App
 			// final String ENDPOINT = "http://51.159.140.210/graphdb/repositories/sparnatural-demo-anf?infer=false";
 			// final String ENDPOINT = "https://data.bnf.fr/sparql";
 			// final String ENDPOINT = "https://query.linkedopendata.eu/sparql";
-			final String ENDPOINT = "https://nakala.fr/sparql";
+			// final String ENDPOINT = "https://nakala.fr/sparql";
+			final String ENDPOINT = "https://sage-ails.ails.ece.ntua.gr/api/content/semanticsearch-digital-repository-of-ireland/sparql";
 			SamplingShaclGeneratorDataProvider dataProvider2 = new SamplingShaclGeneratorDataProvider(new PaginatedQuery(100), ENDPOINT);
 			shapes = generator.generateShapes(config, dataProvider2);
 			

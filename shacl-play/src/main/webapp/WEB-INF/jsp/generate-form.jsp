@@ -95,11 +95,13 @@
 					<blockquote class="blockquote bq-success">
 
 						<div class="form-group row">
+							<!--  
 							<label for="inputUrl" class="col-sm-3 col-form-label"> <input
 								type="radio" name="source" id="source-inputUrl" value="url"
 								onchange="enabledInput('inputUrl')" /> <fmt:message
 									key="generate.inputData.url" />
 							</label>
+							-->
 							<div class="col-sm-9">
 								<input type="text" class="form-control" id="inputUrl"
 									name="inputUrl"

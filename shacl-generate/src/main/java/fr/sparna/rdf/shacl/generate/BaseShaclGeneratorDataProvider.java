@@ -251,7 +251,8 @@ public class BaseShaclGeneratorDataProvider implements ShaclGeneratorDataProvide
 	 * @throws IOException if read fails for any reason
 	 */
 	static String getResourceFileAsString(String fileName) throws IOException {
-		ClassLoader classLoader = ClassLoader.getSystemClassLoader();
+		// ClassLoader classLoader = ClassLoader.getSystemClassLoader();
+		ClassLoader classLoader = BaseShaclGeneratorDataProvider.class.getClassLoader();
 		try (InputStream is = classLoader.getResourceAsStream(fileName)) {
 			if (is == null) return null;
 			try (InputStreamReader isr = new InputStreamReader(is);

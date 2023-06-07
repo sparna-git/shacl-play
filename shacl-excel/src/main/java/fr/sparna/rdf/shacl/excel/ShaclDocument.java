@@ -1,12 +1,12 @@
 package fr.sparna.rdf.shacl.excel;
 
+import java.awt.Color;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.Comparator;
 import java.util.List;
-import java.util.function.Function;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
@@ -14,10 +14,14 @@ import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
-import org.apache.jena.util.iterator.ExtendedIterator;
 import org.apache.jena.vocabulary.OWL;
 import org.apache.jena.vocabulary.RDF;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.FillPatternType;
+import org.apache.poi.ss.usermodel.IndexedColors;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFColor;
+import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -60,24 +64,7 @@ public class ShaclDocument {
 			}
 		}
 		
-		templateColumns.stream().sorted((a,b) -> {
-			if(a.getSh_order() != 0) {
-				if(b.getSh_order() != 0) {
-					return a.getSh_order();
-				} else {
-					return -1;
-				}
-			}
-			else {
-				if (b.getSh_order() == 0) {
-					return 1;
-				} else {
-					return a.getSh_order();
-				}
-			}
-		});
 		
-
 		// Get OWL
 		List<Resource> ontology = shaclGraph.listResourcesWithProperty(RDF.type, OWL.Ontology).toList();
 		ShaclOntologyReader owlReader = new ShaclOntologyReader();
@@ -94,49 +81,29 @@ public class ShaclDocument {
 			shClasses.add(shaclRead.read(res, nodeShapes));
 		}
 
-		shClasses.stream().sorted((c1, c2) -> {
-			if (!c1.getNodeShape().isAnon()) {
-				if (!c2.getNodeShape().isAnon()) {
-					return c1.getNodeShape().toString().compareTo(c2.getNodeShape().toString());
-				} else {
-					return -1;
-				}
-			} else {
-				if (!c2.getNodeShape().isAnon()) {
-					return 1;
-				} else {
-					return c2.getNodeShape().toString().compareTo(c1.getNodeShape().toString());
-				}
+		// Recovery all properties of class
+		List<ShapesValues> shValuesClass = new ArrayList<>();
+		for (ShaclClasses shClass : shClasses) {
+			for (ShapesValues shValues : shClass.getShapes()) {
+				shValuesClass.add(shValues);
 			}
-		});
-
-		List<String> columns = new ArrayList<>();
-		shClasses.stream().forEach(n -> {
-
-			for (ShapesValues p : n.getShapes()) {
-				columns.add(p.getNameShapes());
-			}
-
-		});
-
-		// Sort
-
-		// Title or Header in template
-		List<String> HeaderColumns = columns.stream()
-				.collect(Collectors.groupingBy(Function.identity(), Collectors.counting())).entrySet().stream()
-				.filter(e -> e.getValue() == 1).map(s -> s.getKey()).collect(Collectors.toList());
-
+		}
 		
-		
-		
-		
+		CellColumns cc = new CellColumns();
+		List<XslTemplate> columnsHeader = cc.build(templateColumns, shValuesClass);
 		
 		// Blank workbook
-		XSSFWorkbook workbook = new XSSFWorkbook();
+		XSSFWorkbook workbookShacl = new XSSFWorkbook();
 
+		// Style color in row
+		XSSFColor rowColor = new XSSFColor(new java.awt.Color(43,150,150), null);
+		XSSFCellStyle rowStyle = workbookShacl.createCellStyle();
+		rowStyle.setFillBackgroundColor(rowColor);
+		rowStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+		
 		// Create a blank sheet for prefixes
-		XSSFSheet sheetPrefix = workbook.createSheet("prefixes");
-
+		XSSFSheet sheetPrefix = workbookShacl.createSheet("prefixes");
+		
 		// Create Row
 		XSSFRow row;
 
@@ -152,13 +119,15 @@ public class ShaclDocument {
 			cellP.setCellValue("PREFIX");
 			cellPrefix.setCellValue(prefixes.getprefix());
 			cellNameSpace.setCellValue(prefixes.getnamespace());
-		}
-
+			
+		}		
+		
 		// Create a blank sheet for OWL and Classes
-		XSSFSheet sheetClasses = workbook.createSheet("classes");
+		XSSFSheet sheetClasses = workbookShacl.createSheet("classes");
 		// Create Row
-		XSSFRow rowClasses;
-
+		XSSFRow rowClasses;		
+		
+		
 		String uriShape = "";
 		for (ShaclOntology owlonto : owl) {
 			rowClasses = sheetClasses.createRow(0);
@@ -184,25 +153,29 @@ public class ShaclDocument {
 		}
 
 		// Template
+		rowIdClass++;
 		XSSFRow rowTemplateText;
-		rowTemplateText = sheetClasses.createRow(rowIdClass + 3);
+		rowTemplateText = sheetClasses.createRow(rowIdClass++);
+		//rowTemplateText.setRowStyle(rowStyle);
 		Cell cellTemplate = rowTemplateText.createCell(0);
-		cellTemplate.setCellValue(
-				"This sheet specifies the NodeShape with their targets, that is the sets of entities being validated");
+		cellTemplate.setCellValue("This sheet specifies the NodeShape with their targets, that is the sets of entities being validated");
+		cellTemplate.setCellStyle(rowStyle);
+		rowTemplateText.getCell(0).setCellStyle(rowStyle);
 		
 		
 		// Header
 		rowIdClass++;
-		
 		XSSFRow rowDescriptionClassColumn;
 		XSSFRow rowNameClassColumn;
 		XSSFRow rowShapeClassColumn;
 		rowDescriptionClassColumn = sheetClasses.createRow(rowIdClass++);
 		rowNameClassColumn = sheetClasses.createRow(rowIdClass++);
 		rowShapeClassColumn = sheetClasses.createRow(rowIdClass++);
-		Integer nCell = 0;		
-		// write class columns
-		for (XslTemplate r : templateColumns) {
+		
+		// Columns Header - Classes 
+		Integer nCell = 0;
+		templateColumns.sort(Comparator.comparing(XslTemplate::getSh_order).thenComparing(XslTemplate::getSh_name));
+		for (XslTemplate r : columnsHeader) {
 			Cell cellDesc = rowDescriptionClassColumn.createCell(nCell);
 			cellDesc.setCellValue(r.getSh_description());
 			Cell cellName = rowNameClassColumn.createCell(nCell);
@@ -212,32 +185,17 @@ public class ShaclDocument {
 			nCell++;
 		}
 		
-		/*
-		List<String> nameHeader = templateColumns.stream().map(n -> n.getSh_name()).collect(Collectors.toList());
-		for (String tHeader : nameHeader) {
-			Cell cellHeader = rowTemplateText.createCell(nCell);
-			nCell++;			
-			cellHeader.setCellValue(tHeader);
-		}
+		//
 		
-		// write Shape columns
-		List<String> shapeHeader = templateColumns.stream().map(n -> n.get).collect(Collectors.toList());
-		for (String tHeader : nameHeader) {
-			Cell cellHeader = rowTemplateText.createCell(nCell);
-			nCell++;			
-			cellHeader.setCellValue(tHeader);
-		}
-		*/
-
+		
 		// This section is for classes all configurated
-
 		File currDir = new File(".");
 		String path = currDir.getAbsolutePath();
 		String fileLocation = path.substring(0, path.length() - 1) + "temp.xlsx";
 
 		FileOutputStream outputStream = new FileOutputStream(fileLocation);
-		workbook.write(outputStream);
-		workbook.close();
+		workbookShacl.write(outputStream);
+		workbookShacl.close();
 
 		return shClasses;
 	}

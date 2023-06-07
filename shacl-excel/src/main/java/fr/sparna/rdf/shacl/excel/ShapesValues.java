@@ -2,21 +2,28 @@ package fr.sparna.rdf.shacl.excel;
 
 public class ShapesValues {
 	
-	protected String NameShapes;
-	protected String Values;
-	public String getNameShapes() {
-		return NameShapes;
+	protected String subject;
+	protected String predicate;
+	protected String object;
+	
+	public String getSubject() {
+		return subject;
 	}
-	public void setNameShapes(String nameShapes) {
-		NameShapes = nameShapes;
+	public void setSubject(String subject) {
+		this.subject = subject;
 	}
-	public String getValues() {
-		return Values;
+	public String getPredicate() {
+		return predicate;
 	}
-	public void setValues(String values) {
-		Values = values;
+	public void setPredicate(String predicate) {
+		this.predicate = predicate;
+	}
+	public String getObject() {
+		return object;
+	}
+	public void setObject(String object) {
+		this.object = object;
 	}
 	
 	
-
 }

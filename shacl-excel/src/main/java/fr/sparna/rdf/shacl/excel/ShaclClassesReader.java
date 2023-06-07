@@ -34,30 +34,13 @@ public class ShaclClassesReader {
 			if(!p.equals("sh:property")) {
 				ShapesValues spv = new ShapesValues();
 				
-				spv.setNameShapes(p);
-				spv.setValues(o);
+				spv.setSubject(s);
+				spv.setPredicate(p);
+				spv.setObject(o);
 				
 				lShapes.add(spv);
 			}
 		}
-		
-		lShapes.stream().sorted((s1,s2) -> {
-			if (!s1.getNameShapes().isEmpty()) {
-				if(!s2.getNameShapes().isEmpty()) {
-					return s1.getNameShapes().compareTo(s2.getNameShapes());
-				}else {
-					return -1;
-				}
-			}else {
-				if(s2.getNameShapes().isEmpty()) {
-					return 1;
-				}else {
-					return s2.getNameShapes().compareTo(s1.getNameShapes());
-				}
-			}
-			
-		});
-		
 		
 		shClass.setShapes(lShapes);
 		

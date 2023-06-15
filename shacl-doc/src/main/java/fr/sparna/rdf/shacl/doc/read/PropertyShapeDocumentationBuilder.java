@@ -16,9 +16,8 @@ import org.apache.jena.vocabulary.XSD;
 import fr.sparna.rdf.shacl.doc.ConstraintValueReader;
 import fr.sparna.rdf.shacl.doc.NodeShape;
 import fr.sparna.rdf.shacl.doc.PropertyShape;
-import fr.sparna.rdf.shacl.doc.model.PropertyShapeDocumentation;
-
 import fr.sparna.rdf.shacl.doc.model.Link;
+import fr.sparna.rdf.shacl.doc.model.PropertyShapeDocumentation;
 
 
 public class PropertyShapeDocumentationBuilder {
@@ -32,27 +31,27 @@ public class PropertyShapeDocumentationBuilder {
 		// Start building final structure
 		PropertyShapeDocumentation proprieteDoc = new PropertyShapeDocumentation();
 		proprieteDoc.setLabel(selectLabel(propertyShape, shaclGraph.union(owlGraph), lang));
+		// URI in the documentation
+		proprieteDoc.setPropertyUri(buildPathLink(propertyShape));
+		
+		proprieteDoc.setExpectedValueAdditionnalInfoIn(render(propertyShape.getShIn(), false));
+		proprieteDoc.setCardinalite(renderCardinalities(propertyShape.getShMinCount(), propertyShape.getShMaxCount()));
+		proprieteDoc.setDescription(selectDescription(propertyShape, shaclGraph.union(owlGraph), lang));
 		
 		if(propertyShape.getShNode() != null) {
 			for(NodeShape aBox : allNodeShapes) {
 				if(aBox.getNodeShape().getURI().equals(propertyShape.getShNode().getURI())) {
-					proprieteDoc.setLinkNodeShapeUri(aBox.getShortForm());
+					proprieteDoc.getExpectedValue().setLinkNodeShapeUri(aBox.getShortForm());
 					if(aBox.getRdfsLabel() == null) {
-						proprieteDoc.setLinkNodeShape(aBox.getShortForm());
+						proprieteDoc.getExpectedValue().setLinkNodeShape(aBox.getShortForm());
 					}else {
-						proprieteDoc.setLinkNodeShape(aBox.getRdfsLabel());
-					}							
+						proprieteDoc.getExpectedValue().setLinkNodeShape(aBox.getRdfsLabel());
+					}	
 				}
 			}
 		}
 		
-		//proprieteDoc.setShortForm(propertyShape.getShPathAsString());
-		//proprieteDoc.setPropertyUri(propertyShape.getShPath().isURIResource()?propertyShape.getShPath().getURI():null);				
-		
-		// URI in the raport
-		proprieteDoc.setPropertyUri(buildPathLink(propertyShape));
-		
-		proprieteDoc.setExpectedValueLabel(selectExpectedValueLabel(
+		proprieteDoc.getExpectedValue().setExpectedValueLabel(selectExpectedValueLabel(
 				propertyShape.getShClass(),
 				propertyShape.getShNode(),
 				propertyShape.getShDatatype(),
@@ -63,35 +62,32 @@ public class PropertyShapeDocumentationBuilder {
 		if(propertyShape.getShClass() != null) {
 			for(NodeShape aNodeShape : allNodeShapes) {
 				if(aNodeShape.getShTargetClass() != null && aNodeShape.getShTargetClass().getURI().equals(propertyShape.getShClass().getURI())) {
-					proprieteDoc.setLinkNodeShapeUri(aNodeShape.getShortForm()); //aName.getShortForm().getLocalName()
+					proprieteDoc.getExpectedValue().setLinkNodeShapeUri(aNodeShape.getShortForm()); //aName.getShortForm().getLocalName()
 					if(aNodeShape.getRdfsLabel() == null) {
-						proprieteDoc.setLinkNodeShape(aNodeShape.getShortForm());
+						proprieteDoc.getExpectedValue().setLinkNodeShape(aNodeShape.getShortForm());
 					}else {
-						proprieteDoc.setLinkNodeShape(aNodeShape.getRdfsLabel());
+						proprieteDoc.getExpectedValue().setLinkNodeShape(aNodeShape.getRdfsLabel());
 					}
 					break;
 				// checks that the URI of the NodeShape is itself equal to the sh:class
 				} else if (aNodeShape.getNodeShape().getURI().equals(propertyShape.getShClass().getURI())) {
-					proprieteDoc.setLinkNodeShapeUri(aNodeShape.getShortForm()); //aName.getShortForm().getLocalName()
+					proprieteDoc.getExpectedValue().setLinkNodeShapeUri(aNodeShape.getShortForm()); //aName.getShortForm().getLocalName()
 					if(aNodeShape.getRdfsLabel() == null) {
-						proprieteDoc.setLinkNodeShape(aNodeShape.getShortForm());
+						proprieteDoc.getExpectedValue().setLinkNodeShape(aNodeShape.getShortForm());
 					}else {
-						proprieteDoc.setLinkNodeShape(aNodeShape.getRdfsLabel());
+						proprieteDoc.getExpectedValue().setLinkNodeShape(aNodeShape.getRdfsLabel());
 					}
 					break;
 				}
 			}					
 		}
-
-		proprieteDoc.setExpectedValueAdditionnalInfoIn(render(propertyShape.getShIn(), false));
-		proprieteDoc.setCardinalite(renderCardinalities(propertyShape.getShMinCount(), propertyShape.getShMaxCount()));
-		proprieteDoc.setDescription(selectDescription(propertyShape, shaclGraph.union(owlGraph), lang));
 		
 		// create a String of comma-separated short forms
-		proprieteDoc.setOr(render(propertyShape.getShOr(), false));
+		proprieteDoc.getExpectedValue().setOr(render(propertyShape.getShOr(), false));
 		
 		return proprieteDoc;
 	}
+
 	
 	public static String selectLabel(PropertyShape prop, Model owlModel, String lang) {
 		// if we have a sh:name, take it

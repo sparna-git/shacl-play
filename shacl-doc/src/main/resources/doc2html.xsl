@@ -900,19 +900,19 @@
 			<!-- Expected Value -->
 			<td>
 				<xsl:choose>
-					<xsl:when test="linkNodeShape != ''">
+					<xsl:when test="expectedValue/linkNodeShape[node()]">
 						<code>
-							<a href="{concat('#',linkNodeShapeUri)}">
-								<xsl:value-of select="linkNodeShape" />
+							<a href="{concat('#',expectedValue/linkNodeShapeUri)}">
+								<xsl:value-of select="expectedValue/linkNodeShape" />
 							</a>
 						</code>
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:choose>
-							<xsl:when test="string-length(or) > 0">
+							<xsl:when test="string-length(expectedValue/or) > 0">
 								<xsl:variable name="nfois"
-									select="count(tokenize(or,','))" />
-								<xsl:for-each select="tokenize(or,',')">
+									select="count(tokenize(expectedValue/or,','))" />
+								<xsl:for-each select="tokenize(expectedValue/or,',')">
 									<xsl:variable name="countData">
 										<xsl:choose>
 											<xsl:when test="position() = 1">
@@ -941,7 +941,7 @@
 							<xsl:otherwise>
 								<code>
 									<!-- disable output espacing as we may have <sup> in rendering -->
-									<xsl:value-of disable-output-escaping="yes" select="expectedValueLabel" />
+									<xsl:value-of disable-output-escaping="yes" select="expectedValue/expectedValueLabel" />
 								</code>
 							</xsl:otherwise>
 						</xsl:choose>

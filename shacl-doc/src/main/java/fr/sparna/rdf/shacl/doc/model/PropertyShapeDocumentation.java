@@ -6,25 +6,23 @@ public class PropertyShapeDocumentation {
 	
 	// null if sh:path is a property path
 	private Link propertyUri;
-	private String expectedValueLabel;
+	
 
 	private String expectedValueAdditionnalInfoIn;
 	private String expectedValueAdditionnalInfoValue;
 
 	private String cardinalite;
 	private String description;
-	private String Or;
+		
+	private ExpectedValue expectedValue = new ExpectedValue();
 
-	private String linkNodeShape;
-	private String linkNodeShapeUri;	
-	
-	
-	public String getOr() {
-		return Or;
+
+	public ExpectedValue getExpectedValue() {
+		return expectedValue;
 	}
 
-	public void setOr(String shOr) {
-		this.Or = shOr;
+	public void setExpectedValue(ExpectedValue expectedValue) {
+		this.expectedValue = expectedValue;
 	}
 
 	public String getLabel() {
@@ -41,10 +39,6 @@ public class PropertyShapeDocumentation {
 
 	public void setPropertyUri(Link propertyUri) {
 		this.propertyUri = propertyUri;
-	}
-
-	public String getExpectedValueLabel() {
-		return expectedValueLabel;
 	}
 
 	public String getExpectedValueAdditionnalInfoIn() {
@@ -67,10 +61,6 @@ public class PropertyShapeDocumentation {
 		return cardinalite;
 	}
 
-	public void setExpectedValueLabel(String expectedValueLabel) {
-		this.expectedValueLabel = expectedValueLabel;
-	}
-
 	public void setCardinalite(String cardinalite) {
 		this.cardinalite = cardinalite;
 	}
@@ -81,22 +71,6 @@ public class PropertyShapeDocumentation {
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public String getLinkNodeShape() {
-		return linkNodeShape;
-	}
-
-	public void setLinkNodeShape(String linkNodeShape) {
-		this.linkNodeShape = linkNodeShape;
-	}
-
-	public String getLinkNodeShapeUri() {
-		return linkNodeShapeUri;
-	}
-
-	public void setLinkNodeShapeUri(String linkNodeShapeUri) {
-		this.linkNodeShapeUri = linkNodeShapeUri;
 	}
 
 }

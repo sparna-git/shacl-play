@@ -9,7 +9,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.jena.datatypes.xsd.XSDDatatype;
-import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Property;
@@ -17,6 +16,7 @@ import org.apache.jena.rdf.model.RDFList;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.ResourceFactory;
+import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.shacl.vocabulary.SHACLM;
 import org.apache.jena.vocabulary.DCTerms;
 import org.apache.jena.vocabulary.OWL;
@@ -26,6 +26,9 @@ import org.apache.jena.vocabulary.XSD;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.helpers.MessageFormatter;
+
+import fr.sparna.rdf.shacl.DatasetAwareShaclVisitorBase;
+import fr.sparna.rdf.shacl.ShaclVisit;
 
 /**
  * Algorithm to generation a SHACL model from data. Does not do any read operation by itself but reads its input from a data provider.
@@ -68,6 +71,7 @@ public class ShaclGenerator {
 		shacl.setNsPrefix("sh", SHACLM.NS);
 		shacl.setNsPrefix("xsd", XSD.NS);
 		shacl.setNsPrefix("rdfs", RDFS.uri);
+		shacl.setNsPrefix("rdf", RDF.uri);
 		
 		// add the prefix from the shapes namespace, if set
 		if(configuration.getShapesNamespace() != null && configuration.getShapesNamespacePrefix() != null) {
@@ -82,6 +86,11 @@ public class ShaclGenerator {
 		// generate node shapes corresponding to types
 		addTypes(configuration, shacl);
 		log.debug("(generate) add types done");
+		
+		// post-process to assign datatypes
+		ShaclVisit visit = new ShaclVisit(shacl);
+		visit.visit(new AssignDatatypesVisitor(dataProvider));
+		visit.visit(new AssignClassesVisitor(dataProvider, configuration));
 		
 		return shacl;
 	}
@@ -236,10 +245,10 @@ public class ShaclGenerator {
 		
 		// if it makes sense, try to find sh:valueIn
 		if(configuration.getRequiresShValueInPredicate() != null && configuration.getRequiresShValueInPredicate().test(propertyShape)) {
-			setInOrHasValue(shacl, targetClass, path, propertyShape);
+			setInOrHasValue(configuration, shacl, targetClass, path, propertyShape);
 		}
 		
-		// add nodeKind and other more detailled properties
+		// add nodeKind and other more detailed properties
 		setNodeKind(configuration, shacl, targetClass, path, propertyShape);
 	
 
@@ -275,46 +284,6 @@ public class ShaclGenerator {
 		else {
 			log.warn("  (setNodeKind) no sh:nodeKind could be derived for '{}'", propertyShape.getURI());
 		}
-
-		if (nodeKindValue == SHACLM.Literal) {
-			setShaclDatatype(configuration, shacl, targetClass, path, propertyShape);
-		} else if (nodeKindValue == SHACLM.IRI) {
-			setShaclClass(configuration, shacl, targetClass, path, propertyShape);
-		}
-	}
-
-	private void setShaclDatatype(
-			Configuration configuration,
-			Model shacl,
-			Resource targetClass,
-			Resource path,
-			Resource propertyShape
-	) {
-		List<String> datatypes = this.dataProvider.getDatatypes(targetClass.getURI(), path.getURI());
-		
-		if(datatypes.size() > 1) {
-			log.warn(datatypes.size()+" datatypes found for property '{}' in class '{}'", path.getURI(), targetClass.getURI());
-			
-			// add sh:or list to property shape:
-			//    first create RDF list and then add it to property shape		
-			List<Resource> orInstances = datatypes.stream().map(datatype -> {
-				Resource orInstance = ResourceFactory.createResource(propertyShape.getURI() + "_datatype_" + datatypes.indexOf(datatype));
-				shacl.add(orInstance, SHACLM.datatype, shacl.createResource(datatype));				
-				return orInstance;
-			}).collect(Collectors.toList());
-			
-			
-			RDFList orInstancesList = shacl.createList(orInstances.iterator());
-			shacl.add(propertyShape, SHACLM.or, orInstancesList);
-		} else {
-			log.debug("  (setShaclDatatype) property shape '{}' gets sh:datatype '{}'", propertyShape.getLocalName(), datatypes.get(0));
-			shacl.add(propertyShape, SHACLM.datatype, shacl.createResource(datatypes.get(0)));
-			
-			if (RDF.langString.getURI().equals(datatypes.get(0))) {
-		      setLanguageIn(shacl, targetClass, path, propertyShape);
-		    }
-		}
-		
 	}
 
 	/**
@@ -334,78 +303,7 @@ public class ShaclGenerator {
 		if (!hasIri && hasBlank && hasLiteral) return SHACLM.BlankNodeOrLiteral;
 		return null;
 	}	
-	
-	/**
-	 * Assigns the sh:class constraint on the property shape
-	 * 
-	 * @param configuration
-	 * @param shacl
-	 * @param targetClass
-	 * @param path
-	 * @param propertyShape
-	 */
-	private void setShaclClass(
-			Configuration configuration,
-			Model shacl,
-			Resource targetClass,
-			Resource path,
-			Resource propertyShape
-	) {
-		List<String> classes = calculateClasses(configuration, targetClass, path);
 
-		// always remove owl:NamedIndividual from the result
-		classes.remove("http://www.w3.org/2002/07/owl#NamedIndividual");
-		
-		if (classes.isEmpty()) {
-			String message = getMessage(
-					"type '{}' and property '{}' is considered an 'rdfs:Resource'.",
-					shortenUri(shacl, targetClass),
-					shortenUri(shacl, path)
-			);
-			log.warn(message);
-			return;
-		}
-
-
-		if (classes.size() > 1) {			
-			// add sh:or list to property shape:
-			//    first create RDF list and then add it to property shape
-			List<Resource> orInstances = classes.stream().map(aClass -> {				
-			Resource orInstance = ResourceFactory.createResource(propertyShape.getURI() + "_class_" + classes.indexOf(aClass));
-				shacl.add(orInstance, SHACLM.class_, shacl.createResource(aClass));				
-				return orInstance;
-			}).collect(Collectors.toList());			
-			
-			RDFList orInstancesList = shacl.createList(orInstances.iterator());
-			shacl.add(propertyShape, SHACLM.or, orInstancesList);
-			return;
-		}
-
-		log.debug("  (setShaclClass) property shape '{}' gets sh:class '{}'", propertyShape.getLocalName(), classes.get(0));
-		shacl.add(propertyShape, SHACLM.class_, shacl.createResource(classes.get(0)));
-	}
-	
-	private List<String> calculateClasses(
-			Configuration configuration,
-			Resource targetClass,
-			Resource path) {
-		
-		List<String> classes = this.dataProvider.getObjectTypes(targetClass.getURI(), path.getURI());
-		// return is 0 or 1 result
-		if (classes.size() <= 1) return classes;
-
-		// try to translate lots of types to 1
-		Set<String> classSet = new HashSet<>(classes);
-		// String translation = configuration.getTypeTranslation(classSet);
-		String translation = null;
-		if (translation != null) return Collections.singletonList(translation);
-
-		// cleanup unused types
-		configuration.getIgnoredClasses().forEach(classSet::remove);
-
-		// we tried, return as what's left
-		return new ArrayList<>(classes);
-	}
 
 	private void setMinCount(
 			Model shacl,
@@ -440,33 +338,26 @@ public class ShaclGenerator {
 			log.debug("  (setMaxCount) property shape '{}' cannot have sh:maxCount", propertyShape.getLocalName());
 		}
 	}
-
-	private void setLanguageIn(
-			Model shacl,
-			Resource targetClass,
-			Resource path,
-			Resource propertyShape) {
-		List<String> languages = this.dataProvider.getLanguages(targetClass.getURI(), path.getURI());
-
-		List<Literal> languagesAsLiterals = languages.stream().map(s -> shacl.createLiteral(s)).collect(Collectors.toList());
-		RDFList languagesList = shacl.createList(languagesAsLiterals.iterator());
-
-		log.debug("  (setLanguageIn) property shape '{}' gets sh:languageIn '{}'", propertyShape.getLocalName(), languages);
-		shacl.add(propertyShape, SHACLM.languageIn, languagesList);
-	}
 	
 	private void setInOrHasValue(
+			Configuration configuration,
 			Model shacl,
 			Resource targetClass,
 			Resource path,
 			Resource propertyShape
-			) {
+	) {
 		
 		if (log.isTraceEnabled()) log.trace("(setInOrHasValue) start");
 
-		int valueCount = this.dataProvider.hasLessThanValues(targetClass.getURI(), path.getURI(), 10);
-		if(valueCount > 0) {
-			log.debug("  (setInOrHasValue) found '{}' different values", valueCount);
+		List<RDFNode> distinctValues = this.dataProvider.listDistinctValues(targetClass.getURI(), path.getURI(), configuration.getValuesInThreshold()+1);
+		if(distinctValues.size() <= configuration.getValuesInThreshold()) {
+			log.debug("  (setInOrHasValue) found a maximum of '{}' distinct values, will set sh:in or sh:value", distinctValues.size());
+			if(distinctValues.size() == 1) {
+				shacl.add(propertyShape, SHACLM.value, distinctValues.get(0));
+			} else {
+				RDFList list = shacl.createList(distinctValues.iterator());
+				shacl.add(propertyShape, SHACLM.in, list);
+			}
 		}
 		
 	}
@@ -503,11 +394,11 @@ public class ShaclGenerator {
 		
 	}
 
-	private static String shortenUri(Model shacl, String uri) {
+	public static String shortenUri(Model shacl, String uri) {
 		return shortenUri(shacl, ResourceFactory.createResource(uri));
 	}
 
-	private static String shortenUri(Model shacl, Resource resource) {
+	public static String shortenUri(Model shacl, Resource resource) {
 		if(resource.isAnon()) return resource.toString();
 		
 		String prefix = shacl.getNsURIPrefix(resource.getNameSpace());
@@ -516,13 +407,13 @@ public class ShaclGenerator {
 		return prefix + ":" + resource.getLocalName();
 	}
 	
-	private static List<String> shortenUri(Model shacl, List<String> uris) {
+	public static List<String> shortenUri(Model shacl, List<String> uris) {
 	    return uris.stream()
 	               .map(uri -> shortenUri(shacl, uri))
 	               .collect(Collectors.toList());
 	  }
 
-	private String getMessage(String messagePattern, Object... parameters) {
+	public static String getMessage(String messagePattern, Object... parameters) {
 		return MessageFormatter.arrayFormat(messagePattern, parameters)
 				.getMessage();
 	}
@@ -536,5 +427,6 @@ public class ShaclGenerator {
 			r.addProperty(p, s);
 		}
 	}
-
+	
+	
 }

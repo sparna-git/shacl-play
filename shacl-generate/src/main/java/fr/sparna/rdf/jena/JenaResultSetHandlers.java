@@ -28,6 +28,18 @@ public abstract class JenaResultSetHandlers {
     return result;
   }
   
+  public static List<RDFNode> convertToList(ResultSet resultSet) {
+	    List<RDFNode> result = new ArrayList<>();
+
+	    String firstVar = resultSet.getResultVars().get(0);
+	    while (resultSet.hasNext()) {
+	      QuerySolution querySolution = resultSet.next();
+	      result.add(querySolution.get(firstVar));
+	    }
+
+	    return result;
+	  }
+  
   /**
    * Since result currently is somewhat inflexible, we are adding flexibility with convertors.
    */
@@ -35,8 +47,8 @@ public abstract class JenaResultSetHandlers {
     return convertSingleColumnToList(results, input -> input.asResource().getURI());
   }
   
-  public static List<RDFNode> convertSingleColumnUriToRDFNodeList(List<Map<String, RDFNode>> results) {
-	return convertSingleColumnToList(results, input -> input.asResource());
+  public static List<RDFNode> convertSingleColumnToRDFNodeList(List<Map<String, RDFNode>> results) {
+	return convertSingleColumnToList(results, input -> input);
   }
   
   public static List<Integer> convertSingleColumnToIntegerList(List<Map<String, RDFNode>> results) {

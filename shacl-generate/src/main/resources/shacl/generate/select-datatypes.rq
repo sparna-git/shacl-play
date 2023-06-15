@@ -3,7 +3,9 @@ PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 select distinct ?value {
   ?uri a $type .
   ?uri $property ?x.
-
+  # de facto exclude non-literal in case this is used on mixed (IRIOrLiteral) properties
+  FILTER(isLiteral(?x))
+  
   bind (datatype(?x) as ?datatypeValue)
   bind (coalesce(?datatypeValue, rdf:langString) as ?value)
 }

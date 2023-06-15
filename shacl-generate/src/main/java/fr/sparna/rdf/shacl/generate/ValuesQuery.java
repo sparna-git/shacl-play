@@ -6,22 +6,16 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.jena.query.QuerySolution;
-import org.apache.jena.query.QuerySolutionMap;
 import org.apache.jena.rdf.model.Literal;
-import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.RDFNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import fr.sparna.rdf.jena.JenaResultSetHandler;
 import fr.sparna.rdf.jena.JenaResultSetHandlers;
 import fr.sparna.rdf.jena.QueryExecutionService;
 
 /**
- * @author thomas
- *
+ * Executes a SPARQL query with an additional VALUES clause to pass in values in batches
  */
 public class ValuesQuery {
 
@@ -34,7 +28,7 @@ public class ValuesQuery {
   }
 
   public List<Map<String, RDFNode>> select(QueryExecutionService service, String query, String varName, List<RDFNode> values) {
-	  // skip if there is a limit
+	  // skip if there is already a VALUES clause
 	  if (hasValuesAtEnd(query)) {
 		  return runQuery(service, query);
 	  }
@@ -73,6 +67,14 @@ public class ValuesQuery {
     return betweenLastAccoladeAndValuesAccolade.toLowerCase().contains("values");
   }
 
+  /**
+   * Runs a single batch : append the VALUES clause at the end of the query
+   * @param service
+   * @param query
+   * @param varName
+   * @param values
+   * @return
+   */
   private List<Map<String, RDFNode>> selectBatch(
 		  QueryExecutionService service,
 		  String query,

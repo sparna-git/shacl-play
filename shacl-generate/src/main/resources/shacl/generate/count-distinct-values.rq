@@ -1,6 +1,6 @@
-SELECT (COUNT(DISTINCT ?x) AS ?count)
+SELECT DISTINCT ?x
 WHERE {
   ?uri a $type .
   ?uri $property ?x .
 }
-HAVING(?count < $limit)
+LIMIT $limit

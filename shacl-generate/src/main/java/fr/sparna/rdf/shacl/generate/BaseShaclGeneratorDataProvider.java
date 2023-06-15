@@ -10,7 +10,6 @@ import java.util.Map;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
-import org.apache.jena.datatypes.RDFDatatype;
 import org.apache.jena.datatypes.xsd.XSDDatatype;
 import org.apache.jena.query.QuerySolutionMap;
 import org.apache.jena.rdf.model.Model;
@@ -202,36 +201,43 @@ public class BaseShaclGeneratorDataProvider implements ShaclGeneratorDataProvide
 		return count;
 	}
 	
+	
+	
+	@Override
+	public int countStatementsWithDatatypes(String subjectClassUri, String propertyUri, List<String> datatypes) {
+		// TODO Auto-generated method stub
+		return -1;
+	}
+
+	@Override
+	public int countStatementsWithObjectClasses(String subjectClassUri, String propertyUri,
+			List<String> objectClassUris) {
+		// TODO Auto-generated method stub
+		return -1;
+	}
+
+	@Override
+	public List<RDFNode> listDistinctValues(String subjectClassUri, String propertyUri, int limit) {
+		QuerySolutionMap qs = new QuerySolutionMap();
+		qs.add("type", ResourceFactory.createResource(subjectClassUri));
+		qs.add("property", ResourceFactory.createResource(propertyUri));
+		// qs.add("limit", ResourceFactory.createTypedLiteral(Integer.toString(limit), XSDDatatype.XSDinteger));
+		
+		List<RDFNode> result = this.queryExecutionService.executeSelectQuery(
+				readQuery("count-distinct-values.rq").replaceAll("\\$limit", Integer.toString(limit)),
+				qs,
+				JenaResultSetHandlers::convertToList
+				
+		);
+		return result;
+	}
+	
 
 	@Override
 	public void registerMessageListener(Consumer<String> listener) {
 		this.messageListener = listener;		
 	}
-	
-	
 
-	@Override
-	public int hasLessThanValues(String classUri, String propertyUri, int limit) {
-//		QuerySolutionMap qs = new QuerySolutionMap();
-//		qs.add("type", ResourceFactory.createResource(classUri));
-//		qs.add("property", ResourceFactory.createResource(propertyUri));
-//		qs.add("limit", ResourceFactory.createTypedLiteral(Integer.toString(limit), XSDDatatype.XSDinteger));
-//		
-//		List<Map<String, RDFNode>> rows = this.paginatedQuery.select(
-//				this.queryExecutionService,
-//				readQuery("has-less-than-number-of-values.rq"),
-//				qs
-//		);
-//		if(rows.size() == 0) {
-//			return -1;
-//		} else {
-//			int count = JenaResultSetHandlers.convertSingleColumnToIntegerList(rows).get(0);
-//			log.debug("Counted "+count+" distinct values.");
-//			return count;
-//		}
-		
-		return -1;
-	}
 
 	protected String readQuery(String resourceName) {
 		try {

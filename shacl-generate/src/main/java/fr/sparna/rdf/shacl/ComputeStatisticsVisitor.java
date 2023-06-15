@@ -1,6 +1,10 @@
 package fr.sparna.rdf.shacl;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.shacl.vocabulary.SHACLM;
 import org.apache.jena.vocabulary.DCTerms;
@@ -13,18 +17,17 @@ import org.slf4j.LoggerFactory;
 import fr.sparna.rdf.shacl.generate.ShaclGenerator;
 import fr.sparna.rdf.shacl.generate.ShaclGeneratorDataProviderIfc;
 
-public class ComputeStatisticsVisitor implements ShaclVisitorIfc {
+public class ComputeStatisticsVisitor extends DatasetAwareShaclVisitorBase implements ShaclVisitorIfc {
 
-	private static final Logger log = LoggerFactory.getLogger(ShaclGenerator.class);
+	private static final Logger log = LoggerFactory.getLogger(ComputeStatisticsVisitor.class);
 	
-	private ShaclGeneratorDataProviderIfc dataProvider;
 	private Model model;
 	private String datasetUri;
 	private boolean addToDescription = false;
 
 	
 	public ComputeStatisticsVisitor(ShaclGeneratorDataProviderIfc dataProvider, String datasetUri, boolean addToDescription) {
-		this.dataProvider = dataProvider;
+		super(dataProvider);
 		this.datasetUri = datasetUri;
 		this.addToDescription = addToDescription;
 	}
@@ -43,6 +46,10 @@ public class ComputeStatisticsVisitor implements ShaclVisitorIfc {
 			// assert number of triples on the Dataset
 			model.add(model.createResource(this.datasetUri), VOID.triples, model.createTypedLiteral(count));
 		}
+		
+		// add void + dct namespace
+		model.setNsPrefix("void", VOID.NS);
+		model.setNsPrefix("dct", DCTerms.NS);
 	}
 
 	@Override
@@ -65,9 +72,14 @@ public class ComputeStatisticsVisitor implements ShaclVisitorIfc {
 	public void visitNodeShape(Resource aNodeShape) {
 		// link it to Dataset
 		// TODO : this is not necessarily a classPartition, depending on target of shape
-		model.add(model.createResource(this.datasetUri), VOID.classPartition, aNodeShape);
-		// TODO : not necessarily this.
-		model.add(aNodeShape, VOID._class, aNodeShape.getRequiredProperty(SHACLM.targetClass).getObject());
+		String partitionUri = buildPartitionUri(this.datasetUri,aNodeShape,this.model);
+		model.add(model.createResource(this.datasetUri), VOID.classPartition, model.createResource(partitionUri));
+		// TODO : not necessarily a void:class predicate
+		model.add(model.createResource(partitionUri), VOID._class, aNodeShape.getRequiredProperty(SHACLM.targetClass).getObject());
+		
+		// link class partition to NodeShape
+		model.add(model.createResource(partitionUri), DCTerms.conformsTo, aNodeShape);
+		
 		
 		// count number of instances
 		// TODO : this requires to interpret the target of the Shape
@@ -75,7 +87,7 @@ public class ComputeStatisticsVisitor implements ShaclVisitorIfc {
 		if(count >= 0) {
 			log.debug("(count) node shape '{}' gets void:entities '{}'", aNodeShape.getURI(), count);
 			// assert number of triples
-			model.add(aNodeShape, VOID.entities, model.createTypedLiteral(count));
+			model.add(model.createResource(partitionUri), VOID.entities, model.createTypedLiteral(count));
 			// append to description
 			if(this.addToDescription) {
 				ShaclGenerator.concatOnProperty(
@@ -89,9 +101,18 @@ public class ComputeStatisticsVisitor implements ShaclVisitorIfc {
 
 	@Override
 	public void visitPropertyShape(Resource aPropertyShape, Resource aNodeShape) {
-		// link it to NodeShape
-		model.add(aNodeShape, VOID.propertyPartition, aPropertyShape);
-		model.add(aPropertyShape, VOID.property, aPropertyShape.getRequiredProperty(SHACLM.path).getObject());
+		// get corresponding class + property partition
+		Resource classPartition = model.createResource(buildPartitionUri(this.datasetUri,aNodeShape,this.model));
+		Resource propertyPartition = model.createResource(buildPartitionUri(this.datasetUri,aPropertyShape,this.model));
+		
+		// assert void:property on the property partition
+		model.add(propertyPartition, VOID.property, aPropertyShape.getRequiredProperty(SHACLM.path).getObject());
+		
+		// link property partition to class partition 
+		model.add(classPartition, VOID.propertyPartition, propertyPartition);
+		
+		// link property partition to PropertyShape
+		model.add(propertyPartition, DCTerms.conformsTo, aPropertyShape);
 
 		// count number of triples
 		int count = this.dataProvider.countStatements(
@@ -101,7 +122,7 @@ public class ComputeStatisticsVisitor implements ShaclVisitorIfc {
 		if(count >= 0) {
 			log.debug("(count) property shape '{}' gets void:triples '{}'", aPropertyShape.getURI(), count);
 			// assert number of triples
-			model.add(aPropertyShape, VOID.triples, model.createTypedLiteral(count));
+			model.add(propertyPartition, VOID.triples, model.createTypedLiteral(count));
 			// append to description
 			if(this.addToDescription) {
 				ShaclGenerator.concatOnProperty(
@@ -116,6 +137,26 @@ public class ComputeStatisticsVisitor implements ShaclVisitorIfc {
 	@Override
 	public void leaveModel(Model model) {
 		
+	}
+	
+	protected boolean nodeShapeHasOtherPropertyShapeWithSamePath(Resource aPropertyShape, Resource aNodeShape) {
+		// read sh:path
+		String path = aPropertyShape.getRequiredProperty(SHACLM.path).getObject().asResource().getURI();
+		
+		// lookup property shapes with same path
+		List<RDFNode> otherPropertyShapesWithSamePath = aNodeShape.listProperties(SHACLM.property)
+			.filterDrop(statement -> {return statement.getObject().equals(aPropertyShape);})
+			.toList().stream().map(statement -> statement.getObject()).collect(Collectors.toList());
+		
+		return otherPropertyShapesWithSamePath.size() > 0;
+	}
+	
+	private static String buildPartitionUri(String datasetUri, Resource shape, Model shacl) {
+		// extract local name of shape URI
+		String localName = shape.getLocalName();
+		// concat local name to datasetUri
+		String partitionUri = datasetUri+"/"+"partition"+"_"+localName;
+		return partitionUri;
 	}
 
 

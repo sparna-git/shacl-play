@@ -12,11 +12,11 @@ import org.apache.jena.shacl.vocabulary.SHACLM;
 import org.apache.jena.vocabulary.OWL;
 import org.apache.jena.vocabulary.RDF;
 
-public class ShaclModel {
+public class ShaclVisit {
 
 	private Model model;
 
-	public ShaclModel(Model model) {
+	public ShaclVisit(Model model) {
 		super();
 		this.model = model;
 	}

@@ -27,6 +27,11 @@ public class Configuration {
 	private List<String> ignoredNamespaces = new ArrayList<>();
 
 	private String lang = "en";
+	
+	/**
+	 * The maximum number of distinct values for a given property for which sh:value or sh:in will be generated 
+	 */
+	private int valuesInThreshold = 3;
 
 	public Configuration() {
 		// ignore Virtuoso namespace by default
@@ -109,11 +114,6 @@ public class Configuration {
 	}
 	
 	public Predicate<Resource> getRequiresShValueInPredicate() {
-		/*
-		return (propertyShape -> {
-			return false;
-		});
-		*/
 		return (propertyShape -> {
 			return propertyShape.getProperty(SHACLM.minCount) != null
 					&&
@@ -127,6 +127,14 @@ public class Configuration {
 					&&
 					propertyShape.getProperty(SHACLM.maxCount).getObject().asLiteral().getInt() == 1;
 		});
+	}
+
+	public int getValuesInThreshold() {
+		return valuesInThreshold;
+	}
+
+	public void setValuesInThreshold(int valuesInThreshold) {
+		this.valuesInThreshold = valuesInThreshold;
 	}
 	
 	

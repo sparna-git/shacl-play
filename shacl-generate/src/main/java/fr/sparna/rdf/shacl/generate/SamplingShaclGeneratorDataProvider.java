@@ -85,7 +85,7 @@ public class SamplingShaclGeneratorDataProvider extends BaseShaclGeneratorDataPr
 					readQuery("sampling/select-instances.rq"),
 					QueryExecutionService.buildQuerySolution("type", ResourceFactory.createResource(classUri))
 			);
-			List<RDFNode> instances = JenaResultSetHandlers.convertSingleColumnUriToRDFNodeList(instanceRows);
+			List<RDFNode> instances = JenaResultSetHandlers.convertSingleColumnToRDFNodeList(instanceRows);
 			
 			// store the instance sample in cache
 			this.sampleInstancesCache.put(classUri, instances);

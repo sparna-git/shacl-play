@@ -16,6 +16,7 @@ public abstract class AbstractFilterVisitor implements ShaclVisitorIfc {
 
 	private static final Logger log = LoggerFactory.getLogger(ShaclGenerator.class);
 	
+	private transient int filteredNodeShapesCount = 0;
 	private transient int filteredPropertyShapesCount = 0;
 
 	
@@ -32,12 +33,15 @@ public abstract class AbstractFilterVisitor implements ShaclVisitorIfc {
 
 	@Override
 	public void visitNodeShape(Resource aNodeShape) {
-
+		if(this.filterNodeShape(aNodeShape)) {
+			this.removeNodeShape(aNodeShape);
+			this.filteredNodeShapesCount++;
+		}
 	}
 
 	@Override
 	public void visitPropertyShape(Resource aPropertyShape, Resource aNodeShape) {
-		if(this.filter(aPropertyShape, aNodeShape)) {
+		if(this.filterPropertyShape(aPropertyShape, aNodeShape)) {
 			this.removePropertyShape(aPropertyShape);
 			this.filteredPropertyShapesCount++;
 		}
@@ -60,7 +64,13 @@ public abstract class AbstractFilterVisitor implements ShaclVisitorIfc {
 		aPropertyShape.getModel().removeAll(null, null, aPropertyShape);
 	}
 	
-	public abstract boolean filter(Resource aPropertyShape, Resource aNodeShape);
+	private void removeNodeShape(Resource aNodeShape) {
+		throw new RuntimeException("Not yet implemented");
+	}
+	
+	public abstract boolean filterNodeShape(Resource aNodeShape);
+	
+	public abstract boolean filterPropertyShape(Resource aPropertyShape, Resource aNodeShape);
 	
 	public abstract String getMessage();
 

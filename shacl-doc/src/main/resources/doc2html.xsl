@@ -910,30 +910,26 @@
 					<xsl:otherwise>
 						<xsl:choose>
 							<xsl:when test="string-length(expectedValue/or) > 0">
-								<xsl:variable name="nfois"
+								<xsl:variable name="length"
 									select="count(tokenize(expectedValue/or,','))" />
 								<xsl:for-each select="tokenize(expectedValue/or,',')">
-									<xsl:variable name="countData">
-										<xsl:choose>
-											<xsl:when test="position() = 1">
-												<xsl:value-of select="count(.)" />
-											</xsl:when>
-											<xsl:otherwise>
-												<xsl:value-of select="count(.)+1" />
-											</xsl:otherwise>
-										</xsl:choose>
-									</xsl:variable>
-									<xsl:variable name="sDataOrg" select="." />
-										<code>
-											<a href="{concat('#',$sDataOrg)}">
-												<xsl:value-of select="concat($sDataOrg,' ')" />
-											</a>
-										</code>
+								<xsl:variable name="current" select="normalize-space(.)" />
 									<xsl:choose>
-										<xsl:when test="$nfois &gt; $countData">
+										<xsl:when test="starts-with($current,'xsd:') or starts-with($current,'sh:') or starts-with($current,'rdf:')">
+											<code><xsl:value-of select="$current" /></code>
+										</xsl:when>
+										<xsl:otherwise>
 											<code>
-												<xsl:text>or</xsl:text>
+												<a href="{concat('#',$current)}">
+													<xsl:value-of select="$current" />
+												</a>
 											</code>
+										</xsl:otherwise>
+									</xsl:choose>
+									
+									<xsl:choose>
+										<xsl:when test="position() &lt; $length">
+											<code> or </code>
 										</xsl:when>
 									</xsl:choose>
 								</xsl:for-each>

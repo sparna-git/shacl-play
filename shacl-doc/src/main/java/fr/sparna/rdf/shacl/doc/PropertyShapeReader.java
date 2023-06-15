@@ -1,5 +1,6 @@
 package fr.sparna.rdf.shacl.doc;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -50,22 +51,23 @@ public class PropertyShapeReader {
 			Resource list = constraint.getProperty(SH.or).getList().asResource();
 			List<RDFNode> rdflist = list.as(RDFList.class).asJavaList();
 
-			// read only the sh:node on list items
-			return rdflist.stream().map(item -> {
+			List<Resource> result = new ArrayList<Resource>();
+			rdflist.stream().forEach(item -> {
 				if(item.isResource()) {
 					if(item.asResource().hasProperty(SH.node)) {
-						return item.asResource().getPropertyResourceValue(SH.node);
+						result.add(item.asResource().getPropertyResourceValue(SH.node));
 					} else if(item.asResource().hasProperty(SH.class_)) {
-						return item.asResource().getPropertyResourceValue(SH.class_);
+						result.add(item.asResource().getPropertyResourceValue(SH.class_));
 					} else if(item.asResource().hasProperty(SH.datatype)) {
-						return item.asResource().getPropertyResourceValue(SH.datatype);
-					} else {
-						return null;
-					}
-				} else {
-					return null;
-				}
-			}).collect(Collectors.toList());
+						result.add(item.asResource().getPropertyResourceValue(SH.datatype));
+					} else if(item.asResource().hasProperty(SH.or)) {
+						result.addAll(readShOr(item.asResource()));
+					} else if(item.asResource().hasProperty(SH.nodeKind)) {
+						result.add(item.asResource().getPropertyResourceValue(SH.nodeKind));
+					} 
+				} 
+			});
+			return result;
 		} else {
 			return null;
 		}

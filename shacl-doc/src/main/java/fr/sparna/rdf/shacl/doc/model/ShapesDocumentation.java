@@ -8,6 +8,9 @@ import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.vocabulary.RDFS;
+import org.commonmark.node.Node;
+import org.commonmark.parser.Parser;
+import org.commonmark.renderer.html.HtmlRenderer;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -25,6 +28,7 @@ public class ShapesDocumentation {
 	protected String modifiedDate;
 	protected String versionInfo;
 	protected String descriptionDocument;
+	protected String releaseNotes;
 	protected String imgLogo;
 	
 	protected String datecreated;
@@ -68,6 +72,10 @@ public class ShapesDocumentation {
 	
 	
 	public ShapesDocumentation(OwlOntology ontology, String lang) {
+		// init markdown parser & renderer
+		Parser parser = Parser.builder().build();
+		HtmlRenderer renderer = HtmlRenderer.builder().build();
+		
 		if(ontology != null) {
 			
 			if(ontology.getDctTitle() != null) {
@@ -75,13 +83,16 @@ public class ShapesDocumentation {
 			} else {
 				this.setTitle(ontology.getRdfsLabel());
 			}
-						
 			
+			String abstractString = null;
 			if(ontology.getDctermsAbstract() != null) {
-				this.setAbstract_(ontology.getDctermsAbstract());
-			}else {
-				this.setAbstract_(ontology.getRdfsComment());
-			}
+				Node document = parser.parse(ontology.getDctermsAbstract());					
+				abstractString = renderer.render(document);	
+			} else if(ontology.getRdfsComment() != null) {
+				Node document = parser.parse(ontology.getRdfsComment());					
+				abstractString = renderer.render(document);	
+			}	
+			this.setAbstract_(abstractString);
 			
 			this.setDatecreated(ontology.getDateCreated());
 			this.setDateissued(ontology.getDateIssued());
@@ -113,7 +124,17 @@ public class ShapesDocumentation {
 				.collect(Collectors.toList());
 			});
 			
-			this.setDescriptionDocument(ontology.getDescription());
+			if(ontology.getDescription() != null) {	
+				Node document = parser.parse(ontology.getDescription());	
+				String descriptionRendered = renderer.render(document);				
+				this.setDescriptionDocument(descriptionRendered);
+			}
+			
+			if(ontology.getVersionNotes() != null) {				
+				Node document = parser.parse(ontology.getVersionNotes());	
+				String versionNodeRendered = renderer.render(document);				
+				this.setReleaseNotes(versionNodeRendered);
+			}
 			
 			Optional.ofNullable(ontology.getDepiction()).ifPresent(list -> {
 				this.depictions = list
@@ -254,6 +275,16 @@ public class ShapesDocumentation {
 	public void setDiagrams(List<ShapesDocumentationDiagram> diagrams) {
 		this.diagrams = diagrams;
 	}
+
+	public String getReleaseNotes() {
+		return releaseNotes;
+	}
+
+	public void setReleaseNotes(String releaseNotes) {
+		this.releaseNotes = releaseNotes;
+	}
+
+
 
 
 

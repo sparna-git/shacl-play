@@ -22,7 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import fr.sparna.rdf.shacl.ComputeStatisticsVisitor;
 import fr.sparna.rdf.shacl.FilterOnStatisticsVisitor;
-import fr.sparna.rdf.shacl.ShaclModel;
+import fr.sparna.rdf.shacl.ShaclVisit;
 import fr.sparna.rdf.shacl.generate.Configuration;
 import fr.sparna.rdf.shacl.generate.PaginatedQuery;
 import fr.sparna.rdf.shacl.generate.SamplingShaclGeneratorDataProvider;
@@ -66,8 +66,8 @@ public class GenerateController {
 			String ENDPOINT = shapesUrl;
 			
 			//  
-			Configuration config = new Configuration("http://exemple.be/shapes/", "myshapes");
-			config.setShapesOntology("http://exemple.be/shapes");
+			Configuration config = new Configuration("https://shacl-play.sparna.fr/shapes/", "shapes");
+			config.setShapesOntology("https://shacl-play.sparna.fr/shapes");
 			
 			SamplingShaclGeneratorDataProvider dataProvider = new SamplingShaclGeneratorDataProvider(new PaginatedQuery(100), ENDPOINT);
 			ShaclGenerator generator = new ShaclGenerator();
@@ -77,7 +77,7 @@ public class GenerateController {
 			
 			shapes = generator.generateShapes(config, dataProvider);
 			
-			ShaclModel modelStructure = new ShaclModel(shapes);
+			ShaclVisit modelStructure = new ShaclVisit(shapes);
 			modelStructure.visit(new ComputeStatisticsVisitor(dataProvider, ENDPOINT, true));
 			modelStructure.visit(new FilterOnStatisticsVisitor());			
 
@@ -191,7 +191,7 @@ public class GenerateController {
 			
 			shapes = generator.generateShapes(config, dataProvider);
 			
-			ShaclModel modelStructure = new ShaclModel(shapes);
+			ShaclVisit modelStructure = new ShaclVisit(shapes);
 			modelStructure.visit(new ComputeStatisticsVisitor(dataProvider, ENDPOINT, true));
 			modelStructure.visit(new FilterOnStatisticsVisitor());			
 
@@ -206,7 +206,7 @@ public class GenerateController {
 	}
 	
 	private ModelAndView doGenerateSHACL(
-			ShaclModel shapesModel,
+			ShaclVisit shapesModel,
 			Model dataModel,
 			String filename,
 			String FileFmt,

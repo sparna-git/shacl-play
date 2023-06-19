@@ -321,13 +321,19 @@
 									<th scope="row"><code>dcterms:abstract</code> (+ <code>rdfs:comment</code>)</th>
 									<td>xsd:string</td>
 									<td>No</td>
-									<td class="text-break">Generates an <b>Abstract</b> section in the documentation, if present. If dcterms:abstract values is null, use rdfs:comment</td>
+									<td class="text-break">Generates an <b>Abstract</b> section in the documentation, if present. If dcterms:abstract values is null, use rdfs:comment. Content is interpreted as Markdown.</td>
 							  	</tr>
 							  	<tr>
 							  		<th scope="row"><code>dcterms:description</code></th>
 							  		<td>xsd:string</td>
 							  		<td>No</td>
-							  		<td class="text-break">Generates a <b>Description</b> section in the generated documentation, if present.</td>
+							  		<td class="text-break">Generates a <b>Description</b> section in the generated documentation, if present. Content is interpreted as Markdown.</td>
+							  	</tr>
+							  	<tr>
+							  		<th scope="row"><code>adms:versionNodes</code></th>
+							  		<td>xsd:string</td>
+							  		<td>No</td>
+							  		<td class="text-break">Generates a <b>Release notes</b> section at the end of the documentation, if present. Content is interpreted as Markdown.</td>
 							  	</tr>
 							  	<tr>
 							  		<th scope="row"><code>dcat:distribution</code> <br/>(+ <code>dcterms:format</code> + <code>dcat:downloadURL</code>)</th>

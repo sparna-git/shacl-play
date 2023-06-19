@@ -15,6 +15,8 @@ import org.apache.jena.vocabulary.RDFS;
 
 public class OwlOntology {
 	
+	public static String ADMS = "http://www.w3.org/ns/adms#";
+	
 	protected String rdfsLabel = null;
 	protected String dctTitle = null;
 	
@@ -23,6 +25,7 @@ public class OwlOntology {
 	
 	protected String owlVersionInfo = null;
 	protected String description = null;
+	protected String versionNotes = null;
 	
 	protected String dateModified = null;
 	protected String dateCreated = null;
@@ -47,6 +50,7 @@ public class OwlOntology {
 		
 		this.owlVersionInfo = ConstraintValueReader.readLiteralInLangAsString(rOntology,OWL.versionInfo, null);		
 		this.description = ConstraintValueReader.readLiteralInLangAsString(rOntology,DCTerms.description, lang);
+		this.versionNotes = ConstraintValueReader.readLiteralInLangAsString(rOntology,rOntology.getModel().createProperty(ADMS+"versionNotes"), lang);
 		
 		this.dateModified = ConstraintValueReader.readLiteralInLangAsString(rOntology,DCTerms.modified, null);			
 		this.dateCreated = ConstraintValueReader.readLiteralInLangAsString(rOntology,DCTerms.created, null);
@@ -192,6 +196,16 @@ public class OwlOntology {
 
 	public List<RDFNode> getRightsHolder() {
 		return rightsHolder;
-	}	
+	}
+
+	public String getVersionNotes() {
+		return versionNotes;
+	}
+
+	public void setVersionNotes(String versionNotes) {
+		this.versionNotes = versionNotes;
+	}
+	
+	
 	
 }

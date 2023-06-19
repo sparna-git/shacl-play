@@ -37,7 +37,8 @@
 			<entry key="METADATA.CREATOR" label="Auteur : " />
 			<entry key="METADATA.PUBLISHER" label="Editeur : " />
 			<entry key="METADATA.RIGHTHOLDER" label="Titulaire des droits : " />
-			<entry key="METADATA.FEEDBACK" label="Feedback : " />
+			<entry key="METADATA.FEEDBACK" label="Contact : " />
+			
 			
 			<entry key="METADATA.FORMATS" label="Télécharger les données : " />
 
@@ -47,7 +48,9 @@
 				label="Cliquez sur le diagramme pour naviguer vers la section correspondante" />
 			<entry key="DIAGRAM.VIEW" label="Voir le diagramme en PNG" />
 
+			<entry key="DOCUMENTATION.TITLE" label="Documentation du modèle"/>
 			<entry key="DESCRIPTION.TITLE" label="Description"/>
+			<entry key="RELEASE_NOTES.TITLE" label="Notes de version" />
 
 			<entry key="LABEL_TARGETCLASS" label="S'applique à : " />
 			<entry key="LABEL_NODEKIND" label="Type de noeud : " />
@@ -82,7 +85,8 @@
 			<entry key="METADATA.CREATOR" label="Creator: " />
 			<entry key="METADATA.PUBLISHER" label="Publisher: " />
 			<entry key="METADATA.RIGHTHOLDER" label="Rightsholder: " />
-			<entry key="METADATA.FEEDBACK" label="Feedback : " />
+			<entry key="METADATA.FEEDBACK" label="Feedback: " />
+			<entry key="METADATA.VERSIONNOTES" label="Version notes: " />
 			
 			<entry key="METADATA.FORMATS" label="Download serialization: " />
 			
@@ -91,7 +95,9 @@
 				label="Click diagram to navigate to corresponding section" />
 			<entry key="DIAGRAM.VIEW" label="View as PNG" />
 			
+			<entry key="DOCUMENTATION.TITLE" label="Model documentation"/>
 			<entry key="DESCRIPTION.TITLE" label="Description"/>
+			<entry key="RELEASE_NOTES.TITLE" label="Release notes" />
 
 			<entry key="LABEL_TARGETCLASS" label="Applies to: " />
 			<entry key="LABEL_NODEKIND" label="Nodes: " />
@@ -160,6 +166,10 @@
 					
 					h2 {
 						margin: 25px 0px 10px 0px;
+					}
+					
+					h3 {
+						font-size: 1.4em;
 					}
 					
 					@media only print {
@@ -249,6 +259,7 @@
 					/* div wrapping section title and URI below - same as a paragraph margin */
 					.sp_section_title_table_wrapper {
 						margin-bottom: 16px;
+						border-bottom: 1px solid;	
 					}
 					
 					 
@@ -361,7 +372,8 @@
 								background-color:white;
 								max-width:255px;
 							}
-							.sp_list_toc {padding-left: 0px;}							
+							.sp_list_toc {padding-left: 0px;}
+							.sp_list_toc_l2 {padding-left: 10px;}					
 						</xsl:otherwise>
 					</xsl:choose>
 					
@@ -440,6 +452,9 @@
 					<xsl:apply-templates select="descriptionDocument" />
 					
 					<xsl:apply-templates select="sections" />
+					
+					<!--  release notes at the end -->
+					<xsl:apply-templates select="releaseNotes" />
 				</div>
 				
 				
@@ -466,8 +481,7 @@
 					<a href="#prefixes"><xsl:value-of select="$LABELS/labels/entry[@key='PREFIXES.TITLE']/@label" /></a>
 				</li>
 				<!-- Diagram -->
-				<xsl:if test="string-length(diagrams) &gt; 0 or string-length(depictions) &gt; 0">
-					
+				<xsl:if test="string-length(diagrams) &gt; 0 or string-length(depictions) &gt; 0">					
 					<li>
 						<a href="#diagrams">
 							<xsl:value-of select="$LABELS/labels/entry[@key='DIAGRAM.TITLE']/@label" />
@@ -482,14 +496,29 @@
 						</a>
 					</li>
 				</xsl:if>
-				<!-- Section -->
-				<xsl:for-each select="sections/section">			
+				<li>
+					<a href="#documentation">
+							<xsl:value-of select="$LABELS/labels/entry[@key='DOCUMENTATION.TITLE']/@label"/>
+					</a>
+					<ul role="list" class="ul_type_none sp_list_toc_l2">
+						<!-- Section -->
+						<xsl:for-each select="sections/section">			
+							<li>
+								<a href="{concat('#',sectionId)}">
+								<xsl:value-of select="title" />
+								</a>
+							</li>
+						</xsl:for-each>
+					</ul>
+				</li>
+				<!-- Release notes -->
+				<xsl:if test="releaseNotes">
 					<li>
-						<a href="{concat('#',sectionId)}">
-						<xsl:value-of select="title" />
+						<a href="#releaseNotes">
+							<xsl:value-of select="$LABELS/labels/entry[@key='RELEASE_NOTES.TITLE']/@label"/>
 						</a>
 					</li>
-				</xsl:for-each>
+				</xsl:if>
 			</ul>
 		</div>		
 	</xsl:template>
@@ -747,9 +776,10 @@
 
 	<!-- Sections -->
 	<xsl:template match="sections">
-		<xsl:for-each select="section">
-			<xsl:apply-templates select="." />
-		</xsl:for-each>
+		<h2 id="documentation" class="sp_section_subtitle">
+			<xsl:value-of select="$LABELS/labels/entry[@key='DOCUMENTATION.TITLE']/@label" />
+		</h2>
+		<xsl:apply-templates select="section" />
 	</xsl:template>
 	
 	<xsl:template match="section">
@@ -757,9 +787,9 @@
 			<div class="col">
 				<section id="{sectionId}">
 					<div class="sp_section_title_table_wrapper">
-						<h2 class="sp_section_title_table">
+						<h3 class="sp_section_title_table">
 							<xsl:value-of select="title" />
-						</h2>
+						</h3>
 						<xsl:if test="subtitleUri">
 							<code class="sp_section_uri"><xsl:value-of select="subtitleUri" /></code>
 						</xsl:if>
@@ -974,6 +1004,17 @@
 				
 			</td>
 		</tr>
+	</xsl:template>
+	
+	<!-- Release notes at the end  -->
+	<xsl:template match="releaseNotes[text() != '']">
+		<div>
+			<h2 id="releaseNotes" class="sp_section_subtitle">
+				<xsl:value-of select="$LABELS/labels/entry[@key='RELEASE_NOTES.TITLE']/@label" />
+			</h2>
+			<!--  disable output escaping so that HTML is preserved -->
+			<xsl:value-of select="."  disable-output-escaping="yes"/>			
+		</div>
 	</xsl:template>
 
 	<!-- don't print what was not matched -->

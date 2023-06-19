@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.RDFList;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.vocabulary.RDF;
@@ -144,6 +145,9 @@ public class PropertyShapeDocumentationBuilder {
 		
 		if(node.isURIResource()) {
 			return node.getModel().shortForm(node.asResource().getURI());
+		} else if(node.canAs(RDFList.class)) {
+			// recursive down the lists
+			return render(node.as(RDFList.class).asJavaList(), plainString);
 		} else if(node.isAnon()) {
 			return node.toString();
 		} else if(node.isLiteral()) {

@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import fr.sparna.rdf.shacl.ComputeStatisticsVisitor;
 import fr.sparna.rdf.shacl.FilterOnStatisticsVisitor;
-import fr.sparna.rdf.shacl.ShaclModel;
+import fr.sparna.rdf.shacl.ShaclVisit;
 import fr.sparna.rdf.shacl.app.CliCommandIfc;
 import fr.sparna.rdf.shacl.generate.Configuration;
 import fr.sparna.rdf.shacl.generate.PaginatedQuery;
@@ -41,7 +41,7 @@ public class Generate implements CliCommandIfc {
 		
 		shapes = generator.generateShapes(config, dataProvider);
 		
-		ShaclModel modelStructure = new ShaclModel(shapes);
+		ShaclVisit modelStructure = new ShaclVisit(shapes);
 		modelStructure.visit(new ComputeStatisticsVisitor(dataProvider, ENDPOINT, true));
 		modelStructure.visit(new FilterOnStatisticsVisitor());			
 

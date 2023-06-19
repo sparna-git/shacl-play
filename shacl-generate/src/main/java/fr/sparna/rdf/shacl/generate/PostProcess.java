@@ -17,6 +17,7 @@ import fr.sparna.rdf.shacl.ComputeStatisticsVisitor;
 import fr.sparna.rdf.shacl.FilterOnStatisticsVisitor;
 import fr.sparna.rdf.shacl.ShaclVisit;
 import fr.sparna.rdf.shacl.AssignDatatypesAndClassesToIriOrLiteralVisitor;
+import fr.sparna.rdf.shacl.AssignIconVisitor;
 
 /**
  * Hello world!
@@ -44,10 +45,12 @@ public class PostProcess
 			
 			SamplingShaclGeneratorDataProvider dataProvider = new SamplingShaclGeneratorDataProvider(new PaginatedQuery(100), ENDPOINT);
 			
+			modelStructure.visit(new AssignIconVisitor());	
 			modelStructure.visit(new AddNamespacesVisitor());
 			modelStructure.visit(new FilterOnStatisticsVisitor());
 			modelStructure.visit(new AssignLabelRoleVisitor());
 			modelStructure.visit(new AssignDatatypesAndClassesToIriOrLiteralVisitor(dataProvider));	
+			
 			
 			File output = new File("/home/thomas/auto-shapes-post-processed-shacl.ttl");
 			try(FileOutputStream out = new FileOutputStream(output)) {

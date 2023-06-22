@@ -40,8 +40,8 @@ public class Main {
 		
 		
 		// read dataset  
-		ShaclDocument write = new ShaclDocument();
-		List<ShaclClasses> output = write.readDocument(shaclGraphTemplate,shaclGraphDataSet);
+		Generator write = new Generator();
+		List<Shapes> output = write.readDocument(shaclGraphTemplate,shaclGraphDataSet);
 		
 		
 		

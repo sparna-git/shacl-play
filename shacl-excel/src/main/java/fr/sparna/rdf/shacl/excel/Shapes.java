@@ -5,14 +5,31 @@ import java.util.List;
 
 import org.apache.jena.rdf.model.Resource;
 
-public class ShaclClasses {
+public class Shapes {
 	
 	private Resource nodeShape;
 	
+	protected Integer SHOrder;
 	protected List<ShapesValues> shapes = new ArrayList<>();
-	protected List<ShaclProperties> properties = new ArrayList<>();
+	protected List<XslTemplate> shapesTemplate = new ArrayList<>();
 	
 	
+	public List<XslTemplate> getShapesTemplate() {
+		return shapesTemplate;
+	}
+
+	public void setShapesTemplate(List<XslTemplate> shapesTemplate) {
+		this.shapesTemplate = shapesTemplate;
+	}
+
+	public Integer getSHOrder() {
+		return SHOrder;
+	}
+
+	public void setSHOrder(Integer sHOrder) {
+		SHOrder = sHOrder;
+	}
+
 	public Resource getNodeShape() {
 		return nodeShape;
 	}
@@ -30,16 +47,7 @@ public class ShaclClasses {
 	}
 
 	
-	
-	public List<ShaclProperties> getProperties() {
-		return properties;
-	}
-	
-	public void setProperties(List<ShaclProperties> properties) {
-		this.properties = properties;
-	}
-	
-	public ShaclClasses (Resource nodeShape) {  
+	public Shapes (Resource nodeShape) {  
 	    this.nodeShape = nodeShape;		
 	}	
 }

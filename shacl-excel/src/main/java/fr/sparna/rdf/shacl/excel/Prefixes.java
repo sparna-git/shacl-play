@@ -22,9 +22,8 @@ public class Prefixes {
 			gatheredPrefixes.addAll(prefixes);
 		}
 
-		Map<String, String> necessaryPrefixes = ShaclPrefixReader.gatherNecessaryPrefixes(shaclGraph.getNsPrefixMap(),
-				gatheredPrefixes);
-		List<NamespaceSection> namespaceSections = NamespaceSection.fromMap(necessaryPrefixes);
+		//Map<String, String> necessaryPrefixes = ShaclPrefixReader.gatherNecessaryPrefixes(shaclGraph.getNsPrefixMap(),gatheredPrefixes);
+		List<NamespaceSection> namespaceSections = NamespaceSection.fromMap(shaclGraph.getNsPrefixMap());
 		List<NamespaceSection> sortNameSpacesectionPrefix = namespaceSections.stream().sorted((s1, s2) -> {
 			if (s1.getprefix() != null) {
 				if (s2.getprefix() != null) {

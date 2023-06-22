@@ -1,14 +1,13 @@
-package fr.sparna.rdf.shacl.excel;
+package fr.sparna.rdf.shacl.excel; 
 
-import java.awt.Color;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Comparator;
+import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.RDFNode;
@@ -18,26 +17,24 @@ import org.apache.jena.vocabulary.OWL;
 import org.apache.jena.vocabulary.RDF;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.FillPatternType;
-import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFColor;
-import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.topbraid.shacl.vocabulary.SH;
 
-public class ShaclDocument {
+public class Generator {
 
-	public List<ShaclClasses> readDocument(Model shaclGraphTemplate, Model shaclGraph) throws IOException {
+	public List<Shapes> readDocument(Model shaclGraphTemplate, Model shaclGraph) throws IOException {
 
 		// read graph for the building the recovery all the head columns
 		List<Resource> nodeShapeTemplate = shaclGraphTemplate.listResourcesWithProperty(RDF.type, SH.NodeShape)
 				.toList();
 
 		// read everything typed as NodeShape
-		List<Resource> nodeShapes = shaclGraph.listResourcesWithProperty(RDF.type, SH.NodeShape).toList();
-
+		List<Resource> nodeShapes = shaclGraph.listResourcesWithProperty(RDF.type, OWL.Class).toList();
+		
 		// also read everything object of an sh:node or sh:qualifiedValueShape, that
 		// maybe does not have an explicit rdf:type sh:NodeShape
 		List<RDFNode> nodesAndQualifedValueShapesValues = shaclGraph.listStatements(null, SH.node, (RDFNode) null)
@@ -50,47 +47,141 @@ public class ShaclDocument {
 				nodeShapes.add(n.asResource());
 			}
 		}
-
-		//
+		
+		// Template
+		
+		List<Shapes> wTemplate = new ArrayList<>();
 		XslTemplateReader shaclReadColumns = new XslTemplateReader();
-		List<XslTemplate> templateColumns = new ArrayList<>();
+		// Write Columns for Classes and Properties
 		for (Resource ns : nodeShapeTemplate) {
+			
+			Shapes shClass = new Shapes(ns);
+			
+			if (ns.hasProperty(SH.order)) {
+				shClass.setSHOrder(ns.getProperty(SH.order).getInt());
+			}
+			
+			List<XslTemplate> col = new ArrayList<>();
+			
 			List<Statement> ShProperty = ns.listProperties(SH.property).toList();
-			// properties			
+			
+			
+			// Read all nodeShape OWL.Class			
 			for (Statement lproperty : ShProperty) {
 				RDFNode rdfNode = lproperty.getObject();
 				Resource res = rdfNode.asResource();
-				templateColumns.add(shaclReadColumns.read(res));
+				col.add(shaclReadColumns.read(res));
+			}	
+			
+			if (col.size() > 0) {
+				shClass.setShapesTemplate(col);
+			}
+			wTemplate.add(shClass);
+		}
+		
+		/*
+		 * 
+		 * Read all Shape
+		 * 
+		 */
+		List<Shapes> wDataSet = new ArrayList<>();
+		for (Resource nsData : nodeShapes) {
+			ShapesReader spRead = new ShapesReader();
+			wDataSet.add(spRead.read(nsData, nodeShapes));
+		}
+		
+		// Delete this logbook
+		for (Shapes shapes : wDataSet) {
+			for (ShapesValues shapes2 : shapes.getShapes()) {
+				System.out.println(shapes2.getSubject().toString()+" - "+shapes2.getPredicate()+" - "+shapes2.getObject());
 			}
 		}
 		
+		/*
+		 * Get all section for each shape and only return the columns for build the template xsl
+		 * 
+		 */
+		List<ShapesValues> shValues = new ArrayList<>();
+		wDataSet
+			.stream()
+			.forEach(s -> shValues.addAll(s.getShapes()));
 		
-		// Get OWL
-		List<Resource> ontology = shaclGraph.listResourcesWithProperty(RDF.type, OWL.Ontology).toList();
+		List<ColumnsData> columnsdata = new ArrayList<>();
+		for (ShapesValues val : shValues) {
+			ColumnsData colData = new ColumnsData();
+			
+			boolean truevalue = columnsdata
+					.stream()
+					.filter(
+							s -> s.getColumn_name().equals(val.getPredicate().toString())
+								 &&
+								 s.getColumn_datatypeValue().equals(val.getDatatype())
+							)
+					.findFirst()
+					.isPresent();
+			
+			if (!truevalue) {
+				colData.setColumn_name(val.getPredicate());
+				colData.setColumn_datatypeValue(val.getDatatype());
+				columnsdata.add(colData);
+			}	
+		}
+		
+		// ************ Section of Conversion
+		
+		// Get OWL Template
+		List<Resource> ontology = shaclGraphTemplate.add(shaclGraph).listResourcesWithProperty(RDF.type, OWL.Ontology).toList();
 		ShaclOntologyReader owlReader = new ShaclOntologyReader();
 		List<ShaclOntology> owl = owlReader.readOWL(ontology);
 
-		// Get Prefix
+		// Get Prefix Template
 		Prefixes pf = new Prefixes();
-		List<NamespaceSection> NameSpacesectionPrefix = pf.prefixes(nodeShapes, shaclGraph);
-
-		// Class
-		ShaclClassesReader shaclRead = new ShaclClassesReader();
-		List<ShaclClasses> shClasses = new ArrayList<>();
-		for (Resource res : nodeShapes) {
-			shClasses.add(shaclRead.read(res, nodeShapes));
-		}
-
-		// Recovery all properties of class
-		List<ShapesValues> shValuesClass = new ArrayList<>();
-		for (ShaclClasses shClass : shClasses) {
-			for (ShapesValues shValues : shClass.getShapes()) {
-				shValuesClass.add(shValues);
-			}
-		}
+		List<NamespaceSection> NameSpacesectionPrefix = pf.prefixes(nodeShapes, shaclGraphTemplate.add(shaclGraph));		
+		
+		
+		// Get a Shape for each type of statement (Classes and Properties) 
+		Shapes SheetClasses = wTemplate.stream().filter(f -> f.getSHOrder()==1).findFirst().get();
+		Shapes SheetProperties = wTemplate.stream().filter(f -> f.getSHOrder()==2).findFirst().get();
+		
+		// Get the columns for each Shape type
+		List<XslTemplate> col_classes = SheetClasses.getShapesTemplate();
+		List<XslTemplate> col_properties = SheetClasses.getShapesTemplate();		
+		
 		
 		CellColumns cc = new CellColumns();
-		List<XslTemplate> columnsHeader = cc.build(templateColumns, shValuesClass);
+		List<XslTemplate> columnsHeader = cc.build(col_classes,columnsdata); //, shValuesClass);
+		
+		int nCols = columnsHeader.size();
+		int nRows = wDataSet.size();
+		String[][] tData = new String[nRows][nCols];
+		int nCol = 0;
+		int nRow = 0;
+		for (Shapes shapes : wDataSet) {
+			
+			// firs the store URI values
+			tData[nRow][nCol] = shapes.getNodeShape().getModel().shortForm(shapes.getNodeShape().getURI());
+			
+			for (ShapesValues dataValues : shapes.getShapes()) {				
+				 
+				String pred = dataValues.getDatatype() != null || dataValues.getDatatype() != "" ? dataValues.getPredicate()+dataValues.getDatatype():dataValues.getPredicate();
+				int idxCol = 0;
+				for (int i = 0; i < columnsHeader.size(); i++) {
+					String path_name =columnsHeader.get(i).getSh_path().toString(); 
+					if (path_name.equals(pred)) {
+						idxCol = i;
+						break;
+					}
+				}
+				
+				tData[nRow][idxCol] = dataValues.getObject();
+				
+			}
+			nRow++;
+		}
+		
+		// ********** Write excel file
+		//String NameFile = shaclGraph.get 
+		
 		
 		// Blank workbook
 		XSSFWorkbook workbookShacl = new XSSFWorkbook();
@@ -174,7 +265,8 @@ public class ShaclDocument {
 		
 		// Columns Header - Classes 
 		Integer nCell = 0;
-		templateColumns.sort(Comparator.comparing(XslTemplate::getSh_order).thenComparing(XslTemplate::getSh_name));
+		//templateColumns.sort(Comparator.comparing(XslTemplate::getSh_order).thenComparing(XslTemplate::getSh_name));
+		
 		for (XslTemplate r : columnsHeader) {
 			Cell cellDesc = rowDescriptionClassColumn.createCell(nCell);
 			cellDesc.setCellValue(r.getSh_description());
@@ -185,7 +277,19 @@ public class ShaclDocument {
 			nCell++;
 		}
 		
-		//
+		List<String> headerColumns = columnsHeader.stream().map(m -> m.getSh_path()).collect(Collectors.toList());
+		
+		
+		//All dataSet
+		XSSFRow rowDataSet;
+		Integer nCellData = 0;
+		for (int line = 0; line < tData.length; line++) {
+			rowDataSet = sheetClasses.createRow(rowIdClass+(line+1));
+			for (int col = 0; col < tData[line].length; col++) {
+				Cell CellData = rowDataSet.createCell(col);
+				CellData.setCellValue(tData[line][col]);
+			}
+		}
 		
 		
 		// This section is for classes all configurated
@@ -196,6 +300,9 @@ public class ShaclDocument {
 		FileOutputStream outputStream = new FileOutputStream(fileLocation);
 		workbookShacl.write(outputStream);
 		workbookShacl.close();
+		
+		ShapesReader shaclRead = new ShapesReader();
+		List<Shapes> shClasses = new ArrayList<>();
 
 		return shClasses;
 	}

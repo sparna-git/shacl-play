@@ -6,7 +6,21 @@ public class XslTemplate {
 	protected String Sh_description;
 	protected String Sh_name;
 	protected Integer Sh_order;
+	protected String datatype;
+	protected String Sh_UniqueLang;
 	
+	public String getSh_UniqueLang() {
+		return Sh_UniqueLang;
+	}
+	public void setSh_UniqueLang(String sh_UniqueLang) {
+		Sh_UniqueLang = sh_UniqueLang;
+	}
+	public String getDatatype() {
+		return datatype;
+	}
+	public void setDatatype(String datatype) {
+		this.datatype = datatype;
+	}
 	public String getSh_path() {
 		return Sh_path;
 	}

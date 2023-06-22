@@ -17,7 +17,10 @@ public class XslTemplateReader {
 		tmp.setSh_name(this.readShName(constraint));
 		tmp.setSh_description(this.readShDescription(constraint));
 		tmp.setSh_order(this.readShOrder(constraint));
-		return tmp;		
+		tmp.setDatatype(this.readShDatatype(constraint));
+		tmp.setSh_UniqueLang(this.readShUniqueLang(constraint));
+			
+		return tmp;
 	}
 	
 	
@@ -35,5 +38,23 @@ public class XslTemplateReader {
 	
 	public Integer readShOrder(Resource constraint) {
 		return Integer.valueOf(constraintValueReader.readValueconstraint(constraint,SH.order));
-	}	
+	}
+	
+	public String readShDatatype(Resource constraint) {
+		return constraintValueReader.readValueconstraint(constraint,SH.datatype);
+	}
+	
+	public String readShUniqueLang(Resource constraint) {
+		String value = null;
+		if (
+				constraint.hasProperty(SH.uniqueLang)
+				&&
+				constraintValueReader.readValueconstraint(constraint, SH.uniqueLang) != null
+				&&
+				!constraintValueReader.readValueconstraint(constraint, SH.uniqueLang).equals("")
+		) {			
+			value = "uniqueLang";
+		}
+	    return value;
+	}
 }

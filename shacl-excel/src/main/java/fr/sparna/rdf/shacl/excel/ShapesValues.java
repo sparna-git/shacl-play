@@ -5,7 +5,15 @@ public class ShapesValues {
 	protected String subject;
 	protected String predicate;
 	protected String object;
+	protected String datatype;
 	
+	
+	public String getDatatype() {
+		return datatype;
+	}
+	public void setDatatype(String datatype) {
+		this.datatype = datatype;
+	}
 	public String getSubject() {
 		return subject;
 	}

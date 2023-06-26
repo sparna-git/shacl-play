@@ -4,10 +4,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.RDFNode;
@@ -79,53 +77,74 @@ public class Generator {
 			wTemplate.add(shClass);
 		}
 		
+	
+		
 		/*
 		 * 
 		 * Read all Shape
 		 * 
 		 */
 		List<Shapes> wDataSet = new ArrayList<>();
-		for (Resource nsData : nodeShapes) {
-			ShapesReader spRead = new ShapesReader();
-			wDataSet.add(spRead.read(nsData, nodeShapes));
-		}
+		ShapesReader read_model = new ShapesReader(); 
+		wDataSet.addAll(read_model.read(shaclGraph));
 		
-		// Delete this logbook
-		for (Shapes shapes : wDataSet) {
-			for (ShapesValues shapes2 : shapes.getShapes()) {
-				System.out.println(shapes2.getSubject().toString()+" - "+shapes2.getPredicate()+" - "+shapes2.getObject());
-			}
-		}
 		
 		/*
-		 * Get all section for each shape and only return the columns for build the template xsl
+		 * Get all columns classes 
 		 * 
-		 */
-		List<ShapesValues> shValues = new ArrayList<>();
-		wDataSet
-			.stream()
-			.forEach(s -> shValues.addAll(s.getShapes()));
-		
-		List<ColumnsData> columnsdata = new ArrayList<>();
-		for (ShapesValues val : shValues) {
+		 */		
+		List<ColumnsData> all_columns_classes = new ArrayList<>(); 
+		wDataSet.stream().forEach(c -> all_columns_classes.addAll(c.getCol_classes()));
+		// Filter the list of columns
+		List<ColumnsData> columns_classes = new ArrayList<>();
+		for (ColumnsData val : all_columns_classes) {
 			ColumnsData colData = new ColumnsData();
-			
-			boolean truevalue = columnsdata
+			boolean truevalue = all_columns_classes
 					.stream()
 					.filter(
-							s -> s.getColumn_name().equals(val.getPredicate().toString())
+							s -> s.getColumn_name().equals(val.getColumn_name())
 								 &&
-								 s.getColumn_datatypeValue().equals(val.getDatatype())
+								 s.getColumn_datatypeValue().equals(val.getColumn_datatypeValue())
 							)
 					.findFirst()
 					.isPresent();
 			
 			if (!truevalue) {
-				colData.setColumn_name(val.getPredicate());
-				colData.setColumn_datatypeValue(val.getDatatype());
-				columnsdata.add(colData);
+				colData.setColumn_name(val.getColumn_name());
+				colData.setColumn_datatypeValue(val.getColumn_datatypeValue());
+				all_columns_classes.add(colData);
 			}	
 		}
+		
+		/*
+		 * 
+		 * Read all columns properties
+		 * 
+		 */
+		List<ColumnsData> all_columns_properties = new ArrayList<>(); 
+		wDataSet.stream().forEach(c -> all_columns_properties.addAll(c.getCol_properties()));
+		// Filter the list of columns
+		List<ColumnsData> columns_properties = new ArrayList<>();
+		for (ColumnsData val : all_columns_properties) {
+			ColumnsData colData = new ColumnsData();
+			boolean truevalue = columns_properties
+					.stream()
+					.filter(
+							s -> s.getColumn_name().equals(val.getColumn_name())
+								 &&
+								 s.getColumn_datatypeValue().equals(val.getColumn_datatypeValue())
+							)
+					.findFirst()
+					.isPresent();
+			
+			if (!truevalue) {
+				colData.setColumn_name(val.getColumn_name());
+				colData.setColumn_datatypeValue(val.getColumn_datatypeValue());
+				columns_properties.add(colData);
+			}	
+		}
+		
+		
 		
 		// ************ Section of Conversion
 		
@@ -149,9 +168,9 @@ public class Generator {
 		
 		
 		CellColumns cc = new CellColumns();
-		List<XslTemplate> columnsHeader = cc.build(col_classes,columnsdata); //, shValuesClass);
+		List<XslTemplate> columnsHeaderClasses = cc.build(col_classes,columns_properties);
 		
-		int nCols = columnsHeader.size();
+		int nCols = columnsHeaderClasses.size();
 		int nRows = wDataSet.size();
 		String[][] tData = new String[nRows][nCols];
 		int nCol = 0;
@@ -161,12 +180,12 @@ public class Generator {
 			// firs the store URI values
 			tData[nRow][nCol] = shapes.getNodeShape().getModel().shortForm(shapes.getNodeShape().getURI());
 			
-			for (ShapesValues dataValues : shapes.getShapes()) {				
+			for (ShapesValues dataValues : shapes.getClassesXSL()) {				
 				 
 				String pred = dataValues.getDatatype() != null || dataValues.getDatatype() != "" ? dataValues.getPredicate()+dataValues.getDatatype():dataValues.getPredicate();
 				int idxCol = 0;
-				for (int i = 0; i < columnsHeader.size(); i++) {
-					String path_name =columnsHeader.get(i).getSh_path().toString(); 
+				for (int i = 0; i < columnsHeaderClasses.size(); i++) {
+					String path_name =columnsHeaderClasses.get(i).getSh_path().toString(); 
 					if (path_name.equals(pred)) {
 						idxCol = i;
 						break;
@@ -177,6 +196,46 @@ public class Generator {
 				
 			}
 			nRow++;
+		}
+		
+		
+		// 
+		CellColumns cp = new CellColumns();
+		List<XslTemplate> columnsHeaderProperties = cp.build(col_properties,columns_properties);
+		
+		int nCols_prop = columnsHeaderProperties.size();
+		int nRowsProp = all_columns_properties.size();
+		String[][] tDataProperties = new String[nRowsProp][nCols_prop];
+		int nCol_prop = 0;
+		int nRow_prop = 0;
+		for (Shapes shapes : wDataSet) {	
+			
+			// Add datatype
+			
+			
+			
+			for (ShapesValues dataValues : shapes.getPropertyXSL()) {
+				
+				String pred = "";
+				if (dataValues.getPredicate().toString().equals("sh:path")) {
+					pred = "URI";
+				}else {
+					pred = dataValues.getDatatype() != null || dataValues.getDatatype() != "" ? dataValues.getPredicate()+dataValues.getDatatype():dataValues.getPredicate();
+				}			
+				
+				int idxCol = 0;
+				for (int i = 0; i < columnsHeaderProperties.size(); i++) {
+					String path_name =columnsHeaderProperties.get(i).getSh_path().toString(); 
+					if (path_name.equals(pred)) {
+						idxCol = i;
+						break;
+					}
+				}
+				
+				tDataProperties[nRow_prop][idxCol] = dataValues.getObject();
+				
+			}
+			nRow_prop++;
 		}
 		
 		// ********** Write excel file
@@ -247,7 +306,6 @@ public class Generator {
 		rowIdClass++;
 		XSSFRow rowTemplateText;
 		rowTemplateText = sheetClasses.createRow(rowIdClass++);
-		//rowTemplateText.setRowStyle(rowStyle);
 		Cell cellTemplate = rowTemplateText.createCell(0);
 		cellTemplate.setCellValue("This sheet specifies the NodeShape with their targets, that is the sets of entities being validated");
 		cellTemplate.setCellStyle(rowStyle);
@@ -265,9 +323,7 @@ public class Generator {
 		
 		// Columns Header - Classes 
 		Integer nCell = 0;
-		//templateColumns.sort(Comparator.comparing(XslTemplate::getSh_order).thenComparing(XslTemplate::getSh_name));
-		
-		for (XslTemplate r : columnsHeader) {
+		for (XslTemplate r : columnsHeaderClasses) {
 			Cell cellDesc = rowDescriptionClassColumn.createCell(nCell);
 			cellDesc.setCellValue(r.getSh_description());
 			Cell cellName = rowNameClassColumn.createCell(nCell);
@@ -276,9 +332,6 @@ public class Generator {
 			cellShape.setCellValue(r.getSh_path());
 			nCell++;
 		}
-		
-		List<String> headerColumns = columnsHeader.stream().map(m -> m.getSh_path()).collect(Collectors.toList());
-		
 		
 		//All dataSet
 		XSSFRow rowDataSet;
@@ -289,8 +342,61 @@ public class Generator {
 				Cell CellData = rowDataSet.createCell(col);
 				CellData.setCellValue(tData[line][col]);
 			}
+		}	
+		
+		
+		
+		/*
+		 * 
+		 * 
+		 */
+		// Create a blank sheet for Property
+		XSSFSheet sheetProperties = workbookShacl.createSheet("properties");
+		// Create Row
+		XSSFRow rowProperties;
+		
+		rowProperties = sheetProperties.createRow(0);		
+		Integer nCellProperties = 0;
+		// Columns Header - Properties
+		Cell ontoCell = rowProperties.createCell(nCellProperties++);
+		ontoCell.setCellValue("Ontology IRI:");
+		Cell onto_value = rowProperties.createCell(nCellProperties++);
+		onto_value.setCellValue("www.XXXXXX.fr");
+		
+		// Columns Header - Properties
+		// Header
+		Integer nRowProp = 2;
+		nCellProperties++;
+		XSSFRow rowDescriptionPropColumn;
+		XSSFRow rowNamePropColumn;
+		XSSFRow rowShapePropColumn;
+		rowDescriptionPropColumn = sheetProperties.createRow(nRowProp++);
+		rowNamePropColumn = sheetProperties.createRow(nRowProp++);
+		rowShapePropColumn = sheetProperties.createRow(nRowProp++);
+		Integer nCellProp = 0;
+		for (XslTemplate r : columnsHeaderProperties) {
+			Cell cellDesc = rowDescriptionPropColumn.createCell(nCellProp);
+			cellDesc.setCellValue(r.getSh_description());
+			Cell cellName = rowNamePropColumn.createCell(nCellProp);
+			cellName.setCellValue(r.getSh_name());
+			Cell cellShape = rowShapePropColumn.createCell(nCellProp);
+			cellShape.setCellValue(r.getSh_path());
+			nCellProp++;
 		}
 		
+		
+		
+		//All dataSet
+		nRowProp++;
+		XSSFRow rowDataSetProp;
+		Integer nCellDataProp = 0;
+		for (int line = 0; line < tDataProperties.length; line++) {
+			rowDataSetProp = sheetProperties.createRow(nRowProp+(line+1));
+			for (int col = 0; col < tDataProperties[line].length; col++) {
+				Cell CellData = rowDataSetProp.createCell(col);
+				CellData.setCellValue(tDataProperties[line][col]);
+			}
+		}
 		
 		// This section is for classes all configurated
 		File currDir = new File(".");

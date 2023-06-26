@@ -118,5 +118,4 @@ public class CellColumns {
 				.collect(Collectors.toList());
 		return Columns;
 	}
-
 }

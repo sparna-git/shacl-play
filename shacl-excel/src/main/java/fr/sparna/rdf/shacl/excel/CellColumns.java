@@ -6,6 +6,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import fr.sparna.rdf.shacl.excel.model.ColumnsData;
+import fr.sparna.rdf.shacl.excel.model.ShapesValues;
+import fr.sparna.rdf.shacl.excel.model.XslTemplate;
+
+
 public class CellColumns {
 
 	public List<XslTemplate> build(List<XslTemplate> template, List<ColumnsData> modelData) {

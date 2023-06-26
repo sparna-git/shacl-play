@@ -13,6 +13,10 @@ import org.apache.jena.vocabulary.OWL;
 import org.apache.jena.vocabulary.RDF;
 import org.topbraid.shacl.vocabulary.SH;
 
+import fr.sparna.rdf.shacl.excel.model.ColumnsData;
+import fr.sparna.rdf.shacl.excel.model.Shapes;
+import fr.sparna.rdf.shacl.excel.model.ShapesValues;
+
 public class ShapesReader {
 
 	ConstraintValueReader cValue = new ConstraintValueReader();

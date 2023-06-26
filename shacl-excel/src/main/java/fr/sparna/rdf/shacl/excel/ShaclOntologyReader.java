@@ -6,6 +6,8 @@ import java.util.List;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
 
+import fr.sparna.rdf.shacl.excel.model.ShaclOntology;
+
 public class ShaclOntologyReader {
 
 	public List<ShaclOntology> readOWL(List<Resource> NodeShape) {

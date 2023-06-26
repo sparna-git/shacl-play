@@ -1,4 +1,4 @@
-package fr.sparna.rdf.shacl.excel;
+package fr.sparna.rdf.shacl.excel.model;
 
 public class ShapesValues {
 	

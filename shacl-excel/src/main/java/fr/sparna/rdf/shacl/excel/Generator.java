@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Model;
@@ -21,6 +22,12 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.topbraid.shacl.vocabulary.SH;
+
+import fr.sparna.rdf.shacl.excel.model.ColumnsData;
+import fr.sparna.rdf.shacl.excel.model.ShaclOntology;
+import fr.sparna.rdf.shacl.excel.model.Shapes;
+import fr.sparna.rdf.shacl.excel.model.ShapesValues;
+import fr.sparna.rdf.shacl.excel.model.XslTemplate;
 
 public class Generator {
 
@@ -49,7 +56,7 @@ public class Generator {
 		// Template
 		
 		List<Shapes> wTemplate = new ArrayList<>();
-		XslTemplateReader shaclReadColumns = new XslTemplateReader();
+		OutputTemplateReader shaclReadColumns = new OutputTemplateReader();
 		// Write Columns for Classes and Properties
 		for (Resource ns : nodeShapeTemplate) {
 			
@@ -152,11 +159,6 @@ public class Generator {
 		List<Resource> ontology = shaclGraphTemplate.add(shaclGraph).listResourcesWithProperty(RDF.type, OWL.Ontology).toList();
 		ShaclOntologyReader owlReader = new ShaclOntologyReader();
 		List<ShaclOntology> owl = owlReader.readOWL(ontology);
-
-		// Get Prefix Template
-		Prefixes pf = new Prefixes();
-		List<NamespaceSection> NameSpacesectionPrefix = pf.prefixes(nodeShapes, shaclGraphTemplate.add(shaclGraph));		
-		
 		
 		// Get a Shape for each type of statement (Classes and Properties) 
 		Shapes SheetClasses = wTemplate.stream().filter(f -> f.getSHOrder()==1).findFirst().get();
@@ -259,7 +261,7 @@ public class Generator {
 
 		// Write Prefixes
 		int rowid = 0;
-		for (NamespaceSection prefixes : NameSpacesectionPrefix) {
+		for (Map.Entry<String, String> onePrefix : shaclGraph.getNsPrefixMap().entrySet()) {
 			row = sheetPrefix.createRow(rowid++);
 
 			Cell cellP = row.createCell(0);
@@ -267,8 +269,8 @@ public class Generator {
 			Cell cellNameSpace = row.createCell(2);
 
 			cellP.setCellValue("PREFIX");
-			cellPrefix.setCellValue(prefixes.getprefix());
-			cellNameSpace.setCellValue(prefixes.getnamespace());
+			cellPrefix.setCellValue(onePrefix.getKey());
+			cellNameSpace.setCellValue(onePrefix.getValue());
 			
 		}		
 		

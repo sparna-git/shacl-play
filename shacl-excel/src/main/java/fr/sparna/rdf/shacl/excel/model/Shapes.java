@@ -1,4 +1,4 @@
-package fr.sparna.rdf.shacl.excel;
+package fr.sparna.rdf.shacl.excel.model;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -4,8 +4,9 @@ import org.apache.jena.rdf.model.Resource;
 import org.topbraid.shacl.vocabulary.SH;
 
 import fr.sparna.rdf.shacl.excel.ConstraintValueReader;
+import fr.sparna.rdf.shacl.excel.model.XslTemplate;
 
-public class XslTemplateReader {
+public class OutputTemplateReader {
 	
 	protected ConstraintValueReader constraintValueReader = new ConstraintValueReader();	
 	

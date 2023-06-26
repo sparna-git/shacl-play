@@ -8,6 +8,8 @@ import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.util.FileUtils;
 import org.apache.jena.vocabulary.RDF;
 
+import fr.sparna.rdf.shacl.excel.model.Shapes;
+
 public class Main {
 
 	public static void main(String[] args) throws Exception {

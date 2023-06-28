@@ -11,13 +11,13 @@ import org.apache.jena.riot.RDFDataMgr;
 import org.apache.jena.riot.RDFLanguages;
 import org.apache.jena.vocabulary.RDF;
 
-import fr.sparna.rdf.shacl.AddNamespacesVisitor;
-import fr.sparna.rdf.shacl.AssignLabelRoleVisitor;
-import fr.sparna.rdf.shacl.ComputeStatisticsVisitor;
-import fr.sparna.rdf.shacl.FilterOnStatisticsVisitor;
-import fr.sparna.rdf.shacl.ShaclVisit;
-import fr.sparna.rdf.shacl.AssignDatatypesAndClassesToIriOrLiteralVisitor;
-import fr.sparna.rdf.shacl.AssignIconVisitor;
+import fr.sparna.rdf.shacl.generate.visitors.AddNamespacesVisitor;
+import fr.sparna.rdf.shacl.generate.visitors.AssignDatatypesAndClassesToIriOrLiteralVisitor;
+import fr.sparna.rdf.shacl.generate.visitors.AssignIconVisitor;
+import fr.sparna.rdf.shacl.generate.visitors.AssignLabelRoleVisitor;
+import fr.sparna.rdf.shacl.generate.visitors.ComputeStatisticsVisitor;
+import fr.sparna.rdf.shacl.generate.visitors.FilterOnStatisticsVisitor;
+import fr.sparna.rdf.shacl.generate.visitors.ShaclVisit;
 
 /**
  * Hello world!
@@ -49,7 +49,7 @@ public class PostProcess
 			modelStructure.visit(new AddNamespacesVisitor());
 			modelStructure.visit(new FilterOnStatisticsVisitor());
 			modelStructure.visit(new AssignLabelRoleVisitor());
-			modelStructure.visit(new AssignDatatypesAndClassesToIriOrLiteralVisitor(dataProvider));	
+			modelStructure.visit(new AssignDatatypesAndClassesToIriOrLiteralVisitor(dataProvider, new DefaultModelProcessor()));	
 			
 			
 			File output = new File("/home/thomas/auto-shapes-post-processed-shacl.ttl");

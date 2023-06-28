@@ -11,11 +11,12 @@ import org.apache.jena.riot.RDFDataMgr;
 import org.apache.jena.riot.RDFLanguages;
 import org.apache.jena.vocabulary.RDF;
 
-import fr.sparna.rdf.shacl.AddNamespacesVisitor;
-import fr.sparna.rdf.shacl.AssignLabelRoleVisitor;
-import fr.sparna.rdf.shacl.ComputeStatisticsVisitor;
-import fr.sparna.rdf.shacl.FilterOnStatisticsVisitor;
-import fr.sparna.rdf.shacl.ShaclVisit;
+import fr.sparna.rdf.shacl.generate.visitors.AddNamespacesVisitor;
+import fr.sparna.rdf.shacl.generate.visitors.AssignLabelRoleVisitor;
+import fr.sparna.rdf.shacl.generate.visitors.AssignMinCountAndMaxCountVisitor;
+import fr.sparna.rdf.shacl.generate.visitors.ComputeStatisticsVisitor;
+import fr.sparna.rdf.shacl.generate.visitors.FilterOnStatisticsVisitor;
+import fr.sparna.rdf.shacl.generate.visitors.ShaclVisit;
 
 /**
  * Hello world!
@@ -35,9 +36,12 @@ public class App
 					RDF.getURI(),
 					RDFLanguages.filenameToLang(args[0], Lang.TTL)
 					);
-			Configuration config = new Configuration("https://shacl-play.sparna.fr/shapes/", "shape");
+			Configuration config = new Configuration(new DefaultModelProcessor(), "https://shacl-play.sparna.fr/shapes/", "shape");
 			config.setShapesOntology("https://shacl-play.sparna.fr/shapes");
 			
+			ShaclGenerator generator = new ShaclGenerator();
+			
+			/*
 			SamplingShaclGeneratorDataProvider dataProvider1 = new SamplingShaclGeneratorDataProvider(new PaginatedQuery(100), input);
 		
 			ShaclGenerator generator = new ShaclGenerator();
@@ -46,10 +50,13 @@ public class App
 					config,
 					dataProvider1
 			);
+
+			
 			// merge prefixes
 			shapes.setNsPrefixes(input.getNsPrefixMap());
 
 			shapes.write(System.out,"Turtle");
+			*/
 
 			// shapes = generator.generateShapes(config, "https://data.bnf.fr/sparql");
 			// final String ENDPOINT = "http://sparql.europeana.eu"; 
@@ -58,7 +65,8 @@ public class App
 			// final String ENDPOINT = "http://51.159.140.210/graphdb/repositories/sparnatural-demo-anf?infer=false";
 			// final String ENDPOINT = "https://data.bnf.fr/sparql";
 			// final String ENDPOINT = "https://query.linkedopendata.eu/sparql";
-			final String ENDPOINT = "https://nakala.fr/sparql";
+			// final String ENDPOINT = "https://nakala.fr/sparql";
+			final String ENDPOINT = "http://localhost:7200/repositories/nakala";
 			
 			
 			
@@ -66,11 +74,15 @@ public class App
 			// final String ENDPOINT = "https://sage-ails.ails.ece.ntua.gr/api/content/semanticsearch-digital-repository-of-ireland/sparql";
 			// final String ENDPOINT = "https://ld.stadt-zuerich.ch/query";
 			SamplingShaclGeneratorDataProvider dataProvider2 = new SamplingShaclGeneratorDataProvider(new PaginatedQuery(100), ENDPOINT);
-			shapes = generator.generateShapes(config, dataProvider2);
+			Model shapes = generator.generateShapes(config, dataProvider2);
 			
 			// add count
 			ShaclVisit modelStructure = new ShaclVisit(shapes);
-			modelStructure.visit(new ComputeStatisticsVisitor(dataProvider2, ENDPOINT, true));		
+			modelStructure.visit(new ComputeStatisticsVisitor(dataProvider2, ENDPOINT, true));	
+			
+			// add sh:minCount and sh:maxCount
+			modelStructure.visit(new AssignMinCountAndMaxCountVisitor(dataProvider2));
+			
 			shapes.write(System.out,"Turtle");
 			/** FIN DU CODE A INTEGRER DANS LE FORMULAIRE **/
 			

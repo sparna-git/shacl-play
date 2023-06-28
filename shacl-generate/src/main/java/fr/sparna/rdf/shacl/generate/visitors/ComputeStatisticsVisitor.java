@@ -1,4 +1,4 @@
-package fr.sparna.rdf.shacl;
+package fr.sparna.rdf.shacl.generate.visitors;
 
 import java.util.List;
 import java.util.stream.Collectors;

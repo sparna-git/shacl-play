@@ -1,4 +1,4 @@
-package fr.sparna.rdf.shacl.generate;
+package fr.sparna.rdf.shacl.generate.visitors;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,7 +14,7 @@ import org.apache.jena.vocabulary.RDF;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import fr.sparna.rdf.shacl.DatasetAwareShaclVisitorBase;
+import fr.sparna.rdf.shacl.generate.ShaclGeneratorDataProviderIfc;
 
 public class AssignDatatypesVisitor extends DatasetAwareShaclVisitorBase {
 	

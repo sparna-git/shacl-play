@@ -1,4 +1,4 @@
-package fr.sparna.rdf.shacl;
+package fr.sparna.rdf.shacl.generate.visitors;
 
 import java.util.Arrays;
 
@@ -9,6 +9,7 @@ import org.apache.jena.sparql.vocabulary.FOAF;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import fr.sparna.rdf.shacl.EDM;
 import fr.sparna.rdf.shacl.generate.ShaclGenerator;
 
 public class AssignIconVisitor implements ShaclVisitorIfc {

@@ -1,14 +1,9 @@
 package fr.sparna.rdf.shacl.generate;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.apache.jena.datatypes.xsd.XSDDatatype;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Property;
@@ -16,7 +11,6 @@ import org.apache.jena.rdf.model.RDFList;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.ResourceFactory;
-import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.shacl.vocabulary.SHACLM;
 import org.apache.jena.vocabulary.DCTerms;
 import org.apache.jena.vocabulary.OWL;
@@ -27,8 +21,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.helpers.MessageFormatter;
 
-import fr.sparna.rdf.shacl.DatasetAwareShaclVisitorBase;
-import fr.sparna.rdf.shacl.ShaclVisit;
+import fr.sparna.rdf.shacl.generate.visitors.AssignClassesVisitor;
+import fr.sparna.rdf.shacl.generate.visitors.AssignDatatypesVisitor;
+import fr.sparna.rdf.shacl.generate.visitors.AssignMinCountAndMaxCountVisitor;
+import fr.sparna.rdf.shacl.generate.visitors.AssignNodeKindVisitor;
+import fr.sparna.rdf.shacl.generate.visitors.AssignValueOrInVisitor;
+import fr.sparna.rdf.shacl.generate.visitors.ShaclVisit;
 
 /**
  * Algorithm to generation a SHACL model from data. Does not do any read operation by itself but reads its input from a data provider.
@@ -87,10 +85,13 @@ public class ShaclGenerator {
 		addTypes(configuration, shacl);
 		log.debug("(generate) add types done");
 		
-		// post-process to assign datatypes
+		// post-process to assign nodeKind, datatypes and classes
 		ShaclVisit visit = new ShaclVisit(shacl);
+		visit.visit(new AssignNodeKindVisitor(dataProvider));
 		visit.visit(new AssignDatatypesVisitor(dataProvider));
-		visit.visit(new AssignClassesVisitor(dataProvider, configuration));
+		visit.visit(new AssignClassesVisitor(dataProvider, configuration.getModelProcessor()));
+		visit.visit(new AssignMinCountAndMaxCountVisitor(dataProvider));
+		visit.visit(new AssignValueOrInVisitor(dataProvider));
 		
 		return shacl;
 	}
@@ -143,7 +144,7 @@ public class ShaclGenerator {
 			Model shacl,
 			String typeUri
 	) {
-		if (configuration.isIgnoredType(typeUri)) {
+		if (configuration.getModelProcessor().isIgnoredType(typeUri)) {
 			log.info(getMessage("ignoring type '{}'", shortenUri(shacl, typeUri)));
 			return;
 		}
@@ -238,129 +239,9 @@ public class ShaclGenerator {
 		if(name != null) {
 			shacl.add(propertyShape, SHACLM.name, shacl.createLiteral(name, configuration.getLang()));
 		}	
-		
-		// add min and max
-		setMinCount(shacl, targetClass, path, propertyShape);
-		setMaxCount(shacl, targetClass, path, propertyShape);
-		
-		// if it makes sense, try to find sh:valueIn
-		if(configuration.getRequiresShValueInPredicate() != null && configuration.getRequiresShValueInPredicate().test(propertyShape)) {
-			setInOrHasValue(configuration, shacl, targetClass, path, propertyShape);
-		}
-		
-		// add nodeKind and other more detailed properties
-		setNodeKind(configuration, shacl, targetClass, path, propertyShape);
-	
 
 	}
 
-	/**
-	 * Assigns the sh:nodeKind constraint on the property shape
-	 * 
-	 * @param configuration
-	 * @param shacl
-	 * @param targetClass
-	 * @param path
-	 * @param propertyShape
-	 */
-	private void setNodeKind(
-			Configuration configuration,
-			Model shacl,
-			Resource targetClass,
-			Resource path,
-			Resource propertyShape
-	) {
-		if (log.isTraceEnabled()) log.trace("(setNodeKind) start");
-
-		boolean hasIri = this.dataProvider.hasIriObject(targetClass.getURI(), path.getURI());
-		boolean hasBlank = this.dataProvider.hasBlankNodeObject(targetClass.getURI(), path.getURI());
-		boolean hasLiteral = this.dataProvider.hasLiteralObject(targetClass.getURI(), path.getURI());
-
-		Resource nodeKindValue = calculateNodeKind(hasIri, hasBlank, hasLiteral);
-		if (nodeKindValue != null) {
-			log.debug("  (setNodeKind) property shape '{}' gets node kind '{}'", propertyShape.getLocalName(), nodeKindValue.getLocalName());
-			shacl.add(propertyShape, SHACLM.nodeKind, nodeKindValue);
-		}
-		else {
-			log.warn("  (setNodeKind) no sh:nodeKind could be derived for '{}'", propertyShape.getURI());
-		}
-	}
-
-	/**
-	 * Computes sh:nodeKind value based on flags retrieved in the data
-	 * 
-	 * @param hasIri
-	 * @param hasBlank
-	 * @param hasLiteral
-	 * @return
-	 */
-	private Resource calculateNodeKind(boolean hasIri, boolean hasBlank, boolean hasLiteral) {
-		if (hasIri && !hasBlank && !hasLiteral) return SHACLM.IRI;
-		if (!hasIri && hasBlank && !hasLiteral) return SHACLM.BlankNode;
-		if (!hasIri && !hasBlank && hasLiteral) return SHACLM.Literal;
-		if (hasIri && hasBlank && !hasLiteral) return SHACLM.BlankNodeOrIRI;
-		if (hasIri && !hasBlank && hasLiteral) return SHACLM.IRIOrLiteral;
-		if (!hasIri && hasBlank && hasLiteral) return SHACLM.BlankNodeOrLiteral;
-		return null;
-	}	
-
-
-	private void setMinCount(
-			Model shacl,
-			Resource targetClass,
-			Resource path,
-			Resource propertyShape
-			) {
-		if (log.isTraceEnabled()) log.trace("(setMinCount) start");
-
-		boolean hasInstanceWithoutProperty = this.dataProvider.hasInstanceWithoutProperty(targetClass.getURI(), path.getURI());
-		if (!hasInstanceWithoutProperty) {
-			log.debug("  (setMinCount) property shape '{}' gets sh:minCount '{}'", propertyShape.getLocalName(), 1);
-			shacl.add(propertyShape, SHACLM.minCount, ResourceFactory.createTypedLiteral("1", XSDDatatype.XSDinteger));
-		} else {
-			log.debug("  (setMinCount) property shape '{}' cannot have sh:minCount", propertyShape.getLocalName());
-		}
-	}
-
-	private void setMaxCount(
-			Model shacl,
-			Resource targetClass,
-			Resource path,
-			Resource propertyShape
-			) {
-		if (log.isTraceEnabled()) log.trace("(setMaxCount) start");
-
-		boolean hasInstanceWithTwoProperties = this.dataProvider.hasInstanceWithTwoProperties(targetClass.getURI(), path.getURI());
-		if (!hasInstanceWithTwoProperties) {
-			log.debug("  (setMaxCount) property shape '{}' gets sh:maxCount '{}'", propertyShape.getLocalName(), 1);
-			shacl.add(propertyShape, SHACLM.maxCount, ResourceFactory.createTypedLiteral("1", XSDDatatype.XSDinteger));
-		} else {
-			log.debug("  (setMaxCount) property shape '{}' cannot have sh:maxCount", propertyShape.getLocalName());
-		}
-	}
-	
-	private void setInOrHasValue(
-			Configuration configuration,
-			Model shacl,
-			Resource targetClass,
-			Resource path,
-			Resource propertyShape
-	) {
-		
-		if (log.isTraceEnabled()) log.trace("(setInOrHasValue) start");
-
-		List<RDFNode> distinctValues = this.dataProvider.listDistinctValues(targetClass.getURI(), path.getURI(), configuration.getValuesInThreshold()+1);
-		if(distinctValues.size() <= configuration.getValuesInThreshold()) {
-			log.debug("  (setInOrHasValue) found a maximum of '{}' distinct values, will set sh:in or sh:value", distinctValues.size());
-			if(distinctValues.size() == 1) {
-				shacl.add(propertyShape, SHACLM.value, distinctValues.get(0));
-			} else {
-				RDFList list = shacl.createList(distinctValues.iterator());
-				shacl.add(propertyShape, SHACLM.in, list);
-			}
-		}
-		
-	}
 	
 	private Resource buildShapeURIFromResource(
 		Configuration configuration,

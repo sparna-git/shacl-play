@@ -49,12 +49,18 @@ public class QueryExecutionService {
 	
 	public boolean executeAskQuery(String query, QuerySolution bindings) {
 		try(QueryExecution queryExecution = this.getQueryExecutionBuilder().query(query).substitution(bindings).build()) {
+			if(log.isDebugEnabled()) {
+				log.debug(queryExecution.getQueryString());
+			}
 			return queryExecution.execAsk();
 		}
 	}
 
 	public Model executeConstructQuery(String query, QuerySolution bindings) {
 		try(QueryExecution queryExecution = this.getQueryExecutionBuilder().query(query).substitution(bindings).build()) {
+			if(log.isDebugEnabled()) {
+				log.debug(queryExecution.getQueryString());
+			}
 			return queryExecution.execConstruct();
 		}
 		catch (Exception e) {

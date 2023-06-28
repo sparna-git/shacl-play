@@ -1,4 +1,4 @@
-package fr.sparna.rdf.shacl;
+package fr.sparna.rdf.shacl.generate.visitors;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,6 +21,7 @@ import org.apache.jena.vocabulary.XSD;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import fr.sparna.rdf.shacl.DASH;
 import fr.sparna.rdf.shacl.generate.ShaclGenerator;
 
 public class AssignLabelRoleVisitor implements ShaclVisitorIfc {

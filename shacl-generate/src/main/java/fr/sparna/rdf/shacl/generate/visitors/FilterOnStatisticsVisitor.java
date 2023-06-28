@@ -1,4 +1,4 @@
-package fr.sparna.rdf.shacl;
+package fr.sparna.rdf.shacl.generate.visitors;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;

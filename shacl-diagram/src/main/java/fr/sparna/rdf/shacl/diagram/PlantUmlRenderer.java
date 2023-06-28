@@ -92,9 +92,6 @@ public class PlantUmlRenderer {
 							if (property.getValue_pattern() != null && this.displayPatterns) {
 								inverse_label += "(" + property.getValue_pattern() + ")" + " ";
 							}
-							if (property.getValue_nodeKind() != null && !property.getValue_nodeKind().equals("sh:IRI")) {
-								inverse_label += property.getValue_nodeKind() + " ";
-							}
 							
 							inverse_label += " / ";
 						}
@@ -132,9 +129,6 @@ public class PlantUmlRenderer {
 				if (property.getValue_pattern() != null && this.displayPatterns) {
 					output += "(" + property.getValue_pattern() + ")" + " ";
 				}
-				if (property.getValue_nodeKind() != null && !property.getValue_nodeKind().equals("sh:IRI")) {
-					output += property.getValue_nodeKind() + " ";
-				}
 				
 			}
 				
@@ -149,9 +143,6 @@ public class PlantUmlRenderer {
 			}
 			if (property.getValue_pattern() != null && this.displayPatterns) {
 				output += "(" + property.getValue_pattern() + ")" + " ";
-			}
-			if (property.getValue_nodeKind() != null && !property.getValue_nodeKind().equals("sh:IRI")) {
-				output += property.getValue_nodeKind() + " ";
 			}
 			
 		}
@@ -190,9 +181,6 @@ public class PlantUmlRenderer {
 		}
 		if (property.getValue_pattern() != null && this.displayPatterns) {
 			output += "(" + property.getValue_pattern() + ")" + " ";
-		}
-		if (property.getValue_nodeKind() != null && !property.getValue_nodeKind().equals("sh:IRI")) {
-			output += property.getValue_nodeKind() + " ";
 		}
 		output += "\n";
 
@@ -257,9 +245,6 @@ public class PlantUmlRenderer {
 			}
 			if (property.getValue_pattern() != null && this.displayPatterns) {
 				output += "(" + property.getValue_pattern() + ")" + " ";
-			}
-			if (property.getValue_nodeKind() != null && !property.getValue_nodeKind().equals("sh:IRI")) {
-				output += property.getValue_nodeKind() + " ";
 			}
 
 			output += labelColorClose;

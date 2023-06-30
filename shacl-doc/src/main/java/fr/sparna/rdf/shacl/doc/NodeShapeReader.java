@@ -2,101 +2,23 @@ package fr.sparna.rdf.shacl.doc;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
-import org.apache.jena.rdf.model.Literal;
+import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
-import org.apache.jena.vocabulary.OWL;
-import org.apache.jena.vocabulary.RDF;
-import org.apache.jena.vocabulary.RDFS;
-import org.apache.jena.vocabulary.SKOS;
 import org.topbraid.shacl.vocabulary.SH;
 
 public class NodeShapeReader {
 
 	private String lang;
-	private ConstraintValueReader valueReader = new ConstraintValueReader();
 
 	public NodeShapeReader(String lang) {
 		this.lang = lang;
 	}
 	
-	public NodeShape read(Resource nodeShape) {
-		
-		NodeShape ns = new NodeShape(nodeShape);
 
-		ns.setShTargetClass(this.readShTargetClass(nodeShape));
-		ns.setRdfsComment(this.readRdfsComment(nodeShape));
-		ns.setRdfsLabel(this.readRdfsLabel(nodeShape));
-		ns.setShPattern(this.readShPattern(nodeShape));
-		ns.setShNodeKind(this.readSNodeKind(nodeShape));
-		ns.setShClosed(this.readShClosed(nodeShape));
-		ns.setAClass(this.readIsAClass(nodeShape));
-		ns.setShOrder(this.readShOrder(nodeShape));
-		ns.setSkosExample(this.readSkosExample(nodeShape));
-		ns.setShTargetShSelect(this.readShTargetShSelect(nodeShape));
-		
-		ns.setRdfsSubClassOf(this.readRdfsSubClassOf(nodeShape));
-		
-		return ns;
-	}
-	
-	
-	private Literal readShTargetShSelect(Resource nodeShape) {
-		return Optional.ofNullable(nodeShape.getPropertyResourceValue(SH.target)).map(
-				r -> Optional.ofNullable(r.getProperty(SH.select)).map(l -> l.getLiteral()).orElse(null)
-		).orElse(null);
-	}
-
-	private boolean readIsAClass(Resource nodeShape) {
-		return nodeShape.hasProperty(RDF.type, RDFS.Class);
-	}
-
-	public RDFNode readSkosExample(Resource nodeShape) {
-		return Optional.ofNullable(nodeShape.getProperty(SKOS.example)).map(s -> s.getObject()).orElse(null);
-	}
-	
-	public Resource readSNodeKind(Resource nodeShape) {	
-		return Optional.ofNullable(nodeShape.getProperty(SH.nodeKind)).map(s -> s.getResource()).orElse(null);
-	}
-
-	public Boolean readShClosed(Resource nodeShape) {
-		return Optional.ofNullable(nodeShape.getProperty(SH.closed)).map(s -> Boolean.valueOf(s.getBoolean())).orElse(null);
-	}
-
-	public Integer readShOrder(Resource nodeShape) {
-		return Optional.ofNullable(nodeShape.getProperty(SH.order)).map(s -> Integer.parseInt(s.getString())).orElse(null);
-	}
-
-	public Literal readShPattern(Resource nodeShape) {
-		return Optional.ofNullable(nodeShape.getProperty(SH.pattern)).map(s -> s.getLiteral()).orElse(null);
-	}
-
-	public String readRdfsLabel(Resource nodeShape) {
-		return ConstraintValueReader.readLiteralInLangAsString(nodeShape, RDFS.label, this.lang);
-	}
-
-	public String readRdfsComment(Resource nodeShape) {
-		return ConstraintValueReader.readLiteralInLangAsString(nodeShape, RDFS.comment, this.lang);
-	}
-
-	public Resource readShTargetClass(Resource nodeShape) {
-		return Optional.ofNullable(nodeShape.getProperty(SH.targetClass)).map(s -> s.getResource()).orElse(null);
-	}
-	
-	public List<Resource> readRdfsSubClassOf(Resource nodeShape) {
-		return nodeShape.listProperties(RDFS.subClassOf).toList().stream()
-				.map(s -> s.getResource())
-				.filter(r -> { return r.isURIResource() && !r.getURI().equals(OWL.Thing.getURI()); })
-				.collect(Collectors.toList());
-	}
-
-	public List<PropertyShape> readProperties(Resource nodeShape, List<NodeShape> allBoxes) {
-		
-		PropertyShapeReader propertyReader = new PropertyShapeReader(this.lang, allBoxes);
+	public List<PropertyShape> readProperties(Resource nodeShape, List<NodeShape> allBoxes, Model owlModel) {
 		
 		List<Statement> propertyStatements = nodeShape.listProperties(SH.property).toList();
 		List<PropertyShape> propertyShapes = new ArrayList<>();
@@ -105,10 +27,9 @@ public class NodeShapeReader {
 
 			if (object.isResource()) {
 				Resource propertyShape = object.asResource();			
-				PropertyShape plantvalueproperty = propertyReader.read(propertyShape);
+				PropertyShape plantvalueproperty = new PropertyShape(propertyShape);
 				propertyShapes.add(plantvalueproperty);	
-			}
-					
+			}					
 		}
 		
 		// sort property shapes
@@ -124,20 +45,7 @@ public class NodeShapeReader {
 					return 1;
 				} else {
 					// both sh:order are null, try with sh:name
-					if(ps1.getShName() != null) {
-						if(ps2.getShName() != null) {
-							return ps1.getShNameAsString().compareTo(ps2.getShNameAsString());
-						} else {
-							return -1;
-						}
-					} else {
-						if(ps2.getShName() != null) {
-							return 1;
-						} else {
-							// both sh:name are null, try with sh:path
-							return ps1.getShPathAsString().compareToIgnoreCase(ps2.getShPathAsString());
-						}
-					}
+					return ps1.getDisplayLabel(owlModel, lang).compareTo(ps2.getDisplayLabel(owlModel, lang));
 				}
 			}
 		});

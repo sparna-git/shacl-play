@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.vocabulary.RDFS;
 
-import fr.sparna.rdf.shacl.doc.ConstraintValueReader;
+import fr.sparna.rdf.shacl.doc.ModelReadingUtils;
 import fr.sparna.rdf.shacl.doc.NodeShape;
 import fr.sparna.rdf.shacl.doc.PropertyShape;
 import fr.sparna.rdf.shacl.doc.model.Link;
@@ -32,11 +32,11 @@ public class ShapesDocumentationSectionBuilder {
 			currentSection.setSubtitleUri(nodeShape.getNodeShape().getURI());
 		}
 		
-		// title : either rdfs:label or the URI short form
-		currentSection.setTitle((nodeShape.getRdfsLabel() != null && !nodeShape.getRdfsLabel().isEmpty()) ? nodeShape.getRdfsLabel() : nodeShape.getShortForm());
+		// title : either skos:prefLabel or rdfs:label or the URI short form
+		currentSection.setTitle(nodeShape.getDisplayLabel(owlGraph, lang));
 		
 		// rdfs:comment
-		currentSection.setDescription(nodeShape.getRdfsComment());
+		currentSection.setDescription(nodeShape.getDisplayDescription(owlGraph, lang));
 		
 		// sh:targetClass
 		if(nodeShape.getShTargetClass() != null) {
@@ -73,7 +73,7 @@ public class ShapesDocumentationSectionBuilder {
 				.filter(r -> allNodeShapes.stream().anyMatch(ns -> ns.getNodeShape().toString().equals(r.toString())))
 				.map(r -> {
 					// use the label if present, otherwise use the short form
-					String label = ConstraintValueReader.readLiteralInLangAsString(r, RDFS.label, lang);
+					String label = ModelReadingUtils.readLiteralInLangAsString(r, RDFS.label, lang);
 					if(label != null) {
 						return new Link(
 								"#"+r.getModel().shortForm(r.getURI()),

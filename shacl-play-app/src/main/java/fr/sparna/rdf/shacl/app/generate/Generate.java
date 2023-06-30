@@ -9,14 +9,15 @@ import org.apache.jena.rdf.model.Model;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import fr.sparna.rdf.shacl.ComputeStatisticsVisitor;
-import fr.sparna.rdf.shacl.FilterOnStatisticsVisitor;
-import fr.sparna.rdf.shacl.ShaclVisit;
 import fr.sparna.rdf.shacl.app.CliCommandIfc;
 import fr.sparna.rdf.shacl.generate.Configuration;
+import fr.sparna.rdf.shacl.generate.DefaultModelProcessor;
 import fr.sparna.rdf.shacl.generate.PaginatedQuery;
 import fr.sparna.rdf.shacl.generate.SamplingShaclGeneratorDataProvider;
 import fr.sparna.rdf.shacl.generate.ShaclGenerator;
+import fr.sparna.rdf.shacl.generate.visitors.ComputeStatisticsVisitor;
+import fr.sparna.rdf.shacl.generate.visitors.FilterOnStatisticsVisitor;
+import fr.sparna.rdf.shacl.generate.visitors.ShaclVisit;
 
 public class Generate implements CliCommandIfc {
 
@@ -30,8 +31,8 @@ public class Generate implements CliCommandIfc {
 		
 		String ENDPOINT = a.getInput();
 		
-		Configuration config = new Configuration("http://exemple.be/shapes/", "myshapes");
-		config.setShapesOntology("http://exemple.be/shapes");
+		Configuration config = new Configuration(new DefaultModelProcessor(), "https://shacl-play.sparna.fr/shapes/", "shape");
+		config.setShapesOntology("https://shacl-play.sparna.fr/shapes/");
 		
 		SamplingShaclGeneratorDataProvider dataProvider = new SamplingShaclGeneratorDataProvider(new PaginatedQuery(100), ENDPOINT);
 		ShaclGenerator generator = new ShaclGenerator();

@@ -49,7 +49,7 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 		ArrayList<NodeShape> allNodeShapes = new ArrayList<>();
 		NodeShapeReader reader = new NodeShapeReader(lang);
 		for (Resource nodeShape : nodeShapes) {
-			allNodeShapes.add(reader.read(nodeShape));
+			allNodeShapes.add(new NodeShape(nodeShape));
 		}
 
 		// sort node shapes
@@ -64,28 +64,15 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 				if (ns2.getShOrder() != null) {
 					return 1;
 				} else {
-					// both sh:order are null, try with label
-					if (ns1.getRdfsLabel() != null) {
-						if (ns2.getRdfsLabel() != null) {
-							return ns1.getRdfsLabel().compareTo(ns2.getRdfsLabel());
-						} else {
-							return -1;
-						}
-					} else {
-						if (ns2.getRdfsLabel() != null) {
-							return 1;
-						} else {
-							// both sh:name are null, try with URI
-							return ns1.getNodeShape().toString().compareTo(ns2.getNodeShape().toString());
-						}
-					}
+					// both sh:order are null, try with their display label
+					return ns1.getDisplayLabel(owlGraph, lang).compareTo(ns2.getDisplayLabel(owlGraph, lang));
 				}
 			}
 		});
 
 		// 2. Lire les propriétés
 		for (NodeShape aBox : allNodeShapes) {
-			aBox.setProperties(reader.readProperties(aBox.getNodeShape(), allNodeShapes));
+			aBox.setProperties(reader.readProperties(aBox.getNodeShape(), allNodeShapes, owlGraph));
 		}		
 
 		// Lecture de OWL

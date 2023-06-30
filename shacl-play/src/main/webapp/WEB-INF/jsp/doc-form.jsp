@@ -486,10 +486,11 @@
 							</thead>
 							<tbody>
 								<tr>
-									<th scope="row" width="30%"><code>rdfs:label</code></th>
+									<th scope="row" width="30%"><code>rdfs:label</code> (or <code>skos:prefLabel</code> or <code>rdfs:label</code> on class)</th>
 									<td>xsd:string</td>
 									<td>Yes</td>
-									<td class="text-break">Label of the NodeShape used as the title of the section in the documentation.</td>
+									<td class="text-break">Label of the NodeShape used as the title of the section in the documentation. If not provided, and if sh:targetClass points to a URI, then a <code>skos:prefLabel</code> or <code>rdfs:label</code>
+							  		are searched on the target class.</td>
 								</tr>
 								<tr>
 									<th scope="row"><code>rdf:type rdfs:Class</code></th>
@@ -498,10 +499,11 @@
 									<td class="text-break">If the NodeShape is also an instance of <code>rdfs:Class</code>, then its URI will be displayed under the section title.</td>
 							  	</tr>
 								<tr>
-									<th scope="row" width="30%"><code>rdfs:comment</code></th>
+									<th scope="row" width="30%"><code>rdfs:comment</code> (or <code>skos:definition</code> or <code>rdfs:comment</code> on class)</th>
 									<td>xsd:string</td>
 									<td>No</td>
-									<td class="text-break">Small descriptive paragraph under the section title.</td>
+									<td class="text-break">Small descriptive paragraph under the section title. If not provided, and if sh:targetClass points to a URI, then a <code>skos:definition</code> or <code>rdfs:comment</code>
+							  		are searched on the target class.</td>
 								</tr>
 								<tr>
 									<th scope="row"><code>sh:targetClass</code></th>
@@ -582,17 +584,17 @@
 									<td class="text-break">Property or property path - each property shape generates one line in the table.</td>
 								</tr>
 								<tr>
-									<th scope="row"><code>sh:name</code></th>
+									<th scope="row"><code>sh:name</code> (or <code>skos:prefLabel</code> or <code>rdfs:label</code>)</th>
 									<td>xsd:string</td>
 									<td>No</td>
-									<td class="text-break">Used to display the name of the property. If not provided, and if sh:path points to a URI, then an <code>rdfs:label</code>
-							  		is searched on the property URI indicated in the sh:path. This implies the SHACL file also contains the OWL definition. Otherwise, the column will be empty.</td>
+									<td class="text-break">Used to display the name of the property. If not provided, and if sh:path points to a URI, then a <code>skos:prefLabel</code> or <code>rdfs:label</code>
+							  		are searched on the property URI indicated in the sh:path. This implies the SHACL file also contains the OWL definition. Otherwise, the column will be empty.</td>
 							  	</tr>
 							  	<tr>
-							  		<th scope="row"><code>sh:description</code></th>
+							  		<th scope="row"><code>sh:description</code> (or <code>skos:definition</code> or <code>rdfs:comment</code>)</th>
 							  		<td>xsd:string</td>
 							  		<td>No</td>
-							  		<td class="text-break">Populates the <b>Description</b> column of the table. If not provided, and if sh:path points to a URI, then an <code>rdfs:comment</code>
+							  		<td class="text-break">Populates the <b>Description</b> column of the table. If not provided, and if sh:path points to a URI, then a <code>skos:definition</code> or <code>rdfs:comment</code>
 							  		is searched on the property URI indicated in the sh:path. This implies the SHACL file also contains the OWL definition. Otherwise the column will be empty.</td>
 							  	</tr>
 							  	<tr>

@@ -20,13 +20,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import fr.sparna.rdf.shacl.ComputeStatisticsVisitor;
-import fr.sparna.rdf.shacl.FilterOnStatisticsVisitor;
-import fr.sparna.rdf.shacl.ShaclVisit;
 import fr.sparna.rdf.shacl.generate.Configuration;
+import fr.sparna.rdf.shacl.generate.DefaultModelProcessor;
 import fr.sparna.rdf.shacl.generate.PaginatedQuery;
 import fr.sparna.rdf.shacl.generate.SamplingShaclGeneratorDataProvider;
 import fr.sparna.rdf.shacl.generate.ShaclGenerator;
+import fr.sparna.rdf.shacl.generate.visitors.ComputeStatisticsVisitor;
+import fr.sparna.rdf.shacl.generate.visitors.FilterOnStatisticsVisitor;
+import fr.sparna.rdf.shacl.generate.visitors.ShaclVisit;
 import fr.sparna.rdf.shacl.shaclplay.ApplicationData;
 import fr.sparna.rdf.shacl.shaclplay.ControllerCommons;
 import fr.sparna.rdf.shacl.shaclplay.ControllerModelFactory;
@@ -66,7 +67,7 @@ public class GenerateController {
 			String ENDPOINT = shapesUrl;
 			
 			//  
-			Configuration config = new Configuration("https://shacl-play.sparna.fr/shapes/", "shapes");
+			Configuration config = new Configuration(new DefaultModelProcessor(), "https://shacl-play.sparna.fr/shapes/", "shapes");
 			config.setShapesOntology("https://shacl-play.sparna.fr/shapes");
 			
 			SamplingShaclGeneratorDataProvider dataProvider = new SamplingShaclGeneratorDataProvider(new PaginatedQuery(100), ENDPOINT);
@@ -180,8 +181,8 @@ public class GenerateController {
 			String ENDPOINT = url;
 			
 			//  
-			Configuration config = new Configuration("http://exemple.be/shapes/", "myshapes");
-			config.setShapesOntology("http://exemple.be/shapes");
+			Configuration config = new Configuration(new DefaultModelProcessor(), "https://shacl-play.sparna.fr/shapes/", "shapes");
+			config.setShapesOntology("https://shacl-play.sparna.fr/shapes");
 			
 			SamplingShaclGeneratorDataProvider dataProvider = new SamplingShaclGeneratorDataProvider(new PaginatedQuery(100), ENDPOINT);
 			ShaclGenerator generator = new ShaclGenerator();

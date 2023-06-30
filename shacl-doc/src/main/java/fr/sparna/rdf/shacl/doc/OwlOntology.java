@@ -42,32 +42,32 @@ public class OwlOntology {
 	
 		
 	public OwlOntology(Resource rOntology, String lang) {
-		this.rdfsLabel = ConstraintValueReader.readLiteralInLangAsString(rOntology, RDFS.label, lang);
-		this.dctTitle = ConstraintValueReader.readLiteralInLangAsString(rOntology, DCTerms.title, lang);
+		this.rdfsLabel = ModelReadingUtils.readLiteralInLangAsString(rOntology, RDFS.label, lang);
+		this.dctTitle = ModelReadingUtils.readLiteralInLangAsString(rOntology, DCTerms.title, lang);
 		
-		this.dctermsAbstract = ConstraintValueReader.readLiteralInLangAsString(rOntology, DCTerms.abstract_, lang);
-		this.rdfsComment = ConstraintValueReader.readLiteralInLangAsString(rOntology, RDFS.comment, lang);
+		this.dctermsAbstract = ModelReadingUtils.readLiteralInLangAsString(rOntology, DCTerms.abstract_, lang);
+		this.rdfsComment = ModelReadingUtils.readLiteralInLangAsString(rOntology, RDFS.comment, lang);
 		
-		this.owlVersionInfo = ConstraintValueReader.readLiteralInLangAsString(rOntology,OWL.versionInfo, null);		
-		this.description = ConstraintValueReader.readLiteralInLangAsString(rOntology,DCTerms.description, lang);
-		this.versionNotes = ConstraintValueReader.readLiteralInLangAsString(rOntology,rOntology.getModel().createProperty(ADMS+"versionNotes"), lang);
+		this.owlVersionInfo = ModelReadingUtils.readLiteralInLangAsString(rOntology,OWL.versionInfo, null);		
+		this.description = ModelReadingUtils.readLiteralInLangAsString(rOntology,DCTerms.description, lang);
+		this.versionNotes = ModelReadingUtils.readLiteralInLangAsString(rOntology,rOntology.getModel().createProperty(ADMS+"versionNotes"), lang);
 		
-		this.dateModified = ConstraintValueReader.readLiteralInLangAsString(rOntology,DCTerms.modified, null);			
-		this.dateCreated = ConstraintValueReader.readLiteralInLangAsString(rOntology,DCTerms.created, null);
-		this.dateIssued = ConstraintValueReader.readLiteralInLangAsString(rOntology,DCTerms.issued, null);
+		this.dateModified = ModelReadingUtils.readLiteralInLangAsString(rOntology,DCTerms.modified, null);			
+		this.dateCreated = ModelReadingUtils.readLiteralInLangAsString(rOntology,DCTerms.created, null);
+		this.dateIssued = ModelReadingUtils.readLiteralInLangAsString(rOntology,DCTerms.issued, null);
 		
-		this.dateCopyrighted = ConstraintValueReader.readLiteralInLangAsString(rOntology,DCTerms.dateCopyrighted, null);
+		this.dateCopyrighted = ModelReadingUtils.readLiteralInLangAsString(rOntology,DCTerms.dateCopyrighted, null);
 		
-		license = ConstraintValueReader.readObjectAsResourceOrLiteralInLang(rOntology, DCTerms.license, lang);
-		creator = ConstraintValueReader.readObjectAsResourceOrLiteralInLang(rOntology, DCTerms.creator, lang);
-		publisher = ConstraintValueReader.readObjectAsResourceOrLiteralInLang(rOntology, DCTerms.publisher, lang);
-		rightsHolder = ConstraintValueReader.readObjectAsResourceOrLiteralInLang(rOntology, DCTerms.rightsHolder, lang);
+		license = ModelReadingUtils.readObjectAsResourceOrLiteralInLang(rOntology, DCTerms.license, lang);
+		creator = ModelReadingUtils.readObjectAsResourceOrLiteralInLang(rOntology, DCTerms.creator, lang);
+		publisher = ModelReadingUtils.readObjectAsResourceOrLiteralInLang(rOntology, DCTerms.publisher, lang);
+		rightsHolder = ModelReadingUtils.readObjectAsResourceOrLiteralInLang(rOntology, DCTerms.rightsHolder, lang);
 		
-		this.depiction = ConstraintValueReader.readObjectAsResource(rOntology, FOAF.depiction);
+		this.depiction = ModelReadingUtils.readObjectAsResource(rOntology, FOAF.depiction);
 		
 		this.owlFormat = readDcatDistibution(rOntology);
 		
-		this.repository = ConstraintValueReader.readObjectAsResourceOrLiteralInLang(rOntology, DOAP.repository, lang);
+		this.repository = ModelReadingUtils.readObjectAsResourceOrLiteralInLang(rOntology, DOAP.repository, lang);
 		
 	}
 	

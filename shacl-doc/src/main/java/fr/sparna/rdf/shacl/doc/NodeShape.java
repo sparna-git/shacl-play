@@ -2,48 +2,105 @@ package fr.sparna.rdf.shacl.doc;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Literal;
+import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.RDFList;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.vocabulary.OWL;
+import org.apache.jena.vocabulary.RDF;
+import org.apache.jena.vocabulary.RDFS;
+import org.apache.jena.vocabulary.SKOS;
+import org.topbraid.shacl.vocabulary.SH;
 
 public class NodeShape {
 
 	private Resource nodeShape;
 	
-	protected Literal shPattern;
-	protected Resource shTargetClass;
-	protected String rdfsComment;
-	protected String rdfsLabel;
-	protected Integer shOrder;
-	protected Resource shNodeKind;
-	protected Boolean shClosed;
-	protected RDFNode skosExample;
-	protected List<Resource> rdfsSubClassOf;
-	protected boolean isAClass = false;
-	// SPARQL query expressing the target of the shape
-	protected Literal shTargetShSelect;
 	
 	protected List<PropertyShape> properties = new ArrayList<>();
 	
-	
-	
-	public RDFNode getSkosExample() {
-		return skosExample;
-	}
-
-	public void setSkosExample(RDFNode skosExample) {
-		this.skosExample = skosExample;
-	}
-
 	public NodeShape(Resource nodeShape) {
 		this.nodeShape = nodeShape;
 	}
-
-	public static List<RDFNode> asJavaList(Resource resource) {
-		return (resource.as(RDFList.class)).asJavaList();
+	
+	
+	
+	public String getRdfsLabelAsString(String lang) {
+		return ModelRenderingUtils.render(this.getRdfsLabel(lang), true);
+	}	
+	
+	public String getShortForm() {
+		return this.getNodeShape().getModel().shortForm(this.getNodeShape().getURI());
 	}
+	
+	public String getDisplayLabel(Model owlModel, String lang) {
+		String result = ModelRenderingUtils.render(this.getSkosPrefLabel(lang), true);
+		
+		if(result == null) {
+			result = ModelRenderingUtils.render(this.getRdfsLabel(lang), true);
+		}				
+		
+		if(result == null && this.getShTargetClass() != null) {
+			// otherwise if we have skos:prefLabel on the class, take it
+			result = ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(owlModel.getResource(this.getShTargetClass().getURI()), SKOS.prefLabel, lang), true);
+		}
+		
+		if(result == null && this.getShTargetClass() != null) {
+			// otherwise if we have rdfs:label on the class, take it
+			result = ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(owlModel.getResource(this.getShTargetClass().getURI()), RDFS.label, lang), true);
+		}
+		
+		if(result == null) {
+			// default to local name
+			result = this.getShortForm();
+		}
+		
+		return result;
+	}
+	
+	public String getDisplayDescription(Model owlModel, String lang) {
+		String result = ModelRenderingUtils.render(this.getSkosDefinition(lang), true);
+		
+		if(result == null) {
+			result = ModelRenderingUtils.render(this.getRdfsComment(lang), true);
+		}
+		
+		if(result == null && this.getShTargetClass() != null) {
+			// otherwise if we have skos:definition on the class, take it
+			result = ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(owlModel.getResource(this.getShTargetClass().getURI()), SKOS.definition, lang), true);
+		}
+		
+		if(result == null && this.getShTargetClass() != null) {
+			// otherwise if we have rdfs:label on the class, take it
+			result = ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(owlModel.getResource(this.getShTargetClass().getURI()), RDFS.comment, lang), true);
+		}
+		
+		return result;
+	}
+	
+	
+	
+	public List<Literal> getRdfsComment(String lang) {
+		return ModelReadingUtils.readLiteralInLang(nodeShape, RDFS.comment, lang);
+	}
+	
+	public List<Literal> getRdfsLabel(String lang) {
+		return ModelReadingUtils.readLiteralInLang(nodeShape, RDFS.label, lang);
+	}
+	
+	public List<Literal> getSkosPrefLabel(String lang) {
+		return ModelReadingUtils.readLiteralInLang(nodeShape, SKOS.prefLabel, lang);
+	}
+	
+	public List<Literal> getSkosDefinition(String lang) {
+		return ModelReadingUtils.readLiteralInLang(nodeShape, SKOS.definition, lang);
+	}
+	
+	
 
 	public Resource getNodeShape() {
 		return nodeShape;
@@ -57,94 +114,46 @@ public class NodeShape {
 		this.properties = properties;
 	}
 
-	public Literal getShPattern() {
-		return shPattern;
-	}
-
-	public void setShPattern(Literal shPattern) {
-		this.shPattern = shPattern;
-	}
-
-	public Resource getShTargetClass() {
-		return shTargetClass;
-	}
-
-	public void setShTargetClass(Resource shTargetClass) {
-		this.shTargetClass = shTargetClass;
-	}
-
-	public String getRdfsComment() {
-		return rdfsComment;
-	}
-
-	public void setRdfsComment(String rdfsComment) {
-		this.rdfsComment = rdfsComment;
-	}
-
-	public String getRdfsLabel() {
-		return rdfsLabel;
-	}
-
-	public void setRdfsLabel(String rdfsLabel) {
-		this.rdfsLabel = rdfsLabel;
-	}
-
-	public Integer getShOrder() {
-		return shOrder;
-	}
-
-	public void setShOrder(Integer shOrder) {
-		this.shOrder = shOrder;
-	}
-
-	public Resource getShNodeKind() {
-		return shNodeKind;
-	}
-
-	public void setShNodeKind(Resource shNodeKind) {
-		this.shNodeKind = shNodeKind;
-	}
-
-	public Boolean getShClosed() {
-		return shClosed;
-	}
-
-	public void setShClosed(Boolean shClosed) {
-		this.shClosed = shClosed;
-	}
-	
-	public String getShortForm() {
-		return this.getNodeShape().getModel().shortForm(this.getNodeShape().getURI());
-	}
-	
-	public String getLocalName() {
-		return this.getNodeShape().getLocalName();
-	}
-
-	public List<Resource> getRdfsSubClassOf() {
-		return rdfsSubClassOf;
-	}
-
-	public void setRdfsSubClassOf(List<Resource> rdfsSubClassOf) {
-		this.rdfsSubClassOf = rdfsSubClassOf;
+	public Literal getShTargetShSelect() {
+		return Optional.ofNullable(nodeShape.getPropertyResourceValue(SH.target)).map(
+				r -> Optional.ofNullable(r.getProperty(SH.select)).map(l -> l.getLiteral()).orElse(null)
+		).orElse(null);
 	}
 
 	public boolean isAClass() {
-		return isAClass;
+		return nodeShape.hasProperty(RDF.type, RDFS.Class);
 	}
 
-	public void setAClass(boolean isAClass) {
-		this.isAClass = isAClass;
-	}
-
-	public Literal getShTargetShSelect() {
-		return shTargetShSelect;
-	}
-
-	public void setShTargetShSelect(Literal shTargetShSelect) {
-		this.shTargetShSelect = shTargetShSelect;
+	public RDFNode getSkosExample() {
+		return Optional.ofNullable(nodeShape.getProperty(SKOS.example)).map(s -> s.getObject()).orElse(null);
 	}
 	
+	public Resource getShNodeKind() {	
+		return Optional.ofNullable(nodeShape.getProperty(SH.nodeKind)).map(s -> s.getResource()).orElse(null);
+	}
+
+	public Boolean getShClosed() {
+		return Optional.ofNullable(nodeShape.getProperty(SH.closed)).map(s -> Boolean.valueOf(s.getBoolean())).orElse(null);
+	}
+
+	public Integer getShOrder() {
+		return Optional.ofNullable(nodeShape.getProperty(SH.order)).map(s -> Integer.parseInt(s.getString())).orElse(null);
+	}
+
+	public Literal getShPattern() {
+		return Optional.ofNullable(nodeShape.getProperty(SH.pattern)).map(s -> s.getLiteral()).orElse(null);
+	}
+
+	public Resource getShTargetClass() {
+		return Optional.ofNullable(nodeShape.getProperty(SH.targetClass)).map(s -> s.getResource()).orElse(null);
+	}
+	
+	public List<Resource> getRdfsSubClassOf() {
+		return nodeShape.listProperties(RDFS.subClassOf).toList().stream()
+				.map(s -> s.getResource())
+				.filter(r -> { return r.isURIResource() && !r.getURI().equals(OWL.Thing.getURI()); })
+				.collect(Collectors.toList());
+	}
 	
 	
 }

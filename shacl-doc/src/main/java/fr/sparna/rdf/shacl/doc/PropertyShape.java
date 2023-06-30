@@ -1,47 +1,27 @@
 package fr.sparna.rdf.shacl.doc;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Literal;
+import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.RDFList;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.vocabulary.RDFS;
+import org.apache.jena.vocabulary.SKOS;
 import org.topbraid.shacl.vocabulary.SH;
-
-import fr.sparna.rdf.shacl.doc.read.PropertyShapeDocumentationBuilder;
 
 public class PropertyShape {
 
 	private Resource resource;
 	
 	// can be a URI or a blank node corresponding to a property path
-	protected Resource shPath;
-
-	protected Resource shDatatype;
-	protected Resource shNodeKind;
-	protected Integer shMinCount;
-	protected Integer shMaxCount;
-	// currently not used
-	protected Literal shPattern;
-	protected Resource shNode;
-	protected Resource shClass;
-	protected List<Literal> shName;
-	protected List<Literal> shDescription;
-	protected List<RDFNode> shIn;
-	protected Integer shOrder;
-	protected RDFNode shValue;
 	
-	protected List<Resource> shOr;	
 	
-	public List<Resource> getShOr() {
-		return shOr;
-	}
-
-	public void setShOr(List<Resource> shOr) {
-		this.shOr = shOr;
-	}
-
+	
 	public PropertyShape(Resource resource) {
 		super();
 		this.resource = resource;
@@ -50,143 +30,136 @@ public class PropertyShape {
 	public Resource getResource() {
 		return resource;
 	}
-	public Resource getShPath() {
-		return shPath;
-	}
-
-	public void setShPath(Resource shPath) {
-		this.shPath = shPath;
-	}
-
-	public Resource getShDatatype() {
-		return shDatatype;
-	}
-	public void setShDatatype(Resource shDatatype) {
-		this.shDatatype = shDatatype;
-	}
-	public Resource getShNodeKind() {
-		return shNodeKind;
-	}
-	public void setShNodeKind(Resource shNodeKind) {
-		this.shNodeKind = shNodeKind;
-	}
-	
-	public Integer getShMinCount() {
-		return shMinCount;
-	}
-
-	public void setShMinCount(Integer shMinCount) {
-		this.shMinCount = shMinCount;
-	}
-
-	public Integer getShMaxCount() {
-		return shMaxCount;
-	}
-
-	public void setShMaxCount(Integer shMaxCount) {
-		this.shMaxCount = shMaxCount;
-	}
-
-	// currently not used
-	public Literal getShPattern() {
-		return shPattern;
-	}
-	public void setShPattern(Literal shPattern) {
-		this.shPattern = shPattern;
-	}
-	public Resource getShNode() {
-		return shNode;
-	}
-	public void setShNode(Resource node) {
-		this.shNode = node;
-	}
-	public Resource getShClass() {
-		return shClass;
-	}
-	public void setShClass(Resource shClass) {
-		this.shClass = shClass;
-	}
-	public List<Literal> getShName() {
-		return shName;
-	}
-	public void setShName(List<Literal> shName) {
-		this.shName = shName;
-	}
-	public List<Literal> getShDescription() {
-		return shDescription;
-	}
-	public void setShDescription(List<Literal> shDescription) {
-		this.shDescription = shDescription;
-	}
-	public List<RDFNode> getShIn() {
-		return shIn;
-	}
-	public void setShIn(List<RDFNode> shIn) {
-		this.shIn = shIn;
-	}
-	public Integer getShOrder() {
-		return shOrder;
-	}
-	public void setShOrder(Integer shOrder) {
-		this.shOrder = shOrder;
-	}
-	public RDFNode getShValue() {
-		return shValue;
-	}
-	public void setShValue(RDFNode shValue) {
-		this.shValue = shValue;
-	}
 	
 	/**
 	 * Returns the short form of the property or the property path already shortened
 	 * @return
 	 */
 	public String getShPathAsString() {
-		return (this.shPath.isURIResource())?PropertyShapeDocumentationBuilder.render(this.getShPath(), false):PropertyShape.renderShaclPropertyPath(this.getShPath());
+		return (this.getShPath().isURIResource())?ModelRenderingUtils.render(this.getShPath(), false):ModelRenderingUtils.renderShaclPropertyPath(this.getShPath());
 	}
 	
-	public String getShNameAsString() {
-		return PropertyShapeDocumentationBuilder.render(this.getShName(), true);
+	public String getShNameAsString(String lang) {
+		return ModelRenderingUtils.render(this.getShName(lang), true);
 	}
 	
-	
-	public static String renderShaclPropertyPath(Resource r) {
-		if(r == null) return "";
+	public String getDisplayLabel(Model owlModel, String lang) {
+		String result = ModelRenderingUtils.render(this.getShName(lang), true);
 		
-		if(r.isURIResource()) {
-			return r.getModel().shortForm(r.getURI());
-		} else if(r.hasProperty(SH.alternativePath)) {
-			Resource alternatives = r.getPropertyResourceValue(SH.alternativePath);
-			RDFList rdfList = alternatives.as( RDFList.class );
-			List<RDFNode> pathElements = rdfList.asJavaList();
-			return pathElements.stream().map(p -> renderShaclPropertyPath((Resource)p)).collect(Collectors.joining("|"));
-		} else if(r.hasProperty(SH.inversePath)) {
-			Resource value = r.getPropertyResourceValue(SH.inversePath);
-			if(value.isURIResource()) {
-				return "^"+renderShaclPropertyPath(value);
-			}
-			else {
-				return "^("+renderShaclPropertyPath(value)+")";
-			}
-		} else if(r.hasProperty(SH.zeroOrMorePath)) {
-			Resource value = r.getPropertyResourceValue(SH.zeroOrMorePath);
-			if(value.isURIResource()) {
-				return renderShaclPropertyPath(value)+"*";
-			}
-			else {
-				return "("+renderShaclPropertyPath(value)+")*";
-			}
-		} else if(r.hasProperty(SH.oneOrMorePath)) {
-			Resource value = r.getPropertyResourceValue(SH.oneOrMorePath);
-			if(value.isURIResource()) {
-				return renderShaclPropertyPath(value)+"+";
-			}
-			else {
-				return "("+renderShaclPropertyPath(value)+")+";
-			}
+		if(result == null && this.getShPath().isURIResource()) {
+			// otherwise if we have skos:prefLabel on the property, take it
+			result = ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(owlModel.getResource(this.getShPath().getURI()), SKOS.prefLabel, lang), true);
+		}
+		
+		if(result == null && this.getShPath().isURIResource()) {
+			// otherwise if we have rdfs:label on the property, take it
+			return ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(owlModel.getResource(this.getShPath().getURI()), RDFS.label, lang), true);
+		}
+		
+		return result;
+	}
+	
+	public String getDisplayDescription(Model owlModel, String lang) {
+		String result = ModelRenderingUtils.render(this.getShDescription(lang), true);
+		
+		if(result == null && this.getShPath().isURIResource()) {
+			// otherwise if we have skos:definition on the property, take it
+			return ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(owlModel.getResource(this.getShPath().getURI()), SKOS.definition, lang), true);
+		}
+		
+		if(result == null && this.getShPath().isURIResource()) {
+			// otherwise if we have rdfs:comment on the property, take it
+			return ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(owlModel.getResource(this.getShPath().getURI()), RDFS.comment, lang), true);
+		}
+		
+		return result;
+	}
+
+	public List<Resource> getShOr() {
+		if (this.resource.hasProperty(SH.or)) {			
+			Resource list = this.resource.getProperty(SH.or).getList().asResource();
+			List<RDFNode> rdflist = list.as(RDFList.class).asJavaList();
+
+			List<Resource> result = new ArrayList<Resource>();
+			rdflist.stream().forEach(item -> {
+				if(item.isResource()) {
+					if(item.asResource().hasProperty(SH.node)) {
+						result.add(item.asResource().getPropertyResourceValue(SH.node));
+					} else if(item.asResource().hasProperty(SH.class_)) {
+						result.add(item.asResource().getPropertyResourceValue(SH.class_));
+					} else if(item.asResource().hasProperty(SH.datatype)) {
+						result.add(item.asResource().getPropertyResourceValue(SH.datatype));
+					} else if(item.asResource().hasProperty(SH.or)) {
+						// actually, this would be a NodeShape theoretically...
+						PropertyShape recursiveShape = new PropertyShape(item.asResource());
+						result.addAll(recursiveShape.getShOr());
+					} else if(item.asResource().hasProperty(SH.nodeKind)) {
+						result.add(item.asResource().getPropertyResourceValue(SH.nodeKind));
+					} 
+				} 
+			});
+			return result;
 		} else {
 			return null;
 		}
+	}
+
+	public RDFNode getShValue() {
+		return Optional.ofNullable(this.resource.getProperty(SH.hasValue)).map(s -> s.getObject()).orElse(null);
+	}
+
+	public Integer getShOrder() {
+		return Optional.ofNullable(this.resource.getProperty(SH.order)).map(s -> Integer.parseInt(s.getString())).orElse(null);
+	}
+
+	public List<RDFNode> getShIn() {
+		if (this.resource.hasProperty(SH.in)) {
+			Resource list = this.resource.getProperty(SH.in).getList().asResource();
+			return list.as(RDFList.class).asJavaList();
+		} else {
+			return null;
+		}
+	}
+
+	public List<Literal> getShName(String lang) {
+		return ModelReadingUtils.readLiteralInLang(this.resource, SH.name, lang);
+	}
+
+	public List<Literal> getShDescription(String lang) {
+		return ModelReadingUtils.readLiteralInLang(this.resource, SH.description, lang);
+	}
+
+	public Resource getShPath() {
+		return Optional.ofNullable(this.resource.getProperty(SH.path)).map(s -> s.getResource()).orElse(null);
+	}
+
+	public Resource getShDatatype() {
+		return Optional.ofNullable(this.resource.getProperty(SH.datatype)).map(s -> s.getResource()).orElse(null);
+	}
+
+	public Resource getShNodeKind() {		
+		return Optional.ofNullable(this.resource.getProperty(SH.nodeKind)).map(s -> s.getResource()).orElse(null);
+	}
+	
+	public Integer getShMinCount() {
+		return Optional.ofNullable(this.resource.getProperty(SH.minCount)).map(s -> Integer.parseInt(s.getString())).orElse(null);
+	}
+	
+	public Integer getShMaxCount() {
+		return Optional.ofNullable(this.resource.getProperty(SH.maxCount)).map(s -> Integer.parseInt(s.getString())).orElse(null);
+	}
+
+	public Literal getShPattern() {
+		return Optional.ofNullable(this.resource.getProperty(SH.pattern)).map(s -> s.getLiteral()).orElse(null);
+	}
+
+	// TODO : devrait retourner un ShaclBox
+	public Resource getShNode() {
+		return Optional.ofNullable(this.resource.getProperty(SH.node)).map(s -> s.getResource()).orElse(null);
+	}
+
+	public Resource getShClass() {
+		return Optional.ofNullable(this.resource.getProperty(SH.class_)).map(s -> s.getResource()).orElse(null);
 	}
 	
 }

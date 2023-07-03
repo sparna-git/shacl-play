@@ -53,7 +53,12 @@ public class PropertyShape {
 		
 		if(result == null && this.getShPath().isURIResource()) {
 			// otherwise if we have rdfs:label on the property, take it
-			return ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(owlModel.getResource(this.getShPath().getURI()), RDFS.label, lang), true);
+			result = ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(owlModel.getResource(this.getShPath().getURI()), RDFS.label, lang), true);
+		}
+		
+		// otherwise return empty string, never null (for sorting)
+		if(result == null) {
+			result = "";
 		}
 		
 		return result;
@@ -64,12 +69,12 @@ public class PropertyShape {
 		
 		if(result == null && this.getShPath().isURIResource()) {
 			// otherwise if we have skos:definition on the property, take it
-			return ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(owlModel.getResource(this.getShPath().getURI()), SKOS.definition, lang), true);
+			result = ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(owlModel.getResource(this.getShPath().getURI()), SKOS.definition, lang), true);
 		}
 		
 		if(result == null && this.getShPath().isURIResource()) {
 			// otherwise if we have rdfs:comment on the property, take it
-			return ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(owlModel.getResource(this.getShPath().getURI()), RDFS.comment, lang), true);
+			result = ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(owlModel.getResource(this.getShPath().getURI()), RDFS.comment, lang), true);
 		}
 		
 		return result;

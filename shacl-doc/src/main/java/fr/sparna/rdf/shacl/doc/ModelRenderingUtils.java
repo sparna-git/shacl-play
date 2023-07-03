@@ -85,6 +85,9 @@ public class ModelRenderingUtils {
 		
 		if(r.isURIResource()) {
 			return r.getModel().shortForm(r.getURI());
+		} else if(r.canAs(RDFList.class)) {
+			List<RDFNode> l = r.as(RDFList.class).asJavaList();
+			return l.stream().map(i -> renderShaclPropertyPath(i.asResource())).collect(Collectors.joining("/"));
 		} else if(r.hasProperty(SH.alternativePath)) {
 			Resource alternatives = r.getPropertyResourceValue(SH.alternativePath);
 			RDFList rdfList = alternatives.as( RDFList.class );

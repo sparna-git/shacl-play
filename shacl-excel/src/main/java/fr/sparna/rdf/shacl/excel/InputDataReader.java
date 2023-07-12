@@ -2,6 +2,7 @@ package fr.sparna.rdf.shacl.excel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.Property;
@@ -13,41 +14,42 @@ import org.apache.jena.vocabulary.OWL;
 import org.apache.jena.vocabulary.RDF;
 import org.topbraid.shacl.vocabulary.SH;
 
-import fr.sparna.rdf.shacl.excel.model.ColumnsData;
-import fr.sparna.rdf.shacl.excel.model.Shapes;
-import fr.sparna.rdf.shacl.excel.model.ShapesValues;
+import fr.sparna.rdf.shacl.excel.model.ColumnsHeader_Input;
+import fr.sparna.rdf.shacl.excel.model.InputDataset;
+import fr.sparna.rdf.shacl.excel.model.InputValues;
 
-public class ShapesReader {
+public class InputDataReader {
 
-	ConstraintValueReader cValue = new ConstraintValueReader();
-
-	public List<Shapes> read(Model GraphData) {
+	public List<InputDataset> read(Model GraphData) {
 		// read everything typed as NodeShape
 		List<Resource> nodeShapes = GraphData.listResourcesWithProperty(RDF.type, SH.NodeShape).toList();
-		List<Shapes> Shapes_data = new ArrayList<>();
+		List<InputDataset> Shapes_data = new ArrayList<>();
 		for (Resource nodeShape : nodeShapes) {
-			Shapes shape = new Shapes(nodeShape);
+			InputDataset shape = new InputDataset(nodeShape);
 						
-			List<ShapesValues> classes = this.readClasses(nodeShape);
+			List<InputValues> classes = this.readClasses(nodeShape);
 			if (classes.size() > 0) {
 				shape.setClassesXSL(classes);
 				// get all columns
 				shape.setCol_classes(this.getColumns(classes));
 			}
 			
-			List<ShapesValues> properties_section = this.readProperties(nodeShape, Shapes_data);
+			List<InputValues> properties_section = this.readProperties(nodeShape, Shapes_data);
 			if (properties_section.size() > 0) {
 				shape.setPropertyXSL(properties_section);
 				shape.setCol_properties(this.getColumns(properties_section));
 			}
 			Shapes_data.add(shape);
 		}
+		
+		//Convert the result in map
+		
 		return Shapes_data;
 	}
 
-	public List<ShapesValues> readClasses(Resource ns) {
+	public List<InputValues> readClasses(Resource ns) {
 
-		List<ShapesValues> lShapes = new ArrayList<>();
+		List<InputValues> lShapes = new ArrayList<>();
 
 		List<Statement> spo = ns.listProperties().toList();
 		for (Statement confSentence : spo) {
@@ -80,7 +82,7 @@ public class ShapesReader {
 						dataType = "@" + data_Language;
 					}
 				}
-				ShapesValues spv = new ShapesValues();
+				InputValues spv = new InputValues();
 				spv.setSubject(s);
 				spv.setPredicate(p);
 				spv.setObject(o);
@@ -93,20 +95,20 @@ public class ShapesReader {
 		return lShapes;
 	}
 
-	public List<ShapesValues> readProperties(Resource nodeShape, List<Shapes> ShapesClasses) {
+	public List<InputValues> readProperties(Resource nodeShape, List<InputDataset> ShapesClasses) {
 
-		List<ShapesValues> spProperties = new ArrayList<>();		
+		List<InputValues> spProperties = new ArrayList<>();		
 		List<Statement> propertyStatements = nodeShape.listProperties(SH.property).toList();
 		for (Statement prop : propertyStatements) {			
-			ShapesValues spValues = new ShapesValues();
+			InputValues spValues = new InputValues();
 			RDFNode obj = prop.getObject();
 			
 			if (obj.isResource()) {
 				Resource object = obj.asResource();				
 				List<Statement> listProperties = object.listProperties().toList();	
-				List<ShapesValues> propList = new ArrayList<>();
+				List<InputValues> propList = new ArrayList<>();
 				for (Statement propStatement : listProperties) {
-					ShapesValues spValuesprop = new ShapesValues();
+					InputValues spValuesprop = new InputValues();
 					
 					spValuesprop.setSubject(propStatement.getModel().shortForm(propStatement.getSubject().getURI()));
 					spValuesprop.setPredicate(propStatement.getModel().shortForm(propStatement.getPredicate().getURI()));
@@ -134,11 +136,11 @@ public class ShapesReader {
 		return spProperties;
 	}
 	
-	public List<ColumnsData> getColumns(List<ShapesValues> data){
+	public List<ColumnsHeader_Input> getColumns(List<InputValues> data){
 		
-		List<ColumnsData> columnsdata = new ArrayList<>();
-		for (ShapesValues val : data) {
-			ColumnsData colData = new ColumnsData();
+		List<ColumnsHeader_Input> columnsdata = new ArrayList<>();
+		for (InputValues val : data) {
+			ColumnsHeader_Input colData = new ColumnsHeader_Input();
 			
 			boolean truevalue = columnsdata
 					.stream()

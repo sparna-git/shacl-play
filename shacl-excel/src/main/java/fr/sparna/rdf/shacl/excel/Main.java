@@ -8,7 +8,7 @@ import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.util.FileUtils;
 import org.apache.jena.vocabulary.RDF;
 
-import fr.sparna.rdf.shacl.excel.model.Shapes;
+import fr.sparna.rdf.shacl.excel.model.InputDataset;
 
 public class Main {
 
@@ -43,7 +43,7 @@ public class Main {
 		
 		// read dataset  
 		Generator write = new Generator();
-		List<Shapes> output = write.readDocument(shaclGraphTemplate,shaclGraphDataSet);
+		List<InputDataset> output = write.readDocument(shaclGraphTemplate,shaclGraphDataSet);
 		
 		
 		

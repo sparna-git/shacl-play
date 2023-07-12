@@ -1,6 +1,6 @@
 package fr.sparna.rdf.shacl.excel.model;
 
-public class ColumnsData {
+public class ColumnsHeader_Input {
 	protected String column_name;
 	protected String column_datatypeValue;
 	
@@ -16,6 +16,4 @@ public class ColumnsData {
 	public void setColumn_datatypeValue(String column_datatypeValue) {
 		this.column_datatypeValue = column_datatypeValue;
 	}
-	
-	
 }

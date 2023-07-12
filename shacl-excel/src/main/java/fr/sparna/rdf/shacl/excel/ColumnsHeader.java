@@ -6,14 +6,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import fr.sparna.rdf.shacl.excel.model.ColumnsData;
-import fr.sparna.rdf.shacl.excel.model.ShapesValues;
+import fr.sparna.rdf.shacl.excel.model.ColumnsHeader_Input;
+import fr.sparna.rdf.shacl.excel.model.InputValues;
 import fr.sparna.rdf.shacl.excel.model.XslTemplate;
 
 
-public class CellColumns {
+public class ColumnsHeader {
 
-	public List<XslTemplate> build(List<XslTemplate> template, List<ColumnsData> modelData) {
+	public List<XslTemplate> build(List<XslTemplate> template, List<ColumnsHeader_Input> modelData) {
 
 		
 		List<XslTemplate> tmp = new ArrayList<>();
@@ -32,13 +32,13 @@ public class CellColumns {
 			
 			for (XslTemplate c : template) {
 				
-				List<ColumnsData> col_in_data = modelData
+				List<ColumnsHeader_Input> col_in_data = modelData
 						.stream()
 						.filter(cdata -> cdata.getColumn_name().equals(c.getSh_path()))
 						.collect(Collectors.toList());
 				
 				if (col_in_data.size() > 0) {
-					for (ColumnsData colAdd : col_in_data) {
+					for (ColumnsHeader_Input colAdd : col_in_data) {
 						XslTemplate tmpTemplateIn = new XslTemplate();
 						tmpTemplateIn.setSh_name(c.getSh_name());
 						tmpTemplateIn.setSh_description(c.getSh_description());
@@ -57,7 +57,7 @@ public class CellColumns {
 			}
 			
 			
-			for (ColumnsData cData : modelData) {
+			for (ColumnsHeader_Input cData : modelData) {
 				
 				String sproperty = cData.getColumn_datatypeValue() != null || cData.getColumn_datatypeValue() != "" ?  cData.getColumn_name()+cData.getColumn_datatypeValue() : cData.getColumn_name();
 				
@@ -82,11 +82,11 @@ public class CellColumns {
 		return tmp;
 	}
 
-	public List<String> readShaclConfig(List<ShapesValues> ShaclConfig) {
+	public List<String> readShaclConfig(List<InputValues> ShaclConfig) {
 
 		List<String> ColumnsConfig = new ArrayList<>();
 
-		for (ShapesValues sp : ShaclConfig) {
+		for (InputValues sp : ShaclConfig) {
 
 			String predicate = sp.getPredicate();			
 			

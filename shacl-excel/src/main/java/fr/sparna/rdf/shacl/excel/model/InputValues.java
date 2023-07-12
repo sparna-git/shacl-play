@@ -1,6 +1,6 @@
 package fr.sparna.rdf.shacl.excel.model;
 
-public class ShapesValues {
+public class InputValues {
 	
 	protected String subject;
 	protected String predicate;

@@ -5,18 +5,18 @@ import java.util.List;
 
 import org.apache.jena.rdf.model.Resource;
 
-public class TemplateSparnatural {
+public class NodeShapeTemplate {
 	
 	private Resource nodeShape;
 	
 	protected Integer SHOrder;
-	protected List<XslTemplate> shapesTemplate = new ArrayList<>();
+	protected List<PropertyShapeTemplate> shapesTemplate = new ArrayList<>();
 
-	public List<XslTemplate> getShapesTemplate() {
+	public List<PropertyShapeTemplate> getShapesTemplate() {
 		return shapesTemplate;
 	}
 
-	public void setShapesTemplate(List<XslTemplate> shapesTemplate) {
+	public void setShapesTemplate(List<PropertyShapeTemplate> shapesTemplate) {
 		this.shapesTemplate = shapesTemplate;
 	}
 
@@ -36,7 +36,7 @@ public class TemplateSparnatural {
 		this.nodeShape = nodeShape;
 	}
 
-	public TemplateSparnatural (Resource nodeShape) {  
+	public NodeShapeTemplate (Resource nodeShape) {  
 	    this.nodeShape = nodeShape;		
 	}
 	

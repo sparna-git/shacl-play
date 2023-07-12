@@ -1,6 +1,6 @@
 package fr.sparna.rdf.shacl.excel.model;
 
-public class XslTemplate {
+public class PropertyShapeTemplate {
 
 	protected String Sh_path;
 	protected String Sh_description;

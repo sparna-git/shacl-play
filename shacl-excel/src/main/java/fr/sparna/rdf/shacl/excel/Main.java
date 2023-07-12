@@ -14,36 +14,29 @@ public class Main {
 
 	public static void main(String[] args) throws Exception {
 		
+		// premier paramètre : template SHACL
+		String templateParam = args[0];
+		// deuxième paramètre : fichier de data
+		String dataParam = args[1];
 		
-		String shaclFileTmp = args[0];
-		String shaclDataSet = args[1];
 		
-		
-		Model shaclGraphTemplate = ModelFactory.createDefaultModel();
-		Model shaclGraphDataSet = ModelFactory.createDefaultModel();
-		
-		if(shaclDataSet.startsWith("http")) {
-			shaclGraphTemplate.read(shaclFileTmp, RDF.uri, FileUtils.guessLang(shaclFileTmp, "Turtle"));
+		Model shaclTemplateGraph = ModelFactory.createDefaultModel();
+		if(templateParam.startsWith("http")) {
+			shaclTemplateGraph.read(templateParam, RDF.uri, FileUtils.guessLang(templateParam, "Turtle"));
 		} else {
-			shaclGraphTemplate.read(new FileInputStream(shaclFileTmp), RDF.uri, FileUtils.guessLang(shaclFileTmp, "RDF/XML"));
-		}
+			shaclTemplateGraph.read(new FileInputStream(templateParam), RDF.uri, FileUtils.guessLang(templateParam, "RDF/XML"));
+		}		
 		
-		
-		
-		if(shaclDataSet.startsWith("http")) {
-			shaclGraphDataSet.read(shaclDataSet, RDF.uri, FileUtils.guessLang(shaclDataSet, "Turtle"));
+		Model dataGraph = ModelFactory.createDefaultModel();
+		if(dataParam.startsWith("http")) {
+			dataGraph.read(dataParam, RDF.uri, FileUtils.guessLang(dataParam, "Turtle"));
 		} else {
-			shaclGraphDataSet.read(new FileInputStream(shaclDataSet), RDF.uri, FileUtils.guessLang(shaclDataSet, "RDF/XML"));
+			dataGraph.read(new FileInputStream(dataParam), RDF.uri, FileUtils.guessLang(dataParam, "RDF/XML"));
 		}
-		
-		
-		// read Template of build 
-		
-		
 		
 		// read dataset  
 		Generator write = new Generator();
-		List<InputDataset> output = write.readDocument(shaclGraphTemplate,shaclGraphDataSet);
+		List<InputDataset> output = write.readDocument(shaclTemplateGraph,dataGraph);
 		
 		
 		

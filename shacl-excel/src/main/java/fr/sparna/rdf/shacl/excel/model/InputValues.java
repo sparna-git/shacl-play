@@ -1,5 +1,10 @@
 package fr.sparna.rdf.shacl.excel.model;
 
+/**
+ * @deprecated DO NOT USE - use Jena Statement instead
+ * @author thomas
+ *
+ */
 public class InputValues {
 	
 	protected String subject;

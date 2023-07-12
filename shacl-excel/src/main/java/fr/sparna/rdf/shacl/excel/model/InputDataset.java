@@ -4,31 +4,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.Statement;
 
 public class InputDataset {
 	
 	private Resource nodeShape;
 	
 	protected Integer SHOrder;
-	protected List<InputValues> ClassesXLS = new ArrayList<>();
+	protected List<Statement> ClassesXLS = new ArrayList<>();
 	protected List<ColumnsHeader_Input> col_classes = new ArrayList<>();
-	protected List<InputValues> PropertyXLS = new ArrayList<>();
+	protected List<Statement> PropertyXLS = new ArrayList<>();
 	protected List<ColumnsHeader_Input> col_properties = new ArrayList<>();
 	
 
-	public List<InputValues> getClassesXSL() {
+	public List<Statement> getClassesXSL() {
 		return ClassesXLS;
 	}
 
-	public void setClassesXSL(List<InputValues> classesXSL) {
+	public void setClassesXSL(List<Statement> classesXSL) {
 		ClassesXLS = classesXSL;
 	}
 
-	public List<InputValues> getPropertyXSL() {
+	public List<Statement> getPropertyXSL() {
 		return PropertyXLS;
 	}
 
-	public void setPropertyXSL(List<InputValues> propertyXSL) {
+	public void setPropertyXSL(List<Statement> propertyXSL) {
 		PropertyXLS = propertyXSL;
 	}
 

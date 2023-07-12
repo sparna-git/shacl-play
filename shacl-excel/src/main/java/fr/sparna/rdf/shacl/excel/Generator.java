@@ -24,18 +24,17 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.topbraid.shacl.vocabulary.SH;
 
 import fr.sparna.rdf.shacl.excel.model.ColumnsHeader_Input;
-import fr.sparna.rdf.shacl.excel.model.InputValues;
-import fr.sparna.rdf.shacl.excel.model.ShaclOntology;
 import fr.sparna.rdf.shacl.excel.model.InputDataset;
-import fr.sparna.rdf.shacl.excel.model.TemplateSparnatural;
-import fr.sparna.rdf.shacl.excel.model.XslTemplate;
+import fr.sparna.rdf.shacl.excel.model.NodeShapeTemplate;
+import fr.sparna.rdf.shacl.excel.model.PropertyShapeTemplate;
+import fr.sparna.rdf.shacl.excel.model.ShaclOntology;
 
 public class Generator {
 
-	public List<InputDataset> readDocument(Model shaclGraphTemplate, Model shaclGraph) throws IOException {
+	public List<InputDataset> readDocument(Model shaclGraphTemplate, Model dataGraph) throws IOException {
 
 		// read graph for the building the recovery all the head columns
-		List<Resource> nodeShapeTemplate = shaclGraphTemplate.listResourcesWithProperty(RDF.type, SH.NodeShape)
+		List<Resource> nodeShapes = shaclGraphTemplate.listResourcesWithProperty(RDF.type, SH.NodeShape)
 				.toList();
 
 		// also read everything object of an sh:node or sh:qualifiedValueShape, that
@@ -46,36 +45,30 @@ public class Generator {
 
 		// add those to our list
 		for (RDFNode n : nodesAndQualifedValueShapesValues) {
-			if (n.isResource() && !nodeShapeTemplate.contains(n)) {
-				nodeShapeTemplate.add(n.asResource());
+			if (n.isResource() && !nodeShapes.contains(n)) {
+				nodeShapes.add(n.asResource());
 			}
 		}
 		
 		// Template		
-		List<TemplateSparnatural> wTemplate = new ArrayList<>();		
-		OutputTemplateReader shaclReadColumns = new OutputTemplateReader();
-		for (Resource ns : nodeShapeTemplate) {
-			TemplateSparnatural tmpSparnatural = new TemplateSparnatural(ns);
+		List<NodeShapeTemplate> nodeShapeTemplateList = new ArrayList<>();		
+		PropertyShapeTemplateReader propertyShapeTemplateReader = new PropertyShapeTemplateReader();
+		for (Resource ns : nodeShapes) {
+			NodeShapeTemplate nodeShapeTemplate = new NodeShapeTemplate(ns);
 			
 			if (ns.hasProperty(SH.order)) {
-				tmpSparnatural.setSHOrder(ns.getProperty(SH.order).getInt());
+				nodeShapeTemplate.setSHOrder(ns.getProperty(SH.order).getInt());
 			}
 			
-			List<XslTemplate> ColumnTemplate = new ArrayList<>();			
-			List<Statement> TemplateProperty = ns.listProperties(SH.property).toList();
-			for (Statement lproperty : TemplateProperty) {
-				RDFNode rdfNode = lproperty.getObject();
-				Resource res = rdfNode.asResource();
-				ColumnTemplate.add(shaclReadColumns.read(res));
+			List<PropertyShapeTemplate> propertyShapeTeamplates = new ArrayList<>();			
+			List<Statement> shPropertyStatements = ns.listProperties(SH.property).toList();
+			for (Statement lproperty : shPropertyStatements) {
+				propertyShapeTeamplates.add(propertyShapeTemplateReader.read(lproperty.getObject().asResource()));
 			}
-			
-			if (ColumnTemplate.size() > 0) {
-				tmpSparnatural.setShapesTemplate(ColumnTemplate);
-			}
-			wTemplate.add(tmpSparnatural);
+
+			nodeShapeTemplate.setShapesTemplate(propertyShapeTeamplates);
+			nodeShapeTemplateList.add(nodeShapeTemplate);
 		}
-		
-	
 		
 		/*
 		 * 
@@ -84,7 +77,7 @@ public class Generator {
 		 */
 		List<InputDataset> Input_DataSet = new ArrayList<>();
 		InputDataReader read_model_data = new InputDataReader(); 
-		Input_DataSet.addAll(read_model_data.read(shaclGraph));
+		Input_DataSet.addAll(read_model_data.read(shaclGraphTemplate, dataGraph));
 		
 		
 		/*
@@ -110,12 +103,12 @@ public class Generator {
 		// ************ Section of Conversion
 		
 		// Get a Shape for each type of statement (Classes and Properties) 
-		TemplateSparnatural SheetClasses = wTemplate.stream().filter(f -> f.getSHOrder()==1).findFirst().get();
-		TemplateSparnatural SheetProperties = wTemplate.stream().filter(f -> f.getSHOrder()==2).findFirst().get();
+		NodeShapeTemplate SheetClasses = nodeShapeTemplateList.stream().filter(f -> f.getSHOrder()==1).findFirst().get();
+		NodeShapeTemplate SheetProperties = nodeShapeTemplateList.stream().filter(f -> f.getSHOrder()==2).findFirst().get();
 		
 		// Get the columns for each Shape type
-		List<XslTemplate> col_classes = SheetClasses.getShapesTemplate();
-		List<XslTemplate> col_properties = SheetClasses.getShapesTemplate();	
+		List<PropertyShapeTemplate> col_classes = SheetClasses.getShapesTemplate();
+		List<PropertyShapeTemplate> col_properties = SheetClasses.getShapesTemplate();	
 		
 		
 		//
@@ -142,7 +135,7 @@ public class Generator {
 		}
 		
 		ColumnsHeader cc = new ColumnsHeader();
-		List<XslTemplate> columnsHeaderClasses = cc.build(col_classes,Columns_Classes);
+		List<PropertyShapeTemplate> columnsHeaderClasses = cc.build(col_classes,Columns_Classes);
 		
 		int nCols = columnsHeaderClasses.size();
 		int nRows = Input_DataSet.size();
@@ -154,17 +147,17 @@ public class Generator {
 			// firs the store URI values
 			tData[nRow][nCol] = shapes.getNodeShape().getModel().shortForm(shapes.getNodeShape().getURI());
 			
-			for (InputValues dataValues : shapes.getClassesXSL()) {
-				String pred = dataValues.getDatatype() != null || dataValues.getDatatype() != "" ? dataValues.getPredicate()+dataValues.getDatatype():dataValues.getPredicate();
+			for (Statement statement : shapes.getClassesXSL()) {
+				String header = statement.getModel().shortForm(statement.getPredicate().getURI())+InputDataReader.computeHeaderParametersForStatement(statement);
 				int idxCol = 0;
 				for (int i = 0; i < columnsHeaderClasses.size(); i++) {
 					String path_name =columnsHeaderClasses.get(i).getSh_path().toString(); 
-					if (path_name.equals(pred)) {
+					if (path_name.equals(header)) {
 						idxCol = i;
 						break;
 					}
 				}				
-				tData[nRow][idxCol] = dataValues.getObject();				
+				tData[nRow][idxCol] = InputDataReader.computeCellValueForStatement(statement);				
 			}
 			nRow++;
 		}		
@@ -193,7 +186,7 @@ public class Generator {
 		}
 		// 
 		ColumnsHeader cp = new ColumnsHeader();
-		List<XslTemplate> columnsHeaderProperties = cp.build(col_properties,Columns_Properties);
+		List<PropertyShapeTemplate> columnsHeaderProperties = cp.build(col_properties,Columns_Properties);
 		
 		int nCols_prop = columnsHeaderProperties.size();
 		int nRowsProp = all_columns_properties.size();
@@ -201,23 +194,23 @@ public class Generator {
 		int nCol_prop = 0;
 		int nRow_prop = 0;
 		for (InputDataset shapes : Input_DataSet) {			
-			for (InputValues dataValues : shapes.getPropertyXSL()) {
-				String pred = "";
-				if (dataValues.getPredicate().toString().equals("sh:path")) {
-					pred = "URI";
+			for (Statement statement : shapes.getPropertyXSL()) {
+				String header = "";
+				if (statement.getPredicate().toString().equals(SH.path.getURI())) {
+					header = "URI";
 				}else {
-					pred = dataValues.getDatatype() != null || dataValues.getDatatype() != "" ? dataValues.getPredicate()+dataValues.getDatatype():dataValues.getPredicate();
+					header = statement.getModel().shortForm(statement.getPredicate().getURI())+InputDataReader.computeHeaderParametersForStatement(statement);
 				}			
 				
 				int idxCol = 0;
 				for (int i = 0; i < columnsHeaderProperties.size(); i++) {
 					String path_name =columnsHeaderProperties.get(i).getSh_path().toString(); 
-					if (path_name.equals(pred)) {
+					if (path_name.equals(header)) {
 						idxCol = i;
 						break;
 					}
 				}
-				tDataProperties[nRow_prop][idxCol] = dataValues.getObject();
+				tDataProperties[nRow_prop][idxCol] = InputDataReader.computeCellValueForStatement(statement);
 			}
 			nRow_prop++;
 		}
@@ -243,7 +236,7 @@ public class Generator {
 
 		// Write Prefixes
 		int rowid = 0;
-		for (Map.Entry<String, String> onePrefix : shaclGraph.getNsPrefixMap().entrySet()) {
+		for (Map.Entry<String, String> onePrefix : dataGraph.getNsPrefixMap().entrySet()) {
 			row = sheetPrefix.createRow(rowid++);
 
 			Cell cellP = row.createCell(0);
@@ -257,7 +250,7 @@ public class Generator {
 		
 		
 		// Get OWL Template
-		List<Resource> ontology = shaclGraphTemplate.add(shaclGraph).listResourcesWithProperty(RDF.type, OWL.Ontology).toList();
+		List<Resource> ontology = dataGraph.listResourcesWithProperty(RDF.type, OWL.Ontology).toList();
 		ShaclOntologyReader owlReader = new ShaclOntologyReader();
 		List<ShaclOntology> owl = owlReader.readOWL(ontology);
 		
@@ -312,7 +305,7 @@ public class Generator {
 		
 		// Columns Header - Classes 
 		Integer nCell = 0;
-		for (XslTemplate r : columnsHeaderClasses) {
+		for (PropertyShapeTemplate r : columnsHeaderClasses) {
 			Cell cellDesc = rowDescriptionClassColumn.createCell(nCell);
 			cellDesc.setCellValue(r.getSh_description());
 			Cell cellName = rowNameClassColumn.createCell(nCell);
@@ -363,7 +356,7 @@ public class Generator {
 		rowNamePropColumn = sheetProperties.createRow(nRowProp++);
 		rowShapePropColumn = sheetProperties.createRow(nRowProp++);
 		Integer nCellProp = 0;
-		for (XslTemplate r : columnsHeaderProperties) {
+		for (PropertyShapeTemplate r : columnsHeaderProperties) {
 			Cell cellDesc = rowDescriptionPropColumn.createCell(nCellProp);
 			cellDesc.setCellValue(r.getSh_description());
 			Cell cellName = rowNamePropColumn.createCell(nCellProp);

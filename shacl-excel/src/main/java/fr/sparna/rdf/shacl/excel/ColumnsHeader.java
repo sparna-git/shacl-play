@@ -4,22 +4,20 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import fr.sparna.rdf.shacl.excel.model.ColumnsHeader_Input;
-import fr.sparna.rdf.shacl.excel.model.InputValues;
-import fr.sparna.rdf.shacl.excel.model.XslTemplate;
+import fr.sparna.rdf.shacl.excel.model.PropertyShapeTemplate;
 
 
 public class ColumnsHeader {
 
-	public List<XslTemplate> build(List<XslTemplate> template, List<ColumnsHeader_Input> modelData) {
+	public List<PropertyShapeTemplate> build(List<PropertyShapeTemplate> template, List<ColumnsHeader_Input> modelData) {
 
 		
-		List<XslTemplate> tmp = new ArrayList<>();
+		List<PropertyShapeTemplate> tmp = new ArrayList<>();
 
 		// Add fixed column URI
-		XslTemplate tmpColumns = new XslTemplate();
+		PropertyShapeTemplate tmpColumns = new PropertyShapeTemplate();
 		tmpColumns.setSh_name("URI");
 		tmpColumns.setSh_description("URI of the class. This column can use prefixes declared above in the header");
 		tmpColumns.setSh_path("URI");
@@ -28,9 +26,9 @@ public class ColumnsHeader {
 		
 		Integer nCount = 2;
 		if (template.size() > 0) {
-			template.sort(Comparator.comparing(XslTemplate::getSh_order).thenComparing(XslTemplate::getSh_name));
+			template.sort(Comparator.comparing(PropertyShapeTemplate::getSh_order).thenComparing(PropertyShapeTemplate::getSh_name));
 			
-			for (XslTemplate c : template) {
+			for (PropertyShapeTemplate c : template) {
 				
 				List<ColumnsHeader_Input> col_in_data = modelData
 						.stream()
@@ -39,7 +37,7 @@ public class ColumnsHeader {
 				
 				if (col_in_data.size() > 0) {
 					for (ColumnsHeader_Input colAdd : col_in_data) {
-						XslTemplate tmpTemplateIn = new XslTemplate();
+						PropertyShapeTemplate tmpTemplateIn = new PropertyShapeTemplate();
 						tmpTemplateIn.setSh_name(c.getSh_name());
 						tmpTemplateIn.setSh_description(c.getSh_description());
 						tmpTemplateIn.setSh_path(colAdd.getColumn_datatypeValue()!=null || colAdd.getColumn_datatypeValue() != "" ? colAdd.getColumn_name()+colAdd.getColumn_datatypeValue():colAdd.getColumn_name());
@@ -47,7 +45,7 @@ public class ColumnsHeader {
 						tmp.add(tmpTemplateIn);
 					}
 				}else {
-					XslTemplate tmpTemplate = new XslTemplate();
+					PropertyShapeTemplate tmpTemplate = new PropertyShapeTemplate();
 					tmpTemplate.setSh_name(c.getSh_name());
 					tmpTemplate.setSh_description(c.getSh_description());
 					tmpTemplate.setSh_path(c.getSh_path());
@@ -69,7 +67,7 @@ public class ColumnsHeader {
 						//.collect(Collectors.toList());
 				
 				if (!col_in_data) {
-					XslTemplate tmpTemplate = new XslTemplate();
+					PropertyShapeTemplate tmpTemplate = new PropertyShapeTemplate();
 					tmpTemplate.setSh_name("-");
 					tmpTemplate.setSh_description("-");
 					tmpTemplate.setSh_path(sproperty);
@@ -82,6 +80,7 @@ public class ColumnsHeader {
 		return tmp;
 	}
 
+	/*
 	public List<String> readShaclConfig(List<InputValues> ShaclConfig) {
 
 		List<String> ColumnsConfig = new ArrayList<>();
@@ -123,4 +122,5 @@ public class ColumnsHeader {
 				.collect(Collectors.toList());
 		return Columns;
 	}
+	*/
 }

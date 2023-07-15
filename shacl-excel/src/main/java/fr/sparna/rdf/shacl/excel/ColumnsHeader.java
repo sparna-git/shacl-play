@@ -21,10 +21,10 @@ public class ColumnsHeader {
 		tmpColumns.setSh_name("URI");
 		tmpColumns.setSh_description("URI of the class. This column can use prefixes declared above in the header");
 		tmpColumns.setSh_path("URI");
-		tmpColumns.setSh_order(1);
+		tmpColumns.setSh_order(1.0);
 		tmp.add(tmpColumns);
 		
-		Integer nCount = 2;
+		Double nCount = 2.0;
 		if (template.size() > 0) {
 			template.sort(Comparator.comparing(PropertyShapeTemplate::getSh_order).thenComparing(PropertyShapeTemplate::getSh_name));
 			

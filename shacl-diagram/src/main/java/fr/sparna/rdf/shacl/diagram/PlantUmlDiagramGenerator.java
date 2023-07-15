@@ -90,7 +90,7 @@ public class PlantUmlDiagramGenerator {
 		List<PlantUmlDiagramOutput> codePlantUml = diagrams.stream().map(d -> new PlantUmlDiagramOutput(d, renderer)).sorted((o1,o2) -> {
 			if(o1.getDiagramOrder() > 0) {
 				if(o2.getDiagramOrder() > 0) {
-					return o1.getDiagramOrder() - o2.getDiagramOrder();					
+					return (int) (o1.getDiagramOrder() - o2.getDiagramOrder());					
 				}else {
 					return -1;
 				}

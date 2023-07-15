@@ -5,7 +5,7 @@ public class PropertyShapeTemplate {
 	protected String Sh_path;
 	protected String Sh_description;
 	protected String Sh_name;
-	protected Integer Sh_order;
+	protected Double Sh_order;
 	protected String datatype;
 	protected String Sh_UniqueLang;
 	
@@ -39,10 +39,10 @@ public class PropertyShapeTemplate {
 	public void setSh_name(String sh_name) {
 		Sh_name = sh_name;
 	}
-	public Integer getSh_order() {
+	public Double getSh_order() {
 		return Sh_order;
 	}
-	public void setSh_order(Integer sh_order) {
+	public void setSh_order(Double sh_order) {
 		Sh_order = sh_order;
 	}
 }

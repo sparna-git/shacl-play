@@ -72,11 +72,11 @@ public class ShaclXsdBoxReader {
 				if(ps2.getValue_order_shacl() != null) {
 					return ps1.getValue_order_shacl() - ps2.getValue_order_shacl();
 				} else {
-					return -1;
+					return -1.0;
 				}
 			} else {
 				if(ps2.getValue_order_shacl() != null) {
-					return 1;
+					return 1.0;
 				} else {
 					// both sh:order are null, try with sh:path
 					if(ps1.getValue_path() != null && ps2.getValue_path() != null) {						

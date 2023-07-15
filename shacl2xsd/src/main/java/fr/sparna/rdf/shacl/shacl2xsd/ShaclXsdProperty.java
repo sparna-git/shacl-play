@@ -20,7 +20,7 @@ public class ShaclXsdProperty {
 	protected String value_uniquelang;
 	protected ShaclXsdBox value_node;
 	protected String value_class_property;
-	protected Integer value_order_shacl;
+	protected Double value_order_shacl;
 	protected String value_hasValue;
 	protected ShaclXsdBox value_qualifiedvalueshape;
 	protected String value_qualifiedMaxMinCount;
@@ -165,11 +165,11 @@ public class ShaclXsdProperty {
 		this.value_class_property = value_class_property;
 	}
 
-	public Integer getValue_order_shacl() {
+	public Double getValue_order_shacl() {
 		return value_order_shacl;
 	}
 
-	public void setValue_order_shacl(Integer value_order_shacl) {
+	public void setValue_order_shacl(Double value_order_shacl) {
 		this.value_order_shacl = value_order_shacl;
 	}
 

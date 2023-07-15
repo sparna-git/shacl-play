@@ -80,7 +80,7 @@ public class PlantUmlBoxReader {
 		properties.sort((PlantUmlProperty ps1, PlantUmlProperty ps2) -> {
 			if(ps1.getValue_order_shacl() != null) {
 				if(ps2.getValue_order_shacl() != null) {
-					return ps1.getValue_order_shacl() - ps2.getValue_order_shacl();
+					return (int) (ps1.getValue_order_shacl() - ps2.getValue_order_shacl());
 				} else {
 					return -1;
 				}

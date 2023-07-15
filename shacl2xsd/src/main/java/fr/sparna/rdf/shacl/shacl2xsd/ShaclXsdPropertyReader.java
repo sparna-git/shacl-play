@@ -286,10 +286,10 @@ public class ShaclXsdPropertyReader {
 	}
 	
 	
-	public Integer readShOrder(Resource constraint) {
+	public Double readShOrder(Resource constraint) {
 		String v = constraintValueReader.readValueconstraint(constraint, SH.order);
 		
-		return (v != null)?Integer.parseInt(v):null;		
+		return (v != null) ? Double.parseDouble(v) : null;
 	}
 		
 	public String readShHasValue(Resource constraint) {

@@ -6,7 +6,7 @@ import org.topbraid.shacl.vocabulary.SH;
 import fr.sparna.rdf.shacl.excel.ConstraintValueReader;
 import fr.sparna.rdf.shacl.excel.model.PropertyShapeTemplate;
 
-public class PropertyShapeTemplateReader {
+public class ShapesTemplateReader {
 	
 	protected ConstraintValueReader constraintValueReader = new ConstraintValueReader();	
 	

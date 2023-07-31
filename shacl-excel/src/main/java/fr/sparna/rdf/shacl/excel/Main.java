@@ -55,7 +55,6 @@ public class Main {
 		
 		
 		// write in file 
-		// Path and name of output file
 		File strFile = new File(dataParam);
 		String outputDirectory ="C://Temp//" ;
 		String filename_xsl = outputDirectory+getBaseName(strFile.getName())+".xlsx";

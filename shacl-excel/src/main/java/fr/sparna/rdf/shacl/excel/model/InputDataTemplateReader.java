@@ -11,7 +11,7 @@ import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.vocabulary.RDF;
 import org.topbraid.shacl.vocabulary.SH;
 
-import fr.sparna.rdf.shacl.excel.PropertyShapeTemplateReader;
+import fr.sparna.rdf.shacl.excel.ShapesTemplateReader;
 
 public class InputDataTemplateReader {
 
@@ -35,7 +35,7 @@ public class InputDataTemplateReader {
 				
 		// Header Class 
 		List<NodeShapeTemplate> nodeShapeTemplateList = new ArrayList<>();		
-		PropertyShapeTemplateReader propertyShapeTemplateReader = new PropertyShapeTemplateReader();
+		ShapesTemplateReader propertyShapeTemplateReader = new ShapesTemplateReader();
 		for (Resource ns : nodeShapes) {
 			NodeShapeTemplate nodeShapeTemplate = new NodeShapeTemplate(ns);
 			

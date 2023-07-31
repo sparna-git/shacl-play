@@ -7,6 +7,7 @@ import org.apache.jena.rdf.model.Resource;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
@@ -30,11 +31,11 @@ public class WriteXLS {
 		// Declaration of font type
 		XSSFFont headerFont = workbook.createFont();
         headerFont.setBold(true);
+        headerFont.setFontName("Arial");
         
-        // Create a CellStyle with the font
+        // Create a CellStyle for the font
         XSSFCellStyle headerFontBoltStyle = workbook.createCellStyle();        
         headerFontBoltStyle.setFont(headerFont);
-        
         
         // Style Color 
 		XSSFCellStyle rowStyle = workbook.createCellStyle();
@@ -46,15 +47,17 @@ public class WriteXLS {
         XSSFSheet sheet_prefix = workbook.createSheet("prefix");
         sheet_prefix = sheet_prefix(sheet_prefix, Prefixes);
         
-        
+        // for all Shape
         XSSFSheet sheet;
         for (ModelStructure outputData : dataset) {
 			
         	sheet = workbook.createSheet(outputData.getNameSheet());
         	
+        	// column size
+        	sheet.setDefaultColumnWidth(70);
+        	
         	// write OWL
         	if (!ontology.isEmpty()) {
-        		Integer nRow = 0;
         		ShaclOntologyReader owlReader = new ShaclOntologyReader();
         		List<ShaclOntology> owl = owlReader.readOWL(ontology);
         		
@@ -82,11 +85,10 @@ public class WriteXLS {
     				cellProperty.setCellValue(owlonto.getOwlProperty());
     				cellValue.setCellValue(owlonto.getOwlValue());
     			}
-    			nRow = rowOWL.getRowNum();
         	}
         	
         	//  Write output 
-        	sheet = writer_in_sheet(headerFontBoltStyle,rowStyle,sheet,outputData);
+        	sheet = writer_in_sheet(headerFont,rowStyle,sheet,outputData);
 						 
 		}        
 		
@@ -126,17 +128,19 @@ public class WriteXLS {
 	}
 	
 	
-	public static XSSFSheet writer_in_sheet(XSSFCellStyle HeaderfontStyle,XSSFCellStyle colorStyle ,XSSFSheet sheet,ModelStructure dataset) {
+	public static XSSFSheet writer_in_sheet(XSSFWorkbook wb,XSSFFont HeaderfontStyle,XSSFCellStyle colorStyle ,XSSFSheet sheet,ModelStructure dataset) {
 	
-		
 		
 		Integer nRow = sheet.getLastRowNum()+3;
 		// write Columns
 		Integer nCell_desc = 0;
     	XSSFRow row_desc = sheet.createRow(nRow++);
+    	XSSFCellStyle styleDescription = wb.createCellStyle();
+    	
     	for (PropertyShapeTemplate cols : dataset.getColumns()) {
     		XSSFCell cell_desc = row_desc.createCell(nCell_desc);            	
     		cell_desc.setCellValue(cols.getSh_description());
+    		//styleDescription.setAlignment(null);
     		nCell_desc++;
 		}
     	
@@ -154,11 +158,13 @@ public class WriteXLS {
     	for (PropertyShapeTemplate cols : dataset.getColumns()) {
     		XSSFCell cell_path = row_path.createCell(nCell_path);
         	cell_path.setCellValue(cols.getSh_path().toString());
-        	cell_path.setCellStyle(HeaderfontStyle);
+        	cell_path.setCellStyle(colorStyle);
+        	colorStyle.setAlignment(HorizontalAlignment.CENTER);
+        	HeaderfontStyle.setColor(IndexedColors.WHITE.getIndex());
+        	colorStyle.setFont(HeaderfontStyle);
+        	
         	nCell_path++;
 		}
-    	row_path.setRowStyle(colorStyle);
-    	
 		
     	// Write in excel
     	//All dataSet
@@ -171,14 +177,6 @@ public class WriteXLS {
 				Cell CellData = rowDataSet.createCell(i);
 				CellData.setCellValue(dataset.getOutputData().get(line)[i]);
 			}
-			
-			/*
-			for (int i = 0; i < dataset.getOutputData().get(line).getOutput_values().size(); i++) {
-				Cell CellData = rowDataSet.createCell(i);
-    			CellData.setCellValue(dataset.getOutputData().get(line).getOutput_values().get(i).toString());
-			}
-			*/
-			
 		}
 				
 		

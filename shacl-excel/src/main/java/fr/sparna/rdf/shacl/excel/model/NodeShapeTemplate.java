@@ -10,6 +10,34 @@ public class NodeShapeTemplate {
 	private Resource nodeShape;
 	
 	protected Integer SHOrder;
+	protected Resource SHTargetClass;
+	protected Resource SHTargetObjectOf;
+	protected Resource SHTargetSubjectsOf;
+	
+	public Resource getSHTargetClass() {
+		return SHTargetClass;
+	}
+
+	public void setSHTargetClass(Resource sHTargetClass) {
+		SHTargetClass = sHTargetClass;
+	}
+
+	public Resource getSHTargetObjectOf() {
+		return SHTargetObjectOf;
+	}
+
+	public void setSHTargetObjectOf(Resource sHTargetObjectOf) {
+		SHTargetObjectOf = sHTargetObjectOf;
+	}
+
+	public Resource getSHTargetSubjectsOf() {
+		return SHTargetSubjectsOf;
+	}
+
+	public void setSHTargetSubjectsOf(Resource sHTargetSubjectsOf) {
+		SHTargetSubjectsOf = sHTargetSubjectsOf;
+	}
+
 	protected List<PropertyShapeTemplate> shapesTemplate = new ArrayList<>();
 
 	public List<PropertyShapeTemplate> getShapesTemplate() {

@@ -34,7 +34,7 @@
 	function enabledInput(selected) {
 		document.getElementById('source-' + selected).checked = true;
 		document.getElementById('inputUrl').disabled = selected != 'inputUrl';
-		//document.getElementById('inputUrl'+ selected).checked = true;
+		document.getElementById('inputUrl'+ selected).checked = true;
 		//document.getElementById('inputFile').disabled = selected != 'inputFile';
 		//document.getElementById('inputInline').disabled = selected != 'inputInline';
 	}
@@ -95,13 +95,13 @@
 					<blockquote class="blockquote bq-success">
 
 						<div class="form-group row">
-							<!--  
+							
 							<label for="inputUrl" class="col-sm-3 col-form-label"> <input
 								type="radio" name="source" id="source-inputUrl" value="url"
 								onchange="enabledInput('inputUrl')" /> <fmt:message
 									key="generate.inputData.url" />
 							</label>
-							-->
+							
 							<div class="col-sm-9">
 								<input type="text" class="form-control" id="inputUrl"
 									name="inputUrl"
@@ -110,6 +110,65 @@
 									onpaste="enabledInput('inputUrl');" /> <small
 									class="form-text text-muted"> <fmt:message
 										key="generate.inputData.url.help" />
+								</small>
+							</div>
+						</div>
+						
+						<!-- Uploader -->
+						<div class="form-group row">
+
+							<label for="inputShapeFile" class="col-sm-3 col-form-label">
+
+							<input type="radio" name="shapesSource"
+								id="sourceShape-inputShapeFile" value="file" checked="checked"
+								onchange="enabledShapeInput('inputShapeFile')" /> <fmt:message
+									key="doc.shapes.upload" />
+
+							</label>
+							<div class="col-sm-9">
+								<div class="fileinput fileinput-new input-group"
+									data-provides="fileinput">
+									<div class="form-control" data-trigger="fileinput"
+										id="inputShapeFile">
+										<i class="fal fa-upload"></i><span
+											class="fileinput-filename with-icon"></span>
+									</div>
+									<span class="input-group-append"> <span
+										class="input-group-text fileinput-exists"
+										data-dismiss="fileinput"> <fmt:message
+												key="doc.shapes.upload.remove" />
+									</span> <span class="input-group-text btn-file"> <span
+											class="fileinput-new"><fmt:message
+													key="doc.shapes.upload.select" /></span> <span
+											class="fileinput-exists"><fmt:message
+													key="doc.shapes.upload.change" /></span> <input type="file"
+											name="inputShapeFile" multiple
+											onchange="enabledShapeInput('inputShapeFile')">
+									</span>
+									</span>
+								</div>
+								<small class="form-text text-muted"> <fmt:message
+										key="doc.shapes.upload.help" />
+								</small>
+							</div>
+						</div>
+						<!-- URL -->
+						<div class="form-group row">
+							<label for="inputShapeUrl" class="col-sm-3 col-form-label">
+
+								<input type="radio" name="shapesSource"
+								id="sourceShape-inputShapeUrl" value="url"
+								onchange="enabledShapeInput('inputShapeUrl')" /> <fmt:message
+									key="doc.shapes.url" />
+							</label>
+							<div class="col-sm-9">
+								<input type="text" class="form-control" id="inputShapeUrl"
+									name="inputShapeUrl"
+									placeholder="<fmt:message key="doc.shapes.url.placeholder" />"
+									onkeypress="enabledShapeInput('inputShapeUrl');"
+									onchange="enabledShapeInput('inputShapeUrl')">
+								<small class="form-text text-muted"> <fmt:message
+										key="doc.shapes.url.help" />
 								</small>
 							</div>
 						</div>

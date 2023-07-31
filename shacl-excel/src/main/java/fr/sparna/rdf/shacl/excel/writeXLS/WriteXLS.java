@@ -88,7 +88,7 @@ public class WriteXLS {
         	}
         	
         	//  Write output 
-        	sheet = writer_in_sheet(headerFont,rowStyle,sheet,outputData);
+        	sheet = writer_in_sheet(workbook,headerFont,rowStyle,sheet,outputData);
 						 
 		}        
 		

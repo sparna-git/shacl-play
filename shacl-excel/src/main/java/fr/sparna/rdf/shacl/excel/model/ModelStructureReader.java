@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.NodeIterator;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.rdf.model.Property;
@@ -53,6 +54,7 @@ public class ModelStructureReader {
  				Property SHProperty = dataGraph.createProperty(dataTemplate.getSHTargetObjectOf().getURI());
  				List<Resource> Shape = dataGraph.listResourcesWithProperty(RDF.type, SH.NodeShape).toList();
  				for (Resource nsObject : Shape) {
+ 					
  					List<Statement> propertyStatements = nsObject.listProperties(SHProperty).toList();
  					for (Statement dataProperty : propertyStatements) {
  						dataList.add(dataProperty);
@@ -250,11 +252,10 @@ public class ModelStructureReader {
 		
 		List<String[]> cols = new ArrayList<>();
 		
-		for (Statement statement : data) {
-		
+		for (Statement statement : data) {		
 			String[] arrColumn = new String[colsHeaderTemplate.size()];
-    		
-    		String header = statement.getModel().shortForm(statement.getObject().toString())+InputDataReader.computeHeaderParametersForStatement(statement);
+			
+			String header = statement.getModel().shortForm(statement.getObject().toString())+InputDataReader.computeHeaderParametersForStatement(statement);
     		if (statement.getPredicate().equals(SH.property)) {
     			for (int i = 0; i < colsHeaderTemplate.size(); i++) {    				
 					String path_name = colsHeaderTemplate.get(i).getSh_path().toString();
@@ -273,7 +274,10 @@ public class ModelStructureReader {
     			String value = "";
     			if (column_name.equals("URI")) {
     				value = header;
-    			} else {
+    			} else if (column_name.equals("^property")) {
+    				value = statement.getModel().shortForm(statement.getSubject().getURI());
+    			}
+    			else {
     				value = columnHeaderValue(column_name,listProperties);
     			}
     			 

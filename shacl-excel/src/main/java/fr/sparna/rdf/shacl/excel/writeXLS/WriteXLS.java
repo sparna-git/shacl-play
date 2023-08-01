@@ -6,7 +6,6 @@ import java.util.Map;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.FillPatternType;
-import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -28,22 +27,7 @@ public class WriteXLS {
 		//Blank workbook
 		XSSFWorkbook workbook = new XSSFWorkbook(); 
 		
-		// Declaration of font type
-		XSSFFont headerFont = workbook.createFont();
-        headerFont.setBold(true);
-        headerFont.setFontName("Arial");
-        
-        // Create a CellStyle for the font
-        XSSFCellStyle headerFontBoltStyle = workbook.createCellStyle();        
-        headerFontBoltStyle.setFont(headerFont);
-        
-        // Style Color 
-		XSSFCellStyle rowStyle = workbook.createCellStyle();
-		rowStyle.setFillForegroundColor(IndexedColors.DARK_RED.getIndex());
-		rowStyle.setFillPattern( FillPatternType.SOLID_FOREGROUND);
-	
-		
-        // Sheet for prefix
+		// Sheet for prefix
         XSSFSheet sheet_prefix = workbook.createSheet("prefix");
         sheet_prefix = sheet_prefix(sheet_prefix, Prefixes);
         
@@ -54,41 +38,15 @@ public class WriteXLS {
         	sheet = workbook.createSheet(outputData.getNameSheet());
         	
         	// column size
-        	sheet.setDefaultColumnWidth(70);
+        	sheet.setDefaultColumnWidth(40);
         	
         	// write OWL
         	if (!ontology.isEmpty()) {
-        		ShaclOntologyReader owlReader = new ShaclOntologyReader();
-        		List<ShaclOntology> owl = owlReader.readOWL(ontology);
-        		
-    			String uriShape = "";
-    			XSSFRow rowOWL = null; 
-    			for (ShaclOntology owlonto : owl) {
-    				rowOWL = sheet.createRow(0);
-
-    				if (uriShape != owlonto.getShapeUri()) {
-    					Cell cellURI = rowOWL.createCell(0);
-    					Cell cellValueURI = rowOWL.createCell(1);
-
-    					cellURI.setCellValue("Shapes URI");
-    					cellValueURI.setCellValue(owlonto.getShapeUri());
-    				}
-    			}
-    			
-    			int rowIdClass = 1;
-    			for (ShaclOntology owlonto : owl) {
-    				rowOWL = sheet.createRow(rowIdClass++);
-
-    				Cell cellProperty = rowOWL.createCell(0);
-    				Cell cellValue = rowOWL.createCell(1);
-
-    				cellProperty.setCellValue(owlonto.getOwlProperty());
-    				cellValue.setCellValue(owlonto.getOwlValue());
-    			}
+        		sheet = sheet_ontology(sheet,ontology);
         	}
         	
         	//  Write output 
-        	sheet = writer_in_sheet(workbook,headerFont,rowStyle,sheet,outputData);
+        	sheet = writer_in_sheet(workbook,sheet,outputData);
 						 
 		}        
 		
@@ -96,14 +54,64 @@ public class WriteXLS {
 	}
 	
 	
-	public static XSSFCellStyle styleColor(XSSFCellStyle styleColor,Short color,FillPatternType fpattern) {
+	public static XSSFCellStyle styleColor(XSSFWorkbook workbook,Short color,FillPatternType fpattern) {
 		
-		styleColor.setFillBackgroundColor(IndexedColors.AQUA.getIndex());
-        styleColor.setFillPattern(FillPatternType.BIG_SPOTS);
+		XSSFCellStyle sColor = workbook.createCellStyle();
 		
-		return styleColor;
+		sColor.setFillBackgroundColor(color);
+		sColor.setFillPattern(fpattern);
+		
+		return sColor;
 	}
 	
+	public static XSSFFont styleFont(XSSFWorkbook workbook,Boolean word_bold,String word_fontname) {
+		
+		XSSFFont font = workbook.createFont();
+		
+		font.setBold(word_bold);
+		font.setFontName(word_fontname);
+		
+		return font;
+	}
+	
+	
+	public static XSSFSheet sheet_ontology(XSSFSheet sheet, List<Resource> ontology) {
+		
+		//
+		XSSFRow row_ontology;
+		
+		ShaclOntologyReader owlReader = new ShaclOntologyReader();
+		List<ShaclOntology> owl = owlReader.readOWL(ontology);
+		
+		String uriShape = "";		
+		for (ShaclOntology owlonto : owl) {
+			row_ontology = sheet.createRow(0);
+
+			if (uriShape != owlonto.getShapeUri()) {
+				Cell cellURI = row_ontology.createCell(0);
+				Cell cellValueURI = row_ontology.createCell(1);
+
+				cellURI.setCellValue("Shapes URI");
+				cellValueURI.setCellValue(owlonto.getShapeUri());
+			}
+		}
+		
+		int rowIdClass = 1;
+		for (ShaclOntology owlonto : owl) {
+			row_ontology = sheet.createRow(rowIdClass++);
+
+			Cell cellProperty = row_ontology.createCell(0);
+			Cell cellValue = row_ontology.createCell(1);
+
+			cellProperty.setCellValue(owlonto.getOwlProperty());
+			cellValue.setCellValue(owlonto.getOwlValue());
+		}
+		
+		
+		
+		
+		return sheet;
+	}
 	
 	public static XSSFSheet sheet_prefix(XSSFSheet sheet, Map<String, String> data) {
 		
@@ -126,22 +134,47 @@ public class WriteXLS {
 		
 		return sheet;
 	}
-	
-	
-	public static XSSFSheet writer_in_sheet(XSSFWorkbook wb,XSSFFont HeaderfontStyle,XSSFCellStyle colorStyle ,XSSFSheet sheet,ModelStructure dataset) {
+		
+	public static XSSFSheet writer_in_sheet(XSSFWorkbook workbook,XSSFSheet sheet, ModelStructure dataset) {
 	
 		
-		Integer nRow = sheet.getLastRowNum()+3;
-		// write Columns
+		// Declaration of font type
+		XSSFFont headerFont = workbook.createFont();
+		headerFont = styleFont(workbook,true,"Arial");
+		headerFont.setColor(IndexedColors.WHITE.getIndex());
+		
+        // Config color for each column Header for path
+		XSSFCellStyle style_path = workbook.createCellStyle();
+    	style_path = styleColor(workbook, IndexedColors.DARK_RED.index,FillPatternType.THICK_BACKWARD_DIAG);
+    	style_path.setAlignment(HorizontalAlignment.CENTER);
+    	
+    	// Column Description
+    	XSSFCellStyle style_Description = workbook.createCellStyle();
+    	style_Description = styleColor(workbook, IndexedColors.LIGHT_TURQUOISE1.index,FillPatternType.THICK_BACKWARD_DIAG);
+    	style_Description.setAlignment(HorizontalAlignment.JUSTIFY);
+		
+		// Get the las row in the sheet
+    	Integer nRow = sheet.getLastRowNum()+3;
+	    
+		// write Columns 
+    	
+    	// for description row
 		Integer nCell_desc = 0;
     	XSSFRow row_desc = sheet.createRow(nRow++);
-    	XSSFCellStyle styleDescription = wb.createCellStyle();
-    	
+    	row_desc.setHeight((short) 1300);
+    	XSSFCellStyle style_description_font = workbook.createCellStyle();    	
     	for (PropertyShapeTemplate cols : dataset.getColumns()) {
-    		XSSFCell cell_desc = row_desc.createCell(nCell_desc);            	
+    		XSSFCell cell_desc = row_desc.createCell(nCell_desc);       	
     		cell_desc.setCellValue(cols.getSh_description());
-    		//styleDescription.setAlignment(null);
-    		nCell_desc++;
+    		
+    		// Style
+    		cell_desc.setCellStyle(style_Description);
+    		style_Description.setFont(headerFont);
+    		style_Description.setWrapText(true);
+    		headerFont.setItalic(true);
+    		headerFont.setBold(false);
+    		
+        	nCell_desc++;
 		}
     	
     	Integer nCell_name = 0;
@@ -152,16 +185,21 @@ public class WriteXLS {
         	nCell_name++;
 		}
     	
+    	
+    	
     	XSSFRow row_path = sheet.createRow(nRow++);
-    	//row_path.setRowStyle(colorStyle);
+    	// Create a CellStyle for the font
+        
+    	//XSSFCellStyle headerFonttStyle = workbook.createCellStyle();        
+        //headerFonttStyle.setFont(headerFont);
+        
     	Integer nCell_path = 0;
     	for (PropertyShapeTemplate cols : dataset.getColumns()) {
     		XSSFCell cell_path = row_path.createCell(nCell_path);
         	cell_path.setCellValue(cols.getSh_path().toString());
-        	cell_path.setCellStyle(colorStyle);
-        	colorStyle.setAlignment(HorizontalAlignment.CENTER);
-        	HeaderfontStyle.setColor(IndexedColors.WHITE.getIndex());
-        	colorStyle.setFont(HeaderfontStyle);
+        	// Style
+        	cell_path.setCellStyle(style_path);
+        	style_path.setFont(headerFont);
         	
         	nCell_path++;
 		}
@@ -178,6 +216,8 @@ public class WriteXLS {
 				CellData.setCellValue(dataset.getOutputData().get(line)[i]);
 			}
 		}
+		
+		
 				
 		
 		return sheet;

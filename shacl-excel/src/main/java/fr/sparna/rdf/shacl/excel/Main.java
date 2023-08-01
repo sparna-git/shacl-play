@@ -41,7 +41,7 @@ public class Main {
 			dataGraph.read(new FileInputStream(dataParam), RDF.uri, FileUtils.guessLang(dataParam, "RDF/XML"));
 		}
 		
-		// read dataset  
+		// read dataset Template and set of data
 		Generator write = new Generator();
 		List<ModelStructure> output_data = write.readDocument(shaclTemplateGraph,dataGraph);
 				
@@ -51,7 +51,6 @@ public class Main {
 		// Write excel
 		WriteXLS write_xsl = new WriteXLS();
 		XSSFWorkbook workbook = write_xsl.processWorkBook(dataGraph.getNsPrefixMap(),ontology, output_data);
-
 		
 		
 		// write in file 

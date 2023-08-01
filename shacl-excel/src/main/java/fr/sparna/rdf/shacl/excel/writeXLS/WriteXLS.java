@@ -217,9 +217,6 @@ public class WriteXLS {
 			}
 		}
 		
-		
-				
-		
 		return sheet;
 	}
 	

@@ -49,8 +49,8 @@ public class ModelStructureReader {
 				}
 			}
  			
+ 			// if SH.targetObjectsOf is config, get all properties. 
  			if (dataTemplate.getSHTargetObjectOf() != null) {
- 				// Recovery node 
  				Property SHProperty = dataGraph.createProperty(dataTemplate.getSHTargetObjectOf().getURI());
  				List<Resource> Shape = dataGraph.listResourcesWithProperty(RDF.type, SH.NodeShape).toList();
  				for (Resource nsObject : Shape) {
@@ -60,34 +60,32 @@ public class ModelStructureReader {
  						dataList.add(dataProperty);
 					}
 				}
- 			}
- 			
+ 			} 			
 			modelStructure.setDataStatement(dataList);
-			
-			
+						
+			List<ColumnsHeader_Input> columns_data_header = columns_in_data_Header(colsHeaderTemplate,dataList);
+			List<ColumnsHeader_Input> columns_config = columnswithDatatype(colsHeaderTemplate,dataList);
 			
 			// 
 			List<String[]> outputData = new ArrayList<>(); 
 			if (dataTemplate.getSHTargetClass() != null) {
-				outputData = readTargetClass(dataList, colsHeaderTemplate);
+				outputData = readTargetClass(dataList,columns_config);
 			} else if (dataTemplate.getSHTargetSubjectsOf() != null) {
 				
 			} else if (dataTemplate.getSHTargetObjectOf() != null) {
-				outputData = readTargetObjectOf(dataList, colsHeaderTemplate);
+				outputData = readTargetObjectOf(dataList, columns_config);
 			}
 			
 			modelStructure.setOutputData(outputData);
         	
-        	// update Columns
-			List<ColumnsHeader_Input> columns_data_header = columns_in_data_Header(colsHeaderTemplate,dataList);
+			// update Columns
+			
 			List<PropertyShapeTemplate> columnsHeader = updateColumnsHeader(colsHeaderTemplate,columns_data_header);
 			modelStructure.setColumns(columnsHeader);
 			
 			
 			dataModel.add(modelStructure);
-			
 		}		
-		
 		return dataModel;
 	}
 	
@@ -180,7 +178,46 @@ public class ModelStructureReader {
 		
 		return list_of_columns;
 	}
+	
+	public static List<ColumnsHeader_Input> columnswithDatatype(List<PropertyShapeTemplate> colsHeaderTemplate,List<Statement> statement){
+		
+		List<ColumnsHeader_Input> list_of_columns = new ArrayList<>();
+		
+		for (PropertyShapeTemplate colTemplate : colsHeaderTemplate) {
+			
+			if (colTemplate.getSh_path().equals("URI")) {
+				ColumnsHeader_Input colData = new ColumnsHeader_Input();
+				colData.setColumn_name("URI");
+				colData.setColumn_datatypeValue("");
+				list_of_columns.add(colData);
+			} else {
+				ColumnsHeader_Input colData = new ColumnsHeader_Input();
+				colData.setColumn_name(colTemplate.getSh_path());
+				
+				String dataType = "";
+				for (Statement sts : statement) {
+					// fin the properties
+					List<Statement> pred_data = (sts.getObject().asResource().listProperties().toList().isEmpty()) ? 
+												sts.getSubject().asResource().listProperties().toList() :
+													sts.getObject().asResource().listProperties().toList();
+					for (Statement sts_pred : pred_data) {
+						String node = sts_pred.getModel().shortForm(sts_pred.getPredicate().getURI());
+						if (colTemplate.getSh_path().equals(node)){
+							dataType = InputDataReader.computeHeaderParametersForStatement(sts_pred);
+						}
+					}
+				}
+				
+				colData.setColumn_datatypeValue(dataType);
+				list_of_columns.add(colData);
+			}
+			
+		}
+		return list_of_columns;
+	}
+	
 
+	
 	public static List<PropertyShapeTemplate> updateColumnsHeader(List<PropertyShapeTemplate> columnsHeaderTemplate, List<ColumnsHeader_Input> columnsHeaderData) {
 		
 		List<PropertyShapeTemplate> columns = new ArrayList<>();
@@ -205,19 +242,18 @@ public class ModelStructureReader {
 				}
 			}
 		}
-		
-		
 		return columnsHeaderTemplate;
 	}
 	
-	public static List<String[]> readTargetClass(List<Statement> data, List<PropertyShapeTemplate> colsHeaderTemplate) {
+	
+	public static List<String[]> readTargetClass(List<Statement> data, List<ColumnsHeader_Input> colsHeaderTemplate) {
 		List<String[]> arrNode = new ArrayList<>();
 		
 		for (Statement ns_output : data) {
 			String[] arrColumn = new String[colsHeaderTemplate.size()];
     		if (ns_output.getPredicate().equals(RDF.type)) {
     			for (int i = 0; i < data.size(); i++) {    				
-					String path_name = colsHeaderTemplate.get(i).getSh_path().toString(); 
+					String path_name = colsHeaderTemplate.get(i).getColumn_name().toString(); 
 					if (path_name.equals("URI")) {
 						arrColumn[i] = ns_output.getModel().shortForm(ns_output.getSubject().getURI());
 						break;
@@ -231,10 +267,11 @@ public class ModelStructureReader {
     					.collect(Collectors.toList());
     		for (int j = 0; j < colsHeaderTemplate.size(); j++) {
     			
-    			String column_name = colsHeaderTemplate.get(j).getSh_path();
+    			String column_name = colsHeaderTemplate.get(j).getColumn_name();
+    			String column_datatype = colsHeaderTemplate.get(j).getColumn_datatypeValue();
     			String value = "";
     			if (!column_name.equals("URI")) {
-    				value = columnHeaderValue(column_name,listProperties);
+    				value = columnHeaderValue(column_name,column_datatype,listProperties);
     				if (!value.isEmpty()) {
         				arrColumn[j] = value;
         			}else {
@@ -244,11 +281,11 @@ public class ModelStructureReader {
 			}
     		arrNode.add(arrColumn);
 		}
-		
 		return arrNode;
 	}	
 	
-	public static List<String[]> readTargetObjectOf(List<Statement> data, List<PropertyShapeTemplate> colsHeaderTemplate) {
+	
+	public static List<String[]> readTargetObjectOf(List<Statement> data, List<ColumnsHeader_Input> colsHeaderTemplate) {
 		
 		List<String[]> cols = new ArrayList<>();
 		
@@ -258,7 +295,7 @@ public class ModelStructureReader {
 			String header = statement.getModel().shortForm(statement.getObject().toString())+InputDataReader.computeHeaderParametersForStatement(statement);
     		if (statement.getPredicate().equals(SH.property)) {
     			for (int i = 0; i < colsHeaderTemplate.size(); i++) {    				
-					String path_name = colsHeaderTemplate.get(i).getSh_path().toString();
+					String path_name = colsHeaderTemplate.get(i).getColumn_name();
 					if (path_name.equals("URI")) {
 						arrColumn[i] = header;
 						break;
@@ -269,8 +306,9 @@ public class ModelStructureReader {
     		List<Statement> listProperties = statement.getObject().asResource().listProperties().toList();
     		for (int i = 0; i < colsHeaderTemplate.size(); i++) {
     			
-    			String column_name = colsHeaderTemplate.get(i).getSh_path();
     			
+    			String column_name = colsHeaderTemplate.get(i).getColumn_name();
+    			String column_datatype = colsHeaderTemplate.get(i).getColumn_datatypeValue();
     			String value = "";
     			if (column_name.equals("URI")) {
     				value = header;
@@ -278,7 +316,8 @@ public class ModelStructureReader {
     				value = statement.getModel().shortForm(statement.getSubject().getURI());
     			}
     			else {
-    				value = columnHeaderValue(column_name,listProperties);
+    				
+    				value = columnHeaderValue(column_name,column_datatype,listProperties);
     			}
     			 
     			if (!value.isEmpty()){
@@ -293,8 +332,8 @@ public class ModelStructureReader {
 		return cols;
 	}
 	
-	
-	public static String columnHeaderValue(String column_name,List<Statement> ListPropertiesShape) {
+		
+	public static String columnHeaderValue(String column_name,String column_datatype,List<Statement> ListPropertiesShape) {
 		
 		String value = "";
 		for (Statement lprop : ListPropertiesShape) {
@@ -306,7 +345,13 @@ public class ModelStructureReader {
 				if (lprop.getPredicate().equals(SH.or)) {
 					value = shOr(lprop.getSubject().asResource());					
 				} else {
-					value = InputDataReader.computeCellValueForStatement(lprop)+InputDataReader.computeHeaderParametersForStatement(lprop);
+					String datatype = InputDataReader.computeHeaderParametersForStatement(lprop);
+					if (column_datatype.equals(datatype)) {
+						value = InputDataReader.computeCellValueForStatement(lprop);
+					} else {
+						value = "\""+InputDataReader.computeCellValueForStatement(lprop)+"\""+InputDataReader.computeHeaderParametersForStatement(lprop);
+					}
+					
 				}
 				
 				break;
@@ -314,8 +359,7 @@ public class ModelStructureReader {
 		}
 		return value;
 	}
-	
-	
+		
 	public static String shOr (Resource constraint) {
 		
 		String valueOutput = "";
@@ -332,7 +376,7 @@ public class ModelStructureReader {
 				}
 				
 				if(value != null) {
-					String output = value.getModel().shortForm(value.getURI());
+					String output = "<"+value.getURI()+">";
 					valueOutput += output+" ";
 				}
 			}	

@@ -6,18 +6,18 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import fr.sparna.rdf.shacl.excel.model.ColumnsHeader_Input;
-import fr.sparna.rdf.shacl.excel.model.PropertyShapeTemplate;
+import fr.sparna.rdf.shacl.excel.model.ShapeTemplate;
 
 
 public class ColumnsHeader {
 
-	public List<PropertyShapeTemplate> build(List<PropertyShapeTemplate> template, List<ColumnsHeader_Input> modelData) {
+	public List<ShapeTemplate> build(List<ShapeTemplate> template, List<ColumnsHeader_Input> modelData) {
 
 		
-		List<PropertyShapeTemplate> tmp = new ArrayList<>();
+		List<ShapeTemplate> tmp = new ArrayList<>();
 
 		// Add fixed column URI
-		PropertyShapeTemplate tmpColumns = new PropertyShapeTemplate();
+		ShapeTemplate tmpColumns = new ShapeTemplate();
 		tmpColumns.setSh_name("URI");
 		tmpColumns.setSh_description("URI of the class. This column can use prefixes declared above in the header");
 		tmpColumns.setSh_path("URI");
@@ -26,9 +26,9 @@ public class ColumnsHeader {
 		
 		Integer nCount = 2;
 		if (template.size() > 0) {
-			template.sort(Comparator.comparing(PropertyShapeTemplate::getSh_order).thenComparing(PropertyShapeTemplate::getSh_name));
+			template.sort(Comparator.comparing(ShapeTemplate::getSh_order).thenComparing(ShapeTemplate::getSh_name));
 			
-			for (PropertyShapeTemplate c : template) {
+			for (ShapeTemplate c : template) {
 				
 				List<ColumnsHeader_Input> col_in_data = modelData
 						.stream()
@@ -37,7 +37,7 @@ public class ColumnsHeader {
 				
 				if (col_in_data.size() > 0) {
 					for (ColumnsHeader_Input colAdd : col_in_data) {
-						PropertyShapeTemplate tmpTemplateIn = new PropertyShapeTemplate();
+						ShapeTemplate tmpTemplateIn = new ShapeTemplate();
 						tmpTemplateIn.setSh_name(c.getSh_name());
 						tmpTemplateIn.setSh_description(c.getSh_description());
 						tmpTemplateIn.setSh_path(colAdd.getColumn_datatypeValue()!=null || colAdd.getColumn_datatypeValue() != "" ? colAdd.getColumn_name()+colAdd.getColumn_datatypeValue():colAdd.getColumn_name());
@@ -45,7 +45,7 @@ public class ColumnsHeader {
 						tmp.add(tmpTemplateIn);
 					}
 				}else {
-					PropertyShapeTemplate tmpTemplate = new PropertyShapeTemplate();
+					ShapeTemplate tmpTemplate = new ShapeTemplate();
 					tmpTemplate.setSh_name(c.getSh_name());
 					tmpTemplate.setSh_description(c.getSh_description());
 					tmpTemplate.setSh_path(c.getSh_path());
@@ -67,7 +67,7 @@ public class ColumnsHeader {
 						//.collect(Collectors.toList());
 				
 				if (!col_in_data) {
-					PropertyShapeTemplate tmpTemplate = new PropertyShapeTemplate();
+					ShapeTemplate tmpTemplate = new ShapeTemplate();
 					tmpTemplate.setSh_name("-");
 					tmpTemplate.setSh_description("-");
 					tmpTemplate.setSh_path(sproperty);
@@ -75,52 +75,7 @@ public class ColumnsHeader {
 					tmp.add(tmpTemplate);
 				}
 			}
-		}
-		
+		}		
 		return tmp;
-	}
-
-	/*
-	public List<String> readShaclConfig(List<InputValues> ShaclConfig) {
-
-		List<String> ColumnsConfig = new ArrayList<>();
-
-		for (InputValues sp : ShaclConfig) {
-
-			String predicate = sp.getPredicate();			
-			
-			if (!sp.getObject().equals(sp.getDatatype())) {
-				if(sp.getDatatype().toString().equals("rdf:langString")){
-					String lang = sp.getObject().split("@")[1];
-					predicate += "@" + lang;
-				}else {
-					String others = sp.getDatatype().toString();
-					predicate += "^^<" + others+">";
-				}				
-			}
-			ColumnsConfig.add(predicate);
-		}
-		
-		
-		// Other validate
-		List<String> Columns = ColumnsConfig.stream().sorted((a,b) -> {
-			if (!a.toString().isEmpty()) {
-				if(!b.toString().isEmpty()) {
-					return a.toString().compareTo(b.toString());
-				}else {
-					return -1;
-				}
-			}else {
-				if (b.toString().isEmpty()) {
-					return 1;
-				}else {
-					return b.toString().compareTo(a.toString());
-				}
-			}			
-		})
-				.distinct()
-				.collect(Collectors.toList());
-		return Columns;
-	}
-	*/
+		}	
 }

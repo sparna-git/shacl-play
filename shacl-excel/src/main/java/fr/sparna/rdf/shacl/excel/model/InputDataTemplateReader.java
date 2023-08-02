@@ -58,13 +58,13 @@ public class InputDataTemplateReader {
 			
 			
 			
-			List<PropertyShapeTemplate> propertyShapeTeamplates = new ArrayList<>();
+			List<ShapeTemplate> propertyShapeTeamplates = new ArrayList<>();
 			List<Statement> shPropertyStatements = ns.listProperties(SH.property).toList();
 			for (Statement lproperty : shPropertyStatements) {
 				propertyShapeTeamplates.add(propertyShapeTemplateReader.read(lproperty.getObject().asResource()));
 			}
 
-			List<PropertyShapeTemplate> data_for_columns = propertyShapeTeamplates
+			List<ShapeTemplate> data_for_columns = propertyShapeTeamplates
 					.stream()
 					.sorted((a,b) -> {
 						if (b.getSh_order().toString() != null) {

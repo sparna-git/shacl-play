@@ -33,7 +33,7 @@ public class ModelStructureReader {
  			
  			
  			// 2. Get Columns
- 			List<PropertyShapeTemplate> colsHeaderTemplate = columns_xls(dataTemplate.getShapesTemplate()); 			
+ 			List<ShapeTemplate> colsHeaderTemplate = columns_xls(dataTemplate.getShapesTemplate()); 			
  			
  			//3. data
  			/*
@@ -80,7 +80,7 @@ public class ModelStructureReader {
         	
 			// update Columns
 			
-			List<PropertyShapeTemplate> columnsHeader = updateColumnsHeader(colsHeaderTemplate,columns_data_header);
+			List<ShapeTemplate> columnsHeader = updateColumnsHeader(colsHeaderTemplate,columns_data_header);
 			modelStructure.setColumns(columnsHeader);
 			
 			
@@ -90,19 +90,19 @@ public class ModelStructureReader {
 	}
 	
 	
-	public static List<PropertyShapeTemplate> columns_xls(List<PropertyShapeTemplate> columns){
+	public static List<ShapeTemplate> columns_xls(List<ShapeTemplate> columns){
 		
-		List<PropertyShapeTemplate> colsHeader = new ArrayList<>();
+		List<ShapeTemplate> colsHeader = new ArrayList<>();
 		
 		Integer nOrder = 1;
-		PropertyShapeTemplate tmpColumns = new PropertyShapeTemplate();
+		ShapeTemplate tmpColumns = new ShapeTemplate();
 		tmpColumns.setSh_name("URI");
 		tmpColumns.setSh_description("URI of the class. This column can use prefixes declared above in the header");
 		tmpColumns.setSh_path("URI");
 		tmpColumns.setSh_order(nOrder++);
 		colsHeader.add(tmpColumns);
-		for (PropertyShapeTemplate cols : columns) {
-			PropertyShapeTemplate tmpTemplate = new PropertyShapeTemplate();
+		for (ShapeTemplate cols : columns) {
+			ShapeTemplate tmpTemplate = new ShapeTemplate();
 			
 			tmpTemplate.setSh_name(cols.getSh_name());
 			tmpTemplate.setSh_description(cols.getSh_description());
@@ -143,13 +143,13 @@ public class ModelStructureReader {
 	
 	}
 	
-	public static List<ColumnsHeader_Input> columns_in_data_Header(List<PropertyShapeTemplate> colsHeaderTemplate,List<Statement> statement){
+	public static List<ColumnsHeader_Input> columns_in_data_Header(List<ShapeTemplate> colsHeaderTemplate,List<Statement> statement){
 		
 		List<ColumnsHeader_Input> list_of_columns = new ArrayList<>();
 		for (Statement sts : statement) {
 				// fin the properties
 				List<Statement> pred_data = sts.getSubject().asResource().listProperties().toList();
-				for (PropertyShapeTemplate pred : colsHeaderTemplate) {
+				for (ShapeTemplate pred : colsHeaderTemplate) {
 					for (Statement sts_pred : pred_data) {
 						String node = sts_pred.getModel().shortForm(sts_pred.getPredicate().getURI());
 						if (pred.getSh_path().equals(node)){
@@ -179,11 +179,11 @@ public class ModelStructureReader {
 		return list_of_columns;
 	}
 	
-	public static List<ColumnsHeader_Input> columnswithDatatype(List<PropertyShapeTemplate> colsHeaderTemplate,List<Statement> statement){
+	public static List<ColumnsHeader_Input> columnswithDatatype(List<ShapeTemplate> colsHeaderTemplate,List<Statement> statement){
 		
 		List<ColumnsHeader_Input> list_of_columns = new ArrayList<>();
 		
-		for (PropertyShapeTemplate colTemplate : colsHeaderTemplate) {
+		for (ShapeTemplate colTemplate : colsHeaderTemplate) {
 			
 			if (colTemplate.getSh_path().equals("URI")) {
 				ColumnsHeader_Input colData = new ColumnsHeader_Input();
@@ -218,11 +218,11 @@ public class ModelStructureReader {
 	
 
 	
-	public static List<PropertyShapeTemplate> updateColumnsHeader(List<PropertyShapeTemplate> columnsHeaderTemplate, List<ColumnsHeader_Input> columnsHeaderData) {
+	public static List<ShapeTemplate> updateColumnsHeader(List<ShapeTemplate> columnsHeaderTemplate, List<ColumnsHeader_Input> columnsHeaderData) {
 		
-		List<PropertyShapeTemplate> columns = new ArrayList<>();
+		List<ShapeTemplate> columns = new ArrayList<>();
 		
-		for (PropertyShapeTemplate colHeaderTemplate : columnsHeaderTemplate) {
+		for (ShapeTemplate colHeaderTemplate : columnsHeaderTemplate) {
 			for (ColumnsHeader_Input colHeaderData : columnsHeaderData) {
 				if(colHeaderTemplate.getSh_path().equals(colHeaderData.getColumn_name())
 					&&

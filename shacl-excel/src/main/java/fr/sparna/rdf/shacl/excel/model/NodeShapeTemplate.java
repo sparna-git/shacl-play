@@ -38,13 +38,13 @@ public class NodeShapeTemplate {
 		SHTargetSubjectsOf = sHTargetSubjectsOf;
 	}
 
-	protected List<PropertyShapeTemplate> shapesTemplate = new ArrayList<>();
+	protected List<ShapeTemplate> shapesTemplate = new ArrayList<>();
 
-	public List<PropertyShapeTemplate> getShapesTemplate() {
+	public List<ShapeTemplate> getShapesTemplate() {
 		return shapesTemplate;
 	}
 
-	public void setShapesTemplate(List<PropertyShapeTemplate> shapesTemplate) {
+	public void setShapesTemplate(List<ShapeTemplate> shapesTemplate) {
 		this.shapesTemplate = shapesTemplate;
 	}
 

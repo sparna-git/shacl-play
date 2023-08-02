@@ -3,11 +3,13 @@ package fr.sparna.rdf.shacl.shaclplay.generate;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFLanguages;
 import org.owasp.encoder.Encode;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.multipart.MultipartFile;
 
 import fr.sparna.rdf.shacl.generate.Configuration;
 import fr.sparna.rdf.shacl.generate.DefaultModelProcessor;
@@ -35,6 +38,7 @@ import fr.sparna.rdf.shacl.shaclplay.ControllerModelFactory.SOURCE_TYPE;
 import fr.sparna.rdf.shacl.shaclplay.catalog.AbstractCatalogEntry;
 import fr.sparna.rdf.shacl.shaclplay.catalog.rules.RulesCatalog;
 import fr.sparna.rdf.shacl.shaclplay.catalog.rules.RulesCatalogService;
+import net.sourceforge.plantuml.FileFormat;
 
 @Controller
 public class GenerateController {
@@ -46,6 +50,7 @@ public class GenerateController {
 	
 	@Autowired
 	protected RulesCatalogService catalogService;
+	
 	
 	@RequestMapping(
 			value = {"generate"},
@@ -133,52 +138,45 @@ public class GenerateController {
 	
 	@RequestMapping(
 			value="/generate",
-			params={"inputUrl"},
+			params={"shapesSource"},
 			method = RequestMethod.POST
 	)
 	public ModelAndView validate(
-			// radio box indicating type of input
-			//@RequestParam(value="source", required=false) String sourceString,
-			// url of page if source=url
-			@RequestParam(value="inputUrl", required=true) String url,
-			// inline content if source=text
-			//@RequestParam(value="inputInline", required=false) String text,
-			// uploaded file if source=file
-			//@RequestParam(value="inputFile", required=false) List<MultipartFile> files,
 			// radio box indicating type of shapes
-			//@RequestParam(value="shapesSource", required=false) String shapesSourceString,
+			@RequestParam(value="shapesSource", required=true) String shapesSourceString,
 			// reference to Shapes URL if shapeSource=sourceShape-inputShapeUrl
-			//@RequestParam(value="inputShapeUrl", required=false) String shapesUrl,
-			// reference to Shapes Catalog ID if shapeSource=sourceShape-inputShapeCatalog
+			@RequestParam(value="inputShapeUrl", required=false) String shapesUrl,
 			//@RequestParam(value="inputShapeCatalog", required=false) String shapesCatalogId,
 			// uploaded shapes if shapeSource=sourceShape-inputShapeFile
-			//@RequestParam(value="inputShapeFile", required=false) List<MultipartFile> shapesFiles,
+			@RequestParam(value="inputShapeFile", required=false) List<MultipartFile> shapesFiles,
 			// inline Shapes if shapeSource=sourceShape-inputShapeInline
 			//@RequestParam(value="inputShapeInline", required=false) String shapesText,
-			// Output format
+			
+			// Format output file
 			@RequestParam(value="format", required=false, defaultValue = "Turtle") String format,
 			HttpServletRequest request,
 			HttpServletResponse response			
 	) {
 		try {
+
+			// get the source type
+			ControllerModelFactory.SOURCE_TYPE source = ControllerModelFactory.SOURCE_TYPE.valueOf(shapesSourceString.toUpperCase());	
 			
 			// get the source type
-			//ControllerModelFactory.SOURCE_TYPE source = ControllerModelFactory.SOURCE_TYPE.valueOf(sourceString.toUpperCase());
+			ControllerModelFactory.SOURCE_TYPE shapesSource = ControllerModelFactory.SOURCE_TYPE.valueOf(shapesSourceString.toUpperCase());
+			
 			
 			// if source is a ULR, redirect to the API
-			if(url != null) {
-				return new ModelAndView("redirect:/generate?url="+URLEncoder.encode(url, "UTF-8")+"&format="+format);
-			} 
-			/*
-			else if (shapesSource == SOURCE_TYPE.CATALOG) {
-				AbstractCatalogEntry entry = this.catalogService.getShapesCatalog().getCatalogEntryById(shapesCatalogId);
-				return new ModelAndView("redirect:/doc?url="+URLEncoder.encode(entry.getTurtleDownloadUrl().toString(), "UTF-8")+"&includeDiagram="+includeDiagram+((printPDF)?"&printPDF=true":"")+((!language.equals("en"))?"&language="+language:"")+((urlLogo != null)?"&inputLogo="+URLEncoder.encode(urlLogo, "UTF-8"):""));
+			if(source == SOURCE_TYPE.URL) {
+				return new ModelAndView("redirect:/generate?url="+URLEncoder.encode(shapesUrl, "UTF-8")+"&format="+format);
 			}
-			*/
+			
+			// 
+			// initialize shapes first
 			
 			// Generate
 			//section of generate module
-			String ENDPOINT = url;
+			String ENDPOINT = shapesUrl;
 			
 			//  
 			Configuration config = new Configuration(new DefaultModelProcessor(), "https://shacl-play.sparna.fr/shapes/", "shapes");

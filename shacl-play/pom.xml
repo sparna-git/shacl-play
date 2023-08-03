@@ -157,6 +157,32 @@
           <artifactId>shacl-sparql-query-gen</artifactId>
           <version>0.6.2</version>
         </dependency>
+        
+        <dependency>
+          <groupId>fr.sparna.rdf.shacl</groupId>
+          <artifactId>shacl-excel</artifactId>
+          <version>0.6.2</version>
+        </dependency>
+        
+        <!-- POI - Excel -->
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>5.2.3</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>5.2.3</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
+		<dependency>
+		    <groupId>commons-io</groupId>
+		    <artifactId>commons-io</artifactId>
+		    <version>2.13.0</version>
+		</dependency>
 
         <!-- Jackson -->
         <dependency>
@@ -167,8 +193,7 @@
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
         </dependency>
-        
-        
+                
         <!-- https://mvnrepository.com/artifact/com.openhtmltopdf/openhtmltopdf-jsoup-dom-converter -->
 		<dependency>
 		    <groupId>com.openhtmltopdf</groupId>
@@ -189,5 +214,7 @@
 			<artifactId>shacl-generate</artifactId>
 			<version>0.6.2</version>
 		</dependency>
+		
+		
 	</dependencies>
 </project>

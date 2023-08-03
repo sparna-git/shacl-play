@@ -17,7 +17,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import fr.sparna.rdf.shacl.excel.ShaclOntologyReader;
 import fr.sparna.rdf.shacl.excel.model.ModelStructure;
-import fr.sparna.rdf.shacl.excel.model.ShapeTemplate;
+import fr.sparna.rdf.shacl.excel.model.ShapeTemplateHeaderColumn;
 import fr.sparna.rdf.shacl.excel.model.ShaclOntology;
 
 public class WriteXLS {
@@ -163,7 +163,7 @@ public class WriteXLS {
     	XSSFRow row_desc = sheet.createRow(nRow++);
     	row_desc.setHeight((short) 1300);
     	XSSFCellStyle style_description_font = workbook.createCellStyle();    	
-    	for (ShapeTemplate cols : dataset.getColumns()) {
+    	for (ShapeTemplateHeaderColumn cols : dataset.getColumns()) {
     		XSSFCell cell_desc = row_desc.createCell(nCell_desc);       	
     		cell_desc.setCellValue(cols.getSh_description());
     		
@@ -179,7 +179,7 @@ public class WriteXLS {
     	
     	Integer nCell_name = 0;
     	XSSFRow row_name = sheet.createRow(nRow++);
-    	for (ShapeTemplate cols : dataset.getColumns()) {
+    	for (ShapeTemplateHeaderColumn cols : dataset.getColumns()) {
     		XSSFCell cell_name = row_name.createCell(nCell_name);
         	cell_name.setCellValue(cols.getSh_name().toString());
         	nCell_name++;
@@ -194,7 +194,7 @@ public class WriteXLS {
         //headerFonttStyle.setFont(headerFont);
         
     	Integer nCell_path = 0;
-    	for (ShapeTemplate cols : dataset.getColumns()) {
+    	for (ShapeTemplateHeaderColumn cols : dataset.getColumns()) {
     		XSSFCell cell_path = row_path.createCell(nCell_path);
         	cell_path.setCellValue(cols.getSh_path().toString());
         	// Style

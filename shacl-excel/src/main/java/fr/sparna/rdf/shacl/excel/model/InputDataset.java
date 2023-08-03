@@ -12,9 +12,9 @@ public class InputDataset {
 	
 	protected Integer SHOrder;
 	protected List<Statement> ClassesXLS = new ArrayList<>();
-	protected List<ColumnsHeader_Input> col_classes = new ArrayList<>();
+	protected List<ColumnsInputDatatype> col_classes = new ArrayList<>();
 	protected List<Statement> PropertyXLS = new ArrayList<>();
-	protected List<ColumnsHeader_Input> col_properties = new ArrayList<>();
+	protected List<ColumnsInputDatatype> col_properties = new ArrayList<>();
 	
 
 	public List<Statement> getClassesXSL() {
@@ -33,19 +33,19 @@ public class InputDataset {
 		PropertyXLS = propertyXSL;
 	}
 
-	public List<ColumnsHeader_Input> getCol_classes() {
+	public List<ColumnsInputDatatype> getCol_classes() {
 		return col_classes;
 	}
 
-	public void setCol_classes(List<ColumnsHeader_Input> col_classes) {
+	public void setCol_classes(List<ColumnsInputDatatype> col_classes) {
 		this.col_classes = col_classes;
 	}
 
-	public List<ColumnsHeader_Input> getCol_properties() {
+	public List<ColumnsInputDatatype> getCol_properties() {
 		return col_properties;
 	}
 
-	public void setCol_properties(List<ColumnsHeader_Input> col_properties) {
+	public void setCol_properties(List<ColumnsInputDatatype> col_properties) {
 		this.col_properties = col_properties;
 	}
 

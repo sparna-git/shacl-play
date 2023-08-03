@@ -1,6 +1,6 @@
 package fr.sparna.rdf.shacl.excel.model;
 
-public class ColumnsHeader_Input {
+public class ColumnsInputDatatype {
 	protected String column_name;
 	protected String column_datatypeValue;
 	

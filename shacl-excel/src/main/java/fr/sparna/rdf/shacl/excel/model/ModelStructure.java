@@ -7,7 +7,7 @@ import org.apache.jena.rdf.model.Statement;
 public class ModelStructure {
 	
 	protected String NameSheet;
-	protected List<ShapeTemplate> Columns;
+	protected List<ShapeTemplateHeaderColumn> Columns;
 	protected List<Statement> dataStatement;
 	protected List<String[]> outputData;
 	
@@ -18,10 +18,10 @@ public class ModelStructure {
 	public void setNameSheet(String nameSheet) {
 		NameSheet = nameSheet;
 	}
-	public List<ShapeTemplate> getColumns() {
+	public List<ShapeTemplateHeaderColumn> getColumns() {
 		return Columns;
 	}
-	public void setColumns(List<ShapeTemplate> columns) {
+	public void setColumns(List<ShapeTemplateHeaderColumn> columns) {
 		Columns = columns;
 	}
 	public List<Statement> getDataStatement() {

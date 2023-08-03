@@ -9,7 +9,7 @@ import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.vocabulary.XSD;
 import org.topbraid.shacl.vocabulary.SH;
 
-import fr.sparna.rdf.shacl.excel.model.ColumnsHeader_Input;
+import fr.sparna.rdf.shacl.excel.model.ColumnsInputDatatype;
 import fr.sparna.rdf.shacl.excel.model.InputDataset;
 
 public class InputDataReader {
@@ -59,11 +59,11 @@ public class InputDataReader {
 
 	}
 	
-	public List<ColumnsHeader_Input> getColumns(List<Statement> data) {
+	public List<ColumnsInputDatatype> getColumns(List<Statement> data) {
 
-		List<ColumnsHeader_Input> columnsdata = new ArrayList<>();
+		List<ColumnsInputDatatype> columnsdata = new ArrayList<>();
 		for (Statement statement : data) {
-			ColumnsHeader_Input colData = new ColumnsHeader_Input();
+			ColumnsInputDatatype colData = new ColumnsInputDatatype();
 
 			final String headerParameters = computeHeaderParametersForStatement(statement);
 
@@ -108,13 +108,13 @@ public class InputDataReader {
 		}
 	}
 
-	public static List<ColumnsHeader_Input> getFilterColumnsHeader(List<ColumnsHeader_Input> data) {
+	public static List<ColumnsInputDatatype> getFilterColumnsHeader(List<ColumnsInputDatatype> data) {
 
-		List<ColumnsHeader_Input> columnsdata = new ArrayList<>();
-		List<ColumnsHeader_Input> Columns_Properties = new ArrayList<>();
-		for (ColumnsHeader_Input column_properties : data) {
+		List<ColumnsInputDatatype> columnsdata = new ArrayList<>();
+		List<ColumnsInputDatatype> Columns_Properties = new ArrayList<>();
+		for (ColumnsInputDatatype column_properties : data) {
 
-			ColumnsHeader_Input colData = new ColumnsHeader_Input();
+			ColumnsInputDatatype colData = new ColumnsInputDatatype();
 
 			boolean truevalue = Columns_Properties.stream()
 					.filter(s -> s.getColumn_name().equals(column_properties.getColumn_name())

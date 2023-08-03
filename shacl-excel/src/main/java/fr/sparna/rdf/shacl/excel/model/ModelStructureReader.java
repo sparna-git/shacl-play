@@ -31,25 +31,18 @@ public class ModelStructureReader {
  			String nameSheet = dataTemplate.getNodeShape().getModel().shortForm(dataTemplate.getNodeShape().getURI()).replace(':', '_');
  			modelStructure.setNameSheet(nameSheet);
  			
- 			
- 			// 2. Get Columns
- 			List<ShapeTemplate> colsHeaderTemplate = columns_xls(dataTemplate.getShapesTemplate()); 			
- 			
- 			//3. data
- 			/*
- 			 * for each statement, the next step is for properties write in model
- 			 */
- 			List<Statement> dataList = new ArrayList<>();
+ 			//2. data
+ 			List<Statement> dataList_Target = new ArrayList<>();
  			for (Statement nsStatement : dataGraph.listStatements().toList()) {
 				if (nsStatement.getObject().equals(dataTemplate.getSHTargetClass())
 					||	
 					nsStatement.getObject().equals(dataTemplate.getSHTargetSubjectsOf())
 					) {
-					dataList.add(nsStatement);
+					dataList_Target.add(nsStatement);
 				}
 			}
  			
- 			// if SH.targetObjectsOf is config, get all properties. 
+ 			// if SH.targetObjectsOf get all properties. 
  			if (dataTemplate.getSHTargetObjectOf() != null) {
  				Property SHProperty = dataGraph.createProperty(dataTemplate.getSHTargetObjectOf().getURI());
  				List<Resource> Shape = dataGraph.listResourcesWithProperty(RDF.type, SH.NodeShape).toList();
@@ -57,32 +50,34 @@ public class ModelStructureReader {
  					
  					List<Statement> propertyStatements = nsObject.listProperties(SHProperty).toList();
  					for (Statement dataProperty : propertyStatements) {
- 						dataList.add(dataProperty);
+ 						dataList_Target.add(dataProperty);
 					}
 				}
  			} 			
-			modelStructure.setDataStatement(dataList);
+			modelStructure.setDataStatement(dataList_Target);
 						
-			List<ColumnsHeader_Input> columns_data_header = columns_in_data_Header(colsHeaderTemplate,dataList);
-			List<ColumnsHeader_Input> columns_config = columnswithDatatype(colsHeaderTemplate,dataList);
+			// 3. Get Columns
+ 			List<ShapeTemplateHeaderColumn> colsHeaderTemplate = columns_xls(dataTemplate.getShapesTemplate());
+			List<ColumnsInputDatatype> columns_data_header = columns_in_data_Header(colsHeaderTemplate,dataList_Target);
 			
-			// 
+			
+			
+			// 4. Output Value
+			List<ColumnsInputDatatype> columns_config = columnswithDatatype(colsHeaderTemplate,dataList_Target);
 			List<String[]> outputData = new ArrayList<>(); 
 			if (dataTemplate.getSHTargetClass() != null) {
-				outputData = readTargetClass(dataList,columns_config);
+				outputData = readTargetClass(dataList_Target,columns_config);
 			} else if (dataTemplate.getSHTargetSubjectsOf() != null) {
 				
 			} else if (dataTemplate.getSHTargetObjectOf() != null) {
-				outputData = readTargetObjectOf(dataList, columns_config);
-			}
-			
+				outputData = readTargetObjectOf(dataList_Target, columns_config);
+			}			
 			modelStructure.setOutputData(outputData);
         	
-			// update Columns
 			
-			List<ShapeTemplate> columnsHeader = updateColumnsHeader(colsHeaderTemplate,columns_data_header);
-			modelStructure.setColumns(columnsHeader);
-			
+			// update Columns with datatype
+			List<ShapeTemplateHeaderColumn> columnsHeader = updateColumnsHeader(colsHeaderTemplate,columns_data_header);
+			modelStructure.setColumns(columnsHeader);	
 			
 			dataModel.add(modelStructure);
 		}		
@@ -90,66 +85,36 @@ public class ModelStructureReader {
 	}
 	
 	
-	public static List<ShapeTemplate> columns_xls(List<ShapeTemplate> columns){
+	public static List<ShapeTemplateHeaderColumn> columns_xls(List<ShapeTemplateHeaderColumn> columns){
 		
-		List<ShapeTemplate> colsHeader = new ArrayList<>();
+		List<ShapeTemplateHeaderColumn> colsHeader = new ArrayList<>();
 		
 		Integer nOrder = 1;
-		ShapeTemplate tmpColumns = new ShapeTemplate();
+		ShapeTemplateHeaderColumn tmpColumns = new ShapeTemplateHeaderColumn();
 		tmpColumns.setSh_name("URI");
 		tmpColumns.setSh_description("URI of the class. This column can use prefixes declared above in the header");
 		tmpColumns.setSh_path("URI");
 		tmpColumns.setSh_order(nOrder++);
 		colsHeader.add(tmpColumns);
-		for (ShapeTemplate cols : columns) {
-			ShapeTemplate tmpTemplate = new ShapeTemplate();
+		for (ShapeTemplateHeaderColumn cols : columns) {
+			ShapeTemplateHeaderColumn tmpTemplate = new ShapeTemplateHeaderColumn();
 			
 			tmpTemplate.setSh_name(cols.getSh_name());
 			tmpTemplate.setSh_description(cols.getSh_description());
 			tmpTemplate.setSh_path(cols.getSh_path());
 			tmpTemplate.setSh_order(nOrder++);
 			colsHeader.add(tmpTemplate);
-		}
-			
-			/*
-			if (ns.getSHTargetClass() != null) {
-				PropertyShapeTemplate tmpTemplate = new PropertyShapeTemplate();
-				tmpTemplate.setSh_name("targetCass");
-				tmpTemplate.setSh_description("Set of entities validated by this Shape");
-				tmpTemplate.setSh_path("sh:targetClass");
-				tmpTemplate.setSh_order(nOrder++);
-	 			colsHeader.add(tmpTemplate);
-			}
-			
-			if (ns.getSHTargetSubjectsOf() != null) {
-				PropertyShapeTemplate tmpTemplate = new PropertyShapeTemplate();
-				tmpTemplate.setSh_name("TargetSubjectsOf");
-				tmpTemplate.setSh_description("Set of entities validated by this Shape");
-				tmpTemplate.setSh_path("sh:targetSubjectsOf");
-				tmpTemplate.setSh_order(nOrder++);
-	 			colsHeader.add(tmpColumns);
-			}
-			
-			if (ns.getSHTargetSubjectsOf() != null) {
-				PropertyShapeTemplate tmpTemplate = new PropertyShapeTemplate();
-				tmpTemplate.setSh_name("TargetObjectOf()");
-				tmpTemplate.setSh_description("Set of entities validated by this Shape");
-				tmpTemplate.setSh_path("sh:targetObjectsOf");
-				tmpTemplate.setSh_order(nOrder++);
-	 			colsHeader.add(tmpColumns);
-			}
-			*/
-			return colsHeader;
-	
+		}	
+		return colsHeader;	
 	}
 	
-	public static List<ColumnsHeader_Input> columns_in_data_Header(List<ShapeTemplate> colsHeaderTemplate,List<Statement> statement){
+	public static List<ColumnsInputDatatype> columns_in_data_Header(List<ShapeTemplateHeaderColumn> colsHeaderTemplate,List<Statement> statement){
 		
-		List<ColumnsHeader_Input> list_of_columns = new ArrayList<>();
+		List<ColumnsInputDatatype> list_of_columns = new ArrayList<>();
 		for (Statement sts : statement) {
 				// fin the properties
 				List<Statement> pred_data = sts.getSubject().asResource().listProperties().toList();
-				for (ShapeTemplate pred : colsHeaderTemplate) {
+				for (ShapeTemplateHeaderColumn pred : colsHeaderTemplate) {
 					for (Statement sts_pred : pred_data) {
 						String node = sts_pred.getModel().shortForm(sts_pred.getPredicate().getURI());
 						if (pred.getSh_path().equals(node)){
@@ -165,7 +130,7 @@ public class ModelStructureReader {
 								.isPresent();
 							
 							if (!validate) {
-								ColumnsHeader_Input colData = new ColumnsHeader_Input();
+								ColumnsInputDatatype colData = new ColumnsInputDatatype();
 	 							colData.setColumn_name(node);
 	 							colData.setColumn_datatypeValue(dataType);
 	 							list_of_columns.add(colData);
@@ -179,19 +144,19 @@ public class ModelStructureReader {
 		return list_of_columns;
 	}
 	
-	public static List<ColumnsHeader_Input> columnswithDatatype(List<ShapeTemplate> colsHeaderTemplate,List<Statement> statement){
+	public static List<ColumnsInputDatatype> columnswithDatatype(List<ShapeTemplateHeaderColumn> colsHeaderTemplate,List<Statement> statement){
 		
-		List<ColumnsHeader_Input> list_of_columns = new ArrayList<>();
+		List<ColumnsInputDatatype> list_of_columns = new ArrayList<>();
 		
-		for (ShapeTemplate colTemplate : colsHeaderTemplate) {
+		for (ShapeTemplateHeaderColumn colTemplate : colsHeaderTemplate) {
 			
 			if (colTemplate.getSh_path().equals("URI")) {
-				ColumnsHeader_Input colData = new ColumnsHeader_Input();
+				ColumnsInputDatatype colData = new ColumnsInputDatatype();
 				colData.setColumn_name("URI");
 				colData.setColumn_datatypeValue("");
 				list_of_columns.add(colData);
 			} else {
-				ColumnsHeader_Input colData = new ColumnsHeader_Input();
+				ColumnsInputDatatype colData = new ColumnsInputDatatype();
 				colData.setColumn_name(colTemplate.getSh_path());
 				
 				String dataType = "";
@@ -216,20 +181,18 @@ public class ModelStructureReader {
 		return list_of_columns;
 	}
 	
-
-	
-	public static List<ShapeTemplate> updateColumnsHeader(List<ShapeTemplate> columnsHeaderTemplate, List<ColumnsHeader_Input> columnsHeaderData) {
+	public static List<ShapeTemplateHeaderColumn> updateColumnsHeader(List<ShapeTemplateHeaderColumn> columnsHeaderTemplate, List<ColumnsInputDatatype> columnsHeaderData) {
 		
-		List<ShapeTemplate> columns = new ArrayList<>();
+		List<ShapeTemplateHeaderColumn> columns = new ArrayList<>();
 		
-		for (ShapeTemplate colHeaderTemplate : columnsHeaderTemplate) {
-			for (ColumnsHeader_Input colHeaderData : columnsHeaderData) {
+		for (ShapeTemplateHeaderColumn colHeaderTemplate : columnsHeaderTemplate) {
+			for (ColumnsInputDatatype colHeaderData : columnsHeaderData) {
 				if(colHeaderTemplate.getSh_path().equals(colHeaderData.getColumn_name())
 					&&
 					colHeaderData.getColumn_datatypeValue() != null
 						) {
 					
-					List<ColumnsHeader_Input> nNameCol = columnsHeaderData
+					List<ColumnsInputDatatype> nNameCol = columnsHeaderData
 							.stream()
 							.filter(p -> p.getColumn_name().equals(colHeaderData.getColumn_name()))
 							.collect(Collectors.toList());
@@ -245,8 +208,7 @@ public class ModelStructureReader {
 		return columnsHeaderTemplate;
 	}
 	
-	
-	public static List<String[]> readTargetClass(List<Statement> data, List<ColumnsHeader_Input> colsHeaderTemplate) {
+	public static List<String[]> readTargetClass(List<Statement> data, List<ColumnsInputDatatype> colsHeaderTemplate) {
 		List<String[]> arrNode = new ArrayList<>();
 		
 		for (Statement ns_output : data) {
@@ -271,7 +233,7 @@ public class ModelStructureReader {
     			String column_datatype = colsHeaderTemplate.get(j).getColumn_datatypeValue();
     			String value = "";
     			if (!column_name.equals("URI")) {
-    				value = columnHeaderValue(column_name,column_datatype,listProperties);
+    				value = outputValue(column_name,column_datatype,listProperties);
     				if (!value.isEmpty()) {
         				arrColumn[j] = value;
         			}else {
@@ -284,8 +246,7 @@ public class ModelStructureReader {
 		return arrNode;
 	}	
 	
-	
-	public static List<String[]> readTargetObjectOf(List<Statement> data, List<ColumnsHeader_Input> colsHeaderTemplate) {
+	public static List<String[]> readTargetObjectOf(List<Statement> data, List<ColumnsInputDatatype> colsHeaderTemplate) {
 		
 		List<String[]> cols = new ArrayList<>();
 		
@@ -317,7 +278,7 @@ public class ModelStructureReader {
     			}
     			else {
     				
-    				value = columnHeaderValue(column_name,column_datatype,listProperties);
+    				value = outputValue(column_name,column_datatype,listProperties);
     			}
     			 
     			if (!value.isEmpty()){
@@ -332,14 +293,13 @@ public class ModelStructureReader {
 		return cols;
 	}
 	
-		
-	public static String columnHeaderValue(String column_name,String column_datatype,List<Statement> ListPropertiesShape) {
+	public static String outputValue(String column_name,String column_datatype,List<Statement> ListPropertiesShape) {
 		
 		String value = "";
 		for (Statement lprop : ListPropertiesShape) {
 			String header_col = "";
 			
-			header_col = lprop.getModel().shortForm(lprop.getPredicate().getURI()); //+InputDataReader.computeHeaderParametersForStatement(lprop);
+			header_col = lprop.getModel().shortForm(lprop.getPredicate().getURI());
 			
 			if (column_name.equals(header_col)) {
 				if (lprop.getPredicate().equals(SH.or)) {

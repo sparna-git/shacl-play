@@ -10,8 +10,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFLanguages;
+import org.apache.jena.vocabulary.RDF;
 import org.owasp.encoder.Encode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.topbraid.shacl.vocabulary.SH;
 import org.springframework.web.multipart.MultipartFile;
 
 import fr.sparna.rdf.shacl.generate.Configuration;
@@ -28,9 +31,12 @@ import fr.sparna.rdf.shacl.generate.DefaultModelProcessor;
 import fr.sparna.rdf.shacl.generate.PaginatedQuery;
 import fr.sparna.rdf.shacl.generate.SamplingShaclGeneratorDataProvider;
 import fr.sparna.rdf.shacl.generate.ShaclGenerator;
+import fr.sparna.rdf.shacl.generate.visitors.AbstractFilterVisitor;
 import fr.sparna.rdf.shacl.generate.visitors.ComputeStatisticsVisitor;
+
 import fr.sparna.rdf.shacl.generate.visitors.FilterOnStatisticsVisitor;
 import fr.sparna.rdf.shacl.generate.visitors.ShaclVisit;
+import fr.sparna.rdf.shacl.generate.visitors.ShaclVisitorIfc;
 import fr.sparna.rdf.shacl.shaclplay.ApplicationData;
 import fr.sparna.rdf.shacl.shaclplay.ControllerCommons;
 import fr.sparna.rdf.shacl.shaclplay.ControllerModelFactory;
@@ -67,10 +73,8 @@ public class GenerateController {
 		try {
 			log.debug("generateUrl(shapesUrl='"+shapesUrl+"')");
 			
-			
 			//section of generate module
 			String ENDPOINT = shapesUrl;
-			
 			//  
 			Configuration config = new Configuration(new DefaultModelProcessor(), "https://shacl-play.sparna.fr/shapes/", "shapes");
 			config.setShapesOntology("https://shacl-play.sparna.fr/shapes");
@@ -160,44 +164,56 @@ public class GenerateController {
 		try {
 
 			// get the source type
-			ControllerModelFactory.SOURCE_TYPE source = ControllerModelFactory.SOURCE_TYPE.valueOf(shapesSourceString.toUpperCase());	
-			
-			// get the source type
 			ControllerModelFactory.SOURCE_TYPE shapesSource = ControllerModelFactory.SOURCE_TYPE.valueOf(shapesSourceString.toUpperCase());
 			
 			
 			// if source is a ULR, redirect to the API
-			if(source == SOURCE_TYPE.URL) {
+			if(shapesSource == SOURCE_TYPE.URL) {
 				return new ModelAndView("redirect:/generate?url="+URLEncoder.encode(shapesUrl, "UTF-8")+"&format="+format);
-			}
-			
-			// 
-			// initialize shapes first
-			
-			// Generate
-			//section of generate module
-			String ENDPOINT = shapesUrl;
-			
-			//  
-			Configuration config = new Configuration(new DefaultModelProcessor(), "https://shacl-play.sparna.fr/shapes/", "shapes");
-			config.setShapesOntology("https://shacl-play.sparna.fr/shapes");
-			
-			SamplingShaclGeneratorDataProvider dataProvider = new SamplingShaclGeneratorDataProvider(new PaginatedQuery(100), ENDPOINT);
-			ShaclGenerator generator = new ShaclGenerator();
-			Model shapes = generator.generateShapes(
-					config,
-					dataProvider);
-			
-			shapes = generator.generateShapes(config, dataProvider);
-			
-			ShaclVisit modelStructure = new ShaclVisit(shapes);
-			modelStructure.visit(new ComputeStatisticsVisitor(dataProvider, ENDPOINT, true));
-			modelStructure.visit(new FilterOnStatisticsVisitor());			
+			} else {
+				
+				// initialize shapes first
+				log.debug("Determining Shapes source...");
+				Model shapesModel = ModelFactory.createDefaultModel();
+				ControllerModelFactory modelPopulator = new ControllerModelFactory(this.catalogService.getRulesCatalog());
+				modelPopulator.populateModel(
+						shapesModel,
+						shapesSource,
+						shapesUrl,
+						null,
+						shapesFiles,
+						null
+				);
+				log.debug("Done Loading Shapes. Model contains "+shapesModel.size()+" triples");
+				// Generate
+				//section of generate module
+				String ENDPOINT = modelPopulator.getSourceName();
+				//  
+				Configuration config = new Configuration(new DefaultModelProcessor(), "https://shacl-play.sparna.fr/shapes/", "shapes");
+				config.setShapesOntology("https://shacl-play.sparna.fr/shapes");
+				
+				SamplingShaclGeneratorDataProvider dataProvider = dataProvider = new  SamplingShaclGeneratorDataProvider(new PaginatedQuery(100),shapesModel);
+				
+				ShaclGenerator generator = new ShaclGenerator();
+				Model shapes = generator.generateShapes(
+						config,
+						dataProvider);
+				
+				shapes = generator.generateShapes(config, dataProvider);
+				
+				ShaclVisit modelStructure = new ShaclVisit(shapes);
+				
+				List<Resource> nodeShapes = shapesModel.listResourcesWithProperty(RDF.type, SH.NodeShape).toList();
+				
+				String fixedUri = "https://shacl-play.sparna.fr/upload/"+ENDPOINT;
+				modelStructure.visit(new ComputeStatisticsVisitor(dataProvider,fixedUri, true));
+				modelStructure.visit(new FilterOnStatisticsVisitor());			
 
-			String dateString = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-			String outputName="shacl"+"_"+dateString;
-			
-			return doGenerateSHACL(modelStructure, shapes, outputName, format,response);			
+				String dateString = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+				String outputName="shacl"+"_"+dateString;
+				
+				return doGenerateSHACL(modelStructure, shapes, outputName, format,response);
+			}			
 		} catch (Exception e) {
 			e.printStackTrace();
 			return handleGenerateFormError(request, e.getClass().getName() +" : "+e.getMessage(), e);

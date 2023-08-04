@@ -126,7 +126,7 @@ public class SheetReader {
 						String node = sts_pred.getModel().shortForm(sts_pred.getPredicate().getURI());
 						if (pred.getSh_path().equals(node)){
 							
-							String dataType = InputDataReader.computeHeaderParametersForStatement(sts_pred);
+							String dataType = ComputeCell.computeHeaderParametersForStatement(sts_pred);
 							boolean validate = list_of_columns
 									.stream()
 									.filter(v -> v.getColumn_name().equals(node)
@@ -178,7 +178,7 @@ public class SheetReader {
 					for (Statement sts_pred : pred_data) {
 						String node = sts_pred.getModel().shortForm(sts_pred.getPredicate().getURI());
 						if (colTemplate.getSh_path().equals(node)){
-							dataType = InputDataReader.computeHeaderParametersForStatement(sts_pred);
+							dataType = ComputeCell.computeHeaderParametersForStatement(sts_pred);
 						}
 					}
 				}
@@ -264,7 +264,7 @@ public class SheetReader {
 		for (Statement statement : data) {		
 			String[] arrColumn = new String[colsHeaderTemplate.size()];
 			
-			String header = statement.getModel().shortForm(statement.getObject().toString())+InputDataReader.computeHeaderParametersForStatement(statement);
+			String header = statement.getModel().shortForm(statement.getObject().toString())+ComputeCell.computeHeaderParametersForStatement(statement);
     		if (statement.getPredicate().equals(SH.property)) {
     			for (int i = 0; i < colsHeaderTemplate.size(); i++) {    				
 					String path_name = colsHeaderTemplate.get(i).getColumn_name();
@@ -316,11 +316,11 @@ public class SheetReader {
 				if (lprop.getPredicate().equals(SH.or)) {
 					value = shOr(lprop.getSubject().asResource());					
 				} else {
-					String datatype = InputDataReader.computeHeaderParametersForStatement(lprop);
+					String datatype = ComputeCell.computeHeaderParametersForStatement(lprop);
 					if (column_datatype.equals(datatype)) {
-						value = InputDataReader.computeCellValueForStatement(lprop);
+						value = ComputeCell.computeCellValueForStatement(lprop);
 					} else {
-						value = "\""+InputDataReader.computeCellValueForStatement(lprop)+"\""+InputDataReader.computeHeaderParametersForStatement(lprop);
+						value = "\""+ComputeCell.computeCellValueForStatement(lprop)+"\""+ComputeCell.computeHeaderParametersForStatement(lprop);
 					}
 					
 				}

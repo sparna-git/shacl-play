@@ -63,16 +63,6 @@ public class Main {
 		
 	}	
 	
-	public static String getBaseName(String fileName) {
-		
-		 int index = fileName.lastIndexOf('.');
-		    if (index == -1) {
-		        return fileName;
-		    } else {
-		        return fileName.substring(0, index);
-		    }
-	}
-	
 	public static void write_file(XSSFWorkbook workbook, File outputFile) throws IOException {
 		
 		if (!outputFile.exists()) {

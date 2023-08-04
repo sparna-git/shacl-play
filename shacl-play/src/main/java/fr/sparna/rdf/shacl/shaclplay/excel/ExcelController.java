@@ -1,11 +1,8 @@
 package fr.sparna.rdf.shacl.shaclplay.excel;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.List;
 import java.io.OutputStream;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,8 +24,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import fr.sparna.rdf.shacl.excel.Generator;
-import fr.sparna.rdf.shacl.excel.model.ModelStructure;
+import fr.sparna.rdf.shacl.excel.DataParser;
+import fr.sparna.rdf.shacl.excel.model.Sheet;
 import fr.sparna.rdf.shacl.excel.writeXLS.WriteXLS;
 import fr.sparna.rdf.shacl.shaclplay.ApplicationData;
 import fr.sparna.rdf.shacl.shaclplay.ControllerModelFactory;
@@ -161,10 +158,10 @@ public class ExcelController {
 					null
 			);
 			
-			// Call module Excel
 			// read dataset Template and set of data
-			Generator model_data_source = new Generator();
-			List<ModelStructure> output_data = model_data_source.readDocument(shapesModel,shapesModelSource);
+			DataParser parser = new DataParser();
+			List<Sheet> output_data = parser.parseData(shapesModel,shapesModelSource);
+			
 			
 			if (output_data.size() > 0) {				
 				String filename = modelSource.getSourceName();
@@ -181,7 +178,7 @@ public class ExcelController {
 	}
 	
 	protected void outputExcel (
-		List<ModelStructure> outputData,
+		List<Sheet> output_data,
 		Model ModelSource,
 		String Filename,
 		HttpServletResponse response			
@@ -194,7 +191,8 @@ public class ExcelController {
 		
 		// Write excel
 		WriteXLS write_in_excel = new WriteXLS();
-		XSSFWorkbook workbook = write_in_excel.processWorkBook(ModelSource.getNsPrefixMap(),ontology, outputData);
+		XSSFWorkbook workbook = write_in_excel.generateWorkbook(ModelSource.getNsPrefixMap(),ontology, output_data);
+		
 				
 		// Dowload file
 		OutputStream out = response.getOutputStream();

@@ -1,31 +1,34 @@
-package fr.sparna.rdf.shacl.excel.model;
+package fr.sparna.rdf.shacl.excel;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.NodeIterator;
-import org.apache.jena.rdf.model.Resource;
-import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.RDFList;
 import org.apache.jena.rdf.model.RDFNode;
+import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.vocabulary.RDF;
 import org.topbraid.shacl.vocabulary.SH;
 
-import fr.sparna.rdf.shacl.excel.InputDataReader;
+import fr.sparna.rdf.shacl.excel.model.ColumnsInputDatatype;
+import fr.sparna.rdf.shacl.excel.model.NodeShapeTemplate;
+import fr.sparna.rdf.shacl.excel.model.PropertyShapeTemplate;
+import fr.sparna.rdf.shacl.excel.model.Sheet;
+import fr.sparna.rdf.shacl.excel.model.SheetColumnHeader;
 
-public class ModelStructureReader {
+public class SheetReader {
 
-	public List<ModelStructure> read(List<NodeShapeTemplate> dataSourceTemplate, Model dataGraph){
+	public List<Sheet> read(List<NodeShapeTemplate> dataSourceTemplate, Model dataGraph){
 		
-		List<ModelStructure> dataModel = new ArrayList<>();
+		List<Sheet> dataModel = new ArrayList<>();
 		
 		// 
 		for (NodeShapeTemplate dataTemplate : dataSourceTemplate) {
 		
-			ModelStructure modelStructure = new ModelStructure();
+			Sheet modelStructure = new Sheet();
 			
 			// 1. Get Name for sheet xls
  			String nameSheet = dataTemplate.getNodeShape().getModel().shortForm(dataTemplate.getNodeShape().getURI()).replace(':', '_');
@@ -54,12 +57,10 @@ public class ModelStructureReader {
 					}
 				}
  			} 			
-			modelStructure.setDataStatement(dataList_Target);
+ 
 						
 			// 3. Get Columns
- 			List<ShapeTemplateHeaderColumn> colsHeaderTemplate = columns_xls(dataTemplate.getShapesTemplate());
-			List<ColumnsInputDatatype> columns_data_header = columns_in_data_Header(colsHeaderTemplate,dataList_Target);
-			
+ 			List<PropertyShapeTemplate> colsHeaderTemplate = columns_xls(dataTemplate.getShapesTemplate());
 			
 			
 			// 4. Output Value
@@ -73,11 +74,17 @@ public class ModelStructureReader {
 				outputData = readTargetObjectOf(dataList_Target, columns_config);
 			}			
 			modelStructure.setOutputData(outputData);
-        	
 			
-			// update Columns with datatype
-			List<ShapeTemplateHeaderColumn> columnsHeader = updateColumnsHeader(colsHeaderTemplate,columns_data_header);
-			modelStructure.setColumns(columnsHeader);	
+			// Build columns header by adding the datatype to it
+			List<ColumnsInputDatatype> columns_data_header = columns_in_data_Header(colsHeaderTemplate,dataList_Target);
+			List<SheetColumnHeader> columnsHeader = new ArrayList<>();
+			for (PropertyShapeTemplate propertyShapeTemplate : colsHeaderTemplate) {
+				columnsHeader.add(new SheetColumnHeader(propertyShapeTemplate, columns_data_header));
+			}
+			modelStructure.setColumns(columnsHeader);
+			
+ 			// 5. keep original Model in the data structure
+			modelStructure.setTemplateModel(dataGraph);
 			
 			dataModel.add(modelStructure);
 		}		
@@ -85,19 +92,19 @@ public class ModelStructureReader {
 	}
 	
 	
-	public static List<ShapeTemplateHeaderColumn> columns_xls(List<ShapeTemplateHeaderColumn> columns){
+	public static List<PropertyShapeTemplate> columns_xls(List<PropertyShapeTemplate> columns){
 		
-		List<ShapeTemplateHeaderColumn> colsHeader = new ArrayList<>();
+		List<PropertyShapeTemplate> colsHeader = new ArrayList<>();
 		
 		Integer nOrder = 1;
-		ShapeTemplateHeaderColumn tmpColumns = new ShapeTemplateHeaderColumn();
+		PropertyShapeTemplate tmpColumns = new PropertyShapeTemplate();
 		tmpColumns.setSh_name("URI");
 		tmpColumns.setSh_description("URI of the class. This column can use prefixes declared above in the header");
 		tmpColumns.setSh_path("URI");
 		tmpColumns.setSh_order(nOrder++);
 		colsHeader.add(tmpColumns);
-		for (ShapeTemplateHeaderColumn cols : columns) {
-			ShapeTemplateHeaderColumn tmpTemplate = new ShapeTemplateHeaderColumn();
+		for (PropertyShapeTemplate cols : columns) {
+			PropertyShapeTemplate tmpTemplate = new PropertyShapeTemplate();
 			
 			tmpTemplate.setSh_name(cols.getSh_name());
 			tmpTemplate.setSh_description(cols.getSh_description());
@@ -108,13 +115,13 @@ public class ModelStructureReader {
 		return colsHeader;	
 	}
 	
-	public static List<ColumnsInputDatatype> columns_in_data_Header(List<ShapeTemplateHeaderColumn> colsHeaderTemplate,List<Statement> statement){
+	public static List<ColumnsInputDatatype> columns_in_data_Header(List<PropertyShapeTemplate> colsHeaderTemplate,List<Statement> statement){
 		
 		List<ColumnsInputDatatype> list_of_columns = new ArrayList<>();
 		for (Statement sts : statement) {
 				// fin the properties
 				List<Statement> pred_data = sts.getSubject().asResource().listProperties().toList();
-				for (ShapeTemplateHeaderColumn pred : colsHeaderTemplate) {
+				for (PropertyShapeTemplate pred : colsHeaderTemplate) {
 					for (Statement sts_pred : pred_data) {
 						String node = sts_pred.getModel().shortForm(sts_pred.getPredicate().getURI());
 						if (pred.getSh_path().equals(node)){
@@ -144,11 +151,14 @@ public class ModelStructureReader {
 		return list_of_columns;
 	}
 	
-	public static List<ColumnsInputDatatype> columnswithDatatype(List<ShapeTemplateHeaderColumn> colsHeaderTemplate,List<Statement> statement){
+	public static List<ColumnsInputDatatype> columnswithDatatype(
+			List<PropertyShapeTemplate> colsHeaderTemplate,
+			List<Statement> statement
+	){
 		
 		List<ColumnsInputDatatype> list_of_columns = new ArrayList<>();
 		
-		for (ShapeTemplateHeaderColumn colTemplate : colsHeaderTemplate) {
+		for (PropertyShapeTemplate colTemplate : colsHeaderTemplate) {
 			
 			if (colTemplate.getSh_path().equals("URI")) {
 				ColumnsInputDatatype colData = new ColumnsInputDatatype();
@@ -181,31 +191,30 @@ public class ModelStructureReader {
 		return list_of_columns;
 	}
 	
-	public static List<ShapeTemplateHeaderColumn> updateColumnsHeader(List<ShapeTemplateHeaderColumn> columnsHeaderTemplate, List<ColumnsInputDatatype> columnsHeaderData) {
+	public static String buildHeaderString(PropertyShapeTemplate pShapeTemplate, List<ColumnsInputDatatype> columnsHeaderData) {
 		
-		List<ShapeTemplateHeaderColumn> columns = new ArrayList<>();
+		String headerString = pShapeTemplate.getSh_path();
 		
-		for (ShapeTemplateHeaderColumn colHeaderTemplate : columnsHeaderTemplate) {
-			for (ColumnsInputDatatype colHeaderData : columnsHeaderData) {
-				if(colHeaderTemplate.getSh_path().equals(colHeaderData.getColumn_name())
-					&&
-					colHeaderData.getColumn_datatypeValue() != null
-						) {
-					
-					List<ColumnsInputDatatype> nNameCol = columnsHeaderData
-							.stream()
-							.filter(p -> p.getColumn_name().equals(colHeaderData.getColumn_name()))
-							.collect(Collectors.toList());
-							
-					
-					if (nNameCol.size() < 2) {
-						// Update the column with datatype.
-						colHeaderTemplate.setSh_path(colHeaderData.getColumn_name()+colHeaderData.getColumn_datatypeValue());
-					}
+		for (ColumnsInputDatatype colHeaderData : columnsHeaderData) {
+			if(pShapeTemplate.getSh_path().equals(colHeaderData.getColumn_name())
+				&&
+				colHeaderData.getColumn_datatypeValue() != null
+			) {
+				
+				List<ColumnsInputDatatype> nNameCol = columnsHeaderData
+						.stream()
+						.filter(p -> p.getColumn_name().equals(colHeaderData.getColumn_name()))
+						.collect(Collectors.toList());
+						
+				
+				if (nNameCol.size() < 2) {
+					// Update the column with datatype.
+					headerString += colHeaderData.getColumn_datatypeValue();
 				}
 			}
 		}
-		return columnsHeaderTemplate;
+
+		return headerString;
 	}
 	
 	public static List<String[]> readTargetClass(List<Statement> data, List<ColumnsInputDatatype> colsHeaderTemplate) {
@@ -213,6 +222,8 @@ public class ModelStructureReader {
 		
 		for (Statement ns_output : data) {
 			String[] arrColumn = new String[colsHeaderTemplate.size()];
+			
+			// fill in URI column
     		if (ns_output.getPredicate().equals(RDF.type)) {
     			for (int i = 0; i < data.size(); i++) {    				
 					String path_name = colsHeaderTemplate.get(i).getColumn_name().toString(); 

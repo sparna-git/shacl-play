@@ -14,6 +14,8 @@ public class NodeShapeTemplate {
 	protected Resource SHTargetObjectOf;
 	protected Resource SHTargetSubjectsOf;
 	
+	protected List<PropertyShapeTemplate> shapesTemplate = new ArrayList<>();
+	
 	public Resource getSHTargetClass() {
 		return SHTargetClass;
 	}
@@ -38,13 +40,11 @@ public class NodeShapeTemplate {
 		SHTargetSubjectsOf = sHTargetSubjectsOf;
 	}
 
-	protected List<ShapeTemplateHeaderColumn> shapesTemplate = new ArrayList<>();
-
-	public List<ShapeTemplateHeaderColumn> getShapesTemplate() {
+	public List<PropertyShapeTemplate> getShapesTemplate() {
 		return shapesTemplate;
 	}
 
-	public void setShapesTemplate(List<ShapeTemplateHeaderColumn> shapesTemplate) {
+	public void setShapesTemplate(List<PropertyShapeTemplate> shapesTemplate) {
 		this.shapesTemplate = shapesTemplate;
 	}
 

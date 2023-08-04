@@ -2,13 +2,14 @@ package fr.sparna.rdf.shacl.excel.model;
 
 import java.util.List;
 
-import org.apache.jena.rdf.model.Statement;
+import org.apache.jena.rdf.model.Model;
 
-public class ModelStructure {
+public class Sheet {
 	
+	// not sure this is useful - this is here just in case - see if this can be deleted
+	protected Model templateModel;
 	protected String NameSheet;
-	protected List<ShapeTemplateHeaderColumn> Columns;
-	protected List<Statement> dataStatement;
+	protected List<SheetColumnHeader> Columns;
 	protected List<String[]> outputData;
 	
 	
@@ -18,17 +19,17 @@ public class ModelStructure {
 	public void setNameSheet(String nameSheet) {
 		NameSheet = nameSheet;
 	}
-	public List<ShapeTemplateHeaderColumn> getColumns() {
+	public List<SheetColumnHeader> getColumns() {
 		return Columns;
 	}
-	public void setColumns(List<ShapeTemplateHeaderColumn> columns) {
+	public void setColumns(List<SheetColumnHeader> columns) {
 		Columns = columns;
 	}
-	public List<Statement> getDataStatement() {
-		return dataStatement;
+	public Model getTemplateModel() {
+		return templateModel;
 	}
-	public void setDataStatement(List<Statement> dataStatement) {
-		this.dataStatement = dataStatement;
+	public void setTemplateModel(Model templateModel) {
+		this.templateModel = templateModel;
 	}
 	public List<String[]> getOutputData() {
 		return outputData;

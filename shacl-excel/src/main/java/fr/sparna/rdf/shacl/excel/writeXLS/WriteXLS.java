@@ -16,13 +16,14 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import fr.sparna.rdf.shacl.excel.ShaclOntologyReader;
-import fr.sparna.rdf.shacl.excel.model.ModelStructure;
-import fr.sparna.rdf.shacl.excel.model.ShapeTemplateHeaderColumn;
+import fr.sparna.rdf.shacl.excel.model.Sheet;
+import fr.sparna.rdf.shacl.excel.model.SheetColumnHeader;
+import fr.sparna.rdf.shacl.excel.model.PropertyShapeTemplate;
 import fr.sparna.rdf.shacl.excel.model.ShaclOntology;
 
 public class WriteXLS {
 	
-	public XSSFWorkbook processWorkBook(Map<String, String> Prefixes,List<Resource> ontology ,List<ModelStructure> dataset){
+	public XSSFWorkbook generateWorkbook(Map<String, String> Prefixes,List<Resource> ontology ,List<Sheet> sheets){
 	
 		//Blank workbook
 		XSSFWorkbook workbook = new XSSFWorkbook(); 
@@ -32,22 +33,9 @@ public class WriteXLS {
         sheet_prefix = sheet_prefix(sheet_prefix, Prefixes);
         
         // for all Shape
-        XSSFSheet sheet;
-        for (ModelStructure outputData : dataset) {
-			
-        	sheet = workbook.createSheet(outputData.getNameSheet());
-        	
-        	// column size
-        	sheet.setDefaultColumnWidth(40);
-        	
-        	// write OWL
-        	if (!ontology.isEmpty()) {
-        		sheet = sheet_ontology(sheet,ontology);
-        	}
-        	
+        for (Sheet sheetData : sheets) {        	
         	//  Write output 
-        	sheet = writer_in_sheet(workbook,sheet,outputData);
-						 
+        	writeSheet(workbook,ontology,sheetData);
 		}        
 		
 		return workbook;
@@ -135,8 +123,16 @@ public class WriteXLS {
 		return sheet;
 	}
 		
-	public static XSSFSheet writer_in_sheet(XSSFWorkbook workbook,XSSFSheet sheet, ModelStructure dataset) {
+	public static XSSFSheet writeSheet(XSSFWorkbook workbook, List<Resource> ontology, Sheet sheetData) {
 	
+		XSSFSheet xlsSheet = workbook.createSheet(sheetData.getNameSheet());
+    	// column size
+    	xlsSheet.setDefaultColumnWidth(40);
+    	
+    	// write OWL
+    	if (!ontology.isEmpty()) {
+    		xlsSheet = sheet_ontology(xlsSheet,ontology);
+    	}
 		
 		// Declaration of font type
 		XSSFFont headerFont = workbook.createFont();
@@ -154,18 +150,18 @@ public class WriteXLS {
     	style_Description.setAlignment(HorizontalAlignment.JUSTIFY);
 		
 		// Get the las row in the sheet
-    	Integer nRow = sheet.getLastRowNum()+3;
+    	Integer nRow = xlsSheet.getLastRowNum()+3;
 	    
 		// write Columns 
     	
     	// for description row
 		Integer nCell_desc = 0;
-    	XSSFRow row_desc = sheet.createRow(nRow++);
+    	XSSFRow row_desc = xlsSheet.createRow(nRow++);
     	row_desc.setHeight((short) 1300);
     	XSSFCellStyle style_description_font = workbook.createCellStyle();    	
-    	for (ShapeTemplateHeaderColumn cols : dataset.getColumns()) {
+    	for (SheetColumnHeader cols : sheetData.getColumns()) {
     		XSSFCell cell_desc = row_desc.createCell(nCell_desc);       	
-    		cell_desc.setCellValue(cols.getSh_description());
+    		cell_desc.setCellValue(cols.getDescription());
     		
     		// Style
     		cell_desc.setCellStyle(style_Description);
@@ -178,25 +174,25 @@ public class WriteXLS {
 		}
     	
     	Integer nCell_name = 0;
-    	XSSFRow row_name = sheet.createRow(nRow++);
-    	for (ShapeTemplateHeaderColumn cols : dataset.getColumns()) {
+    	XSSFRow row_name = xlsSheet.createRow(nRow++);
+    	for (SheetColumnHeader cols : sheetData.getColumns()) {
     		XSSFCell cell_name = row_name.createCell(nCell_name);
-        	cell_name.setCellValue(cols.getSh_name().toString());
+        	cell_name.setCellValue(cols.getName().toString());
         	nCell_name++;
 		}
     	
     	
     	
-    	XSSFRow row_path = sheet.createRow(nRow++);
+    	XSSFRow row_path = xlsSheet.createRow(nRow++);
     	// Create a CellStyle for the font
         
     	//XSSFCellStyle headerFonttStyle = workbook.createCellStyle();        
         //headerFonttStyle.setFont(headerFont);
         
     	Integer nCell_path = 0;
-    	for (ShapeTemplateHeaderColumn cols : dataset.getColumns()) {
+    	for (SheetColumnHeader cols : sheetData.getColumns()) {
     		XSSFCell cell_path = row_path.createCell(nCell_path);
-        	cell_path.setCellValue(cols.getSh_path().toString());
+        	cell_path.setCellValue(cols.getHeader().toString());
         	// Style
         	cell_path.setCellStyle(style_path);
         	style_path.setFont(headerFont);
@@ -208,16 +204,16 @@ public class WriteXLS {
     	//All dataSet
 		XSSFRow rowDataSet;
 		Integer nCellData = row_path.getRowNum()+1;
-		for (int line = 0; line < dataset.getOutputData().size(); line++) {
-			rowDataSet = sheet.createRow(nCellData++);
+		for (int line = 0; line < sheetData.getOutputData().size(); line++) {
+			rowDataSet = xlsSheet.createRow(nCellData++);
 			
-			for (int i = 0; i < dataset.getOutputData().get(line).length; i++) {
+			for (int i = 0; i < sheetData.getOutputData().get(line).length; i++) {
 				Cell CellData = rowDataSet.createCell(i);
-				CellData.setCellValue(dataset.getOutputData().get(line)[i]);
+				CellData.setCellValue(sheetData.getOutputData().get(line)[i]);
 			}
 		}
 		
-		return sheet;
+		return xlsSheet;
 	}
 	
 }

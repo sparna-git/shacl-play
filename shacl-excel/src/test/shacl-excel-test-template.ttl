@@ -1,0 +1,86 @@
+@prefix schema: <http://schema.org/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix volipi: <http://data.sparna.fr/ontologies/volipi#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix skosthes: <http://purl.org/iso25964/skos-thes#> .
+@prefix config-core: <http://data.sparna.fr/ontologies/sparnatural-config-core> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix config-datasources: <http://data.sparna.fr/ontologies/sparnatural-config-datasources> .
+@prefix qb: <http://purl.org/linked-data/cube#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix doap: <http://usefulinc.com/ns/doap#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix euvoc: <http://publications.europa.eu/ontology/euvoc#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix scs: <https://data.sparna.fr/ontologies/sparnatural-config-shapes#> .
+@prefix adms: <http://www.w3.org/ns/adms#> .
+@prefix org: <http://www.w3.org/ns/org#> .
+@prefix shacl-play: <https://shacl-play.sparna.fr/ontology#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix dash: <http://datashapes.org/dash#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix skosxl: <http://www.w3.org/2008/05/skos-xl#> .
+@prefix ex: <http://example.com/shapes#> .
+@prefix eli: <http://data.europa.eu/eli/ontology#> .
+@prefix epvoc: <https://data.europarl.europa.eu/def/epvoc#> .
+
+<https://data.sparna.fr/ontologies/sparnatural-config-shapes#> a owl:Ontology;
+  rdfs:label "SHACL Generate test template"@en;
+.
+
+ex:WorkShape a sh:NodeShape;
+  sh:targetClass eli:Work;
+  rdfs:label "ELI Work"@en;
+  sh:order "1"^^xsd:integer;
+  sh:property ex:WorkShape_P1, ex:WorkShape_P2 .
+
+ex:ExpressionShape a sh:NodeShape;
+  sh:targetClass eli:Expression;
+  rdfs:label "ELI Expression"@en;
+  sh:order "2"^^xsd:integer;
+  sh:property ex:ExpressionShape_P1, ex:ExpressionShape_P2 .
+
+ex:ManifestationShape a sh:NodeShape;
+  sh:targetClass eli:Manifestation;
+  rdfs:label "ELI Manifestation"@en;
+  # sh:order "3"^^xsd:integer;
+  sh:property ex:ManifestationShape_P1, ex:ManifestationShape_P2, ex:ManifestationShape_P3 .
+
+ex:WorkShape_P1 sh:path rdf:type;
+  sh:name "type"@en;
+  sh:description "The class"@en;
+  sh:order "1" .
+
+ex:WorkShape_P2 sh:path eli:date_document;
+  sh:name "date document"@en;
+  sh:description "The date of the document"@en;
+  sh:order "2" .
+
+ex:ExpressionShape_P1 sh:path rdf:type;
+  sh:name "type"@en;
+  sh:description "The class"@en;
+  sh:order "1" .
+
+ex:ExpressionShape_P2 sh:path eli:language;
+  sh:name "language"@en;
+  sh:description "The language"@en;
+  sh:order "2" .
+
+ex:ManifestationShape_P1 sh:path rdf:type;
+  sh:name "type"@en;
+  sh:description "The class"@en;
+  sh:order "1" .
+
+ex:ManifestationShape_P2 sh:path eli:media_type;
+  sh:name "media type"@en;
+  sh:description "The media type"@en;
+  sh:order "2" .
+
+ex:ManifestationShape_P3 sh:path epvoc:byteSize;
+  sh:name "byte size"@en;
+  sh:description "The size"@en;
+  sh:order "3" .

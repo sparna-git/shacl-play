@@ -15,7 +15,7 @@ import org.apache.jena.vocabulary.OWL;
 import org.apache.jena.vocabulary.RDF;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import fr.sparna.rdf.shacl.excel.model.ModelStructure;
+import fr.sparna.rdf.shacl.excel.model.Sheet;
 import fr.sparna.rdf.shacl.excel.writeXLS.WriteXLS;
 
 public class Main {
@@ -26,6 +26,9 @@ public class Main {
 		String templateParam = args[0];
 		// deuxième paramètre : fichier de data
 		String dataParam = args[1];
+		
+		// troisieme parametre : fichier d'output
+		String outputPath = args[2];
 		
 		
 		Model shaclTemplateGraph = ModelFactory.createDefaultModel();
@@ -43,19 +46,19 @@ public class Main {
 		}
 		
 		// read dataset Template and set of data
-		Generator model_data_source = new Generator();
-		List<ModelStructure> output_data = model_data_source.readDocument(shaclTemplateGraph,dataGraph);
+		DataParser parser = new DataParser();
+		List<Sheet> output_data = parser.parseData(shaclTemplateGraph,dataGraph);
 				
 		// Get OWL in DataGraph
 		List<Resource> ontology = dataGraph.listResourcesWithProperty(RDF.type, OWL.Ontology).toList();
 		
 		// Write excel
 		WriteXLS write_in_excel = new WriteXLS();
-		XSSFWorkbook workbook = write_in_excel.processWorkBook(dataGraph.getNsPrefixMap(),ontology, output_data);
+		XSSFWorkbook workbook = write_in_excel.generateWorkbook(dataGraph.getNsPrefixMap(),ontology, output_data);
 		
 		
 		// write in file 
-		write_file(new File(dataParam), workbook);
+		write_file(workbook, new File(outputPath));
 		
 		
 	}	
@@ -70,21 +73,19 @@ public class Main {
 		    }
 	}
 	
-	public static void write_file(File myoutputfile, XSSFWorkbook workbook) throws IOException {
+	public static void write_file(XSSFWorkbook workbook, File outputFile) throws IOException {
 		
-		if (!myoutputfile.exists()) {
-			myoutputfile.createNewFile();
+		if (!outputFile.exists()) {
+			outputFile.createNewFile();
 		}
 		
 		try {
 			//Write the workbook in file system
-			String outputDirectory ="C://Temp//" ;
-			String filename = outputDirectory+getBaseName(myoutputfile.getName())+".xlsx";
-			FileOutputStream fileOut = new FileOutputStream(filename);
+			FileOutputStream fileOut = new FileOutputStream(outputFile);
 			workbook.write(fileOut);
 	        fileOut.flush();
 	        workbook.close();
-			System.out.println("The "+filename+" file was written successfully on disk.");
+			System.out.println("The "+outputFile.getPath()+" file was written successfully on disk.");
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println(e);

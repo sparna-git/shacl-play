@@ -1,4 +1,4 @@
-package fr.sparna.rdf.shacl.excel.model;
+package fr.sparna.rdf.shacl.excel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,9 +11,10 @@ import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.vocabulary.RDF;
 import org.topbraid.shacl.vocabulary.SH;
 
-import fr.sparna.rdf.shacl.excel.ShapesTemplateReader;
+import fr.sparna.rdf.shacl.excel.model.NodeShapeTemplate;
+import fr.sparna.rdf.shacl.excel.model.PropertyShapeTemplate;
 
-public class InputDataTemplateReader {
+public class TemplateReader {
 
 	public List<NodeShapeTemplate> readTemplateModel(Model shaclGraphTemplate) {
 		
@@ -35,7 +36,7 @@ public class InputDataTemplateReader {
 				
 		// Header Class 
 		List<NodeShapeTemplate> nodeShapeTemplateList = new ArrayList<>();		
-		ShapesTemplateReader propertyShapeTemplateReader = new ShapesTemplateReader();
+		SheetColumnReader propertyShapeTemplateReader = new SheetColumnReader();
 		for (Resource ns : nodeShapes) {
 			NodeShapeTemplate nodeShapeTemplate = new NodeShapeTemplate(ns);
 			
@@ -58,13 +59,13 @@ public class InputDataTemplateReader {
 			
 			
 			
-			List<ShapeTemplateHeaderColumn> propertyShapeTeamplates = new ArrayList<>();
+			List<PropertyShapeTemplate> propertyShapeTeamplates = new ArrayList<>();
 			List<Statement> shPropertyStatements = ns.listProperties(SH.property).toList();
 			for (Statement lproperty : shPropertyStatements) {
 				propertyShapeTeamplates.add(propertyShapeTemplateReader.read(lproperty.getObject().asResource()));
 			}
 
-			List<ShapeTemplateHeaderColumn> data_for_columns = propertyShapeTeamplates
+			List<PropertyShapeTemplate> data_for_columns = propertyShapeTeamplates
 					.stream()
 					.sorted((a,b) -> {
 						if (b.getSh_order().toString() != null) {

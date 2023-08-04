@@ -4,15 +4,15 @@ import org.apache.jena.rdf.model.Resource;
 import org.topbraid.shacl.vocabulary.SH;
 
 import fr.sparna.rdf.shacl.excel.ConstraintValueReader;
-import fr.sparna.rdf.shacl.excel.model.ShapeTemplateHeaderColumn;
+import fr.sparna.rdf.shacl.excel.model.PropertyShapeTemplate;
 
-public class ShapesTemplateReader {
+public class SheetColumnReader {
 	
 	protected ConstraintValueReader constraintValueReader = new ConstraintValueReader();	
 	
-	public ShapeTemplateHeaderColumn read (Resource constraint) {
+	public PropertyShapeTemplate read (Resource constraint) {
 	
-		ShapeTemplateHeaderColumn tmp = new ShapeTemplateHeaderColumn();
+		PropertyShapeTemplate tmp = new PropertyShapeTemplate();
 		
 		tmp.setSh_path(this.readShPath(constraint));
 		tmp.setSh_name(this.readShName(constraint));

@@ -21,6 +21,9 @@ import fr.sparna.rdf.shacl.excel.model.Sheet;
 
 public class SheetReader {
 
+	/**
+	 * Reads the content of the sheets to be printed
+	 */
 	public List<Sheet> read(List<NodeShapeTemplate> dataSourceTemplate, Model dataGraph){
 		
 		List<Sheet> sheets = new ArrayList<>();
@@ -53,6 +56,9 @@ public class SheetReader {
 		return sheets;
 	}
 	
+	/**
+	 * @return a list of resources from the data graph corresponding to the target of the shape
+	 */
 	public static List<Resource> resolveTarget(NodeShapeTemplate nodeShape, Model dataGraph) {
 		List<Resource> targets = new ArrayList<Resource>();
 		
@@ -75,7 +81,9 @@ public class SheetReader {
 		return targets;
 	}
 
-	
+	/**
+	 * @return the column specifications of the table to write
+	 */
 	public static List<ColumnSpecification> buildColumnSpecifications(
 			List<PropertyShapeTemplate> colsHeaderTemplate,
 			List<Resource> targets,
@@ -111,7 +119,10 @@ public class SheetReader {
 		return list_of_columns;
 	}
 
-	
+	/**
+	 * @return the list of column values to print in the table. Each entry corresponds to one line, each line is an array
+	 * with as many values as the columns in the table
+	 */
 	public static List<String[]> fillColumns(List<Resource> targets, List<ColumnSpecification> columnSpecifications) {
 		List<String[]> arrNode = new ArrayList<>();
 		
@@ -146,6 +157,9 @@ public class SheetReader {
 		return arrNode;
 	}	
 	
+	/**
+	 * @return a Predicate to select only the statements corresponding to the column
+	 */
 	public static Predicate<Statement> buildStatementPredicate(ColumnSpecification spec) {
 		return s -> {
 			return 

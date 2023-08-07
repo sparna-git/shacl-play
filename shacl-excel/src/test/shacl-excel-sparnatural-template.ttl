@@ -1,0 +1,366 @@
+@prefix schema: <http://schema.org/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix volipi: <http://data.sparna.fr/ontologies/volipi#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix skosthes: <http://purl.org/iso25964/skos-thes#> .
+@prefix config-core: <http://data.sparna.fr/ontologies/sparnatural-config-core> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix config-datasources: <http://data.sparna.fr/ontologies/sparnatural-config-datasources> .
+@prefix qb: <http://purl.org/linked-data/cube#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix doap: <http://usefulinc.com/ns/doap#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix euvoc: <http://publications.europa.eu/ontology/euvoc#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix scs: <https://data.sparna.fr/ontologies/sparnatural-config-shapes#> .
+@prefix adms: <http://www.w3.org/ns/adms#> .
+@prefix org: <http://www.w3.org/ns/org#> .
+@prefix xls2rdf: <https://xls2rdf.sparna.fr/vocabulary#> .
+@prefix shacl-play: <https://shacl-play.sparna.fr/ontology#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix dash: <http://datashapes.org/dash#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix skosxl: <http://www.w3.org/2008/05/skos-xl#> .
+
+<https://data.sparna.fr/ontologies/sparnatural-config-shapes#> a owl:Ontology;
+  rdfs:label "Sparnatural SHACL configuration shapes"@en;
+  dct:title "Sparnatural SHACL configuration shapes"@en;
+  dct:description "This defines a subset of the SHACL specification combined with custom properties to define the necessary structure for the configuration of <a href=\"https://sparnatural.eu\">Sparnatural</a>"@en;
+  owl:versionInfo "1.x";
+  vann:usageNote "Use with sparnatural, https://sparnatural.eu"@en;
+  dct:isRequiredBy <https://sparnatural.eu>;
+  adms:status <http://publications.europa.eu/resource/dataset/dataset-status/COMPLETED>;
+  owl:versionIRI <https://data.sparna.fr/ontologies/sparnatural-config-shapes#>;
+  dct:conformsTo <https://www.w3.org/TR/shacl>;
+  dct:created "2023-05-31"^^xsd:date;
+  dct:modified "2023-05-31T00:00:00.000Z"^^xsd:dateTime;
+  dct:creator "thomas.francart@sparna.fr";
+  dct:publisher <http://sparna.fr>;
+  dct:rigthsHolder <http://sparna.fr>;
+  rdfs:seeAlso <https://docs.google.com/spreadsheets/d/195NKb43Ck1yPGrIK4H8_HYGw9GTPnbtY/export?format=xlsx>,
+    <https://xls2rdf.sparna.fr/rest/convert?noPostProcessings=true&url=https%3A%2F%2Fdocs.google.com%2Fspreadsheets%2Fd%2F195NKb43Ck1yPGrIK4H8_HYGw9GTPnbtY%2Fexport%3Fformat%3Dxlsx>,
+    <https://shacl-play.sparna.fr/play/doc?includeDiagram=true&url=https%3A%2F%2Fxls2rdf.sparna.fr%2Frest%2Fconvert%3FnoPostProcessings%3Dtrue%26url%3Dhttps%253A%252F%252Fdocs.google.com%252Fspreadsheets%252Fd%252F195NKb43Ck1yPGrIK4H8_HYGw9GTPnbtY%252Fexport%253Fformat%253Dxlsx> .
+
+scs:Entity a sh:NodeShape;
+  rdfs:comment """This node shape specifies how NodeShapes should be declared to be used for Sparnatural configuration.
+It is required that NodeShapes are IRIs."""@en;
+  sh:targetClass sh:NodeShape;
+  sh:nodeKind sh:IRI;
+  sh:closed "false"^^xsd:boolean;
+  rdfs:label "Entité Sparnatural"@fr, "Sparnatural entity"@en;
+  sh:order "1"^^xsd:integer;
+  shacl-play:color "Magenta";
+  sh:property scs:P_1, scs:P_2, scs:P_3, scs:P_4, scs:P_5, scs:P_6, scs:P_10, scs:P_12,
+    scs:P_14, scs:P_15, scs:P_16, scs:P_17 .
+
+scs:Property a sh:NodeShape;
+  rdfs:comment """This node shape defines how PropertyShapes should be declared to be used for Sparnatural configuration.
+It is required that PropertyShapes are IRIs, not blank nodes.
+Note how the target of this shape is defined as all objects of sh:property predicate, to allow working with property shapes with no explicit type."""@en;
+  sh:targetObjectsOf sh:property;
+  sh:nodeKind sh:IRI;
+  sh:closed "false"^^xsd:boolean;
+  rdfs:label "Propriété Sparnatural"@fr, "Sparnatural property"@en;
+  sh:order "2"^^xsd:integer;
+  shacl-play:color "Blue";
+  sh:property scs:P_19, scs:P_20, scs:P_22, scs:P_23, scs:P_24, scs:P_25, scs:P_26,
+    scs:P_27, scs:P_28, scs:P_29, scs:P_30, scs:P_31, scs:P_32, scs:P_33 .
+
+scs:P_1 sh:path rdf:type;
+  sh:name "type"@en;
+  sh:description "Class"@en;
+  sh:order "1";
+  sh:minCount "1"^^xsd:integer;
+  sh:nodeKind sh:IRI;
+  sh:hasValue sh:NodeShape .
+
+scs:P_2 sh:path rdfs:label;
+  sh:name "label"@en;
+  sh:description """The label of the entity to be displayed in Sparnatural. 
+Labels are multilingual, the label in the current user language is displayed;
+If no label is given, the local part of the URI is used."""@en;
+  sh:order "2";
+  sh:nodeKind sh:Literal;
+  sh:or _:3285ac3b69814d608c3d02c0dbf9ff7337;
+  sh:uniqueLang "true"^^xsd:boolean .
+
+_:3285ac3b69814d608c3d02c0dbf9ff7337 rdf:first _:3285ac3b69814d608c3d02c0dbf9ff7338;
+  rdf:rest _:3285ac3b69814d608c3d02c0dbf9ff7339 .
+
+_:3285ac3b69814d608c3d02c0dbf9ff7338 sh:datatype rdf:langString .
+
+_:3285ac3b69814d608c3d02c0dbf9ff7339 rdf:first _:3285ac3b69814d608c3d02c0dbf9ff7340;
+  rdf:rest rdf:nil .
+
+_:3285ac3b69814d608c3d02c0dbf9ff7340 sh:datatype xsd:string .
+
+scs:P_3 sh:path sh:order;
+  sh:name "order"@en;
+  sh:description "The order of this entity in its sibling list of entities"@en;
+  sh:order "3";
+  sh:nodeKind sh:Literal;
+  sh:datatype xsd:decimal .
+
+scs:P_4 sh:path volipi:message;
+  sh:name "tooltip"@en;
+  sh:description "The preferred tooltip that will be displayed when this entity is hovered. This can contain HTML markup."@en;
+  sh:order "4";
+  sh:nodeKind sh:Literal;
+  sh:or _:3285ac3b69814d608c3d02c0dbf9ff7341;
+  sh:uniqueLang "true"^^xsd:boolean .
+
+_:3285ac3b69814d608c3d02c0dbf9ff7341 rdf:first _:3285ac3b69814d608c3d02c0dbf9ff7342;
+  rdf:rest _:3285ac3b69814d608c3d02c0dbf9ff7343 .
+
+_:3285ac3b69814d608c3d02c0dbf9ff7342 sh:datatype rdf:langString .
+
+_:3285ac3b69814d608c3d02c0dbf9ff7343 rdf:first _:3285ac3b69814d608c3d02c0dbf9ff7344;
+  rdf:rest rdf:nil .
+
+_:3285ac3b69814d608c3d02c0dbf9ff7344 sh:datatype xsd:string .
+
+scs:P_5 sh:path sh:description, volipi:iconName;
+  sh:name "tooltip"@en, "fontawesome icon code"@en;
+  sh:description "The default tooltip that will be displayed when this entity is hovered. This can contain HTML markup."@en,
+    "The fontawesome icon code that will be displayed by Sparnatural."@en;
+  sh:order "5", "6";
+  sh:nodeKind sh:Literal;
+  sh:or _:3285ac3b69814d608c3d02c0dbf9ff7345;
+  sh:uniqueLang "true"^^xsd:boolean;
+  skos:example "fa-solid fa-user";
+  sh:maxCount "1"^^xsd:integer;
+  sh:datatype xsd:string .
+
+_:3285ac3b69814d608c3d02c0dbf9ff7345 rdf:first _:3285ac3b69814d608c3d02c0dbf9ff7346;
+  rdf:rest _:3285ac3b69814d608c3d02c0dbf9ff7347 .
+
+_:3285ac3b69814d608c3d02c0dbf9ff7346 sh:datatype rdf:langString .
+
+_:3285ac3b69814d608c3d02c0dbf9ff7347 rdf:first _:3285ac3b69814d608c3d02c0dbf9ff7348;
+  rdf:rest rdf:nil .
+
+_:3285ac3b69814d608c3d02c0dbf9ff7348 sh:datatype xsd:string .
+
+scs:P_6 sh:path volipi:icon;
+  sh:name "icon url"@en;
+  sh:description "A reference to an icon URL that will be displayed on Sparnatural. Use of this is discouraged, prefer volipi:iconName"@en;
+  sh:order "7";
+  sh:maxCount "1"^^xsd:integer;
+  sh:nodeKind sh:IRI .
+
+scs:P_10 sh:path sh:targetClass;
+  sh:name "target class"@en;
+  sh:description "The actual URI of the class that this shape corresponds to, that will be inserted in the SPARQL queries. NodeShapes can either have sh:targetClass or they can be rdf:type rdfs:Class."@en;
+  sh:order "8";
+  sh:nodeKind sh:IRI .
+
+scs:P_12 sh:path sh:nodeKind;
+  sh:name "node kind"@en;
+  sh:description "If used on a NodeShape with value sh:Literal, then Sparnatural will treat this shape as a Literal and will not generate an rdf:type triple in the SPARQL query."@en;
+  sh:order "9";
+  sh:maxCount "1"^^xsd:integer;
+  sh:nodeKind sh:IRI .
+
+scs:P_14 sh:path sh:datatype;
+  sh:name "datatype"@en;
+  sh:description "If used on a NodeShape, then Sparnatural will treat this shape as a Literal and will not generate an rdf:type triple in the SPARQL query."@en;
+  sh:order "10";
+  sh:maxCount "1"^^xsd:integer;
+  sh:nodeKind sh:IRI .
+
+scs:P_15 sh:path sh:languageIn;
+  sh:name "language in"@en;
+  sh:description "If used on a NodeShape, then Sparnatural will treat this shape as a Literal and will not generate an rdf:type triple in the SPARQL query."@en;
+  sh:order "11";
+  sh:maxCount "1"^^xsd:integer;
+  sh:nodeKind sh:BlankNode .
+
+scs:P_16 sh:path sh:uniqueLang;
+  sh:name "unique lang"@en;
+  sh:description "If used on a NodeShape, then Sparnatural will treat this shape as a Literal and will not generate an rdf:type triple in the SPARQL query."@en;
+  sh:order "12";
+  sh:maxCount "1"^^xsd:integer;
+  sh:nodeKind sh:Literal;
+  sh:datatype xsd:boolean .
+
+scs:P_17 sh:path sh:or;
+  sh:name "or"@en;
+  sh:order "13";
+  sh:nodeKind sh:BlankNode .
+
+scs:P_19 sh:path _:3285ac3b69814d608c3d02c0dbf9ff7349;
+  sh:name "class / shape"@en;
+  sh:description "NodeShape to which the constraint is applied (a reference to a NodeShape IRI from the first list)"@en;
+  sh:order "1";
+  sh:minCount "1"^^xsd:integer;
+  sh:nodeKind sh:IRI;
+  sh:node scs:Entity .
+
+_:3285ac3b69814d608c3d02c0dbf9ff7349 sh:inversePath sh:property .
+
+scs:P_20 sh:path sh:path;
+  sh:name "property"@en;
+  sh:description "The property that this property shape is constraining. This is restricted to single properties, paths are not supported."@en;
+  sh:order "2";
+  sh:minCount "1"^^xsd:integer;
+  sh:maxCount "1"^^xsd:integer;
+  sh:nodeKind sh:IRI .
+
+scs:P_22 sh:path sh:order;
+  sh:name "order"@en;
+  sh:description "The order of this property in its sibling list of entities"@en;
+  sh:order "3";
+  sh:maxCount "1"^^xsd:integer;
+  sh:nodeKind sh:Literal;
+  sh:datatype xsd:decimal .
+
+scs:P_23 sh:path sh:name;
+  sh:name "name"@en;
+  sh:description """The name of the property to be displayed.
+Labels are multilingual, the label in the current user language is displayed;
+If no label is given, the local part of the URI is used."""@en;
+  sh:order "4";
+  sh:nodeKind sh:Literal;
+  sh:or _:3285ac3b69814d608c3d02c0dbf9ff7350 .
+
+_:3285ac3b69814d608c3d02c0dbf9ff7350 rdf:first _:3285ac3b69814d608c3d02c0dbf9ff7351;
+  rdf:rest _:3285ac3b69814d608c3d02c0dbf9ff7352 .
+
+_:3285ac3b69814d608c3d02c0dbf9ff7351 sh:datatype rdf:langString .
+
+_:3285ac3b69814d608c3d02c0dbf9ff7352 rdf:first _:3285ac3b69814d608c3d02c0dbf9ff7353;
+  rdf:rest rdf:nil .
+
+_:3285ac3b69814d608c3d02c0dbf9ff7353 sh:datatype xsd:string .
+
+scs:P_24 sh:path volipi:message;
+  sh:name "tooltip"@en;
+  sh:description "The preferred tooltip that will be displayed when this entity is hovered. This can contain HTML markup."@en;
+  sh:order "5";
+  sh:nodeKind sh:Literal;
+  sh:or _:3285ac3b69814d608c3d02c0dbf9ff7354;
+  sh:uniqueLang "true"^^xsd:boolean .
+
+_:3285ac3b69814d608c3d02c0dbf9ff7354 rdf:first _:3285ac3b69814d608c3d02c0dbf9ff7355;
+  rdf:rest _:3285ac3b69814d608c3d02c0dbf9ff7356 .
+
+_:3285ac3b69814d608c3d02c0dbf9ff7355 sh:datatype rdf:langString .
+
+_:3285ac3b69814d608c3d02c0dbf9ff7356 rdf:first _:3285ac3b69814d608c3d02c0dbf9ff7357;
+  rdf:rest rdf:nil .
+
+_:3285ac3b69814d608c3d02c0dbf9ff7357 sh:datatype xsd:string .
+
+scs:P_25 sh:path sh:description;
+  sh:name "tooltip"@en;
+  sh:description "The default tooltip that will be displayed when this entity is hovered. This can contain HTML markup."@en;
+  sh:order "6";
+  sh:nodeKind sh:Literal;
+  sh:or _:3285ac3b69814d608c3d02c0dbf9ff7358;
+  sh:uniqueLang "true"^^xsd:boolean .
+
+_:3285ac3b69814d608c3d02c0dbf9ff7358 rdf:first _:3285ac3b69814d608c3d02c0dbf9ff7359;
+  rdf:rest _:3285ac3b69814d608c3d02c0dbf9ff7360 .
+
+_:3285ac3b69814d608c3d02c0dbf9ff7359 sh:datatype rdf:langString .
+
+_:3285ac3b69814d608c3d02c0dbf9ff7360 rdf:first _:3285ac3b69814d608c3d02c0dbf9ff7361;
+  rdf:rest rdf:nil .
+
+_:3285ac3b69814d608c3d02c0dbf9ff7361 sh:datatype xsd:string .
+
+scs:P_26 sh:path dash:searchWidget;
+  sh:name "search widget"@en;
+  sh:description "An explicit search widget to use for this property. If no explicit search widget is specified, a default one is determined based on the sh:datatype and other characteristics of the property shape."@en;
+  sh:order "7";
+  sh:maxCount "1"^^xsd:integer;
+  sh:nodeKind sh:IRI;
+  sh:in _:3285ac3b69814d608c3d02c0dbf9ff7362 .
+
+_:3285ac3b69814d608c3d02c0dbf9ff7362 rdf:first <http://data.sparna.fr/ontologies/sparnatural-config-coreSearchProperty>;
+  rdf:rest _:3285ac3b69814d608c3d02c0dbf9ff7363 .
+
+_:3285ac3b69814d608c3d02c0dbf9ff7363 rdf:first <http://data.sparna.fr/ontologies/sparnatural-config-coreListProperty>;
+  rdf:rest _:3285ac3b69814d608c3d02c0dbf9ff7364 .
+
+_:3285ac3b69814d608c3d02c0dbf9ff7364 rdf:first <http://data.sparna.fr/ontologies/sparnatural-config-coreAutocompleteProperty>;
+  rdf:rest _:3285ac3b69814d608c3d02c0dbf9ff7365 .
+
+_:3285ac3b69814d608c3d02c0dbf9ff7365 rdf:first <http://data.sparna.fr/ontologies/sparnatural-config-coreBooleanProperty>;
+  rdf:rest _:3285ac3b69814d608c3d02c0dbf9ff7366 .
+
+_:3285ac3b69814d608c3d02c0dbf9ff7366 rdf:first <http://data.sparna.fr/ontologies/sparnatural-config-coreMapProperty>;
+  rdf:rest _:3285ac3b69814d608c3d02c0dbf9ff7367 .
+
+_:3285ac3b69814d608c3d02c0dbf9ff7367 rdf:first <http://data.sparna.fr/ontologies/sparnatural-config-coreStringEqualsProperty>;
+  rdf:rest _:3285ac3b69814d608c3d02c0dbf9ff7368 .
+
+_:3285ac3b69814d608c3d02c0dbf9ff7368 rdf:first <http://data.sparna.fr/ontologies/sparnatural-config-coreTimeProperty-Date>;
+  rdf:rest _:3285ac3b69814d608c3d02c0dbf9ff7369 .
+
+_:3285ac3b69814d608c3d02c0dbf9ff7369 rdf:first <http://data.sparna.fr/ontologies/sparnatural-config-coreTimeProperty-Year>;
+  rdf:rest _:3285ac3b69814d608c3d02c0dbf9ff7370 .
+
+_:3285ac3b69814d608c3d02c0dbf9ff7370 rdf:first <http://data.sparna.fr/ontologies/sparnatural-config-coreTimeProperty-Period>;
+  rdf:rest _:3285ac3b69814d608c3d02c0dbf9ff7371 .
+
+_:3285ac3b69814d608c3d02c0dbf9ff7371 rdf:first <http://data.sparna.fr/ontologies/sparnatural-config-coreTreeProperty>;
+  rdf:rest rdf:nil .
+
+scs:P_27 sh:path dash:propertyRole;
+  sh:name "role of the property (default label property)"@en;
+  sh:description "If used with the value dash:LabelRole, indicate that this property shape describes the main label of the entities to which it is attached. This is used to fetch this property automatically in generated SPARQL queries, and to populate automatically dropdowns and autocomplete search with this property."@en;
+  sh:order "8";
+  sh:maxCount "1"^^xsd:integer;
+  sh:nodeKind sh:IRI;
+  sh:hasValue dash:LabelRole .
+
+scs:P_28 sh:path sh:class;
+  sh:name "class (of the property value)"@en;
+  sh:description "References the URI of a class that is itself referred to by an sh:targetClass from a NodeShape."@en;
+  sh:order "9";
+  sh:maxCount "1"^^xsd:integer;
+  sh:nodeKind sh:IRI .
+
+scs:P_29 sh:path sh:node;
+  sh:name "node shape (of the property value)"@en;
+  sh:description """References a NodeShape that describes the target entity of the property.
+If no sh:class or sh:node is found, then a default behavior is proposed"""@en;
+  sh:order "10";
+  sh:maxCount "1"^^xsd:integer;
+  sh:nodeKind sh:IRI .
+
+scs:P_30 sh:path <http://data.sparna.fr/ontologies/sparnatural-config-datasourcesdatasource>;
+  sh:name "datasource (for lists and autocomplete)"@en;
+  sh:description "The datasource to populate this widget. If not provided, a default datasource is used."@en;
+  sh:order "11";
+  sh:maxCount "1"^^xsd:integer;
+  sh:nodeKind sh:BlankNodeOrIRI .
+
+scs:P_31 sh:path <http://data.sparna.fr/ontologies/sparnatural-config-datasourcestreeChildrenDatasource>;
+  sh:name "datasource (for tree childrens)"@en;
+  sh:description "The datasource to populate the children node of a node in a tree widget"@en;
+  sh:order "12";
+  sh:maxCount "1"^^xsd:integer;
+  sh:nodeKind sh:BlankNodeOrIRI .
+
+scs:P_32 sh:path <http://data.sparna.fr/ontologies/sparnatural-config-datasourcestreeRootsDatasource>;
+  sh:name "datasource (for tree roots)"@en;
+  sh:description "The datasource to populate the root nodes of a tree widget"@en;
+  sh:order "13";
+  sh:maxCount "1"^^xsd:integer;
+  sh:nodeKind sh:BlankNodeOrIRI .
+
+scs:P_33 sh:path sh:or;
+  sh:name "or"@en;
+  sh:description """Indicates alternatives for either multiple datatypes (e.g. xsd:string or xsd:dateTime), or multiple sh:class/sh:node, or different node kinds (e.g. IRI or Literal). The expected values are nodes with either an sh:datatype or an sh:class or an sh:node or an sh:nodeKind. 2 levels of sh:or are supported to deal with properties that can be either IRI or literals, and then indicate the sh:class(es) of the IRI shape, and the sh:datatype(s) of the literal shape.
+The actual list value of sh:or can be either a blank node or an IRI."""@en;
+  sh:order "14";
+  skos:example """Property with 2 datatypes : ([sh:datatype xsd:string][sh:datatype xsd:dateTime]),
+Property either IRI or literal ([sh:nodeKind sh:IRI; sh:class ex:class1][sh:nodeKind sh:Literal sh:or([sh:datatype xsd:string][sh:datatype xsd:date])])""";
+  sh:maxCount "1"^^xsd:integer;
+  sh:nodeKind sh:BlankNodeOrIRI .

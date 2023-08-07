@@ -58,29 +58,29 @@ ex:WorkShape_P1 sh:path rdf:type;
 ex:WorkShape_P2 sh:path eli:date_document;
   sh:name "date document"@en;
   sh:description "The date of the document"@en;
-  sh:order "2" .
+  sh:order 2 .
 
 ex:ExpressionShape_P1 sh:path rdf:type;
   sh:name "type"@en;
   sh:description "The class"@en;
-  sh:order "1" .
+  sh:order 1 .
 
 ex:ExpressionShape_P2 sh:path eli:language;
   sh:name "language"@en;
   sh:description "The language"@en;
-  sh:order "2" .
+  sh:order 2 .
 
 ex:ManifestationShape_P1 sh:path rdf:type;
   sh:name "type"@en;
   sh:description "The class"@en;
-  sh:order "1" .
+  sh:order 1 .
 
 ex:ManifestationShape_P2 sh:path eli:media_type;
   sh:name "media type"@en;
   sh:description "The media type"@en;
-  sh:order "2" .
+  sh:order 2 .
 
 ex:ManifestationShape_P3 sh:path epvoc:byteSize;
   sh:name "byte size"@en;
   sh:description "The size"@en;
-  sh:order "3" .
+  sh:order 3 .

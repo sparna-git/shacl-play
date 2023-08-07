@@ -36,7 +36,7 @@ public class TemplateReader {
 				
 		// Header Class 
 		List<NodeShapeTemplate> nodeShapeTemplateList = new ArrayList<>();		
-		SheetColumnReader propertyShapeTemplateReader = new SheetColumnReader();
+		PropertyShapeReader propertyShapeTemplateReader = new PropertyShapeReader();
 		for (Resource ns : nodeShapes) {
 			NodeShapeTemplate nodeShapeTemplate = new NodeShapeTemplate(ns);
 			
@@ -54,6 +54,7 @@ public class TemplateReader {
 			}
 			
 			if (ns.hasProperty(SH.targetObjectsOf)) {
+				System.out.println(ns.getProperty(SH.targetObjectsOf).getResource());
 				nodeShapeTemplate.setSHTargetObjectOf(ns.getProperty(SH.targetObjectsOf).getResource());
 			}
 			

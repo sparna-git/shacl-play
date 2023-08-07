@@ -9,7 +9,7 @@ public class Sheet {
 	// not sure this is useful - this is here just in case - see if this can be deleted
 	protected Model templateModel;
 	protected String NameSheet;
-	protected List<SheetColumnHeader> Columns;
+	protected List<ColumnSpecification> Columns;
 	protected List<String[]> outputData;
 	
 	
@@ -19,10 +19,10 @@ public class Sheet {
 	public void setNameSheet(String nameSheet) {
 		NameSheet = nameSheet;
 	}
-	public List<SheetColumnHeader> getColumns() {
+	public List<ColumnSpecification> getColumns() {
 		return Columns;
 	}
-	public void setColumns(List<SheetColumnHeader> columns) {
+	public void setColumns(List<ColumnSpecification> columns) {
 		Columns = columns;
 	}
 	public Model getTemplateModel() {

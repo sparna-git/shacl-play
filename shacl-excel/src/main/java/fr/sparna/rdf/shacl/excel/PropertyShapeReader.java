@@ -3,30 +3,28 @@ package fr.sparna.rdf.shacl.excel;
 import org.apache.jena.rdf.model.Resource;
 import org.topbraid.shacl.vocabulary.SH;
 
-import fr.sparna.rdf.shacl.excel.ConstraintValueReader;
 import fr.sparna.rdf.shacl.excel.model.PropertyShapeTemplate;
 
-public class SheetColumnReader {
+public class PropertyShapeReader {
 	
 	protected ConstraintValueReader constraintValueReader = new ConstraintValueReader();	
 	
 	public PropertyShapeTemplate read (Resource constraint) {
 	
-		PropertyShapeTemplate tmp = new PropertyShapeTemplate();
+		PropertyShapeTemplate tmp = new PropertyShapeTemplate(constraint);
 		
 		tmp.setSh_path(this.readShPath(constraint));
 		tmp.setSh_name(this.readShName(constraint));
 		tmp.setSh_description(this.readShDescription(constraint));
 		tmp.setSh_order(this.readShOrder(constraint));
 		tmp.setDatatype(this.readShDatatype(constraint));
-		tmp.setSh_UniqueLang(this.readShUniqueLang(constraint));
 			
 		return tmp;
 	}
 	
 	
-	public String readShPath(Resource constraint) {
-		return constraintValueReader.readValueconstraint(constraint, SH.path);
+	public Resource readShPath(Resource constraint) {
+		return constraint.getProperty(SH.path).getResource();
 	}
 	
 	public String readShName(Resource constraint) {
@@ -43,19 +41,5 @@ public class SheetColumnReader {
 	
 	public String readShDatatype(Resource constraint) {
 		return constraintValueReader.readValueconstraint(constraint,SH.datatype);
-	}
-	
-	public String readShUniqueLang(Resource constraint) {
-		String value = null;
-		if (
-				constraint.hasProperty(SH.uniqueLang)
-				&&
-				constraintValueReader.readValueconstraint(constraint, SH.uniqueLang) != null
-				&&
-				!constraintValueReader.readValueconstraint(constraint, SH.uniqueLang).equals("")
-		) {			
-			value = "uniqueLang";
-		}
-	    return value;
 	}
 }

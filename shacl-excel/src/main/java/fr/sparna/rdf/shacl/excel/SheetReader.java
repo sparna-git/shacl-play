@@ -2,363 +2,217 @@ package fr.sparna.rdf.shacl.excel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.RDFList;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.vocabulary.RDF;
-import org.topbraid.shacl.vocabulary.SH;
+import org.apache.jena.vocabulary.XSD;
 
-import fr.sparna.rdf.shacl.excel.model.ColumnsInputDatatype;
+import fr.sparna.rdf.shacl.excel.model.ColumnSpecification;
 import fr.sparna.rdf.shacl.excel.model.NodeShapeTemplate;
 import fr.sparna.rdf.shacl.excel.model.PropertyShapeTemplate;
 import fr.sparna.rdf.shacl.excel.model.Sheet;
-import fr.sparna.rdf.shacl.excel.model.SheetColumnHeader;
 
 public class SheetReader {
 
 	public List<Sheet> read(List<NodeShapeTemplate> dataSourceTemplate, Model dataGraph){
 		
-		List<Sheet> dataModel = new ArrayList<>();
+		List<Sheet> sheets = new ArrayList<>();
 		
 		// 
 		for (NodeShapeTemplate dataTemplate : dataSourceTemplate) {
 		
 			Sheet modelStructure = new Sheet();
+ 			// keep original Model in the data structure, just in case
+			modelStructure.setTemplateModel(dataGraph);
 			
 			// 1. Get Name for sheet xls
  			String nameSheet = dataTemplate.getNodeShape().getModel().shortForm(dataTemplate.getNodeShape().getURI()).replace(':', '_');
  			modelStructure.setNameSheet(nameSheet);
  			
- 			//2. data
- 			List<Statement> dataList_Target = new ArrayList<>();
- 			for (Statement nsStatement : dataGraph.listStatements().toList()) {
-				if (nsStatement.getObject().equals(dataTemplate.getSHTargetClass())
-					||	
-					nsStatement.getObject().equals(dataTemplate.getSHTargetSubjectsOf())
-					) {
-					dataList_Target.add(nsStatement);
-				}
-			}
+ 			// 2. resolve target
+ 			List<Resource> nodeShapeTarget = resolveTarget(dataTemplate, dataGraph);
+						
+			// 3. Build column specifications
+ 			List<ColumnSpecification> columnSpecifications = buildColumnSpecifications(dataTemplate.getShapesTemplate(),nodeShapeTarget, false);
+ 			modelStructure.setColumns(columnSpecifications);
  			
- 			// if SH.targetObjectsOf get all properties. 
- 			if (dataTemplate.getSHTargetObjectOf() != null) {
- 				Property SHProperty = dataGraph.createProperty(dataTemplate.getSHTargetObjectOf().getURI());
- 				List<Resource> Shape = dataGraph.listResourcesWithProperty(RDF.type, SH.NodeShape).toList();
- 				for (Resource nsObject : Shape) {
- 					
- 					List<Statement> propertyStatements = nsObject.listProperties(SHProperty).toList();
- 					for (Statement dataProperty : propertyStatements) {
- 						dataList_Target.add(dataProperty);
-					}
-				}
- 			} 			
- 
-						
-			// 3. Get Columns
- 			List<PropertyShapeTemplate> colsHeaderTemplate = columns_xls(dataTemplate.getShapesTemplate());
+			// 4. Fill table with values		
+			List<String[]> outputData = fillColumns(nodeShapeTarget,columnSpecifications);		
+			modelStructure.setOutputData(outputData);	
 			
-			
-			// 4. Output Value
-			List<ColumnsInputDatatype> columns_config = columnswithDatatype(colsHeaderTemplate,dataList_Target);
-			List<String[]> outputData = new ArrayList<>(); 
-			if (dataTemplate.getSHTargetClass() != null) {
-				outputData = readTargetClass(dataList_Target,columns_config);
-			} else if (dataTemplate.getSHTargetSubjectsOf() != null) {
-				
-			} else if (dataTemplate.getSHTargetObjectOf() != null) {
-				outputData = readTargetObjectOf(dataList_Target, columns_config);
-			}			
-			modelStructure.setOutputData(outputData);
-			
-			// Build columns header by adding the datatype to it
-			List<ColumnsInputDatatype> columns_data_header = columns_in_data_Header(colsHeaderTemplate,dataList_Target);
-			List<SheetColumnHeader> columnsHeader = new ArrayList<>();
-			for (PropertyShapeTemplate propertyShapeTemplate : colsHeaderTemplate) {
-				columnsHeader.add(new SheetColumnHeader(propertyShapeTemplate, columns_data_header));
-			}
-			modelStructure.setColumns(columnsHeader);
-			
- 			// 5. keep original Model in the data structure
-			modelStructure.setTemplateModel(dataGraph);
-			
-			dataModel.add(modelStructure);
+			// add to list of sheets
+			sheets.add(modelStructure);
 		}		
-		return dataModel;
+		return sheets;
 	}
 	
-	
-	public static List<PropertyShapeTemplate> columns_xls(List<PropertyShapeTemplate> columns){
+	public static List<Resource> resolveTarget(NodeShapeTemplate nodeShape, Model dataGraph) {
+		List<Resource> targets = new ArrayList<Resource>();
 		
-		List<PropertyShapeTemplate> colsHeader = new ArrayList<>();
-		
-		Integer nOrder = 1;
-		PropertyShapeTemplate tmpColumns = new PropertyShapeTemplate();
-		tmpColumns.setSh_name("URI");
-		tmpColumns.setSh_description("URI of the class. This column can use prefixes declared above in the header");
-		tmpColumns.setSh_path("URI");
-		tmpColumns.setSh_order(nOrder++);
-		colsHeader.add(tmpColumns);
-		for (PropertyShapeTemplate cols : columns) {
-			PropertyShapeTemplate tmpTemplate = new PropertyShapeTemplate();
-			
-			tmpTemplate.setSh_name(cols.getSh_name());
-			tmpTemplate.setSh_description(cols.getSh_description());
-			tmpTemplate.setSh_path(cols.getSh_path());
-			tmpTemplate.setSh_order(nOrder++);
-			colsHeader.add(tmpTemplate);
-		}	
-		return colsHeader;	
-	}
-	
-	public static List<ColumnsInputDatatype> columns_in_data_Header(List<PropertyShapeTemplate> colsHeaderTemplate,List<Statement> statement){
-		
-		List<ColumnsInputDatatype> list_of_columns = new ArrayList<>();
-		for (Statement sts : statement) {
-				// fin the properties
-				List<Statement> pred_data = sts.getSubject().asResource().listProperties().toList();
-				for (PropertyShapeTemplate pred : colsHeaderTemplate) {
-					for (Statement sts_pred : pred_data) {
-						String node = sts_pred.getModel().shortForm(sts_pred.getPredicate().getURI());
-						if (pred.getSh_path().equals(node)){
-							
-							String dataType = ComputeCell.computeHeaderParametersForStatement(sts_pred);
-							boolean validate = list_of_columns
-									.stream()
-									.filter(v -> v.getColumn_name().equals(node)
-											 &&
-											 v.getColumn_datatypeValue().equals(dataType)
-										)
-								.findFirst()
-								.isPresent();
-							
-							if (!validate) {
-								ColumnsInputDatatype colData = new ColumnsInputDatatype();
-	 							colData.setColumn_name(node);
-	 							colData.setColumn_datatypeValue(dataType);
-	 							list_of_columns.add(colData);
-							}	
-						}
-				}
-				
-			}
+		if(nodeShape.getSHTargetClass() != null) {
+			// find all resources with this class
+			targets.addAll(dataGraph.listResourcesWithProperty(RDF.type, nodeShape.getSHTargetClass()).toList());
 		}
 		
-		return list_of_columns;
+		if(nodeShape.getSHTargetObjectOf() != null) {
+			// find all resources being objects of this property
+			targets.addAll(dataGraph.listObjectsOfProperty(dataGraph.createProperty(nodeShape.getSHTargetObjectOf().getURI())).toList().stream().map(n -> n.asResource()).collect(Collectors.toList()));
+			System.out.println("TargetOfBjectOf "+targets.size());
+		}
+		
+		if(nodeShape.getSHTargetSubjectsOf() != null) {
+			// find all resources being objects of this property
+			targets.addAll(dataGraph.listSubjectsWithProperty(dataGraph.createProperty(nodeShape.getSHTargetSubjectsOf().getURI())).toList().stream().map(n -> n.asResource()).collect(Collectors.toList()));
+		}
+		
+		return targets;
 	}
+
 	
-	public static List<ColumnsInputDatatype> columnswithDatatype(
+	public static List<ColumnSpecification> buildColumnSpecifications(
 			List<PropertyShapeTemplate> colsHeaderTemplate,
-			List<Statement> statement
+			List<Resource> targets,
+			boolean addMissingColumns
 	){
+		List<ColumnSpecification> list_of_columns = new ArrayList<>();
 		
-		List<ColumnsInputDatatype> list_of_columns = new ArrayList<>();
+		// 1. Add the URI column
+		ColumnSpecification uriColumn = new ColumnSpecification("URI", "URI identifier", "URI of the entity. This column can use prefixes known in this spreadsheet");		
+		list_of_columns.add(uriColumn);
 		
-		for (PropertyShapeTemplate colTemplate : colsHeaderTemplate) {
-			
-			if (colTemplate.getSh_path().equals("URI")) {
-				ColumnsInputDatatype colData = new ColumnsInputDatatype();
-				colData.setColumn_name("URI");
-				colData.setColumn_datatypeValue("");
-				list_of_columns.add(colData);
-			} else {
-				ColumnsInputDatatype colData = new ColumnsInputDatatype();
-				colData.setColumn_name(colTemplate.getSh_path());
+		// 2. Build columns from each property shapes
+		for (PropertyShapeTemplate pShape : colsHeaderTemplate) {
+			list_of_columns.add(new ColumnSpecification(pShape));
+		}
+		
+		// 3. add new columns if necessary
+		if(addMissingColumns) {
+			for (Resource r : targets) {
+				// find the properties
+				List<Statement> pred_data = r.listProperties().toList();
 				
-				String dataType = "";
-				for (Statement sts : statement) {
-					// fin the properties
-					List<Statement> pred_data = (sts.getObject().asResource().listProperties().toList().isEmpty()) ? 
-												sts.getSubject().asResource().listProperties().toList() :
-													sts.getObject().asResource().listProperties().toList();
-					for (Statement sts_pred : pred_data) {
-						String node = sts_pred.getModel().shortForm(sts_pred.getPredicate().getURI());
-						if (colTemplate.getSh_path().equals(node)){
-							dataType = ComputeCell.computeHeaderParametersForStatement(sts_pred);
-						}
+				for (Statement sts_pred : pred_data) {
+					ColumnSpecification colSpec = ComputeCell.computeColumnSpecificationForStatement(sts_pred);
+					
+					if(!list_of_columns.contains(colSpec)) {
+						list_of_columns.add(colSpec);
 					}
 				}
-				
-				colData.setColumn_datatypeValue(dataType);
-				list_of_columns.add(colData);
 			}
-			
 		}
+		
 		return list_of_columns;
 	}
-	
-	public static String buildHeaderString(PropertyShapeTemplate pShapeTemplate, List<ColumnsInputDatatype> columnsHeaderData) {
-		
-		String headerString = pShapeTemplate.getSh_path();
-		
-		for (ColumnsInputDatatype colHeaderData : columnsHeaderData) {
-			if(pShapeTemplate.getSh_path().equals(colHeaderData.getColumn_name())
-				&&
-				colHeaderData.getColumn_datatypeValue() != null
-			) {
-				
-				List<ColumnsInputDatatype> nNameCol = columnsHeaderData
-						.stream()
-						.filter(p -> p.getColumn_name().equals(colHeaderData.getColumn_name()))
-						.collect(Collectors.toList());
-						
-				
-				if (nNameCol.size() < 2) {
-					// Update the column with datatype.
-					headerString += colHeaderData.getColumn_datatypeValue();
-				}
-			}
-		}
 
-		return headerString;
-	}
 	
-	public static List<String[]> readTargetClass(List<Statement> data, List<ColumnsInputDatatype> colsHeaderTemplate) {
+	public static List<String[]> fillColumns(List<Resource> targets, List<ColumnSpecification> columnSpecifications) {
 		List<String[]> arrNode = new ArrayList<>();
 		
-		for (Statement ns_output : data) {
-			String[] arrColumn = new String[colsHeaderTemplate.size()];
-			
-			// fill in URI column
-    		if (ns_output.getPredicate().equals(RDF.type)) {
-    			for (int i = 0; i < data.size(); i++) {    				
-					String path_name = colsHeaderTemplate.get(i).getColumn_name().toString(); 
-					if (path_name.equals("URI")) {
-						arrColumn[i] = ns_output.getModel().shortForm(ns_output.getSubject().getURI());
-						break;
-					}
-				}
-    		}
+		for (Resource aTarget : targets) {
+			String[] arrColumn = new String[columnSpecifications.size()];
     		
-    		List<Statement> listProperties = ns_output.getSubject().listProperties().toList()
-    					.stream()
-    					.filter(f -> !f.getPredicate().equals(SH.property))
-    					.collect(Collectors.toList());
-    		for (int j = 0; j < colsHeaderTemplate.size(); j++) {
+			
+    		for (int i = 0; i < columnSpecifications.size(); i++) {
+    			ColumnSpecification aColumnSpec = columnSpecifications.get(i);
     			
-    			String column_name = colsHeaderTemplate.get(j).getColumn_name();
-    			String column_datatype = colsHeaderTemplate.get(j).getColumn_datatypeValue();
-    			String value = "";
-    			if (!column_name.equals("URI")) {
-    				value = outputValue(column_name,column_datatype,listProperties);
-    				if (!value.isEmpty()) {
-        				arrColumn[j] = value;
-        			}else {
-        				arrColumn[j] = "";
-        			}
+    			if(aColumnSpec.getHeaderString().equals("URI")) {
+    				arrColumn[i] = aTarget.getModel().shortForm(aTarget.getURI());
+    			} else {
+    				// 1. find the statements corresponding to column
+    				List<Statement> statements;
+    				if(!aColumnSpec.isInverse()) {
+    					statements = aTarget.listProperties(
+        						aTarget.getModel().createProperty(aColumnSpec.getPropertyUri())
+        				).filterKeep(buildStatementPredicate(aColumnSpec)).toList();
+    				} else {
+    					statements = aTarget.getModel().listStatements(null, aTarget.getModel().createProperty(aColumnSpec.getPropertyUri()), aTarget)
+        				.filterKeep(buildStatementPredicate(aColumnSpec)).toList();
+    				}    				
+    				
+    				// 2. print them
+    				arrColumn[i] = statementsToCellValue(aColumnSpec, statements);
     			}
+				
 			}
     		arrNode.add(arrColumn);
 		}
 		return arrNode;
 	}	
 	
-	public static List<String[]> readTargetObjectOf(List<Statement> data, List<ColumnsInputDatatype> colsHeaderTemplate) {
-		
-		List<String[]> cols = new ArrayList<>();
-		
-		for (Statement statement : data) {		
-			String[] arrColumn = new String[colsHeaderTemplate.size()];
-			
-			String header = statement.getModel().shortForm(statement.getObject().toString())+ComputeCell.computeHeaderParametersForStatement(statement);
-    		if (statement.getPredicate().equals(SH.property)) {
-    			for (int i = 0; i < colsHeaderTemplate.size(); i++) {    				
-					String path_name = colsHeaderTemplate.get(i).getColumn_name();
-					if (path_name.equals("URI")) {
-						arrColumn[i] = header;
-						break;
-					}
-				}
-    		}		
-    		
-    		List<Statement> listProperties = statement.getObject().asResource().listProperties().toList();
-    		for (int i = 0; i < colsHeaderTemplate.size(); i++) {
-    			
-    			
-    			String column_name = colsHeaderTemplate.get(i).getColumn_name();
-    			String column_datatype = colsHeaderTemplate.get(i).getColumn_datatypeValue();
-    			String value = "";
-    			if (column_name.equals("URI")) {
-    				value = header;
-    			} else if (column_name.equals("^property")) {
-    				value = statement.getModel().shortForm(statement.getSubject().getURI());
-    			}
-    			else {
-    				
-    				value = outputValue(column_name,column_datatype,listProperties);
-    			}
-    			 
-    			if (!value.isEmpty()){
-    				arrColumn[i] = value;    				
-    			} else {
-    				arrColumn[i] = value;
-    				
-    			}
-			}
-    		cols.add(arrColumn);
-    	}
-		return cols;
+	public static Predicate<Statement> buildStatementPredicate(ColumnSpecification spec) {
+		return s -> {
+			return 
+					s.getPredicate().getURI().equals(spec.getPropertyUri())
+					&&
+					(
+							spec.getDatatypeUri() == null
+							||
+							(spec.getDatatypeUri().equals(XSD.xstring.getURI()))
+							||
+							(
+									s.getObject().isLiteral()
+									&&
+									s.getObject().asLiteral().getDatatypeURI().equals(spec.getDatatypeUri())
+							)
+					)
+					&&
+					(
+							spec.getLanguage() == null
+							||
+							(
+									s.getObject().isLiteral()
+									&&
+									s.getObject().asLiteral().getLanguage().equals(spec.getLanguage())
+							)
+					)
+					;
+		};
 	}
 	
-	public static String outputValue(String column_name,String column_datatype,List<Statement> ListPropertiesShape) {
-		
-		String value = "";
-		for (Statement lprop : ListPropertiesShape) {
-			String header_col = "";
-			
-			header_col = lprop.getModel().shortForm(lprop.getPredicate().getURI());
-			
-			if (column_name.equals(header_col)) {
-				if (lprop.getPredicate().equals(SH.or)) {
-					value = shOr(lprop.getSubject().asResource());					
-				} else {
-					String datatype = ComputeCell.computeHeaderParametersForStatement(lprop);
-					if (column_datatype.equals(datatype)) {
-						value = ComputeCell.computeCellValueForStatement(lprop);
-					} else {
-						value = "\""+ComputeCell.computeCellValueForStatement(lprop)+"\""+ComputeCell.computeHeaderParametersForStatement(lprop);
-					}
-					
-				}
-				
-				break;
-			}
-		}
-		return value;
+	public static String statementsToCellValue(ColumnSpecification columnSpec, List<Statement> statements) {
+		return statements.stream().map(s -> toCellValue(s.getObject(), columnSpec)).collect(Collectors.joining(", "));
 	}
-		
-	public static String shOr (Resource constraint) {
-		
-		String valueOutput = "";
-		Resource theOr = constraint.getProperty(SH.or).getResource();
-		// now read all sh:node or sh:class inside
-		List<RDFNode> rdfList = theOr.as( RDFList.class ).asJavaList();
-		for (RDFNode node : rdfList) {
-			if(node.canAs(Resource.class)) {
-				Resource value = null;
-				if (node.asResource().hasProperty(SH.node)) {
-					value = node.asResource().getProperty(SH.node).getResource();
-				} else if (node.asResource().hasProperty(SH.class_)) {
-					value = node.asResource().getProperty(SH.class_).getResource();
-				}
-				
-				if(value != null) {
-					String output = "<"+value.getURI()+">";
-					valueOutput += output+" ";
-				}
-			}	
+	
+	public static String toCellValue(RDFNode node, ColumnSpecification columnSpec) {
+		if(node.isURIResource()) {
+			return node.getModel().shortForm(node.asResource().getURI());
+		} else if(node.canAs(RDFList.class)) {
+			return(toCellValue(node.as(RDFList.class), columnSpec));
+		} else if(node.isAnon()) {
+			return toCellValueAnon(node.asResource(), columnSpec);
+		} else if(node.isLiteral()) {
+			return(toCellValue(node.asLiteral(), columnSpec));
+		} else {
+			System.out.println("Unknown value to print "+node.toString());
+			return "";
 		}
-		
-		if (valueOutput.length() > 0) {
-			String fmt = "("+valueOutput+")";
-			valueOutput = fmt;
+	}
+	
+	public static String toCellValue(Literal l, ColumnSpecification columnSpec) {
+		if((l.getDatatypeURI() == null) || (columnSpec.getDatatypeUri() == null) || (l.getDatatypeURI().equals(columnSpec.getDatatypeUri()))) {
+			return l.getLexicalForm();
+		} else {
+			return l.getLexicalForm()+"^^"+l.getModel().shortForm(l.getDatatypeURI());
 		}
-		
-		return valueOutput;
+	}
+	
+	public static String toCellValueAnon(Resource r, ColumnSpecification columnSpec) {
+		return "["+r.listProperties().toList().stream().map(s -> toCellValueAnon_statement(s, columnSpec)).collect(Collectors.joining("; "))+"]";
+	}
+	
+	public static String toCellValueAnon_statement(Statement statementOnAnonymousResource, ColumnSpecification columnSpec) {
+		return statementOnAnonymousResource.getModel().shortForm(statementOnAnonymousResource.getPredicate().getURI())+" "+toCellValue(statementOnAnonymousResource.getObject(), columnSpec);
+	}
+	
+	public static String toCellValue(RDFList list, ColumnSpecification columnSpec) {
+		return "("+list.asJavaList().stream().map(node -> toCellValue(node, columnSpec)).collect(Collectors.joining(" "))+")";
 	}
 	
 }

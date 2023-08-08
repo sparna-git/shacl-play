@@ -64,10 +64,10 @@ public class PlantUmlDiagramReader {
 		return ConstraintValueReader.readLiteralInLangAsString(r, DCTerms.description, lang);
 	}
 	
-	public int readShOrder(Resource r) {
+	public double readShOrder(Resource r) {
 		List<Literal> values = ConstraintValueReader.readLiteralInLang(r, SH.order, null);
 		if(values != null && values.size() > 0) {
-			return values.get(0).asLiteral().getInt();
+			return values.get(0).asLiteral().getDouble();
 		} else {
 			return -1;
 		}

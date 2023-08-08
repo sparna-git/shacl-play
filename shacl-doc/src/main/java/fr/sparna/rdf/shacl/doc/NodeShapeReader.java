@@ -36,7 +36,7 @@ public class NodeShapeReader {
 		propertyShapes.sort((PropertyShape ps1, PropertyShape ps2) -> {
 			if(ps1.getShOrder() != null) {
 				if(ps2.getShOrder() != null) {
-					return ps1.getShOrder() - ps2.getShOrder();
+					return (ps1.getShOrder() - ps2.getShOrder()) > 0?1:-1;
 				} else {
 					return -1;
 				}

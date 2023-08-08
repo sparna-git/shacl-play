@@ -35,8 +35,8 @@ public class PropertyShapeReader {
 		return constraintValueReader.readValueconstraint(constraint,SH.description);
 	}
 	
-	public Integer readShOrder(Resource constraint) {
-		return Integer.valueOf(constraintValueReader.readValueconstraint(constraint,SH.order));
+	public Double readShOrder(Resource constraint) {
+		return Double.valueOf(constraintValueReader.readValueconstraint(constraint,SH.order));
 	}
 	
 	public String readShDatatype(Resource constraint) {

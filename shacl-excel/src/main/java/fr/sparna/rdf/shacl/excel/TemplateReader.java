@@ -69,8 +69,8 @@ public class TemplateReader {
 			List<PropertyShapeTemplate> data_for_columns = propertyShapeTeamplates
 					.stream()
 					.sorted((a,b) -> {
-						if (b.getSh_order().toString() != null) {
-							if (a.getSh_order().toString() != null) {
+						if (b.getSh_order() != null) {
+							if (a.getSh_order() != null) {
 								return a.getSh_order().compareTo(b.getSh_order());
 							} else {
 								return -1;								

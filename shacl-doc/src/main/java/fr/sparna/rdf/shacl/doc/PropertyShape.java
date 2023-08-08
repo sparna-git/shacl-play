@@ -113,8 +113,8 @@ public class PropertyShape {
 		return Optional.ofNullable(this.resource.getProperty(SH.hasValue)).map(s -> s.getObject()).orElse(null);
 	}
 
-	public Integer getShOrder() {
-		return Optional.ofNullable(this.resource.getProperty(SH.order)).map(s -> Integer.parseInt(s.getString())).orElse(null);
+	public Double getShOrder() {
+		return Optional.ofNullable(this.resource.getProperty(SH.order)).map(s -> s.getDouble()).orElse(null);
 	}
 
 	public List<RDFNode> getShIn() {

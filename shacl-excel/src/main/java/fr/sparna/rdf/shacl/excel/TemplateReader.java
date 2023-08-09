@@ -7,16 +7,14 @@ import java.util.stream.Collectors;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
-import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.vocabulary.RDF;
 import org.topbraid.shacl.vocabulary.SH;
 
-import fr.sparna.rdf.shacl.excel.model.NodeShapeTemplate;
-import fr.sparna.rdf.shacl.excel.model.PropertyShapeTemplate;
+import fr.sparna.rdf.shacl.excel.model.NodeShape;
 
 public class TemplateReader {
 
-	public List<NodeShapeTemplate> readTemplateModel(Model shaclGraphTemplate) {
+	public List<NodeShape> readTemplateModel(Model shaclGraphTemplate) {
 		
 		// read graph for the building the recovery all the head columns
 		List<Resource> nodeShapes = shaclGraphTemplate.listResourcesWithProperty(RDF.type, SH.NodeShape).toList();
@@ -35,81 +33,14 @@ public class TemplateReader {
 		}
 				
 		// Header Class 
-		List<NodeShapeTemplate> nodeShapeTemplateList = new ArrayList<>();		
-		PropertyShapeReader propertyShapeTemplateReader = new PropertyShapeReader();
+		List<NodeShape> nodeShapeTemplateList = new ArrayList<>();		
 		for (Resource ns : nodeShapes) {
-			NodeShapeTemplate nodeShapeTemplate = new NodeShapeTemplate(ns);
-			
-			if (ns.hasProperty(SH.order)) {
-				nodeShapeTemplate.setSHOrder(ns.getProperty(SH.order).getInt());
-			}
-			
-			/** Analyse and record the various kinds of shapes an targets */
-			if (ns.hasProperty(SH.targetClass)) {
-				nodeShapeTemplate.setSHTargetClass(ns.getProperty(SH.targetClass).getResource());
-			}
-			
-			if (ns.hasProperty(SH.targetSubjectsOf)) {
-				nodeShapeTemplate.setSHTargetSubjectsOf(ns.getProperty(SH.targetSubjectsOf).getResource());
-			}
-			
-			if (ns.hasProperty(SH.targetObjectsOf)) {
-				System.out.println(ns.getProperty(SH.targetObjectsOf).getResource());
-				nodeShapeTemplate.setSHTargetObjectOf(ns.getProperty(SH.targetObjectsOf).getResource());
-			}
-			
-			
-			
-			List<PropertyShapeTemplate> propertyShapeTeamplates = new ArrayList<>();
-			List<Statement> shPropertyStatements = ns.listProperties(SH.property).toList();
-			for (Statement lproperty : shPropertyStatements) {
-				propertyShapeTeamplates.add(propertyShapeTemplateReader.read(lproperty.getObject().asResource()));
-			}
-
-			List<PropertyShapeTemplate> data_for_columns = propertyShapeTeamplates
-					.stream()
-					.sorted((a,b) -> {
-						if (b.getSh_order() != null) {
-							if (a.getSh_order() != null) {
-								return a.getSh_order().compareTo(b.getSh_order());
-							} else {
-								return -1;								
-							}
-						} else {
-							if (a.getSh_order().toString() == null) {
-								return 1;
-							} else {
-								return a.getSh_name().compareTo(b.getSh_name());
-							}
-						}
-					})
-					.collect(Collectors.toList());
-			nodeShapeTemplate.setShapesTemplate(data_for_columns);
-			
-			
-			
+			NodeShape nodeShapeTemplate = new NodeShape(ns);			
 			nodeShapeTemplateList.add(nodeShapeTemplate);
 		}
 		
-		List<NodeShapeTemplate> source_data_tmp = nodeShapeTemplateList.stream().sorted((a,b) -> {
-			if (a.getSHOrder() != null) {
-				if (b.getSHOrder() != null) {
-					return a.getSHOrder().compareTo(b.getSHOrder());
-				} else {
-					return -1;
-				}
-			} else {
-				if (b.getSHOrder() != null) {
-					return 1;
-				} else {
-					return a.getNodeShape().getURI().compareTo(b.getNodeShape().getURI());
-				}
-			}
-		})
-		.collect(Collectors.toList());
 		
-		
-		return source_data_tmp;
+		return nodeShapeTemplateList;
 	}
 
 

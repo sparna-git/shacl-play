@@ -16,26 +16,28 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import fr.sparna.rdf.shacl.excel.ShaclOntologyReader;
-import fr.sparna.rdf.shacl.excel.model.Sheet;
 import fr.sparna.rdf.shacl.excel.model.ColumnSpecification;
-import fr.sparna.rdf.shacl.excel.model.PropertyShapeTemplate;
 import fr.sparna.rdf.shacl.excel.model.ShaclOntology;
+import fr.sparna.rdf.shacl.excel.model.Sheet;
 
 public class WriteXLS {
 	
-	public XSSFWorkbook generateWorkbook(Map<String, String> Prefixes,List<Resource> ontology ,List<Sheet> sheets){
+	public XSSFWorkbook generateWorkbook(
+			Map<String, String> prefixes,
+			List<Sheet> sheets
+	){
 	
 		//Blank workbook
 		XSSFWorkbook workbook = new XSSFWorkbook(); 
 		
 		// Sheet for prefix
         XSSFSheet sheet_prefix = workbook.createSheet("prefix");
-        sheet_prefix = sheet_prefix(sheet_prefix, Prefixes);
+        sheet_prefix = sheet_prefix(sheet_prefix, prefixes);
         
         // for all Shape
         for (Sheet sheetData : sheets) {        	
         	//  Write output 
-        	writeSheet(workbook,ontology,sheetData);
+        	writeSheet(workbook,sheetData);
 		}        
 		
 		return workbook;
@@ -62,41 +64,22 @@ public class WriteXLS {
 		return font;
 	}
 	
-	
-	public static XSSFSheet sheet_ontology(XSSFSheet sheet, List<Resource> ontology) {
+	public static XSSFSheet sheet_ontology(XSSFSheet sheet, String b1Uri, List<String[]> headervalues) {
 		
-		//
-		XSSFRow row_ontology;
+		XSSFRow row_ontology = sheet.createRow(0);
+		Cell cellURI = row_ontology.createCell(0);
+		Cell cellValueURI = row_ontology.createCell(1);
+		cellURI.setCellValue("Graph URI");
+		cellValueURI.setCellValue(b1Uri);
 		
-		ShaclOntologyReader owlReader = new ShaclOntologyReader();
-		List<ShaclOntology> owl = owlReader.readOWL(ontology);
-		
-		String uriShape = "";		
-		for (ShaclOntology owlonto : owl) {
-			row_ontology = sheet.createRow(0);
-
-			if (uriShape != owlonto.getShapeUri()) {
-				Cell cellURI = row_ontology.createCell(0);
-				Cell cellValueURI = row_ontology.createCell(1);
-
-				cellURI.setCellValue("Shapes URI");
-				cellValueURI.setCellValue(owlonto.getShapeUri());
+		if(headervalues != null) {
+			int rowIdClass = 1;
+			for (String[] aPair : headervalues) {
+				XSSFRow row = sheet.createRow(rowIdClass++);
+				row.createCell(0).setCellValue(aPair[0]);
+				row.createCell(1).setCellValue(aPair[1]);
 			}
 		}
-		
-		int rowIdClass = 1;
-		for (ShaclOntology owlonto : owl) {
-			row_ontology = sheet.createRow(rowIdClass++);
-
-			Cell cellProperty = row_ontology.createCell(0);
-			Cell cellValue = row_ontology.createCell(1);
-
-			cellProperty.setCellValue(owlonto.getOwlProperty());
-			cellValue.setCellValue(owlonto.getOwlValue());
-		}
-		
-		
-		
 		
 		return sheet;
 	}
@@ -123,16 +106,14 @@ public class WriteXLS {
 		return sheet;
 	}
 		
-	public static XSSFSheet writeSheet(XSSFWorkbook workbook, List<Resource> ontology, Sheet sheetData) {
+	public static XSSFSheet writeSheet(XSSFWorkbook workbook, Sheet sheetData) {
 	
-		XSSFSheet xlsSheet = workbook.createSheet(sheetData.getNameSheet());
+		XSSFSheet xlsSheet = workbook.createSheet(sheetData.getName());
     	// column size
     	xlsSheet.setDefaultColumnWidth(40);
     	
     	// write OWL
-    	if (!ontology.isEmpty()) {
-    		xlsSheet = sheet_ontology(xlsSheet,ontology);
-    	}
+    	xlsSheet = sheet_ontology(xlsSheet,sheetData.getB1Uri(),sheetData.getHeaderValues());
 		
 		// Declaration of font type
 		XSSFFont headerFont = workbook.createFont();

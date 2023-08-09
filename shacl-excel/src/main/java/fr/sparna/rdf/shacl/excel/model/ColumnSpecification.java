@@ -2,7 +2,9 @@ package fr.sparna.rdf.shacl.excel.model;
 
 import java.util.Objects;
 
+import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.shared.PrefixMapping;
+import org.apache.jena.vocabulary.XSD;
 import org.topbraid.shacl.vocabulary.SH;
 
 public class ColumnSpecification {
@@ -17,7 +19,7 @@ public class ColumnSpecification {
 	
 	protected String headerString;
 	
-	public ColumnSpecification(PropertyShapeTemplate pShape) {
+	public ColumnSpecification(PropertyShape pShape, String language) {
 		if(pShape.getSh_path().isURIResource()) {
 			this.propertyUri = pShape.getSh_path().getURI();
 		} else if(pShape.getSh_path().hasProperty(SH.inversePath)) {
@@ -25,9 +27,9 @@ public class ColumnSpecification {
 			this.propertyUri = pShape.getSh_path().getProperty(SH.inversePath).getObject().asResource().getURI();
 		}
 		
-		this.datatypeUri = pShape.getDatatype();
-		this.label = pShape.getSh_name();
-		this.description = pShape.getSh_description();
+		this.datatypeUri = (pShape.getDatatype() != null)?pShape.getDatatype().getURI():null;
+		this.label = pShape.getSh_name(language);
+		this.description = pShape.getSh_description(language);
 		this.recomputeHeaderString(pShape.getPropertyShape().getModel());
 	}
 	
@@ -39,6 +41,19 @@ public class ColumnSpecification {
 	
 	public ColumnSpecification(String propertyUri) {
 		this.propertyUri = propertyUri;
+	}
+	
+	public ColumnSpecification(Statement statement) {
+		this.propertyUri = statement.getPredicate().getURI();
+		if (statement.getObject().isLiteral()) {
+			if (!statement.getObject().asLiteral().getLanguage().isEmpty()) {
+				this.setLanguage(statement.getObject().asLiteral().getLanguage());
+			} else if (!statement.getObject().asLiteral().getDatatypeURI().equals(XSD.xstring.getURI())) {
+				this.setDatatypeUri(statement.getObject().asLiteral().getDatatypeURI());
+			} 
+		}
+		
+		this.recomputeHeaderString(statement.getModel());
 	}
 	
 	

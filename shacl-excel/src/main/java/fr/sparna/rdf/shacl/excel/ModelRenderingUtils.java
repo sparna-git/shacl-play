@@ -1,78 +1,21 @@
 package fr.sparna.rdf.shacl.excel;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.apache.jena.rdf.model.Literal;
-import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.RDFList;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.vocabulary.RDF;
+import org.apache.jena.vocabulary.XSD;
 import org.topbraid.shacl.vocabulary.SH;
 
-public class ConstraintValueReader { 
+public class ModelRenderingUtils {
 
-	public String readValueconstraint(Resource constraint, Property property) {
-		
-		String value=null;
-		try {
-			if (constraint.hasProperty(property)) {
-				if (constraint.getProperty(property).getObject().isURIResource()) {
-					  //value = constraint.getProperty(property).getResource().getLocalName();
-					  value = constraint.getProperty(property).getResource().getModel().shortForm(constraint.getProperty(property).getResource().getURI());
-				}
-				else if (constraint.getProperty(property).getObject().isLiteral()) {
-					value = constraint.getProperty(property).getObject().asLiteral().getString();				
-				} else if (constraint.getProperty(property).getObject().isAnon()) {
-					value = renderShaclPropertyPath(constraint.getProperty(property).getObject().asResource());
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			value = null;
-		}
-		return value;
-	}
-	
-	public String readValueconstraintAsShortForm(Resource constraint,Property property) {
-		
-		String value=null;
-		try {
-			if (constraint.hasProperty(property)) {
-				if (constraint.getProperty(property).getObject().isURIResource()) {
-					  value = constraint.getProperty(property).getResource().getModel().shortForm(constraint.getProperty(property).getResource().getURI());			
-				} else {
-					return readValueconstraint(constraint, property);
-				}
-			}
-		} catch (Exception e) {
-			value = null;
-		}
-		return value;
-	}
-	
-	public static List<Literal> readLiteralInLang(Resource constraint, Property property, String lang) {
-		if (constraint.hasProperty(property)) {
-			if (lang != null && constraint.listProperties(property, lang).toList().size() > 0) {
-				return constraint.listProperties(property, lang).toList().stream()
-						.map(s -> s.getObject().asLiteral())
-						.collect(Collectors.toList());
-			} else if(constraint.listProperties(property).toList().size() > 0) {
-				// even if lang was provided, we still search the property with no language
-				return constraint.listProperties(property).toList().stream()
-						.map(s -> s.getObject().asLiteral())
-						.collect(Collectors.toList());
-			}
-		}
-		
-		return null;
-	}
-	
-	public static String readLiteralInLangAsString(Resource r, Property property, String lang) {
-		return render(readLiteralInLang(r, property, lang), true);
-	}
-	
+
 	public static String render(List<? extends RDFNode> list, boolean plainString) {
 		if(list == null) {
 			return null;
@@ -90,12 +33,32 @@ public class ConstraintValueReader {
 		
 		if(node.isURIResource()) {
 			return node.getModel().shortForm(node.asResource().getURI());
+		} else if(node.canAs(RDFList.class)) {
+			// recursive down the lists
+			return render(node.as(RDFList.class).asJavaList(), plainString);
 		} else if(node.isAnon()) {
 			return node.toString();
 		} else if(node.isLiteral()) {
 			// if we asked for a plain string, just return the literal string
 			if(plainString) {				
-				return node.asLiteral().getLexicalForm();
+				
+				try {
+					if(node.asLiteral().getDatatypeURI().equals(XSD.date.getURI())) {
+						SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");					
+						Date date = formatter.parse(node.asLiteral().getLexicalForm());
+						return formatter.format(date);
+					} else if (node.asLiteral().getDatatypeURI().equals(XSD.dateTime.getURI())) {
+						SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+						SimpleDateFormat outputformatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+						Date date = formatter.parse(node.asLiteral().getLexicalForm());
+						return outputformatter.format(date);
+					} else {
+						return node.asLiteral().getLexicalForm();
+					}
+				} catch (ParseException e) {
+					e.printStackTrace();
+					node.asLiteral().getLexicalForm();
+				}
 			}
 			
 			if (node.asLiteral().getDatatype() != null && !node.asLiteral().getDatatypeURI().equals(RDF.langString.getURI())) {
@@ -112,13 +75,17 @@ public class ConstraintValueReader {
 			// default, should never get there
 			return node.toString();
 		}
-	}
-	
+	}	
+
+
 	public static String renderShaclPropertyPath(Resource r) {
 		if(r == null) return "";
 		
 		if(r.isURIResource()) {
-			return r.getLocalName();
+			return r.getModel().shortForm(r.getURI());
+		} else if(r.canAs(RDFList.class)) {
+			List<RDFNode> l = r.as(RDFList.class).asJavaList();
+			return l.stream().map(i -> renderShaclPropertyPath(i.asResource())).collect(Collectors.joining("/"));
 		} else if(r.hasProperty(SH.alternativePath)) {
 			Resource alternatives = r.getPropertyResourceValue(SH.alternativePath);
 			RDFList rdfList = alternatives.as( RDFList.class );
@@ -132,12 +99,6 @@ public class ConstraintValueReader {
 			else {
 				return "^("+renderShaclPropertyPath(value)+")";
 			}
-		} else if(r.canAs( RDFList.class )) {
-			RDFList rdfList = r.as( RDFList.class );
-			List<RDFNode> pathElements = rdfList.asJavaList();			
-			return pathElements.stream().map(p -> {
-				return renderShaclPropertyPath((Resource)p);
-			}).collect(Collectors.joining("/"));    
 		} else if(r.hasProperty(SH.zeroOrMorePath)) {
 			Resource value = r.getPropertyResourceValue(SH.zeroOrMorePath);
 			if(value.isURIResource()) {
@@ -155,8 +116,8 @@ public class ConstraintValueReader {
 				return "("+renderShaclPropertyPath(value)+")+";
 			}
 		} else {
-			// if anonymous, return anonymous ID
-			return r.toString();
+			return null;
 		}
-	}	
+	}
+	
 }

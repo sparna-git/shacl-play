@@ -5,18 +5,15 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.RDFList;
-import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.XSD;
 
 import fr.sparna.rdf.shacl.excel.model.ColumnSpecification;
-import fr.sparna.rdf.shacl.excel.model.NodeShapeTemplate;
-import fr.sparna.rdf.shacl.excel.model.PropertyShapeTemplate;
+import fr.sparna.rdf.shacl.excel.model.NodeShape;
+import fr.sparna.rdf.shacl.excel.model.PropertyShape;
 import fr.sparna.rdf.shacl.excel.model.Sheet;
 
 public class SheetReader {
@@ -24,26 +21,46 @@ public class SheetReader {
 	/**
 	 * Reads the content of the sheets to be printed
 	 */
-	public List<Sheet> read(List<NodeShapeTemplate> dataSourceTemplate, Model dataGraph){
+	public List<Sheet> read(List<NodeShape> nodeShapes, Model dataGraph, String language){
 		
 		List<Sheet> sheets = new ArrayList<>();
 		
-		// 
-		for (NodeShapeTemplate dataTemplate : dataSourceTemplate) {
+		// sort node shapes
+		nodeShapes.sort((a, b) -> {
+			if (a.getSHOrder() != null) {
+				if (b.getSHOrder() != null) {
+					return a.getSHOrder().compareTo(b.getSHOrder());
+				} else {
+					return -1;
+				}
+			} else {
+				if (b.getSHOrder() != null) {
+					return 1;
+				} else {
+					return a.getNodeShape().getURI().compareTo(b.getNodeShape().getURI());
+				}
+			}
+		});
 		
-			Sheet modelStructure = new Sheet();
- 			// keep original Model in the data structure, just in case
-			modelStructure.setTemplateModel(dataGraph);
+		// then iterate on node shapes
+		for (NodeShape aNodeShape : nodeShapes) {
+		
+			Sheet modelStructure = new Sheet(aNodeShape);
 			
 			// 1. Get Name for sheet xls
- 			String nameSheet = dataTemplate.getNodeShape().getModel().shortForm(dataTemplate.getNodeShape().getURI()).replace(':', '_');
- 			modelStructure.setNameSheet(nameSheet);
+ 			String nameSheet = aNodeShape.getNodeShape().getModel().shortForm(aNodeShape.getNodeShape().getURI()).replace(':', '_');
+ 			modelStructure.setName(nameSheet);
  			
  			// 2. resolve target
- 			List<Resource> nodeShapeTarget = resolveTarget(dataTemplate, dataGraph);
+ 			List<Resource> nodeShapeTarget = resolveTarget(aNodeShape, dataGraph);
 						
 			// 3. Build column specifications
- 			List<ColumnSpecification> columnSpecifications = buildColumnSpecifications(dataTemplate.getShapesTemplate(),nodeShapeTarget, false);
+ 			List<ColumnSpecification> columnSpecifications = buildColumnSpecifications(
+ 					aNodeShape.getPropertyShapes(),
+ 					nodeShapeTarget,
+ 					language,
+ 					false
+ 			);
  			modelStructure.setColumns(columnSpecifications);
  			
 			// 4. Fill table with values		
@@ -59,7 +76,7 @@ public class SheetReader {
 	/**
 	 * @return a list of resources from the data graph corresponding to the target of the shape
 	 */
-	public static List<Resource> resolveTarget(NodeShapeTemplate nodeShape, Model dataGraph) {
+	public static List<Resource> resolveTarget(NodeShape nodeShape, Model dataGraph) {
 		List<Resource> targets = new ArrayList<Resource>();
 		
 		if(nodeShape.getSHTargetClass() != null) {
@@ -85,8 +102,9 @@ public class SheetReader {
 	 * @return the column specifications of the table to write
 	 */
 	public static List<ColumnSpecification> buildColumnSpecifications(
-			List<PropertyShapeTemplate> colsHeaderTemplate,
+			List<PropertyShape> propertyShapes,
 			List<Resource> targets,
+			String language,
 			boolean addMissingColumns
 	){
 		List<ColumnSpecification> list_of_columns = new ArrayList<>();
@@ -95,9 +113,26 @@ public class SheetReader {
 		ColumnSpecification uriColumn = new ColumnSpecification("URI", "URI identifier", "URI of the entity. This column can use prefixes known in this spreadsheet");		
 		list_of_columns.add(uriColumn);
 		
+		// sort property shapes
+		propertyShapes.sort((a,b) -> {
+			if (b.getSh_order() != null) {
+				if (a.getSh_order() != null) {
+					return a.getSh_order().compareTo(b.getSh_order());
+				} else {
+					return -1;								
+				}
+			} else {
+				if (a.getSh_order().toString() == null) {
+					return 1;
+				} else {
+					return a.getSh_name(language).compareTo(b.getSh_name(language));
+				}
+			}
+		});
+		
 		// 2. Build columns from each property shapes
-		for (PropertyShapeTemplate pShape : colsHeaderTemplate) {
-			list_of_columns.add(new ColumnSpecification(pShape));
+		for (PropertyShape pShape : propertyShapes) {
+			list_of_columns.add(new ColumnSpecification(pShape, language));
 		}
 		
 		// 3. add new columns if necessary
@@ -107,7 +142,7 @@ public class SheetReader {
 				List<Statement> pred_data = r.listProperties().toList();
 				
 				for (Statement sts_pred : pred_data) {
-					ColumnSpecification colSpec = ComputeCell.computeColumnSpecificationForStatement(sts_pred);
+					ColumnSpecification colSpec = new ColumnSpecification(sts_pred);
 					
 					if(!list_of_columns.contains(colSpec)) {
 						list_of_columns.add(colSpec);
@@ -148,7 +183,7 @@ public class SheetReader {
     				}    				
     				
     				// 2. print them
-    				arrColumn[i] = statementsToCellValue(aColumnSpec, statements);
+    				arrColumn[i] = CellValues.statementsToCellValue(aColumnSpec, statements);
     			}
 				
 			}
@@ -188,45 +223,6 @@ public class SheetReader {
 					)
 					;
 		};
-	}
-	
-	public static String statementsToCellValue(ColumnSpecification columnSpec, List<Statement> statements) {
-		return statements.stream().map(s -> toCellValue(s.getObject(), columnSpec)).collect(Collectors.joining(", "));
-	}
-	
-	public static String toCellValue(RDFNode node, ColumnSpecification columnSpec) {
-		if(node.isURIResource()) {
-			return node.getModel().shortForm(node.asResource().getURI());
-		} else if(node.canAs(RDFList.class)) {
-			return(toCellValue(node.as(RDFList.class), columnSpec));
-		} else if(node.isAnon()) {
-			return toCellValueAnon(node.asResource(), columnSpec);
-		} else if(node.isLiteral()) {
-			return(toCellValue(node.asLiteral(), columnSpec));
-		} else {
-			System.out.println("Unknown value to print "+node.toString());
-			return "";
-		}
-	}
-	
-	public static String toCellValue(Literal l, ColumnSpecification columnSpec) {
-		if((l.getDatatypeURI() == null) || (columnSpec.getDatatypeUri() == null) || (l.getDatatypeURI().equals(columnSpec.getDatatypeUri()))) {
-			return l.getLexicalForm();
-		} else {
-			return l.getLexicalForm()+"^^"+l.getModel().shortForm(l.getDatatypeURI());
-		}
-	}
-	
-	public static String toCellValueAnon(Resource r, ColumnSpecification columnSpec) {
-		return "["+r.listProperties().toList().stream().map(s -> toCellValueAnon_statement(s, columnSpec)).collect(Collectors.joining("; "))+"]";
-	}
-	
-	public static String toCellValueAnon_statement(Statement statementOnAnonymousResource, ColumnSpecification columnSpec) {
-		return statementOnAnonymousResource.getModel().shortForm(statementOnAnonymousResource.getPredicate().getURI())+" "+toCellValue(statementOnAnonymousResource.getObject(), columnSpec);
-	}
-	
-	public static String toCellValue(RDFList list, ColumnSpecification columnSpec) {
-		return "("+list.asJavaList().stream().map(node -> toCellValue(node, columnSpec)).collect(Collectors.joining(" "))+")";
 	}
 	
 }

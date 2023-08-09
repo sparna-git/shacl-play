@@ -46,15 +46,12 @@ public class Main {
 		}
 		
 		// read dataset Template and set of data
-		DataParser parser = new DataParser();
+		DataParser parser = new DataParser("en");
 		List<Sheet> output_data = parser.parseData(shaclTemplateGraph,dataGraph);
-				
-		// Get OWL in DataGraph
-		List<Resource> ontology = dataGraph.listResourcesWithProperty(RDF.type, OWL.Ontology).toList();
 		
 		// Write excel
 		WriteXLS write_in_excel = new WriteXLS();
-		XSSFWorkbook workbook = write_in_excel.generateWorkbook(dataGraph.getNsPrefixMap(),ontology, output_data);
+		XSSFWorkbook workbook = write_in_excel.generateWorkbook(dataGraph.getNsPrefixMap(),output_data);
 		
 		
 		// write in file 

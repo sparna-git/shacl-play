@@ -56,7 +56,7 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 		allNodeShapes.sort((NodeShape ns1, NodeShape ns2) -> {
 			if (ns1.getShOrder() != null) {
 				if (ns2.getShOrder() != null) {
-					return ns1.getShOrder() - ns2.getShOrder();
+					return ((ns1.getShOrder() - ns2.getShOrder()) > 0)?1:-1;
 				} else {
 					return -1;
 				}

@@ -136,8 +136,8 @@ public class NodeShape {
 		return Optional.ofNullable(nodeShape.getProperty(SH.closed)).map(s -> Boolean.valueOf(s.getBoolean())).orElse(null);
 	}
 
-	public Integer getShOrder() {
-		return Optional.ofNullable(nodeShape.getProperty(SH.order)).map(s -> Integer.parseInt(s.getString())).orElse(null);
+	public Double getShOrder() {
+		return Optional.ofNullable(nodeShape.getProperty(SH.order)).map(s -> s.getDouble()).orElse(null);
 	}
 
 	public Literal getShPattern() {

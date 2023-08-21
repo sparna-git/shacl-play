@@ -47,9 +47,14 @@ public class SheetReader {
 		
 			Sheet modelStructure = new Sheet(aNodeShape);
 			
-			// 1. Get Name for sheet xls
- 			String nameSheet = aNodeShape.getNodeShape().getModel().shortForm(aNodeShape.getNodeShape().getURI()).replace(':', '_');
- 			modelStructure.setName(nameSheet);
+			// 1. get a name for the sheet			
+			if(aNodeShape.getSHTargetClass() != null) {
+				// if there is a targetClass, take it
+				modelStructure.setName(aNodeShape.getSHTargetClass().getLocalName());
+			} else {
+				// otherwise use the NodeShape URI
+				modelStructure.setName(aNodeShape.getNodeShape().getLocalName());
+			} 			
  			
  			// 2. resolve target
  			List<Resource> nodeShapeTarget = resolveTarget(aNodeShape, dataGraph);
@@ -87,7 +92,6 @@ public class SheetReader {
 		if(nodeShape.getSHTargetObjectOf() != null) {
 			// find all resources being objects of this property
 			targets.addAll(dataGraph.listObjectsOfProperty(dataGraph.createProperty(nodeShape.getSHTargetObjectOf().getURI())).toList().stream().map(n -> n.asResource()).collect(Collectors.toList()));
-			System.out.println("TargetOfBjectOf "+targets.size());
 		}
 		
 		if(nodeShape.getSHTargetSubjectsOf() != null) {
@@ -189,6 +193,12 @@ public class SheetReader {
 			}
     		arrNode.add(arrColumn);
 		}
+		
+		// sort the rows by the "URI" column
+		int uriColumnIndex = columnSpecifications.indexOf(columnSpecifications.stream().filter(cs -> cs.getHeaderString().equals("URI")).findAny().get());
+		arrNode.sort((lineA, lineB) -> {
+			return lineA[uriColumnIndex].compareToIgnoreCase(lineB[uriColumnIndex]);
+		});
 		return arrNode;
 	}	
 	

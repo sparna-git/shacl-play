@@ -1,5 +1,7 @@
 package fr.sparna.rdf.shacl.excel.writeXLS;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -15,9 +17,7 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import fr.sparna.rdf.shacl.excel.ShaclOntologyReader;
 import fr.sparna.rdf.shacl.excel.model.ColumnSpecification;
-import fr.sparna.rdf.shacl.excel.model.ShaclOntology;
 import fr.sparna.rdf.shacl.excel.model.Sheet;
 
 public class WriteXLS {
@@ -69,7 +69,7 @@ public class WriteXLS {
 		XSSFRow row_ontology = sheet.createRow(0);
 		Cell cellURI = row_ontology.createCell(0);
 		Cell cellValueURI = row_ontology.createCell(1);
-		cellURI.setCellValue("Graph URI");
+		cellURI.setCellValue("Class/shape URI");
 		cellValueURI.setCellValue(b1Uri);
 		
 		if(headervalues != null) {
@@ -89,18 +89,19 @@ public class WriteXLS {
 		//Iterate over data and write to sheet
 		// Create Row
 		XSSFRow row_prefix;
+		
+		// sort prefixes according to key
+		List<String> sortedKeys = new ArrayList<>(data.keySet());
+		Collections.sort(sortedKeys);
+		
 		// Write Prefixes
 		int rowprefix = 0;
-		for (Map.Entry<String, String> onePrefix : data.entrySet()) {
+		for (String key : sortedKeys) {
 			row_prefix = sheet.createRow(rowprefix++);
 
-			Cell cellP = row_prefix.createCell(0);
-			Cell cellPrefix = row_prefix.createCell(1);
-			Cell cellNameSpace = row_prefix.createCell(2);
-
-			cellP.setCellValue("PREFIX");
-			cellPrefix.setCellValue(onePrefix.getKey());
-			cellNameSpace.setCellValue(onePrefix.getValue());			
+			row_prefix.createCell(0).setCellValue("PREFIX");;
+			row_prefix.createCell(1).setCellValue(key);
+			row_prefix.createCell(2).setCellValue(data.get(key));		
 		}
 		
 		return sheet;
@@ -181,8 +182,7 @@ public class WriteXLS {
         	nCell_path++;
 		}
 		
-    	// Write in excel
-    	//All dataSet
+    	// Write in excel all dataSet
 		XSSFRow rowDataSet;
 		Integer nCellData = row_path.getRowNum()+1;
 		for (int line = 0; line < sheetData.getOutputData().size(); line++) {

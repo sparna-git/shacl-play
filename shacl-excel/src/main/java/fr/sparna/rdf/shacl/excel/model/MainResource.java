@@ -20,7 +20,7 @@ public class MainResource {
 		return mainResource;
 	}
 	
-	public List<String[]> parse() {
+	public List<String[]> getHeaderValues() {
 		List<String[]> values = new ArrayList<>();
 		
 		for (Statement aStatement : this.mainResource.listProperties().toList()) {
@@ -30,6 +30,11 @@ public class MainResource {
 
 			values.add(pair);
 		}
+		
+		// sort according to key
+		values.sort((pair1, pair2) -> {
+			return pair1[0].compareToIgnoreCase(pair2[0]);
+		});
 		
 		return values;
 	}

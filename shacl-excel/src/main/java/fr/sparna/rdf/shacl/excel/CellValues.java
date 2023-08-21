@@ -20,7 +20,12 @@ public class CellValues {
 	
 	public static String toCellValue(RDFNode node, ColumnSpecification columnSpec) {
 		if(node.isURIResource()) {
-			return node.getModel().shortForm(node.asResource().getURI());
+			// adding an extra test on object to avoid also printing terminal values as blank nodes
+			if(columnSpec.isForceValuesToBlankNodes() && node.asResource().listProperties().hasNext()) {
+				return toCellValueAnon(node.asResource(), columnSpec);
+			} else {
+				return node.getModel().shortForm(node.asResource().getURI());
+			}			
 		} else if(node.canAs(RDFList.class)) {
 			return(toCellValue(node.as(RDFList.class), columnSpec));
 		} else if(node.isAnon()) {
@@ -42,7 +47,14 @@ public class CellValues {
 	}
 	
 	public static String toCellValueAnon(Resource r, ColumnSpecification columnSpec) {
-		return "["+r.listProperties().toList().stream().map(s -> toCellValueAnon_statement(s, columnSpec)).collect(Collectors.joining("; "))+"]";
+		List<Statement> statements = r.listProperties().toList();
+		if(statements.size() > 2) {
+			// lot of statements, use line breaks;
+			return "[\n"+statements.stream().map(s -> toCellValueAnon_statement(s, columnSpec)).collect(Collectors.joining(";\n "))+"\n]";
+		} else {
+			// few statements, don't use line breaks;
+			return "["+statements.stream().map(s -> toCellValueAnon_statement(s, columnSpec)).collect(Collectors.joining("; "))+"]";
+		}
 	}
 	
 	public static String toCellValueAnon_statement(Statement statementOnAnonymousResource, ColumnSpecification columnSpec) {
@@ -50,7 +62,15 @@ public class CellValues {
 	}
 	
 	public static String toCellValue(RDFList list, ColumnSpecification columnSpec) {
-		return "("+list.asJavaList().stream().map(node -> toCellValue(node, columnSpec)).collect(Collectors.joining(" "))+")";
+		List<RDFNode> nodes = list.asJavaList();
+		if(nodes.size() > 2) {
+			// lof of nodes, use line breaks
+			return "(\n"+nodes.stream().map(node -> toCellValue(node, columnSpec)).collect(Collectors.joining("\n "))+"\n)";
+		} else {
+			// few nodes, don't use line breaks
+			return "("+nodes.stream().map(node -> toCellValue(node, columnSpec)).collect(Collectors.joining(" "))+")";
+		}
+		
 	}
 
 }

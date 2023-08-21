@@ -33,7 +33,7 @@ public class DataParser {
 		List<NodeShape> nodeShapes = templateReader.readTemplateModel(shaclGraphTemplate);
 		
 		/*
-		 * Read all NodeShape and find the dataGraph
+		 * Read all sheets content based on the node shapes, from the data graph
 		 */
 		SheetReader msReader = new SheetReader();
 		List<Sheet> sheets = msReader.read(nodeShapes, dataGraph, this.lang);
@@ -45,7 +45,7 @@ public class DataParser {
 		// if found, compute our header
 		if(mainResource != null) {
 			MainResource mr = new MainResource(mainResource);
-			sheets.get(0).setHeaderValues(mr.parse());
+			sheets.get(0).setHeaderValues(mr.getHeaderValues());
 			// and all sheets get that URI as their B1 URI
 			sheets.stream().forEach(s -> s.setB1Uri(mainResource.getURI()));
 		} else {
@@ -63,6 +63,11 @@ public class DataParser {
 		return sheets;
 	}
 	
+	/**
+	 * Retrieves the "main resource" from the graph, that is the resource that will be placed in the header
+	 * @param dataGraph
+	 * @return
+	 */
 	private Resource getMainResource(Model dataGraph) {
 		// if there is a single owl:Ontology, take it
 		List<Resource> ontologies = dataGraph.listSubjectsWithProperty(RDF.type, OWL.Ontology).toList();
@@ -75,7 +80,7 @@ public class DataParser {
 		if(datasets.size() == 1) {
 			return dataGraph.createResource(datasets.get(0).getURI());
 		}
-		// otherwise if there is a single ConceptScheme, take it
+		// otherwise if there is a single skos:ConceptScheme, take it
 		List<Resource> conceptSchemes = dataGraph.listSubjectsWithProperty(RDF.type, SKOS.ConceptScheme).toList();
 		if(conceptSchemes.size() == 1) {
 			return dataGraph.createResource(conceptSchemes.get(0).getURI());

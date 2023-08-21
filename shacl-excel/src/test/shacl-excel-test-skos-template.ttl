@@ -1,0 +1,54 @@
+@prefix schema: <http://schema.org/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix volipi: <http://data.sparna.fr/ontologies/volipi#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix skosthes: <http://purl.org/iso25964/skos-thes#> .
+@prefix config-core: <http://data.sparna.fr/ontologies/sparnatural-config-core> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix config-datasources: <http://data.sparna.fr/ontologies/sparnatural-config-datasources> .
+@prefix qb: <http://purl.org/linked-data/cube#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix doap: <http://usefulinc.com/ns/doap#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix euvoc: <http://publications.europa.eu/ontology/euvoc#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix scs: <https://data.sparna.fr/ontologies/sparnatural-config-shapes#> .
+@prefix adms: <http://www.w3.org/ns/adms#> .
+@prefix org: <http://www.w3.org/ns/org#> .
+@prefix shacl-play: <https://shacl-play.sparna.fr/ontology#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix dash: <http://datashapes.org/dash#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix skosxl: <http://www.w3.org/2008/05/skos-xl#> .
+@prefix sset: <https://data.sparna.fr/ontologies/skos-simple-excel-template#> .
+@prefix eli: <http://data.europa.eu/eli/ontology#> .
+@prefix epvoc: <https://data.europarl.europa.eu/def/epvoc#> .
+
+<https://data.sparna.fr/ontologies/skos-simple-excel-template#> a owl:Ontology;
+  rdfs:label "SKOS simple Excel template"@en;
+.
+
+sset: a sh:NodeShape;
+  sh:targetClass skos:Concept;
+  rdfs:label "SKOS Concept"@en;
+  sh:order "1"^^xsd:integer;
+  sh:property sset:ConceptShape_P1, sset:ConceptShape_P2, sset:ConceptShape_P3 .
+
+sset:ConceptShape_P1 sh:path skos:prefLabel;
+  sh:name "label in zh"@en;
+  sh:description "The label in mandarin"@en;
+  sh:order "1" .
+
+sset:ConceptShape_P2 sh:path skos:note;
+  sh:name "note"@en;
+  sh:description "Translation in english"@en;
+  sh:order "2" .
+
+sset:ConceptShape_P3 sh:path skos:broader;
+  sh:name "broader concept"@en;
+  sh:description "The broader concept"@en;
+  sh:order "3" .

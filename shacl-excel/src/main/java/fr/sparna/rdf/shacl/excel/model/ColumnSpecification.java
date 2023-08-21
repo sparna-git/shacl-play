@@ -15,8 +15,11 @@ public class ColumnSpecification {
 	protected boolean isInverse = false;
 	
 	protected String label;
-	protected String description;	
+	protected String description;
+
+	protected boolean forceValuesToBlankNodes = false;
 	
+	// the final header string, including "^^" or "@"
 	protected String headerString;
 	
 	public ColumnSpecification(PropertyShape pShape, String language) {
@@ -31,6 +34,11 @@ public class ColumnSpecification {
 		this.label = pShape.getSh_name(language);
 		this.description = pShape.getSh_description(language);
 		this.recomputeHeaderString(pShape.getPropertyShape().getModel());
+		
+		// super specific : for sh:or, force blank nodes
+		if(pShape.getSh_path().equals(SH.or)) {
+			this.forceValuesToBlankNodes = true;
+		}
 	}
 	
 	public ColumnSpecification(String headerString, String label, String description) {
@@ -123,6 +131,14 @@ public class ColumnSpecification {
 
 	public void setInverse(boolean isInverse) {
 		this.isInverse = isInverse;
+	}
+
+	public boolean isForceValuesToBlankNodes() {
+		return forceValuesToBlankNodes;
+	}
+
+	public void setForceValuesToBlankNodes(boolean forceValuesToBlankNodes) {
+		this.forceValuesToBlankNodes = forceValuesToBlankNodes;
 	}
 
 	@Override

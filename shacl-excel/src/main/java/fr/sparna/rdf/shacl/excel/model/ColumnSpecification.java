@@ -22,7 +22,7 @@ public class ColumnSpecification {
 	// the final header string, including "^^" or "@"
 	protected String headerString;
 	
-	public ColumnSpecification(PropertyShape pShape, String language) {
+	public ColumnSpecification(PropertyShape pShape, String language,String DataLanguage) {
 		if(pShape.getSh_path().isURIResource()) {
 			this.propertyUri = pShape.getSh_path().getURI();
 		} else if(pShape.getSh_path().hasProperty(SH.inversePath)) {
@@ -30,6 +30,8 @@ public class ColumnSpecification {
 			this.propertyUri = pShape.getSh_path().getProperty(SH.inversePath).getObject().asResource().getURI();
 		}
 		
+		//get the language, not a language list
+		this.language = DataLanguage;
 		this.datatypeUri = (pShape.getDatatype() != null)?pShape.getDatatype().getURI():null;
 		this.label = pShape.getSh_name(language);
 		this.description = pShape.getSh_description(language);
@@ -70,7 +72,10 @@ public class ColumnSpecification {
 		if(this.isInverse) {
 			this.headerString += "^";
 		}
-		if(this.getDatatypeUri() != null) {
+		
+		if (this.language != null & this.getDatatypeUri() == null) {
+			this.headerString += mappings.shortForm(this.propertyUri)+"@"+ mappings.shortForm(this.language);
+		} else if(this.getDatatypeUri() != null) {
 			this.headerString += mappings.shortForm(this.propertyUri)+"^^"+ mappings.shortForm(this.datatypeUri);
 		} else {
 			this.headerString += mappings.shortForm(this.propertyUri);
@@ -158,9 +163,4 @@ public class ColumnSpecification {
 		return Objects.equals(datatypeUri, other.datatypeUri) && Objects.equals(language, other.language)
 				&& Objects.equals(propertyUri, other.propertyUri);
 	}
-
-
-	
-	
-	
 }

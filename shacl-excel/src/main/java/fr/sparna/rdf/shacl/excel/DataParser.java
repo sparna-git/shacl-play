@@ -12,7 +12,7 @@ import org.apache.jena.vocabulary.SKOS;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
 import fr.sparna.rdf.shacl.excel.model.Sheet;
-import fr.sparna.rdf.xls2rdf.postprocess.QBPostProcessor.QB;
+//import fr.sparna.rdf.xls2rdf.postprocess.QBPostProcessor.QB;
 import fr.sparna.rdf.shacl.excel.model.MainResource;
 import fr.sparna.rdf.shacl.excel.model.NodeShape;
 

@@ -6,10 +6,14 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.RDFList;
+import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
+import org.apache.jena.util.iterator.ExtendedIterator;
 import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.XSD;
+import org.topbraid.shacl.vocabulary.SH;
 
 import fr.sparna.rdf.shacl.excel.model.ColumnSpecification;
 import fr.sparna.rdf.shacl.excel.model.NodeShape;
@@ -58,6 +62,8 @@ public class SheetReader {
  			
  			// 2. resolve target
  			List<Resource> nodeShapeTarget = resolveTarget(aNodeShape, dataGraph);
+ 			// Sort the node Shape Target *********
+ 			
 						
 			// 3. Build column specifications
  			List<ColumnSpecification> columnSpecifications = buildColumnSpecifications(
@@ -136,7 +142,17 @@ public class SheetReader {
 		
 		// 2. Build columns from each property shapes
 		for (PropertyShape pShape : propertyShapes) {
-			list_of_columns.add(new ColumnSpecification(pShape, language));
+			
+			// find a language
+			List<String> LanguageConf = readShLanguageIn(pShape);
+			if (LanguageConf.size() > 0) {
+				for (String dataLanguage : LanguageConf) {
+					list_of_columns.add(new ColumnSpecification(pShape, language,dataLanguage));
+				}
+			} else {
+				list_of_columns.add(new ColumnSpecification(pShape, language,null));
+			}
+			
 		}
 		
 		// 3. add new columns if necessary
@@ -235,4 +251,22 @@ public class SheetReader {
 		};
 	}
 	
+
+	public static List<String> readShLanguageIn(PropertyShape r) {
+		
+		
+		List<String> l_lang = new ArrayList<>();
+		if (r.getPropertyShape().hasProperty(SH.languageIn)) {
+			Resource list = r.getPropertyShape().getProperty(SH.languageIn).getList().asResource();		
+		    RDFList rdfList = list.as(RDFList.class);
+		    ExtendedIterator<RDFNode> items = rdfList.iterator();
+		    while ( items.hasNext() ) {
+		    	RDFNode item = items.next();
+		    	l_lang.add(item.toString());
+		    }
+		    
+		}
+		return l_lang;
+	}
+
 }

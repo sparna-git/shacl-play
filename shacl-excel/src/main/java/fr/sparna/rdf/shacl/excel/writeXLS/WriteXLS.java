@@ -128,9 +128,10 @@ public class WriteXLS {
     	
     	// Column Description
     	XSSFCellStyle style_Description = workbook.createCellStyle();
-    	style_Description = styleColor(workbook, IndexedColors.LIGHT_TURQUOISE1.index,FillPatternType.THICK_BACKWARD_DIAG);
+    	style_Description = styleColor(workbook, IndexedColors.BLUE_GREY.index,FillPatternType.SOLID_FOREGROUND.THICK_BACKWARD_DIAG);
     	style_Description.setAlignment(HorizontalAlignment.JUSTIFY);
-		
+    	
+    	
 		// Get the las row in the sheet
     	Integer nRow = xlsSheet.getLastRowNum()+3;
 	    
@@ -148,7 +149,7 @@ public class WriteXLS {
     		// Style
     		cell_desc.setCellStyle(style_Description);
     		style_Description.setFont(headerFont);
-    		style_Description.setWrapText(true);
+    		
     		headerFont.setItalic(true);
     		headerFont.setBold(false);
     		
@@ -174,7 +175,8 @@ public class WriteXLS {
     	Integer nCell_path = 0;
     	for (ColumnSpecification cols : sheetData.getColumns()) {
     		XSSFCell cell_path = row_path.createCell(nCell_path);
-        	cell_path.setCellValue(cols.getHeaderString());
+        	
+    		cell_path.setCellValue(cols.getHeaderString());
         	// Style
         	cell_path.setCellStyle(style_path);
         	style_path.setFont(headerFont);

@@ -12,7 +12,7 @@ public class ArgumentsGenerate {
 
 	@Parameter(
 			names = { "-i", "--input" },
-			description = "URL of Service Sparql (e.g. https//)",
+			description = "URL of Service Sparql (e.g. https//) or File",
 			required = true,
 			variableArity = true
 	)

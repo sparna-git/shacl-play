@@ -36,18 +36,11 @@ this: a sh:NodeShape;
   sh:targetClass skos:Concept;
   rdfs:label "SKOS Concept"@en;
   sh:order "1"^^xsd:integer;
-  sh:property this:ConceptShape_P1, this:ConceptShape_P2 .
+  sh:property this:ConceptShape_P1 .
 
 this:ConceptShape_P1
   sh:path skos:prefLabel;
-  sh:name "prefLabel in en"@en;
-  sh:description "The label in english"@en;
-  sh:languageIn ("en") ;
+  sh:name "The preferred label."@en;
+  sh:description "Preferred label. Can be english or french"@en;
+  sh:languageIn ("en" "fr") ;
   sh:order "1" .
-
-this:ConceptShape_P2
-  sh:path skos:prefLabel;
-  sh:name "prefLabel in fr"@en;
-  sh:description "The label in french"@en;
-  sh:languageIn ("fr") ;
-  sh:order "2" .

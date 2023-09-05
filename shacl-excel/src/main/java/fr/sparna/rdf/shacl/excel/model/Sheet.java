@@ -8,11 +8,20 @@ public class Sheet {
 	
 	// the NodeShape from which this sheet was read
 	protected NodeShape inputNodeShape;
+	
+	// name of the sheet
 	protected String name;
+	
+	// column specifications for the sheet
 	protected List<ColumnSpecification> Columns;
+	
+	// data populating the table
 	protected List<String[]> outputData;
 	
+	// A list of arrays with 2 values representing the lines to insert in the header of the sheet
 	protected List<String[]> headerValues;
+	
+	// URI in B1 cell of that sheet
 	protected String b1Uri;
 	
 	

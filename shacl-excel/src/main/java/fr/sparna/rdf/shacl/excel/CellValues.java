@@ -15,7 +15,12 @@ import fr.sparna.rdf.shacl.excel.model.ColumnSpecification;
 public class CellValues {
 	
 	public static String statementsToCellValue(ColumnSpecification columnSpec, List<Statement> statements) {
-		return statements.stream().map(s -> toCellValue(s.getObject(), columnSpec)).collect(Collectors.joining(", "));
+		if(columnSpec.isInverse()) {
+			return statements.stream().map(s -> toCellValue(s.getSubject(), columnSpec)).collect(Collectors.joining(", "));
+		} else {
+			return statements.stream().map(s -> toCellValue(s.getObject(), columnSpec)).collect(Collectors.joining(", "));
+		}
+		
 	}
 	
 	public static String toCellValue(RDFNode node, ColumnSpecification columnSpec) {

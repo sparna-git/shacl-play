@@ -27,6 +27,7 @@
 @prefix eli: <http://data.europa.eu/eli/ontology#> .
 @prefix epvoc: <https://data.europarl.europa.eu/def/epvoc#> .
 @prefix this: <https://data.sparna.fr/shapes/this#> .
+@prefix ex: <https://example.com/> .
 
 ex:C1 a skos:Concept ;
   skos:prefLabel "ontology"@en, "ontologie"@fr;

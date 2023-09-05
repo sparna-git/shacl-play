@@ -61,9 +61,7 @@ public class SheetReader {
 			} 			
  			
  			// 2. resolve target
- 			List<Resource> nodeShapeTarget = resolveTarget(aNodeShape, dataGraph);
- 			// Sort the node Shape Target *********
- 			
+ 			List<Resource> nodeShapeTarget = resolveTarget(aNodeShape, dataGraph); 			
 						
 			// 3. Build column specifications
  			List<ColumnSpecification> columnSpecifications = buildColumnSpecifications(
@@ -74,8 +72,23 @@ public class SheetReader {
  			);
  			modelStructure.setColumns(columnSpecifications);
  			
-			// 4. Fill table with values		
-			List<String[]> outputData = fillColumns(nodeShapeTarget,columnSpecifications);		
+			// 4. Generate values in the table	
+			List<String[]> outputData = fillColumns(nodeShapeTarget,columnSpecifications);
+			
+			// 5. Sort the table, by default on the first column in the data, then by URI
+			outputData.sort((String[] o1, String[] o2) -> {
+				if(o1.length == 1) {
+					return o1[0].compareToIgnoreCase(o2[0]);
+				}
+				
+				int firstColumnCompare = o1[1].compareTo(o2[1]);
+				if(firstColumnCompare == 0) {
+					return o1[0].compareToIgnoreCase(o2[0]);
+				} else {
+					return firstColumnCompare;
+				}
+			});
+			
 			modelStructure.setOutputData(outputData);	
 			
 			// add to list of sheets
@@ -194,11 +207,18 @@ public class SheetReader {
     				// 1. find the statements corresponding to column
     				List<Statement> statements;
     				if(!aColumnSpec.isInverse()) {
-    					statements = aTarget.listProperties(
-        						aTarget.getModel().createProperty(aColumnSpec.getPropertyUri())
-        				).filterKeep(buildStatementPredicate(aColumnSpec)).toList();
+    					statements = aTarget.getModel().listStatements(
+    							aTarget,
+    							aTarget.getModel().createProperty(aColumnSpec.getPropertyUri()),
+    							(RDFNode)null
+    					)
+    					.filterKeep(buildStatementPredicate(aColumnSpec)).toList();
     				} else {
-    					statements = aTarget.getModel().listStatements(null, aTarget.getModel().createProperty(aColumnSpec.getPropertyUri()), aTarget)
+    					statements = aTarget.getModel().listStatements(
+    							null,
+    							aTarget.getModel().createProperty(aColumnSpec.getPropertyUri()),
+    							aTarget
+    					)
         				.filterKeep(buildStatementPredicate(aColumnSpec)).toList();
     				}    				
     				

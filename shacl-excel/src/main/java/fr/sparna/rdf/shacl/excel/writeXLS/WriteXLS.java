@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.jena.rdf.model.Resource;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
@@ -44,12 +43,12 @@ public class WriteXLS {
 	}
 	
 	
-	public static XSSFCellStyle styleColor(XSSFWorkbook workbook,Short color,FillPatternType fpattern) {
+	public static XSSFCellStyle styleColor(XSSFWorkbook workbook,Short color) {
 		
 		XSSFCellStyle sColor = workbook.createCellStyle();
 		
-		sColor.setFillBackgroundColor(color);
-		sColor.setFillPattern(fpattern);
+		sColor.setFillForegroundColor(color);
+		sColor.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 		
 		return sColor;
 	}
@@ -123,12 +122,12 @@ public class WriteXLS {
 		
         // Config color for each column Header for path
 		XSSFCellStyle style_path = workbook.createCellStyle();
-    	style_path = styleColor(workbook, IndexedColors.DARK_RED.index,FillPatternType.THICK_BACKWARD_DIAG);
+    	style_path = styleColor(workbook, IndexedColors.DARK_RED.index);
     	style_path.setAlignment(HorizontalAlignment.CENTER);
     	
     	// Column Description
     	XSSFCellStyle style_Description = workbook.createCellStyle();
-    	style_Description = styleColor(workbook, IndexedColors.BLUE_GREY.index,FillPatternType.SOLID_FOREGROUND.THICK_BACKWARD_DIAG);
+    	style_Description = styleColor(workbook, IndexedColors.BLUE_GREY.index);
     	style_Description.setAlignment(HorizontalAlignment.JUSTIFY);
     	
     	
@@ -141,7 +140,7 @@ public class WriteXLS {
 		Integer nCell_desc = 0;
     	XSSFRow row_desc = xlsSheet.createRow(nRow++);
     	row_desc.setHeight((short) 1300);
-    	XSSFCellStyle style_description_font = workbook.createCellStyle();    	
+	
     	for (ColumnSpecification cols : sheetData.getColumns()) {
     		XSSFCell cell_desc = row_desc.createCell(nCell_desc);       	
     		cell_desc.setCellValue(cols.getDescription());

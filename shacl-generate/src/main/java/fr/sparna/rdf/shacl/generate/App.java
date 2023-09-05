@@ -67,6 +67,7 @@ public class App
 			// final String ENDPOINT = "https://query.linkedopendata.eu/sparql";
 			// final String ENDPOINT = "https://nakala.fr/sparql";
 			final String ENDPOINT = "http://localhost:7200/repositories/nakala";
+			// final String ENDPOINT = "http://51.159.140.210/graphdb/repositories/sparnatural-demo-anf?infer=false";
 			
 			
 			
@@ -78,10 +79,8 @@ public class App
 			
 			// add count
 			ShaclVisit modelStructure = new ShaclVisit(shapes);
-			modelStructure.visit(new ComputeStatisticsVisitor(dataProvider2, ENDPOINT, true));	
 			
-			// add sh:minCount and sh:maxCount
-			modelStructure.visit(new AssignMinCountAndMaxCountVisitor(dataProvider2));
+			modelStructure.visit(new ComputeStatisticsVisitor(dataProvider2, ENDPOINT, true));	
 			
 			shapes.write(System.out,"Turtle");
 			/** FIN DU CODE A INTEGRER DANS LE FORMULAIRE **/

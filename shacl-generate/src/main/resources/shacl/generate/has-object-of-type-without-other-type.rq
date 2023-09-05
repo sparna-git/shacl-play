@@ -1,0 +1,8 @@
+ask {
+  ?uri a $type .
+  ?uri $property ?x.
+  ?x a $includedType.
+  filter not exists {
+  	?x a $excludedType.
+  }
+}

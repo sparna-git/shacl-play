@@ -1,0 +1,6 @@
+ask {
+  ?uri a $type .
+  filter not exists {
+    ?uri a $otherType
+  }
+}

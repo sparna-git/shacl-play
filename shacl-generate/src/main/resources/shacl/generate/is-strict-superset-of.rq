@@ -1,0 +1,7 @@
+PREFIX rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+ASK {
+  ?uri a $type .
+  ?uri a $superset .
+  filter (?otherType != $type)
+}

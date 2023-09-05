@@ -45,7 +45,7 @@ public class PostProcess
 			
 			SamplingShaclGeneratorDataProvider dataProvider = new SamplingShaclGeneratorDataProvider(new PaginatedQuery(100), ENDPOINT);
 			
-			modelStructure.visit(new AssignIconVisitor());	
+			// modelStructure.visit(new AssignIconVisitor());	
 			modelStructure.visit(new AddNamespacesVisitor());
 			modelStructure.visit(new FilterOnStatisticsVisitor());
 			modelStructure.visit(new AssignLabelRoleVisitor());

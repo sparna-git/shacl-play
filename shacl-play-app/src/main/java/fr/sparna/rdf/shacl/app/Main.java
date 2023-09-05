@@ -8,6 +8,8 @@ import fr.sparna.rdf.shacl.app.doc.ArgumentsDoc;
 import fr.sparna.rdf.shacl.app.doc.Doc;
 import fr.sparna.rdf.shacl.app.draw.ArgumentsDraw;
 import fr.sparna.rdf.shacl.app.draw.Draw;
+import fr.sparna.rdf.shacl.app.generate.ArgumentsGenerate;
+import fr.sparna.rdf.shacl.app.generate.Generate;
 import fr.sparna.rdf.shacl.app.infer.ArgumentsInfer;
 import fr.sparna.rdf.shacl.app.infer.Infer;
 import fr.sparna.rdf.shacl.app.jsonld.ArgumentsGenerateContext;
@@ -35,6 +37,7 @@ public class Main {
 		SHACL2SPARQL(new ArgumentsShacl2Sparql(), new Shacl2Sparql()),
 		SPARQLBATCH(new ArgumentsSparqlBatch(), new SparqlBatch()),
 		GENERATECONTEXT(new ArgumentsGenerateContext(), new GenerateContext()),
+		GENERATE(new ArgumentsGenerate(), new Generate()),
 		VALIDATE(new ArgumentsValidate(), new Validate());
 
 		private CliCommandIfc command;

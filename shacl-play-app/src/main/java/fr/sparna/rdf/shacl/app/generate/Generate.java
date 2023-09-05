@@ -6,6 +6,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.riot.RDFDataMgr;
+import org.apache.jena.util.FileUtils;
+import org.apache.jena.vocabulary.RDF;
+import org.apache.jena.vocabulary.RDFS;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,10 +32,7 @@ public class Generate implements CliCommandIfc {
 	public void execute(Object args) throws Exception {
 		ArgumentsGenerate a = (ArgumentsGenerate)args;
 		
-		// Instances of 
-		
-		String ENDPOINT = a.getInput();
-		
+		/*
 		Configuration config = new Configuration(new DefaultModelProcessor(), "https://shacl-play.sparna.fr/shapes/", "shape");
 		config.setShapesOntology("https://shacl-play.sparna.fr/shapes/");
 		
@@ -45,42 +47,13 @@ public class Generate implements CliCommandIfc {
 		ShaclVisit modelStructure = new ShaclVisit(shapes);
 		modelStructure.visit(new ComputeStatisticsVisitor(dataProvider, ENDPOINT, true));
 		modelStructure.visit(new FilterOnStatisticsVisitor());			
-
-		String dateString = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-		String outputName="shacl"+"_"+dateString;
+		*/
 		
-		String fmtOutputFile = "";
-		switch (a.getformat()) {
-		case "TURTLE":
-			fmtOutputFile = ".ttl";
-			break;
-			
-		case "RDF/XML":
-			fmtOutputFile = ".ttl";
-			break;
-		case "N-Triples":
-			fmtOutputFile = ".nt";
-			break;
-		case "N-Quads":
-			fmtOutputFile = ".nq";
-			break;
-		case "N3":
-			fmtOutputFile = ".n3";
-			break;
-		case "TriG":
-			fmtOutputFile = ".trig";
-			break;
-		case "Json-LD":
-			fmtOutputFile = ".jsonld";
-			break;
-		default:
-			fmtOutputFile = ".ttl";
-			break;
-		}
+		Model shapes = ModelFactory.createDefaultModel();
+		shapes.add(shapes.createStatement(RDFS.Resource, RDF.type, RDFS.Class));
 		
-		String FileName = outputName+fmtOutputFile;
-		OutputStream OutputFile = new FileOutputStream(FileName);
-		shapes.write(OutputFile,"Turtle");				
+		OutputStream out = new FileOutputStream(a.getOutput());
+		shapes.write(out,FileUtils.guessLang(a.getOutput().getName(), "Turtle"));				
 		
 	}
 }

@@ -26,6 +26,30 @@ public interface ShaclGeneratorDataProviderIfc {
 	public List<String> getTypes();
 	
 	/**
+	 * Returns all types that co-occur with the given type
+	 * @return
+	 */
+	public List<String> getCoOccuringTypes(String classUri);
+
+	/**
+	 * Returns true if potentialSuperset is a strict superset of classUri
+	 * @return
+	 */
+	public boolean isStrictSuperset(String classUri, String potentialSuperset);
+	
+	/**
+	 * Returns all types that co-occur with the given type
+	 * @return
+	 */
+	public boolean isEquivalentOrSuperSet(String classUri, String potentialSuperset);
+
+	/**
+	 * Returns true if there are instances of the property on the class that have the type to search without the type to exclude
+	 * @return
+	 */
+	public boolean hasObjectOfTypeWithoutOtherType(String classUri, String propertyUri, String classToSearch, String excludedClassUri);
+	
+	/**
 	 * Count the number of instances of this class in the dataset,
 	 * or returns a negative integer if this is not implemented.
 	 * 
@@ -49,6 +73,16 @@ public interface ShaclGeneratorDataProviderIfc {
 	 * @return
 	 */
 	public int countStatements(String subjectClassUri, String propertyUri);
+
+	/**
+	 * Counts the number of distinct objects of the given property on the given subject class
+	 * or returns a negative integer if this is not implemented.
+	 * 
+	 * @param subjectClassUri
+	 * @param propertyUri
+	 * @return
+	 */
+	public int countDistinctObjects(String subjectClassUri, String propertyUri);
 	
 	/**
 	 * Counts the number of statements on the instances of the given class with the given property,

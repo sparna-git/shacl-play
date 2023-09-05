@@ -25,11 +25,6 @@ public class DefaultModelProcessor implements ModelProcessorIfc {
 	}
 
 	@Override
-	public String getTypeTranslation(Set<String> classes) {
-		return null;
-	}
-
-	@Override
 	public List<String> getIgnoredClasses() {
 		return ignoredClasses;
 	}

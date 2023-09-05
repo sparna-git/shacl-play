@@ -2,11 +2,9 @@ package fr.sparna.rdf.shacl.generate.visitors;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.Resource;
-import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.vocabulary.DCTerms;
 import org.apache.jena.vocabulary.OWL;
 import org.apache.jena.vocabulary.RDF;
-import org.apache.jena.vocabulary.VOID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,7 +51,8 @@ public abstract class AbstractFilterVisitor implements ShaclVisitorIfc {
 			ShaclGenerator.concatOnProperty(
 					s.getSubject(),
 					DCTerms.abstract_,
-					this.getMessage()+". "+this.filteredPropertyShapesCount+" property shapes filtered out."
+					this.getMessage()+". "+this.filteredPropertyShapesCount+" property shapes filtered out.",
+					"en"
 			);
 		});
 	}

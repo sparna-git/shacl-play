@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Property;
-import org.apache.jena.rdf.model.RDFList;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.ResourceFactory;
@@ -36,6 +35,8 @@ import fr.sparna.rdf.shacl.generate.visitors.ShaclVisit;
 public class ShaclGenerator {
 
 	private static final Logger log = LoggerFactory.getLogger(ShaclGenerator.class);
+	
+	private static final String DEFAULT_MESSAGE_LANG = "en";
 	
 	private ShaclGeneratorDataProviderIfc dataProvider;
 
@@ -88,8 +89,8 @@ public class ShaclGenerator {
 		// post-process to assign nodeKind, datatypes and classes
 		ShaclVisit visit = new ShaclVisit(shacl);
 		visit.visit(new AssignNodeKindVisitor(dataProvider));
-		visit.visit(new AssignDatatypesVisitor(dataProvider));
 		visit.visit(new AssignClassesVisitor(dataProvider, configuration.getModelProcessor()));
+		visit.visit(new AssignDatatypesVisitor(dataProvider));		
 		visit.visit(new AssignMinCountAndMaxCountVisitor(dataProvider));
 		visit.visit(new AssignValueOrInVisitor(dataProvider));
 		
@@ -109,7 +110,7 @@ public class ShaclGenerator {
 		shacl.add(onto, RDF.type, OWL.Ontology);
 		shacl.add(onto, DCTerms.created, shacl.createTypedLiteral(Calendar.getInstance()));
 		
-		concatOnProperty(onto, DCTerms.abstract_, "Created automatically by SHACL Play!");
+		concatOnProperty(onto, DCTerms.abstract_, "Created automatically by SHACL Play!", DEFAULT_MESSAGE_LANG);
 	}
 	
 
@@ -124,7 +125,7 @@ public class ShaclGenerator {
 			Model shacl
 	) {
 		this.dataProvider.registerMessageListener(
-				s -> concatOnProperty(shacl.getResource(configuration.getShapesOntology()), RDFS.comment, s)
+				s -> concatOnProperty(shacl.getResource(configuration.getShapesOntology()), RDFS.comment, s, DEFAULT_MESSAGE_LANG)
 		);
 		List<String> types = this.dataProvider.getTypes();
 		log.debug("(addTypes) found {} types", types.size());
@@ -159,7 +160,7 @@ public class ShaclGenerator {
 
 		// if the data provider send us any message, store them on the rdfs:comment property of the shape
 		this.dataProvider.registerMessageListener(
-				s -> concatOnProperty(typeShape, RDFS.comment, s)
+				s -> concatOnProperty(typeShape, RDFS.comment, s, DEFAULT_MESSAGE_LANG)
 		);
 		
 		// add the name
@@ -224,7 +225,7 @@ public class ShaclGenerator {
 
 		// if the data provider sends us any message, store them on the sh:description property of the property shape
 		this.dataProvider.registerMessageListener(
-				s -> concatOnProperty(propertyShape, SHACLM.description, s)
+				s -> concatOnProperty(propertyShape, SHACLM.description, s, DEFAULT_MESSAGE_LANG)
 		);
 		
 		log.debug("(addProperty) shape '{}' gets '{}'", typeShape.getLocalName(), propertyShape.getLocalName());
@@ -300,10 +301,18 @@ public class ShaclGenerator {
 	}
 	
 	public static void concatOnProperty(Resource r, Property p, String s) {
+		concatOnProperty(r, p, s, null);
+	}
+	
+	public static void concatOnProperty(Resource r, Property p, String s, String lang) {
 		if(r.getProperty(p) != null) {
 			String currentValue = r.getProperty(p).getObject().asLiteral().getLexicalForm();
 			r.removeAll(p);
-			r.addProperty(p, currentValue+".\n"+s);
+			if(lang != null) {
+				r.addProperty(p, currentValue+".\n"+s, lang);
+			} else {
+				r.addProperty(p, currentValue+".\n"+s);
+			}
 		} else {
 			r.addProperty(p, s);
 		}

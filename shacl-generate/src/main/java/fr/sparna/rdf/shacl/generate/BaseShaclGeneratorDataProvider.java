@@ -10,7 +10,6 @@ import java.util.Map;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
-import org.apache.jena.datatypes.xsd.XSDDatatype;
 import org.apache.jena.query.QuerySolutionMap;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.RDFNode;
@@ -67,6 +66,61 @@ public class BaseShaclGeneratorDataProvider implements ShaclGeneratorDataProvide
 		List<String> types = JenaResultSetHandlers.convertSingleColumnUriToStringList(rows);
 		return types;
 	}
+	
+	public List<String> getCoOccuringTypes(String classUri) {
+		List<Map<String, RDFNode>> rows = this.paginatedQuery.select(
+				this.queryExecutionService,
+				readQuery("select-cooccuring-classes.rq"),
+				QueryExecutionService.buildQuerySolution("type", ResourceFactory.createResource(classUri))
+		);
+		
+		List<String> coOccurringClasses = JenaResultSetHandlers.convertSingleColumnUriToStringList(rows);
+
+		
+		return new ArrayList<String>(coOccurringClasses);
+	}
+
+	public boolean isEquivalentOrSuperSet(String classUri, String potentialSuperset) {
+		QuerySolutionMap qs = new QuerySolutionMap();
+		qs.add("type", ResourceFactory.createResource(classUri));
+		qs.add("otherType", ResourceFactory.createResource(potentialSuperset));
+		// if there NO instances that have type but not otherType, then otherType is a superSet of type
+		return !this.queryExecutionService.executeAskQuery(readQuery("has-instance-without-type.rq"), qs);
+	}
+	
+	public boolean isStrictSuperset(String classUri, String potentialSuperset) {
+		QuerySolutionMap qs = new QuerySolutionMap();
+		qs.add("type", ResourceFactory.createResource(classUri));
+		qs.add("otherType", ResourceFactory.createResource(potentialSuperset));
+		
+		QuerySolutionMap qsReverse = new QuerySolutionMap();
+		qsReverse.add("type", ResourceFactory.createResource(potentialSuperset));
+		qsReverse.add("otherType", ResourceFactory.createResource(classUri));
+		
+		return
+				// if there NO instances that have type but not otherType...
+				!this.queryExecutionService.executeAskQuery(readQuery("has-instance-without-type.rq"), qs)
+				&&
+				// and there IS some instance that have otherType but not type
+				// then otherType is a strict superset of type
+				this.queryExecutionService.executeAskQuery(readQuery("has-instance-without-type.rq"), qsReverse)
+		;
+	}
+	
+	public boolean hasObjectOfTypeWithoutOtherType(
+			String classUri,
+			String propertyUri,
+			String includedType,
+			String excludedType
+	) {
+		QuerySolutionMap qs = new QuerySolutionMap();
+		qs.add("type", ResourceFactory.createResource(classUri));
+		qs.add("property", ResourceFactory.createResource(propertyUri));
+		qs.add("includedType", ResourceFactory.createResource(includedType));
+		qs.add("excludedType", ResourceFactory.createResource(excludedType));
+		return this.queryExecutionService.executeAskQuery(readQuery("has-object-of-type-without-other-type.rq"), qs);
+	}
+	
 
 	@Override
 	public List<String> getProperties(String classUri) {
@@ -201,6 +255,20 @@ public class BaseShaclGeneratorDataProvider implements ShaclGeneratorDataProvide
 		return count;
 	}
 	
+	@Override
+	public int countDistinctObjects(String subjectClassUri, String propertyUri) {
+		QuerySolutionMap qs = new QuerySolutionMap();
+		qs.add("type", ResourceFactory.createResource(subjectClassUri));
+		qs.add("property", ResourceFactory.createResource(propertyUri));
+		
+		int count = this.queryExecutionService.executeSelectQuery(
+				readQuery("count-distinct-objects.rq"),
+				qs,
+				JenaResultSetHandlers::convertToInt
+				
+		);
+		return count;
+	}
 	
 	
 	@Override

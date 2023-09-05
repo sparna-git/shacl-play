@@ -1,0 +1,4 @@
+select (count(distinct ?value) as ?count) {
+  ?uri a $type.
+  ?uri $property ?value .
+}

@@ -6,59 +6,72 @@ import java.util.List;
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.Parameters;
 
-@Parameters(commandDescription = "Convert the fichier RDF/XML, TTL to excel file. ")
+@Parameters(commandDescription = "Generates an Excel table from a dataset and the description of the table structure in Excel, provided in SHACL.")
 public class ArgumentsExcel {
 
 	@Parameter(
-			names = { "-i", "--input" },
-			description = "Template File " + "The format of the file is determined based"
-					+ " on the file extension : '*.ttl, *.rdf, *.n3, *.nq, *.nt, *.trig, *.jsonld' ",
-			required = true,
-			variableArity = true
+			names = { "-t", "--template" },
+			description = "Template SHACL file that defines the table structure.",
+			required = true
 	)
-	private String inputTemplate;
+	private File template;
 	
 	@Parameter(
-			names = { "-s", "--source" },
-			description = "Source File " + "The format of the file is determined based"
-					+ " on the file extension : '*.ttl, *.rdf, *.n3, *.nq, *.nt, *.trig, *.jsonld' ",
+			names = { "-i", "--input" },
+			description = "Input data file that will populate the table. This can be repeated for multiple input files, and can point to a directory.",
 			required = true,
 			variableArity = true
 	)
-	private String inputSource;
+	private List<File> input;
 	
 	
 	@Parameter(
 			names = { "-o", "--output" },
-			description = "Path to an output file. The format of the file is determined based"
-					+ " on the file extension : '*.ttl, *.rdf, *.n3, *.nq, *.nt, *.trig, *.jsonld' ",
-			required = true,
-			variableArity = true
+			description = "Path to the Excel output file that will be generated",
+			required = true
 	)
-	private List<File> output;
+	private File output;
+
+	@Parameter(
+			names = { "-l", "--language" },
+			description = "Code of the language to use to read titles and descriptions from the template."
+					+ "This is mandatory unless the template uses a single language, in which case an attempt will be made to guess that unique language",
+			required = false
+	)
+	private String language;
 	
 	
-	public String getInputTemplate() {
-		return inputTemplate;
+
+	public List<File> getInput() {
+		return input;
 	}
 
-	public void setInputTemplate(String inputTemplate) {
-		this.inputTemplate = inputTemplate;
+	public void setInput(List<File> input) {
+		this.input = input;
 	}
 
-	public String getInputSource() {
-		return inputSource;
+	public File getTemplate() {
+		return template;
 	}
 
-	public void setInputSource(String inputSource) {
-		this.inputSource = inputSource;
+	public void setTemplate(File template) {
+		this.template = template;
 	}
 
-	public List<File> getOutput() {
+	public File getOutput() {
 		return output;
 	}
 
-	public void setOutput(List<File> output) {
+	public void setOutput(File output) {
 		this.output = output;
-	}		
+	}
+
+	public String getLanguage() {
+		return language;
+	}
+
+	public void setLanguage(String language) {
+		this.language = language;
+	}
+	
 }

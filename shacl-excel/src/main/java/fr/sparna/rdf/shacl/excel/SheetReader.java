@@ -138,17 +138,17 @@ public class SheetReader {
 		
 		// sort property shapes
 		propertyShapes.sort((a,b) -> {
-			if (b.getSh_order() != null) {
-				if (a.getSh_order() != null) {
-					return a.getSh_order().compareTo(b.getSh_order());
+			if (b.getOrder() != null) {
+				if (a.getOrder() != null) {
+					return a.getOrder().compareTo(b.getOrder());
 				} else {
 					return -1;								
 				}
 			} else {
-				if (a.getSh_order().toString() == null) {
+				if (a.getOrder().toString() == null) {
 					return 1;
 				} else {
-					return a.getSh_name(language).compareTo(b.getSh_name(language));
+					return a.getName(language).compareTo(b.getName(language));
 				}
 			}
 		});

@@ -1,4 +1,4 @@
-package fr.sparna.rdf.shacl.excel;
+package fr.sparna.rdf.shacl.excel.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,19 +10,25 @@ import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.vocabulary.RDF;
 import org.topbraid.shacl.vocabulary.SH;
 
-import fr.sparna.rdf.shacl.excel.model.NodeShape;
+public class ShapesGraph {
 
-public class TemplateReader {
+	protected Model model;
+	
+	public ShapesGraph(Model model) {
+		super();
+		this.model = model;
+	}
 
-	public List<NodeShape> readTemplateModel(Model shaclGraphTemplate) {
+
+	public List<NodeShape> getNodeShapes() {
 		
 		// read graph for the building the recovery all the head columns
-		List<Resource> nodeShapes = shaclGraphTemplate.listResourcesWithProperty(RDF.type, SH.NodeShape).toList();
+		List<Resource> nodeShapes = model.listResourcesWithProperty(RDF.type, SH.NodeShape).toList();
 
 		// also read everything object of an sh:node or sh:qualifiedValueShape, that
 		// maybe does not have an explicit rdf:type sh:NodeShape
-		List<RDFNode> nodesAndQualifedValueShapesValues = shaclGraphTemplate.listStatements(null, SH.node, (RDFNode) null)
-						.andThen(shaclGraphTemplate.listStatements(null, SH.qualifiedValueShape, (RDFNode) null)).toList().stream()
+		List<RDFNode> nodesAndQualifedValueShapesValues = model.listStatements(null, SH.node, (RDFNode) null)
+						.andThen(model.listStatements(null, SH.qualifiedValueShape, (RDFNode) null)).toList().stream()
 						.map(s -> s.getObject()).collect(Collectors.toList());
 
 		// add those to our list

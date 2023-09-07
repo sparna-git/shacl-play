@@ -1,7 +1,9 @@
 package fr.sparna.rdf.shacl.excel; 
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.Resource;
@@ -10,33 +12,60 @@ import org.apache.jena.vocabulary.OWL;
 import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.SKOS;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import fr.sparna.rdf.shacl.excel.model.Sheet;
-//import fr.sparna.rdf.xls2rdf.postprocess.QBPostProcessor.QB;
 import fr.sparna.rdf.shacl.excel.model.MainResource;
 import fr.sparna.rdf.shacl.excel.model.NodeShape;
+import fr.sparna.rdf.shacl.excel.model.PropertyShape;
+import fr.sparna.rdf.shacl.excel.model.ShapesGraph;
+import fr.sparna.rdf.shacl.excel.model.Sheet;
 
 
 public class DataParser {
 
+	private static Logger log = LoggerFactory.getLogger(DataParser.class.getName());
+	
 	protected String lang;
 	
 	public DataParser(String lang) {
 		super();
 		this.lang = lang;
 	}
+	
+	public static String guessTemplateLanguage(Model shaclGraphTemplate) {
+		// if we find that a single language is used on sh:name and sh:description on property shapes, return it
+		Set<String> languages = new HashSet<String>();
+		
+		ShapesGraph template = new ShapesGraph(shaclGraphTemplate);
+		List<NodeShape> nodeShapes = template.getNodeShapes();
+		for (NodeShape nodeShape : nodeShapes) {
+			List<PropertyShape> pShapes = nodeShape.getPropertyShapes();
+			for (PropertyShape pShape : pShapes) {
+				languages.addAll(pShape.getNameAndDescriptionLanguages());
+			}
+		}
+		
+		if(languages.size() == 1) {
+			String lang = languages.iterator().next();
+			log.info("Successfully determined template language : "+lang);
+			return lang;
+		}
+		
+		// otherwise return null
+		return null;
+	}
 
 	public List<Sheet> parseData(Model shaclGraphTemplate, Model dataGraph) throws IOException, InvalidFormatException {
 
-		// Read node shapes
-		TemplateReader templateReader = new TemplateReader();
-		List<NodeShape> nodeShapes = templateReader.readTemplateModel(shaclGraphTemplate);
-		
+		// Wrap template into a data structure that will allow us to read node shapes
+		ShapesGraph template = new ShapesGraph(shaclGraphTemplate);
+
 		/*
 		 * Read all sheets content based on the node shapes, from the data graph
 		 */
 		SheetReader msReader = new SheetReader();
-		List<Sheet> sheets = msReader.read(nodeShapes, dataGraph, this.lang);
+		List<Sheet> sheets = msReader.read(template.getNodeShapes(), dataGraph, this.lang);
 		
 		/*
 		 * Add main resource in first sheet

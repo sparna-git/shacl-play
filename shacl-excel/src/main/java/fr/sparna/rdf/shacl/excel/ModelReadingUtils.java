@@ -122,9 +122,9 @@ public class ModelReadingUtils {
 	}
 	
 	/**
-	 * Reads all values of the given property as Resources
+	 * Reads all values of the given property as RDFNodes
 	 */
-	public static List<RDFNode> readObjectAsResource(Resource r, Property property) {
+	public static List<RDFNode> readObjectAsNodes(Resource r, Property property) {
 		if(r.hasProperty(property)) {
 			return r.listProperties(property).toList().stream().map(s -> s.getObject()).collect(Collectors.toList());
 		}

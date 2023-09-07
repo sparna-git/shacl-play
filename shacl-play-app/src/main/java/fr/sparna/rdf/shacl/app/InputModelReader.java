@@ -27,6 +27,10 @@ public class InputModelReader {
 	public static Model populateModel(Model model, List<File> inputs) throws MalformedURLException {
 		return populateModel(model, inputs, null);
 	}
+	
+	public static Model populateModel(Model model, File input) throws MalformedURLException {
+		return populateModel(model, Collections.singletonList(input), null);
+	}
 
 	
 	public static Model populateModel(Model model, List<File> inputs, Map<String, String> prefixes) throws MalformedURLException {

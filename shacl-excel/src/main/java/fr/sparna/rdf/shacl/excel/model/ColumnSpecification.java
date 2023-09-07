@@ -23,22 +23,22 @@ public class ColumnSpecification {
 	protected String headerString;
 	
 	public ColumnSpecification(PropertyShape pShape, String language,String DataLanguage) {
-		if(pShape.getSh_path().isURIResource()) {
-			this.propertyUri = pShape.getSh_path().getURI();
-		} else if(pShape.getSh_path().hasProperty(SH.inversePath)) {
+		if(pShape.getPath().isURIResource()) {
+			this.propertyUri = pShape.getPath().getURI();
+		} else if(pShape.getPath().hasProperty(SH.inversePath)) {
 			this.isInverse = true;
-			this.propertyUri = pShape.getSh_path().getProperty(SH.inversePath).getObject().asResource().getURI();
+			this.propertyUri = pShape.getPath().getProperty(SH.inversePath).getObject().asResource().getURI();
 		}
 		
 		//get the language, not a language list
 		this.language = DataLanguage;
 		this.datatypeUri = (pShape.getDatatype() != null)?pShape.getDatatype().getURI():null;
-		this.label = pShape.getSh_name(language);
-		this.description = pShape.getSh_description(language);
+		this.label = pShape.getName(language);
+		this.description = pShape.getDescription(language);
 		this.recomputeHeaderString(pShape.getPropertyShape().getModel());
 		
 		// super specific : for sh:or, force blank nodes
-		if(pShape.getSh_path().equals(SH.or)) {
+		if(pShape.getPath().equals(SH.or)) {
 			this.forceValuesToBlankNodes = true;
 		}
 	}

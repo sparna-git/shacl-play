@@ -159,13 +159,14 @@ public class ExcelController {
 			);
 			
 			// read dataset Template and set of data
-			DataParser parser = new DataParser();
-			List<Sheet> output_data = parser.parseData(shapesModel,shapesModelSource);
+			String lang = DataParser.guessTemplateLanguage(shapesModel);
+			DataParser parser = new DataParser(lang);
+			List<Sheet> sheets = parser.parseData(shapesModel,shapesModelSource);
 			
 			
-			if (output_data.size() > 0) {				
+			if (sheets.size() > 0) {				
 				String filename = modelSource.getSourceName();
-				outputExcel(output_data, shapesModelSource,filename,response);
+				outputExcel(sheets, shapesModelSource,filename,response);
 			}
 			
 			return null;
@@ -191,7 +192,7 @@ public class ExcelController {
 		
 		// Write excel
 		WriteXLS write_in_excel = new WriteXLS();
-		XSSFWorkbook workbook = write_in_excel.generateWorkbook(ModelSource.getNsPrefixMap(),ontology, output_data);
+		XSSFWorkbook workbook = write_in_excel.generateWorkbook(ModelSource.getNsPrefixMap(),output_data);
 		
 				
 		// Dowload file

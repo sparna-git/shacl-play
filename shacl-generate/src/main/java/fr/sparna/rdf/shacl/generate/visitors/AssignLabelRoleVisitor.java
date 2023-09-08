@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.RDFList;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
@@ -16,7 +17,6 @@ import org.apache.jena.vocabulary.DCTerms;
 import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.RDFS;
 import org.apache.jena.vocabulary.SKOS;
-import org.apache.jena.vocabulary.SchemaDO;
 import org.apache.jena.vocabulary.XSD;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,7 +52,8 @@ public class AssignLabelRoleVisitor implements ShaclVisitorIfc {
 				SKOS.prefLabel,
 				FOAF.name,
 				DCTerms.title,
-				SchemaDO.name,				
+				// don't use SchemaDO as this is Jena 4
+				ModelFactory.createDefaultModel().createProperty("http://schema.org/name"),				
 				RDFS.label
 		});
 		

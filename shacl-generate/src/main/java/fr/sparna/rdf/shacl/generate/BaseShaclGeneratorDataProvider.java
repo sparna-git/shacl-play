@@ -17,7 +17,9 @@ import org.apache.jena.rdf.model.ResourceFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import fr.sparna.rdf.jena.EndpointExecutionService;
 import fr.sparna.rdf.jena.JenaResultSetHandlers;
+import fr.sparna.rdf.jena.ModelQueryExecutionService;
 import fr.sparna.rdf.jena.QueryExecutionService;
 
 public class BaseShaclGeneratorDataProvider implements ShaclGeneratorDataProviderIfc {
@@ -38,13 +40,13 @@ public class BaseShaclGeneratorDataProvider implements ShaclGeneratorDataProvide
 
 	public BaseShaclGeneratorDataProvider(PaginatedQuery paginatedQuery, String endpointUrl) {
 		super();
-		this.queryExecutionService = new QueryExecutionService(endpointUrl);
+		this.queryExecutionService = new EndpointExecutionService(endpointUrl);
 		this.paginatedQuery = paginatedQuery;
 	}
 
 	public BaseShaclGeneratorDataProvider(PaginatedQuery paginatedQuery, Model inputModel) {
 		super();
-		this.queryExecutionService = new QueryExecutionService(inputModel);
+		this.queryExecutionService = new ModelQueryExecutionService(inputModel);
 		this.paginatedQuery = paginatedQuery;
 	}
 	

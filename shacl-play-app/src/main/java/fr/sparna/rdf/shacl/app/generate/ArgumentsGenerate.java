@@ -10,11 +10,17 @@ import com.beust.jcommander.Parameters;
 public class ArgumentsGenerate {
 
 	@Parameter(
-			names = { "-i", "--input" },
-			description = "URL of SPARQL endpoint (e.g. https://dbpedia.org/sparql)",
-			required = true
+			names = { "-e", "--endpoint" },
+			description = "URL of SPARQL endpoint to analyze (e.g. https://dbpedia.org/sparql). Either endpoint or input needs to be specified."
 	)
-	private String input;		
+	private String endpoint;
+	
+	@Parameter(
+			names = { "-i", "--input" },
+			description = "Input data file to analyse. This can be repeated for multiple input files, and can point to a directory. Either endpoint or input needs to be specified.",
+			variableArity = true
+	)
+	private List<File> input;
 	
 	@Parameter(
 			names = { "-o", "--output" },
@@ -23,12 +29,21 @@ public class ArgumentsGenerate {
 			required = true
 	)
 	private File output;
-	
-	public String getInput() {
+
+
+	public String getEndpoint() {
+		return endpoint;
+	}
+
+	public void setEndpoint(String endpoint) {
+		this.endpoint = endpoint;
+	}
+
+	public List<File> getInput() {
 		return input;
 	}
 
-	public void setInput(String input) {
+	public void setInput(List<File> input) {
 		this.input = input;
 	}
 

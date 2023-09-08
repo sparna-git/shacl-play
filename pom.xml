@@ -1,110 +1,63 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
       
-  <modelVersion>4.0.0</modelVersion>
-      
-  <groupId>fr.sparna.rdf.shacl</groupId>
-      
-  <artifactId>shacl-play-root-pom</artifactId>
-      
-  <version>0.6.2</version>
-      
+  <modelVersion>4.0.0</modelVersion>      
+  <groupId>fr.sparna.rdf.shacl</groupId>      
+  <artifactId>shacl-play-root-pom</artifactId>      
+  <version>0.6.2</version>      
   <packaging>pom</packaging>
       
-  <!-- https://maven.apache.org/pom.html#distribution-management
-
-     -->
+  <!-- https://maven.apache.org/pom.html#distribution-management-->
       
-  <distributionManagement>
-    		
-    <repository>
-      		  
-      <id>github</id>
-      		  
-      <name>GitHub Packages</name>
-      		  
-      <url>https://maven.pkg.github.com/sparna-git/shacl-play</url>
-                
-		
-    </repository>
-    	
-  </distributionManagement>
-  	
+  <distributionManagement>    		
+    <repository>      		  
+      <id>github</id>      		  
+      <name>GitHub Packages</name>      		  
+      <url>https://maven.pkg.github.com/sparna-git/shacl-play</url>               
+    </repository>    	
+  </distributionManagement>  	
     
   <name>SHACL-Play root pom</name>
       
-  <modules>
-            
-    <module>shacl-diagram</module>
-            
-    <module>shacl-doc</module>
-            
-    <module>shacl-validator</module>
-            
-    <module>shacl-printer</module>
-            
-    <module>shacl-sparql-query-gen</module>
-            
-    <module>shacl-generate</module>
-            
-    <module>shacl-play-app</module>
-            
-    <module>shacl-play</module>
-          
-    <module>shacl-excel</module>
-      
+  <modules>            
+    <module>shacl-diagram</module>            
+    <module>shacl-doc</module>            
+    <module>shacl-validator</module>            
+    <module>shacl-printer</module>            
+    <module>shacl-sparql-query-gen</module>            
+    <module>shacl-generate</module>            
+    <module>shacl-play-app</module>            
+    <module>shacl-play</module>          
+    <module>shacl-excel</module>      
   </modules>
       
-  <properties>
-            
-    <!-- library versions -->
-            
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-            
-    <java.version>8</java.version>
-            
-    <jena.version>4.7.0</jena.version>
-            
-    <jtwig.version>5.87.0.RELEASE</jtwig.version>
-            
-    <jackson.version>2.13.3</jackson.version>
-        
+  <properties>            
+    <!-- library versions -->            
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>            
+    <java.version>8</java.version>            
+    <jena.version>3.17.0</jena.version>
+    <!-- <jena.version>4.7.0</jena.version> -->
+    <jtwig.version>5.87.0.RELEASE</jtwig.version>            
+    <jackson.version>2.13.3</jackson.version>        
   </properties>
       
-  <build>
-            
-    <plugins>
-                    
-            
-      <plugin>
-                        
+  <build>            
+    <plugins>  
+      <plugin>                        
         <groupId>org.apache.maven.plugins</groupId>
-                              						 
-                
         <artifactId>maven-eclipse-plugin</artifactId>
-                  
-                
         <configuration>
-                              
-          <additionalConfig>
-                                    
-            <file>
-                                          
+          <additionalConfig>                                    
+            <file>                                          
               <name>.settings/org.eclipse.core.resources.prefs</name>
-                                          
               <content><![CDATA[
 encoding/<project>=${project.build.sourceEncoding}
 eclipse.preferences.version=1
     ]]></content>
-                                      
-            </file>
-                                
-          </additionalConfig>
-                          
-        </configuration>
-                    
-      </plugin>
-                  
+            </file>            
+          </additionalConfig>                          
+        </configuration>                    
+      </plugin>                  
             
       <!--
             <plugin>
@@ -112,15 +65,11 @@ eclipse.preferences.version=1
 				<artifactId>maven-war-plugin</artifactId>
 				<version>3.3.2</version>
 			</plugin>
-			-->
-              
-    </plugins>
-      
-    
+			-->              
+    </plugins> 
   </build>
       
-  <dependencyManagement>
-            
+  <dependencyManagement>            
     <dependencies>
                   
       <!-- for command-line parsing -->                  

@@ -100,12 +100,20 @@ public class JsonLdContextGenerator {
 				}
 			}
 			
-			// if there are sh:class, sh:node, or sh:nodeKind = sh:IRI, set the type to @id
+			// if there are sh:class, sh:node, or sh:nodeKind = sh:IRI, or sh:nodeKind = sh:BlankNodeOrIRI, set the type to @id
 			Set<Resource> classes = findShClassOfPath(path, model);
 			Set<Resource> nodes = findShNodeOfPath(path, model);
 			Set<Resource> nodeKinds = findShNodeKindOfPath(path, model);
 			
-			if(!classes.isEmpty() || !nodes.isEmpty() || nodeKinds.stream().anyMatch(r -> r.getURI().equals(SH.IRI.getURI()))) {
+			if(
+					!classes.isEmpty()
+					||
+					!nodes.isEmpty()
+					||
+					nodeKinds.stream().anyMatch(r -> r.getURI().equals(SH.IRI.getURI()))
+					||
+					nodeKinds.stream().anyMatch(r -> r.getURI().equals(SH.BlankNodeOrIRI.getURI()))
+			) {
 				type = "@id";
 			}
 			

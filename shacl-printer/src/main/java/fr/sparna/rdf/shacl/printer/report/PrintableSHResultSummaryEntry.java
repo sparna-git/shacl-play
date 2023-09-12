@@ -1,6 +1,6 @@
 package fr.sparna.rdf.shacl.printer.report;
 
-import org.topbraid.shacl.vocabulary.SH;
+import fr.sparna.rdf.shacl.SH;
 
 public class PrintableSHResultSummaryEntry {
 

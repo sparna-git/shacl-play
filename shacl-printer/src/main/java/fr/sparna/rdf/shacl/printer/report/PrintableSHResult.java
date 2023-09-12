@@ -1,7 +1,5 @@
 package fr.sparna.rdf.shacl.printer.report;
 
-import org.topbraid.shacl.model.SHResult;
-
 public class PrintableSHResult {
 
 	protected SHResult shresult;

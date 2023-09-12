@@ -63,18 +63,6 @@
       <groupId>org.apache.jena</groupId>
       <artifactId>jena-arq</artifactId>
     </dependency>
-
-    <dependency>
-      <groupId>org.topbraid</groupId>
-      <artifactId>shacl</artifactId>
-    </dependency>
-          
-    <dependency>
-      <groupId>fr.sparna.rdf.shacl</groupId>
-      <artifactId>shacl-validator</artifactId>
-      <version>0.6.2</version>
-    </dependency>
-
             
 	</dependencies>
 </project>

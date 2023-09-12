@@ -97,7 +97,7 @@
                     <tbody>
                       <#list report.getLimitedResultsFor(summaryEntry) as result>
                           <tr>
-                            <td><span title="${result.shresult.focusNode}">${result.focusNode}</span></td>
+                            <td><span title="${result.focusNode}">${result.focusNode}</span></td>
                             <td><#if result.shresult.path??><span title="${result.shresult.path}">${result.resultPath}</span<#else>&nbsp;</#if></td>
                             <td>${result.value?no_esc}</td>
                           </tr>

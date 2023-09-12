@@ -17,12 +17,9 @@ import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.vocabulary.XSD;
-import org.topbraid.jenax.util.JenaUtil;
-import org.topbraid.shacl.model.SHFactory;
-import org.topbraid.shacl.model.SHResult;
-import org.topbraid.shacl.vocabulary.SH;
 
-import fr.sparna.rdf.shacl.SHP;
+import fr.sparna.rdf.shacl.JenaUtil;
+import fr.sparna.rdf.shacl.SH;
 
 public class ValidationReport {
 
@@ -53,7 +50,8 @@ public class ValidationReport {
 			this.results = new LinkedList<SHResult>();
 			for(Resource candidate : results) {
 				// SHResult result = SHFactory.asResult(candidate);
-				SHResult result = candidate.as(SHResult.class);
+				// SHResult result = candidate.as(SHResult.class);
+				SHResult result = new SHResult(candidate);
 				this.results.add(result);
 			}
 		}
@@ -136,8 +134,12 @@ public class ValidationReport {
 		return getResults().stream().filter(vr -> !vr.getSeverity().equals(SH.Violation) && !vr.getSeverity().equals(SH.Warning) && !vr.getSeverity().equals(SH.Info)).count();
 	}
 	
+	/**
+	 * We don't refer to constants in order not to introduce a dependency to the validation module
+	 * @return
+	 */
 	public List<Resource> getShapesWithNoMatch() {
-		List<Statement> targetMatchedFalseStatements = this.fullModel.listStatements(null, this.fullModel.createProperty(SHP.TARGET_MATCHED), this.fullModel.createTypedLiteral(false)).toList();
+		List<Statement> targetMatchedFalseStatements = this.fullModel.listStatements(null, this.fullModel.createProperty("http://shacl-play.sparna.fr/ontology#targetMatched"), this.fullModel.createTypedLiteral(false)).toList();
 		return targetMatchedFalseStatements.stream().map(s -> s.getSubject()).collect(Collectors.toList());
 	}
 	
@@ -145,9 +147,13 @@ public class ValidationReport {
 		return this.resultsModel.containsLiteral(null, SH.conforms, true);
 	}
 	
+	/**
+	 * We don't refer to constants in order not to introduce a dependency to the validation module
+	 * @return
+	 */
 	public boolean hasMatched() {
 		// if not explicitely false, consider it true
-		return !this.fullModel.containsLiteral(null, this.fullModel.createProperty(SHP.HAS_MATCHED), false);
+		return !this.fullModel.containsLiteral(null, this.fullModel.createProperty("http://shacl-play.sparna.fr/ontology#hasMatched"), false);
 	}
 
 	public Model getResultsModel() {

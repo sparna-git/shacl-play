@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.topbraid.shacl.vocabulary.SH;
+import fr.sparna.rdf.shacl.SH;
 
 public class PrintableValidationReport {
 

@@ -65,7 +65,7 @@ public class GenerateReport implements CliCommandIfc {
 			
 			// create output dir if not existing
 			File outputDir = outputFile.getParentFile();
-			if(outputFile != null && !outputDir.exists()) {
+			if(outputFile != null && outputDir != null && !outputDir.exists()) {
 				outputDir.mkdirs();
 			}
 			

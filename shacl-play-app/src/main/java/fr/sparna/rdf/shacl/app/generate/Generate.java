@@ -34,21 +34,28 @@ public class Generate implements CliCommandIfc {
 		Configuration config = new Configuration(new DefaultModelProcessor(), "https://shacl-play.sparna.fr/shapes/", "shape");
 		config.setShapesOntology("https://shacl-play.sparna.fr/shapes/");
 		
+		Model shapes;
 		ShaclGeneratorDataProviderIfc dataProvider;
 		if(a.getEndpoint() != null) {
-			dataProvider = new SamplingShaclGeneratorDataProvider(new PaginatedQuery(100), a.getEndpoint());			
+			dataProvider = new SamplingShaclGeneratorDataProvider(new PaginatedQuery(100), a.getEndpoint());
+			ShaclGenerator generator = new ShaclGenerator();
+			shapes = generator.generateShapes(
+					config,
+					dataProvider);
+			shapes = generator.generateShapes(config, dataProvider);
 		} else {
 			Model inputModel = ModelFactory.createDefaultModel(); 
 			InputModelReader.populateModel(inputModel, a.getInput());
 			dataProvider = new SamplingShaclGeneratorDataProvider(new PaginatedQuery(100), inputModel);
+			ShaclGenerator generator = new ShaclGenerator();
+			shapes = generator.generateShapes(
+					config,
+					dataProvider);
+			
+			// copy over the namespaces from original model
+			shapes.setNsPrefixes(inputModel.getNsPrefixMap());
+			
 		}
-		
-		ShaclGenerator generator = new ShaclGenerator();
-		Model shapes = generator.generateShapes(
-				config,
-				dataProvider);
-		
-		shapes = generator.generateShapes(config, dataProvider);
 		
 		ShaclVisit modelStructure = new ShaclVisit(shapes);
 		modelStructure.visit(new ComputeStatisticsVisitor(dataProvider, (a.getEndpoint() != null)?a.getEndpoint():"https://dummy.dataset.uri", true));

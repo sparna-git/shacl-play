@@ -63,7 +63,8 @@ public class ComputeStatisticsVisitor extends DatasetAwareShaclVisitorBase imple
 			ShaclGenerator.concatOnProperty(
 					ontology,
 					DCTerms.abstract_,
-					model.createResource(this.datasetUri).getRequiredProperty(VOID.triples).getInt()+" triples in the dataset."
+					model.createResource(this.datasetUri).getRequiredProperty(VOID.triples).getInt()+" triples in the dataset.",
+					"en"
 			);
 		}
 	}
@@ -93,7 +94,8 @@ public class ComputeStatisticsVisitor extends DatasetAwareShaclVisitorBase imple
 				ShaclGenerator.concatOnProperty(
 						aNodeShape,
 						RDFS.comment,
-						count+" instances"
+						count+" instances",
+						"en"
 				);
 			}
 		}
@@ -139,7 +141,8 @@ public class ComputeStatisticsVisitor extends DatasetAwareShaclVisitorBase imple
 			ShaclGenerator.concatOnProperty(
 					aPropertyShape,
 					SHACLM.description,
-					count+" occurences and "+countDistinctObjects+" distinct values"
+					count+" occurences and "+countDistinctObjects+" distinct values",
+					"en"
 			);
 		}
 	}

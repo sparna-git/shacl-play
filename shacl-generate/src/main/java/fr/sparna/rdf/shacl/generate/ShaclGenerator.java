@@ -314,7 +314,11 @@ public class ShaclGenerator {
 				r.addProperty(p, currentValue+".\n"+s);
 			}
 		} else {
-			r.addProperty(p, s);
+			if(lang != null) {
+				r.addProperty(p, s, lang);
+			} else {
+				r.addProperty(p, s);
+			}
 		}
 	}
 	

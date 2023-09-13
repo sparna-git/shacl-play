@@ -1,14 +1,11 @@
 package fr.sparna.rdf.jena;
 
-import java.util.List;
-
 import org.apache.jena.query.QueryExecution;
 import org.apache.jena.query.QueryExecutionBuilder;
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.QuerySolutionMap;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.sparql.core.DatasetGraphFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -5,7 +5,10 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.vocabulary.RDFS;
 import org.topbraid.shacl.vocabulary.SH;
+
+import fr.sparna.rdf.shacl.excel.ModelReadingUtils;
 
 public class NodeShape {
 	
@@ -42,5 +45,9 @@ public class NodeShape {
 
 	public Resource getNodeShape() {
 		return nodeShape;
+	}
+	
+	public String getRdfsLabel(String lang) {
+		return ModelReadingUtils.readLiteralInLangAsString(nodeShape, RDFS.label, lang);
 	}
 }

@@ -30,7 +30,7 @@ public class WriteXLS {
 		XSSFWorkbook workbook = new XSSFWorkbook(); 
 		
 		// Sheet for prefix
-        XSSFSheet sheet_prefix = workbook.createSheet("prefix");
+        XSSFSheet sheet_prefix = workbook.createSheet("Prefixes");
         sheet_prefix = sheet_prefix(sheet_prefix, prefixes);
         
         // for all Shape

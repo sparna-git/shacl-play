@@ -4,6 +4,7 @@ import java.util.Objects;
 
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.shared.PrefixMapping;
+import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.XSD;
 import org.topbraid.shacl.vocabulary.SH;
 
@@ -22,7 +23,7 @@ public class ColumnSpecification {
 	// the final header string, including "^^" or "@"
 	protected String headerString;
 	
-	public ColumnSpecification(PropertyShape pShape, String language,String DataLanguage) {
+	public ColumnSpecification(PropertyShape pShape, String displayLanguage,String dataLanguage) {
 		if(pShape.getPath().isURIResource()) {
 			this.propertyUri = pShape.getPath().getURI();
 		} else if(pShape.getPath().hasProperty(SH.inversePath)) {
@@ -31,10 +32,22 @@ public class ColumnSpecification {
 		}
 		
 		//get the language, not a language list
-		this.language = DataLanguage;
-		this.datatypeUri = (pShape.getDatatype() != null)?pShape.getDatatype().getURI():null;
-		this.label = pShape.getName(language);
-		this.description = pShape.getDescription(language);
+		this.language = dataLanguage;
+		
+		if(
+				pShape.getDatatype() != null
+				&&
+				!pShape.getDatatype().equals(XSD.xstring)
+				&&
+				!pShape.getDatatype().equals(RDF.langString)
+		) {
+			this.datatypeUri = pShape.getDatatype().getURI();
+		}
+		
+		
+		
+		this.label = pShape.getName(displayLanguage);
+		this.description = pShape.getDescription(displayLanguage);
 		this.recomputeHeaderString(pShape.getPropertyShape().getModel());
 		
 		// super specific : for sh:or, force blank nodes
@@ -73,7 +86,7 @@ public class ColumnSpecification {
 			this.headerString += "^";
 		}
 		
-		if (this.language != null & this.getDatatypeUri() == null) {
+		if (this.language != null) {
 			this.headerString += mappings.shortForm(this.propertyUri)+"@"+ mappings.shortForm(this.language);
 		} else if(this.getDatatypeUri() != null) {
 			this.headerString += mappings.shortForm(this.propertyUri)+"^^"+ mappings.shortForm(this.datatypeUri);

@@ -52,7 +52,9 @@ public class SheetReader {
 			Sheet modelStructure = new Sheet(aNodeShape);
 			
 			// 1. get a name for the sheet			
-			if(aNodeShape.getSHTargetClass() != null) {
+			if(aNodeShape.getRdfsLabel(language) != null) {
+				modelStructure.setName(aNodeShape.getRdfsLabel(language));
+			} else if(aNodeShape.getSHTargetClass() != null) {
 				// if there is a targetClass, take it
 				modelStructure.setName(aNodeShape.getSHTargetClass().getLocalName());
 			} else {
@@ -145,7 +147,7 @@ public class SheetReader {
 					return -1;								
 				}
 			} else {
-				if (a.getOrder().toString() == null) {
+				if (a.getOrder() == null) {
 					return 1;
 				} else {
 					return a.getName(language).compareTo(b.getName(language));

@@ -145,7 +145,7 @@ public class SheetReader {
 					return -1;								
 				}
 			} else {
-				if (a.getOrder().toString() == null) {
+				if (a.getOrder() == null) {
 					return 1;
 				} else {
 					return a.getName(language).compareTo(b.getName(language));

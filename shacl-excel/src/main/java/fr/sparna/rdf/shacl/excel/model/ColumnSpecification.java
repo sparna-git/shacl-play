@@ -73,7 +73,7 @@ public class ColumnSpecification {
 			this.headerString += "^";
 		}
 		
-		if (this.language != null & this.getDatatypeUri() == null) {
+		if (this.language != null) {
 			this.headerString += mappings.shortForm(this.propertyUri)+"@"+ mappings.shortForm(this.language);
 		} else if(this.getDatatypeUri() != null) {
 			this.headerString += mappings.shortForm(this.propertyUri)+"^^"+ mappings.shortForm(this.datatypeUri);

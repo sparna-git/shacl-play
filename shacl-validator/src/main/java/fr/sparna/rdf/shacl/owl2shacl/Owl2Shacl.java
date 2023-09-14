@@ -22,9 +22,9 @@ public class Owl2Shacl {
 	
 	public static enum Owl2ShaclStyle {
 		
-		CLOSED_FLATTEN("https://raw.githubusercontent.com/sparna-git/owl2shacl/main/owl2shacl-closed.ttl"),
-		CLOSED_IGNOREDPROPERTIES("https://raw.githubusercontent.com/sparna-git/owl2shacl/main/owl2shacl-closed-ignoredProperties.ttl"),
-		SIMPLE("https://raw.githubusercontent.com/sparna-git/owl2shacl/main/owl2shacl-simple.ttl");
+		CLOSED("https://raw.githubusercontent.com/sparna-git/owl2shacl/main/owl2sh-closed.ttl"),
+		SEMICLOSED("https://raw.githubusercontent.com/sparna-git/owl2shacl/main/owl2sh-semi-closed.ttl"),
+		OPEN("https://raw.githubusercontent.com/sparna-git/owl2shacl/main/owl2sh-open.ttl");
 		
 		private URL rulesUrl;
 
@@ -43,7 +43,7 @@ public class Owl2Shacl {
 	}
 	
 	public Model convert(Model input) {
-		return this.convert(input, Owl2ShaclStyle.SIMPLE);
+		return this.convert(input, Owl2ShaclStyle.OPEN);
 	}
 	
 	public Model convert(Model input, Owl2ShaclStyle style) {

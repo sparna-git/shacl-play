@@ -2,6 +2,7 @@ package fr.sparna.rdf.shacl.app.generate;
 
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.util.Map;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -30,6 +31,7 @@ public class Generate implements CliCommandIfc {
 	@Override
 	public void execute(Object args) throws Exception {
 		ArgumentsGenerate a = (ArgumentsGenerate)args;
+		log.debug("Statistics argument : "+a.getStatistics());
 		
 		Configuration config = new Configuration(new DefaultModelProcessor(), "https://shacl-play.sparna.fr/shapes/", "shape");
 		config.setShapesOntology("https://shacl-play.sparna.fr/shapes/");
@@ -53,13 +55,22 @@ public class Generate implements CliCommandIfc {
 					dataProvider);
 			
 			// copy over the namespaces from original model
-			shapes.setNsPrefixes(inputModel.getNsPrefixMap());
-			
+			for (Map.Entry<String, String> aMapping : inputModel.getNsPrefixMap().entrySet()) {
+				if(shapes.getNsPrefixURI(aMapping.getKey()) == null) {
+					shapes.setNsPrefix(aMapping.getKey(), aMapping.getValue());
+				}
+			}			
 		}
 		
 		ShaclVisit modelStructure = new ShaclVisit(shapes);
-		modelStructure.visit(new ComputeStatisticsVisitor(dataProvider, (a.getEndpoint() != null)?a.getEndpoint():"https://dummy.dataset.uri", true));
-		modelStructure.visit(new FilterOnStatisticsVisitor());
+		
+		if((a.getStatistics() != ArgumentsGenerate.StatisticsAction.NONE) || a.isFilterOnStatistics()) {
+			boolean addToDescription = a.getStatistics() == ArgumentsGenerate.StatisticsAction.COUNT_AND_DESCRIPTION;
+			modelStructure.visit(new ComputeStatisticsVisitor(dataProvider, (a.getEndpoint() != null)?a.getEndpoint():"https://dummy.dataset.uri", addToDescription));
+		}
+		if(a.isFilterOnStatistics()) {
+			modelStructure.visit(new FilterOnStatisticsVisitor());
+		}
 		modelStructure.visit(new AssignLabelRoleVisitor());
 		modelStructure.visit(new AssignDatatypesAndClassesToIriOrLiteralVisitor(dataProvider, new DefaultModelProcessor()));
 		

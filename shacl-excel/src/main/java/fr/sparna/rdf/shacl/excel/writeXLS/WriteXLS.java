@@ -5,12 +5,17 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Color;
 import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.IndexedColors;
+import org.apache.poi.xssf.usermodel.IndexedColorMap;
+import org.apache.poi.xssf.usermodel.XSSFBorderFormatting;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFColor;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -43,23 +48,29 @@ public class WriteXLS {
 	}
 	
 	
-	public static XSSFCellStyle styleColor(XSSFWorkbook workbook,Short color) {
-		
-		XSSFCellStyle sColor = workbook.createCellStyle();
-		
+	public static XSSFCellStyle createCellStyleWithBackgroundColor(XSSFWorkbook workbook,Color color) {		
+		XSSFCellStyle sColor = workbook.createCellStyle();		
 		sColor.setFillForegroundColor(color);
-		sColor.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-		
+		sColor.setFillPattern(FillPatternType.SOLID_FOREGROUND);		
 		return sColor;
 	}
 	
-	public static XSSFFont styleFont(XSSFWorkbook workbook,Boolean word_bold,String word_fontname) {
-		
-		XSSFFont font = workbook.createFont();
-		
-		font.setBold(word_bold);
-		font.setFontName(word_fontname);
-		
+	public static XSSFFont createFont(
+			XSSFWorkbook workbook,
+			String word_fontname,
+			boolean bold,
+			boolean italic,
+			short color
+	) {		
+		XSSFFont font = workbook.createFont();		
+		font.setBold(bold);
+		font.setItalic(italic);
+		if(word_fontname != null) {
+			font.setFontName(word_fontname);
+		}
+		if(color > 0) {
+			font.setColor(color);
+		}
 		return font;
 	}
 	
@@ -115,20 +126,8 @@ public class WriteXLS {
     	// write OWL
     	xlsSheet = sheet_ontology(xlsSheet,sheetData.getB1Uri(),sheetData.getHeaderValues());
 		
-		// Declaration of font type
-		XSSFFont headerFont = workbook.createFont();
-		headerFont = styleFont(workbook,true,"Arial");
-		headerFont.setColor(IndexedColors.WHITE.getIndex());
-		
-        // Config color for each column Header for path
-		XSSFCellStyle style_path = workbook.createCellStyle();
-    	style_path = styleColor(workbook, IndexedColors.DARK_RED.index);
-    	style_path.setAlignment(HorizontalAlignment.CENTER);
-    	
-    	// Column Description
-    	XSSFCellStyle style_Description = workbook.createCellStyle();
-    	style_Description = styleColor(workbook, IndexedColors.BLUE_GREY.index);
-    	style_Description.setAlignment(HorizontalAlignment.JUSTIFY);
+		// useful to create custom colors below
+		IndexedColorMap colorMap = workbook.getStylesSource().getIndexedColors();
     	
     	
 		// Get the las row in the sheet
@@ -141,44 +140,64 @@ public class WriteXLS {
     	XSSFRow row_desc = xlsSheet.createRow(nRow++);
     	row_desc.setHeight((short) 1300);
 	
+    	
+    	// Column Description
+    	XSSFColor MEDIUM_GREEN = new XSSFColor(new java.awt.Color(169,208,141), colorMap);
+		XSSFCellStyle style_Description = createCellStyleWithBackgroundColor(workbook, MEDIUM_GREEN);
+    	style_Description.setAlignment(HorizontalAlignment.JUSTIFY);
+    	
+    	XSSFFont descFont = createFont(workbook, null, false, true, IndexedColors.GREY_80_PERCENT.getIndex());
+    	
     	for (ColumnSpecification cols : sheetData.getColumns()) {
     		XSSFCell cell_desc = row_desc.createCell(nCell_desc);       	
     		cell_desc.setCellValue(cols.getDescription());
     		
     		// Style
     		cell_desc.setCellStyle(style_Description);
-    		style_Description.setFont(headerFont);
-    		
-    		headerFont.setItalic(true);
-    		headerFont.setBold(false);
+    		style_Description.setFont(descFont);
     		
         	nCell_desc++;
 		}
     	
+    	// Column Label
     	Integer nCell_name = 0;
     	XSSFRow row_name = xlsSheet.createRow(nRow++);
+    	
+    	XSSFColor MEDIUM_LIGHT_GREEN = new XSSFColor(new java.awt.Color(215,227,188), colorMap);
+		XSSFCellStyle labelCellStyle = createCellStyleWithBackgroundColor(workbook, MEDIUM_LIGHT_GREEN);
+		labelCellStyle.setAlignment(HorizontalAlignment.CENTER);
+    	
+    	XSSFFont labelFont = createFont(workbook, null, true, false, IndexedColors.GREY_80_PERCENT.getIndex());
+    	
     	for (ColumnSpecification cols : sheetData.getColumns()) {
     		XSSFCell cell_name = row_name.createCell(nCell_name);
         	cell_name.setCellValue(cols.getLabel());
+        	cell_name.setCellStyle(labelCellStyle);
+        	labelCellStyle.setFont(labelFont);
+        	
         	nCell_name++;
 		}
     	
     	
     	
-    	XSSFRow row_path = xlsSheet.createRow(nRow++);
-    	// Create a CellStyle for the font
-        
-    	//XSSFCellStyle headerFonttStyle = workbook.createCellStyle();        
-        //headerFonttStyle.setFont(headerFont);
-        
+    	XSSFRow row_path = xlsSheet.createRow(nRow++);        
     	Integer nCell_path = 0;
+    	
+        // Config color for each column Header for path
+		XSSFColor LIGHT_GREEN = new XSSFColor(new java.awt.Color(235,241,222), colorMap);
+		XSSFCellStyle headerCellStyle = createCellStyleWithBackgroundColor(workbook, LIGHT_GREEN);		
+    	headerCellStyle.setAlignment(HorizontalAlignment.CENTER);
+    	headerCellStyle.setBorderBottom(BorderStyle.MEDIUM);
+    	
+    	XSSFFont headerFont = createFont(workbook, null, false, false, IndexedColors.GREY_80_PERCENT.getIndex());
+    	
     	for (ColumnSpecification cols : sheetData.getColumns()) {
     		XSSFCell cell_path = row_path.createCell(nCell_path);
         	
     		cell_path.setCellValue(cols.getHeaderString());
         	// Style
-        	cell_path.setCellStyle(style_path);
-        	style_path.setFont(headerFont);
+        	cell_path.setCellStyle(headerCellStyle);
+        	headerCellStyle.setFont(headerFont);
         	
         	nCell_path++;
 		}
@@ -190,8 +209,16 @@ public class WriteXLS {
 			rowDataSet = xlsSheet.createRow(nCellData++);
 			
 			for (int i = 0; i < sheetData.getOutputData().get(line).length; i++) {
-				Cell CellData = rowDataSet.createCell(i);
-				CellData.setCellValue(sheetData.getOutputData().get(line)[i]);
+				String s = sheetData.getOutputData().get(line)[i];
+				Cell cell = rowDataSet.createCell(i);
+				cell.setCellValue(s);
+				
+				// if we have a long string, wrap the cell
+				if(!s.startsWith("http") && !(s.startsWith("(") && s.endsWith(")")) && s.length() > 50) {
+					XSSFCellStyle style = workbook.createCellStyle();
+					style.setWrapText(true);
+					cell.setCellStyle(style);
+				}
 			}
 		}
 		

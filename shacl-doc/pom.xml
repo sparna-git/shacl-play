@@ -10,7 +10,7 @@
 	<parent>
 		<groupId>fr.sparna.rdf.shacl</groupId>
 		<artifactId>shacl-play-root-pom</artifactId>
-		<version>0.6.2</version>
+		<version>0.7.0</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
@@ -68,12 +68,6 @@
 			<artifactId>shacl</artifactId>
 		</dependency>
 
-		<!-- picocli - not used -->
-		<dependency>
-			<groupId>info.picocli</groupId>
-			<artifactId>picocli</artifactId>
-		</dependency>
-
 		<!-- Jackson for XML serialisation -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
@@ -105,7 +99,7 @@
 		<dependency>
 			<groupId>fr.sparna.rdf.shacl</groupId>
 			<artifactId>shacl-diagram</artifactId>
-			<version>0.6.2</version>
+			<version>0.7.0</version>
 		</dependency>
 
 		<!-- PDF -->

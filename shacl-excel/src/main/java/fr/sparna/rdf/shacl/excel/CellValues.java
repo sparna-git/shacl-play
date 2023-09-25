@@ -15,10 +15,15 @@ import fr.sparna.rdf.shacl.excel.model.ColumnSpecification;
 public class CellValues {
 	
 	public static String statementsToCellValue(ColumnSpecification columnSpec, List<Statement> statements) {
+		final String SEPARATOR = ",";
+		if(statements.size() > 1) {
+			columnSpec.notifyACellWithMultipleValues(SEPARATOR, statements.get(0).getModel());
+		}
+		
 		if(columnSpec.isInverse()) {
-			return statements.stream().map(s -> toCellValue(s.getSubject(), columnSpec)).collect(Collectors.joining(", "));
+			return statements.stream().map(s -> toCellValue(s.getSubject(), columnSpec)).collect(Collectors.joining(SEPARATOR+" "));
 		} else {
-			return statements.stream().map(s -> toCellValue(s.getObject(), columnSpec)).collect(Collectors.joining(", "));
+			return statements.stream().map(s -> toCellValue(s.getObject(), columnSpec)).collect(Collectors.joining(SEPARATOR+" "));
 		}
 		
 	}
@@ -27,14 +32,14 @@ public class CellValues {
 		if(node.isURIResource()) {
 			// adding an extra test on object to avoid also printing terminal values as blank nodes
 			if(columnSpec.isForceValuesToBlankNodes() && node.asResource().listProperties().hasNext()) {
-				return toCellValueAnon(node.asResource(), columnSpec);
+				return toCellValueAnon_Turtle(node.asResource(), columnSpec);
 			} else {
 				return node.getModel().shortForm(node.asResource().getURI());
 			}			
 		} else if(node.canAs(RDFList.class)) {
-			return(toCellValue(node.as(RDFList.class), columnSpec));
+			return(toCellValue_Turtle(node.as(RDFList.class), columnSpec));
 		} else if(node.isAnon()) {
-			return toCellValueAnon(node.asResource(), columnSpec);
+			return toCellValueAnon_Turtle(node.asResource(), columnSpec);
 		} else if(node.isLiteral()) {
 			return(toCellValue(node.asLiteral(), columnSpec));
 		} else {
@@ -47,11 +52,23 @@ public class CellValues {
 		if((l.getDatatypeURI() == null) || (columnSpec.getDatatypeUri() == null) || (l.getDatatypeURI().equals(columnSpec.getDatatypeUri()))) {
 			return l.getLexicalForm();
 		} else {
-			return l.getLexicalForm()+"^^"+l.getModel().shortForm(l.getDatatypeURI());
+			return "\""+l.getLexicalForm()+"\"^^"+l.getModel().shortForm(l.getDatatypeURI());
 		}
 	}
 	
-	public static String toCellValueAnon(Resource r, ColumnSpecification columnSpec) {
+	public static String toCellValue_Turtle(Literal l, ColumnSpecification columnSpec) {
+		if(l.getLanguage() != null && !l.getLanguage().equals("")) {
+			return "\""+l.getLexicalForm()+"\"@"+l.getLanguage();
+		} else {
+			if(!l.getDatatypeURI().equals(XSD.xstring.getURI())) {
+				return "\""+l.getLexicalForm()+"\"^^"+l.getModel().shortForm(l.getDatatypeURI());
+			} else {
+				return "\""+l.getLexicalForm()+"\"";
+			}
+		}
+	}
+	
+	public static String toCellValueAnon_Turtle(Resource r, ColumnSpecification columnSpec) {
 		List<Statement> statements = r.listProperties().toList();
 		if(statements.size() > 2) {
 			// lot of statements, use line breaks;
@@ -66,16 +83,41 @@ public class CellValues {
 		return statementOnAnonymousResource.getModel().shortForm(statementOnAnonymousResource.getPredicate().getURI())+" "+toCellValue(statementOnAnonymousResource.getObject(), columnSpec);
 	}
 	
-	public static String toCellValue(RDFList list, ColumnSpecification columnSpec) {
+	public static String toCellValue_Turtle(RDFList list, ColumnSpecification columnSpec) {
 		List<RDFNode> nodes = list.asJavaList();
 		if(nodes.size() > 2) {
 			// lof of nodes, use line breaks
-			return "(\n"+nodes.stream().map(node -> toCellValue(node, columnSpec)).collect(Collectors.joining("\n "))+"\n)";
+			return "(\n"+nodes.stream().map(node -> toCellValue_Turtle(node, columnSpec)).collect(Collectors.joining("\n "))+"\n)";
 		} else {
 			// few nodes, don't use line breaks
-			return "("+nodes.stream().map(node -> toCellValue(node, columnSpec)).collect(Collectors.joining(" "))+")";
+			return "("+nodes.stream().map(node -> toCellValue_Turtle(node, columnSpec)).collect(Collectors.joining(" "))+")";
 		}
 		
+	}
+	
+	public static String toCellValue_Turtle(RDFNode node, ColumnSpecification columnSpec) {
+		if(node.isURIResource()) {
+			// adding an extra test on object to avoid also printing terminal values as blank nodes
+			if(columnSpec.isForceValuesToBlankNodes() && node.asResource().listProperties().hasNext()) {
+				return toCellValueAnon_Turtle(node.asResource(), columnSpec);
+			} else {
+				String s = node.getModel().shortForm(node.asResource().getURI());
+				if(s.equals(node.asResource().getURI())) {
+					return "<"+s+">";
+				} else {
+					return s;
+				}				
+			}			
+		} else if(node.canAs(RDFList.class)) {
+			return(toCellValue_Turtle(node.as(RDFList.class), columnSpec));
+		} else if(node.isAnon()) {
+			return toCellValueAnon_Turtle(node.asResource(), columnSpec);
+		} else if(node.isLiteral()) {
+			return(toCellValue_Turtle(node.asLiteral(), columnSpec));
+		} else {
+			System.out.println("Unknown value to print "+node.toString());
+			return "";
+		}
 	}
 
 }

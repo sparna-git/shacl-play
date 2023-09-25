@@ -10,6 +10,12 @@ import org.topbraid.shacl.vocabulary.SH;
 
 public class ColumnSpecification {
 	
+	public static ColumnSpecification URI_COLUMN_SPEC = new ColumnSpecification(
+			"URI",
+			"URI identifier",
+			"URI of the entity. This column can use prefixes known in this spreadsheet"
+	);
+	
 	protected String propertyUri;
 	protected String datatypeUri;
 	protected String language;
@@ -17,12 +23,17 @@ public class ColumnSpecification {
 	
 	protected String label;
 	protected String description;
+	
+	protected String separator = null;
 
 	protected boolean forceValuesToBlankNodes = false;
 	
 	// the final header string, including "^^" or "@"
 	protected String headerString;
 	
+	/**
+	 * Constructor from a PropertyShape
+	 */
 	public ColumnSpecification(PropertyShape pShape, String displayLanguage,String dataLanguage) {
 		if(pShape.getPath().isURIResource()) {
 			this.propertyUri = pShape.getPath().getURI();
@@ -55,17 +66,12 @@ public class ColumnSpecification {
 			this.forceValuesToBlankNodes = true;
 		}
 	}
+
 	
-	public ColumnSpecification(String headerString, String label, String description) {
-		this.headerString = headerString;
-		this.label = label;
-		this.description = description;
-	}
-	
-	public ColumnSpecification(String propertyUri) {
-		this.propertyUri = propertyUri;
-	}
-	
+	/**
+	 * Constructor from a Statement.
+	 * Used when testing if missing columns in the template should be added from the analysis of statements in the data.
+	 */
 	public ColumnSpecification(Statement statement) {
 		this.propertyUri = statement.getPredicate().getURI();
 		if (statement.getObject().isLiteral()) {
@@ -77,6 +83,16 @@ public class ColumnSpecification {
 		}
 		
 		this.recomputeHeaderString(statement.getModel());
+	}
+	
+	
+	/**
+	 * Private constructor directly from a headerString, used only to create the URI column (see static definition above)
+	 */
+	private ColumnSpecification(String headerString, String label, String description) {
+		this.headerString = headerString;
+		this.label = label;
+		this.description = description;
 	}
 	
 	
@@ -92,6 +108,17 @@ public class ColumnSpecification {
 			this.headerString += mappings.shortForm(this.propertyUri)+"^^"+ mappings.shortForm(this.datatypeUri);
 		} else {
 			this.headerString += mappings.shortForm(this.propertyUri);
+		}
+		
+		if(this.separator != null) {
+			this.headerString += "(separator=\""+this.separator+"\")";
+		}
+	}
+	
+	public void notifyACellWithMultipleValues(String separator, PrefixMapping mappings) {
+		if(this.separator == null || !this.separator.equals(separator) ) {
+			this.separator = separator;
+			this.recomputeHeaderString(mappings);
 		}
 	}
 	

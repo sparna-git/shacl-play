@@ -135,7 +135,7 @@ public class SheetReader {
 		List<ColumnSpecification> list_of_columns = new ArrayList<>();
 		
 		// 1. Add the URI column
-		ColumnSpecification uriColumn = new ColumnSpecification("URI", "URI identifier", "URI of the entity. This column can use prefixes known in this spreadsheet");		
+		ColumnSpecification uriColumn = ColumnSpecification.URI_COLUMN_SPEC;		
 		list_of_columns.add(uriColumn);
 		
 		// sort property shapes

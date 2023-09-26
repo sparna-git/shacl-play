@@ -67,6 +67,8 @@ public class GenerateController {
 			@RequestParam(value="url", required=true) String shapesUrl,
 			// Output format
 			@RequestParam(value="format", required=false, defaultValue = "Turtle") String format,
+			// Count Ocurrences Instant Option
+			@RequestParam(value="Ocurrencesinstances", required=false) boolean Ocurrencesinstances,
 			HttpServletRequest request,
 			HttpServletResponse response
 	){
@@ -88,8 +90,10 @@ public class GenerateController {
 			shapes = generator.generateShapes(config, dataProvider);
 			
 			ShaclVisit modelStructure = new ShaclVisit(shapes);
-			modelStructure.visit(new ComputeStatisticsVisitor(dataProvider, ENDPOINT, true));
-			modelStructure.visit(new FilterOnStatisticsVisitor());			
+			if (Ocurrencesinstances) {
+				modelStructure.visit(new ComputeStatisticsVisitor(dataProvider, ENDPOINT, true));
+			}
+			//modelStructure.visit(new FilterOnStatisticsVisitor());			
 
 			String dateString = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 			String outputName="shacl"+"_"+dateString;
@@ -158,6 +162,8 @@ public class GenerateController {
 			
 			// Format output file
 			@RequestParam(value="format", required=false, defaultValue = "Turtle") String format,
+			// Count Ocurrences Instant Option
+			@RequestParam(value="Ocurrencesinstances", required=false) boolean Ocurrencesinstances,
 			HttpServletRequest request,
 			HttpServletResponse response			
 	) {
@@ -206,8 +212,15 @@ public class GenerateController {
 				List<Resource> nodeShapes = shapesModel.listResourcesWithProperty(RDF.type, SH.NodeShape).toList();
 				
 				String fixedUri = "https://shacl-play.sparna.fr/upload/"+ENDPOINT;
-				modelStructure.visit(new ComputeStatisticsVisitor(dataProvider,fixedUri, true));
-				modelStructure.visit(new FilterOnStatisticsVisitor());			
+				
+				// If Ocurrencesinstances Check is True, building the ComputeStatisticsVisitor 
+				if (Ocurrencesinstances) {
+					modelStructure.visit(new ComputeStatisticsVisitor(dataProvider,fixedUri, true));
+				}
+				
+				
+				/* Delete this instruction */
+				//modelStructure.visit(new FilterOnStatisticsVisitor());			
 
 				String dateString = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 				String outputName="shacl"+"_"+dateString;

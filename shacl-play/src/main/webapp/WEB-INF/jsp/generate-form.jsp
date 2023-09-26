@@ -132,12 +132,13 @@
 						
 						<h2><i class="fal fa-tools"></i>&nbsp;&nbsp;<fmt:message key="convert.options.title" /></h2>
 				      	<blockquote class="blockquote bq-warning">
+					      
 					      <div class="form-group row">
-					      	<div class="col-sm-12">
+					      	<div class="col-sm-9">
 								<label for="inputShapeCatalog" class="col-sm-3 col-form-label">
 									<fmt:message key="generate.options.format" />					    
 								</label>
-							    <div class="col-sm-2">
+							    <div class="col-sm-4">
 						    		<select class="form-control" id="format" name="format" >
 						    			<option value="Turtle">Turtle</option>
 						    			<option value="RDF/XML">RDF/XML</option>
@@ -149,7 +150,24 @@
 									</select>
 								</div>
 							</div>
-						  </div>
+						</div>
+						  
+						  	<!-- Option count ocurrences -->
+						 <div class="form-group row"> 	
+						  	<div class="form-group row">
+						      	<div class="col-sm-12">
+							      	<div class="form-check">
+									  <input class="form-check-input col-sm-2" type="checkbox" id="Ocurrencesinstances" name="Ocurrencesinstances" onclick='chkbOIClick(this)' />
+									  <label class="col-sm-12 form-check-label" for="Ocurrencesinstances">
+									    <fmt:message key="generate.options.Ocurrencesinstances" />
+									  </label>
+									  <small class="form-text text-muted">
+										<fmt:message key="generate.options.Ocurrencesinstances.help" />
+									  </small>
+									</div>
+								</div>
+							</div>						  
+						  </div>						  
 					  	</blockquote>
 						
 						<button type="submit" id="validate-button" class="btn btn-info btn-lg"><fmt:message key="generate.submit" /></button>

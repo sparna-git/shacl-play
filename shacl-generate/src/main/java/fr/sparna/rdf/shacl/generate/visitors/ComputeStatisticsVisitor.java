@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.RDFList;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.shacl.vocabulary.SHACLM;
@@ -116,10 +117,12 @@ public class ComputeStatisticsVisitor extends DatasetAwareShaclVisitorBase imple
 		// link property partition to PropertyShape
 		model.add(propertyPartition, DCTerms.conformsTo, aPropertyShape);
 
+		String propertyPath = renderSparqlPropertyPath(aPropertyShape.getRequiredProperty(SHACLM.path).getObject().asResource());
+		
 		// count number of triples
 		int count = this.dataProvider.countStatements(
 				aNodeShape.getRequiredProperty(SHACLM.targetClass).getObject().asResource().getURI(),
-				aPropertyShape.getRequiredProperty(SHACLM.path).getObject().asResource().getURI()
+				propertyPath
 		);
 		
 		// assert void:triples
@@ -129,7 +132,7 @@ public class ComputeStatisticsVisitor extends DatasetAwareShaclVisitorBase imple
 		// count number of distinct objects
 		int countDistinctObjects = this.dataProvider.countDistinctObjects(
 				aNodeShape.getRequiredProperty(SHACLM.targetClass).getObject().asResource().getURI(),
-				aPropertyShape.getRequiredProperty(SHACLM.path).getObject().asResource().getURI()
+				propertyPath
 		);
 		
 		// assert void:distinctObjects
@@ -170,6 +173,48 @@ public class ComputeStatisticsVisitor extends DatasetAwareShaclVisitorBase imple
 		// concat local name to datasetUri
 		String partitionUri = datasetUri+"/"+"partition"+"_"+localName;
 		return partitionUri;
+	}
+	
+	public static String renderSparqlPropertyPath(Resource r) {
+		if(r == null) return "";
+		
+		if(r.isURIResource()) {
+			return "<"+r.getURI()+">";
+		} else if(r.canAs(RDFList.class)) {
+			List<RDFNode> l = r.as(RDFList.class).asJavaList();
+			return l.stream().map(i -> renderSparqlPropertyPath(i.asResource())).collect(Collectors.joining("/"));
+		} else if(r.hasProperty(SHACLM.alternativePath)) {
+			Resource alternatives = r.getPropertyResourceValue(SHACLM.alternativePath);
+			RDFList rdfList = alternatives.as( RDFList.class );
+			List<RDFNode> pathElements = rdfList.asJavaList();
+			return pathElements.stream().map(p -> renderSparqlPropertyPath((Resource)p)).collect(Collectors.joining("|"));
+		} else if(r.hasProperty(SHACLM.inversePath)) {
+			Resource value = r.getPropertyResourceValue(SHACLM.inversePath);
+			if(value.isURIResource()) {
+				return "^"+renderSparqlPropertyPath(value);
+			}
+			else {
+				return "^("+renderSparqlPropertyPath(value)+")";
+			}
+		} else if(r.hasProperty(SHACLM.zeroOrMorePath)) {
+			Resource value = r.getPropertyResourceValue(SHACLM.zeroOrMorePath);
+			if(value.isURIResource()) {
+				return renderSparqlPropertyPath(value)+"*";
+			}
+			else {
+				return "("+renderSparqlPropertyPath(value)+")*";
+			}
+		} else if(r.hasProperty(SHACLM.oneOrMorePath)) {
+			Resource value = r.getPropertyResourceValue(SHACLM.oneOrMorePath);
+			if(value.isURIResource()) {
+				return renderSparqlPropertyPath(value)+"+";
+			}
+			else {
+				return "("+renderSparqlPropertyPath(value)+")+";
+			}
+		} else {
+			return null;
+		}
 	}
 
 

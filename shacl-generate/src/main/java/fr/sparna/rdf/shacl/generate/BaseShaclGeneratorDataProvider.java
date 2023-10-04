@@ -242,14 +242,14 @@ public class BaseShaclGeneratorDataProvider implements ShaclGeneratorDataProvide
 	}
 
 	@Override
-	public int countStatements(String subjectClassUri, String propertyUri) {
-		QuerySolutionMap qs = new QuerySolutionMap();
-		qs.add("type", ResourceFactory.createResource(subjectClassUri));
-		qs.add("property", ResourceFactory.createResource(propertyUri));
+	public int countStatements(String subjectClassUri, String propertyPath) {		
+		// manually replace variables to deal with property paths
+		String query = readQuery("count-statements.rq");
+		query = query.replaceAll("\\$type", "<"+subjectClassUri+">");
+		query = query.replaceAll("\\$property", propertyPath);
 		
 		int count = this.queryExecutionService.executeSelectQuery(
-				readQuery("count-statements.rq"),
-				qs,
+				query,
 				JenaResultSetHandlers::convertToInt
 				
 		);
@@ -257,14 +257,15 @@ public class BaseShaclGeneratorDataProvider implements ShaclGeneratorDataProvide
 	}
 	
 	@Override
-	public int countDistinctObjects(String subjectClassUri, String propertyUri) {
-		QuerySolutionMap qs = new QuerySolutionMap();
-		qs.add("type", ResourceFactory.createResource(subjectClassUri));
-		qs.add("property", ResourceFactory.createResource(propertyUri));
+	public int countDistinctObjects(String subjectClassUri, String propertyPath) {
+		// manually replace variables to deal with property paths
+		String query = readQuery("count-distinct-objects.rq");
+		query = query.replaceAll("\\$type", "<"+subjectClassUri+">");
+		query = query.replaceAll("\\$property", propertyPath);
+		
 		
 		int count = this.queryExecutionService.executeSelectQuery(
-				readQuery("count-distinct-objects.rq"),
-				qs,
+				query,
 				JenaResultSetHandlers::convertToInt
 				
 		);

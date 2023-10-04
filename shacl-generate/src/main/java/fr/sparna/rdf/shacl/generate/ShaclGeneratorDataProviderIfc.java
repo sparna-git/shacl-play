@@ -72,7 +72,7 @@ public interface ShaclGeneratorDataProviderIfc {
 	 * @param propertyUri
 	 * @return
 	 */
-	public int countStatements(String subjectClassUri, String propertyUri);
+	public int countStatements(String subjectClassUri, String propertyPath);
 
 	/**
 	 * Counts the number of distinct objects of the given property on the given subject class
@@ -82,7 +82,7 @@ public interface ShaclGeneratorDataProviderIfc {
 	 * @param propertyUri
 	 * @return
 	 */
-	public int countDistinctObjects(String subjectClassUri, String propertyUri);
+	public int countDistinctObjects(String subjectClassUri, String propertyPath);
 	
 	/**
 	 * Counts the number of statements on the instances of the given class with the given property,

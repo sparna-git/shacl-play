@@ -20,8 +20,6 @@ import fr.sparna.rdf.shacl.generate.ShaclGenerator;
 import fr.sparna.rdf.shacl.generate.ShaclGeneratorDataProviderIfc;
 import fr.sparna.rdf.shacl.generate.visitors.AssignDatatypesAndClassesToIriOrLiteralVisitor;
 import fr.sparna.rdf.shacl.generate.visitors.AssignLabelRoleVisitor;
-import fr.sparna.rdf.shacl.generate.visitors.ComputeStatisticsVisitor;
-import fr.sparna.rdf.shacl.generate.visitors.FilterOnStatisticsVisitor;
 import fr.sparna.rdf.shacl.generate.visitors.ShaclVisit;
 
 public class Generate implements CliCommandIfc {
@@ -31,7 +29,6 @@ public class Generate implements CliCommandIfc {
 	@Override
 	public void execute(Object args) throws Exception {
 		ArgumentsGenerate a = (ArgumentsGenerate)args;
-		log.debug("Statistics argument : "+a.getStatistics());
 		
 		Configuration config = new Configuration(new DefaultModelProcessor(), "https://shacl-play.sparna.fr/shapes/", "shape");
 		config.setShapesOntology("https://shacl-play.sparna.fr/shapes/");
@@ -63,14 +60,6 @@ public class Generate implements CliCommandIfc {
 		}
 		
 		ShaclVisit modelStructure = new ShaclVisit(shapes);
-		
-		if((a.getStatistics() != ArgumentsGenerate.StatisticsAction.NONE) || a.isFilterOnStatistics()) {
-			boolean addToDescription = a.getStatistics() == ArgumentsGenerate.StatisticsAction.COUNT_AND_DESCRIPTION;
-			modelStructure.visit(new ComputeStatisticsVisitor(dataProvider, (a.getEndpoint() != null)?a.getEndpoint():"https://dummy.dataset.uri", addToDescription));
-		}
-		if(a.isFilterOnStatistics()) {
-			modelStructure.visit(new FilterOnStatisticsVisitor());
-		}
 		modelStructure.visit(new AssignLabelRoleVisitor());
 		modelStructure.visit(new AssignDatatypesAndClassesToIriOrLiteralVisitor(dataProvider, new DefaultModelProcessor()));
 		

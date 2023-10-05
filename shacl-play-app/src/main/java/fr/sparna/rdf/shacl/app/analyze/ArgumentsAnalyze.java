@@ -1,4 +1,4 @@
-package fr.sparna.rdf.shacl.app.generate;
+package fr.sparna.rdf.shacl.app.analyze;
 
 import java.io.File;
 import java.util.List;
@@ -6,8 +6,9 @@ import java.util.List;
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.Parameters;
 
-@Parameters(commandDescription = "Generates the SHACL profile of an input knowledge graph")
-public class ArgumentsGenerate {
+@Parameters(commandDescription = "Analyzes an input dataset against a provided SHACL file, and counts the number of instances/occurrences of each "
+		+ "NodeShapes / PropertyShapes in the dataset. Outputs a void:Dataset entity with partitions holding the count.")
+public class ArgumentsAnalyze {
 	
 	@Parameter(
 			names = { "-e", "--endpoint" },
@@ -24,11 +25,18 @@ public class ArgumentsGenerate {
 	
 	@Parameter(
 			names = { "-o", "--output" },
-			description = "Path where the SHACL file will be written. The format of the file is determined based"
+			description = "Path where the statistics file will be written. The format of the file is determined based"
 					+ " on the file extension : '*.ttl, *.rdf, *.n3, *.nq, *.nt, *.trig, *.jsonld' ",
 			required = true
 	)
 	private File output;
+
+	@Parameter(
+			names = { "-s", "--shapes" },
+			description = "Path to the shapes file against which the input data should be analyzed",
+			required = true
+	)
+	private File shapes;
 
 
 	public String getEndpoint() {
@@ -53,6 +61,14 @@ public class ArgumentsGenerate {
 
 	public void setOutput(File output) {
 		this.output = output;
+	}
+
+	public File getShapes() {
+		return shapes;
+	}
+
+	public void setShapes(File shapes) {
+		this.shapes = shapes;
 	}
 	
 	

@@ -4,12 +4,16 @@ import com.beust.jcommander.JCommander;
 import com.beust.jcommander.MissingCommandException;
 import com.beust.jcommander.ParameterException;
 
+import fr.sparna.rdf.shacl.app.analyze.Analyze;
+import fr.sparna.rdf.shacl.app.analyze.ArgumentsAnalyze;
 import fr.sparna.rdf.shacl.app.doc.ArgumentsDoc;
 import fr.sparna.rdf.shacl.app.doc.Doc;
 import fr.sparna.rdf.shacl.app.draw.ArgumentsDraw;
 import fr.sparna.rdf.shacl.app.draw.Draw;
 import fr.sparna.rdf.shacl.app.excel.ArgumentsExcel;
 import fr.sparna.rdf.shacl.app.excel.Excel;
+import fr.sparna.rdf.shacl.app.filter.ArgumentsFilter;
+import fr.sparna.rdf.shacl.app.filter.Filter;
 import fr.sparna.rdf.shacl.app.generate.ArgumentsGenerate;
 import fr.sparna.rdf.shacl.app.generate.Generate;
 import fr.sparna.rdf.shacl.app.infer.ArgumentsInfer;
@@ -41,6 +45,8 @@ public class Main {
 		GENERATECONTEXT(new ArgumentsGenerateContext(), new GenerateContext()),
 		GENERATE(new ArgumentsGenerate(), new Generate()),
 		VALIDATE(new ArgumentsValidate(), new Validate()),
+		ANALYZE(new ArgumentsAnalyze(), new Analyze()),
+		FILTER(new ArgumentsFilter(), new Filter()),
 		EXCEL(new ArgumentsExcel(), new Excel());
 
 		private CliCommandIfc command;

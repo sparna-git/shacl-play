@@ -5,6 +5,7 @@ import java.text.DecimalFormatSymbols;
 import java.util.List;
 import java.util.Locale;
 
+import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.vocabulary.DCTerms;
@@ -21,6 +22,13 @@ public class FilterOnStatisticsVisitor extends AbstractFilterVisitor implements 
 	
 	private double thresholdPercentage = 0.1;
 	
+	private Model statisticsModel;
+	
+	public FilterOnStatisticsVisitor(Model statisticsModel) {
+		super();
+		this.statisticsModel = statisticsModel;
+	}
+
 	// never filter node shapes
 	public boolean filterNodeShape(Resource aNodeShape) {
 		return false;
@@ -57,7 +65,7 @@ public class FilterOnStatisticsVisitor extends AbstractFilterVisitor implements 
 	}
 	
 	private Resource findPartitionCorrespondingToShape(Resource nodeOrPropertyShape) {
-		List<Resource> resources = nodeOrPropertyShape.getModel().listSubjectsWithProperty(DCTerms.conformsTo, nodeOrPropertyShape).toList();
+		List<Resource> resources = statisticsModel.listSubjectsWithProperty(DCTerms.conformsTo, nodeOrPropertyShape).toList();
 		if(resources.size() > 0) {
 			if(resources.size() > 1) {
 				log.warn("More that one dct:conformsTo was found to link a partition to shape "+nodeOrPropertyShape.getURI());

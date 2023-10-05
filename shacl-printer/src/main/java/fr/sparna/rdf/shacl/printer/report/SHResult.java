@@ -25,6 +25,7 @@ public class SHResult {
 
 
 	RDFNode getFocusNode() {
+		System.out.println("getting focus node on "+this.resource+" with sh:value "+this.getValue());
 		return SHResult.getProperty(this.resource, SH.focusNode);
 	}
 

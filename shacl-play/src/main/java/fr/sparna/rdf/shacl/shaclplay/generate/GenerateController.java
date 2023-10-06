@@ -10,10 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
-import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFLanguages;
-import org.apache.jena.vocabulary.RDF;
 import org.owasp.encoder.Encode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,29 +20,23 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
-import org.topbraid.shacl.vocabulary.SH;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import fr.sparna.rdf.shacl.generate.Configuration;
 import fr.sparna.rdf.shacl.generate.DefaultModelProcessor;
 import fr.sparna.rdf.shacl.generate.PaginatedQuery;
 import fr.sparna.rdf.shacl.generate.SamplingShaclGeneratorDataProvider;
 import fr.sparna.rdf.shacl.generate.ShaclGenerator;
-import fr.sparna.rdf.shacl.generate.visitors.AbstractFilterVisitor;
 import fr.sparna.rdf.shacl.generate.visitors.ComputeStatisticsVisitor;
-
-import fr.sparna.rdf.shacl.generate.visitors.FilterOnStatisticsVisitor;
+import fr.sparna.rdf.shacl.generate.visitors.CopyStatisticsToDescriptionVisitor;
 import fr.sparna.rdf.shacl.generate.visitors.ShaclVisit;
-import fr.sparna.rdf.shacl.generate.visitors.ShaclVisitorIfc;
 import fr.sparna.rdf.shacl.shaclplay.ApplicationData;
 import fr.sparna.rdf.shacl.shaclplay.ControllerCommons;
 import fr.sparna.rdf.shacl.shaclplay.ControllerModelFactory;
 import fr.sparna.rdf.shacl.shaclplay.ControllerModelFactory.SOURCE_TYPE;
-import fr.sparna.rdf.shacl.shaclplay.catalog.AbstractCatalogEntry;
 import fr.sparna.rdf.shacl.shaclplay.catalog.rules.RulesCatalog;
 import fr.sparna.rdf.shacl.shaclplay.catalog.rules.RulesCatalogService;
-import net.sourceforge.plantuml.FileFormat;
 
 @Controller
 public class GenerateController {
@@ -87,13 +79,13 @@ public class GenerateController {
 					config,
 					dataProvider);
 			
-			shapes = generator.generateShapes(config, dataProvider);
-			
 			ShaclVisit modelStructure = new ShaclVisit(shapes);
 			if (Ocurrencesinstances) {
-				modelStructure.visit(new ComputeStatisticsVisitor(dataProvider, ENDPOINT, true));
-			}
-			//modelStructure.visit(new FilterOnStatisticsVisitor());			
+				Model countModel = ModelFactory.createDefaultModel();
+				modelStructure.visit(new ComputeStatisticsVisitor(dataProvider, countModel, ENDPOINT, true));
+				modelStructure.visit(new CopyStatisticsToDescriptionVisitor(countModel));
+				shapes.add(countModel);
+			}			
 
 			String dateString = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 			String outputName="shacl"+"_"+dateString;
@@ -198,24 +190,20 @@ public class GenerateController {
 				Configuration config = new Configuration(new DefaultModelProcessor(), "https://shacl-play.sparna.fr/shapes/", "shapes");
 				config.setShapesOntology("https://shacl-play.sparna.fr/shapes");
 				
-				SamplingShaclGeneratorDataProvider dataProvider = dataProvider = new  SamplingShaclGeneratorDataProvider(new PaginatedQuery(100),shapesModel);
+				SamplingShaclGeneratorDataProvider dataProvider = new SamplingShaclGeneratorDataProvider(new PaginatedQuery(100),shapesModel);
 				
 				ShaclGenerator generator = new ShaclGenerator();
 				Model shapes = generator.generateShapes(
 						config,
 						dataProvider);
 				
-				shapes = generator.generateShapes(config, dataProvider);
-				
-				ShaclVisit modelStructure = new ShaclVisit(shapes);
-				
-				List<Resource> nodeShapes = shapesModel.listResourcesWithProperty(RDF.type, SH.NodeShape).toList();
-				
-				String fixedUri = "https://shacl-play.sparna.fr/upload/"+ENDPOINT;
-				
+				ShaclVisit modelStructure = new ShaclVisit(shapes);				
 				// If Ocurrencesinstances Check is True, building the ComputeStatisticsVisitor 
 				if (Ocurrencesinstances) {
-					modelStructure.visit(new ComputeStatisticsVisitor(dataProvider,fixedUri, true));
+					Model countModel = ModelFactory.createDefaultModel();
+					modelStructure.visit(new ComputeStatisticsVisitor(dataProvider, countModel, ENDPOINT, true));
+					modelStructure.visit(new CopyStatisticsToDescriptionVisitor(countModel));
+					shapes.add(countModel);
 				}
 				
 				
@@ -247,8 +235,6 @@ public class GenerateController {
 		if(l == null) {
 			l = Lang.RDFXML;
 		}
-		// write results in response
-		// ControllerCommons.serialize(results, l, "shacl-play-convert", response);
 		ControllerCommons.serialize(dataModel, l, filename, response);
 		return null;
 	}

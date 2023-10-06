@@ -79,19 +79,8 @@ public class SamplingShaclGeneratorDataProvider extends BaseShaclGeneratorDataPr
 			e.printStackTrace();
 			log.warn("Could not get complete list of properties of "+classUri+", will use a sample");
 			
-			SamplingQuery samplingQuery = new SamplingQuery(2, 50000, 50);
-			List<Map<String, RDFNode>> instanceRows = samplingQuery.select(
-					this.queryExecutionService,
-					readQuery("sampling/select-instances.rq"),
-					QueryExecutionService.buildQuerySolution("type", ResourceFactory.createResource(classUri))
-			);
-			List<RDFNode> instances = JenaResultSetHandlers.convertSingleColumnToRDFNodeList(instanceRows);
-			
-			// store the instance sample in cache
-			this.sampleInstancesCache.put(classUri, instances);
-			
 			ValuesQuery valuesQuery = new ValuesQuery(20);
-			List<Map<String, RDFNode>> rows = valuesQuery.select(queryExecutionService, readQuery("sampling/select-instances-properties.rq"), "uri", instances);
+			List<Map<String, RDFNode>> rows = valuesQuery.select(queryExecutionService, readQuery("sampling/select-instances-properties.rq"), "uri", getSampleInstances(classUri));
 			
 			this.messageListener.accept("Warning, properties read on a sample of "+this.sampleInstancesCache.get(classUri).size()+" entities");
 			List<String> duplicatedList = JenaResultSetHandlers.convertSingleColumnUriToStringList(rows);
@@ -114,7 +103,7 @@ public class SamplingShaclGeneratorDataProvider extends BaseShaclGeneratorDataPr
 			qs.add("property", ResourceFactory.createResource(propertyUri));
 			
 			ValuesQuery valuesQuery = new ValuesQuery(20);
-			List<Map<String, RDFNode>> rows = valuesQuery.select(queryExecutionService, readQuery("select-datatypes.rq"), "uri", this.sampleInstancesCache.get(classUri));
+			List<Map<String, RDFNode>> rows = valuesQuery.select(queryExecutionService, readQuery("select-datatypes.rq"), "uri", getSampleInstances(classUri));
 			
 			this.messageListener.accept("Warning, sh:datatype read on a sample of "+this.sampleInstancesCache.get(classUri).size()+" entities");
 			List<String> duplicatedList = JenaResultSetHandlers.convertSingleColumnUriToStringList(rows);
@@ -136,7 +125,7 @@ public class SamplingShaclGeneratorDataProvider extends BaseShaclGeneratorDataPr
 			qs.add("property", ResourceFactory.createResource(propertyUri));
 			
 			ValuesQuery valuesQuery = new ValuesQuery(20);
-			List<Map<String, RDFNode>> rows = valuesQuery.select(queryExecutionService, readQuery("select-object-types.rq"), "uri", this.sampleInstancesCache.get(classUri));
+			List<Map<String, RDFNode>> rows = valuesQuery.select(queryExecutionService, readQuery("select-object-types.rq"), "uri", getSampleInstances(classUri));
 			
 			this.messageListener.accept("Warning, sh:class read on a sample of "+this.sampleInstancesCache.get(classUri).size()+" entities");
 			List<String> duplicatedList = JenaResultSetHandlers.convertSingleColumnUriToStringList(rows);
@@ -146,6 +135,23 @@ public class SamplingShaclGeneratorDataProvider extends BaseShaclGeneratorDataPr
 			
 			
 		}
+	}
+	
+	private List<RDFNode> getSampleInstances(String classUri) {
+		if(!this.sampleInstancesCache.containsKey(classUri)) {
+			SamplingQuery samplingQuery = new SamplingQuery(2, 50000, 50);
+			List<Map<String, RDFNode>> instanceRows = samplingQuery.select(
+					this.queryExecutionService,
+					readQuery("sampling/select-instances.rq"),
+					QueryExecutionService.buildQuerySolution("type", ResourceFactory.createResource(classUri))
+			);
+			List<RDFNode> instances = JenaResultSetHandlers.convertSingleColumnToRDFNodeList(instanceRows);
+			
+			// store the instance sample in cache
+			this.sampleInstancesCache.put(classUri, instances);
+		}
+		
+		return this.sampleInstancesCache.get(classUri);
 	}
 	
 	

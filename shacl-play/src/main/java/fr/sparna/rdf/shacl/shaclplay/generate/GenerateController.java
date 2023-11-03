@@ -28,6 +28,8 @@ import fr.sparna.rdf.shacl.generate.DefaultModelProcessor;
 import fr.sparna.rdf.shacl.generate.PaginatedQuery;
 import fr.sparna.rdf.shacl.generate.SamplingShaclGeneratorDataProvider;
 import fr.sparna.rdf.shacl.generate.ShaclGenerator;
+import fr.sparna.rdf.shacl.generate.ShaclGeneratorDataProviderIfc;
+import fr.sparna.rdf.shacl.generate.visitors.AssignLabelRoleVisitor;
 import fr.sparna.rdf.shacl.generate.visitors.ComputeStatisticsVisitor;
 import fr.sparna.rdf.shacl.generate.visitors.CopyStatisticsToDescriptionVisitor;
 import fr.sparna.rdf.shacl.generate.visitors.ShaclVisit;
@@ -35,8 +37,6 @@ import fr.sparna.rdf.shacl.shaclplay.ApplicationData;
 import fr.sparna.rdf.shacl.shaclplay.ControllerCommons;
 import fr.sparna.rdf.shacl.shaclplay.ControllerModelFactory;
 import fr.sparna.rdf.shacl.shaclplay.ControllerModelFactory.SOURCE_TYPE;
-import fr.sparna.rdf.shacl.shaclplay.catalog.rules.RulesCatalog;
-import fr.sparna.rdf.shacl.shaclplay.catalog.rules.RulesCatalogService;
 
 @Controller
 public class GenerateController {
@@ -45,9 +45,6 @@ public class GenerateController {
 
 	@Autowired
 	protected ApplicationData applicationData;
-	
-	@Autowired
-	protected RulesCatalogService catalogService;
 	
 	
 	@RequestMapping(
@@ -67,71 +64,38 @@ public class GenerateController {
 		try {
 			log.debug("generateUrl(shapesUrl='"+shapesUrl+"')");
 			
-			//section of generate module
-			String ENDPOINT = shapesUrl;
-			//  
+
 			Configuration config = new Configuration(new DefaultModelProcessor(), "https://shacl-play.sparna.fr/shapes/", "shapes");
 			config.setShapesOntology("https://shacl-play.sparna.fr/shapes");
 			
-			SamplingShaclGeneratorDataProvider dataProvider = new SamplingShaclGeneratorDataProvider(new PaginatedQuery(100), ENDPOINT);
-			ShaclGenerator generator = new ShaclGenerator();
-			Model shapes = generator.generateShapes(
+			SamplingShaclGeneratorDataProvider dataProvider = new SamplingShaclGeneratorDataProvider(new PaginatedQuery(100), shapesUrl);
+			
+			Model shapes = doGenerateShapes(
+					dataProvider,
 					config,
-					dataProvider);
+					shapesUrl,
+					Ocurrencesinstances
+			);		
 			
-			ShaclVisit modelStructure = new ShaclVisit(shapes);
-			if (Ocurrencesinstances) {
-				Model countModel = ModelFactory.createDefaultModel();
-				modelStructure.visit(new ComputeStatisticsVisitor(dataProvider, countModel, ENDPOINT, true));
-				modelStructure.visit(new CopyStatisticsToDescriptionVisitor(countModel));
-				shapes.add(countModel);
-			}			
-
-			String dateString = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-			String outputName="shacl"+"_"+dateString;
-			
-			return doGenerateSHACL(modelStructure, shapes, outputName, format,response);
+			serialize(shapes, format,response);
+			return null;
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 			return handleGenerateFormError(request, e.getClass().getName() +" : "+e.getMessage(), e);
 		}
 	}
-	
-	@RequestMapping(
-			value = {"generate"},
-			params={"rules"},
-			method=RequestMethod.GET
-	)
-	public ModelAndView validate(
-			@RequestParam(value="rules", required=true) String rulesId,
-			HttpServletRequest request,
-			HttpServletResponse response
-	){
-		GenerateFormData data = new GenerateFormData();
-		
-		RulesCatalog catalog = this.catalogService.getRulesCatalog();
-		data.setCatalog(catalog);
-		
-		if(rulesId != null) {
-			data.setSelectedShapesKey(rulesId);
-		}
-		
-		return new ModelAndView("generate-form", GenerateFormData.KEY, data);	
-	}
+
 	
 	@RequestMapping(
 			value = {"generate"},
 			method=RequestMethod.GET
 	)
-	public ModelAndView validate(
+	public ModelAndView generate(
 			HttpServletRequest request,
 			HttpServletResponse response
 	){
 		GenerateFormData data = new GenerateFormData();
-		
-		RulesCatalog catalog = this.catalogService.getRulesCatalog();
-		data.setCatalog(catalog);
 		
 		return new ModelAndView("generate-form", GenerateFormData.KEY, data);	
 	}
@@ -141,7 +105,7 @@ public class GenerateController {
 			params={"shapesSource"},
 			method = RequestMethod.POST
 	)
-	public ModelAndView validate(
+	public ModelAndView generate(
 			// radio box indicating type of shapes
 			@RequestParam(value="shapesSource", required=true) String shapesSourceString,
 			// reference to Shapes URL if shapeSource=sourceShape-inputShapeUrl
@@ -173,7 +137,7 @@ public class GenerateController {
 				// initialize shapes first
 				log.debug("Determining Shapes source...");
 				Model shapesModel = ModelFactory.createDefaultModel();
-				ControllerModelFactory modelPopulator = new ControllerModelFactory(this.catalogService.getRulesCatalog());
+				ControllerModelFactory modelPopulator = new ControllerModelFactory(null);
 				modelPopulator.populateModel(
 						shapesModel,
 						shapesSource,
@@ -183,37 +147,21 @@ public class GenerateController {
 						null
 				);
 				log.debug("Done Loading Shapes. Model contains "+shapesModel.size()+" triples");
-				// Generate
-				//section of generate module
-				String ENDPOINT = modelPopulator.getSourceName();
-				//  
+
 				Configuration config = new Configuration(new DefaultModelProcessor(), "https://shacl-play.sparna.fr/shapes/", "shapes");
 				config.setShapesOntology("https://shacl-play.sparna.fr/shapes");
 				
 				SamplingShaclGeneratorDataProvider dataProvider = new SamplingShaclGeneratorDataProvider(new PaginatedQuery(100),shapesModel);
 				
-				ShaclGenerator generator = new ShaclGenerator();
-				Model shapes = generator.generateShapes(
+				Model shapes = doGenerateShapes(
+						dataProvider,
 						config,
-						dataProvider);
+						modelPopulator.getSourceName(),
+						Ocurrencesinstances
+				);			
 				
-				ShaclVisit modelStructure = new ShaclVisit(shapes);				
-				// If Ocurrencesinstances Check is True, building the ComputeStatisticsVisitor 
-				if (Ocurrencesinstances) {
-					Model countModel = ModelFactory.createDefaultModel();
-					modelStructure.visit(new ComputeStatisticsVisitor(dataProvider, countModel, ENDPOINT, true));
-					modelStructure.visit(new CopyStatisticsToDescriptionVisitor(countModel));
-					shapes.add(countModel);
-				}
-				
-				
-				/* Delete this instruction */
-				//modelStructure.visit(new FilterOnStatisticsVisitor());			
-
-				String dateString = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-				String outputName="shacl"+"_"+dateString;
-				
-				return doGenerateSHACL(modelStructure, shapes, outputName, format,response);
+				serialize(shapes, format,response);
+				return null;
 			}			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -221,22 +169,49 @@ public class GenerateController {
 		}
 	}
 	
-	private ModelAndView doGenerateSHACL(
-			ShaclVisit shapesModel,
+	private Model doGenerateShapes(
+			ShaclGeneratorDataProviderIfc dataProvider,
+			Configuration config,
+			String sourceName,
+			boolean withCount
+	) {
+		ShaclGenerator generator = new ShaclGenerator();
+		Model shapes = generator.generateShapes(
+				config,
+				dataProvider);
+		
+		ShaclVisit shaclVisit = new ShaclVisit(shapes);	
+		
+		// add dash:LabelRole
+		shaclVisit.visit(new AssignLabelRoleVisitor());
+		
+		// If Ocurrencesinstances Check is True, building the ComputeStatisticsVisitor 
+		if (withCount) {
+			Model countModel = ModelFactory.createDefaultModel();
+			shaclVisit.visit(new ComputeStatisticsVisitor(dataProvider, countModel, sourceName, true));
+			shaclVisit.visit(new CopyStatisticsToDescriptionVisitor(countModel));
+			shapes.add(countModel);
+		}
+		
+		return shapes;
+	}
+	
+	
+	private void serialize(
 			Model dataModel,
-			String filename,
-			String FileFmt,
+			String fileFormat,
 			HttpServletResponse response
 	) throws Exception {
-		
-		
-		String langName = FileFmt;
-		Lang l = RDFLanguages.nameToLang(langName);
+
+		Lang l = RDFLanguages.nameToLang(fileFormat);
 		if(l == null) {
 			l = Lang.RDFXML;
 		}
+		
+		String dateString = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+		String filename="shacl"+"_"+dateString;
+		
 		ControllerCommons.serialize(dataModel, l, filename, response);
-		return null;
 	}
 
 	
@@ -254,10 +229,7 @@ public class GenerateController {
 	) {
 		GenerateFormData data = new GenerateFormData();
 		data.setErrorMessage(Encode.forHtml(message));
-		
-		RulesCatalog catalog = this.catalogService.getRulesCatalog();
-		data.setCatalog(catalog);
-		
+
 		if(e != null) {
 			e.printStackTrace();
 		}

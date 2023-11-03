@@ -171,7 +171,95 @@
 					  	</blockquote>
 						
 						<button type="submit" id="validate-button" class="btn btn-info btn-lg"><fmt:message key="generate.submit" /></button>
-					</form>					
+					</form>	
+					
+					<!-- Documentation -->	
+					<div style="margin-top:3em;">
+						<h3 id="documentation">Documentation</h3>
+						
+						<p>This algorithm <em>derives a set of SHACL constraints from an RDF dataset</em>. It can work from an uploaded RDF dataset, or from an online SPARQL endpoint.<p/>
+						<p>This algorithm was derived from <a href="https://github.com/cognizone/asquare/tree/develop/cube/src/main/java/zone/cogni/asquare/cube/convertor/data2shacl">this original one</a> implemented by <a href="https://www.cogni.zone/">Cognizone</a> here. Credits to them. It was improved in significant ways:</p>
+						<ul>
+							<li>Used a layered visitor patterns architecture for more modularity</li>
+							<li>Used sampling technique to work with large datasets</li>
+							<li>Improved NodeShape derivation algorithm to exclude certain types, when entities have multiple types</li>
+							<li>Added counting of entities and properties</li>
+						</ul>
+						<p>This can work best if the dataset:</p>
+						<ul>
+							<li>Uses one and only one rdf:type value per entity (although the algorithm can be smart enough to exclude some types, see below)</li>
+							<li>Contains only data, not the RDFS/OWL model</li>
+						</ul>
+						
+						
+						<div style="margin-top:2em;">
+							<h4 id="documentation">SHACL generation algorithm</h4>
+							<p>The algorithm follow these steps to generate the SHACL:</p>
+							
+							<ol>
+								<li>
+									<strong>Find all types in the dataset</strong>.
+									Relies on <a href="https://github.com/sparna-git/shacl-play/blob/master/shacl-generate/src/main/resources/shacl/generate/select-types.rq">this SPARQL query</a>.
+									Generates one <code>sh:NodeShape</code> for each type, with <code>sh:targetClass</code> set to the type.</li>
+								<li>
+									For each found type, <strong>find all properties used on instances of this type</strong>.
+									Relies on <a href="https://github.com/sparna-git/shacl-play/blob/master/shacl-generate/src/main/resources/shacl/generate/select-properties.rq">this SPARQL query</a>.
+									Generates one <code>sh:PropertyShape</code> for each property on the type, with an <code>sh:path</code> set to this property.
+								</li>
+								<li>
+									For each property shape previously found, <strong>determine its node kind (IRI or Literal)</strong>.
+									Relies on <a href="https://github.com/sparna-git/shacl-play/blob/master/shacl-generate/src/main/resources/shacl/generate/nodekind-is-blank.rq">this SPARQL query</a>,
+									<a href="https://github.com/sparna-git/shacl-play/blob/master/shacl-generate/src/main/resources/shacl/generate/nodekind-is-iri.rq">this one</a>,
+									and <a href="https://github.com/sparna-git/shacl-play/blob/master/shacl-generate/src/main/resources/shacl/generate/nodekind-is-literal.rq">this one</a>.
+									Generates the <code>sh:nodeKind</code> constraint on the property shape accordingly.
+								</li>
+								<li>
+									For each property shape previously found with a sh:nodeKind IRI or BlankNode, <strong>determine the types of the property values</strong>.
+									Relies on <a href="https://github.com/sparna-git/shacl-play/blob/master/shacl-generate/src/main/resources/shacl/generate/select-object-types.rq">this SPARQL query</a>.
+									Generates the <code>sh:class</code> constraint on the property shape accordingly. If more than one class is found, the algorithm determines if some can be removed:
+									<ul>
+										<li>If one class is a superset of all other classes found, (indicating that the dataset uses some redundancy on the typing of instances, e.g. assigning skos:Concept
+										and a subclass of skos:Concept to entities), but is a superset of other classes as well, then the this superset class (e.g. skos:Concept) is removed from the list, 
+										and only the most precise class(-es) are kept.</li>
+										<li>If one class is a superset of all other classes found, and is not a superset of other classes, then only the superset class is kept, and other more precise classes
+										are removed from the list</li>
+									</ul>
+								</li>
+								<li>
+									For each property shape previously found with a sh:nodeKind Literal, <strong>determine the datatype and languages of the property values</strong>.
+									Relies on <a href="https://github.com/sparna-git/shacl-play/blob/master/shacl-generate/src/main/resources/shacl/generate/select-datatypes.rq">this SPARQL query</a>,
+									and <a href="https://github.com/sparna-git/shacl-play/blob/master/shacl-generate/src/main/resources/shacl/generate/select-languages.rq">this one</a>.
+									Generates the <code>sh:datatype</code> and <code>sh:languageIn</code> constraints on the property shape accordingly.
+								</li>
+								<li>
+									For each property shape previously found, <strong>determine the cardinalities of the property</strong>.
+									Relies on <a href="https://github.com/sparna-git/shacl-play/blob/master/shacl-generate/src/main/resources/shacl/generate/has-instance-without-property.rq">this SPARQL query</a>,
+									and <a href="https://github.com/sparna-git/shacl-play/blob/master/shacl-generate/src/main/resources/shacl/generate/has-instance-with-two-properties.rq">this one</a>.
+									This can determine one minimum and maximum cardinalities set to 1.
+									Generates the <code>sh:minCount</code> and <code>sh:maxCount</code> constraints on the property shape accordingly.
+								</li>
+								<li>
+									For each property shape previously found, <strong>list the values of the property if it has a limited number of possible values</strong>.
+									Relies on <a href="https://github.com/sparna-git/shacl-play/blob/master/shacl-generate/src/main/resources/shacl/generate/count-distinct-values.rq">this SPARQL query</a>.
+									This is done only if the property has 3 distinct values or less.
+									Generates an <code>sh:in</code> or <code>sh:hasValue</code> constraint on the property shape accordingly.
+								</li>
+								<li>
+									For each node shape previously found, <strong>determines if one of the property shape is a label of the entity</strong>.
+									If a property skos:prefLabel, foaf:name, dcterms:title, schema:name or rdfs:label (in this order) is found, mark it as a label. Otherwise, tries to find
+									a literal property of datatype xsd:string or rdf:langString, with a sh:minCount 1; if only is found, mark it as a label.
+									Generates a <code>dash:propertyRole</code> with <code>dash:LabelRole</code> value accordingly.
+								</li>
+								<li>
+									If requested, for each node shape and property shape previously found, <strong>count the number of instances of node shapes, number of occurrences of property shapes, and number of distinct values.</strong>.
+									This currently works only with sh:targetClass target definition, but can be easily extended to deal with other target definition.
+									Generates a <code>void:Dataset</code>, <code>void:classPartition</code>, <code>void:propertyPartition</code> with a <code>dcterms:conformsTo</code> pointing to the corresponding shapes.
+									Stores the counting in either <code>void:entities</code>, <code>void:triples</code>, or <code>void:distinctObjects</code> properties.
+								</li>
+							</ol>
+							
+						</div>
+					</div>				
 				</div>
 			</div>
 		</div>

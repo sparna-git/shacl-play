@@ -3,9 +3,7 @@ package fr.sparna.rdf.shacl.shaclplay.doc;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URLEncoder;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,21 +23,19 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.openhtmltopdf.pdfboxout.PdfRendererBuilder;
 
-import fr.sparna.rdf.shacl.diagram.PlantUmlDiagramOutput;
-import fr.sparna.rdf.shacl.doc.PlantUmlSourceGenerator;
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentation;
 import fr.sparna.rdf.shacl.doc.read.ShapesDocumentationModelReader;
 import fr.sparna.rdf.shacl.doc.read.ShapesDocumentationReaderIfc;
 import fr.sparna.rdf.shacl.doc.write.ShapesDocumentationJacksonXsltWriter;
 import fr.sparna.rdf.shacl.doc.write.ShapesDocumentationWriterIfc;
 import fr.sparna.rdf.shacl.doc.write.ShapesDocumentationWriterIfc.MODE;
+import fr.sparna.rdf.shacl.doc.write.ShapesDocumentationXmlWriter;
 import fr.sparna.rdf.shacl.shaclplay.ApplicationData;
 import fr.sparna.rdf.shacl.shaclplay.ControllerModelFactory;
 import fr.sparna.rdf.shacl.shaclplay.ControllerModelFactory.SOURCE_TYPE;
 import fr.sparna.rdf.shacl.shaclplay.catalog.AbstractCatalogEntry;
 import fr.sparna.rdf.shacl.shaclplay.catalog.shapes.ShapesCatalog;
 import fr.sparna.rdf.shacl.shaclplay.catalog.shapes.ShapesCatalogService;
-import net.sourceforge.plantuml.code.TranscoderUtil;
 
 
 @Controller
@@ -78,8 +74,8 @@ public class DocController {
 			@RequestParam(value="url", required=true) String shapesUrl,
 			// includeDiagram option
 			@RequestParam(value="includeDiagram", required=false) boolean includeDiagram,
-			// print PDF Option
-			@RequestParam(value="printPDF", required=false) boolean printPDF,
+			// List Option
+			@RequestParam(value="format", required=false, defaultValue = "html") String format,
 			// Logo Option
 			@RequestParam(value="inputLogo", required=false) String urlLogo,
 			// Language Option
@@ -103,7 +99,7 @@ public class DocController {
 					shapesModel,
 					// true to read diagram
 					includeDiagram,
-					printPDF,
+					format,
 					urlLogo,
 					modelPopulator.getSourceName(),
 					language,
@@ -134,7 +130,7 @@ public class DocController {
 			// includeDiagram option
 			@RequestParam(value="includeDiagram", required=false) boolean includeDiagram,
 			// print PDF Option
-			@RequestParam(value="printPDF", required=false) boolean printPDF,
+			@RequestParam(value="format", required=false, defaultValue = "html") String format,
 			// Logo Option
 			@RequestParam(value="inputLogo", required=false) String urlLogo,
 			// Language Option
@@ -146,15 +142,17 @@ public class DocController {
 			
 			log.debug("doc(shapeSourceString='"+shapesSourceString+"')");
 			
+			boolean printPDF = format.toLowerCase().equals("pdf") ? true : false;
+			
 			// get the shapes source type
 			ControllerModelFactory.SOURCE_TYPE shapesSource = ControllerModelFactory.SOURCE_TYPE.valueOf(shapesSourceString.toUpperCase());
 			
 			// if source is a ULR, redirect to the API
 			if(shapesSource == SOURCE_TYPE.URL) {
-				return new ModelAndView("redirect:/doc?url="+URLEncoder.encode(shapesUrl, "UTF-8")+"&includeDiagram="+includeDiagram+((printPDF)?"&printPDF=true":"")+((!language.equals("en"))?"&language="+language:"")+((urlLogo != null)?"&inputLogo="+URLEncoder.encode(urlLogo, "UTF-8"):""));
+				return new ModelAndView("redirect:/doc?format="+format.toLowerCase()+"&url="+URLEncoder.encode(shapesUrl, "UTF-8")+"&includeDiagram="+includeDiagram+((printPDF)?"&printPDF=true":"")+((!language.equals("en"))?"&language="+language:"")+((urlLogo != null)?"&inputLogo="+URLEncoder.encode(urlLogo, "UTF-8"):""));
 			} else if (shapesSource == SOURCE_TYPE.CATALOG) {
 				AbstractCatalogEntry entry = this.catalogService.getShapesCatalog().getCatalogEntryById(shapesCatalogId);
-				return new ModelAndView("redirect:/doc?url="+URLEncoder.encode(entry.getTurtleDownloadUrl().toString(), "UTF-8")+"&includeDiagram="+includeDiagram+((printPDF)?"&printPDF=true":"")+((!language.equals("en"))?"&language="+language:"")+((urlLogo != null)?"&inputLogo="+URLEncoder.encode(urlLogo, "UTF-8"):""));
+				return new ModelAndView("redirect:/doc?format="+format.toLowerCase()+"&url="+URLEncoder.encode(entry.getTurtleDownloadUrl().toString(), "UTF-8")+"&includeDiagram="+includeDiagram+((printPDF)?"&printPDF=true":"")+((!language.equals("en"))?"&language="+language:"")+((urlLogo != null)?"&inputLogo="+URLEncoder.encode(urlLogo, "UTF-8"):""));				
 			}
 			
 			
@@ -181,7 +179,7 @@ public class DocController {
 					shapesModel,
 					// true to read diagram
 					includeDiagram,
-					printPDF,
+					format,
 					urlLogo,
 					modelPopulator.getSourceName(),
 					language,
@@ -199,7 +197,7 @@ public class DocController {
 	protected void doOutputDoc(
 			Model shapesModel,
 			boolean includeDiagram,
-			boolean printPDF,
+			String format, // printPDF,
 			String urlLogo,
 			String filename,
 			String languageInput,
@@ -217,7 +215,18 @@ public class DocController {
 				false
 		);
 		
-		if(printPDF) {
+		if (format.toLowerCase().equals("html")) {
+			ShapesDocumentationWriterIfc writer = new ShapesDocumentationJacksonXsltWriter();
+			response.setContentType("text/html");
+			// response.setContentType("application/xhtml+xml");
+			writer.write(doc, languageInput, response.getOutputStream(), MODE.HTML);			
+		} else if (format.toLowerCase().equals("xml")) {
+			
+			ShapesDocumentationXmlWriter writeXML = new ShapesDocumentationXmlWriter();
+			response.setContentType("application/xml");
+			writeXML.write(doc, languageInput, response.getOutputStream(), MODE.XML);
+			
+		} else if(format.toLowerCase().equals("pdf") ) {
 			
 			// 1. write Documentation structure to XML
 			ShapesDocumentationWriterIfc writerHTML = new ShapesDocumentationJacksonXsltWriter();
@@ -237,15 +246,10 @@ public class DocController {
 			
 			_builder.toStream(response.getOutputStream());
 			_builder.testMode(false);
-			_builder.run();
+			_builder.run();			
 			
-			
-		} else {
-			ShapesDocumentationWriterIfc writer = new ShapesDocumentationJacksonXsltWriter();
-			response.setContentType("text/html");
-			// response.setContentType("application/xhtml+xml");
-			writer.write(doc, languageInput, response.getOutputStream(), MODE.HTML);			
-		}
+		} 
+		
 		
 	}
 		

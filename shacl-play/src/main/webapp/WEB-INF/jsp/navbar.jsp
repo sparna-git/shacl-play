@@ -10,8 +10,9 @@
 <fmt:setBundle basename="fr.sparna.rdf.shacl.shaclplay.i18n.shaclplay"/>
 
 <!--Navbar-->
-<nav class="navbar navbar-expand-lg navbar-light" id="globalnav">
-
+<nav class="navbar navbar-expand-lg navbar-light" id="globalnav" >
+	
+	
     <!-- Navbar brand -->
     <a class="navbar-brand" href="<c:url value="/" />"><i class="fal fa-home"></i>&nbsp;<fmt:message key="navbar.brand" /></a>
 
@@ -21,35 +22,41 @@
 
     <!-- Collapsible content -->
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-
-        <!-- Links -->
+        <!-- Menu  -->
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item ${param.active == 'validate' ? 'active' : ''}">
-                <a class="nav-link" href="<c:url value="/validate" />"><fmt:message key="navbar.validate" />${param.active == 'validate' ? '<span class="sr-only">(current)</span>' : ''}</a>
-            </li>
-            <li class="nav-item ${param.active == 'convert' ? 'active' : ''}">
-                <a class="nav-link" href="<c:url value="/convert" />"><fmt:message key="navbar.convert" />${param.active == 'convert' ? '<span class="sr-only">(current)</span>' : ''}</a>
-            </li>
-            <li class="nav-item ${param.active == 'draw' ? 'active' : ''}">
-                <a class="nav-link" href="<c:url value="/draw" />"><fmt:message key="navbar.draw" />${param.active == 'draw' ? '<span class="sr-only">(current)</span>' : ''}</a>
-            </li>
-            <li class="nav-item ${param.active == 'doc' ? 'active' : ''}">
-                <a class="nav-link" href="<c:url value="/doc" />"><fmt:message key="navbar.doc" />${param.active == 'doc' ? '<span class="sr-only">(current)</span>' : ''}</a>
-            </li>
-            <li class="nav-item ${param.active == 'rules' ? 'active' : ''}">
-                <a class="nav-link" href="<c:url value="/rules" />"><fmt:message key="navbar.rules" />${param.active == 'rules' ? '<span class="sr-only">(current)</span>' : ''}</a>
-            </li>
-            <li class="nav-item ${param.active == 'sparql' ? 'active' : ''}">
-                <a class="nav-link" href="<c:url value="/sparql" />"><fmt:message key="navbar.sparql" />${param.active == 'sparql' ? '<span class="sr-only">(current)</span>' : ''}</a>
-            </li>
-            <li class="navbar-text" style="color: gray;">|</li>
-            <li class="nav-item ${param.active == 'shapes-catalog' ? 'active' : ''}">
-                <a class="nav-link" href="<c:url value="/shapes-catalog" />"><fmt:message key="navbar.shapes-catalog" />${param.active == 'shapes-catalog' ? '<span class="sr-only">(current)</span>' : ''}</a>
-            </li>
-            <li class="nav-item ${param.active == 'rules-catalog' ? 'active' : ''}">
-                <a class="nav-link" href="<c:url value="/rules-catalog" />"><fmt:message key="navbar.rules-catalog" />${param.active == 'rules-catalog' ? '<span class="sr-only">(current)</span>' : ''}</a>
-            </li>
+        	<li class="nav-item dropdown">
+	            <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	            	<fmt:message key="navbar.option1"/>
+	            </a>
+	            <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
+		            <a class="dropdown-item" href="<c:url value="/doc" />" title="<fmt:message key="home.doc.card-title.help" />"><fmt:message key="navbar.doc" />${param.active == 'doc' ? '<span class="sr-only">(current)</span>' : ''}</a>
+		            <a class="dropdown-item" href="<c:url value="/draw" />" title="<fmt:message key="home.draw.card-title.help.menu" />"><fmt:message key="navbar.draw" />${param.active == 'draw' ? '<span class="sr-only">(current)</span>' : ''}</a>
+		            <a class="dropdown-item" href="<c:url value="/context" />" title="<fmt:message key="" />"><fmt:message key="navbar.context"/>${param.active == 'context' ? '<span class="sr-only">(current)</span>' : ''}</a>
+		            <a class="dropdown-item" href="<c:url value="/sparql" />" title="<fmt:message key="home.sparql.card-title.help" />"><fmt:message key="navbar.sparql" />${param.active == 'sparql' ? '<span class="sr-only">(current)</span>' : ''}</a>
+		            <a class="dropdown-item" href="<c:url value="/shapes-catalog" />" title="<fmt:message key="" />"><fmt:message key="navbar.rules-catalog" />${param.active == 'shapes-catalog' ? '<span class="sr-only">(current)</span>' : ''}</a>
+	            </div>
+	        </li>
+	        <li class="nav-item dropdown">
+	            <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	            	<fmt:message key="navbar.option2"/>${param.active == 'option2' ? '<span class="sr-only">(current)</span>' : ''}
+	            </a>
+	            <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
+	            	<a class="dropdown-item" href="<c:url value="/validate" />" title="<fmt:message key="home.validate.card-title.help" />"><fmt:message key="navbar.validate" />${param.active == 'validate' ? '<span class="sr-only">(current)</span>' : ''}</a>
+	            	<a class="dropdown-item" href="<c:url value="/generate" />" title="<fmt:message key="" />"><fmt:message key="navbar.generate" />${param.active == 'generate' ? '<span class="sr-only">(current)</span>' : ''}</a>
+	            </div>
+        	</li>
+			<li class="navbar-text" style="color: gray;">&nbsp;|&nbsp;</li>
+			<li class="nav-item dropdown">${param.active == 'option3' ? '<span class="sr-only">(current)</span>' : ''}
+            	<a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><fmt:message key="navbar.option3"/></a>
+	            <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
+	            	<a class="dropdown-item" href="<c:url value="/convert" />" title="<fmt:message key="home.convert.card-title.help.menu" />"><fmt:message key="navbar.convert" />${param.active == 'convert' ? '<span class="sr-only">(current)</span>' : ''}</a>
+	            	<a class="dropdown-item" href="<c:url value="/rules" />" title="<fmt:message key="" />"><fmt:message key="navbar.rules" />${param.active == 'rules' ? '<span class="sr-only">(current)</span>' : ''}</a>
+	            	<a class="dropdown-item" href="<c:url value="/rules-catalog" />" title="<fmt:message key="home.catalog-rules.card-title.help" />"><fmt:message key="navbar.rules-catalog" />${param.active == 'rules-catalog' ? '<span class="sr-only">(current)</span>' : ''}</a>	            	
+	            </div>
+	        </li>
         </ul>
+        
+        
         <!-- /Links -->
         
         <ul class="navbar-nav ml-auto nav-flex-icons">

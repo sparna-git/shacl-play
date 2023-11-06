@@ -35,16 +35,7 @@
 			}
 
 	    </script>
-		<!--  
-		<style>
-			.anchorjs-link {
-	        	transition: all .25s linear;
-	      		}
-	      	*:hover > .anchorjs-link {
-	        	margin-left: -1.125em !important;
-	      	}
-		</style>
-		-->
+	
 	</head>
 	<body>
 
@@ -193,22 +184,6 @@
 						      						      		
 					      </blockquote>					  
 					  
-					  <!--  
-					  	<blockquote>
-					  		<div class="form-group row">
-					  			<div class="col-sm-12">
-									<label for="choice_Language"><b><fmt:message key="doc.language.title"/></b></label>
-									<br/>
-									<label><b><fmt:message key="doc.language.option"/></b></label>
-									<input list="languageOptionO" name="language" style="width:4em;" value="en">
-									<datalist id="languageOptionO" style="top: 25px; left: 15px; width: 0.0552516px; display: block; overflow: hidden; height: 0.157862px; padding: 0px; margin: 0px; opacity: 0.000986636;">
-										<option value="en">
-										<option value="fr">										
-									</datalist>
-								</div>	
-							</div>
-					  	</blockquote>
-					  -->
 					  <h2><i class="fal fa-tools"></i>&nbsp;&nbsp;<fmt:message key="doc.options.title" /></h2>
 				      <blockquote class="blockquote bq-warning">
 				      	<!-- Language -->
@@ -258,7 +233,21 @@
 									</div>
 								</div>
 						</div>
-						<!-- PDF Option -->
+						<!-- Output list option -->
+						<div class="form-group row">
+							<label for="inputShapeCatalog" class="col-sm-3 col-form-label">
+								<fmt:message key="doc.options.format" />					    
+							</label>
+						    <div class="col-sm-9">
+					    		<select class="form-control" id="format" name="format" >
+					    			<option value="HTML">HTML</option>
+					    			<option value="PDF">PDF</option>
+					    			<option value="XML">XML</option>					    			
+							    </select>
+						    </div>									    
+						 </div>
+						 
+						<!--   
 						<div class="form-group row">
 						      	<div class="col-sm-12">
 							      	<div class="form-check">
@@ -272,7 +261,7 @@
 									</div>
 								</div>
 						</div>
-						
+						 -->
 					  </blockquote>
 					  
 				    <button type="submit" id="validate-button" class="btn btn-info btn-lg"><fmt:message key="doc.submit" /></button>			  	

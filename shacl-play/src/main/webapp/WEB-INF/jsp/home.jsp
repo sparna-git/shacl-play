@@ -60,17 +60,6 @@
 					    </div>
 					  </div>
 					</div>
-					<!-- Context -->
-					<div class="col-4" style="margin-bottom: 2em;">
-					  <div class="card">
-					    <a href="<c:url value="/context" />"><img src="<c:url value="/resources/img/home-context_jsonld.png" />" class="card-img-top" alt="SHACL Play UML diagram"></a>
-					    <div class="card-body">
-					      <h5 class="card-title"><fmt:message key="home.context.card-title" /></h5>
-					      <p class="card-text"><fmt:message key="home.context.card-title.help" /></a></p>
-					      <a href="<c:url value="/context" />" class="btn btn-primary"><fmt:message key="home.context.button" /></a>
-					    </div>
-					  </div>
-					</div>
 					<!-- SPARQL -->
 					<div class="col-4" style="margin-bottom: 2em;">
 					  <div class="card">
@@ -79,6 +68,17 @@
 					      <h5 class="card-title"><fmt:message key="home.sparql.card-title" /></h5>
 					      <p class="card-text"><fmt:message key="home.sparql.card-title.help" /></p>
 					      <a href="<c:url value="/sparql" />" class="btn btn-primary"><fmt:message key="home.sparql.button" /></a>
+					    </div>
+					  </div>
+					</div>
+					<!-- Context -->
+					<div class="col-4" style="margin-bottom: 2em;">
+					  <div class="card">
+					    <a href="<c:url value="/context" />"><img src="<c:url value="/resources/img/home-context_jsonld.png" />" class="card-img-top" alt="SHACL Play UML diagram"></a>
+					    <div class="card-body">
+					      <h5 class="card-title"><fmt:message key="home.context.card-title" /></h5>
+					      <p class="card-text"><fmt:message key="home.context.card-title.help" /></a></p>
+					      <a href="<c:url value="/context" />" class="btn btn-primary"><fmt:message key="home.context.button" /></a>
 					    </div>
 					  </div>
 					</div>
@@ -124,16 +124,8 @@
 					      <a href="<c:url value="/generate" />" class="btn btn-primary"><fmt:message key="home.generate.button" /></a>
 					    </div>
 					  </div>				  
-				  	</div>		  	
-				 </div>
-				 
-				 
-				 <!-- SHACL Rules -->
-				 <h2 style="font-style: !important;"><fmt:message key="navbar.option3"/>${param.active == 'option2' ? '<span class="sr-only">(current)</span>' : ''}</h2>
-				 <hr>
-				 <div class="row">	
-				 		
-					<!-- Validate -->
+				  	</div>	
+				  	<!-- Validate -->
 				  	<div class="col-4" style="margin-bottom: 2em;">  
 					  <div class="card">
 					    <a href="<c:url value="/validate" />"><img src="<c:url value="/resources/img/home-badges.png" />" class="card-img-top" alt="SHACL Play badges" /></a>
@@ -143,7 +135,14 @@
 						  <a href="<c:url value="/validate" />" class="btn btn-primary"><fmt:message key="home.catalog.button" /></a>
 					    </div>
 					  </div>				  
-				  	</div>
+				  	</div>	  	
+				 </div>
+				 
+				 
+				 <!-- SHACL Rules -->
+				 <h2 style="font-style: !important;"><fmt:message key="navbar.option3"/>${param.active == 'option2' ? '<span class="sr-only">(current)</span>' : ''}</h2>
+				 <hr>
+				 <div class="row">	
 				  
 				  	<!-- Convert -->
 					<div class="col-4" style="margin-bottom: 2em;">

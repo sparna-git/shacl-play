@@ -62,7 +62,7 @@
 				
 				<div class="form-shortdesc">
 					<p>This documentation generation utility prints an <em>application profile specified in SHACL</em>. It supports a subset of SHACL constraints. The generated documentation describes all the properties allowed on each class/shape of the application profile, and includes a diagram, namespace table, introduction, 
-					   and some metadata at the top of the document. Detailled documentation is available <a href="#documentation">below</a>.</p>
+					   and some metadata at the top of the document. Detailed documentation is available <a href="#documentation">below</a>.</p>
 					<p>Good examples of how the generated documentation looks like are the <a href="https://europarl.github.io/org-ep/">European Parliament application profiles</a> or the <a href="https://rdafr.fr/profil-application/">RDA-FR profile</a>.</p>
 				</div>
 	 

@@ -60,6 +60,14 @@
 				</div>
 				
 				<h1 class="display-3"><fmt:message key="draw.title" /></h1>	
+				
+				<div class="form-shortdesc">
+					<p>This diagram generation utility displays an <em>application profile specified in SHACL</em> in the form of one or more diagrams,
+					using <a href="https://plantuml.com/fr/class-diagram">PlantUML</a>. It supports a subset of SHACL constraints.
+					The diagrams generated can be embedded in the <a href="doc">documentation generation utility.</a>
+					Detailed documentation is available <a href="#documentation">below</a>.
+					</p>
+				</div>
 	 
 			  	<form id="upload_form" action="draw" method="POST" enctype="multipart/form-data" class="form-horizontal">
 				      
@@ -210,12 +218,6 @@
  				<!-- Documentation -->	
 				<div style="margin-top:3em;">
 					<h3 id="documentation">Documentation</h3>
-
-					<p>This diagram generation utility displays an <em>application profile specified in SHACL</em> in the form of one or more diagrams.
-					 It supports a subset of SHACL constraints.<p/>
-					<p>
-					   The diagrams generated can be embedded in the <a href="doc">documentation generation utility</a>.
-					</p>
 					
 					<div style="margin-top:2em;">
 						<h4 id="arrows">Finding links between boxes</h4>

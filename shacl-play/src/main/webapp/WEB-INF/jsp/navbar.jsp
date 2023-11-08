@@ -31,8 +31,8 @@
 	            <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
 		            <a class="dropdown-item" href="<c:url value="/doc" />" title="<fmt:message key="home.doc.card-title.help" />"><fmt:message key="navbar.doc" />${param.active == 'doc' ? '<span class="sr-only">(current)</span>' : ''}</a>
 		            <a class="dropdown-item" href="<c:url value="/draw" />" title="<fmt:message key="home.draw.card-title.help.menu" />"><fmt:message key="navbar.draw" />${param.active == 'draw' ? '<span class="sr-only">(current)</span>' : ''}</a>
-		            <a class="dropdown-item" href="<c:url value="/context" />" title="<fmt:message key="" />"><fmt:message key="navbar.context"/>${param.active == 'context' ? '<span class="sr-only">(current)</span>' : ''}</a>
 		            <a class="dropdown-item" href="<c:url value="/sparql" />" title="<fmt:message key="home.sparql.card-title.help" />"><fmt:message key="navbar.sparql" />${param.active == 'sparql' ? '<span class="sr-only">(current)</span>' : ''}</a>
+		            <a class="dropdown-item" href="<c:url value="/context" />" title="<fmt:message key="" />"><fmt:message key="navbar.context"/>${param.active == 'context' ? '<span class="sr-only">(current)</span>' : ''}</a>		            
 		            <a class="dropdown-item" href="<c:url value="/shapes-catalog" />" title="<fmt:message key="" />"><fmt:message key="navbar.rules-catalog" />${param.active == 'shapes-catalog' ? '<span class="sr-only">(current)</span>' : ''}</a>
 	            </div>
 	        </li>
@@ -43,6 +43,7 @@
 	            <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
 	            	<a class="dropdown-item" href="<c:url value="/validate" />" title="<fmt:message key="home.validate.card-title.help" />"><fmt:message key="navbar.validate" />${param.active == 'validate' ? '<span class="sr-only">(current)</span>' : ''}</a>
 	            	<a class="dropdown-item" href="<c:url value="/generate" />" title="<fmt:message key="" />"><fmt:message key="navbar.generate" />${param.active == 'generate' ? '<span class="sr-only">(current)</span>' : ''}</a>
+	            	<a class="dropdown-item" href="<c:url value="/validate" />" title="<fmt:message key="home.validate.catalog.help" />"><fmt:message key="navbar.catalog" />${param.active == 'catalog	' ? '<span class="sr-only">(current)</span>' : ''}</a>
 	            </div>
         	</li>
 			<li class="navbar-text" style="color: gray;">&nbsp;|&nbsp;</li>

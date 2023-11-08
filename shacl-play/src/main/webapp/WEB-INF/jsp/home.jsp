@@ -37,11 +37,10 @@
 		<!-- Body -->
 		<!-- Card -->
 		<section>		
-			<div class="container" style="padding-bottom: 6%">
-				<div class="d-flex flex-row justify-content-around">
-					<!-- SHACL -->
-					<div class="d-flex justify-content-start">
-						<div class="card" style="width: 18rem;">
+			<div class="container">
+				<div class="row">
+					<div class="col-4">
+						<div class="card">
 							<div class="d-flex justify-content-center" style="padding-top: 0.9em;">
 								<i class="fal fa-shapes fa-6x"></i>								
 							</div>
@@ -73,9 +72,10 @@
 							</div>
 						</div>
 					</div>
+
 					<!-- RDF -->
-					<div class="d-flex justify-content-start">
-						<div class="card" style="width: 18rem;">
+					<div class="col-4">
+						<div class="card">
 							<div class="d-flex justify-content-center" style="padding-top: 0.9em;">
 								<i class="fal fa-chart-network fa-6x"></i>
 							</div>
@@ -101,9 +101,11 @@
 							</div>
 						</div>
 					</div>
+
+
 					<!-- RULES -->
-					<div class="d-flex justify-content-evenly">
-						<div class="card" style="width: 18rem;">
+					<div class="col-4">
+						<div class="card">
 							<div class="d-flex justify-content-center" style="padding-top: 0.9em;">
 								<!-- Version 5.15.4  -->
 								<i class="fal fa-sort-shapes-up-alt fa-6x"></i>																
@@ -130,6 +132,13 @@
 							</div>
 						</div>
 					</div>
+				</div>
+			</div>
+		</section>
+		<section>
+			<div class="container">
+				<div class="row">
+					
 				</div>
 			</div>
 		</section>

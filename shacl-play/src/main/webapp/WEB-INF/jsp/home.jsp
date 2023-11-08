@@ -105,7 +105,8 @@
 					<div class="d-flex justify-content-evenly">
 						<div class="card" style="width: 18rem;">
 							<div class="d-flex justify-content-center" style="padding-top: 0.9em;">
-								<i class="fal fa-chart-network fa-6x"></i>																			
+								<!-- Version 5.15.4  -->
+								<i class="fal fa-sort-shapes-up-alt fa-6x"></i>																
 							</div>
 							<div class="card-body bg-light.bg-gradient">								
 								<!-- Title -->

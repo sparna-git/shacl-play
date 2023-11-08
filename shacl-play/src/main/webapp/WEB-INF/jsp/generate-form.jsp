@@ -200,7 +200,7 @@
 						
 						
 						<div style="margin-top:2em;">
-							<h4 id="documentation">SHACL generation algorithm</h4>
+							<h4 id="algorithm">SHACL generation algorithm</h4>
 							<p>The algorithm follow these steps to generate the SHACL:</p>
 							
 							<ol>
@@ -288,6 +288,9 @@
 		<script type="text/javascript"src="<c:url value="/resources/jasny-bootstrap/jasny-bootstrap.min.js" />"></script>
 
 
+		<!-- anchorjs -->
+    	<script src="https://cdn.jsdelivr.net/npm/anchor-js/anchor.min.js"></script>
+
 		<script>
 			$(document).ready(function() {
 				$('#htmlOrRdf a').click(function(e) {
@@ -306,6 +309,15 @@
 				// var editor = CodeMirror.fromTextArea(sourceText, editorOptions);
 				// editor.on("change", function(cm, event) { enabledInput('text'); });
 			});
+		</script>
+
+		<!-- API Anchor -->
+	    <script>
+			anchors.options = {
+				  icon: '#'
+				};
+			anchors.options.placement = 'left';
+			anchors.add();		
 		</script>
 
 	</body>

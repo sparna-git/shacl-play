@@ -344,6 +344,29 @@
 					  
 				    <button type="submit" id="validate-button" class="btn btn-info btn-lg"><fmt:message key="validate.validate" /></button>			  	
 			  	</form>
+			  	
+			  	<!-- Documentation -->	
+				<div style="margin-top:3em;">
+					<h3 id="documentation">Documentation</h3>
+					
+					<div style="margin-top:2em;">
+						<h4 id="direct-links">Providing direct links to validation reports</h4>
+						<p>If the RDF dataset to be validated is online, and <em>if and only if the SHACL shapes are registered in <a href="shapes-catalog">SHACL Play shapes catalog</a></em>,
+						you can provide direct links to a validation report with the following URL : <code>https://shacl-play.sparna.fr/play/{shapes-catalog-entry-id}/report?url={URL of the RDF data file to validate}</code></p>
+						<p>For example : <a href="https://shacl-play.sparna.fr/play/shaclplay-catalog/report?url=https://raw.githubusercontent.com/sparna-git/SHACL-Catalog/master/shacl-catalog.ttl">https://shacl-play.sparna.fr/play/shaclplay-catalog/report?url=https://raw.githubusercontent.com/sparna-git/SHACL-Catalog/master/shacl-catalog.ttl</a></p>
+						
+					</div>
+					
+					<div style="margin-top:2em;">
+						<h4 id="badges">Generate <a href="https://img.shields.io">shields.io</a> validation badges</h4>
+						<p>This validation utility is available as an API to generate shields validation badges for dataset. The API URL will return a JSON data that can be tunneled to <code>https://img.shields.io/endpoint?url=</code>.</p>
+						<p>This works <em>if and only if the SHACL shapes are registered in <a href="shapes-catalog">SHACL Play shapes catalog</a></em>.</p>
+						<p>The API general synopsis is <code>https://shacl-play.sparna.fr/play/{shapes-catalog-entry-id}/badge?url={URL of the RDF data file to validate}</code></p>
+						<p>For example : <code><a href="https://shacl-play.sparna.fr/play/shaclplay-catalog/badge?url=https://raw.githubusercontent.com/sparna-git/SHACL-Catalog/master/shacl-catalog.ttl">https://shacl-play.sparna.fr/play/shaclplay-catalog/badge?url=https://raw.githubusercontent.com/sparna-git/SHACL-Catalog/master/shacl-catalog.ttl</a></code></p>
+						<p>The full badge URL is then <code><a href="https://img.shields.io/endpoint?url=https%3a%2f%2fshacl-play.sparna.fr%2fplay%2fshaclplay-catalog%2fbadge%3furl%3dhttps%3a%2f%2fraw.githubusercontent.com%2fsparna-git%2fSHACL-Catalog%2fmaster%2fshacl-catalog.ttl">https://img.shields.io/endpoint?url=https%3a%2f%2fshacl-play.sparna.fr%2fplay%2fshaclplay-catalog%2fbadge%3furl%3dhttps%3a%2f%2fraw.githubusercontent.com%2fsparna-git%2fSHACL-Catalog%2fmaster%2fshacl-catalog.ttl</a></code></p>
+						<p>When you insert the badge on your Github repository, you can use it to link to the "/report" URL (see <a href="#direct-links">above</a>). See the <a href="https://github.com/sparna-git/SHACL-Catalog/blob/master/README.md?plain=1">Shapes catalog repository README</a> for an example</p>
+					</div>
+				</div>
  		
 			</div>
 		</div>
@@ -365,6 +388,9 @@
 	
     <script type="text/javascript" src="<c:url value="/resources/jasny-bootstrap/jasny-bootstrap.min.js" />"></script>
 
+	<!-- anchorjs -->
+   	<script src="https://cdn.jsdelivr.net/npm/anchor-js/anchor.min.js"></script>
+
     
     <script>
     	$(document).ready(function () {
@@ -385,6 +411,15 @@
 	        // editor.on("change", function(cm, event) { enabledInput('text'); });
     	});
     </script>
+    
+    <!-- API Anchor -->
+    <script>
+		anchors.options = {
+			  icon: '#'
+			};
+		anchors.options.placement = 'left';
+		anchors.add();		
+	</script>
     
   </body>
 </html>

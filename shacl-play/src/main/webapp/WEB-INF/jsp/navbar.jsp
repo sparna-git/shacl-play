@@ -43,7 +43,7 @@
 	            <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
 	            	<a class="dropdown-item" href="<c:url value="/validate" />" title="<fmt:message key="home.validate.card-title.help" />"><fmt:message key="navbar.validate" /></a>
 	            	<a class="dropdown-item" href="<c:url value="/generate" />" title="<fmt:message key="" />"><fmt:message key="navbar.generate" /></a>
-	            	<a class="dropdown-item" href="<c:url value="/validate" />" title="<fmt:message key="home.validate.catalog.help" />"><fmt:message key="navbar.catalog" /></a>
+	            	<a class="dropdown-item" href="<c:url value="/validate#badges" />" title="<fmt:message key="home.validate.catalog.help" />"><fmt:message key="navbar.catalog" /></a>
 	            </div>
         	</li>
 			<li class="navbar-text" style="color: gray;">&nbsp;|&nbsp;</li>

@@ -68,6 +68,18 @@
 				
 				<h1 class="display-3"><c:choose><c:when test="${empty data.selectedShapesKey}"><fmt:message key="validate.title" /></c:when><c:otherwise><fmt:message key="validate.title.validateWith" /> ${data.catalog.getCatalogEntryById(data.selectedShapesKey).title}</c:otherwise></c:choose></h1>	
 	 
+	 			<c:choose>
+		 			<c:when test="${empty data.selectedShapesKey}">
+			 			<div class="form-shortdesc">
+							<p>
+								This utility <em>validates the conformity of an RDF dataset against a SHACL specification</em>. You need to provide the RDF data to be validated,
+								either by uploading it, providing its URL, or copy-pasting inline RDF. You also need to provide the SHACL shapes in the same ways, or by selecting
+								them from the shapes catalog.
+							</p>
+						</div>
+					</c:when>
+				</c:choose>
+	 
 			  	<form id="upload_form" action="validate" method="POST" enctype="multipart/form-data" class="form-horizontal">
 				      
 				      <h2><i class="fal fa-chart-network"></i>&nbsp;&nbsp;<fmt:message key="validate.inputData.title" /></h2>

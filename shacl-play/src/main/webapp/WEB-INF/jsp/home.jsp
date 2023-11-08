@@ -30,7 +30,7 @@
 		<section>
 			<div class="container text-center" style="padding: 0.1em;" >
 				<h1 class="display-3" style"">&nbsp;SHACL Play!</h1>
-            	<p>Free online RDF data validation with <a href="https://www.w3.org/TR/shacl/">SHACL</a>. SHACL Play! embeds <a href="https://github.com/TopQuadrant/shacl" target="_blank">TopBraid SHACL API</a> from <a href="https://www.topquadrant.com/" target="_blank">TopQuadrant</a>.<p>
+            	<p>Free online suite of tools to work with <a href="https://www.w3.org/TR/shacl/">SHACL</a>. SHACL Play! embeds <a href="https://github.com/TopQuadrant/shacl" target="_blank">TopBraid SHACL API</a> from <a href="https://www.topquadrant.com/" target="_blank">TopQuadrant</a>.<p>
             	<hr style="padding-bottom: 3%;"/>
 			</div>
 		</section>
@@ -48,10 +48,10 @@
 							<div class="card-body bg-light.bg-gradient">								
 								<!-- Title -->
 								<div style="font-size: 1.5rem; font-style: oblique; padding: 0.3em;">
-									<fmt:message key="home.option1.card"/>${param.active == 'option1' ? '<span class="sr-only">(current)</span>' : ''}
+									<fmt:message key="home.option1.card"/>
 								</div>
 								<!-- Description of menu -->
-							    <spam class="small"><fmt:message key="navbar.option1.description"/>${param.active == 'option1' ? '<span class="sr-only">(current)</span>' : ''}</spam>
+							    <span class="small"><fmt:message key="navbar.option1.description"/></span>
 							    <!-- Menu -->
 								<ul style="list-style-type:none;justify-content: flex-start; padding: 0.3rem;">
 									<li style="display: list-item; text-align: -webkit-match-parent; padding: 0.3rem;">
@@ -82,10 +82,10 @@
 							<div class="card-body bg-light.bg-gradient">
 								<!-- Title -->
 								<div style="font-size: 1.5rem; font-style: oblique; padding: 0.3em;">
-									<fmt:message key="home.option2.card"/>${param.active == 'option2' ? '<span class="sr-only">(current)</span>' : ''}
+									<fmt:message key="home.option2.card"/>
 								</div>
 							    <!-- Description of menu -->
-								<span class="small"><fmt:message key="navbar.option2.description"/>${param.active == 'option2' ? '<span class="sr-only">(current)</span>' : ''}</span>
+								<span class="small"><fmt:message key="navbar.option2.description"/></span>
 							    <!-- Menu -->
 							    <ul style="list-style-type:none;padding: 0.3rem;">
 									<li style="display: list-item; text-align: -webkit-match-parent; padding: 0.3rem;">
@@ -111,10 +111,10 @@
 							<div class="card-body bg-light.bg-gradient">								
 								<!-- Title -->
 								<div style="font-size: 1.5rem; font-style: oblique; padding: 0.3em;">
-									<fmt:message key="home.option3.card"/>${param.active == 'option3' ? '<span class="sr-only">(current)</span>' : ''}
+									<fmt:message key="home.option3.card"/>
 								</div>
 							    <!-- Description of menu -->
-								<span><fmt:message key="navbar.option3.description"/>${param.active == 'option3' ? '<span class="sr-only">(current)</span>' : ''}</span>
+								<span><fmt:message key="navbar.option3.description"/></span>
 								<!-- Menu -->
 								<ul style="list-style-type:none;justify-content: flex-start; padding: 0.3rem;">
 									<li style="display: list-item; text-align: -webkit-match-parent; padding: 0.3rem;">

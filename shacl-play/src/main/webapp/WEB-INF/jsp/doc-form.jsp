@@ -59,6 +59,12 @@
 				</div>
 				
 				<h1 class="display-3"><fmt:message key="doc.title" /></h1>	
+				
+				<div class="form-shortdesc">
+					<p>This documentation generation utility prints an <em>application profile specified in SHACL</em>. It supports a subset of SHACL constraints. The generated documentation describes all the properties allowed on each class/shape of the application profile, and includes a diagram, namespace table, introduction, 
+					   and some metadata at the top of the document. Detailled documentation is available <a href="#documentation">below</a>.</p>
+					<p>Good examples of how the generated documentation looks like are the <a href="https://europarl.github.io/org-ep/">European Parliament application profiles</a> or the <a href="https://rdafr.fr/profil-application/">RDA-FR profile</a>.</p>
+				</div>
 	 
 			  	<form id="upload_form" action="doc" method="POST" enctype="multipart/form-data" class="form-horizontal">
 				      
@@ -270,13 +276,7 @@
  				<!-- Documentation -->	
 				<div style="margin-top:3em;">
 					<h3 id="documentation">Documentation</h3>
-
-					<p>This documentation generation utility prints an <em>application profile specified in SHACL</em>. It supports a subset of SHACL constraints.<p/>
-					<p>
-					   The generated documentation describes all the properties allowed on each class/shape of the application profile, and includes a diagram, namespace table, introduction, 
-					   and some metadata at the top of the document.
-					</p>
-					<p>The diagram generation is <a href="draw#documentation">documented in a separate page</a>.<p/>
+					<p>Note : the diagram generation is <a href="draw#documentation">documented in a separate page</a>.<p/>
 					<h4 id="Sample-file">Sample file</h4>
 					<p> 
 					   To test, and to better understand how the documentation generation works you can download this <a href="<c:url value="/resources/example/PersonCountry.ttl"/>">turtle example of an application profile specified in SHACL</a>

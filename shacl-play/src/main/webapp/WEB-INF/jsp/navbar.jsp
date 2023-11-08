@@ -29,30 +29,30 @@
 	            	<fmt:message key="navbar.option1"/>
 	            </a>
 	            <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
-		            <a class="dropdown-item" href="<c:url value="/doc" />" title="<fmt:message key="home.doc.card-title.help" />"><fmt:message key="navbar.doc" />${param.active == 'doc' ? '<span class="sr-only">(current)</span>' : ''}</a>
-		            <a class="dropdown-item" href="<c:url value="/draw" />" title="<fmt:message key="home.draw.card-title.help.menu" />"><fmt:message key="navbar.draw" />${param.active == 'draw' ? '<span class="sr-only">(current)</span>' : ''}</a>
-		            <a class="dropdown-item" href="<c:url value="/sparql" />" title="<fmt:message key="home.sparql.card-title.help" />"><fmt:message key="navbar.sparql" />${param.active == 'sparql' ? '<span class="sr-only">(current)</span>' : ''}</a>
-		            <a class="dropdown-item" href="<c:url value="/context" />" title="<fmt:message key="" />"><fmt:message key="navbar.context"/>${param.active == 'context' ? '<span class="sr-only">(current)</span>' : ''}</a>		            
-		            <a class="dropdown-item" href="<c:url value="/shapes-catalog" />" title="<fmt:message key="" />"><fmt:message key="navbar.rules-catalog" />${param.active == 'shapes-catalog' ? '<span class="sr-only">(current)</span>' : ''}</a>
+		            <a class="dropdown-item" href="<c:url value="/doc" />" title="<fmt:message key="home.doc.card-title.help" />"><fmt:message key="navbar.doc" /></a>
+		            <a class="dropdown-item" href="<c:url value="/draw" />" title="<fmt:message key="home.draw.card-title.help.menu" />"><fmt:message key="navbar.draw" /></a>
+		            <a class="dropdown-item" href="<c:url value="/sparql" />" title="<fmt:message key="home.sparql.card-title.help" />"><fmt:message key="navbar.sparql" /></a>
+		            <a class="dropdown-item" href="<c:url value="/context" />" title="<fmt:message key="" />"><fmt:message key="navbar.context"/></a>		            
+		            <a class="dropdown-item" href="<c:url value="/shapes-catalog" />" title="<fmt:message key="" />"><fmt:message key="navbar.rules-catalog" /></a>
 	            </div>
 	        </li>
 	        <li class="nav-item dropdown">
 	            <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-	            	<fmt:message key="navbar.option2"/>${param.active == 'option2' ? '<span class="sr-only">(current)</span>' : ''}
+	            	<fmt:message key="navbar.option2"/>
 	            </a>
 	            <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
-	            	<a class="dropdown-item" href="<c:url value="/validate" />" title="<fmt:message key="home.validate.card-title.help" />"><fmt:message key="navbar.validate" />${param.active == 'validate' ? '<span class="sr-only">(current)</span>' : ''}</a>
-	            	<a class="dropdown-item" href="<c:url value="/generate" />" title="<fmt:message key="" />"><fmt:message key="navbar.generate" />${param.active == 'generate' ? '<span class="sr-only">(current)</span>' : ''}</a>
-	            	<a class="dropdown-item" href="<c:url value="/validate" />" title="<fmt:message key="home.validate.catalog.help" />"><fmt:message key="navbar.catalog" />${param.active == 'catalog	' ? '<span class="sr-only">(current)</span>' : ''}</a>
+	            	<a class="dropdown-item" href="<c:url value="/validate" />" title="<fmt:message key="home.validate.card-title.help" />"><fmt:message key="navbar.validate" /></a>
+	            	<a class="dropdown-item" href="<c:url value="/generate" />" title="<fmt:message key="" />"><fmt:message key="navbar.generate" /></a>
+	            	<a class="dropdown-item" href="<c:url value="/validate" />" title="<fmt:message key="home.validate.catalog.help" />"><fmt:message key="navbar.catalog" /></a>
 	            </div>
         	</li>
 			<li class="navbar-text" style="color: gray;">&nbsp;|&nbsp;</li>
-			<li class="nav-item dropdown">${param.active == 'option3' ? '<span class="sr-only">(current)</span>' : ''}
+			<li class="nav-item dropdown">
             	<a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><fmt:message key="navbar.option3"/></a>
 	            <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
-	            	<a class="dropdown-item" href="<c:url value="/convert" />" title="<fmt:message key="home.convert.card-title.help.menu" />"><fmt:message key="navbar.convert" />${param.active == 'convert' ? '<span class="sr-only">(current)</span>' : ''}</a>
-	            	<a class="dropdown-item" href="<c:url value="/rules" />" title="<fmt:message key="" />"><fmt:message key="navbar.rules" />${param.active == 'rules' ? '<span class="sr-only">(current)</span>' : ''}</a>
-	            	<a class="dropdown-item" href="<c:url value="/rules-catalog" />" title="<fmt:message key="home.catalog-rules.card-title.help" />"><fmt:message key="navbar.rules-catalog" />${param.active == 'rules-catalog' ? '<span class="sr-only">(current)</span>' : ''}</a>	            	
+	            	<a class="dropdown-item" href="<c:url value="/convert" />" title="<fmt:message key="home.convert.card-title.help.menu" />"><fmt:message key="navbar.convert" /></a>
+	            	<a class="dropdown-item" href="<c:url value="/rules" />" title="<fmt:message key="" />"><fmt:message key="navbar.rules" /></a>
+	            	<a class="dropdown-item" href="<c:url value="/rules-catalog" />" title="<fmt:message key="home.catalog-rules.card-title.help" />"><fmt:message key="navbar.rules-catalog" /></a>	            	
 	            </div>
 	        </li>
         </ul>

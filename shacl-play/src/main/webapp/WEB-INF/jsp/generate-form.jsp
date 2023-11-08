@@ -59,6 +59,13 @@
 					
 					<h1 class="display-3"><fmt:message key="generate.title" /></h1>
 					
+					<div class="form-shortdesc">
+						<p>
+							This algorithm <em>derives a set of SHACL constraints from an RDF dataset</em>. It can work from an uploaded RDF dataset, or from an online SPARQL endpoint.
+							Detailed documentation is available <a href="#documentation">below</a>.
+						</p>
+					</div>
+					
 					<form id="upload_form" action="generate" method="POST" enctype="multipart/form-data" class="form-horizontal">
 						<h2><i class="fal fa-shapes"></i>&nbsp;&nbsp;<fmt:message key="generate.shapes.title" /></h2>
 						
@@ -177,7 +184,7 @@
 					<div style="margin-top:3em;">
 						<h3 id="documentation">Documentation</h3>
 						
-						<p>This algorithm <em>derives a set of SHACL constraints from an RDF dataset</em>. It can work from an uploaded RDF dataset, or from an online SPARQL endpoint.<p/>
+						
 						<p>This algorithm was derived from <a href="https://github.com/cognizone/asquare/tree/develop/cube/src/main/java/zone/cogni/asquare/cube/convertor/data2shacl">this original one</a> implemented by <a href="https://www.cogni.zone/">Cognizone</a> here. Credits to them. It was improved in significant ways:</p>
 						<ul>
 							<li>Used a layered visitor patterns architecture for more modularity</li>

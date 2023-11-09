@@ -1,5 +1,8 @@
 package fr.sparna.rdf.jena;
 
+import org.apache.http.client.HttpClient;
+import org.apache.http.impl.client.DefaultHttpRequestRetryHandler;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.jena.query.ParameterizedSparqlString;
 import org.apache.jena.query.QueryExecution;
 import org.apache.jena.query.QueryExecutionFactory;
@@ -73,7 +76,13 @@ public class QueryExecutionServiceImpl  implements QueryExecutionService {
 
 		if(this.endpointUrl != null) {
 			// here we can customize HTTP headers etc.
-			return QueryExecutionFactory.sparqlService(this.endpointUrl, sparql);
+			
+		    HttpClient httpClient = HttpClientBuilder
+		    	      .create()
+		    	      .setRetryHandler(new DefaultHttpRequestRetryHandler(0, true))
+		    	      .build();
+			
+			return QueryExecutionFactory.sparqlService(this.endpointUrl, sparql, httpClient);
 		} else {
 			return QueryExecutionFactory.create(sparql, inputModel);
 		}

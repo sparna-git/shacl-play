@@ -1,0 +1,697 @@
+@prefix schema: <http://schema.org/> .
+@prefix eli:   <http://data.europa.eu/eli/ontology#> .
+@prefix void:  <http://rdfs.org/ns/void#> .
+@prefix shape: <https://shacl-play.sparna.fr/shapes/> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix eli-dl: <http://data.europa.eu/eli/eli-draft-legislation-ontology#> .
+@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsi:   <http://www.w3.org/2001/XMLSchema-instance> .
+@prefix dct:   <http://purl.org/dc/terms/> .
+@prefix sh:    <http://www.w3.org/ns/shacl#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix oj:    <http://europarl.europa.eu.int/dit/sig/oj/export/v2.3> .
+@prefix xs:    <http://www.w3.org/2001/XMLSchema> .
+@prefix dcat:  <http://www.w3.org/ns/dcat#> .
+@prefix epvoc: <https://data.europarl.europa.eu/def/epvoc#> .
+@prefix dash:  <http://datashapes.org/dash#> .
+@prefix map:   <http://www.w3.org/2005/xpath-functions/map> .
+
+<https://dummy.dataset.uri/partition_WorkSubdivision_title>
+        dcterms:conformsTo    shape:WorkSubdivision_title ;
+        void:distinctObjects  "7833"^^xsd:int ;
+        void:property         dcterms:title ;
+        void:triples          "11496"^^xsd:int .
+
+<https://dummy.dataset.uri/partition_Work_work_type>
+        dcterms:conformsTo    shape:Work_work_type ;
+        void:distinctObjects  "1"^^xsd:int ;
+        void:property         eli:work_type ;
+        void:triples          "14"^^xsd:int .
+
+<https://dummy.dataset.uri/partition_WorkSubdivision_refers_to>
+        dcterms:conformsTo    shape:WorkSubdivision_refers_to ;
+        void:distinctObjects  "259"^^xsd:int ;
+        void:property         eli:refers_to ;
+        void:triples          "353"^^xsd:int .
+
+<https://dummy.dataset.uri>
+        a                    void:Dataset ;
+        dcterms:conformsTo   shape: ;
+        void:classPartition  <https://dummy.dataset.uri/partition_Expression> , <https://dummy.dataset.uri/partition_Participation> , <https://dummy.dataset.uri/partition_Manifestation> , <https://dummy.dataset.uri/partition_WorkSubdivision> , <https://dummy.dataset.uri/partition_Work> , <https://dummy.dataset.uri/partition_Activity> ;
+        void:triples         "109232"^^xsd:int .
+
+<https://dummy.dataset.uri/partition_Participation>
+        dcterms:conformsTo      shape:Participation ;
+        void:class              eli-dl:Participation ;
+        void:entities           "4213"^^xsd:int ;
+        void:propertyPartition  <https://dummy.dataset.uri/partition_Participation_had_participation_person> , <https://dummy.dataset.uri/partition_Participation_participation_role> .
+
+shape:Manifestation_issued
+        sh:datatype     xsd:dateTime ;
+        sh:description  "28 occurences and 28 distinct values"@en ;
+        sh:maxCount     1 ;
+        sh:minCount     1 ;
+        sh:name         "issued"@en ;
+        sh:nodeKind     sh:Literal ;
+        sh:path         dcterms:issued .
+
+shape:Participation_had_participation_person
+        sh:description  "4213 occurences and 610 distinct values"@en ;
+        sh:maxCount     1 ;
+        sh:minCount     1 ;
+        sh:name         "had_participation_person"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         eli-dl:had_participation_person .
+
+<https://dummy.dataset.uri/partition_WorkSubdivision_is_part_of>
+        dcterms:conformsTo    shape:WorkSubdivision_is_part_of ;
+        void:distinctObjects  "348"^^xsd:int ;
+        void:property         eli:is_part_of ;
+        void:triples          "4680"^^xsd:int .
+
+shape:WorkSubdivision_is_part_of
+        sh:description  "4680 occurences and 348 distinct values"@en ;
+        sh:maxCount     1 ;
+        sh:minCount     1 ;
+        sh:name         "is_part_of"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:or           ( shape:WorkSubdivision_is_part_of_class_0 shape:WorkSubdivision_is_part_of_class_1 ) ;
+        sh:path         eli:is_part_of .
+
+shape:Activity_activity_label
+        sh:datatype     rdf:langString ;
+        sh:description  "1296 occurences and 1296 distinct values"@en ;
+        sh:languageIn   ( "bg" "cs" "da" "de" "el" "en" "es" "et" "fi" "fr" "ga" "hr" "hu" "it" "lt" "lv" "mt" "nl" "pl" "pt" "ro" "sk" "sl" "sv" ) ;
+        sh:name         "activity_label"@en ;
+        sh:nodeKind     sh:Literal ;
+        sh:path         eli-dl:activity_label .
+
+<https://dummy.dataset.uri/partition_Expression>
+        dcterms:conformsTo      shape:Expression ;
+        void:class              eli:Expression ;
+        void:entities           "4227"^^xsd:int ;
+        void:propertyPartition  <https://dummy.dataset.uri/partition_Expression_language> , <https://dummy.dataset.uri/partition_Expression_title> , <https://dummy.dataset.uri/partition_Expression_is_embodied_by> , <https://dummy.dataset.uri/partition_Expression_expressionContent> .
+
+<https://dummy.dataset.uri/partition_Work_parliamentary_term>
+        dcterms:conformsTo    shape:Work_parliamentary_term ;
+        void:distinctObjects  "1"^^xsd:int ;
+        void:property         eli-dl:parliamentary_term ;
+        void:triples          "14"^^xsd:int .
+
+<https://dummy.dataset.uri/partition_Activity_recorded_in_a_realization_of>
+        dcterms:conformsTo    shape:Activity_recorded_in_a_realization_of ;
+        void:distinctObjects  "4267"^^xsd:int ;
+        void:property         eli-dl:recorded_in_a_realization_of ;
+        void:triples          "4267"^^xsd:int .
+
+<https://dummy.dataset.uri/partition_WorkSubdivision>
+        dcterms:conformsTo      shape:WorkSubdivision ;
+        void:class              eli:WorkSubdivision ;
+        void:entities           "4680"^^xsd:int ;
+        void:propertyPartition  <https://dummy.dataset.uri/partition_WorkSubdivision_title> , <https://dummy.dataset.uri/partition_WorkSubdivision_is_part_of> , <https://dummy.dataset.uri/partition_WorkSubdivision_numbering> , <https://dummy.dataset.uri/partition_WorkSubdivision_is_realized_by> , <https://dummy.dataset.uri/partition_WorkSubdivision_notation> , <https://dummy.dataset.uri/partition_WorkSubdivision_identifier> , <https://dummy.dataset.uri/partition_WorkSubdivision_number> , <https://dummy.dataset.uri/partition_WorkSubdivision_originalLanguage> , <https://dummy.dataset.uri/partition_WorkSubdivision_refers_to> .
+
+<https://dummy.dataset.uri/partition_Activity>
+        dcterms:conformsTo      shape:Activity ;
+        void:class              eli-dl:Activity ;
+        void:entities           "4267"^^xsd:int ;
+        void:propertyPartition  <https://dummy.dataset.uri/partition_Activity_was_motivated_by> , <https://dummy.dataset.uri/partition_Activity_recorded_in_a_realization_of> , <https://dummy.dataset.uri/partition_Activity_activity_start_date> , <https://dummy.dataset.uri/partition_Activity_activity_label> , <https://dummy.dataset.uri/partition_Activity_consists_of> , <https://dummy.dataset.uri/partition_Activity_had_activity_type> , <https://dummy.dataset.uri/partition_Activity_activity_id> , <https://dummy.dataset.uri/partition_Activity_activity_date> , <https://dummy.dataset.uri/partition_Activity_activity_end_date> , <https://dummy.dataset.uri/partition_Activity_had_participation> .
+
+<https://dummy.dataset.uri/partition_Work_is_realized_by>
+        dcterms:conformsTo    shape:Work_is_realized_by ;
+        void:distinctObjects  "14"^^xsd:int ;
+        void:property         eli:is_realized_by ;
+        void:triples          "14"^^xsd:int .
+
+shape:Participation  a  sh:NodeShape ;
+        rdfs:comment    "4213 instances"@en ;
+        rdfs:label      "Participation"@en ;
+        sh:property     shape:Participation_had_participation_person , shape:Participation_participation_role ;
+        sh:targetClass  eli-dl:Participation .
+
+shape:WorkSubdivision_title
+        sh:datatype     rdf:langString ;
+        sh:description  "11496 occurences and 7833 distinct values"@en ;
+        sh:languageIn   ( "bg" "cs" "da" "de" "el" "en" "es" "et" "fi" "fr" "ga" "hr" "hu" "it" "lt" "lv" "mt" "nl" "pl" "pt" "ro" "sk" "sl" "sv" ) ;
+        sh:name         "title"@en ;
+        sh:nodeKind     sh:Literal ;
+        sh:path         dcterms:title .
+
+shape:Activity  a       sh:NodeShape ;
+        rdfs:comment    "4267 instances"@en ;
+        rdfs:label      "Activity"@en ;
+        sh:property     shape:Activity_recorded_in_a_realization_of , shape:Activity_activity_id , shape:Activity_was_motivated_by , shape:Activity_had_activity_type , shape:Activity_activity_label , shape:Activity_consists_of , shape:Activity_activity_end_date , shape:Activity_activity_start_date , shape:Activity_activity_date , shape:Activity_had_participation ;
+        sh:targetClass  eli-dl:Activity .
+
+<https://dummy.dataset.uri/partition_Manifestation_byteSize>
+        dcterms:conformsTo    shape:Manifestation_byteSize ;
+        void:distinctObjects  "2"^^xsd:int ;
+        void:property         epvoc:byteSize ;
+        void:triples          "28"^^xsd:int .
+
+<https://dummy.dataset.uri/partition_Work>
+        dcterms:conformsTo      shape:Work ;
+        void:class              eli:Work ;
+        void:entities           "14"^^xsd:int ;
+        void:propertyPartition  <https://dummy.dataset.uri/partition_Work_publisher> , <https://dummy.dataset.uri/partition_Work_notation> , <https://dummy.dataset.uri/partition_Work_date_document> , <https://dummy.dataset.uri/partition_Work_epNumber> , <https://dummy.dataset.uri/partition_Work_identifierYear> , <https://dummy.dataset.uri/partition_Work_work_type> , <https://dummy.dataset.uri/partition_Work_is_realized_by> , <https://dummy.dataset.uri/partition_Work_parliamentary_term> , <https://dummy.dataset.uri/partition_Work_identifier> , <https://dummy.dataset.uri/partition_Work_label> , <https://dummy.dataset.uri/partition_Work_title> .
+
+shape:WorkSubdivision_notation
+        sh:datatype     epvoc:speechId ;
+        sh:description  "4213 occurences and 1703 distinct values"@en ;
+        sh:maxCount     1 ;
+        sh:name         "notation"@en ;
+        sh:nodeKind     sh:Literal ;
+        sh:path         skos:notation .
+
+shape:Work_identifier
+        sh:datatype     xsd:string ;
+        sh:description  "14 occurences and 14 distinct values"@en ;
+        sh:maxCount     1 ;
+        sh:minCount     1 ;
+        sh:name         "identifier"@en ;
+        sh:nodeKind     sh:Literal ;
+        sh:path         dcterms:identifier .
+
+shape:WorkSubdivision_is_part_of_class_1
+        sh:class  eli:Work .
+
+shape:Activity_activity_date
+        sh:datatype     xsd:date ;
+        sh:description  "4267 occurences and 15 distinct values"@en ;
+        sh:maxCount     1 ;
+        sh:minCount     1 ;
+        sh:name         "activity_date"@en ;
+        sh:nodeKind     sh:Literal ;
+        sh:path         eli-dl:activity_date .
+
+shape:WorkSubdivision_refers_to
+        sh:description  "353 occurences and 259 distinct values"@en ;
+        sh:name         "refers_to"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         eli:refers_to .
+
+shape:WorkSubdivision_number
+        sh:datatype     xsd:integer ;
+        sh:description  "467 occurences and 110 distinct values"@en ;
+        sh:maxCount     1 ;
+        sh:name         "number"@en ;
+        sh:nodeKind     sh:Literal ;
+        sh:path         eli:number .
+
+shape:Activity_was_motivated_by
+        sh:description  "54 occurences and 54 distinct values"@en ;
+        sh:maxCount     1 ;
+        sh:name         "was_motivated_by"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         eli-dl:was_motivated_by .
+
+<https://dummy.dataset.uri/partition_Activity_consists_of>
+        dcterms:conformsTo    shape:Activity_consists_of ;
+        void:distinctObjects  "139"^^xsd:int ;
+        void:property         eli-dl:consists_of ;
+        void:triples          "139"^^xsd:int .
+
+shape:Work_parliamentary_term
+        sh:description  "14 occurences and 1 distinct values"@en ;
+        sh:maxCount     1 ;
+        sh:minCount     1 ;
+        sh:name         "parliamentary_term"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         eli-dl:parliamentary_term ;
+        sh:value        <https://data.europarl.europa.eu/org/ep-9> .
+
+shape:WorkSubdivision_originalLanguage
+        sh:description  "4213 occurences and 24 distinct values"@en ;
+        sh:maxCount     1 ;
+        sh:name         "originalLanguage"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         epvoc:originalLanguage .
+
+<https://dummy.dataset.uri/partition_Expression_expressionContent>
+        dcterms:conformsTo    shape:Expression_expressionContent ;
+        void:distinctObjects  "4140"^^xsd:int ;
+        void:property         epvoc:expressionContent ;
+        void:triples          "4213"^^xsd:int .
+
+shape:Work_identifierYear
+        sh:datatype     xsd:string ;
+        sh:description  "14 occurences and 1 distinct values"@en ;
+        sh:maxCount     1 ;
+        sh:minCount     1 ;
+        sh:name         "identifierYear"@en ;
+        sh:nodeKind     sh:Literal ;
+        sh:path         epvoc:identifierYear ;
+        sh:value        "2023" .
+
+<https://dummy.dataset.uri/partition_WorkSubdivision_originalLanguage>
+        dcterms:conformsTo    shape:WorkSubdivision_originalLanguage ;
+        void:distinctObjects  "24"^^xsd:int ;
+        void:property         epvoc:originalLanguage ;
+        void:triples          "4213"^^xsd:int .
+
+shape:Activity_had_participation
+        sh:class        eli-dl:Participation ;
+        sh:description  "4213 occurences and 4213 distinct values"@en ;
+        sh:maxCount     1 ;
+        sh:name         "had_participation"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         eli-dl:had_participation .
+
+<https://dummy.dataset.uri/partition_Manifestation_is_exemplified_by>
+        dcterms:conformsTo    shape:Manifestation_is_exemplified_by ;
+        void:distinctObjects  "28"^^xsd:int ;
+        void:property         eli:is_exemplified_by ;
+        void:triples          "28"^^xsd:int .
+
+<https://dummy.dataset.uri/partition_Activity_had_activity_type>
+        dcterms:conformsTo    shape:Activity_had_activity_type ;
+        void:distinctObjects  "3"^^xsd:int ;
+        void:property         eli-dl:had_activity_type ;
+        void:triples          "4267"^^xsd:int .
+
+shape:Activity_had_activity_type
+        sh:description  "4267 occurences and 3 distinct values"@en ;
+        sh:in           ( <http://publications.europa.eu/resource/authority/event/EP_PENARY_DEBATE_SPEECH> <http://publications.europa.eu/resource/authority/event/EP_PLENARY_DEBATE_VOTE_EXPL> <http://publications.europa.eu/resource/authority/event/EP_PENARY_DEBATE_W_STATEMENT> ) ;
+        sh:maxCount     1 ;
+        sh:minCount     1 ;
+        sh:name         "had_activity_type"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         eli-dl:had_activity_type .
+
+<https://dummy.dataset.uri/partition_Activity_activity_start_date>
+        dcterms:conformsTo    shape:Activity_activity_start_date ;
+        void:distinctObjects  "4051"^^xsd:int ;
+        void:property         eli-dl:activity_start_date ;
+        void:triples          "4061"^^xsd:int .
+
+<https://dummy.dataset.uri/partition_Activity_activity_date>
+        dcterms:conformsTo    shape:Activity_activity_date ;
+        void:distinctObjects  "15"^^xsd:int ;
+        void:property         eli-dl:activity_date ;
+        void:triples          "4267"^^xsd:int .
+
+<https://dummy.dataset.uri/partition_Work_identifier>
+        dcterms:conformsTo    shape:Work_identifier ;
+        void:distinctObjects  "14"^^xsd:int ;
+        void:property         dcterms:identifier ;
+        void:triples          "14"^^xsd:int .
+
+shape:Manifestation_format
+        sh:description  "28 occurences and 2 distinct values"@en ;
+        sh:in           ( <http://publications.europa.eu/resource/authority/file-type/XML> <http://publications.europa.eu/resource/authority/file-type/PDF> ) ;
+        sh:maxCount     1 ;
+        sh:minCount     1 ;
+        sh:name         "format"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         dcterms:format .
+
+<https://dummy.dataset.uri/partition_Activity_activity_label>
+        dcterms:conformsTo    shape:Activity_activity_label ;
+        void:distinctObjects  "1296"^^xsd:int ;
+        void:property         eli-dl:activity_label ;
+        void:triples          "1296"^^xsd:int .
+
+<https://dummy.dataset.uri/partition_Participation_participation_role>
+        dcterms:conformsTo    shape:Participation_participation_role ;
+        void:distinctObjects  "1"^^xsd:int ;
+        void:property         eli-dl:participation_role ;
+        void:triples          "4213"^^xsd:int .
+
+shape:Manifestation_byteSize
+        sh:datatype     xsd:long ;
+        sh:description  "28 occurences and 2 distinct values"@en ;
+        sh:in           ( "30523"^^xsd:long "74475"^^xsd:long ) ;
+        sh:maxCount     1 ;
+        sh:minCount     1 ;
+        sh:name         "byteSize"@en ;
+        sh:nodeKind     sh:Literal ;
+        sh:path         epvoc:byteSize .
+
+<https://dummy.dataset.uri/partition_Activity_was_motivated_by>
+        dcterms:conformsTo    shape:Activity_was_motivated_by ;
+        void:distinctObjects  "54"^^xsd:int ;
+        void:property         eli-dl:was_motivated_by ;
+        void:triples          "54"^^xsd:int .
+
+<https://dummy.dataset.uri/partition_Manifestation_issued>
+        dcterms:conformsTo    shape:Manifestation_issued ;
+        void:distinctObjects  "28"^^xsd:int ;
+        void:property         dcterms:issued ;
+        void:triples          "28"^^xsd:int .
+
+shape:Work_is_realized_by
+        sh:class        eli:Expression ;
+        sh:description  "14 occurences and 14 distinct values"@en ;
+        sh:maxCount     1 ;
+        sh:minCount     1 ;
+        sh:name         "is_realized_by"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         eli:is_realized_by .
+
+<https://dummy.dataset.uri/partition_Work_title>
+        dcterms:conformsTo    shape:Work_title ;
+        void:distinctObjects  "360"^^xsd:int ;
+        void:property         dcterms:title ;
+        void:triples          "360"^^xsd:int .
+
+shape:Work_title  dash:propertyRole  dash:LabelRole ;
+        sh:datatype        rdf:langString ;
+        sh:description     "360 occurences and 360 distinct values"@en ;
+        sh:languageIn      ( "bg" "cs" "da" "de" "el" "en" "es" "et" "fi" "fr" "ga" "hr" "hu" "it" "lt" "lv" "mt" "nl" "pl" "pt" "ro" "sk" "sl" "sv" ) ;
+        sh:minCount        1 ;
+        sh:name            "title"@en ;
+        sh:nodeKind        sh:Literal ;
+        sh:path            dcterms:title .
+
+<https://dummy.dataset.uri/partition_Manifestation>
+        dcterms:conformsTo      shape:Manifestation ;
+        void:class              eli:Manifestation ;
+        void:entities           "28"^^xsd:int ;
+        void:propertyPartition  <https://dummy.dataset.uri/partition_Manifestation_media_type> , <https://dummy.dataset.uri/partition_Manifestation_issued> , <https://dummy.dataset.uri/partition_Manifestation_is_exemplified_by> , <https://dummy.dataset.uri/partition_Manifestation_byteSize> , <https://dummy.dataset.uri/partition_Manifestation_format> .
+
+<https://dummy.dataset.uri/partition_Work_notation>
+        dcterms:conformsTo    shape:Work_notation ;
+        void:distinctObjects  "1"^^xsd:int ;
+        void:property         skos:notation ;
+        void:triples          "14"^^xsd:int .
+
+shape:Expression_expressionContent
+        sh:datatype     rdf:XMLLiteral ;
+        sh:description  "4213 occurences and 4140 distinct values"@en ;
+        sh:maxCount     1 ;
+        sh:name         "expressionContent"@en ;
+        sh:nodeKind     sh:Literal ;
+        sh:path         epvoc:expressionContent .
+
+shape:Manifestation_media_type
+        sh:description  "28 occurences and 2 distinct values"@en ;
+        sh:in           ( <https://www.iana.org/assignments/media-types/xml> <https://www.iana.org/assignments/media-types/pdf> ) ;
+        sh:maxCount     1 ;
+        sh:minCount     1 ;
+        sh:name         "media_type"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         eli:media_type .
+
+<https://dummy.dataset.uri/partition_Work_date_document>
+        dcterms:conformsTo    shape:Work_date_document ;
+        void:distinctObjects  "15"^^xsd:int ;
+        void:property         eli:date_document ;
+        void:triples          "15"^^xsd:int .
+
+shape:Expression  a     sh:NodeShape ;
+        rdfs:comment    "4227 instances"@en ;
+        rdfs:label      "Expression"@en ;
+        sh:property     shape:Expression_is_embodied_by , shape:Expression_title , shape:Expression_language , shape:Expression_expressionContent ;
+        sh:targetClass  eli:Expression .
+
+shape:Work_notation  sh:datatype  epvoc:publicRegister ;
+        sh:description  "14 occurences and 1 distinct values"@en ;
+        sh:maxCount     1 ;
+        sh:minCount     1 ;
+        sh:name         "notation"@en ;
+        sh:nodeKind     sh:Literal ;
+        sh:path         skos:notation ;
+        sh:value        ""^^epvoc:publicRegister .
+
+shape:Manifestation  a  sh:NodeShape ;
+        rdfs:comment    "28 instances"@en ;
+        rdfs:label      "Manifestation"@en ;
+        sh:property     shape:Manifestation_is_exemplified_by , shape:Manifestation_format , shape:Manifestation_media_type , shape:Manifestation_byteSize , shape:Manifestation_issued ;
+        sh:targetClass  eli:Manifestation .
+
+<https://dummy.dataset.uri/partition_Expression_language>
+        dcterms:conformsTo    shape:Expression_language ;
+        void:distinctObjects  "25"^^xsd:int ;
+        void:property         eli:language ;
+        void:triples          "4227"^^xsd:int .
+
+<https://dummy.dataset.uri/partition_WorkSubdivision_notation>
+        dcterms:conformsTo    shape:WorkSubdivision_notation ;
+        void:distinctObjects  "1703"^^xsd:int ;
+        void:property         skos:notation ;
+        void:triples          "4213"^^xsd:int .
+
+shape:Activity_activity_start_date
+        sh:datatype     xsd:dateTime ;
+        sh:description  "4061 occurences and 4051 distinct values"@en ;
+        sh:maxCount     1 ;
+        sh:name         "activity_start_date"@en ;
+        sh:nodeKind     sh:Literal ;
+        sh:path         eli-dl:activity_start_date .
+
+<https://dummy.dataset.uri/partition_Work_label>
+        dcterms:conformsTo    shape:Work_label ;
+        void:distinctObjects  "360"^^xsd:int ;
+        void:property         rdfs:label ;
+        void:triples          "360"^^xsd:int .
+
+shape:Manifestation_is_exemplified_by
+        sh:description  "28 occurences and 28 distinct values"@en ;
+        sh:maxCount     1 ;
+        sh:minCount     1 ;
+        sh:name         "is_exemplified_by"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         eli:is_exemplified_by .
+
+shape:Work_label  sh:datatype  rdf:langString ;
+        sh:description  "360 occurences and 360 distinct values"@en ;
+        sh:languageIn   ( "bg" "cs" "da" "de" "el" "en" "es" "et" "fi" "fr" "ga" "hr" "hu" "it" "lt" "lv" "mt" "nl" "pl" "pt" "ro" "sk" "sl" "sv" ) ;
+        sh:minCount     1 ;
+        sh:name         "label"@en ;
+        sh:nodeKind     sh:Literal ;
+        sh:path         rdfs:label .
+
+shape:WorkSubdivision_numbering
+        dash:propertyRole  dash:LabelRole ;
+        sh:datatype        xsd:string ;
+        sh:description     "4680 occurences and 1842 distinct values"@en ;
+        sh:maxCount        1 ;
+        sh:minCount        1 ;
+        sh:name            "numbering"@en ;
+        sh:nodeKind        sh:Literal ;
+        sh:path            epvoc:numbering .
+
+shape:Work_publisher  sh:description  "14 occurences and 1 distinct values"@en ;
+        sh:maxCount     1 ;
+        sh:minCount     1 ;
+        sh:name         "publisher"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         dcterms:publisher ;
+        sh:value        <http://publications.europa.eu/resource/authority/corporate-body/EP> .
+
+shape:  a                 <http://www.w3.org/2002/07/owl#Ontology> ;
+        dcterms:abstract  "Created automatically by SHACL Play!.\n109232 triples in the dataset."@en ;
+        dcterms:created   "2023-10-04T15:04:21.982Z"^^xsd:dateTime .
+
+<https://dummy.dataset.uri/partition_Work_epNumber>
+        dcterms:conformsTo    shape:Work_epNumber ;
+        void:distinctObjects  "1"^^xsd:int ;
+        void:property         epvoc:epNumber ;
+        void:triples          "14"^^xsd:int .
+
+shape:Work_work_type  sh:description  "14 occurences and 1 distinct values"@en ;
+        sh:maxCount     1 ;
+        sh:minCount     1 ;
+        sh:name         "work_type"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         eli:work_type ;
+        sh:value        <http://publications.europa.eu/resource/authority/resource-type/PLENARY_CRE_EP> .
+
+<https://dummy.dataset.uri/partition_WorkSubdivision_identifier>
+        dcterms:conformsTo    shape:WorkSubdivision_identifier ;
+        void:distinctObjects  "4213"^^xsd:int ;
+        void:property         dcterms:identifier ;
+        void:triples          "4213"^^xsd:int .
+
+shape:WorkSubdivision_identifier
+        sh:datatype     xsd:string ;
+        sh:description  "4213 occurences and 4213 distinct values"@en ;
+        sh:maxCount     1 ;
+        sh:name         "identifier"@en ;
+        sh:nodeKind     sh:Literal ;
+        sh:path         dcterms:identifier .
+
+<https://dummy.dataset.uri/partition_Expression_is_embodied_by>
+        dcterms:conformsTo    shape:Expression_is_embodied_by ;
+        void:distinctObjects  "28"^^xsd:int ;
+        void:property         eli:is_embodied_by ;
+        void:triples          "28"^^xsd:int .
+
+<https://dummy.dataset.uri/partition_Participation_had_participation_person>
+        dcterms:conformsTo    shape:Participation_had_participation_person ;
+        void:distinctObjects  "610"^^xsd:int ;
+        void:property         eli-dl:had_participation_person ;
+        void:triples          "4213"^^xsd:int .
+
+shape:Activity_consists_of
+        sh:class        eli-dl:Activity ;
+        sh:description  "139 occurences and 139 distinct values"@en ;
+        sh:name         "consists_of"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         eli-dl:consists_of .
+
+shape:Work  a           sh:NodeShape ;
+        rdfs:comment    "14 instances"@en ;
+        rdfs:label      "Work"@en ;
+        sh:property     shape:Work_parliamentary_term , shape:Work_publisher , shape:Work_epNumber , shape:Work_title , shape:Work_work_type , shape:Work_identifierYear , shape:Work_notation , shape:Work_is_realized_by , shape:Work_date_document , shape:Work_label , shape:Work_identifier ;
+        sh:targetClass  eli:Work .
+
+shape:WorkSubdivision_is_part_of_class_0
+        sh:class  eli:WorkSubdivision .
+
+shape:Work_epNumber  sh:datatype  xsd:string ;
+        sh:description  "14 occurences and 1 distinct values"@en ;
+        sh:maxCount     1 ;
+        sh:minCount     1 ;
+        sh:name         "epNumber"@en ;
+        sh:nodeKind     sh:Literal ;
+        sh:path         epvoc:epNumber ;
+        sh:value        "PE743.343" .
+
+<https://dummy.dataset.uri/partition_Activity_had_participation>
+        dcterms:conformsTo    shape:Activity_had_participation ;
+        void:distinctObjects  "4213"^^xsd:int ;
+        void:property         eli-dl:had_participation ;
+        void:triples          "4213"^^xsd:int .
+
+shape:Participation_participation_role
+        sh:description  "4213 occurences and 1 distinct values"@en ;
+        sh:maxCount     1 ;
+        sh:minCount     1 ;
+        sh:name         "participation_role"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         eli-dl:participation_role ;
+        sh:value        <http://publications.europa.eu/resource/authority/role/SPEAK> .
+
+<https://dummy.dataset.uri/partition_Manifestation_format>
+        dcterms:conformsTo    shape:Manifestation_format ;
+        void:distinctObjects  "2"^^xsd:int ;
+        void:property         dcterms:format ;
+        void:triples          "28"^^xsd:int .
+
+shape:Activity_recorded_in_a_realization_of
+        sh:class        eli:WorkSubdivision ;
+        sh:description  "4267 occurences and 4267 distinct values"@en ;
+        sh:maxCount     1 ;
+        sh:minCount     1 ;
+        sh:name         "recorded_in_a_realization_of"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         eli-dl:recorded_in_a_realization_of .
+
+<https://dummy.dataset.uri/partition_Activity_activity_end_date>
+        dcterms:conformsTo    shape:Activity_activity_end_date ;
+        void:distinctObjects  "4050"^^xsd:int ;
+        void:property         eli-dl:activity_end_date ;
+        void:triples          "4061"^^xsd:int .
+
+shape:Activity_activity_end_date
+        sh:datatype     xsd:dateTime ;
+        sh:description  "4061 occurences and 4050 distinct values"@en ;
+        sh:maxCount     1 ;
+        sh:name         "activity_end_date"@en ;
+        sh:nodeKind     sh:Literal ;
+        sh:path         eli-dl:activity_end_date .
+
+<https://dummy.dataset.uri/partition_Work_identifierYear>
+        dcterms:conformsTo    shape:Work_identifierYear ;
+        void:distinctObjects  "1"^^xsd:int ;
+        void:property         epvoc:identifierYear ;
+        void:triples          "14"^^xsd:int .
+
+shape:WorkSubdivision_is_realized_by
+        sh:class        eli:Expression ;
+        sh:description  "4213 occurences and 4213 distinct values"@en ;
+        sh:maxCount     1 ;
+        sh:name         "is_realized_by"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         eli:is_realized_by .
+
+shape:Expression_title
+        sh:datatype     rdf:langString ;
+        sh:description  "360 occurences and 360 distinct values"@en ;
+        sh:languageIn   ( "bg" "cs" "da" "de" "el" "en" "es" "et" "fi" "fr" "ga" "hr" "hu" "it" "lt" "lv" "mt" "nl" "pl" "pt" "ro" "sk" "sl" "sv" ) ;
+        sh:name         "title"@en ;
+        sh:nodeKind     sh:Literal ;
+        sh:path         eli:title .
+
+shape:Work_date_document
+        sh:datatype     xsd:date ;
+        sh:description  "15 occurences and 15 distinct values"@en ;
+        sh:minCount     1 ;
+        sh:name         "date_document"@en ;
+        sh:nodeKind     sh:Literal ;
+        sh:path         eli:date_document .
+
+shape:WorkSubdivision
+        a               sh:NodeShape ;
+        rdfs:comment    "4680 instances"@en ;
+        rdfs:label      "WorkSubdivision"@en ;
+        sh:property     shape:WorkSubdivision_number , shape:WorkSubdivision_numbering , shape:WorkSubdivision_is_part_of , shape:WorkSubdivision_identifier , shape:WorkSubdivision_refers_to , shape:WorkSubdivision_notation , shape:WorkSubdivision_is_realized_by , shape:WorkSubdivision_originalLanguage , shape:WorkSubdivision_title ;
+        sh:targetClass  eli:WorkSubdivision .
+
+<https://dummy.dataset.uri/partition_WorkSubdivision_number>
+        dcterms:conformsTo    shape:WorkSubdivision_number ;
+        void:distinctObjects  "110"^^xsd:int ;
+        void:property         eli:number ;
+        void:triples          "467"^^xsd:int .
+
+<https://dummy.dataset.uri/partition_WorkSubdivision_numbering>
+        dcterms:conformsTo    shape:WorkSubdivision_numbering ;
+        void:distinctObjects  "1842"^^xsd:int ;
+        void:property         epvoc:numbering ;
+        void:triples          "4680"^^xsd:int .
+
+shape:Expression_is_embodied_by
+        sh:class        eli:Manifestation ;
+        sh:description  "28 occurences and 28 distinct values"@en ;
+        sh:name         "is_embodied_by"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         eli:is_embodied_by .
+
+<https://dummy.dataset.uri/partition_Expression_title>
+        dcterms:conformsTo    shape:Expression_title ;
+        void:distinctObjects  "360"^^xsd:int ;
+        void:property         eli:title ;
+        void:triples          "360"^^xsd:int .
+
+<https://dummy.dataset.uri/partition_Manifestation_media_type>
+        dcterms:conformsTo    shape:Manifestation_media_type ;
+        void:distinctObjects  "2"^^xsd:int ;
+        void:property         eli:media_type ;
+        void:triples          "28"^^xsd:int .
+
+<https://dummy.dataset.uri/partition_Activity_activity_id>
+        dcterms:conformsTo    shape:Activity_activity_id ;
+        void:distinctObjects  "4267"^^xsd:int ;
+        void:property         eli-dl:activity_id ;
+        void:triples          "4267"^^xsd:int .
+
+shape:Activity_activity_id
+        sh:datatype     xsd:string ;
+        sh:description  "4267 occurences and 4267 distinct values"@en ;
+        sh:maxCount     1 ;
+        sh:minCount     1 ;
+        sh:name         "activity_id"@en ;
+        sh:nodeKind     sh:Literal ;
+        sh:path         eli-dl:activity_id .
+
+shape:Expression_language
+        sh:description  "4227 occurences and 25 distinct values"@en ;
+        sh:maxCount     1 ;
+        sh:minCount     1 ;
+        sh:name         "language"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         eli:language .
+
+<https://dummy.dataset.uri/partition_Work_publisher>
+        dcterms:conformsTo    shape:Work_publisher ;
+        void:distinctObjects  "1"^^xsd:int ;
+        void:property         dcterms:publisher ;
+        void:triples          "14"^^xsd:int .
+
+<https://dummy.dataset.uri/partition_WorkSubdivision_is_realized_by>
+        dcterms:conformsTo    shape:WorkSubdivision_is_realized_by ;
+        void:distinctObjects  "4213"^^xsd:int ;
+        void:property         eli:is_realized_by ;
+        void:triples          "4213"^^xsd:int .

@@ -1,0 +1,1034 @@
+@prefix myshapes: <http://exemple.be/shapes/> .
+@prefix rdfs:     <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh:       <http://www.w3.org/ns/shacl#> .
+@prefix xsd:      <http://www.w3.org/2001/XMLSchema#> .
+@prefix crm: <http://www.cidoc-crm.org/cidoc-crm/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix skosxl: <http://www.w3.org/2008/05/skos-xl#> .
+
+myshapes:E25_Man-Made_Feature_P46i_forms_part_of
+        sh:class        <http://www.ics.forth.gr/isl/CRMba/B1_Built_Work> ;
+        sh:description  "174 statements" ;
+        sh:name         "P46i_forms_part_of"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P46i_forms_part_of> .
+
+myshapes:E57_Material_exactMatch
+        sh:description  "49 statements.\nMultiple classes found : [http://www.cidoc-crm.org/cidoc-crm/E55_Type, http://www.cidoc-crm.org/cidoc-crm/E57_Material]" ;
+        sh:name         "exactMatch"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.w3.org/2004/02/skos/core#exactMatch> .
+
+myshapes:E21_Person_P107i_is_current_or_former_member_of
+        sh:description  "92 statements.\nMultiple classes found : [http://www.cidoc-crm.org/cidoc-crm/E74_Group, http://www.cidoc-crm.org/cidoc-crm/E21_Person, http://www.cidoc-crm.org/cidoc-crm/E55_Type, http://www.cidoc-crm.org/cidoc-crm/E42_Identifier]" ;
+        sh:name         "P107i_is_current_or_former_member_of"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P107i_is_current_or_former_member_of> .
+
+myshapes:A2_Stratigraphic_Volume_Unit_P46i_forms_part_of
+        sh:class        <http://www.cidoc-crm.org/cidoc-crm/E25_Man-Made_Feature> ;
+        sh:description  "9504 statements" ;
+        sh:name         "P46i_forms_part_of"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P46i_forms_part_of> .
+
+myshapes:B1_Built_Work_P101_had_as_general_use
+        sh:class        <http://www.cidoc-crm.org/cidoc-crm/E55_Type> ;
+        sh:description  "9975 statements" ;
+        sh:name         "P101_had_as_general_use"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P101_had_as_general_use> .
+
+myshapes:S19_Encounter_Event_P70i_is_documented_in
+        sh:class        <http://www.cidoc-crm.org/cidoc-crm/E31_Document> ;
+        sh:description  "18923 statements" ;
+        sh:name         "P70i_is_documented_in"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P70i_is_documented_in> .
+
+myshapes:Dataset  a     sh:NodeShape ;
+        rdfs:comment    "7 instances" ;
+        rdfs:label      "Dataset"@en ;
+        sh:property     myshapes:Dataset_modified , myshapes:Dataset_theme , myshapes:Dataset_spatial , myshapes:Dataset_conformsTo , myshapes:Dataset_contactPoint , myshapes:Dataset_source , myshapes:Dataset_keyword , myshapes:Dataset_title , myshapes:Dataset_distribution , myshapes:Dataset_issued , myshapes:Dataset_temporal , myshapes:Dataset_description , myshapes:Dataset_publisher ;
+        sh:targetClass  <http://www.w3.org/ns/dcat#Dataset> .
+
+myshapes:E22_Man-Made_Object_P53_has_former_or_current_location
+        sh:class        <http://www.cidoc-crm.org/cidoc-crm/E53_Place> ;
+        sh:description  "509 statements" ;
+        sh:name         "P53_has_former_or_current_location"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P53_has_former_or_current_location> .
+
+myshapes:E25_Man-Made_Feature_P8i_witnessed
+        sh:class        <http://www.cidoc-crm.org/cidoc-crm/E5_Event> ;
+        sh:description  "707 statements" ;
+        sh:name         "P8i_witnessed"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P8i_witnessed> .
+
+myshapes:E52_Time-Span_P82b_end_of_the_end
+        sh:datatype     xsd:dateTime ;
+        sh:description  "16775 statements" ;
+        sh:name         "P82b_end_of_the_end"@en ;
+        sh:nodeKind     sh:Literal ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P82b_end_of_the_end> .
+
+myshapes:E52_Time-Span_P4i_is_time-span_of
+        sh:description  "8924 statements.\nMultiple classes found : [http://www.cidoc-crm.org/cidoc-crm/E5_Event, http://www.cidoc-crm.org/cidoc-crm/E65_Creation, http://www.w3.org/2002/07/owl#Class]" ;
+        sh:name         "P4i_is_time-span_of"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P4i_is_time-span_of> .
+
+myshapes:E57_Material_P45i_is_incorporated_in
+        sh:class        <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object> ;
+        sh:description  "26907 statements" ;
+        sh:name         "P45i_is_incorporated_in"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P45i_is_incorporated_in> .
+
+myshapes:A2_Stratigraphic_Volume_Unit_prefLabel
+        sh:description  "12292 statements.\nMultiple datatypes found : [http://www.w3.org/1999/02/22-rdf-syntax-ns#langString, http://www.w3.org/2001/XMLSchema#string]" ;
+        sh:name         "prefLabel"@en ;
+        sh:nodeKind     sh:Literal ;
+        sh:path         <http://www.w3.org/2004/02/skos/core#prefLabel> .
+
+myshapes:E5_Event  a    sh:NodeShape ;
+        rdfs:comment    "14341 instances" ;
+        rdfs:label      "E5_Event"@en ;
+        sh:property     myshapes:E5_Event_prefLabel , myshapes:E5_Event_P8_took_place_on_or_within , myshapes:E5_Event_P4_has_time-span ;
+        sh:targetClass  <http://www.cidoc-crm.org/cidoc-crm/E5_Event> .
+
+myshapes:E27_Site_P48_has_preferred_identifier
+        sh:class        <http://www.cidoc-crm.org/cidoc-crm/E42_Identifier> ;
+        sh:description  "3548 statements" ;
+        sh:name         "P48_has_preferred_identifier"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P48_has_preferred_identifier> .
+
+myshapes:Dataset_issued
+        sh:datatype     xsd:date ;
+        sh:description  "7 statements" ;
+        sh:name         "issued"@en ;
+        sh:nodeKind     sh:Literal ;
+        sh:path         <http://purl.org/dc/terms/issued> .
+
+myshapes:E22_Man-Made_Object_P8i_witnessed
+        sh:class        <http://www.cidoc-crm.org/cidoc-crm/E5_Event> ;
+        sh:description  "10045 statements" ;
+        sh:name         "P8i_witnessed"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P8i_witnessed> .
+
+myshapes:Dataset_distribution
+        sh:description  "7 statements" ;
+        sh:name         "distribution"@en ;
+        sh:nodeKind     sh:BlankNode ;
+        sh:path         <http://www.w3.org/ns/dcat#distribution> .
+
+myshapes:skos-xlLabel
+        a               sh:NodeShape ;
+        rdfs:comment    "298 instances" ;
+        rdfs:label      "skos-xlLabel"@en ;
+        sh:property     myshapes:skos-xlLabel_skos-xlliteralForm , myshapes:skos-xlLabel_source ;
+        sh:targetClass  <http://www.w3.org/2008/05/skos-xlLabel> .
+
+myshapes:Dataset_modified
+        sh:datatype     xsd:date ;
+        sh:description  "7 statements" ;
+        sh:name         "modified"@en ;
+        sh:nodeKind     sh:Literal ;
+        sh:path         <http://purl.org/dc/terms/modified> .
+
+myshapes:E55_Type  a    sh:NodeShape ;
+        rdfs:comment    "1470 instances" ;
+        rdfs:label      "E55_Type"@en ;
+        sh:property     myshapes:E55_Type_prefLabel , myshapes:E55_Type_exactMatch , myshapes:E55_Type_altLabel_2 , myshapes:E55_Type_skos-xlaltLabel , myshapes:E55_Type_P101i_was_use_of , myshapes:E55_Type_P45i_is_incorporated_in , myshapes:E55_Type_P2i_is_type_of , myshapes:E55_Type_altLabel , myshapes:E55_Type_P14i_performed , myshapes:E55_Type_P107_has_current_or_former_member , myshapes:E55_Type_P107i_is_current_or_former_member_of , myshapes:E55_Type_prefLabel_2 ;
+        sh:targetClass  <http://www.cidoc-crm.org/cidoc-crm/E55_Type> .
+
+myshapes:E53_Place_prefLabel
+        sh:description  "4601 statements.\nMultiple datatypes found : [http://www.w3.org/1999/02/22-rdf-syntax-ns#langString, http://www.w3.org/2001/XMLSchema#string]" ;
+        sh:name         "prefLabel"@en ;
+        sh:nodeKind     sh:Literal ;
+        sh:path         <http://www.w3.org/2004/02/skos/core#prefLabel> .
+
+myshapes:E22_Man-Made_Object_P48_has_preferred_identifier
+        sh:class        <http://www.cidoc-crm.org/cidoc-crm/E42_Identifier> ;
+        sh:description  "40413 statements" ;
+        sh:name         "P48_has_preferred_identifier"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P48_has_preferred_identifier> .
+
+myshapes:E22_Man-Made_Object_AP21i_is_contained_in
+        sh:class        <http://www.ics.forth.gr/isl/CRMarchaeo/A2_Stratigraphic_Volume_Unit> ;
+        sh:description  "8992 statements" ;
+        sh:name         "AP21i_is_contained_in"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.ics.forth.gr/isl/CRMarchaeo/AP21i_is_contained_in> .
+
+myshapes:E74_Group  a   sh:NodeShape ;
+        rdfs:comment    "97 instances" ;
+        rdfs:label      "E74_Group"@en ;
+        sh:property     myshapes:E74_Group_label , myshapes:E74_Group_P107_has_current_or_former_member , myshapes:E74_Group_P48_has_preferred_identifier , myshapes:E74_Group_altLabel , myshapes:E74_Group_exactMatch , myshapes:E74_Group_P14i_performed , myshapes:E74_Group_P48i_is_preferred_identifier_of , myshapes:E74_Group_P107i_is_current_or_former_member_of , myshapes:E74_Group_P2i_is_type_of , myshapes:E74_Group_prefLabel ;
+        sh:targetClass  <http://www.cidoc-crm.org/cidoc-crm/E74_Group> .
+
+myshapes:E74_Group_P48_has_preferred_identifier
+        sh:description  "51 statements.\nMultiple classes found : [http://www.cidoc-crm.org/cidoc-crm/E42_Identifier, http://www.cidoc-crm.org/cidoc-crm/E74_Group]" ;
+        sh:name         "P48_has_preferred_identifier"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P48_has_preferred_identifier> .
+
+myshapes:A2_Stratigraphic_Volume_Unit_P70i_is_documented_in
+        sh:class        <http://www.cidoc-crm.org/cidoc-crm/E31_Document> ;
+        sh:description  "142 statements" ;
+        sh:name         "P70i_is_documented_in"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P70i_is_documented_in> .
+
+myshapes:E53_Place_P7i_witnessed
+        sh:class        <http://www.ics.forth.gr/isl/CRMsci/S19_Encounter_Event> ;
+        sh:description  "7049 statements" ;
+        sh:name         "P7i_witnessed"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P7i_witnessed> .
+
+myshapes:E65_Creation_P94_has_created
+        sh:class        <http://www.cidoc-crm.org/cidoc-crm/E31_Document> ;
+        sh:description  "14293 statements" ;
+        sh:name         "P94_has_created"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P94_has_created> .
+
+myshapes:E57_Material_altLabel
+        sh:class        <https://www.w3.org/TR/skos-reference/skos-xl#Label> ;
+        sh:description  "6 statements" ;
+        sh:name         "altLabel"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <https://www.w3.org/TR/skos-reference/skos-xl#altLabel> .
+
+myshapes:E57_Material
+        a               sh:NodeShape ;
+        rdfs:comment    "50 instances" ;
+        rdfs:label      "E57_Material"@en ;
+        sh:property     myshapes:E57_Material_skos-xlaltLabel , myshapes:E57_Material_P45i_is_incorporated_in , myshapes:E57_Material_altLabel , myshapes:E57_Material_exactMatch , myshapes:E57_Material_altLabel_2 , myshapes:E57_Material_P101i_was_use_of , myshapes:E57_Material_P2i_is_type_of ;
+        sh:targetClass  <http://www.cidoc-crm.org/cidoc-crm/E57_Material> .
+
+myshapes:B1_Built_Work_P8i_witnessed
+        sh:class        <http://www.cidoc-crm.org/cidoc-crm/E5_Event> ;
+        sh:description  "3 statements" ;
+        sh:name         "P8i_witnessed"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P8i_witnessed> .
+
+myshapes:Label_literalForm
+        sh:description  "954 statements.\nMultiple datatypes found : [http://www.w3.org/1999/02/22-rdf-syntax-ns#langString, http://www.w3.org/2001/XMLSchema#string]" ;
+        sh:name         "literalForm"@en ;
+        sh:nodeKind     sh:Literal ;
+        sh:path         <http://www.w3.org/2008/05/skos-xl#literalForm> .
+
+myshapes:E57_Material_skos-xlaltLabel
+        sh:class        <http://www.w3.org/2008/05/skos-xlLabel> ;
+        sh:description  "1 statements" ;
+        sh:name         "skos-xlaltLabel"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.w3.org/2008/05/skos-xlaltLabel> .
+
+myshapes:E21_Person_prefLabel
+        sh:datatype     xsd:string ;
+        sh:description  "503 statements" ;
+        sh:name         "prefLabel"@en ;
+        sh:nodeKind     sh:Literal ;
+        sh:path         <http://www.w3.org/2004/02/skos/core#prefLabel> .
+
+myshapes:E5_Event_P4_has_time-span
+        sh:class        <http://www.cidoc-crm.org/cidoc-crm/E52_Time-Span> ;
+        sh:description  "14341 statements" ;
+        sh:name         "P4_has_time-span"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P4_has_time-span> .
+
+myshapes:E27_Site_P8i_witnessed
+        sh:description  "16189 statements.\nMultiple classes found : [http://www.ics.forth.gr/isl/CRMsci/S19_Encounter_Event, http://www.cidoc-crm.org/cidoc-crm/E5_Event]" ;
+        sh:name         "P8i_witnessed"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P8i_witnessed> .
+
+myshapes:Label_source_2
+        sh:datatype     xsd:string ;
+        sh:description  "94 statements" ;
+        sh:name         "source"@en ;
+        sh:nodeKind     sh:Literal ;
+        sh:path         <http://purl.org/dc/terms/source> .
+
+myshapes:E25_Man-Made_Feature_O19i_was_object_found_by
+        sh:class        <http://www.ics.forth.gr/isl/CRMsci/S19_Encounter_Event> ;
+        sh:description  "11651 statements" ;
+        sh:name         "O19i_was_object_found_by"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.ics.forth.gr/isl/CRMsci/O19i_was_object_found_by> .
+
+myshapes:E74_Group_label
+        sh:datatype     xsd:string ;
+        sh:description  "1 statements" ;
+        sh:name         "label"@en ;
+        sh:nodeKind     sh:Literal ;
+        sh:path         rdfs:label .
+
+myshapes:S19_Encounter_Event_P2_has_type
+        sh:class        <http://www.cidoc-crm.org/cidoc-crm/E55_Type> ;
+        sh:description  "9692 statements" ;
+        sh:name         "P2_has_type"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> .
+
+myshapes:E21_Person_exactMatch
+        sh:class        <http://www.cidoc-crm.org/cidoc-crm/E55_Type> ;
+        sh:description  "1 statements" ;
+        sh:name         "exactMatch"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.w3.org/2004/02/skos/core#exactMatch> .
+
+myshapes:E42_Identifier_prefLabel
+        sh:datatype     <http://www.w3.org/1999/02/22-rdf-syntax-ns#langString> ;
+        sh:description  "1 statements" ;
+        sh:name         "prefLabel"@en ;
+        sh:nodeKind     sh:Literal ;
+        sh:path         <http://www.w3.org/2004/02/skos/core#prefLabel> .
+
+myshapes:S19_Encounter_Event_prefLabel
+        sh:description  "12975 statements.\nMultiple datatypes found : [http://www.w3.org/1999/02/22-rdf-syntax-ns#langString, http://www.w3.org/2001/XMLSchema#string]" ;
+        sh:name         "prefLabel"@en ;
+        sh:nodeKind     sh:Literal ;
+        sh:path         <http://www.w3.org/2004/02/skos/core#prefLabel> .
+
+myshapes:E21_Person_altLabel
+        sh:class        <http://www.w3.org/2008/05/skos-xl#Label> ;
+        sh:description  "1 statements" ;
+        sh:name         "altLabel"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.w3.org/2008/05/skos-xl#altLabel> .
+
+myshapes:E25_Man-Made_Feature_P3_has_note
+        sh:description  "6027 statements.\nMultiple datatypes found : [http://www.w3.org/1999/02/22-rdf-syntax-ns#langString, http://www.w3.org/2001/XMLSchema#string]" ;
+        sh:name         "P3_has_note"@en ;
+        sh:nodeKind     sh:Literal ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P3_has_note> .
+
+myshapes:S19_Encounter_Event_P4_has_time-span
+        sh:class        <http://www.cidoc-crm.org/cidoc-crm/E52_Time-Span> ;
+        sh:description  "180 statements" ;
+        sh:name         "P4_has_time-span"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P4_has_time-span> .
+
+myshapes:E65_Creation_P4_has_time-span
+        sh:class        <http://www.cidoc-crm.org/cidoc-crm/E52_Time-Span> ;
+        sh:description  "3119 statements" ;
+        sh:name         "P4_has_time-span"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P4_has_time-span> .
+
+myshapes:E27_Site_P2_has_type
+        sh:description  "1952 statements.\nMultiple classes found : [http://www.cidoc-crm.org/cidoc-crm/E55_Type, http://www.cidoc-crm.org/cidoc-crm/E21_Person, http://www.cidoc-crm.org/cidoc-crm/E74_Group, http://www.cidoc-crm.org/cidoc-crm/E57_Material]" ;
+        sh:name         "P2_has_type"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> .
+
+myshapes:E42_Identifier_P107_has_current_or_former_member
+        sh:class        <http://www.cidoc-crm.org/cidoc-crm/E21_Person> ;
+        sh:description  "2 statements" ;
+        sh:name         "P107_has_current_or_former_member"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P107_has_current_or_former_member> .
+
+myshapes:E25_Man-Made_Feature_prefLabel
+        sh:description  "11651 statements.\nMultiple datatypes found : [http://www.w3.org/1999/02/22-rdf-syntax-ns#langString, http://www.w3.org/2001/XMLSchema#string]" ;
+        sh:name         "prefLabel"@en ;
+        sh:nodeKind     sh:Literal ;
+        sh:path         <http://www.w3.org/2004/02/skos/core#prefLabel> .
+
+myshapes:S19_Encounter_Event
+        a               sh:NodeShape ;
+        rdfs:comment    "12870 instances" ;
+        rdfs:label      "S19_Encounter_Event"@en ;
+        sh:property     myshapes:S19_Encounter_Event_prefLabel , myshapes:S19_Encounter_Event_P70i_is_documented_in , myshapes:S19_Encounter_Event_P4_has_time-span , myshapes:S19_Encounter_Event_P7_took_place_at , myshapes:S19_Encounter_Event_O19_has_found_object , myshapes:S19_Encounter_Event_P2_has_type , myshapes:S19_Encounter_Event_P14_carried_out_by , myshapes:S19_Encounter_Event_P48_has_preferred_identifier , myshapes:S19_Encounter_Event_P8_took_place_on_or_within ;
+        sh:targetClass  <http://www.ics.forth.gr/isl/CRMsci/S19_Encounter_Event> .
+
+myshapes:E21_Person  a  sh:NodeShape ;
+        rdfs:comment    "496 instances" ;
+        rdfs:label      "E21_Person"@en ;
+        sh:property     myshapes:E21_Person_altLabel , myshapes:E21_Person_P107i_is_current_or_former_member_of , myshapes:E21_Person_P14i_performed , myshapes:E21_Person_prefLabel , myshapes:E21_Person_P2i_is_type_of , myshapes:E21_Person_exactMatch , myshapes:E21_Person_P107_has_current_or_former_member ;
+        sh:targetClass  <http://www.cidoc-crm.org/cidoc-crm/E21_Person> .
+
+myshapes:S19_Encounter_Event_P7_took_place_at
+        sh:class        <http://www.cidoc-crm.org/cidoc-crm/E53_Place> ;
+        sh:description  "12858 statements" ;
+        sh:name         "P7_took_place_at"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P7_took_place_at> .
+
+myshapes:E5_Event_P8_took_place_on_or_within
+        sh:description  "11782 statements.\nMultiple classes found : [http://www.cidoc-crm.org/cidoc-crm/E25_Man-Made_Feature, http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object, http://www.cidoc-crm.org/cidoc-crm/E27_Site, http://www.ics.forth.gr/isl/CRMba/B1_Built_Work]" ;
+        sh:name         "P8_took_place_on_or_within"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P8_took_place_on_or_within> .
+
+myshapes:E74_Group_exactMatch
+        sh:class        <http://www.cidoc-crm.org/cidoc-crm/E55_Type> ;
+        sh:description  "1 statements" ;
+        sh:name         "exactMatch"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.w3.org/2004/02/skos/core#exactMatch> .
+
+myshapes:E31_Document_P2_has_type
+        sh:class        <http://www.cidoc-crm.org/cidoc-crm/E55_Type> ;
+        sh:description  "22212 statements" ;
+        sh:name         "P2_has_type"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> .
+
+myshapes:B1_Built_Work_prefLabel
+        sh:description  "10014 statements.\nMultiple datatypes found : [http://www.w3.org/1999/02/22-rdf-syntax-ns#langString, http://www.w3.org/2001/XMLSchema#string]" ;
+        sh:name         "prefLabel"@en ;
+        sh:nodeKind     sh:Literal ;
+        sh:path         <http://www.w3.org/2004/02/skos/core#prefLabel> .
+
+myshapes:A2_Stratigraphic_Volume_Unit_P48_has_preferred_identifier
+        sh:class        <http://www.cidoc-crm.org/cidoc-crm/E42_Identifier> ;
+        sh:description  "12292 statements" ;
+        sh:name         "P48_has_preferred_identifier"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P48_has_preferred_identifier> .
+
+myshapes:E25_Man-Made_Feature
+        a               sh:NodeShape ;
+        rdfs:comment    "11651 instances" ;
+        rdfs:label      "E25_Man-Made_Feature"@en ;
+        sh:property     myshapes:E25_Man-Made_Feature_O19i_was_object_found_by , myshapes:E25_Man-Made_Feature_P101_had_as_general_use , myshapes:E25_Man-Made_Feature_prefLabel , myshapes:E25_Man-Made_Feature_P2_has_type , myshapes:E25_Man-Made_Feature_P3_has_note , myshapes:E25_Man-Made_Feature_P46i_forms_part_of , myshapes:E25_Man-Made_Feature_P70i_is_documented_in , myshapes:E25_Man-Made_Feature_P8i_witnessed , myshapes:E25_Man-Made_Feature_P48_has_preferred_identifier , myshapes:E25_Man-Made_Feature_P46_is_composed_of ;
+        sh:targetClass  <http://www.cidoc-crm.org/cidoc-crm/E25_Man-Made_Feature> .
+
+myshapes:E55_Type_P14i_performed
+        sh:description  "11 statements.\nMultiple classes found : [http://www.ics.forth.gr/isl/CRMsci/S19_Encounter_Event, http://www.cidoc-crm.org/cidoc-crm/E65_Creation]" ;
+        sh:name         "P14i_performed"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P14i_performed> .
+
+myshapes:S19_Encounter_Event_P48_has_preferred_identifier
+        sh:class        <http://www.cidoc-crm.org/cidoc-crm/E42_Identifier> ;
+        sh:description  "6813 statements" ;
+        sh:name         "P48_has_preferred_identifier"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P48_has_preferred_identifier> .
+
+myshapes:E74_Group_P2i_is_type_of
+        sh:class        <http://www.cidoc-crm.org/cidoc-crm/E27_Site> ;
+        sh:description  "2 statements" ;
+        sh:name         "P2i_is_type_of"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P2i_is_type_of> .
+
+myshapes:E55_Type_P107_has_current_or_former_member
+        sh:description  "1 statements.\nMultiple classes found : [http://www.cidoc-crm.org/cidoc-crm/E55_Type, http://www.cidoc-crm.org/cidoc-crm/E21_Person, http://www.cidoc-crm.org/cidoc-crm/E74_Group]" ;
+        sh:name         "P107_has_current_or_former_member"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P107_has_current_or_former_member> .
+
+myshapes:E65_Creation_P32_used_general_technique
+        sh:class        <http://www.cidoc-crm.org/cidoc-crm/E55_Type> ;
+        sh:description  "509 statements" ;
+        sh:name         "P32_used_general_technique"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P32_used_general_technique> .
+
+myshapes:A2_Stratigraphic_Volume_Unit_P3_has_note
+        sh:description  "12291 statements.\nMultiple datatypes found : [http://www.w3.org/1999/02/22-rdf-syntax-ns#langString, http://www.w3.org/2001/XMLSchema#string]" ;
+        sh:name         "P3_has_note"@en ;
+        sh:nodeKind     sh:Literal ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P3_has_note> .
+
+myshapes:E52_Time-Span_prefLabel
+        sh:description  "16775 statements.\nMultiple datatypes found : [http://www.w3.org/1999/02/22-rdf-syntax-ns#langString, http://www.w3.org/2001/XMLSchema#string]" ;
+        sh:name         "prefLabel"@en ;
+        sh:nodeKind     sh:Literal ;
+        sh:path         <http://www.w3.org/2004/02/skos/core#prefLabel> .
+
+myshapes:A2_Stratigraphic_Volume_Unit_P101_had_as_general_use
+        sh:class        <http://www.cidoc-crm.org/cidoc-crm/E55_Type> ;
+        sh:description  "3495 statements" ;
+        sh:name         "P101_had_as_general_use"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P101_had_as_general_use> .
+
+myshapes:A2_Stratigraphic_Volume_Unit
+        a               sh:NodeShape ;
+        rdfs:comment    "12292 instances" ;
+        rdfs:label      "A2_Stratigraphic_Volume_Unit"@en ;
+        sh:property     myshapes:A2_Stratigraphic_Volume_Unit_prefLabel , myshapes:A2_Stratigraphic_Volume_Unit_P48_has_preferred_identifier , myshapes:A2_Stratigraphic_Volume_Unit_P3_has_note , myshapes:A2_Stratigraphic_Volume_Unit_O19i_was_object_found_by , myshapes:A2_Stratigraphic_Volume_Unit_P101_had_as_general_use , myshapes:A2_Stratigraphic_Volume_Unit_P46i_forms_part_of , myshapes:A2_Stratigraphic_Volume_Unit_P70i_is_documented_in , myshapes:A2_Stratigraphic_Volume_Unit_P8i_witnessed , myshapes:A2_Stratigraphic_Volume_Unit_AP21_contains ;
+        sh:targetClass  <http://www.ics.forth.gr/isl/CRMarchaeo/A2_Stratigraphic_Volume_Unit> .
+
+myshapes:E74_Group_altLabel
+        sh:class        <http://www.w3.org/2008/05/skos-xl#Label> ;
+        sh:description  "1 statements" ;
+        sh:name         "altLabel"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.w3.org/2008/05/skos-xl#altLabel> .
+
+myshapes:Label_literalForm_2
+        sh:datatype     <http://www.w3.org/1999/02/22-rdf-syntax-ns#langString> ;
+        sh:description  "94 statements" ;
+        sh:name         "literalForm"@en ;
+        sh:nodeKind     sh:Literal ;
+        sh:path         <https://www.w3.org/TR/skos-reference/skos-xl#literalForm> .
+
+myshapes:E52_Time-Span
+        a               sh:NodeShape ;
+        rdfs:comment    "16774 instances" ;
+        rdfs:label      "E52_Time-Span"@en ;
+        sh:property     myshapes:E52_Time-Span_P4i_is_time-span_of , myshapes:E52_Time-Span_P82b_end_of_the_end , myshapes:E52_Time-Span_P82a_begin_of_the_begin , myshapes:E52_Time-Span_prefLabel ;
+        sh:targetClass  <http://www.cidoc-crm.org/cidoc-crm/E52_Time-Span> .
+
+myshapes:Dataset_conformsTo
+        sh:description  "7 statements" ;
+        sh:name         "conformsTo"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://purl.org/dc/terms/conformsTo> .
+
+myshapes:E31_Document_P48_has_preferred_identifier
+        sh:class        <http://www.cidoc-crm.org/cidoc-crm/E42_Identifier> ;
+        sh:description  "1996 statements" ;
+        sh:name         "P48_has_preferred_identifier"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P48_has_preferred_identifier> .
+
+myshapes:E21_Person_P107_has_current_or_former_member
+        sh:description  "8 statements.\nMultiple classes found : [http://www.cidoc-crm.org/cidoc-crm/E21_Person, http://www.cidoc-crm.org/cidoc-crm/E74_Group, http://www.cidoc-crm.org/cidoc-crm/E55_Type]" ;
+        sh:name         "P107_has_current_or_former_member"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P107_has_current_or_former_member> .
+
+myshapes:Label_2  a     sh:NodeShape ;
+        rdfs:comment    "94 instances" ;
+        rdfs:label      "Label"@en ;
+        sh:property     myshapes:Label_literalForm_2 , myshapes:Label_source_2 ;
+        sh:targetClass  <https://www.w3.org/TR/skos-reference/skos-xl#Label> .
+
+myshapes:E31_Document_P70_documents
+        sh:description  "49894 statements.\nMultiple classes found : [http://www.cidoc-crm.org/cidoc-crm/E25_Man-Made_Feature, http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object, http://www.cidoc-crm.org/cidoc-crm/E27_Site, http://www.ics.forth.gr/isl/CRMarchaeo/A2_Stratigraphic_Volume_Unit, http://www.ics.forth.gr/isl/CRMsci/S19_Encounter_Event, http://www.cidoc-crm.org/cidoc-crm/E65_Creation]" ;
+        sh:name         "P70_documents"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P70_documents> .
+
+myshapes:Dataset_source
+        sh:class        <http://www.cidoc-crm.org/cidoc-crm/E27_Site> ;
+        sh:description  "7 statements" ;
+        sh:name         "source"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://purl.org/dc/terms/source> .
+
+myshapes:E55_Type_prefLabel_2
+        sh:class        <http://www.w3.org/2008/05/skos-xl#Label> ;
+        sh:description  "4 statements" ;
+        sh:name         "prefLabel"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.w3.org/2008/05/skos-xl#prefLabel> .
+
+myshapes:E74_Group_prefLabel
+        sh:description  "155 statements.\nMultiple datatypes found : [http://www.w3.org/1999/02/22-rdf-syntax-ns#langString, http://www.w3.org/2001/XMLSchema#string]" ;
+        sh:name         "prefLabel"@en ;
+        sh:nodeKind     sh:Literal ;
+        sh:path         <http://www.w3.org/2004/02/skos/core#prefLabel> .
+
+myshapes:E55_Type_prefLabel
+        sh:description  "25 statements.\nMultiple datatypes found : [http://www.w3.org/1999/02/22-rdf-syntax-ns#langString, http://www.w3.org/2001/XMLSchema#string]" ;
+        sh:name         "prefLabel"@en ;
+        sh:nodeKind     sh:Literal ;
+        sh:path         <http://www.w3.org/2004/02/skos/core#prefLabel> .
+
+myshapes:E22_Man-Made_Object_O19i_was_object_found_by
+        sh:class        <http://www.ics.forth.gr/isl/CRMsci/S19_Encounter_Event> ;
+        sh:description  "40886 statements" ;
+        sh:name         "O19i_was_object_found_by"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.ics.forth.gr/isl/CRMsci/O19i_was_object_found_by> .
+
+myshapes:B1_Built_Work_P48_has_preferred_identifier
+        sh:class        <http://www.cidoc-crm.org/cidoc-crm/E42_Identifier> ;
+        sh:description  "10014 statements" ;
+        sh:name         "P48_has_preferred_identifier"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P48_has_preferred_identifier> .
+
+myshapes:E74_Group_P48i_is_preferred_identifier_of
+        sh:class        <http://www.cidoc-crm.org/cidoc-crm/E74_Group> ;
+        sh:description  "2 statements" ;
+        sh:name         "P48i_is_preferred_identifier_of"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P48i_is_preferred_identifier_of> .
+
+myshapes:A2_Stratigraphic_Volume_Unit_AP21_contains
+        sh:class        <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object> ;
+        sh:description  "8994 statements" ;
+        sh:name         "AP21_contains"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.ics.forth.gr/isl/CRMarchaeo/AP21_contains> .
+
+myshapes:E55_Type_P107i_is_current_or_former_member_of
+        sh:description  "1 statements.\nMultiple classes found : [http://www.cidoc-crm.org/cidoc-crm/E55_Type, http://www.cidoc-crm.org/cidoc-crm/E21_Person, http://www.cidoc-crm.org/cidoc-crm/E74_Group]" ;
+        sh:name         "P107i_is_current_or_former_member_of"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P107i_is_current_or_former_member_of> .
+
+myshapes:E27_Site_P70i_is_documented_in
+        sh:class        <http://www.cidoc-crm.org/cidoc-crm/E31_Document> ;
+        sh:description  "23386 statements" ;
+        sh:name         "P70i_is_documented_in"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P70i_is_documented_in> .
+
+myshapes:Dataset_contactPoint
+        sh:description  "11 statements" ;
+        sh:name         "contactPoint"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.w3.org/ns/dcat#contactPoint> .
+
+myshapes:E42_Identifier
+        a               sh:NodeShape ;
+        rdfs:comment    "86181 instances" ;
+        rdfs:label      "E42_Identifier"@en ;
+        sh:property     myshapes:E42_Identifier_P48_has_preferred_identifier , myshapes:E42_Identifier_P107_has_current_or_former_member , myshapes:E42_Identifier_prefLabel , myshapes:E42_Identifier_P48i_is_preferred_identifier_of , myshapes:E42_Identifier_label ;
+        sh:targetClass  <http://www.cidoc-crm.org/cidoc-crm/E42_Identifier> .
+
+myshapes:E21_Person_P14i_performed
+        sh:description  "19914 statements.\nMultiple classes found : [http://www.ics.forth.gr/isl/CRMsci/S19_Encounter_Event, http://www.cidoc-crm.org/cidoc-crm/E65_Creation]" ;
+        sh:name         "P14i_performed"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P14i_performed> .
+
+myshapes:Dataset_spatial
+        sh:description  "14 statements" ;
+        sh:name         "spatial"@en ;
+        sh:nodeKind     sh:IRIOrLiteral ;
+        sh:path         <http://purl.org/dc/terms/spatial> .
+
+myshapes:B1_Built_Work_P3_has_note
+        sh:datatype     xsd:string ;
+        sh:description  "41 statements" ;
+        sh:name         "P3_has_note"@en ;
+        sh:nodeKind     sh:Literal ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P3_has_note> .
+
+myshapes:E22_Man-Made_Object_P46i_forms_part_of
+        sh:class        <http://www.cidoc-crm.org/cidoc-crm/E25_Man-Made_Feature> ;
+        sh:description  "1026 statements" ;
+        sh:name         "P46i_forms_part_of"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P46i_forms_part_of> .
+
+myshapes:B1_Built_Work_O19i_was_object_found_by
+        sh:class        <http://www.ics.forth.gr/isl/CRMsci/S19_Encounter_Event> ;
+        sh:description  "10014 statements" ;
+        sh:name         "O19i_was_object_found_by"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.ics.forth.gr/isl/CRMsci/O19i_was_object_found_by> .
+
+myshapes:E25_Man-Made_Feature_P70i_is_documented_in
+        sh:class        <http://www.cidoc-crm.org/cidoc-crm/E31_Document> ;
+        sh:description  "1305 statements" ;
+        sh:name         "P70i_is_documented_in"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P70i_is_documented_in> .
+
+myshapes:Dataset_publisher
+        sh:description  "7 statements.\nMultiple classes found : [http://www.cidoc-crm.org/cidoc-crm/E42_Identifier, http://www.cidoc-crm.org/cidoc-crm/E74_Group]" ;
+        sh:name         "publisher"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://purl.org/dc/terms/publisher> .
+
+myshapes:E55_Type_altLabel
+        sh:class        <http://www.w3.org/2008/05/skos-xl#Label> ;
+        sh:description  "1734 statements" ;
+        sh:name         "altLabel"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.w3.org/2008/05/skos-xl#altLabel> .
+
+myshapes:E57_Material_P2i_is_type_of
+        sh:class        <http://www.cidoc-crm.org/cidoc-crm/E27_Site> ;
+        sh:description  "10 statements" ;
+        sh:name         "P2i_is_type_of"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P2i_is_type_of> .
+
+myshapes:S19_Encounter_Event_P14_carried_out_by
+        sh:description  "3032 statements.\nMultiple classes found : [http://www.cidoc-crm.org/cidoc-crm/E21_Person, http://www.cidoc-crm.org/cidoc-crm/E74_Group, http://www.cidoc-crm.org/cidoc-crm/E55_Type]" ;
+        sh:name         "P14_carried_out_by"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P14_carried_out_by> .
+
+myshapes:E31_Document_P94i_was_created_by
+        sh:class        <http://www.cidoc-crm.org/cidoc-crm/E65_Creation> ;
+        sh:description  "14293 statements" ;
+        sh:name         "P94i_was_created_by"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P94i_was_created_by> .
+
+myshapes:E57_Material_P101i_was_use_of
+        sh:class        <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object> ;
+        sh:description  "1224 statements" ;
+        sh:name         "P101i_was_use_of"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P101i_was_use_of> .
+
+myshapes:A2_Stratigraphic_Volume_Unit_P8i_witnessed
+        sh:class        <http://www.cidoc-crm.org/cidoc-crm/E5_Event> ;
+        sh:description  "125 statements" ;
+        sh:name         "P8i_witnessed"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P8i_witnessed> .
+
+myshapes:E22_Man-Made_Object_P45_consists_of
+        sh:description  "26177 statements.\nMultiple classes found : [http://www.cidoc-crm.org/cidoc-crm/E57_Material, http://www.cidoc-crm.org/cidoc-crm/E55_Type]" ;
+        sh:name         "P45_consists_of"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P45_consists_of> .
+
+myshapes:E22_Man-Made_Object_P101_had_as_general_use
+        sh:description  "27653 statements.\nMultiple classes found : [http://www.cidoc-crm.org/cidoc-crm/E55_Type, http://www.cidoc-crm.org/cidoc-crm/E57_Material]" ;
+        sh:name         "P101_had_as_general_use"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P101_had_as_general_use> .
+
+myshapes:E42_Identifier_P48_has_preferred_identifier
+        sh:class        <http://www.cidoc-crm.org/cidoc-crm/E42_Identifier> ;
+        sh:description  "1 statements" ;
+        sh:name         "P48_has_preferred_identifier"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P48_has_preferred_identifier> .
+
+myshapes:E65_Creation_P70i_is_documented_in
+        sh:class        <http://www.cidoc-crm.org/cidoc-crm/E31_Document> ;
+        sh:description  "24 statements" ;
+        sh:name         "P70i_is_documented_in"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P70i_is_documented_in> .
+
+myshapes:E55_Type_P45i_is_incorporated_in
+        sh:class        <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object> ;
+        sh:description  "25533 statements" ;
+        sh:name         "P45i_is_incorporated_in"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P45i_is_incorporated_in> .
+
+myshapes:E55_Type_P2i_is_type_of
+        sh:description  "45294 statements.\nMultiple classes found : [http://www.cidoc-crm.org/cidoc-crm/E25_Man-Made_Feature, http://www.cidoc-crm.org/cidoc-crm/E27_Site, http://www.ics.forth.gr/isl/CRMsci/S19_Encounter_Event, http://www.ics.forth.gr/isl/CRMarchaeo/A2_Stratigraphic_Volume_Unit]" ;
+        sh:name         "P2i_is_type_of"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P2i_is_type_of> .
+
+myshapes:E25_Man-Made_Feature_P48_has_preferred_identifier
+        sh:class        <http://www.cidoc-crm.org/cidoc-crm/E42_Identifier> ;
+        sh:description  "11073 statements" ;
+        sh:name         "P48_has_preferred_identifier"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P48_has_preferred_identifier> .
+
+myshapes:E27_Site  a    sh:NodeShape ;
+        rdfs:comment    "5734 instances" ;
+        rdfs:label      "E27_Site"@en ;
+        sh:property     myshapes:E27_Site_P70i_is_documented_in , myshapes:E27_Site_prefLabel , myshapes:E27_Site_P3_has_note , myshapes:E27_Site_P48_has_preferred_identifier , myshapes:E27_Site_P2_has_type , myshapes:E27_Site_P8i_witnessed ;
+        sh:targetClass  <http://www.cidoc-crm.org/cidoc-crm/E27_Site> .
+
+myshapes:A2_Stratigraphic_Volume_Unit_O19i_was_object_found_by
+        sh:class        <http://www.ics.forth.gr/isl/CRMsci/S19_Encounter_Event> ;
+        sh:description  "12292 statements" ;
+        sh:name         "O19i_was_object_found_by"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.ics.forth.gr/isl/CRMsci/O19i_was_object_found_by> .
+
+myshapes:E65_Creation_P14_carried_out_by
+        sh:description  "15047 statements.\nMultiple classes found : [http://www.cidoc-crm.org/cidoc-crm/E21_Person, http://www.cidoc-crm.org/cidoc-crm/E55_Type, http://www.cidoc-crm.org/cidoc-crm/E74_Group]" ;
+        sh:name         "P14_carried_out_by"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P14_carried_out_by> .
+
+myshapes:S19_Encounter_Event_P8_took_place_on_or_within
+        sh:class        <http://www.cidoc-crm.org/cidoc-crm/E27_Site> ;
+        sh:description  "6006 statements" ;
+        sh:name         "P8_took_place_on_or_within"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P8_took_place_on_or_within> .
+
+myshapes:E74_Group_P107_has_current_or_former_member
+        sh:description  "100 statements.\nMultiple classes found : [http://www.cidoc-crm.org/cidoc-crm/E21_Person, http://www.cidoc-crm.org/cidoc-crm/E74_Group, http://www.cidoc-crm.org/cidoc-crm/E55_Type]" ;
+        sh:name         "P107_has_current_or_former_member"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P107_has_current_or_former_member> .
+
+myshapes:E31_Document
+        a               sh:NodeShape ;
+        rdfs:comment    "25569 instances" ;
+        rdfs:label      "E31_Document"@en ;
+        sh:property     myshapes:E31_Document_P3_has_note , myshapes:E31_Document_prefLabel , myshapes:E31_Document_P70_documents , myshapes:E31_Document_P2_has_type , myshapes:E31_Document_P94i_was_created_by , myshapes:E31_Document_P48_has_preferred_identifier ;
+        sh:targetClass  <http://www.cidoc-crm.org/cidoc-crm/E31_Document> .
+
+myshapes:S19_Encounter_Event_O19_has_found_object
+        sh:description  "62705 statements.\nMultiple classes found : [http://www.cidoc-crm.org/cidoc-crm/E25_Man-Made_Feature, http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object, http://www.ics.forth.gr/isl/CRMarchaeo/A2_Stratigraphic_Volume_Unit, http://www.ics.forth.gr/isl/CRMba/B1_Built_Work]" ;
+        sh:name         "O19_has_found_object"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.ics.forth.gr/isl/CRMsci/O19_has_found_object> .
+
+myshapes:E65_Creation_prefLabel
+        sh:datatype     xsd:string ;
+        sh:description  "509 statements" ;
+        sh:name         "prefLabel"@en ;
+        sh:nodeKind     sh:Literal ;
+        sh:path         <http://www.w3.org/2004/02/skos/core#prefLabel> .
+
+myshapes:E74_Group_P14i_performed
+        sh:description  "18 statements.\nMultiple classes found : [http://www.ics.forth.gr/isl/CRMsci/S19_Encounter_Event, http://www.cidoc-crm.org/cidoc-crm/E65_Creation]" ;
+        sh:name         "P14i_performed"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P14i_performed> .
+
+myshapes:skos-xlLabel_source
+        sh:datatype     xsd:string ;
+        sh:description  "298 statements" ;
+        sh:name         "source"@en ;
+        sh:nodeKind     sh:Literal ;
+        sh:path         <http://purl.org/dc/terms/source> .
+
+myshapes:E25_Man-Made_Feature_P101_had_as_general_use
+        sh:description  "5855 statements.\nMultiple classes found : [http://www.cidoc-crm.org/cidoc-crm/E55_Type, http://www.cidoc-crm.org/cidoc-crm/E57_Material]" ;
+        sh:name         "P101_had_as_general_use"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P101_had_as_general_use> .
+
+myshapes:E27_Site_prefLabel
+        sh:description  "5734 statements.\nMultiple datatypes found : [http://www.w3.org/1999/02/22-rdf-syntax-ns#langString, http://www.w3.org/2001/XMLSchema#string]" ;
+        sh:name         "prefLabel"@en ;
+        sh:nodeKind     sh:Literal ;
+        sh:path         <http://www.w3.org/2004/02/skos/core#prefLabel> .
+
+myshapes:E5_Event_prefLabel
+        sh:datatype     xsd:string ;
+        sh:description  "281 statements" ;
+        sh:name         "prefLabel"@en ;
+        sh:nodeKind     sh:Literal ;
+        sh:path         <http://www.w3.org/2004/02/skos/core#prefLabel> .
+
+myshapes:E25_Man-Made_Feature_P46_is_composed_of
+        sh:description  "10119 statements.\nMultiple classes found : [http://www.ics.forth.gr/isl/CRMarchaeo/A2_Stratigraphic_Volume_Unit, http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object]" ;
+        sh:name         "P46_is_composed_of"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P46_is_composed_of> .
+
+myshapes:E55_Type_altLabel_2
+        sh:class        <https://www.w3.org/TR/skos-reference/skos-xl#Label> ;
+        sh:description  "232 statements" ;
+        sh:name         "altLabel"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <https://www.w3.org/TR/skos-reference/skos-xl#altLabel> .
+
+myshapes:Dataset_theme
+        sh:description  "7 statements" ;
+        sh:name         "theme"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.w3.org/ns/dcat#theme> .
+
+myshapes:Label  a       sh:NodeShape ;
+        rdfs:comment    "954 instances" ;
+        rdfs:label      "Label"@en ;
+        sh:property     myshapes:Label_literalForm , myshapes:Label_source ;
+        sh:targetClass  <http://www.w3.org/2008/05/skos-xl#Label> .
+
+myshapes:Dataset_keyword
+        sh:description  "90 statements.\nMultiple datatypes found : [http://www.w3.org/1999/02/22-rdf-syntax-ns#langString, http://www.w3.org/2001/XMLSchema#string]" ;
+        sh:name         "keyword"@en ;
+        sh:nodeKind     sh:Literal ;
+        sh:path         <http://www.w3.org/ns/dcat#keyword> .
+
+myshapes:skos-xlLabel_skos-xlliteralForm
+        sh:datatype     <http://www.w3.org/1999/02/22-rdf-syntax-ns#langString> ;
+        sh:description  "298 statements" ;
+        sh:name         "skos-xlliteralForm"@en ;
+        sh:nodeKind     sh:Literal ;
+        sh:path         <http://www.w3.org/2008/05/skos-xlliteralForm> .
+
+myshapes:E55_Type_exactMatch
+        sh:description  "829 statements.\nMultiple classes found : [http://www.cidoc-crm.org/cidoc-crm/E55_Type, http://www.cidoc-crm.org/cidoc-crm/E57_Material]" ;
+        sh:name         "exactMatch"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.w3.org/2004/02/skos/core#exactMatch> .
+
+myshapes:E27_Site_P3_has_note
+        sh:datatype     xsd:string ;
+        sh:description  "204 statements" ;
+        sh:name         "P3_has_note"@en ;
+        sh:nodeKind     sh:Literal ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P3_has_note> .
+
+myshapes:E55_Type_skos-xlaltLabel
+        sh:class        <http://www.w3.org/2008/05/skos-xlLabel> ;
+        sh:description  "447 statements" ;
+        sh:name         "skos-xlaltLabel"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.w3.org/2008/05/skos-xlaltLabel> .
+
+myshapes:E22_Man-Made_Object_P2_has_type
+        sh:class        <http://www.cidoc-crm.org/cidoc-crm/E55_Type> ;
+        sh:description  "1018 statements" ;
+        sh:name         "P2_has_type"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> .
+
+myshapes:E22_Man-Made_Object_P3_has_note
+        sh:description  "26657 statements.\nMultiple datatypes found : [http://www.w3.org/1999/02/22-rdf-syntax-ns#langString, http://www.w3.org/2001/XMLSchema#string]" ;
+        sh:name         "P3_has_note"@en ;
+        sh:nodeKind     sh:Literal ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P3_has_note> .
+
+myshapes:E74_Group_P107i_is_current_or_former_member_of
+        sh:description  "8 statements.\nMultiple classes found : [http://www.cidoc-crm.org/cidoc-crm/E21_Person, http://www.cidoc-crm.org/cidoc-crm/E74_Group, http://www.cidoc-crm.org/cidoc-crm/E55_Type]" ;
+        sh:name         "P107i_is_current_or_former_member_of"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P107i_is_current_or_former_member_of> .
+
+myshapes:E31_Document_P3_has_note
+        sh:datatype     xsd:string ;
+        sh:description  "509 statements" ;
+        sh:name         "P3_has_note"@en ;
+        sh:nodeKind     sh:Literal ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P3_has_note> .
+
+<http://exemple.be/shapes>
+        a       <http://www.w3.org/2002/07/owl#Ontology> ;
+        <http://purl.org/dc/terms/created>
+                "2023-03-15T13:10:15.159Z"^^xsd:dateTime ;
+        <http://purl.org/dc/terms/description>
+                "Created by SHACL Play"@en .
+
+myshapes:E22_Man-Made_Object_P70i_is_documented_in
+        sh:class        <http://www.cidoc-crm.org/cidoc-crm/E31_Document> ;
+        sh:description  "1503 statements" ;
+        sh:name         "P70i_is_documented_in"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P70i_is_documented_in> .
+
+myshapes:E53_Place  a   sh:NodeShape ;
+        rdfs:comment    "4368 instances" ;
+        rdfs:label      "E53_Place"@en ;
+        sh:property     myshapes:E53_Place_P7i_witnessed , myshapes:E53_Place_prefLabel ;
+        sh:targetClass  <http://www.cidoc-crm.org/cidoc-crm/E53_Place> .
+
+myshapes:E25_Man-Made_Feature_P2_has_type
+        sh:class        <http://www.cidoc-crm.org/cidoc-crm/E55_Type> ;
+        sh:description  "13297 statements" ;
+        sh:name         "P2_has_type"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P2_has_type> .
+
+myshapes:E22_Man-Made_Object
+        a               sh:NodeShape ;
+        rdfs:comment    "41325 instances" ;
+        rdfs:label      "E22_Man-Made_Object"@en ;
+        sh:property     myshapes:E22_Man-Made_Object_P2_has_type , myshapes:E22_Man-Made_Object_P46i_forms_part_of , myshapes:E22_Man-Made_Object_P70i_is_documented_in , myshapes:E22_Man-Made_Object_P48_has_preferred_identifier , myshapes:E22_Man-Made_Object_P3_has_note , myshapes:E22_Man-Made_Object_P53_has_former_or_current_location , myshapes:E22_Man-Made_Object_P8i_witnessed , myshapes:E22_Man-Made_Object_prefLabel , myshapes:E22_Man-Made_Object_P45_consists_of , myshapes:E22_Man-Made_Object_O19i_was_object_found_by , myshapes:E22_Man-Made_Object_AP21i_is_contained_in , myshapes:E22_Man-Made_Object_P101_had_as_general_use ;
+        sh:targetClass  <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object> .
+
+myshapes:E21_Person_P2i_is_type_of
+        sh:class        <http://www.cidoc-crm.org/cidoc-crm/E27_Site> ;
+        sh:description  "2 statements" ;
+        sh:name         "P2i_is_type_of"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P2i_is_type_of> .
+
+myshapes:E65_Creation
+        a               sh:NodeShape ;
+        rdfs:comment    "14293 instances" ;
+        rdfs:label      "E65_Creation"@en ;
+        sh:property     myshapes:E65_Creation_P32_used_general_technique , myshapes:E65_Creation_P94_has_created , myshapes:E65_Creation_P4_has_time-span , myshapes:E65_Creation_P14_carried_out_by , myshapes:E65_Creation_prefLabel , myshapes:E65_Creation_P70i_is_documented_in ;
+        sh:targetClass  <http://www.cidoc-crm.org/cidoc-crm/E65_Creation> .
+
+myshapes:E42_Identifier_P48i_is_preferred_identifier_of
+        sh:description  "18283 statements.\nMultiple classes found : [http://www.cidoc-crm.org/cidoc-crm/E74_Group, http://www.cidoc-crm.org/cidoc-crm/E25_Man-Made_Feature, http://www.cidoc-crm.org/cidoc-crm/E27_Site, http://www.ics.forth.gr/isl/CRMarchaeo/A2_Stratigraphic_Volume_Unit, http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object, http://www.ics.forth.gr/isl/CRMba/B1_Built_Work, http://www.cidoc-crm.org/cidoc-crm/E31_Document]" ;
+        sh:name         "P48i_is_preferred_identifier_of"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P48i_is_preferred_identifier_of> .
+
+myshapes:Label_source
+        sh:datatype     xsd:string ;
+        sh:description  "954 statements" ;
+        sh:name         "source"@en ;
+        sh:nodeKind     sh:Literal ;
+        sh:path         <http://purl.org/dc/terms/source> .
+
+myshapes:E55_Type_P101i_was_use_of
+        sh:class        <http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object> ;
+        sh:description  "21097 statements" ;
+        sh:name         "P101i_was_use_of"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P101i_was_use_of> .
+
+myshapes:E42_Identifier_label
+        sh:description  "86181 statements.\nMultiple datatypes found : [http://www.w3.org/1999/02/22-rdf-syntax-ns#langString, http://www.w3.org/2001/XMLSchema#string]" ;
+        sh:name         "label"@en ;
+        sh:nodeKind     sh:Literal ;
+        sh:path         rdfs:label .
+
+myshapes:E22_Man-Made_Object_prefLabel
+        sh:description  "41325 statements.\nMultiple datatypes found : [http://www.w3.org/1999/02/22-rdf-syntax-ns#langString, http://www.w3.org/2001/XMLSchema#string]" ;
+        sh:name         "prefLabel"@en ;
+        sh:nodeKind     sh:Literal ;
+        sh:path         <http://www.w3.org/2004/02/skos/core#prefLabel> .
+
+myshapes:E52_Time-Span_P82a_begin_of_the_begin
+        sh:datatype     xsd:dateTime ;
+        sh:description  "16774 statements" ;
+        sh:name         "P82a_begin_of_the_begin"@en ;
+        sh:nodeKind     sh:Literal ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P82a_begin_of_the_begin> .
+
+myshapes:Dataset_title
+        sh:datatype     <http://www.w3.org/1999/02/22-rdf-syntax-ns#langString> ;
+        sh:description  "14 statements" ;
+        sh:name         "title"@en ;
+        sh:nodeKind     sh:Literal ;
+        sh:path         <http://purl.org/dc/terms/title> .
+
+myshapes:B1_Built_Work
+        a               sh:NodeShape ;
+        rdfs:comment    "10014 instances" ;
+        rdfs:label      "B1_Built_Work"@en ;
+        sh:property     myshapes:B1_Built_Work_prefLabel , myshapes:B1_Built_Work_P8i_witnessed , myshapes:B1_Built_Work_P48_has_preferred_identifier , myshapes:B1_Built_Work_O19i_was_object_found_by , myshapes:B1_Built_Work_P46_is_composed_of , myshapes:B1_Built_Work_P101_had_as_general_use , myshapes:B1_Built_Work_P3_has_note ;
+        sh:targetClass  <http://www.ics.forth.gr/isl/CRMba/B1_Built_Work> .
+
+myshapes:B1_Built_Work_P46_is_composed_of
+        sh:class        <http://www.cidoc-crm.org/cidoc-crm/E25_Man-Made_Feature> ;
+        sh:description  "174 statements" ;
+        sh:name         "P46_is_composed_of"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.cidoc-crm.org/cidoc-crm/P46_is_composed_of> .
+
+myshapes:Dataset_temporal
+        sh:description  "7 statements" ;
+        sh:name         "temporal"@en ;
+        sh:nodeKind     sh:BlankNode ;
+        sh:path         <http://purl.org/dc/terms/temporal> .
+
+myshapes:Dataset_description
+        sh:datatype     <http://www.w3.org/1999/02/22-rdf-syntax-ns#langString> ;
+        sh:description  "14 statements" ;
+        sh:name         "description"@en ;
+        sh:nodeKind     sh:Literal ;
+        sh:path         <http://purl.org/dc/terms/description> .
+
+myshapes:E57_Material_altLabel_2
+        sh:class        <http://www.w3.org/2008/05/skos-xl#Label> ;
+        sh:description  "66 statements" ;
+        sh:name         "altLabel"@en ;
+        sh:nodeKind     sh:IRI ;
+        sh:path         <http://www.w3.org/2008/05/skos-xl#altLabel> .
+
+myshapes:E31_Document_prefLabel
+        sh:description  "25569 statements.\nMultiple datatypes found : [http://www.w3.org/1999/02/22-rdf-syntax-ns#langString, http://www.w3.org/2001/XMLSchema#string]" ;
+        sh:name         "prefLabel"@en ;
+        sh:nodeKind     sh:Literal ;
+        sh:path         <http://www.w3.org/2004/02/skos/core#prefLabel> .

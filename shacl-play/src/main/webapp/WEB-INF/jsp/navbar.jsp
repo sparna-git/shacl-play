@@ -26,33 +26,35 @@
         <ul class="navbar-nav mr-auto">
         	<li class="nav-item dropdown">
 	            <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-	            	<fmt:message key="navbar.option1"/>
+	            	<fmt:message key="navbar.menu1"/>
 	            </a>
 	            <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
-		            <a class="dropdown-item" href="<c:url value="/doc" />" title="<fmt:message key="home.doc.card-title.help" />"><fmt:message key="navbar.doc" /></a>
-		            <a class="dropdown-item" href="<c:url value="/draw" />" title="<fmt:message key="home.draw.card-title.help.menu" />"><fmt:message key="navbar.draw" /></a>
-		            <a class="dropdown-item" href="<c:url value="/sparql" />" title="<fmt:message key="home.sparql.card-title.help" />"><fmt:message key="navbar.sparql" /></a>
-		            <a class="dropdown-item" href="<c:url value="/context" />" title="<fmt:message key="" />"><fmt:message key="navbar.context"/></a>		            
-		            <a class="dropdown-item" href="<c:url value="/shapes-catalog" />" title="<fmt:message key="" />"><fmt:message key="navbar.rules-catalog" /></a>
+		            <a class="dropdown-item" href="<c:url value="/doc" />" title="<fmt:message key="navbar.menu1.doc.tooltip" />"><fmt:message key="navbar.menu1.doc.label" /></a>
+		            <a class="dropdown-item" href="<c:url value="/draw" />" title="<fmt:message key="navbar.menu1.draw.tooltip" />"><fmt:message key="navbar.menu1.draw.label" /></a>
+		            <a class="dropdown-item" href="<c:url value="/sparql" />" title="<fmt:message key="navbar.menu1.sparql.tooltip" />"><fmt:message key="navbar.menu1.sparql.label" /></a>
+		            <a class="dropdown-item" href="<c:url value="/context" />" title="<fmt:message key="navbar.menu1.context.tooltip" />"><fmt:message key="navbar.menu1.context.label"/></a>		            
+		            <a class="dropdown-item" href="<c:url value="/shapes-catalog" />" title="<fmt:message key="navbar.menu1.shapes-catalog.tooltip" />"><fmt:message key="navbar.menu1.shapes-catalog.label" /></a>
 	            </div>
 	        </li>
 	        <li class="nav-item dropdown">
 	            <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-	            	<fmt:message key="navbar.option2"/>
+	            	<fmt:message key="navbar.menu2"/>
 	            </a>
 	            <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
-	            	<a class="dropdown-item" href="<c:url value="/validate" />" title="<fmt:message key="home.validate.card-title.help" />"><fmt:message key="navbar.validate" /></a>
-	            	<a class="dropdown-item" href="<c:url value="/generate" />" title="<fmt:message key="" />"><fmt:message key="navbar.generate" /></a>
-	            	<a class="dropdown-item" href="<c:url value="/validate#badges" />" title="<fmt:message key="home.validate.catalog.help" />"><fmt:message key="navbar.catalog" /></a>
+	            	<a class="dropdown-item" href="<c:url value="/validate" />" title="<fmt:message key="home.validate.card-title.help" />"><fmt:message key="navbar.menu2.validate.label" /></a>
+	            	<a class="dropdown-item" href="<c:url value="/generate" />" title="<fmt:message key="" />"><fmt:message key="navbar.menu2.generate.label" /></a>
+	            	<a class="dropdown-item" href="<c:url value="/validate#badges" />" title="<fmt:message key="navbar.menu2.catalog.tooltip" />"><fmt:message key="navbar.menu2.catalog.label" /></a>
 	            </div>
         	</li>
 			<li class="navbar-text" style="color: gray;">&nbsp;|&nbsp;</li>
 			<li class="nav-item dropdown">
-            	<a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><fmt:message key="navbar.option3"/></a>
+            	<a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            		<fmt:message key="navbar.menu3"/>
+            	</a>
 	            <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
-	            	<a class="dropdown-item" href="<c:url value="/convert" />" title="<fmt:message key="home.convert.card-title.help.menu" />"><fmt:message key="navbar.convert" /></a>
-	            	<a class="dropdown-item" href="<c:url value="/rules" />" title="<fmt:message key="" />"><fmt:message key="navbar.rules" /></a>
-	            	<a class="dropdown-item" href="<c:url value="/rules-catalog" />" title="<fmt:message key="home.catalog-rules.card-title.help" />"><fmt:message key="navbar.rules-catalog" /></a>	            	
+	            	<a class="dropdown-item" href="<c:url value="/convert" />" title="<fmt:message key="navbar.menu3.from-owl.tooltip" />"><fmt:message key="navbar.menu3.from-owl.label" /></a>
+	            	<a class="dropdown-item" href="<c:url value="/rules" />" title="<fmt:message key="navbar.menu3.rules.tooltip" />"><fmt:message key="navbar.menu3.rules.label" /></a>
+	            	<a class="dropdown-item" href="<c:url value="/rules-catalog" />" title="<fmt:message key="navbar.menu3.rules-catalog.tooltip" />"><fmt:message key="navbar.menu3.rules-catalog.label" /></a>	            	
 	            </div>
 	        </li>
         </ul>

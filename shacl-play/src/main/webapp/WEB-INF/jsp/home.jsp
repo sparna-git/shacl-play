@@ -30,7 +30,7 @@
 		<section>
 			<div class="container text-center" style="padding: 0.1em;" >
 				<h1 class="display-3" style"">&nbsp;SHACL Play!</h1>
-            	<p>Free online suite of tools to work with <a href="https://www.w3.org/TR/shacl/">SHACL</a>. SHACL Play! embeds <a href="https://github.com/TopQuadrant/shacl" target="_blank">TopBraid SHACL API</a> from <a href="https://www.topquadrant.com/" target="_blank">TopQuadrant</a>.<p>
+				<p><fmt:message key="home.shortdesc" /></p>
             	<hr style="padding-bottom: 3%;"/>
 			</div>
 		</section>
@@ -39,6 +39,7 @@
 		<section>		
 			<div class="container">
 				<div class="row">
+					<!-- Card 1 -->
 					<div class="col-4">
 						<div class="card">
 							<div class="d-flex justify-content-center" style="padding-top: 0.9em;">
@@ -47,33 +48,33 @@
 							<div class="card-body bg-light.bg-gradient">								
 								<!-- Title -->
 								<div style="font-size: 1.5rem; font-style: oblique; padding: 0.3em;">
-									<fmt:message key="home.option1.card"/>
+									<fmt:message key="home.card1.title"/>
 								</div>
 								<!-- Description of menu -->
-							    <span class="small"><fmt:message key="navbar.option1.description"/></span>
+							    <span class="small"><fmt:message key="home.card1.description"/></span>
 							    <!-- Menu -->
 								<ul style="list-style-type:none;justify-content: flex-start; padding: 0.3rem;">
 									<li style="display: list-item; text-align: -webkit-match-parent; padding: 0.3rem;">
-										<a href="<c:url value="/doc" />"><fmt:message key="home.doc.card-title.card" /></a>
+										<a href="<c:url value="/doc" />"><fmt:message key="navbar.menu1.doc.label" /></a>
 									</li>
 									<li style="display: list-item; text-align: -webkit-match-parent; padding: 0.3rem;">
-										<a href="<c:url value="/draw" />"><fmt:message key="home.draw.card-title.card" /></a>
+										<a href="<c:url value="/draw" />"><fmt:message key="navbar.menu1.draw.label" /></a>
 									</li>
 									<li style="display: list-item; text-align: -webkit-match-parent; padding: 0.3rem;">
-										<a href="<c:url value="/sparql" />"><fmt:message key="home.sparql.card-title.card" /></a>
+										<a href="<c:url value="/sparql" />"><fmt:message key="navbar.menu1.sparql.label" /></a>
 									</li>
 									<li style="display: list-item; text-align: -webkit-match-parent; padding: 0.3rem;">
-										<a href="<c:url value="/context" />"><fmt:message key="home.context.card-title.card" /></a>
+										<a href="<c:url value="/context" />"><fmt:message key="navbar.menu1.context.label" /></a>
 									</li>
 									<li style="display: list-item; text-align: -webkit-match-parent; padding: 0.3rem;">
-										<a href="<c:url value="/shapes-catalog" />"><fmt:message key="home.catalog-rules.card-title.card" /></a>
+										<a href="<c:url value="/shapes-catalog" />"><fmt:message key="navbar.menu1.shapes-catalog.label" /></a>
 									</li>
 								</ul>
 							</div>
 						</div>
 					</div>
 
-					<!-- RDF -->
+					<!-- Card 2 -->
 					<div class="col-4">
 						<div class="card">
 							<div class="d-flex justify-content-center" style="padding-top: 0.9em;">
@@ -82,28 +83,26 @@
 							<div class="card-body bg-light.bg-gradient">
 								<!-- Title -->
 								<div style="font-size: 1.5rem; font-style: oblique; padding: 0.3em;">
-									<fmt:message key="home.option2.card"/>
+									<fmt:message key="home.card2.title"/>
 								</div>
 							    <!-- Description of menu -->
-								<span class="small"><fmt:message key="navbar.option2.description"/></span>
+								<span class="small"><fmt:message key="home.card2.description"/></span>
 							    <!-- Menu -->
 							    <ul style="list-style-type:none;padding: 0.3rem;">
 									<li style="display: list-item; text-align: -webkit-match-parent; padding: 0.3rem;">
-										<a href="<c:url value="/validate" />"><fmt:message key="home.validate.card-title.card" /></a>										
+										<a href="<c:url value="/validate" />"><fmt:message key="navbar.menu2.validate.label" /></a>										
 									</li>
 									<li style="display: list-item; text-align: -webkit-match-parent; padding: 0.3rem;">
-										<a href="<c:url value="/generate" />"><fmt:message key="home.generate.card-title.card" /></a>										
+										<a href="<c:url value="/generate" />"><fmt:message key="navbar.menu2.generate.label" /></a>										
 									</li>
 									<li style="display: list-item; text-align: -webkit-match-parent; padding: 0.3rem;">
-										<a href="<c:url value="/validate" />"><fmt:message key="home.catalog.card-title.card" /></a>										
+										<a href="<c:url value="/validate" />"><fmt:message key="navbar.menu2.catalog.label" /></a>										
 									</li>			
 								</ul>
 							</div>
 						</div>
 					</div>
-
-
-					<!-- RULES -->
+					<!-- Card 3 -->
 					<div class="col-4">
 						<div class="card">
 							<div class="d-flex justify-content-center" style="padding-top: 0.9em;">
@@ -113,20 +112,20 @@
 							<div class="card-body bg-light.bg-gradient">								
 								<!-- Title -->
 								<div style="font-size: 1.5rem; font-style: oblique; padding: 0.3em;">
-									<fmt:message key="home.option3.card"/>
+									<fmt:message key="home.card3.title"/>
 								</div>
 							    <!-- Description of menu -->
-								<span><fmt:message key="navbar.option3.description"/></span>
+								<span><fmt:message key="home.card3.description"/></span>
 								<!-- Menu -->
 								<ul style="list-style-type:none;justify-content: flex-start; padding: 0.3rem;">
 									<li style="display: list-item; text-align: -webkit-match-parent; padding: 0.3rem;">
-										<a href="<c:url value="/validate" />"><fmt:message key="home.from-owl.title.card" /></a>										
+										<a href="<c:url value="/validate" />"><fmt:message key="navbar.menu3.from-owl.label" /></a>										
 									</li>
 									<li style="display: list-item; text-align: -webkit-match-parent; padding: 0.3rem;">
-										<a href="<c:url value="/convert" />"><fmt:message key="home.convert.title-rdf.card" /></a>
+										<a href="<c:url value="/convert" />"><fmt:message key="navbar.menu3.rules.label" /></a>
 									</li>
 									<li style="display: list-item; text-align: -webkit-match-parent; padding: 0.3rem;">
-										<a href="<c:url value="/rules" />"><fmt:message key="home.convert.title-shaclrules.card" /></a>
+										<a href="<c:url value="/rules" />"><fmt:message key="navbar.menu3.rules-catalog.label" /></a>
 									</li>						
 								</ul>								
 							</div>
@@ -160,11 +159,6 @@
     <!-- MDB core JavaScript -->
     <script type="text/javascript" src="<c:url value="/resources/MDB-Free/js/mdb.min.js" />"></script>
     
-	<script type="text/javascript">
-		$(document).ready(function() {			
-
-		});
-	</script>
-
+	
 </body>
 </html>

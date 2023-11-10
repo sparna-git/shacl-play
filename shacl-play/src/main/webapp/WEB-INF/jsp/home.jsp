@@ -61,10 +61,10 @@
 										<a href="<c:url value="/draw" />"><fmt:message key="navbar.menu1.draw.label" /></a>
 									</li>
 									<li style="display: list-item; text-align: -webkit-match-parent; padding: 0.3rem;">
-										<a href="<c:url value="/sparql" />"><fmt:message key="navbar.menu1.sparql.label" /></a>
+										<a href="<c:url value="/context" />"><fmt:message key="navbar.menu1.context.label" /></a>
 									</li>
 									<li style="display: list-item; text-align: -webkit-match-parent; padding: 0.3rem;">
-										<a href="<c:url value="/context" />"><fmt:message key="navbar.menu1.context.label" /></a>
+										<a href="<c:url value="/sparql" />"><fmt:message key="navbar.menu1.sparql.label" /></a>
 									</li>
 									<li style="display: list-item; text-align: -webkit-match-parent; padding: 0.3rem;">
 										<a href="<c:url value="/shapes-catalog" />"><fmt:message key="navbar.menu1.shapes-catalog.label" /></a>
@@ -107,7 +107,7 @@
 						<div class="card">
 							<div class="d-flex justify-content-center" style="padding-top: 0.9em;">
 								<!-- Version 5.15.4  -->
-								<i class="fal fa-sort-shapes-up-alt fa-6x"></i>																
+								<i class="fal fa-sort-shapes-down-alt fa-6x"></i>																
 							</div>
 							<div class="card-body bg-light.bg-gradient">								
 								<!-- Title -->
@@ -115,7 +115,7 @@
 									<fmt:message key="home.card3.title"/>
 								</div>
 							    <!-- Description of menu -->
-								<span><fmt:message key="home.card3.description"/></span>
+								<span class="small"><fmt:message key="home.card3.description"/></span>
 								<!-- Menu -->
 								<ul style="list-style-type:none;justify-content: flex-start; padding: 0.3rem;">
 									<li style="display: list-item; text-align: -webkit-match-parent; padding: 0.3rem;">

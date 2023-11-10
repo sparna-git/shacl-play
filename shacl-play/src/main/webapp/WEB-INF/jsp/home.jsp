@@ -40,7 +40,7 @@
 			<div class="container">
 				<div class="row">
 					<!-- Card 1 -->
-					<div class="col-4">
+					<div class="col-4 d-flex">
 						<div class="card">
 							<div class="d-flex justify-content-center" style="padding-top: 0.9em;">
 								<i class="fal fa-shapes fa-6x"></i>								
@@ -75,7 +75,7 @@
 					</div>
 
 					<!-- Card 2 -->
-					<div class="col-4">
+					<div class="col-4 d-flex">
 						<div class="card">
 							<div class="d-flex justify-content-center" style="padding-top: 0.9em;">
 								<i class="fal fa-chart-network fa-6x"></i>
@@ -103,7 +103,7 @@
 						</div>
 					</div>
 					<!-- Card 3 -->
-					<div class="col-4">
+					<div class="col-4 d-flex">
 						<div class="card">
 							<div class="d-flex justify-content-center" style="padding-top: 0.9em;">
 								<!-- Version 5.15.4  -->

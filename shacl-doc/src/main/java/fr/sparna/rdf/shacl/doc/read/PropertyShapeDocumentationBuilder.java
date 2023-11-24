@@ -33,8 +33,9 @@ public class PropertyShapeDocumentationBuilder {
 		
 		if(propertyShape.getShNode() != null) {
 			for(NodeShape aBox : allNodeShapes) {
-				if(aBox.getNodeShape().getURI().equals(propertyShape.getShNode().getURI())) {
-					proprieteDoc.getExpectedValue().setLinkNodeShapeUri(aBox.getShortForm());
+				// using toString instead of getURI so that it works with anonymous nodeshapes
+				if(aBox.getNodeShape().toString().equals(propertyShape.getShNode().toString())) {
+					proprieteDoc.getExpectedValue().setLinkNodeShapeUri(aBox.getShortFormOrId());
 					proprieteDoc.getExpectedValue().setLinkNodeShape(aBox.getDisplayLabel(owlGraph, lang));	
 				}
 			}
@@ -51,12 +52,13 @@ public class PropertyShapeDocumentationBuilder {
 		if(propertyShape.getShClass() != null) {
 			for(NodeShape aNodeShape : allNodeShapes) {
 				if(aNodeShape.getShTargetClass() != null && aNodeShape.getShTargetClass().getURI().equals(propertyShape.getShClass().getURI())) {
-					proprieteDoc.getExpectedValue().setLinkNodeShapeUri(aNodeShape.getShortForm()); //aName.getShortForm().getLocalName()
+					proprieteDoc.getExpectedValue().setLinkNodeShapeUri(aNodeShape.getShortFormOrId()); //aName.getShortForm().getLocalName()
 					proprieteDoc.getExpectedValue().setLinkNodeShape(aNodeShape.getDisplayLabel(owlGraph, lang));
 					break;
-				// checks that the URI of the NodeShape is itself equal to the sh:class
-				} else if (aNodeShape.getNodeShape().getURI().equals(propertyShape.getShClass().getURI())) {
-					proprieteDoc.getExpectedValue().setLinkNodeShapeUri(aNodeShape.getShortForm()); //aName.getShortForm().getLocalName()
+					// checks that the URI of the NodeShape is itself equal to the sh:class
+					// add a check to work only with named URI node shapes
+				} else if (aNodeShape.getNodeShape().isURIResource() && aNodeShape.getNodeShape().getURI().equals(propertyShape.getShClass().getURI())) {
+					proprieteDoc.getExpectedValue().setLinkNodeShapeUri(aNodeShape.getShortFormOrId()); //aName.getShortForm().getLocalName()
 					proprieteDoc.getExpectedValue().setLinkNodeShape(aNodeShape.getDisplayLabel(owlGraph, lang));
 					break;
 				}

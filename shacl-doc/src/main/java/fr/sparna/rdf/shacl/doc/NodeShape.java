@@ -33,8 +33,13 @@ public class NodeShape {
 		return ModelRenderingUtils.render(this.getRdfsLabel(lang), true);
 	}	
 	
-	public String getShortForm() {
-		return this.getNodeShape().getModel().shortForm(this.getNodeShape().getURI());
+	public String getShortFormOrId() {
+		if(this.nodeShape.isURIResource()) {
+			return this.getNodeShape().getModel().shortForm(this.getNodeShape().getURI());
+		} else {
+			// return the blank node ID in that case
+			return this.nodeShape.asResource().getId().getLabelString();
+		}
 	}
 	
 	public String getDisplayLabel(Model owlModel, String lang) {
@@ -55,8 +60,7 @@ public class NodeShape {
 		}
 		
 		if(result == null) {
-			// default to local name
-			result = this.getShortForm();
+			result = this.getShortFormOrId();
 		}
 		
 		return result;

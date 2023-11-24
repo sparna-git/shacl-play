@@ -26,7 +26,7 @@ public class ShapesDocumentationSectionBuilder {
 		ShapesDocumentationSection currentSection = new ShapesDocumentationSection();
 		
 		// URI
-		currentSection.setSectionId(nodeShape.getShortForm());
+		currentSection.setSectionId(nodeShape.getShortFormOrId());
 		// if the node shape is itself a class, set its subtitle to the URI
 		if(nodeShape.isAClass()) {
 			currentSection.setSubtitleUri(nodeShape.getNodeShape().getURI());

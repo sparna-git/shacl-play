@@ -97,6 +97,7 @@ public class PlantUmlPropertyReader {
 			for (RDFNode node : rdfList) {
 				if(node.canAs(Resource.class)) {
 					Resource value = null;
+					
 					if (node.asResource().hasProperty(SH.node)) {
 						value = node.asResource().getProperty(SH.node).getResource();
 					} else if (node.asResource().hasProperty(SH.class_)) {
@@ -104,7 +105,9 @@ public class PlantUmlPropertyReader {
 					}
 					
 					if(value != null) {
+						boolean flagNodeShape = false;
 						String shortForm = value.getModel().shortForm(value.getURI());
+						
 						// 2. Trouver le PlantUmlBox qui a ce nom		
 						for (PlantUmlBox plantUmlBox : allBoxes) {
 							if(plantUmlBox.getLabel().equals(shortForm)) {
@@ -115,14 +118,18 @@ public class PlantUmlPropertyReader {
 						
 						// in case of sh:class, look for NodeShape with this class as targetClass
 						String resolvedClassReference = this.resolveShClassReference(constraint.getModel(), value);
-						if(resolvedClassReference != null) {
-							for (PlantUmlBox plantUmlBox : allBoxes) {
-								if(plantUmlBox.getLabel().equals(constraint.getModel().shortForm(resolvedClassReference))) {
-									orBoxes.add(plantUmlBox);
-									break;
+						// Statement, if shape exists in list of orBoxes, is not necessary save again
+						flagNodeShape = orBoxes.stream().filter( v -> v.getLabel().equals(resolvedClassReference)).findFirst().isPresent(); 
+						if (!flagNodeShape) {
+							if(resolvedClassReference != null) {
+								for (PlantUmlBox plantUmlBox : allBoxes) {
+									if(plantUmlBox.getLabel().equals(constraint.getModel().shortForm(resolvedClassReference))) {
+										orBoxes.add(plantUmlBox);
+										break;
+									}
 								}
 							}
-						}
+						}	
 					}
 				}				
 			}

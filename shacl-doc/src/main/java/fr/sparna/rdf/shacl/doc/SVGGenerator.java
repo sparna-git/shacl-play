@@ -17,7 +17,12 @@ public class SVGGenerator {
 		out.close();
 			
 		// The XML is stored into svg
-		return new String(out.toByteArray(), Charset.forName("UTF-8"));
+		String svgString = new String(out.toByteArray(), Charset.forName("UTF-8"));
+		
+		// ensure the characters --> don't appear in the XML comments
+		svgString = svgString.replace("\" --> \"", "\" - -> \"");
+		
+		return svgString;
 	}
 
 }

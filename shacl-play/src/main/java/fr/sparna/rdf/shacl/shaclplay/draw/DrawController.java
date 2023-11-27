@@ -231,22 +231,19 @@ public class DrawController {
 				} else {
 					
 			        SourceStringReader reader = new SourceStringReader(diagrams.get(0).getPlantUmlString());
+			        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			        reader.outputImage(baos, new FileFormatOption(format.plantUmlFileFormat));
+			        String diagram = baos.toString("UTF-8");
 			        
-			        // fixe the problem when is generated a svg file
-			        if (format.plantUmlFileFormat.toString() == "SVG") {
-			        	ByteArrayOutputStream baos = new ByteArrayOutputStream();
-				        reader.outputImage(baos, new FileFormatOption(format.plantUmlFileFormat));
-				        String diagram = baos.toString("UTF-8");
-				        
-				        String postProcessedString = diagram.replace("g xmlns=\"\"","g");
-				        
-				        response.setCharacterEncoding("UTF-8");
-						response.getOutputStream().write(postProcessedString.getBytes("UTF-8"));
-						response.getOutputStream().flush();
+			        // fix the problem when is generated a svg file
+			        if (format.plantUmlFileFormat.toString().equals("SVG")) {
+			        	diagram = diagram.replace("g xmlns=\"\"","g");
+			        	diagram = diagram.replace("\" --> \"", "\" - -> \"");
+			        }
 			        
-			        } else {
-			        	reader.outputImage(response.getOutputStream(), new FileFormatOption(format.plantUmlFileFormat));
-			        }			        
+			        response.setCharacterEncoding("UTF-8");
+					response.getOutputStream().write(diagram.getBytes("UTF-8"));
+					response.getOutputStream().flush();		        
 				}
 			} else {
 				// create a zip

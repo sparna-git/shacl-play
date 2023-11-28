@@ -119,13 +119,13 @@
 								<!-- Menu -->
 								<ul style="list-style-type:none;justify-content: flex-start; padding: 0.3rem;">
 									<li style="display: list-item; text-align: -webkit-match-parent; padding: 0.3rem;">
-										<a href="<c:url value="/validate" />"><fmt:message key="navbar.menu3.from-owl.label" /></a>										
+										<a href="<c:url value="/convert" />"><fmt:message key="navbar.menu3.from-owl.label" /></a>										
 									</li>
 									<li style="display: list-item; text-align: -webkit-match-parent; padding: 0.3rem;">
-										<a href="<c:url value="/convert" />"><fmt:message key="navbar.menu3.rules.label" /></a>
+										<a href="<c:url value="/rules" />"><fmt:message key="navbar.menu3.rules.label" /></a>
 									</li>
 									<li style="display: list-item; text-align: -webkit-match-parent; padding: 0.3rem;">
-										<a href="<c:url value="/rules" />"><fmt:message key="navbar.menu3.rules-catalog.label" /></a>
+										<a href="<c:url value="/rules-catalog" />"><fmt:message key="navbar.menu3.rules-catalog.label" /></a>
 									</li>						
 								</ul>								
 							</div>

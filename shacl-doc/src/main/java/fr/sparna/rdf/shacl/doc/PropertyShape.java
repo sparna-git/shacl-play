@@ -109,7 +109,7 @@ public class PropertyShape {
 		}
 	}
 
-	public RDFNode getShValue() {
+	public RDFNode getShHasValue() {
 		return Optional.ofNullable(this.resource.getProperty(SH.hasValue)).map(s -> s.getObject()).orElse(null);
 	}
 

@@ -46,7 +46,7 @@ public class PropertyShapeDocumentationBuilder {
 				propertyShape.getShNode(),
 				propertyShape.getShDatatype(),
 				propertyShape.getShNodeKind(),
-				propertyShape.getShValue()
+				propertyShape.getShHasValue()
 		));
 		
 		if(propertyShape.getShClass() != null) {
@@ -102,22 +102,22 @@ public class PropertyShapeDocumentationBuilder {
 	public static String selectExpectedValueLabel(
 			Resource shClass,
 			Resource shNode,
-			Resource value_datatype,
-			Resource value_nodeKind,
-			RDFNode value_shValue
+			Resource shDatatype,
+			Resource shNodeKind,
+			RDFNode shHasValue
 	) {
 		String value = null;
 
-		if (value_shValue != null) {
-			value = ModelRenderingUtils.render(value_shValue, false);
+		if (shHasValue != null) {
+			value = ModelRenderingUtils.render(shHasValue, false);
 		} else if (shClass != null) {
 			value = ModelRenderingUtils.render(shClass, false);
 		} else if (shNode != null) {
 			value = ModelRenderingUtils.render(shNode, false);
-		} else if (value_datatype != null) {
-			value = ModelRenderingUtils.render(value_datatype, false);
-		} else if (value_nodeKind != null) {
-			value = renderNodeKind(value_nodeKind);
+		} else if (shDatatype != null) {
+			value = ModelRenderingUtils.render(shDatatype, false);
+		} else if (shNodeKind != null) {
+			value = renderNodeKind(shNodeKind);
 		}
 		
 		return value;

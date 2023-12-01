@@ -85,7 +85,7 @@ public class BaseShaclGeneratorDataProvider implements ShaclGeneratorDataProvide
 		QuerySolutionMap qs = new QuerySolutionMap();
 		qs.add("type", ResourceFactory.createResource(classUri));
 		qs.add("otherType", ResourceFactory.createResource(potentialSuperset));
-		// if there NO instances that have type but not otherType, then otherType is a superSet of type
+		// if there NO instances that have type but not otherType, then potentialSuperset is a superSet of type
 		return !this.queryExecutionService.executeAskQuery(readQuery("has-instance-without-type.rq"), qs);
 	}
 	
@@ -274,14 +274,21 @@ public class BaseShaclGeneratorDataProvider implements ShaclGeneratorDataProvide
 	
 	
 	@Override
-	public int countStatementsWithDatatypes(String subjectClassUri, String propertyUri, List<String> datatypes) {
+	public int countStatementsWithDatatypes(
+			String subjectClassUri,
+			String propertyUri,
+			List<String> datatypes
+	) {
 		// TODO Auto-generated method stub
 		return -1;
 	}
 
 	@Override
-	public int countStatementsWithObjectClasses(String subjectClassUri, String propertyUri,
-			List<String> objectClassUris) {
+	public int countStatementsWithObjectClasses(
+			String subjectClassUri,
+			String propertyUri,
+			List<String> objectClassUris
+	) {
 		// TODO Auto-generated method stub
 		return -1;
 	}

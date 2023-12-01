@@ -4,9 +4,9 @@ import java.util.List;
 
 public interface ModelProcessorIfc {
 	
-	public List<String> getIgnoredClasses();
+	public List<String> getExcludedClasses();
 	
-	public List<String> getIgnoredNamespaces();
+	public List<String> getExcludedNamespaces();
 	
 	public boolean isIgnoredType(String typeUri);
 	

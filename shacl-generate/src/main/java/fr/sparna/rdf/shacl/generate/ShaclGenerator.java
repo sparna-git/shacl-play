@@ -124,6 +124,7 @@ public class ShaclGenerator {
 			Configuration configuration,
 			Model shacl
 	) {
+		// if the data provider send us any message, store them on the rdfs:comment property of the ontology
 		this.dataProvider.registerMessageListener(
 				s -> concatOnProperty(shacl.getResource(configuration.getShapesOntology()), RDFS.comment, s, DEFAULT_MESSAGE_LANG)
 		);
@@ -239,7 +240,7 @@ public class ShaclGenerator {
 		String name = this.dataProvider.getName(property, configuration.getLang());		
 		if(name != null) {
 			shacl.add(propertyShape, SHACLM.name, shacl.createLiteral(name, configuration.getLang()));
-		}	
+		}
 
 	}
 

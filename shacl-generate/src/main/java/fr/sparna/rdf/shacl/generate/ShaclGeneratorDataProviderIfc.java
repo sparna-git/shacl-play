@@ -32,13 +32,14 @@ public interface ShaclGeneratorDataProviderIfc {
 	public List<String> getCoOccuringTypes(String classUri);
 
 	/**
-	 * Returns true if potentialSuperset is a strict superset of classUri
+	 * Returns true if potentialSuperset is a strict superset of classUri, that is all instances of A are also instances of B, AND there
+	 * exist instances of B that are NOT instances of A
 	 * @return
 	 */
 	public boolean isStrictSuperset(String classUri, String potentialSuperset);
 	
 	/**
-	 * Returns all types that co-occur with the given type
+	 * Returns true if there is NO instances that have the type classUri but not the type potentialSuperset (i.e all instances of A are also instances of B)
 	 * @return
 	 */
 	public boolean isEquivalentOrSuperSet(String classUri, String potentialSuperset);

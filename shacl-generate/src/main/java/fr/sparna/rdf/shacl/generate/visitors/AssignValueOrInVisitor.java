@@ -59,7 +59,7 @@ public class AssignValueOrInVisitor extends DatasetAwareShaclVisitorBase {
 		if(distinctValues.size() <= this.valuesInThreshold) {
 			log.debug("  (setInOrHasValue) found a maximum of '{}' distinct values, will set sh:in or sh:value", distinctValues.size());
 			if(distinctValues.size() == 1) {
-				shacl.add(propertyShape, SHACLM.value, distinctValues.get(0));
+				shacl.add(propertyShape, SHACLM.hasValue, distinctValues.get(0));
 			} else {
 				RDFList list = shacl.createList(distinctValues.iterator());
 				shacl.add(propertyShape, SHACLM.in, list);

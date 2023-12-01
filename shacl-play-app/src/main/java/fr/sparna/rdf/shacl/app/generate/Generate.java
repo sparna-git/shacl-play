@@ -42,6 +42,7 @@ public class Generate implements CliCommandIfc {
 					config,
 					dataProvider);
 			shapes = generator.generateShapes(config, dataProvider);
+
 		} else {
 			Model inputModel = ModelFactory.createDefaultModel(); 
 			InputModelReader.populateModel(inputModel, a.getInput());
@@ -58,6 +59,12 @@ public class Generate implements CliCommandIfc {
 				}
 			}			
 		}
+		
+		// add additionnal prefixes, if any
+		Map<String, String> additionnalPrefixes = a.getAdditionnalPrefixes();
+		if(additionnalPrefixes != null) {
+			shapes.setNsPrefixes(additionnalPrefixes);
+		}		
 		
 		ShaclVisit modelStructure = new ShaclVisit(shapes);
 		modelStructure.visit(new AssignLabelRoleVisitor());

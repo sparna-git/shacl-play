@@ -1,10 +1,14 @@
 package fr.sparna.rdf.shacl.app.generate;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.Parameters;
+
+import fr.sparna.cli.SpaceSplitter;
 
 @Parameters(commandDescription = "Generates the SHACL profile of an input knowledge graph")
 public class ArgumentsGenerate {
@@ -30,6 +34,24 @@ public class ArgumentsGenerate {
 	)
 	private File output;
 
+	@Parameter(
+			names = { "-p", "--prefix" },
+			description = "Namespace prefixes to be added to the output shapes, in the form <key1>:<ns1> <key2>:<ns2> e.g. skos:http://www.w3.org/2004/02/skos/core# dct:http://purl.org/dc/terms/",
+			variableArity = true
+	)
+	private List<String> prefixes;
+	
+	public Map<String, String> getAdditionnalPrefixes() {
+		if(this.prefixes == null) {
+			return null;
+		}
+		Map<String, String> result = new HashMap<String, String>();
+		for (String aMappingString : this.prefixes) {
+			result.put(aMappingString.substring(0,aMappingString.indexOf(':')),aMappingString.substring(aMappingString.indexOf(':')+1));
+		}
+		return result;
+	}
+	
 
 	public String getEndpoint() {
 		return endpoint;
@@ -53,6 +75,14 @@ public class ArgumentsGenerate {
 
 	public void setOutput(File output) {
 		this.output = output;
+	}
+
+	public List<String> getPrefixes() {
+		return prefixes;
+	}
+
+	public void setPrefixes(List<String> prefixes) {
+		this.prefixes = prefixes;
 	}
 	
 	

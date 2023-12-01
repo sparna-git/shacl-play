@@ -9,3 +9,5 @@ deploy.sh
 .idea/
 
 shacl-diagram/output/
+
+shacl-play-app/shacl-play-app.log

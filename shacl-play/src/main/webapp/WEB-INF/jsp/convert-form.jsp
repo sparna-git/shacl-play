@@ -66,7 +66,25 @@
 					</c:if>
 				</div>
 				
-				<h1 class="display-3"><c:choose><c:when test="${empty data.selectedShapesKey}"><fmt:message key="convert.title" /></c:when><c:otherwise><fmt:message key="convert.title.convertWith" /> ${data.catalog.getCatalogEntryById(data.selectedShapesKey).title}</c:otherwise></c:choose></h1>	
+				<h1 class="display-3">
+				<c:choose>
+					<c:when test="${empty data.selectedShapesKey}"><fmt:message key="convert.title" /></c:when>
+					<c:otherwise><fmt:message key="convert.title.convertWith" /> ${data.catalog.getCatalogEntryById(data.selectedShapesKey).title}</c:otherwise>
+				</c:choose>
+				</h1>	
+				
+				<c:choose>
+		 			<c:when test="${empty data.selectedShapesKey}">
+			 			<div class="form-shortdesc">
+							<p>
+								This utility <em>applies a set of SHACL rules to convert an RDF dataset into another structure</em>. Some SHACL rules
+								are provided in the catalog to convert OWL ontologies to SHACL.
+							</p>
+						</div>
+					</c:when>
+				</c:choose>
+	 
+	 			
 	 
 			  	<form id="upload_form" action="convert" method="POST" enctype="multipart/form-data" class="form-horizontal">
 				      

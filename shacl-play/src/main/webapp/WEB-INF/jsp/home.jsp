@@ -96,7 +96,7 @@
 										<a href="<c:url value="/generate" />"><fmt:message key="navbar.menu2.generate.label" /></a>										
 									</li>
 									<li style="display: list-item; text-align: -webkit-match-parent; padding: 0.3rem;">
-										<a href="<c:url value="/validate" />"><fmt:message key="navbar.menu2.catalog.label" /></a>										
+										<a href="<c:url value="/validate#badges" />"><fmt:message key="navbar.menu2.badge.label" /></a>										
 									</li>			
 								</ul>
 							</div>

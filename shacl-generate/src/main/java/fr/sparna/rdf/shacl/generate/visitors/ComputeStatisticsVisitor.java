@@ -89,30 +89,35 @@ public class ComputeStatisticsVisitor extends DatasetAwareShaclVisitorBase imple
 		// TODO : this is not necessarily a classPartition, depending on target of shape
 		String partitionUri = buildPartitionUri(this.datasetUri,aNodeShape,this.model);
 		outputModel.add(outputModel.createResource(this.datasetUri), VOID.classPartition, model.createResource(partitionUri));
-		// TODO : not necessarily a void:class predicate
-		outputModel.add(outputModel.createResource(partitionUri), VOID._class, aNodeShape.getRequiredProperty(SHACLM.targetClass).getObject());
 		
 		// link class partition to NodeShape
-		outputModel.add(outputModel.createResource(partitionUri), DCTerms.conformsTo, aNodeShape);
-		
+		outputModel.add(outputModel.createResource(partitionUri), DCTerms.conformsTo, aNodeShape);		
 		
 		// count number of instances
 		// TODO : this requires to interpret the target of the Shape
-		int count = this.dataProvider.countInstances(aNodeShape.getRequiredProperty(SHACLM.targetClass).getObject().asResource().getURI());
-		if(count >= 0) {
-			log.debug("(count) node shape '{}' gets void:entities '{}'", aNodeShape.getURI(), count);
-			// assert number of triples
-			outputModel.add(outputModel.createResource(partitionUri), VOID.entities, model.createTypedLiteral(count));
-			// append to description
-			if(this.addToDescription) {
-				ShaclGenerator.concatOnProperty(
-						aNodeShape,
-						RDFS.comment,
-						count+" instances",
-						"en"
-				);
+		if(aNodeShape.hasProperty(SHACLM.targetClass)) {
+			// TODO : not necessarily a void:class predicate
+			outputModel.add(outputModel.createResource(partitionUri), VOID._class, aNodeShape.getRequiredProperty(SHACLM.targetClass).getObject());
+			
+			int count = this.dataProvider.countInstances(aNodeShape.getRequiredProperty(SHACLM.targetClass).getObject().asResource().getURI());
+			if(count >= 0) {
+				log.debug("(count) node shape '{}' gets void:entities '{}'", aNodeShape.getURI(), count);
+				// assert number of triples
+				outputModel.add(outputModel.createResource(partitionUri), VOID.entities, model.createTypedLiteral(count));
+				// append to description
+				if(this.addToDescription) {
+					ShaclGenerator.concatOnProperty(
+							aNodeShape,
+							RDFS.comment,
+							count+" instances",
+							"en"
+					);
+				}
 			}
+		} else {
+			log.warn("Found node shape without sh:targetClass '{}', cannot compute statistics", aNodeShape.getURI());
 		}
+
 	}
 
 	@Override

@@ -89,30 +89,35 @@ public class ComputeStatisticsVisitor extends DatasetAwareShaclVisitorBase imple
 		// TODO : this is not necessarily a classPartition, depending on target of shape
 		String partitionUri = buildPartitionUri(this.datasetUri,aNodeShape,this.model);
 		outputModel.add(outputModel.createResource(this.datasetUri), VOID.classPartition, model.createResource(partitionUri));
-		// TODO : not necessarily a void:class predicate
-		outputModel.add(outputModel.createResource(partitionUri), VOID._class, aNodeShape.getRequiredProperty(SHACLM.targetClass).getObject());
 		
 		// link class partition to NodeShape
-		outputModel.add(outputModel.createResource(partitionUri), DCTerms.conformsTo, aNodeShape);
-		
+		outputModel.add(outputModel.createResource(partitionUri), DCTerms.conformsTo, aNodeShape);		
 		
 		// count number of instances
 		// TODO : this requires to interpret the target of the Shape
-		int count = this.dataProvider.countInstances(aNodeShape.getRequiredProperty(SHACLM.targetClass).getObject().asResource().getURI());
-		if(count >= 0) {
-			log.debug("(count) node shape '{}' gets void:entities '{}'", aNodeShape.getURI(), count);
-			// assert number of triples
-			outputModel.add(outputModel.createResource(partitionUri), VOID.entities, model.createTypedLiteral(count));
-			// append to description
-			if(this.addToDescription) {
-				ShaclGenerator.concatOnProperty(
-						aNodeShape,
-						RDFS.comment,
-						count+" instances",
-						"en"
-				);
+		if(aNodeShape.hasProperty(SHACLM.targetClass)) {
+			// TODO : not necessarily a void:class predicate
+			outputModel.add(outputModel.createResource(partitionUri), VOID._class, aNodeShape.getRequiredProperty(SHACLM.targetClass).getObject());
+			
+			int count = this.dataProvider.countInstances(aNodeShape.getRequiredProperty(SHACLM.targetClass).getObject().asResource().getURI());
+			if(count >= 0) {
+				log.debug("(count) node shape '{}' gets void:entities '{}'", aNodeShape.getURI(), count);
+				// assert number of triples
+				outputModel.add(outputModel.createResource(partitionUri), VOID.entities, model.createTypedLiteral(count));
+				// append to description
+				if(this.addToDescription) {
+					ShaclGenerator.concatOnProperty(
+							aNodeShape,
+							RDFS.comment,
+							count+" instances",
+							"en"
+					);
+				}
 			}
+		} else {
+			log.warn("Found node shape without sh:targetClass '{}', cannot compute statistics", aNodeShape.getURI());
 		}
+
 	}
 
 	@Override
@@ -132,34 +137,39 @@ public class ComputeStatisticsVisitor extends DatasetAwareShaclVisitorBase imple
 
 		String propertyPath = renderSparqlPropertyPath(aPropertyShape.getRequiredProperty(SHACLM.path).getObject().asResource());
 		
-		// count number of triples
-		int count = this.dataProvider.countStatements(
-				aNodeShape.getRequiredProperty(SHACLM.targetClass).getObject().asResource().getURI(),
-				propertyPath
-		);
-		
-		// assert void:triples
-		log.debug("(count) property shape '{}' gets void:triples '{}'", aPropertyShape.getURI(), count);
-		outputModel.add(propertyPartition, VOID.triples, model.createTypedLiteral(count));
-		
-		// count number of distinct objects
-		int countDistinctObjects = this.dataProvider.countDistinctObjects(
-				aNodeShape.getRequiredProperty(SHACLM.targetClass).getObject().asResource().getURI(),
-				propertyPath
-		);
-		
-		// assert void:distinctObjects
-		log.debug("(count) property shape '{}' gets void:distinctObjects '{}'", aPropertyShape.getURI(), countDistinctObjects);
-		outputModel.add(propertyPartition, VOID.distinctObjects, model.createTypedLiteral(countDistinctObjects));
-		
-		// append to description
-		if(this.addToDescription) {
-			ShaclGenerator.concatOnProperty(
-					aPropertyShape,
-					SHACLM.description,
-					count+" occurences and "+countDistinctObjects+" distinct values",
-					"en"
+		if(aNodeShape.hasProperty(SHACLM.targetClass)) {
+			// count number of triples
+			int count = this.dataProvider.countStatements(
+					aNodeShape.getRequiredProperty(SHACLM.targetClass).getObject().asResource().getURI(),
+					propertyPath
 			);
+			
+			// assert void:triples
+			log.debug("(count) property shape '{}' gets void:triples '{}'", aPropertyShape.getURI(), count);
+			outputModel.add(propertyPartition, VOID.triples, model.createTypedLiteral(count));
+			
+			// count number of distinct objects
+			int countDistinctObjects = this.dataProvider.countDistinctObjects(
+					aNodeShape.getRequiredProperty(SHACLM.targetClass).getObject().asResource().getURI(),
+					propertyPath
+			);
+			
+			// assert void:distinctObjects
+			log.debug("(count) property shape '{}' gets void:distinctObjects '{}'", aPropertyShape.getURI(), countDistinctObjects);
+			outputModel.add(propertyPartition, VOID.distinctObjects, model.createTypedLiteral(countDistinctObjects));
+			
+			// append to description
+			if(this.addToDescription) {
+				ShaclGenerator.concatOnProperty(
+						aPropertyShape,
+						SHACLM.description,
+						count+" occurences and "+countDistinctObjects+" distinct values",
+						"en"
+				);
+			}
+		}
+		else {
+			log.warn("Cannot count occurrences and distinct values inside node shape without targetClass '{}', for property shape '{}'", aNodeShape.getURI(), aPropertyShape.getURI());
 		}
 	}
 

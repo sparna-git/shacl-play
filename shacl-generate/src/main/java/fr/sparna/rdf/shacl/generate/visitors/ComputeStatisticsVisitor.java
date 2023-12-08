@@ -69,8 +69,7 @@ public class ComputeStatisticsVisitor extends DatasetAwareShaclVisitorBase imple
 	@Override
 	public void visitOntology(Resource ontology) {
 		// link Dataset to Ontology
-		// TODO : could be a SHACL property ?
-		outputModel.add(outputModel.createResource(this.datasetUri), DCTerms.conformsTo, ontology);
+		outputModel.add(outputModel.createResource(this.datasetUri), SHACLM.suggestedShapesGraph, ontology);
 		
 		// append to description
 		if(this.addToDescription) {

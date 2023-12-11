@@ -135,11 +135,5 @@
     	<version>0.7.0</version>
     </dependency>
     
-    <dependency>
-    	<groupId>fr.sparna.rdf.shacl</groupId>
-    	<artifactId>shacl-excel</artifactId>
-    	<version>0.7.0</version>
-    </dependency>
-    
 	</dependencies>
 </project>

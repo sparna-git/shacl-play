@@ -10,8 +10,6 @@ import fr.sparna.rdf.shacl.app.doc.ArgumentsDoc;
 import fr.sparna.rdf.shacl.app.doc.Doc;
 import fr.sparna.rdf.shacl.app.draw.ArgumentsDraw;
 import fr.sparna.rdf.shacl.app.draw.Draw;
-import fr.sparna.rdf.shacl.app.excel.ArgumentsExcel;
-import fr.sparna.rdf.shacl.app.excel.Excel;
 import fr.sparna.rdf.shacl.app.filter.ArgumentsFilter;
 import fr.sparna.rdf.shacl.app.filter.Filter;
 import fr.sparna.rdf.shacl.app.generate.ArgumentsGenerate;
@@ -46,8 +44,7 @@ public class Main {
 		GENERATE(new ArgumentsGenerate(), new Generate()),
 		VALIDATE(new ArgumentsValidate(), new Validate()),
 		ANALYZE(new ArgumentsAnalyze(), new Analyze()),
-		FILTER(new ArgumentsFilter(), new Filter()),
-		EXCEL(new ArgumentsExcel(), new Excel());
+		FILTER(new ArgumentsFilter(), new Filter());
 
 		private CliCommandIfc command;
 		private Object arguments;

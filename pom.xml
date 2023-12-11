@@ -27,8 +27,7 @@
     <module>shacl-sparql-query-gen</module>            
     <module>shacl-generate</module>            
     <module>shacl-play-app</module>            
-    <module>shacl-play</module>          
-    <module>shacl-excel</module>      
+    <module>shacl-play</module>               
   </modules>
       
   <properties>            

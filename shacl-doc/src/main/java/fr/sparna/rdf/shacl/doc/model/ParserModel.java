@@ -8,7 +8,7 @@ import org.apache.jena.rdf.model.Model;
 import fr.sparna.rdf.shacl.doc.NodeShape;
 import fr.sparna.rdf.shacl.doc.OwlOntology;
 
-public class ParseModel {
+public class ParserModel {
 	
 	private ArrayList<NodeShape> allNodeShapes = new ArrayList<>();
 	private OwlOntology ontologyObject;

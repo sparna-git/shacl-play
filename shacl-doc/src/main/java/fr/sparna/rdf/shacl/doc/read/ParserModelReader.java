@@ -16,15 +16,15 @@ import fr.sparna.rdf.shacl.doc.NodeShape;
 import fr.sparna.rdf.shacl.doc.NodeShapeReader;
 import fr.sparna.rdf.shacl.doc.OwlOntology;
 import fr.sparna.rdf.shacl.doc.ShaclPrefixReader;
-import fr.sparna.rdf.shacl.doc.model.ParseModel;
+import fr.sparna.rdf.shacl.doc.model.ParserModel;
 import fr.sparna.rdf.shacl.doc.model.NamespaceSection;
 
-public class ParseModelReader {
+public class ParserModelReader {
 	
 	
-	public ParseModel readMetadata(Model shaclGraph, Model owlGraph, String lang) {
+	public ParserModel readMetadata(Model shaclGraph, Model owlGraph, String lang) {
 		
-		ParseModel metadata = new ParseModel();
+		ParserModel metadata = new ParserModel();
 		
 		metadata.setAllNodeShapes(this.readAllNodeShapes(shaclGraph, owlGraph, lang));
 		metadata.setOntologyObject(this.readOWL(shaclGraph, lang));

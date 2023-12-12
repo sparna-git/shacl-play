@@ -6,7 +6,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -32,11 +31,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import fr.sparna.rdf.shacl.doc.model.ParseModel;
+import fr.sparna.rdf.shacl.doc.model.ParserModel;
 import fr.sparna.rdf.shacl.doc.model.PropertyShapeDocumentation;
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentation;
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentationSection;
-import fr.sparna.rdf.shacl.doc.read.ParseModelReader;
+import fr.sparna.rdf.shacl.doc.read.ParserModelReader;
 import fr.sparna.rdf.shacl.doc.read.ShapesDocumentationModelReader;
 import fr.sparna.rdf.shacl.doc.read.ShapesDocumentationReaderIfc;
 import fr.sparna.rdf.shacl.doc.write.ShapesDocumentationJacksonXsltWriter;
@@ -190,13 +189,12 @@ public class GenerateDatasetController {
 							  Model shapes, 
 							  //Model Statistic,
 							  HttpServletResponse response) throws IOException {
-		
-		
+				
 		Model outputModel = shapesModel.union(shapes);		
+				
+		Model defaultModel = ModelFactory.createDefaultModel(); // Create model empty, this model is not used
+		ParserModel resultModel = new ParserModelReader().readMetadata(outputModel, defaultModel, "en");
 		
-		// Create model empty, this model is not used
-		Model defaultModel = ModelFactory.createDefaultModel();
-		ParseModel resultModel = new ParseModelReader().readMetadata(outputModel, defaultModel,"en");
 		
 		// Create Document Raport html
 		ShapesDocumentationReaderIfc reader = new ShapesDocumentationModelReader(false, null);

@@ -3,9 +3,18 @@ package fr.sparna.rdf.shacl.doc.read;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelCon;
+import org.apache.jena.rdf.model.Property;
+import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.Statement;
+import org.apache.jena.rdf.model.StmtIterator;
+import org.apache.jena.vocabulary.DCTerms;
+import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.RDFS;
+import org.apache.jena.vocabulary.VOID;
 
 import fr.sparna.rdf.shacl.doc.ModelReadingUtils;
 import fr.sparna.rdf.shacl.doc.NodeShape;
@@ -93,6 +102,10 @@ public class ShapesDocumentationSectionBuilder {
 			PropertyShapeDocumentation psd = PropertyShapeDocumentationBuilder.build(propriete, allNodeShapes, shaclGraph, owlGraph, lang);				
 			ListPropriete.add(psd);
 		}
+		
+		// this items 
+		currentSection.setColor("");
+		currentSection.setMessageSeverities(null);
 		
 		currentSection.setPropertySections(ListPropriete);
 

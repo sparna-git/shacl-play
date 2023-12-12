@@ -16,6 +16,10 @@ public class PropertyShapeDocumentation {
 		
 	private ExpectedValue expectedValue = new ExpectedValue();
 
+	
+	private String color;
+	private int numberOfoccurrences;
+	private int valuesdistincts;
 
 	public ExpectedValue getExpectedValue() {
 		return expectedValue;
@@ -72,5 +76,29 @@ public class PropertyShapeDocumentation {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
+	public String getColor() {
+		return color;
+	}
+
+	public void setColor(String color) {
+		this.color = color;
+	}
+
+	public int getNumberOfoccurrences() {
+		return numberOfoccurrences;
+	}
+
+	public void setNumberOfoccurrences(int numberOfoccurrences) {
+		this.numberOfoccurrences = numberOfoccurrences;
+	}
+
+	public int getValuesdistincts() {
+		return valuesdistincts;
+	}
+
+	public void setValuesdistincts(int valuesdistincts) {
+		this.valuesdistincts = valuesdistincts;
+	}	
 
 }

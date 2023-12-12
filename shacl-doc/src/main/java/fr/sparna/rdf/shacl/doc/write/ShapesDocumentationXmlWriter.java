@@ -34,7 +34,7 @@ import fr.sparna.rdf.shacl.doc.model.ShapesDocumentation;
 public class ShapesDocumentationXmlWriter implements ShapesDocumentationWriterIfc {
 
 	@Override
-	public void write(ShapesDocumentation documentation, String outputLang, OutputStream output, MODE mode) throws IOException {
+	public void write(ShapesDocumentation documentation, String outputLang, OutputStream output, MODE mode, String XSLTStyle) throws IOException {
 		Document xmlDocument;
 		XMLStreamWriter xmlStreamWriter;
 		try {

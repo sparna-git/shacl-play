@@ -1,6 +1,7 @@
 package fr.sparna.rdf.shacl.doc.write;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.util.List;
@@ -15,6 +16,6 @@ public interface ShapesDocumentationWriterIfc {
 		XML
 	}
 	
-	public void write(ShapesDocumentation documentation, String outputLang, OutputStream output, MODE mode) throws IOException;
+	public void write(ShapesDocumentation documentation, String outputLang, OutputStream output, MODE mode,String XSLTStyle ) throws IOException;
 	
 }

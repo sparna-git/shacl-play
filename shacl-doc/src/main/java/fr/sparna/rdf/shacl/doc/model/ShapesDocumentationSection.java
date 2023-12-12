@@ -1,5 +1,6 @@
 package fr.sparna.rdf.shacl.doc.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -30,6 +31,12 @@ public class ShapesDocumentationSection {
 	private String nodeKind;
 	private Boolean closed;
 	private String skosExample;
+	private String color;
+	//private List<String> MessageOfValidate = new ArrayList<>();
+	@JacksonXmlElementWrapper(localName="MessageSeverities")
+	@JacksonXmlProperty(localName = "MessageSeverity")
+	protected List<String> MessageSeverities;
+	
 	/**
 	 * The target of the shape when it is expressed using a SPARQL query
 	 */
@@ -138,4 +145,19 @@ public class ShapesDocumentationSection {
 		this.sectionId = sectionId;
 	}
 
+	public String getColor() {
+		return color;
+	}
+
+	public void setColor(String color) {
+		this.color = color;
+	}
+
+	public List<String> getMessageSeverities() {
+		return MessageSeverities;
+	}
+
+	public void setMessageSeverities(List<String> messageSeverities) {
+		MessageSeverities = messageSeverities;
+	}	
 }

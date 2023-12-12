@@ -1,6 +1,7 @@
 package fr.sparna.rdf.shacl.doc.write;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.StringWriter;
 import java.net.URL;
@@ -34,7 +35,7 @@ import fr.sparna.rdf.shacl.doc.write.ShapesDocumentationWriterIfc.MODE;
 public class ShapesDocumentationJacksonXsltWriter implements ShapesDocumentationWriterIfc {
 
 	@Override
-	public void write(ShapesDocumentation documentation, String outputLang, OutputStream output, MODE mode) throws IOException {
+	public void write(ShapesDocumentation documentation, String outputLang, OutputStream output, MODE mode, String XSLTStyle) throws IOException {
 		Document xmlDocument;
 		XMLStreamWriter xmlStreamWriter;
 		try {
@@ -62,7 +63,8 @@ public class ShapesDocumentationJacksonXsltWriter implements ShapesDocumentation
 	        //TransformerFactory transformerFactory = TransformerFactory.newInstance();
 	        //TransformerFactory.setAttribute("indent-number", 2);
 	        
-	        Source xsltInput = new StreamSource(this.getClass().getClassLoader().getResourceAsStream("doc2html.xsl"));
+	        //Source xsltInput = new StreamSource(this.getClass().getClassLoader().getResourceAsStream("doc2html.xsl"));
+	        Source xsltInput = new StreamSource(this.getClass().getClassLoader().getResourceAsStream(XSLTStyle));
 	        Transformer transformer = transformerFactory.newTransformer(xsltInput); 
 	        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 	        

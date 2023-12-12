@@ -32,11 +32,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import fr.sparna.rdf.shacl.doc.model.ParserModel;
+import fr.sparna.rdf.shacl.doc.model.ParseModel;
 import fr.sparna.rdf.shacl.doc.model.PropertyShapeDocumentation;
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentation;
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentationSection;
-import fr.sparna.rdf.shacl.doc.read.ParserModelReader;
+import fr.sparna.rdf.shacl.doc.read.ParseModelReader;
 import fr.sparna.rdf.shacl.doc.read.ShapesDocumentationModelReader;
 import fr.sparna.rdf.shacl.doc.read.ShapesDocumentationReaderIfc;
 import fr.sparna.rdf.shacl.doc.write.ShapesDocumentationJacksonXsltWriter;
@@ -196,7 +196,7 @@ public class GenerateDatasetController {
 		
 		// Create model empty, this model is not used
 		Model defaultModel = ModelFactory.createDefaultModel();
-		ParserModel resultModel = new ParserModelReader().readMetadata(outputModel, defaultModel,"en");
+		ParseModel resultModel = new ParseModelReader().readMetadata(outputModel, defaultModel,"en");
 		
 		// Create Document Raport html
 		ShapesDocumentationReaderIfc reader = new ShapesDocumentationModelReader(false, null);

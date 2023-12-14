@@ -336,19 +336,24 @@
 						    --bs-alert-link-color: #58151c;
 					}
 					
-					.sp.alert {
-						    --bs-alert-padding-x: 1rem;
-						    --bs-alert-padding-y: 1rem;
-						    --bs-alert-margin-bottom: 1rem;
-						    --bs-alert-border: var(1px;) solid var(--bs-alert-border-color);
-						    --bs-alert-border-radius: var(0.375rem);
-						    position: relative;
-						    padding: var(--bs-alert-padding-y) var(--bs-alert-padding-x);
-						    margin-bottom: var(--bs-alert-margin-bottom);
-						    color: var(--bs-alert-color);
-						    background-color: var(--bs-alert-bg);
-						    border: var(--bs-alert-border);
-						    border-radius: var(--bs-alert-border-radius);
+					.sp_alert {
+							    --bs-alert-bg: transparent;
+							    --bs-alert-padding-x: 1rem;
+							    --bs-alert-padding-y: 1rem;
+							    --bs-alert-margin-bottom: 1rem;
+							    --bs-alert-color: inherit;
+							    --bs-alert-border-color: transparent;
+							    --bs-alert-border: 1px solid #f1aeb5;
+							    --bs-alert-border-radius: var(--bs-border-radius);
+							    --bs-alert-link-color: inherit;
+							    --bs-alert-border-radius: 0.375rem;
+							    position: relative;
+							    padding: var(--bs-alert-padding-y) var(--bs-alert-padding-x);
+							    margin-bottom: var(--bs-alert-margin-bottom);
+							    color: var(--bs-alert-color);
+							    background-color: #f8d7da;
+							    border: var(--bs-alert-border);
+							    border-radius: var(--bs-alert-border-radius);
 					}
 							
 					<xsl:choose>
@@ -491,7 +496,8 @@
 	                  };
                		anchors.options.placement = 'left';
 					anchors.add();		
-				</script>				
+				</script>
+					
 			</body>
 		</html>
 	</xsl:template>
@@ -797,19 +803,12 @@
 		</tr>
 	</xsl:template>
 
-	<!-- Message of Rapport  -->
-	<xsl:template name="Alarm">
-		<div class="row mt-3">
-			Alarm
-		</div>
-	</xsl:template>
-
 	<!-- Sections -->
 	<xsl:template match="sections">
 		<h2 id="documentation" class="sp_section_subtitle">
 			<xsl:value-of select="$LABELS/labels/entry[@key='DOCUMENTATION.TITLE']/@label" />
 		</h2>
-		<xsl:apply-templates select="section" />
+		<xsl:apply-templates select="section" />		
 	</xsl:template>
 	
 	<xsl:template match="section">
@@ -931,6 +930,66 @@
 <xsl:value-of select="sparqlTarget" />					
 					</pre></code>
 					</xsl:if>
+
+					<!-- Section for Pie Chart -->
+					<xsl:variable name="currentSection" select="title"/>
+					<xsl:choose>
+						<xsl:when test="Charts/count(Chart) &gt; 1">
+							<xsl:element name="div">
+								<xsl:attribute name="class">chart-container</xsl:attribute>
+								<xsl:attribute name="style">position: relative; height:312px; width:312px</xsl:attribute>
+								<canvas id="{$currentSection}"></canvas>						
+							</xsl:element>
+						
+							<xsl:variable name="quote">'</xsl:variable>
+							<!-- Chart -->
+							<script src="https://cdn.jsdelivr.net/npm/chart.js">//</script>	
+							<script type="text/javascript">
+								
+								const <xsl:value-of select="$currentSection"/> = "<xsl:value-of select="$currentSection"/>";
+						
+								const data<xsl:value-of select="$currentSection"/> = {
+									  labels: [<xsl:value-of select="Charts/Chart/concat($quote,propertyName,$quote)" separator=","/>],
+									  datasets: [{
+									    label: '# of Distinc Objects',
+									    data: [<xsl:value-of select="Charts/Chart/numberOfDistinct" separator=","/>],
+									    hoverOffset: 4
+									  }]
+									};
+
+								new Chart(<xsl:value-of select="$currentSection"/>,{
+									type: 'pie',
+								  	data: data<xsl:value-of select="$currentSection"/>,
+								  	options: {
+								  		plugins: {
+								  			legend: {
+								  				display: true,
+								                labels: {
+								                    color: 'rgb(255, 99, 132)'
+								                },
+								                position: 'right'
+								  			}
+								  		}
+								  	}
+								});
+							</script>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:if test="Charts/count(Chart) = 1">
+								<div class="sp_alert sp_alert-danger">
+								  <xsl:value-of select="Charts/Chart/propertyName"/> : <xsl:value-of select="Charts/Chart/numberOfDistinct"/>								  
+								</div>
+							</xsl:if>
+						</xsl:otherwise>
+					</xsl:choose>
+					
+					<xsl:if test="Charts/Chart">
+						
+					
+						
+					
+					</xsl:if>					
+					
 					<xsl:if test="count(properties/property)>0">
 						<table class="sp_table_propertyshapes table-striped table-responsive">
 							<thead>
@@ -975,9 +1034,9 @@
 		</div>
 		<br/>
 	</xsl:template>
+	
 
 	<!-- Properties -->
-
 	<xsl:template match="properties">
 		<xsl:apply-templates />
 	</xsl:template>

@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -31,6 +32,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import fr.sparna.rdf.shacl.doc.NodeShape;
+import fr.sparna.rdf.shacl.doc.PropertyShape;
+import fr.sparna.rdf.shacl.doc.model.ChartDataset;
 import fr.sparna.rdf.shacl.doc.model.ParserModel;
 import fr.sparna.rdf.shacl.doc.model.PropertyShapeDocumentation;
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentation;
@@ -175,6 +179,8 @@ public class GenerateDatasetController {
 				// Generated output result in html
 				outputResult(shapesModel, shapes,response);
 				
+				// Calcul for get statistic in properties for building a Pie
+				
 				
 				//serialize(shapes, format,response);
 				return null;
@@ -201,7 +207,7 @@ public class GenerateDatasetController {
 		//send result model to documentation 
 		ShapesDocumentation documentValidation = reader.readShapesDocumentation(resultModel,null,"en",null,false);
 		// pre processing 
-		preProcessing(documentValidation, shapes);
+		preProcessing(documentValidation, shapes, resultModel);
 				
 		/*
 		 * view html
@@ -209,14 +215,15 @@ public class GenerateDatasetController {
 		ShapesDocumentationWriterIfc writer = new ShapesDocumentationJacksonXsltWriter();
 		response.setContentType("text/html");
 		// response.setContentType("application/xhtml+xml");
-		writer.write(documentValidation, 
-				"en", 
-				response.getOutputStream(), 
-				MODE.HTML,
-				"dataset2html.xsl");		
+		writer.write(documentValidation,  //set of data
+				"en",  // language default
+				response.getOutputStream(), //instance of output
+				MODE.HTML, // this option is update to format config
+				"dataset2html.xsl" // Stylesheet name to used
+				);		
 	}
 	
-	private void preProcessing(ShapesDocumentation spDocumentation, Model Statisticts) {
+	private void preProcessing(ShapesDocumentation spDocumentation, Model Statisticts, ParserModel parseModel) {
 		
 		// for Statistic
 		List<Resource> nodeDataset = Statisticts.listResourcesWithProperty(RDF.type,VOID.Dataset).toList();
@@ -272,7 +279,72 @@ public class GenerateDatasetController {
 						}
 					}
 				}
+			}// End if for get statistic result
+			
+			/*
+			 * collect all properties:
+			 * 1 if condition is Cardinality 1..1
+			 * 2 DistinctObj < 10
+			 * 3 Number of Occurrences > 10
+			 */
+			
+			List<NodeShape> ns = parseModel.getAllNodeShapes()
+					.stream()
+					.filter(fns -> fns.getNodeShape().getModel().shortForm(fns.getNodeShape().getURI())							
+									.equals(ds.getSectionId())									
+							)
+					.collect(Collectors.toList());
+			
+			List<ChartDataset> chartdata = new ArrayList<>();
+			if (ds.getPropertySections().size() > 0) {
+				for (PropertyShapeDocumentation ps : ds.getPropertySections()) {
+					for (NodeShape nsChart : ns) {
+						List<PropertyShape> psChart = nsChart.getProperties()
+													.stream()
+													.filter(fps -> 
+															(
+																(fps.getShPath().getURI().equals(ps.getPropertyUri().getLabel().toString()))
+																||
+																(fps.getShPath().getURI().equals(ps.getPropertyUri().getHref().toString()))
+															 )
+															)
+													.collect(Collectors.toList());
+						for (PropertyShape pspChart : psChart) {
+							
+							if (
+									(pspChart.getShMinCount() != null)
+									&& 
+									(pspChart.getShMaxCount() != null)
+								) {
+								
+								if (
+										(pspChart.getShMinCount() == 1)
+										&&
+										(pspChart.getShMaxCount() == 1)
+										) {
+										if ( 
+											(ps.getValuesdistincts() <= 10)
+											&&
+											(ps.getNumberOfoccurrences() < 10 )
+											) {
+											
+											ChartDataset cdata = new ChartDataset(); 
+											
+											cdata.setPropertyName(ps.getLabel());
+											cdata.setNumberOfDistinct(ps.getValuesdistincts());
+											chartdata.add(cdata);
+											
+										}
+									}
+							}
+						}													
+					}
+				}
 			}
+			
+			if (chartdata.size() > 0) {
+				ds.setChartDataSection(chartdata);
+			}			
 		}
 	}
 	

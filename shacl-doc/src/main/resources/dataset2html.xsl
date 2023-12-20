@@ -450,6 +450,9 @@
 					<meta name="twitter:title" content="{$var_title}"/>
 					<meta property="og:title" content="{$var_title}"/>
 				</xsl:if>
+				
+				<!-- Chart Library -->
+				<script src="https://cdn.jsdelivr.net/npm/chart.js">//</script>
 												
 			</head>
 			<body>
@@ -508,15 +511,14 @@
 					</xsl:if>
 				
 					<xsl:apply-templates select="descriptionDocument" />
-					
+						
 					<xsl:apply-templates select="sections" />
 					
 					<!--  release notes at the end -->
 					<xsl:apply-templates select="releaseNotes" />
 				</div>
 				
-				<!-- Chart Library -->
-				<script src="https://cdn.jsdelivr.net/npm/chart.js">//</script>
+				
 				
 				<!-- Anchor for the document -->
 				<script src="https://cdn.jsdelivr.net/npm/anchor-js/anchor.min.js">//</script>
@@ -988,48 +990,47 @@
 					<xsl:choose>
 						<xsl:when test="Charts/Chart/datavalues/count(datavalues) &gt; 1">
 						
-							<xsl:for-each select="Charts/Chart">
-							
-								<xsl:variable name="currentSectionId" select="concat($currentSection,'_',position())"/>
-								
-								<xsl:element name="div">
-									<xsl:attribute name="class">chart-container</xsl:attribute>
-									<xsl:attribute name="style">position: relative; height:312px; width:312px</xsl:attribute>
+							<div>
+								<xsl:for-each select="Charts/Chart">
+									<xsl:variable name="currentSectionId" select="concat($currentSection,'_',position())"/>
+									<div style="display: inline-block;">
+										<xsl:element name="div">
+											<xsl:attribute name="class">chart-container</xsl:attribute>
+											<canvas id="{$currentSectionId}" style="height:312px; width:312px"></canvas>						
+										</xsl:element>
+										<!-- JavaScript for drawn Pie Chart  -->
+										<script type="text/javascript">									
+											const <xsl:value-of select="$currentSectionId"/> = "<xsl:value-of select="$currentSectionId"/>";
 									
-									<canvas id="{$currentSectionId}"></canvas>						
-								</xsl:element>
-								<script type="text/javascript">
-									
-									const <xsl:value-of select="$currentSectionId"/> = "<xsl:value-of select="$currentSectionId"/>";
-							
-									const data<xsl:value-of select="$currentSectionId"/> = {
-										  labels: [<xsl:value-of select="./datavalues/datavalues/concat($quote,objectName,$quote)" separator=","/>],
-										  datasets: [{
-										    label: '# of Distinc Objects',
-										    data: [<xsl:value-of select="./datavalues/datavalues/values" separator=","/>],
-										    hoverOffset: 4
-										  }]
-										};
-	
-									new Chart(<xsl:value-of select="$currentSectionId"/>,{
-										type: 'pie',
-									  	data: data<xsl:value-of select="$currentSectionId"/>,
-									  	options: {
-									  		plugins: {
-									  			legend: {
-									  				display: true,
-									                position: 'right'
-									  			},
-									  			title: {
-										        display: true,
-										        text: '<xsl:value-of select="propertyName"/>'
-										      }
-									  		}
-									  	}
-									});
-								</script>
-							
-							</xsl:for-each>
+											const data<xsl:value-of select="$currentSectionId"/> = {
+												  labels: [<xsl:value-of select="./datavalues/datavalues/concat($quote,objectName,$quote)" separator=","/>],
+												  datasets: [{
+												    label: '# of Distinc Objects',
+												    data: [<xsl:value-of select="./datavalues/datavalues/values" separator=","/>],
+												    hoverOffset: 4
+												  }]
+												};
+			
+											new Chart(<xsl:value-of select="$currentSectionId"/>,{
+												type: 'pie',
+											  	data: data<xsl:value-of select="$currentSectionId"/>,
+											  	options: {
+											  		plugins: {
+											  			legend: {
+											  				display: true,
+											                position: 'right'
+											  			},
+											  			title: {
+												        display: true,
+												        text: '<xsl:value-of select="propertyName"/>'
+												      }
+											  		}
+											  	}
+											});
+										</script>
+									</div>
+								</xsl:for-each>
+							</div>
 						</xsl:when>
 						<xsl:otherwise>
 							<xsl:if test="Charts/count(Chart) = 1">

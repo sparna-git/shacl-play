@@ -2,8 +2,6 @@ package fr.sparna.rdf.shacl.doc.write;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.net.URL;
-import java.util.List;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -34,7 +32,18 @@ import fr.sparna.rdf.shacl.doc.model.ShapesDocumentation;
 public class ShapesDocumentationXmlWriter implements ShapesDocumentationWriterIfc {
 
 	@Override
-	public void write(ShapesDocumentation documentation, String outputLang, OutputStream output, MODE mode, String XSLTStyle) throws IOException {
+	public void writeDatasetDoc(ShapesDocumentation documentation, String outputLang, OutputStream output, MODE mode)
+			throws IOException {
+		this.write(documentation, outputLang, output, mode);		
+	}
+	
+	@Override
+	public void writeShapesDoc(ShapesDocumentation documentation, String outputLang, OutputStream output, MODE mode)
+			throws IOException {
+		this.write(documentation, outputLang, output, mode);		
+	}
+	
+	private void write(ShapesDocumentation documentation, String outputLang, OutputStream output, MODE mode) throws IOException {
 		Document xmlDocument;
 		XMLStreamWriter xmlStreamWriter;
 		try {

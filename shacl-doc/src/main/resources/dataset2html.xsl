@@ -5,6 +5,7 @@
 	<!-- Language parameter to the XSLT -->
 	<xsl:param name="LANG"/>
 	
+	
 	<!-- Indicates if we are producing the HTML for an HTML output of for a PDF conversion -->
 	<xsl:param name="MODE">HTML</xsl:param>
 
@@ -50,7 +51,7 @@
 				label="Cliquez sur le diagramme pour naviguer vers la section correspondante" />
 			<entry key="DIAGRAM.VIEW" label="Voir le diagramme en PNG" />
 
-			<entry key="DOCUMENTATION.TITLE" label="Documentation du modèle"/>
+			<entry key="DOCUMENTATION.TITLE" label="Dataset documentation"/>
 			<entry key="DESCRIPTION.TITLE" label="Description"/>
 			<entry key="RELEASE_NOTES.TITLE" label="Notes de version" />
 
@@ -99,7 +100,7 @@
 				label="Click diagram to navigate to corresponding section" />
 			<entry key="DIAGRAM.VIEW" label="View as PNG" />
 			
-			<entry key="DOCUMENTATION.TITLE" label="Model documentation"/>
+			<entry key="DOCUMENTATION.TITLE" label="Documentation du jue de données"/>
 			<entry key="DESCRIPTION.TITLE" label="Description"/>
 			<entry key="RELEASE_NOTES.TITLE" label="Release notes" />
 
@@ -355,6 +356,33 @@
 							    border: var(--bs-alert-border);
 							    border-radius: var(--bs-alert-border-radius);
 					}
+					
+					.sp_bg-secondary {
+						    background-color: rgba(108,117,125,1)!important;
+						}
+					
+					.sp_badge {
+						    --bs-badge-padding-x: 0.65em;
+						    --bs-badge-padding-y: 0.35em;
+						    --bs-badge-font-size: 0.75em;
+						    --bs-badge-font-weight: 700;
+						    --bs-badge-color: #fff;
+						    --bs-badge-border-radius: 0.375rem;
+						    display: inline-block;
+						    padding: var(--bs-badge-padding-y) var(--bs-badge-padding-x);
+						    padding-left: 3ch;
+						    font-size: var(--bs-badge-font-size);
+						    font-weight: var(--bs-badge-font-weight);
+						    line-height: 1;
+						    color: var(--bs-badge-color);
+						    text-align: center;
+						    white-space: nowrap;
+						    vertical-align: baseline;
+						    border-radius: var(--bs-badge-border-radius);
+						}
+						
+						
+					
 							
 					<xsl:choose>
 						<xsl:when test="$MODE = 'PDF'">
@@ -487,6 +515,8 @@
 					<xsl:apply-templates select="releaseNotes" />
 				</div>
 				
+				<!-- Chart Library -->
+				<script src="https://cdn.jsdelivr.net/npm/chart.js">//</script>
 				
 				<!-- Anchor for the document -->
 				<script src="https://cdn.jsdelivr.net/npm/anchor-js/anchor.min.js">//</script>
@@ -535,9 +565,23 @@
 						<!-- Section -->
 						<xsl:for-each select="sections/section">			
 							<li>
-								<a href="{concat('#',sectionId)}">
-								<xsl:value-of select="title" />
-								</a>
+								<!-- modify the description property with other property name for get of statistic instance number -->							
+								<xsl:variable name="parentheses_open">(</xsl:variable>
+								<xsl:variable name="parentheses_close">)</xsl:variable>
+								<xsl:choose>
+									<xsl:when test="matches(description,'^[0-9]+\s?instances$')">
+										<a href="{concat('#',sectionId)}">
+											<xsl:value-of select="title" />  
+										</a>
+										<xsl:value-of select="concat('     ',$parentheses_open,description,$parentheses_close)"/>
+									</xsl:when>
+									<xsl:otherwise>
+										<a href="{concat('#',sectionId)}">
+											<xsl:value-of select="title" />
+										</a>
+									</xsl:otherwise>
+								</xsl:choose>
+								
 							</li>
 						</xsl:for-each>
 					</ul>
@@ -806,7 +850,7 @@
 	<!-- Sections -->
 	<xsl:template match="sections">
 		<h2 id="documentation" class="sp_section_subtitle">
-			<xsl:value-of select="$LABELS/labels/entry[@key='DOCUMENTATION.TITLE']/@label" />
+			<xsl:value-of select="$LABELS/labels/entry[@key='DOCUMENTATION.TITLE']/@label" />			
 		</h2>
 		<xsl:apply-templates select="section" />		
 	</xsl:template>
@@ -819,16 +863,23 @@
 			<div class="col">
 				<section id="{sectionId}">
 					<div class="sp_section_title_table_wrapper">
-						  
-						<!-- Add xls:element for control the color severity Alarm  -->
+						
 						<xsl:element name="h3">
-							<xsl:attribute name="class">sp_section_title_table</xsl:attribute>
+							<xsl:attribute name="class">sp_section_title_table</xsl:attribute>							
 							<xsl:if test="string-length(color) &gt; 0">
 								<xsl:attribute name="style">color:<xsl:value-of select="color"/></xsl:attribute>
 							</xsl:if>
-							<xsl:value-of select="title" />
+							
+							<xsl:choose>
+								<xsl:when test="matches(description,'^[0-9]+\s?instances$')">
+									<xsl:value-of select="title"/><span class="sp_badge sp_bg-secondary"><xsl:value-of select="description"/></span>
+								</xsl:when>
+								<xsl:otherwise>
+									<xsl:value-of select="title" />									
+								</xsl:otherwise>
+							</xsl:choose>
 						</xsl:element>
-						
+							
 									
 						<xsl:if test="subtitleUri">
 							<code class="sp_section_uri">
@@ -933,46 +984,52 @@
 
 					<!-- Section for Pie Chart -->
 					<xsl:variable name="currentSection" select="title"/>
+					<xsl:variable name="quote">'</xsl:variable>
 					<xsl:choose>
-						<xsl:when test="Charts/count(Chart) &gt; 1">
-							<xsl:element name="div">
-								<xsl:attribute name="class">chart-container</xsl:attribute>
-								<xsl:attribute name="style">position: relative; height:312px; width:312px</xsl:attribute>
-								<canvas id="{$currentSection}"></canvas>						
-							</xsl:element>
+						<xsl:when test="Charts/Chart/datavalues/count(datavalues) &gt; 1">
 						
-							<xsl:variable name="quote">'</xsl:variable>
-							<!-- Chart -->
-							<script src="https://cdn.jsdelivr.net/npm/chart.js">//</script>	
-							<script type="text/javascript">
+							<xsl:for-each select="Charts/Chart">
+							
+								<xsl:variable name="currentSectionId" select="concat($currentSection,'_',position())"/>
 								
-								const <xsl:value-of select="$currentSection"/> = "<xsl:value-of select="$currentSection"/>";
-						
-								const data<xsl:value-of select="$currentSection"/> = {
-									  labels: [<xsl:value-of select="Charts/Chart/concat($quote,propertyName,$quote)" separator=","/>],
-									  datasets: [{
-									    label: '# of Distinc Objects',
-									    data: [<xsl:value-of select="Charts/Chart/numberOfDistinct" separator=","/>],
-									    hoverOffset: 4
-									  }]
-									};
-
-								new Chart(<xsl:value-of select="$currentSection"/>,{
-									type: 'pie',
-								  	data: data<xsl:value-of select="$currentSection"/>,
-								  	options: {
-								  		plugins: {
-								  			legend: {
-								  				display: true,
-								                labels: {
-								                    color: 'rgb(255, 99, 132)'
-								                },
-								                position: 'right'
-								  			}
-								  		}
-								  	}
-								});
-							</script>
+								<xsl:element name="div">
+									<xsl:attribute name="class">chart-container</xsl:attribute>
+									<xsl:attribute name="style">position: relative; height:312px; width:312px</xsl:attribute>
+									
+									<canvas id="{$currentSectionId}"></canvas>						
+								</xsl:element>
+								<script type="text/javascript">
+									
+									const <xsl:value-of select="$currentSectionId"/> = "<xsl:value-of select="$currentSectionId"/>";
+							
+									const data<xsl:value-of select="$currentSectionId"/> = {
+										  labels: [<xsl:value-of select="./datavalues/datavalues/concat($quote,objectName,$quote)" separator=","/>],
+										  datasets: [{
+										    label: '# of Distinc Objects',
+										    data: [<xsl:value-of select="./datavalues/datavalues/values" separator=","/>],
+										    hoverOffset: 4
+										  }]
+										};
+	
+									new Chart(<xsl:value-of select="$currentSectionId"/>,{
+										type: 'pie',
+									  	data: data<xsl:value-of select="$currentSectionId"/>,
+									  	options: {
+									  		plugins: {
+									  			legend: {
+									  				display: true,
+									                position: 'right'
+									  			},
+									  			title: {
+										        display: true,
+										        text: '<xsl:value-of select="propertyName"/>'
+										      }
+									  		}
+									  	}
+									});
+								</script>
+							
+							</xsl:for-each>
 						</xsl:when>
 						<xsl:otherwise>
 							<xsl:if test="Charts/count(Chart) = 1">
@@ -1010,15 +1067,17 @@
 										<xsl:value-of
 											select="$LABELS/labels/entry[@key='COLUMN_CARD']/@label" />
 									</th>
+									<!--  
 									<th class="sp_description_column">
 										<xsl:value-of
 											select="$LABELS/labels/entry[@key='COLUMN_DESCRIPTION']/@label" />
 									</th>
-									<th class="sp_description_column text-break">
+									-->
+									<th>
 										<xsl:value-of
 											select="$LABELS/labels/entry[@key='COLUMN_NUMBEROCCURRENCES']/@label" />											
 									</th>
-									<th class="sp_description_column text-break">
+									<th>
 										<xsl:value-of
 											select="$LABELS/labels/entry[@key='COLUMN_VALUESDISTINCTS']/@label" />											
 									</th>									
@@ -1144,10 +1203,11 @@
 					<xsl:value-of select="cardinalite" />
 				</div>								
 			</td>
-			<!-- Description properties -->
+			<!-- Description properties 
 			<td class="sp_table_propertyshapes_col_description">
 				<xsl:value-of select="description" />
 			</td>	
+			-->
 			<!-- Number Occurences -->
 			<td>				
 				<xsl:value-of select="numberOfoccurrences" />

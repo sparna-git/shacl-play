@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,9 +33,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import fr.sparna.rdf.shacl.doc.NodeShape;
-import fr.sparna.rdf.shacl.doc.PropertyShape;
+import fr.sparna.rdf.shacl.DASH;
+import fr.sparna.rdf.shacl.SHACL_PLAY;
 import fr.sparna.rdf.shacl.doc.model.ChartDataset;
+import fr.sparna.rdf.shacl.doc.model.ChartDatasetValues;
 import fr.sparna.rdf.shacl.doc.model.ParserModel;
 import fr.sparna.rdf.shacl.doc.model.PropertyShapeDocumentation;
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentation;
@@ -52,6 +54,8 @@ import fr.sparna.rdf.shacl.generate.SamplingShaclGeneratorDataProvider;
 import fr.sparna.rdf.shacl.generate.ShaclGenerator;
 import fr.sparna.rdf.shacl.generate.ShaclGeneratorDataProviderIfc;
 import fr.sparna.rdf.shacl.generate.visitors.AssignLabelRoleVisitor;
+import fr.sparna.rdf.shacl.generate.visitors.AssignPartitionRoleVisitor;
+import fr.sparna.rdf.shacl.generate.visitors.ComputeStatisticSPARQLProperty;
 import fr.sparna.rdf.shacl.generate.visitors.ComputeStatisticsVisitor;
 import fr.sparna.rdf.shacl.generate.visitors.CopyStatisticsToDescriptionVisitor;
 import fr.sparna.rdf.shacl.generate.visitors.ShaclVisit;
@@ -59,6 +63,7 @@ import fr.sparna.rdf.shacl.shaclplay.ApplicationData;
 import fr.sparna.rdf.shacl.shaclplay.ControllerCommons;
 import fr.sparna.rdf.shacl.shaclplay.ControllerModelFactory;
 import fr.sparna.rdf.shacl.shaclplay.ControllerModelFactory.SOURCE_TYPE;
+import io.vavr.collection.HashMap;
 
 @Controller
 public class GenerateDatasetController {
@@ -90,13 +95,16 @@ public class GenerateDatasetController {
 			
 			SamplingShaclGeneratorDataProvider dataProvider = new SamplingShaclGeneratorDataProvider(new PaginatedQuery(100), shapesUrl);
 			
-			Model shapes = doGenerateShapes(
+			/*
+			Model shapes = doGenerateStatistic(
 					dataProvider,
 					config,
-					shapesUrl					
+					shapesUrl,
+					datasetModel
 			);		
 			
 			serialize(shapes, format,response);
+			*/
 			return null;
 			
 		} catch (Exception e) {
@@ -126,12 +134,12 @@ public class GenerateDatasetController {
 	)
 	public ModelAndView generateDataset(
 			// radio box indicating type of shapes
-			@RequestParam(value="shapesSource", required=true) String shapesSourceString,
+			@RequestParam(value="shapesSource", required=true) String datasetSourceString,
 			// reference to Shapes URL if shapeSource=sourceShape-inputShapeUrl
-			@RequestParam(value="inputShapeUrl", required=false) String shapesUrl,
+			@RequestParam(value="inputShapeUrl", required=false) String datasetUrl,
 			//@RequestParam(value="inputShapeCatalog", required=false) String shapesCatalogId,
 			// uploaded shapes if shapeSource=sourceShape-inputShapeFile
-			@RequestParam(value="inputShapeFile", required=false) List<MultipartFile> shapesFiles,
+			@RequestParam(value="inputShapeFile", required=false) List<MultipartFile> datasetFiles,
 			// inline Shapes if shapeSource=sourceShape-inputShapeInline
 			//@RequestParam(value="inputShapeInline", required=false) String shapesText,
 			
@@ -143,46 +151,44 @@ public class GenerateDatasetController {
 		try {
 
 			// get the source type
-			ControllerModelFactory.SOURCE_TYPE shapesSource = ControllerModelFactory.SOURCE_TYPE.valueOf(shapesSourceString.toUpperCase());
+			ControllerModelFactory.SOURCE_TYPE datasetSource = ControllerModelFactory.SOURCE_TYPE.valueOf(datasetSourceString.toUpperCase());
 			
 			
 			// if source is a ULR, redirect to the API
-			if(shapesSource == SOURCE_TYPE.URL) {
-				return new ModelAndView("redirect:/generateDatasetUrl?url="+URLEncoder.encode(shapesUrl, "UTF-8")+"&format="+format);
+			if(datasetSource == SOURCE_TYPE.URL) {
+				return new ModelAndView("redirect:/generateDatasetUrl?url="+URLEncoder.encode(datasetUrl, "UTF-8")+"&format="+format);
 			} else {
 				
 				// initialize shapes first
-				log.debug("Determining Shapes source...");
-				Model shapesModel = ModelFactory.createDefaultModel();
+				log.debug("Determining dataset source...");
+				Model datasetModel = ModelFactory.createDefaultModel();
 				ControllerModelFactory modelPopulator = new ControllerModelFactory(null);
 				modelPopulator.populateModel(
-						shapesModel,
-						shapesSource,
-						shapesUrl,
+						datasetModel,
+						datasetSource,
+						datasetUrl,
 						null,
-						shapesFiles,
+						datasetFiles,
 						null
 				);
-				log.debug("Done Loading Shapes. Model contains "+shapesModel.size()+" triples");
+				log.debug("Done Loading Shapes. Model contains "+datasetModel.size()+" triples");
 
 				Configuration config = new Configuration(new DefaultModelProcessor(), "https://shacl-play.sparna.fr/shapes/", "shapes");
 				config.setShapesOntology("https://shacl-play.sparna.fr/shapes");
 				
-				SamplingShaclGeneratorDataProvider dataProvider = new SamplingShaclGeneratorDataProvider(new PaginatedQuery(100),shapesModel);
-				
-				Model shapes = doGenerateShapes(
+				// get Statistic values
+				SamplingShaclGeneratorDataProvider dataProvider = new SamplingShaclGeneratorDataProvider(new PaginatedQuery(100),datasetModel);		
+				Model modelStatistic = doGenerateStatistic(
 						dataProvider,
 						config,
-						modelPopulator.getSourceName()
+						modelPopulator.getSourceName(),
+						datasetModel
 				);	
 				
-				// Generated output result in html
-				outputResult(shapesModel, shapes,response);
-				
-				// Calcul for get statistic in properties for building a Pie
+				// Generated data for raport 
+				outputResult(datasetModel, modelStatistic,response);
 				
 				
-				//serialize(shapes, format,response);
 				return null;
 			}			
 		} catch (Exception e) {
@@ -191,13 +197,14 @@ public class GenerateDatasetController {
 		}
 	}
 	
-	private void outputResult(Model shapesModel, 
-							  Model shapes, 
+	private void outputResult(Model datasetModel, 
+							  Model modelStatistic, 
 							  //Model Statistic,
 							  HttpServletResponse response) throws IOException {
-				
-		Model outputModel = shapesModel.union(shapes);		
-				
+		
+			
+		Model outputModel = datasetModel.union(modelStatistic);		
+		
 		Model defaultModel = ModelFactory.createDefaultModel(); // Create model empty, this model is not used
 		ParserModel resultModel = new ParserModelReader().readMetadata(outputModel, defaultModel, "en");
 		
@@ -207,23 +214,22 @@ public class GenerateDatasetController {
 		//send result model to documentation 
 		ShapesDocumentation documentValidation = reader.readShapesDocumentation(resultModel,null,"en",null,false);
 		// pre processing 
-		preProcessing(documentValidation, shapes, resultModel);
-				
+		preProcessing(documentValidation, modelStatistic, datasetModel, resultModel);
+		
 		/*
 		 * view html
 		 */
 		ShapesDocumentationWriterIfc writer = new ShapesDocumentationJacksonXsltWriter();
 		response.setContentType("text/html");
 		// response.setContentType("application/xhtml+xml");
-		writer.write(documentValidation,  //set of data
-				"en",  // language default
+		writer.writeDatasetDoc(documentValidation,  //set of data
+				"en",  // language default	
 				response.getOutputStream(), //instance of output
-				MODE.HTML, // this option is update to format config
-				"dataset2html.xsl" // Stylesheet name to used
+				MODE.HTML // this option is update to format config
 				);		
 	}
 	
-	private void preProcessing(ShapesDocumentation spDocumentation, Model Statisticts, ParserModel parseModel) {
+	private void preProcessing(ShapesDocumentation spDocumentation, Model Statisticts, Model datasetModel, ParserModel parseModel) {
 		
 		// for Statistic
 		List<Resource> nodeDataset = Statisticts.listResourcesWithProperty(RDF.type,VOID.Dataset).toList();
@@ -236,7 +242,8 @@ public class GenerateDatasetController {
 		
 		//
 		for (ShapesDocumentationSection ds: spDocumentation.getSections()) {
-			// find the SectionID in classPartitiion in conformsTo
+			// Return to Property Shape Resource
+			List<ChartDataset> listChartData = new ArrayList<>();
 			List<Statement> getClassProperty = conformsToExist(
 																ds.getSectionId(), //SectionId
 																classpartition,  // List of Statistic Partition
@@ -261,8 +268,7 @@ public class GenerateDatasetController {
 					}
 					
 					// Write in the property Documentation the number of statistics
-					if (lpsp.size() > 0) {
-						
+					if (lpsp.size() > 0) {		
 						for (Statement p : lpsp) {
 							
 							Resource pStatistic = p.getObject().asResource();
@@ -275,79 +281,68 @@ public class GenerateDatasetController {
 							if (pStatistic.hasProperty(VOID.distinctObjects)) {
 								int nDistinctOj = pStatistic.getProperty(VOID.distinctObjects).getObject().asLiteral().getInt();
 								dsp.setValuesdistincts(Integer.valueOf(nDistinctOj));
-							}							
+							}
+							
+						  // if the property shape is flag true, get all resource statistic
+							if (pStatistic.hasProperty(SHACL_PLAY.objectPartition)) {
+								// 
+								ChartDataset cd = new ChartDataset();
+								
+								
+								List<ChartDatasetValues> dataValues = new ArrayList<>();
+								
+								List<Statement> objPartition = pStatistic.listProperties(SHACL_PLAY.objectPartition).toList();
+								Map<String, Integer> q = new java.util.HashMap<>();
+								/*
+								Map<String, Integer> q = objPartition.stream()
+										.collect(Collectors.toMap
+												(o -> o.getProperty(SHACL_PLAY.object).getObject().toString(), 
+												 o -> o.getProperty(VOID.distinctSubjects).getLiteral().getInt()
+														)
+												);
+								*/ 
+								for (Statement sT : objPartition) {
+									ChartDatasetValues cdValues = new ChartDatasetValues();
+									Resource r = sT.getObject().asResource();
+									
+									String name = null;
+									if (r.hasProperty(SHACL_PLAY.object)) {
+										if (r.getProperty(SHACL_PLAY.object).getObject().isResource()) {
+											String nameValue = r.getProperty(SHACL_PLAY.object).getObject().toString();
+											int index = nameValue.lastIndexOf('/');
+											name = nameValue.substring(index+1);
+										} else {
+											name = r.getProperty(SHACL_PLAY.object).getObject().toString();
+										}
+									}
+									
+									cdValues.setObjectName(name);
+									cdValues.setValues(r.getProperty(VOID.distinctSubjects).getLiteral().getInt());
+									
+									dataValues.add(cdValues);
+									
+								}
+								
+								cd.setPropertyName(pStatistic.getProperty(VOID.property).getObject().getModel().shortForm(pStatistic.getProperty(VOID.property).getObject().asResource().getURI()));
+								cd.setDatavalues(dataValues);
+								//cd.setMapChart(q);
+								// 
+								listChartData.add(cd);						
+							}
 						}
+						
 					}
+					
+					
 				}
 			}// End if for get statistic result
 			
-			/*
-			 * collect all properties:
-			 * 1 if condition is Cardinality 1..1
-			 * 2 DistinctObj < 10
-			 * 3 Number of Occurrences > 10
-			 */
-			
-			List<NodeShape> ns = parseModel.getAllNodeShapes()
-					.stream()
-					.filter(fns -> fns.getNodeShape().getModel().shortForm(fns.getNodeShape().getURI())							
-									.equals(ds.getSectionId())									
-							)
-					.collect(Collectors.toList());
-			
-			List<ChartDataset> chartdata = new ArrayList<>();
-			if (ds.getPropertySections().size() > 0) {
-				for (PropertyShapeDocumentation ps : ds.getPropertySections()) {
-					for (NodeShape nsChart : ns) {
-						List<PropertyShape> psChart = nsChart.getProperties()
-													.stream()
-													.filter(fps -> 
-															(
-																(fps.getShPath().getURI().equals(ps.getPropertyUri().getLabel().toString()))
-																||
-																(fps.getShPath().getURI().equals(ps.getPropertyUri().getHref().toString()))
-															 )
-															)
-													.collect(Collectors.toList());
-						for (PropertyShape pspChart : psChart) {
-							
-							if (
-									(pspChart.getShMinCount() != null)
-									&& 
-									(pspChart.getShMaxCount() != null)
-								) {
-								
-								if (
-										(pspChart.getShMinCount() == 1)
-										&&
-										(pspChart.getShMaxCount() == 1)
-										) {
-										if ( 
-											(ps.getValuesdistincts() <= 10)
-											&&
-											(ps.getNumberOfoccurrences() < 10 )
-											) {
-											
-											ChartDataset cdata = new ChartDataset(); 
-											
-											cdata.setPropertyName(ps.getLabel());
-											cdata.setNumberOfDistinct(ps.getValuesdistincts());
-											chartdata.add(cdata);
-											
-										}
-									}
-							}
-						}													
-					}
-				}
+			if (listChartData.size() > 0) {
+				ds.setChartDataSection(listChartData);				
 			}
 			
-			if (chartdata.size() > 0) {
-				ds.setChartDataSection(chartdata);
-			}			
-		}
+		}		
 	}
-	
 	
 	private List<Statement> conformsToExist(String ShapeId, List<Statement> cp, Property constraint) {
 		
@@ -368,51 +363,38 @@ public class GenerateDatasetController {
 		
 		return propertiesStatistic;
 	}
-	
-	
-	private Model doGenerateShapes(
+
+	private Model doGenerateStatistic(
 			ShaclGeneratorDataProviderIfc dataProvider,
 			Configuration config,
-			String sourceName
+			String sourceName,
+			Model datasetModel
 	) {
 		ShaclGenerator generator = new ShaclGenerator();
 		Model shapes = generator.generateShapes(
 				config,
 				dataProvider);
 		
-		ShaclVisit shaclVisit = new ShaclVisit(shapes);	
+		ShaclVisit shaclVisit = new ShaclVisit(shapes);
 		
 		// add dash:LabelRole
 		shaclVisit.visit(new AssignLabelRoleVisitor());
 		
 		// If Ocurrencesinstances Check is True, building the ComputeStatisticsVisitor 
 		Model countModel = ModelFactory.createDefaultModel();
-		shaclVisit.visit(new ComputeStatisticsVisitor(dataProvider, countModel, sourceName, true));
+		shaclVisit.visit(new ComputeStatisticsVisitor(dataProvider, countModel, sourceName, false));
 		shaclVisit.visit(new CopyStatisticsToDescriptionVisitor(countModel));
+		shaclVisit.visit(new AssignPartitionRoleVisitor(dataProvider, countModel));
+		
+		//Save of values in class 		
+		shaclVisit.visit(new ComputeStatisticSPARQLProperty(dataProvider,countModel,datasetModel));
 		shapes.add(countModel);
+		
+		
 		
 		return shapes;
 	}
-	
-	
-	private void serialize(
-			Model dataModel,
-			String fileFormat,
-			HttpServletResponse response
-	) throws Exception {
-
-		Lang l = RDFLanguages.nameToLang(fileFormat);
-		if(l == null) {
-			l = Lang.RDFXML;
-		}
-		
-		String dateString = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-		String filename="shacl"+"_"+dateString;
-		
-		ControllerCommons.serialize(dataModel, l, filename, response);
-	}
-
-	
+			
 	/**
 	 * Handles an error in the validation form (stores the message in the Model, then forward to the view).
 	 * 

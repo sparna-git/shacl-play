@@ -1,11 +1,8 @@
 package fr.sparna.rdf.shacl.doc.write;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.StringWriter;
-import java.net.URL;
-import java.util.List;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -34,8 +31,35 @@ import fr.sparna.rdf.shacl.doc.write.ShapesDocumentationWriterIfc.MODE;
 
 public class ShapesDocumentationJacksonXsltWriter implements ShapesDocumentationWriterIfc {
 
+	public enum XSLT {
+		
+		SHAPES2HTML("doc2html.xsl"),
+		DATASET2HTML("dataset2html.xsl");
+		
+		private String xsltFileName;
+		
+		private XSLT(String xsltFileName) {
+			this.xsltFileName = xsltFileName;
+		}
+
+		public String getXsltFileName() {
+			return xsltFileName;
+		}
+		
+	}
+	
 	@Override
-	public void write(ShapesDocumentation documentation, String outputLang, OutputStream output, MODE mode, String XSLTStyle) throws IOException {
+	public void writeShapesDoc(ShapesDocumentation documentation, String outputLang, OutputStream output, MODE mode) throws IOException {
+		this.write(documentation, outputLang, output, mode, XSLT.SHAPES2HTML);
+	}
+	
+	@Override
+	public void writeDatasetDoc(ShapesDocumentation documentation, String outputLang, OutputStream output, MODE mode) throws IOException {
+		this.write(documentation, outputLang, output, mode, XSLT.DATASET2HTML);
+	}
+	
+	
+	private void write(ShapesDocumentation documentation, String outputLang, OutputStream output, MODE mode, XSLT XSLTStyle) throws IOException {
 		Document xmlDocument;
 		XMLStreamWriter xmlStreamWriter;
 		try {
@@ -64,7 +88,7 @@ public class ShapesDocumentationJacksonXsltWriter implements ShapesDocumentation
 	        //TransformerFactory.setAttribute("indent-number", 2);
 	        
 	        //Source xsltInput = new StreamSource(this.getClass().getClassLoader().getResourceAsStream("doc2html.xsl"));
-	        Source xsltInput = new StreamSource(this.getClass().getClassLoader().getResourceAsStream(XSLTStyle));
+	        Source xsltInput = new StreamSource(this.getClass().getClassLoader().getResourceAsStream(XSLTStyle.getXsltFileName()));
 	        Transformer transformer = transformerFactory.newTransformer(xsltInput); 
 	        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 	        

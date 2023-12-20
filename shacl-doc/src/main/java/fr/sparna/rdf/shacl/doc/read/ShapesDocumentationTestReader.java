@@ -1,9 +1,10 @@
 package fr.sparna.rdf.shacl.doc.read;
 
 import java.util.Arrays;
+import java.util.List;
 
-import org.apache.jena.rdf.model.Model;
-
+import fr.sparna.rdf.shacl.diagram.PlantUmlDiagramOutput;
+import fr.sparna.rdf.shacl.doc.model.ParserModel;
 import fr.sparna.rdf.shacl.doc.model.PropertyShapeDocumentation;
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentation;
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentationSection;
@@ -11,7 +12,7 @@ import fr.sparna.rdf.shacl.doc.model.ShapesDocumentationSection;
 public class ShapesDocumentationTestReader implements ShapesDocumentationReaderIfc {
 
 	@Override
-	public ShapesDocumentation readShapesDocumentation(Model shaclGraph, Model owlGraph, String lang , String fileName, boolean outExpandDiagram) {
+	public ShapesDocumentation readShapesDocumentation(ParserModel metadata, List<PlantUmlDiagramOutput> diagrams ,String lang , String fileName, boolean outExpandDiagram) {
 		ShapesDocumentation shapesDocumentation = new ShapesDocumentation(null, lang);
 		
 		// HERE : READ Model and populate shapesDocumentation

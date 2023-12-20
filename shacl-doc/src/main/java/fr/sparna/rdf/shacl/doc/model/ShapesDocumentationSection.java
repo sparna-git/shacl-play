@@ -23,6 +23,8 @@ public class ShapesDocumentationSection {
 	private String subtitleUri;	
 	private String description;
 	
+	private int numberOfInstances;
+	
 	private Link targetClass;
 	
 	// private String targetClassLabel;
@@ -49,6 +51,29 @@ public class ShapesDocumentationSection {
 	@JacksonXmlElementWrapper(localName="properties")
 	@JacksonXmlProperty(localName = "property")
 	public List<PropertyShapeDocumentation> propertySections;
+
+	@JacksonXmlElementWrapper(localName="Charts")
+	@JacksonXmlProperty(localName = "Chart")
+	protected List<ChartDataset> ChartDataSection;
+	
+	private String MessageResultOfStatistic;
+	
+	
+	public String getMessageResultOfStatistic() {
+		return MessageResultOfStatistic;
+	}
+
+	public void setMessageResultOfStatistic(String messageResultOfStatistic) {
+		MessageResultOfStatistic = messageResultOfStatistic;
+	}
+
+	public List<ChartDataset> getChartDataSection() {
+		return ChartDataSection;
+	}
+
+	public void setChartDataSection(List<ChartDataset> chartDataSection) {
+		ChartDataSection = chartDataSection;
+	}
 
 	public List<Link> getSuperClasses() {
 		return superClasses;

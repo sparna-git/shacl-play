@@ -4,12 +4,12 @@ import org.apache.jena.rdf.model.Model;
 
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentation;
 
-public interface ShapesDocumentationReaderIfc {
+public interface DatasetDocumentationReaderIfc {
 
-	public ShapesDocumentation readShapesDocumentation(
-			Model shapesModel,
+	public ShapesDocumentation readDatasetDocumentation(
+			Model dataset,
 			Model owlModel,
-		    String lang,
+		    String lang, 
 		    boolean outExpandDiagram);
 	
 }

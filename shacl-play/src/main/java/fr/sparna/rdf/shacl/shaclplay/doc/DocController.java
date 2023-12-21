@@ -211,7 +211,6 @@ public class DocController {
 				// OWL graph
 				ModelFactory.createDefaultModel(),
 				languageInput,
-				filename,
 				false
 		);
 		
@@ -219,19 +218,19 @@ public class DocController {
 			ShapesDocumentationWriterIfc writer = new ShapesDocumentationJacksonXsltWriter();
 			response.setContentType("text/html");
 			// response.setContentType("application/xhtml+xml");
-			writer.write(doc, languageInput, response.getOutputStream(), MODE.HTML);			
+			writer.writeShapesDoc(doc, languageInput, response.getOutputStream(), MODE.HTML);			
 		} else if (format.toLowerCase().equals("xml")) {
 			
 			ShapesDocumentationXmlWriter writeXML = new ShapesDocumentationXmlWriter();
 			response.setContentType("application/xml");
-			writeXML.write(doc, languageInput, response.getOutputStream(), MODE.XML);
+			writeXML.writeShapesDoc(doc, languageInput, response.getOutputStream(), MODE.XML);
 			
 		} else if(format.toLowerCase().equals("pdf") ) {
 			
 			// 1. write Documentation structure to XML
 			ShapesDocumentationWriterIfc writerHTML = new ShapesDocumentationJacksonXsltWriter();
 			ByteArrayOutputStream htmlBytes = new ByteArrayOutputStream();
-			writerHTML.write(doc,languageInput, htmlBytes,MODE.PDF);
+			writerHTML.writeShapesDoc(doc,languageInput, htmlBytes,MODE.PDF);
 			
 			//read file html
 			String htmlCode = new String(htmlBytes.toByteArray(),"UTF-8");

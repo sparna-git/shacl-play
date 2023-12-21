@@ -1,7 +1,5 @@
 package fr.sparna.rdf.shacl.generate.visitors;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -11,14 +9,11 @@ import org.apache.jena.query.QueryExecutionFactory;
 import org.apache.jena.query.QueryFactory;
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
-import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.RDFList;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
-import org.apache.jena.shacl.vocabulary.SHACL;
 import org.apache.jena.shacl.vocabulary.SHACLM;
 import org.apache.jena.vocabulary.DCTerms;
 import org.apache.jena.vocabulary.VOID;
@@ -29,14 +24,14 @@ import fr.sparna.rdf.shacl.DASH;
 import fr.sparna.rdf.shacl.SHACL_PLAY;
 import fr.sparna.rdf.shacl.generate.ShaclGeneratorDataProviderIfc;
 
-public class ComputeStatisticSPARQLProperty extends DatasetAwareShaclVisitorBase implements ShaclVisitorIfc {
+public class ComputeValueStatisticsVisitor extends DatasetAwareShaclVisitorBase implements ShaclVisitorIfc {
 
 	private static final Logger log = LoggerFactory.getLogger(ComputeStatisticsVisitor.class);
 	
 	private Model StatisticModel;
 	private Model datasetModel;
 	
-	public ComputeStatisticSPARQLProperty(ShaclGeneratorDataProviderIfc dataProvider, Model countModel, Model datasetModel) {
+	public ComputeValueStatisticsVisitor(ShaclGeneratorDataProviderIfc dataProvider, Model countModel, Model datasetModel) {
 		super(dataProvider);
 		this.StatisticModel = countModel;
 		this.datasetModel = datasetModel;
@@ -101,13 +96,13 @@ public class ComputeStatisticSPARQLProperty extends DatasetAwareShaclVisitorBase
 				
 				// create resource anonyymous
 				Resource rAnonymous = this.StatisticModel.createResource();
-				propertyResource.addProperty(SHACL_PLAY.objectPartition, rAnonymous);
+				propertyResource.addProperty(propertyResource.getModel().createProperty(SHACL_PLAY.VALUE_PARTITION), rAnonymous);
 				
 				
 				
 				
 				this.StatisticModel.add(rAnonymous, 
-										SHACL_PLAY.object, 
+										this.StatisticModel.createProperty(SHACL_PLAY.VALUE), 
 										querySolution.get("o")
 										);
 				this.StatisticModel.add(rAnonymous, 

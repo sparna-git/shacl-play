@@ -66,7 +66,7 @@ public class AssignPartitionRoleVisitor extends DatasetAwareShaclVisitorBase {
 
 						// create property
 						// TODO : il faut SHACL_PLAY.OBJECTPARTITION mais en Resource
-						rStatisticDataShape.addProperty(DASH.propertyRole, SHACL_PLAY.objectPartition);
+						rStatisticDataShape.addProperty(DASH.propertyRole, rStatisticDataShape.getModel().createResource(SHACL_PLAY.VALUE_PARTITION));
 					}
 				}
 

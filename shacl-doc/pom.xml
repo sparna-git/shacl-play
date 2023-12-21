@@ -102,6 +102,13 @@
 			<version>0.7.0</version>
 		</dependency>
 
+		<!-- SHACL generation -->
+		<dependency>
+			<groupId>fr.sparna.rdf.shacl</groupId>
+			<artifactId>shacl-generate</artifactId>
+			<version>0.7.0</version>
+		</dependency>
+
 		<!-- PDF -->
 
 

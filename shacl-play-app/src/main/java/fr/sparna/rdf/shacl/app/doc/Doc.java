@@ -8,8 +8,6 @@ import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -84,7 +82,6 @@ public class Doc implements CliCommandIfc {
 				shapesModel,
 				owlModel,
 				a.getLanguage(),
-				a.getInput().get(0).getName(),
 				// avoid arrows to empty boxes
 				true
 		);
@@ -96,7 +93,7 @@ public class Doc implements CliCommandIfc {
 			// 1. write Documentation structure to XML
 			ShapesDocumentationWriterIfc writerHTML = new ShapesDocumentationJacksonXsltWriter();
 			ByteArrayOutputStream htmlBytes = new ByteArrayOutputStream();
-			writerHTML.write(doc,a.getLanguage(), htmlBytes,MODE.PDF);
+			writerHTML.writeShapesDoc(doc,a.getLanguage(), htmlBytes, MODE.PDF);
 			
 			//read file html
 			String htmlCode = new String(htmlBytes.toByteArray(),"UTF-8");
@@ -117,11 +114,11 @@ public class Doc implements CliCommandIfc {
 			if(a.getOutput().getName().endsWith(".xml")) {
 				// 2. write Documentation structure to XML
 				ShapesDocumentationWriterIfc writer = new ShapesDocumentationXmlWriter();
-				writer.write(doc, a.getLanguage(), out,MODE.HTML);
+				writer.writeShapesDoc(doc, a.getLanguage(), out,MODE.HTML);
 			} else {
 				// 2. write Documentation structure to HTML
 				ShapesDocumentationWriterIfc writer = new ShapesDocumentationJacksonXsltWriter();
-				writer.write(doc, a.getLanguage(), out,MODE.HTML);
+				writer.writeShapesDoc(doc, a.getLanguage(), out,MODE.HTML);
 			}
 			out.close();
 		}	

@@ -17,16 +17,23 @@ public class AssignValueOrInVisitor extends DatasetAwareShaclVisitorBase {
 	
 	private static final Logger log = LoggerFactory.getLogger(AssignValueOrInVisitor.class);	
 	
+	public static final int DEFAULT_VALUES_THRESHOLD = 3;
+	
 	/**
 	 * The maximum number of distinct values for a given property for which sh:value or sh:in will be generated 
 	 */
-	private int valuesInThreshold = 3;
+	private int valuesInThreshold = DEFAULT_VALUES_THRESHOLD;
 	
 	private Predicate<Resource> requiresShValueInPredicate;
 	
-	public AssignValueOrInVisitor(ShaclGeneratorDataProviderIfc dataProvider) {
+	public AssignValueOrInVisitor(ShaclGeneratorDataProviderIfc dataProvider, int valuesInThreshold) {
 		super(dataProvider);
 		this.requiresShValueInPredicate = AssignValueOrInVisitor.getDefaultRequiresShValueInPredicate();
+		this.valuesInThreshold = valuesInThreshold;
+	}
+	
+	public AssignValueOrInVisitor(ShaclGeneratorDataProviderIfc dataProvider) {
+		this(dataProvider, DEFAULT_VALUES_THRESHOLD);
 	}
 
 

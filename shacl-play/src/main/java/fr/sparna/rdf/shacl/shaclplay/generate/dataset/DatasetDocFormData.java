@@ -2,9 +2,9 @@ package fr.sparna.rdf.shacl.shaclplay.generate.dataset;
 
 import fr.sparna.rdf.shacl.shaclplay.catalog.rules.RulesCatalog;
 
-public class GenerateDatasetFormData {
+public class DatasetDocFormData {
 
-	public static final String KEY = GenerateDatasetFormData.class.getSimpleName();
+	public static final String KEY = DatasetDocFormData.class.getSimpleName();
 	
 	protected String errorMessage;
 	
@@ -17,8 +17,8 @@ public class GenerateDatasetFormData {
 	 * @param message
 	 * @return
 	 */
-	public static GenerateDatasetFormData error(String message) {
-		GenerateDatasetFormData data = new GenerateDatasetFormData();
+	public static DatasetDocFormData error(String message) {
+		DatasetDocFormData data = new DatasetDocFormData();
 		data.setErrorMessage(message);
 		return data;
 	}	

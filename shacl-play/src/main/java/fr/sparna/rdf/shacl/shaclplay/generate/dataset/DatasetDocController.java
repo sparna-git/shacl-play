@@ -33,7 +33,7 @@ import fr.sparna.rdf.shacl.shaclplay.ControllerModelFactory;
 import fr.sparna.rdf.shacl.shaclplay.ControllerModelFactory.SOURCE_TYPE;
 
 @Controller
-public class GenerateDatasetController {
+public class DatasetDocController {
 
 	private Logger log = LoggerFactory.getLogger(this.getClass().getName());
 
@@ -89,9 +89,9 @@ public class GenerateDatasetController {
 			HttpServletRequest request,
 			HttpServletResponse response
 	){
-		GenerateDatasetFormData data = new GenerateDatasetFormData();
+		DatasetDocFormData data = new DatasetDocFormData();
 		
-		return new ModelAndView("dataset-doc", GenerateDatasetFormData.KEY, data);	
+		return new ModelAndView("dataset-doc", DatasetDocFormData.KEY, data);	
 	}
 	
 	@RequestMapping(
@@ -176,13 +176,13 @@ public class GenerateDatasetController {
 			String message,
 			Exception e
 	) {
-		GenerateDatasetFormData data = new GenerateDatasetFormData();
+		DatasetDocFormData data = new DatasetDocFormData();
 		data.setErrorMessage(Encode.forHtml(message));
 
 		if(e != null) {
 			e.printStackTrace();
 		}
-		return new ModelAndView("generate-form-dataset", GenerateDatasetFormData.KEY, data);
+		return new ModelAndView("generate-form-dataset", DatasetDocFormData.KEY, data);
 	}
 	
 }

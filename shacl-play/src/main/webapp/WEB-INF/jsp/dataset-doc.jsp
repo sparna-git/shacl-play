@@ -41,7 +41,7 @@
 	<body>
 
 		<jsp:include page="navbar.jsp">
-			<jsp:param name="active" value="generate-dataset" />
+			<jsp:param name="active" value="dataset-doc" />
 		</jsp:include>
 
 		<div class="container-fluid">
@@ -57,16 +57,16 @@
 						</c:if>
 					</div>
 					
-					<h1 class="display-3"><fmt:message key="generate-dataset.title" /></h1>
+					<h1 class="display-3"><fmt:message key="dataset-doc.title" /></h1>
 					
 					<div class="form-shortdesc">
 						<p>
-							Description.........
+							
 						</p>
 					</div>
 					
-					<form id="upload_form" action="generate-dataset" method="POST" enctype="multipart/form-data" class="form-horizontal">
-						<h2><i class="fal fa-shapes"></i>&nbsp;&nbsp;<fmt:message key="generate-dataset.shapes.title" /></h2>
+					<form id="upload_form" action="dataset-doc" method="POST" enctype="multipart/form-data" class="form-horizontal">
+						<h2><i class="fal fa-shapes"></i>&nbsp;&nbsp;<fmt:message key="dataset-doc.shapes.title" /></h2>
 						
 						<blockquote class="blockquote bq-primary">
 							
@@ -90,18 +90,18 @@
 										  </div>
 										  <span class="input-group-append">
 										    <span class="input-group-text fileinput-exists" data-dismiss="fileinput">
-										      <fmt:message key="generate-dataset.shapes.upload.remove" />
+										      <fmt:message key="dataset-doc.shapes.upload.remove" />
 										    </span>
 										
 										    <span class="input-group-text btn-file">
-										      <span class="fileinput-new"><fmt:message key="generate-dataset.shapes.upload.select" /></span>
-										      <span class="fileinput-exists"><fmt:message key="generate-dataset.shapes.upload.change" /></span>
+										      <span class="fileinput-new"><fmt:message key="dataset-doc.shapes.upload.select" /></span>
+										      <span class="fileinput-exists"><fmt:message key="dataset-doc.shapes.upload.change" /></span>
 										      <input type="file" name="inputShapeFile" multiple onchange="enabledShapeInput('inputShapeFile')">
 										    </span>
 										  </span>
 										</div>
 										<small class="form-text text-muted">
-											  <fmt:message key="generate-dataset.shapes.upload.help" />
+											  <fmt:message key="dataset-doc.shapes.upload.help" />
 									  </small>
 							    </div>
 							</div>
@@ -116,7 +116,7 @@
 											id="sourceShape-inputShapeUrl"
 											value="url"
 											onchange="enabledShapeInput('inputShapeUrl')" />
-							    	<fmt:message key="generate-dataset.shapes.url" />
+							    	<fmt:message key="dataset-doc.shapes.url" />
 							    </label>
 							    <div class="col-sm-9">
 							      <input 
@@ -124,12 +124,12 @@
 							      	class="form-control"
 							      	id="inputShapeUrl"
 							      	name="inputShapeUrl"
-							      	placeholder="<fmt:message key="generate-dataset.shapes.url.placeholder" />"
+							      	placeholder="<fmt:message key="dataset-doc.shapes.url.placeholder" />"
 							      	onkeypress="enabledShapeInput('inputShapeUrl');"
 							      	onchange="enabledShapeInput('inputShapeUrl')"
 							      >
 							      <small class="form-text text-muted">
-									  <fmt:message key="generate-dataset.shapes.url.help" />
+									  <fmt:message key="dataset-doc.shapes.url.help" />
 							    </small>
 							    </div>
 							  </div>

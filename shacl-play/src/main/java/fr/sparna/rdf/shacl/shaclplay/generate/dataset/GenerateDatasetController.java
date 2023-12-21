@@ -75,7 +75,7 @@ public class GenerateDatasetController {
 	
 	
 	@RequestMapping(
-			value = {"generate-dataset"},
+			value = {"dataset-doc"},
 			params={"url"},
 			method=RequestMethod.GET
 	)
@@ -115,7 +115,7 @@ public class GenerateDatasetController {
 
 	
 	@RequestMapping(
-			value = {"generate-dataset"},
+			value = {"dataset-doc"},
 			method=RequestMethod.GET
 	)
 	public ModelAndView generateDataset(
@@ -124,11 +124,11 @@ public class GenerateDatasetController {
 	){
 		GenerateDatasetFormData data = new GenerateDatasetFormData();
 		
-		return new ModelAndView("generate-form-dataset", GenerateDatasetFormData.KEY, data);	
+		return new ModelAndView("dataset-doc", GenerateDatasetFormData.KEY, data);	
 	}
 	
 	@RequestMapping(
-			value="/generate-dataset",
+			value="/dataset-doc",
 			params={"shapesSource"},
 			method = RequestMethod.POST
 	)

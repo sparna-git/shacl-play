@@ -169,6 +169,9 @@ public class AssignClassesVisitor extends DatasetAwareShaclVisitorBase {
 			this.dataProviderIfc = dataProviderIfc;
 		}
 		
+		/**
+		 * @return the list of types co-occuring with classUri
+		 */
 		public List<String> getCoOccuringTypes(String classUri) {
 			List<String> result = this.coOccurringClassesCache.get(classUri);
 			if(result == null) {
@@ -180,7 +183,10 @@ public class AssignClassesVisitor extends DatasetAwareShaclVisitorBase {
 			}
 		}
 
-		
+		/**
+		 * @return true if potentialSuperset is a strict superset of classUri, that is whenever potentialSuperset occurs, classUri always occurs,
+		 * and there are no cases where classUri occurs without potentialSuperset.
+		 */
 		public boolean isStrictSuperset(String classUri, String potentialSuperset) {
 			String key = classUri+""+potentialSuperset;
 			Boolean result = this.supersetCache.get(key);
@@ -193,6 +199,9 @@ public class AssignClassesVisitor extends DatasetAwareShaclVisitorBase {
 			}
 		}
 		
+		/**
+		 * @return true if for each subset class, classUri is always a superset of it
+		 */
 		public boolean isSupersetOfAll(String classUri, List<String> subsets) {
 			for (String aSubset : subsets) {
 				if(!aSubset.equals(classUri) && !this.isStrictSuperset(aSubset,classUri)) {
@@ -202,6 +211,9 @@ public class AssignClassesVisitor extends DatasetAwareShaclVisitorBase {
 			return true;
 		}
 		
+		/**
+		 * @return true if all co-occuring classes of classUri are in the subsets list,
+		 */
 		public boolean isUnionOfAll(String classUri, List<String> subsets) {
 			List<String> coOccuringClasses = this.getCoOccuringTypes(classUri);
 			for (String string : coOccuringClasses) {

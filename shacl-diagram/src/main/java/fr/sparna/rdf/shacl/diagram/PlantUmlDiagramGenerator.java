@@ -1,7 +1,6 @@
 package fr.sparna.rdf.shacl.diagram;
 
 	
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;

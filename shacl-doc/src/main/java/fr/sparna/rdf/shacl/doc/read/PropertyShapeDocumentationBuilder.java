@@ -26,8 +26,9 @@ public class PropertyShapeDocumentationBuilder {
 		proprieteDoc.setLabel(propertyShape.getDisplayLabel(shaclGraph.union(owlGraph), lang));
 		// URI in the documentation
 		proprieteDoc.setPropertyUri(buildPathLink(propertyShape));
+		// full URI
+		proprieteDoc.setPropertyShapeUriOrId(propertyShape.getURIOrId());		
 		
-		proprieteDoc.setExpectedValueAdditionnalInfoIn(ModelRenderingUtils.render(propertyShape.getShIn(), false));
 		proprieteDoc.setCardinalite(renderCardinalities(propertyShape.getShMinCount(), propertyShape.getShMaxCount()));
 		proprieteDoc.setDescription(propertyShape.getDisplayDescription(shaclGraph.union(owlGraph), lang));
 		
@@ -48,6 +49,7 @@ public class PropertyShapeDocumentationBuilder {
 				propertyShape.getShNodeKind(),
 				propertyShape.getShHasValue()
 		));
+		proprieteDoc.setExpectedValueAdditionnalInfoIn(ModelRenderingUtils.render(propertyShape.getShIn(), false));
 		
 		if(propertyShape.getShClass() != null) {
 			for(NodeShape aNodeShape : allNodeShapes) {

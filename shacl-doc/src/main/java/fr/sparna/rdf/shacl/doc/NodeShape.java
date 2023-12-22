@@ -37,7 +37,16 @@ public class NodeShape {
 		if(this.nodeShape.isURIResource()) {
 			return this.getNodeShape().getModel().shortForm(this.getNodeShape().getURI());
 		} else {
-			// return the blank node ID in that case
+			// returns the blank node ID in that case
+			return this.nodeShape.asResource().getId().getLabelString();
+		}
+	}
+	
+	public String getURIOrId() {
+		if(this.nodeShape.isURIResource()) {
+			return this.getNodeShape().getURI();
+		} else {
+			// returns the blank node ID in that case
 			return this.nodeShape.asResource().getId().getLabelString();
 		}
 	}

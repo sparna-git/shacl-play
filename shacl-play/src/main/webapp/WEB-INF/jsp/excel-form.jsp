@@ -8,7 +8,7 @@
 	value="${sessionScope['fr.sparna.rdf.shacl.shaclplay.SessionData'].userLocale.language}" />
 <fmt:setBundle basename="fr.sparna.rdf.shacl.shaclplay.i18n.shaclplay" />
 
-<c:set var="data" value="${requestScope['ConvertFormData']}" />
+<c:set var="data" value="${requestScope['ExcelFormData']}" />
 
 <html>
 	<head>

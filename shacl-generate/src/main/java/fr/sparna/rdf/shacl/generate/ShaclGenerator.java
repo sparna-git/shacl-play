@@ -40,7 +40,6 @@ public class ShaclGenerator {
 	
 	private ShaclGeneratorDataProviderIfc dataProvider;
 
-
 	/**
 	 * Generates shapes using the given configuration and the given data provider
 	 * 

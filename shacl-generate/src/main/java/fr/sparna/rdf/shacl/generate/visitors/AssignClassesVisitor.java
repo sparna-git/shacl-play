@@ -113,6 +113,7 @@ public class AssignClassesVisitor extends DatasetAwareShaclVisitorBase {
 		List<String> classes = this.dataProvider.getObjectTypes(targetClass.getURI(), path.getURI());
 
 		// cleanup unused types
+		// TODO : honor included classes also, use isIgnoredType instead
 		this.modelProcessor.getExcludedClasses().forEach(classes::remove);
 
 		if(classes.size() > 1) {

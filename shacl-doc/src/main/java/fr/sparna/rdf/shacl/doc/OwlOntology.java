@@ -16,66 +16,23 @@ import org.apache.jena.vocabulary.RDFS;
 public class OwlOntology {
 	
 	public static String ADMS = "http://www.w3.org/ns/adms#";
+	public static String VERSION_NOTES = ADMS+"versionNotes";
 	
-	protected String rdfsLabel = null;
-	protected String dctTitle = null;
+	protected Resource resource;
+
+		
+	public OwlOntology(Resource rOntology) {
+		this.resource = rOntology;		
+	}	
 	
-	protected String dctermsAbstract = null;
-	protected String rdfsComment = null;
-	
-	protected String owlVersionInfo = null;
-	protected String description = null;
-	protected String versionNotes = null;
-	
-	protected String dateModified = null;
-	protected String dateCreated = null;
-	protected String dateIssued = null;
-	protected String dateCopyrighted = null;	
-	protected List<RDFNode> license = null;
-	protected List<RDFNode> creator = null;
-	protected List<RDFNode> publisher = null;
-	protected List<RDFNode> rightsHolder = null;		
-	protected List<RDFNode> depiction = null;
-	protected List<DcatDistribution> owlFormat = new ArrayList<DcatDistribution>(); 
-	
-	protected List<RDFNode> repository = null;
-	
-		
-	public OwlOntology(Resource rOntology, String lang) {
-		this.rdfsLabel = ModelReadingUtils.readLiteralInLangAsString(rOntology, RDFS.label, lang);
-		this.dctTitle = ModelReadingUtils.readLiteralInLangAsString(rOntology, DCTerms.title, lang);
-		
-		this.dctermsAbstract = ModelReadingUtils.readLiteralInLangAsString(rOntology, DCTerms.abstract_, lang);
-		this.rdfsComment = ModelReadingUtils.readLiteralInLangAsString(rOntology, RDFS.comment, lang);
-		
-		this.owlVersionInfo = ModelReadingUtils.readLiteralInLangAsString(rOntology,OWL.versionInfo, null);		
-		this.description = ModelReadingUtils.readLiteralInLangAsString(rOntology,DCTerms.description, lang);
-		this.versionNotes = ModelReadingUtils.readLiteralInLangAsString(rOntology,rOntology.getModel().createProperty(ADMS+"versionNotes"), lang);
-		
-		this.dateModified = ModelReadingUtils.readLiteralInLangAsString(rOntology,DCTerms.modified, null);			
-		this.dateCreated = ModelReadingUtils.readLiteralInLangAsString(rOntology,DCTerms.created, null);
-		this.dateIssued = ModelReadingUtils.readLiteralInLangAsString(rOntology,DCTerms.issued, null);
-		
-		this.dateCopyrighted = ModelReadingUtils.readLiteralInLangAsString(rOntology,DCTerms.dateCopyrighted, null);
-		
-		license = ModelReadingUtils.readObjectAsResourceOrLiteralInLang(rOntology, DCTerms.license, lang);
-		creator = ModelReadingUtils.readObjectAsResourceOrLiteralInLang(rOntology, DCTerms.creator, lang);
-		publisher = ModelReadingUtils.readObjectAsResourceOrLiteralInLang(rOntology, DCTerms.publisher, lang);
-		rightsHolder = ModelReadingUtils.readObjectAsResourceOrLiteralInLang(rOntology, DCTerms.rightsHolder, lang);
-		
-		this.depiction = ModelReadingUtils.readObjectAsResource(rOntology, FOAF.depiction);
-		
-		this.owlFormat = readDcatDistibution(rOntology);
-		
-		this.repository = ModelReadingUtils.readObjectAsResourceOrLiteralInLang(rOntology, DOAP.repository, lang);
-		
+	public List<RDFNode> getRepository() {
+		return ModelReadingUtils.readObjectAsResource(this.resource, DOAP.repository);
 	}
-	
-	public List<DcatDistribution> readDcatDistibution(Resource owlOntology) {
-		
+
+	public List<DcatDistribution> getDistributions() {
 		List<DcatDistribution> lOFormat = new ArrayList<DcatDistribution>();
-		if(owlOntology.hasProperty(DCAT.distribution)) {
-			List<Statement> rformat = owlOntology.listProperties(DCAT.distribution).toList();
+		if(this.resource.hasProperty(DCAT.distribution)) {
+			List<Statement> rformat = this.resource.listProperties(DCAT.distribution).toList();
 			for (Statement read : rformat) {				
 				if(read.getProperty(DCTerms.format).getResource().getURI().toString().equals("https://www.iana.org/assignments/media-types/text/turtle") ||
 				   read.getProperty(DCTerms.format).getResource().getURI().toString().equals("https://www.iana.org/assignments/media-types/application/rdf+xml") ||
@@ -106,104 +63,89 @@ public class OwlOntology {
 			}
 		}
 		
-		return OutFormat;		
+		return OutFormat;	
 	}
 	
-	
-	
-	
-	public List<RDFNode> getRepository() {
-		return repository;
+	public String getTitleOrLabel(String lang) {
+		String title = this.getDctTitle(lang);
+		if(title != null) {
+			return title;
+		} else {
+			return this.getRdfsLabel(lang);
+		}
 	}
-
-	public void setRepository(List<RDFNode> feedback) {
-		this.repository = feedback;
-	}
-
-	public List<DcatDistribution> getOwlFormat() {
-		return owlFormat;
-	}
-
-	public void setOwlFormat(List<DcatDistribution> owlFormat) {
-		this.owlFormat = owlFormat;
+	
+	public String getAbstractOrComment(String lang) {
+		String a = this.getDctermsAbstract(lang);
+		if(a != null) {
+			return a;
+		} else {
+			return this.getRdfsComment(lang);
+		}
 	}
 
 	public List<RDFNode> getDepiction() {
-		return depiction;
-	}
-	public void setDepiction(List<RDFNode> depiction) {
-		this.depiction = depiction;
-	}
-	public String getDctTitle() {
-		return dctTitle;
+		return ModelReadingUtils.readObjectAsResource(this.resource, FOAF.depiction);
 	}
 
-	public void setDctTitle(String dctTitle) {
-		this.dctTitle = dctTitle;
+	public String getDctTitle(String lang) {
+		return ModelReadingUtils.readLiteralInLangAsString(this.resource, DCTerms.title, lang);
 	}
 
-	public String getRdfsLabel() {
-		return rdfsLabel;
+	public String getRdfsLabel(String lang) {
+		return ModelReadingUtils.readLiteralInLangAsString(this.resource, RDFS.label, lang);
 	}
 
-	public String getDctermsAbstract() {
-		return dctermsAbstract;
+	public String getDctermsAbstract(String lang) {
+		return ModelReadingUtils.readLiteralInLangAsString(this.resource, DCTerms.abstract_, lang);
 	}
 
-	public void setDctermsAbstract(String dctermsAbstract) {
-		this.dctermsAbstract = dctermsAbstract;
-	}
-
-	public String getRdfsComment() {
-		return rdfsComment;
+	public String getRdfsComment(String lang) {
+		return ModelReadingUtils.readLiteralInLangAsString(this.resource, RDFS.comment, lang);
 	}
 
 	public String getOwlVersionInfo() {
-		return owlVersionInfo;
+		return ModelReadingUtils.readLiteralAsString(this.resource,OWL.versionInfo);
 	}
 
-	public String getDescription() {
-		return description;
+	public String getDescription(String lang) {
+		return ModelReadingUtils.readLiteralInLangAsString(this.resource,DCTerms.description, lang);
 	}
 
 	public String getDateModified() {
-		return dateModified;
+		return ModelReadingUtils.readLiteralAsString(this.resource,DCTerms.modified);
 	}
 
 	public String getDateCreated() {
-		return dateCreated;
+		return ModelReadingUtils.readLiteralAsString(this.resource,DCTerms.created);
 	}
 
 	public String getDateIssued() {
-		return dateIssued;
+		return ModelReadingUtils.readLiteralAsString(this.resource,DCTerms.issued);
 	}
 
 	public String getDateCopyrighted() {
-		return dateCopyrighted;
+		return ModelReadingUtils.readLiteralAsString(this.resource,DCTerms.dateCopyrighted);
 	}
 
-	public List<RDFNode> getLicense() {
-		return license;
+	public List<RDFNode> getLicense(String lang) {
+		return ModelReadingUtils.readObjectAsResourceOrLiteralInLang(this.resource, DCTerms.license, lang);
 	}
 
-	public List<RDFNode> getCreator() {
-		return creator;
+	public List<RDFNode> getCreator(String lang) {
+		return ModelReadingUtils.readObjectAsResourceOrLiteralInLang(this.resource, DCTerms.creator, lang);
 	}
 
-	public List<RDFNode> getPublisher() {
-		return publisher;
+	public List<RDFNode> getPublisher(String lang) {
+		return ModelReadingUtils.readObjectAsResourceOrLiteralInLang(this.resource, DCTerms.publisher, lang);
 	}
 
-	public List<RDFNode> getRightsHolder() {
-		return rightsHolder;
+	public List<RDFNode> getRightsHolder(String lang) {
+		return ModelReadingUtils.readObjectAsResourceOrLiteralInLang(this.resource, DCTerms.rightsHolder, lang);
 	}
 
-	public String getVersionNotes() {
-		return versionNotes;
-	}
-
-	public void setVersionNotes(String versionNotes) {
-		this.versionNotes = versionNotes;
+	public String getVersionNotes(String lang) {
+		return ModelReadingUtils.readLiteralInLangAsString(this.resource,this.resource.getModel().createProperty(VERSION_NOTES), lang);
 	}
 	
 	

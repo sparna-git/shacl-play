@@ -294,17 +294,34 @@ public class BaseShaclGeneratorDataProvider implements ShaclGeneratorDataProvide
 	}
 
 	@Override
-	public List<RDFNode> listDistinctValues(String subjectClassUri, String propertyUri, int limit) {
-		QuerySolutionMap qs = new QuerySolutionMap();
-		qs.add("type", ResourceFactory.createResource(subjectClassUri));
-		qs.add("property", ResourceFactory.createResource(propertyUri));
-		// qs.add("limit", ResourceFactory.createTypedLiteral(Integer.toString(limit), XSDDatatype.XSDinteger));
-		
+	public List<RDFNode> listDistinctValues(String subjectClassUri, String propertyPath, int limit) {
+		// manually replace variables to deal with property paths
+		String query = readQuery("list-distinct-values.rq");
+		query = query.replaceAll("\\$type", "<"+subjectClassUri+">");
+		query = query.replaceAll("\\$property", propertyPath);
+		query = query.replaceAll("\\$limit", Integer.toString(limit));
+
+
 		List<RDFNode> result = this.queryExecutionService.executeSelectQuery(
-				readQuery("count-distinct-values.rq").replaceAll("\\$limit", Integer.toString(limit)),
-				qs,
+				query,
 				JenaResultSetHandlers::convertToList
 				
+		);
+		return result;
+	}
+	
+	@Override
+	public Map<RDFNode, Integer> countValues(String subjectClassUri, String propertyPath, int limit) {
+		// manually replace variables to deal with property paths
+		String query = readQuery("count-values.rq");
+		query = query.replaceAll("\\$type", "<"+subjectClassUri+">");
+		query = query.replaceAll("\\$property", propertyPath);
+		query = query.replaceAll("\\$limit", Integer.toString(limit));
+
+
+		Map<RDFNode, Integer> result = this.queryExecutionService.executeSelectQuery(
+				query,
+				JenaResultSetHandlers::convertToMap				
 		);
 		return result;
 	}

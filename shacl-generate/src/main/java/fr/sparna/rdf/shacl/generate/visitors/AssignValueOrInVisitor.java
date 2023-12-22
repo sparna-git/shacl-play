@@ -17,7 +17,7 @@ public class AssignValueOrInVisitor extends DatasetAwareShaclVisitorBase {
 	
 	private static final Logger log = LoggerFactory.getLogger(AssignValueOrInVisitor.class);	
 	
-	public static final int DEFAULT_VALUES_THRESHOLD = 3;
+	public static final int DEFAULT_VALUES_THRESHOLD = 12;
 	
 	/**
 	 * The maximum number of distinct values for a given property for which sh:value or sh:in will be generated 
@@ -62,7 +62,9 @@ public class AssignValueOrInVisitor extends DatasetAwareShaclVisitorBase {
 		
 		if (log.isTraceEnabled()) log.trace("(setInOrHasValue) start");
 
-		List<RDFNode> distinctValues = this.dataProvider.listDistinctValues(targetClass.getURI(), path.getURI(), this.valuesInThreshold+1);
+		String propertyPath = ComputeStatisticsVisitor.renderSparqlPropertyPath(path);
+		
+		List<RDFNode> distinctValues = this.dataProvider.listDistinctValues(targetClass.getURI(), propertyPath, this.valuesInThreshold+1);
 		if(distinctValues.size() <= this.valuesInThreshold) {
 			log.debug("  (setInOrHasValue) found a maximum of '{}' distinct values, will set sh:in or sh:value", distinctValues.size());
 			if(distinctValues.size() == 1) {

@@ -1,0 +1,7 @@
+SELECT ?x (COUNT(?uri) AS ?count)
+WHERE {
+  ?uri a $type .
+  ?uri $property ?x .
+}
+GROUP BY ?x
+LIMIT $limit

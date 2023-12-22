@@ -2,9 +2,14 @@ package fr.sparna.rdf.shacl.doc.model;
 
 public class PropertyShapeDocumentation {
 
+	/**
+	 * Full URI of original property shape
+	 */
+	private String propertyShapeUriOrId;
+	
 	private String label;
 	
-	// null if sh:path is a property path
+	// Note : URI of the Link will be null if sh:path is a property path
 	private Link propertyUri;
 	
 
@@ -18,9 +23,13 @@ public class PropertyShapeDocumentation {
 
 	
 	private String color;
-	private int numberOfoccurrences;
-	private int valuesdistincts;
+	private int triples;
+	private int distinctObjects;
 
+	
+	
+	
+	
 	public ExpectedValue getExpectedValue() {
 		return expectedValue;
 	}
@@ -85,20 +94,28 @@ public class PropertyShapeDocumentation {
 		this.color = color;
 	}
 
-	public int getNumberOfoccurrences() {
-		return numberOfoccurrences;
+	public int getTriples() {
+		return triples;
 	}
 
-	public void setNumberOfoccurrences(int numberOfoccurrences) {
-		this.numberOfoccurrences = numberOfoccurrences;
+	public void setTriples(int triples) {
+		this.triples = triples;
 	}
 
-	public int getValuesdistincts() {
-		return valuesdistincts;
+	public int getDistinctObjects() {
+		return distinctObjects;
 	}
 
-	public void setValuesdistincts(int valuesdistincts) {
-		this.valuesdistincts = valuesdistincts;
+	public void setDistinctObjects(int distinctObjects) {
+		this.distinctObjects = distinctObjects;
+	}
+
+	public String getPropertyShapeUriOrId() {
+		return propertyShapeUriOrId;
+	}
+
+	public void setPropertyShapeUriOrId(String propertyShapeUriOrId) {
+		this.propertyShapeUriOrId = propertyShapeUriOrId;
 	}	
 
 }

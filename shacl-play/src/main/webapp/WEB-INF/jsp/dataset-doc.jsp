@@ -8,7 +8,7 @@
 	value="${sessionScope['fr.sparna.rdf.shacl.shaclplay.SessionData'].userLocale.language}" />
 <fmt:setBundle basename="fr.sparna.rdf.shacl.shaclplay.i18n.shaclplay" />
 
-<c:set var="data" value="${requestScope['ConvertFormData']}" />
+<c:set var="data" value="${requestScope['DatasetDocFormData']}" />
 
 <html>
 	<head>
@@ -138,21 +138,21 @@
 						
 						<h2><i class="fal fa-tools"></i>&nbsp;&nbsp;<fmt:message key="convert.options.title" /></h2>
 				      	<blockquote class="blockquote bq-warning">
-					      
-					      <div class="form-group row">
-					      	<div class="col-sm-9">
-								<label for="inputShapeCatalog" class="col-sm-3 col-form-label">
-									<fmt:message key="generate.options.format" />					    
-								</label>
-							    <div class="col-sm-4">
-							    	<select class="form-control" id="format" name="format" >
-						    			<option value="HTML">HTML</option>
-					    				<option value="PDF">PDF</option>
-					    				<option value="XML">XML</option>					    			
-								    </select>
+							<div class="form-group row">
+								<div class="col-sm-9">
+									<label for="inputShapeCatalog" class="col-sm-3 col-form-label">
+										<fmt:message key="generate.options.format" />
+									</label>
+									<div class="col-sm-4">
+										<select class="form-control" id="format" name="format">
+											<option value="HTML">HTML</option>
+											<option value="PDF">PDF</option>
+											<option value="XML">XML</option>
+										</select>
+									</div>
 								</div>
 							</div>
-						</div>
+						</blockquote>
 						  
 						<button type="submit" id="validate-button" class="btn btn-info btn-lg"><fmt:message key="generate.submit" /></button>
 					</form>	

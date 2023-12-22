@@ -1,14 +1,20 @@
 package fr.sparna.rdf.shacl.doc.read;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Model;
 
 import fr.sparna.rdf.shacl.diagram.PlantUmlDiagramOutput;
 import fr.sparna.rdf.shacl.doc.NodeShape;
+import fr.sparna.rdf.shacl.doc.NodeShapeReader;
 import fr.sparna.rdf.shacl.doc.PlantUmlSourceGenerator;
-import fr.sparna.rdf.shacl.doc.model.ParserModel;
+import fr.sparna.rdf.shacl.doc.ShaclPrefixReader;
+import fr.sparna.rdf.shacl.doc.ShapesGraph;
+import fr.sparna.rdf.shacl.doc.model.NamespaceSection;
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentation;
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentationDiagram;
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentationSection;
@@ -33,12 +39,9 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 	) {
 		
 		// parse SHACL & OWL
-		ParserModelReader r = new ParserModelReader();
-		ParserModel shapesModel = r.readMetadata(shaclGraph, owlGraph, lang);
+		ShapesGraph shapesModel = new ShapesGraph(shaclGraph, owlGraph, lang);
 		
-		ShapesDocumentation shapesDocumentation = new ShapesDocumentation(shapesModel.getOntologyObject(), lang);
-		
-		
+		ShapesDocumentation shapesDocumentation = new ShapesDocumentation(shapesModel.getOntologyObject(), lang);	
 		shapesDocumentation.setImgLogo(this.imgLogo);	
 		
 		// Option pour créer le diagramme		
@@ -55,11 +58,12 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 		}
 		
 		// Prefixes
-		shapesDocumentation.setPrefixe(shapesModel.getNamespaceSections()); // sortNameSpacesectionPrefix);
+		List<NamespaceSection> nsSections = this.readNamespaceSections(shaclGraph, shapesModel.getAllNodeShapes(), lang);
+		shapesDocumentation.setPrefixe(nsSections);
 		
 		// For each NodeShape ...
 		List<ShapesDocumentationSection> sections = new ArrayList<>();
-		for (NodeShape nodeShape : shapesModel.getAllNodeShapes() ) {
+		for (NodeShape nodeShape : shapesModel.getAllNodeShapes()) {
 			ShapesDocumentationSection section = ShapesDocumentationSectionBuilder.build(nodeShape, 
 					shapesModel.getAllNodeShapes(), 
 					 // Model
@@ -71,5 +75,35 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 		}
 		shapesDocumentation.setSections(sections);
 		return shapesDocumentation;
+	}
+	
+	public List<NamespaceSection> readNamespaceSections(Model shaclGraph, List<NodeShape> AllNodeShapes, String lang) {
+		
+		// 3. Lire les prefixes
+		HashSet<String> gatheredPrefixes = new HashSet<>();
+		NodeShapeReader reader = new NodeShapeReader(lang);
+		for (NodeShape aBox : AllNodeShapes) { // allNodeShapes) {
+			List<String> prefixes = reader.readPrefixes(aBox.getNodeShape());
+			gatheredPrefixes.addAll(prefixes);
+		}
+		Map<String, String> necessaryPrefixes = ShaclPrefixReader.gatherNecessaryPrefixes(shaclGraph.getNsPrefixMap(), gatheredPrefixes);
+		List<NamespaceSection> namespaceSections = NamespaceSection.fromMap(necessaryPrefixes);
+		List<NamespaceSection> sortNameSpacesectionPrefix = namespaceSections.stream().sorted((s1, s2) -> {
+			if(s1.getprefix() != null ) {
+				if(s2.getprefix() != null) {
+					return s1.getprefix().toString().compareTo(s2.getprefix().toString());
+				}else {
+					return -1;
+				}
+			}else {
+				if(s2.getprefix() != null) {
+					return 1;
+				} else {
+					return s1.getprefix().compareTo(s2.getprefix());
+				}
+			}	
+		}).collect(Collectors.toList());
+		
+		return sortNameSpacesectionPrefix; 
 	}
 }

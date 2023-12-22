@@ -25,7 +25,8 @@ public class ShapesDocumentationSectionBuilder {
 	) {
 		ShapesDocumentationSection currentSection = new ShapesDocumentationSection();
 		
-		// URI
+		// URI or blank node ID
+		currentSection.setNodeShapeUriOrId(nodeShape.getURIOrId());
 		currentSection.setSectionId(nodeShape.getShortFormOrId());
 		// if the node shape is itself a class, set its subtitle to the URI
 		if(nodeShape.isAClass()) {
@@ -93,10 +94,6 @@ public class ShapesDocumentationSectionBuilder {
 			PropertyShapeDocumentation psd = PropertyShapeDocumentationBuilder.build(propriete, allNodeShapes, shaclGraph, owlGraph, lang);				
 			ListPropriete.add(psd);
 		}
-		
-		// this items 
-		currentSection.setColor("");
-		currentSection.setMessageSeverities(null);
 		
 		currentSection.setPropertySections(ListPropriete);
 

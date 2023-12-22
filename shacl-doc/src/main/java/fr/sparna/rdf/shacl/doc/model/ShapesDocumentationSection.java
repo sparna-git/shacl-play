@@ -1,6 +1,5 @@
 package fr.sparna.rdf.shacl.doc.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -11,6 +10,10 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 @JsonInclude(Include.NON_NULL)
 public class ShapesDocumentationSection {
 
+	/**
+	 * Full corresponding NodeShape URI
+	 */
+	private String nodeShapeUriOrId;
 	
 	/**
 	 * The section ID, set to the URI short form
@@ -23,21 +26,13 @@ public class ShapesDocumentationSection {
 	private String subtitleUri;	
 	private String description;
 	
-	private int numberOfInstances;
-	
 	private Link targetClass;
 	
-	// private String targetClassLabel;
-	// private String targetClassUri;
 	private String pattern;
 	private String nodeKind;
 	private Boolean closed;
 	private String skosExample;
 	private String color;
-	//private List<String> MessageOfValidate = new ArrayList<>();
-	@JacksonXmlElementWrapper(localName="MessageSeverities")
-	@JacksonXmlProperty(localName = "MessageSeverity")
-	protected List<String> MessageSeverities;
 	
 	/**
 	 * The target of the shape when it is expressed using a SPARQL query
@@ -52,27 +47,28 @@ public class ShapesDocumentationSection {
 	@JacksonXmlProperty(localName = "property")
 	public List<PropertyShapeDocumentation> propertySections;
 
-	@JacksonXmlElementWrapper(localName="Charts")
-	@JacksonXmlProperty(localName = "Chart")
-	protected List<ChartDataset> ChartDataSection;
+	@JacksonXmlElementWrapper(localName="charts")
+	@JacksonXmlProperty(localName = "chart")
+	protected List<Chart> charts;
 	
-	private String MessageResultOfStatistic;
+	//private List<String> MessageOfValidate = new ArrayList<>();
+	@JacksonXmlElementWrapper(localName="messages")
+	@JacksonXmlProperty(localName = "message")
+	protected List<String> messages;
+	
+	private int numberOfTargets;
 	
 	
-	public String getMessageResultOfStatistic() {
-		return MessageResultOfStatistic;
+	public PropertyShapeDocumentation findPropertyShapeDocumentationSectionByUriOrId(String propertyUri) {
+		return this.propertySections.stream().filter(s -> s.getPropertyShapeUriOrId().equals(propertyUri)).findFirst().orElse(null);
 	}
 
-	public void setMessageResultOfStatistic(String messageResultOfStatistic) {
-		MessageResultOfStatistic = messageResultOfStatistic;
+	public List<Chart> getCharts() {
+		return charts;
 	}
 
-	public List<ChartDataset> getChartDataSection() {
-		return ChartDataSection;
-	}
-
-	public void setChartDataSection(List<ChartDataset> chartDataSection) {
-		ChartDataSection = chartDataSection;
+	public void setCharts(List<Chart> charts) {
+		this.charts = charts;
 	}
 
 	public List<Link> getSuperClasses() {
@@ -178,11 +174,28 @@ public class ShapesDocumentationSection {
 		this.color = color;
 	}
 
-	public List<String> getMessageSeverities() {
-		return MessageSeverities;
+	public List<String> getMessages() {
+		return messages;
 	}
 
-	public void setMessageSeverities(List<String> messageSeverities) {
-		MessageSeverities = messageSeverities;
+	public void setMessages(List<String> messages) {
+		this.messages = messages;
+	}
+
+	public int getNumberOfTargets() {
+		return numberOfTargets;
+	}
+
+	public void setNumberOfTargets(int numberOfTargets) {
+		this.numberOfTargets = numberOfTargets;
+	}
+
+	public String getNodeShapeUriOrId() {
+		return nodeShapeUriOrId;
+	}
+
+	public void setNodeShapeUriOrId(String nodeShapeUriOrId) {
+		this.nodeShapeUriOrId = nodeShapeUriOrId;
 	}	
+	
 }

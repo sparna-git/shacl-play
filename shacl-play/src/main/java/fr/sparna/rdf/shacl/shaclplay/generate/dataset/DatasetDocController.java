@@ -148,12 +148,11 @@ public class DatasetDocController {
 				 */
 				ShapesDocumentationWriterIfc writer = new ShapesDocumentationJacksonXsltWriter();
 				response.setContentType("text/html");
-				// response.setContentType("application/xhtml+xml");
 				writer.writeDatasetDoc(sd,  //set of data
 						"en",  // language default	
 						response.getOutputStream(), //instance of output
 						MODE.HTML // this option is update to format config
-						);		
+				);		
 
 				return null;
 			}			
@@ -182,7 +181,7 @@ public class DatasetDocController {
 		if(e != null) {
 			e.printStackTrace();
 		}
-		return new ModelAndView("generate-form-dataset", DatasetDocFormData.KEY, data);
+		return new ModelAndView("dataset-doc", DatasetDocFormData.KEY, data);
 	}
 	
 }

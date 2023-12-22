@@ -1,6 +1,7 @@
 package fr.sparna.rdf.shacl.generate;
 
 import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 
 import org.apache.jena.rdf.model.RDFNode;
@@ -115,6 +116,15 @@ public interface ShaclGeneratorDataProviderIfc {
 	 * @return a list containing at most "limit" items
 	 */
 	public List<RDFNode> listDistinctValues(String subjectClassUri, String propertyUri, int limit);
+	
+	/**
+	 * Count the number of values of the given property on the given class, limiting to X values
+	 * 
+	 * @param subjectClassUri
+	 * @param propertyPath
+	 * @return a map containing at most "limit" items
+	 */
+	public Map<RDFNode, Integer> countValues(String subjectClassUri, String propertyPath, int limit);
 	
 	/**
 	 * Tests if at least one instance of the class does not have a value for the property

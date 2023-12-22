@@ -29,16 +29,29 @@ public abstract class JenaResultSetHandlers {
   }
   
   public static List<RDFNode> convertToList(ResultSet resultSet) {
-	    List<RDFNode> result = new ArrayList<>();
+	  List<RDFNode> result = new ArrayList<>();
 
-	    String firstVar = resultSet.getResultVars().get(0);
-	    while (resultSet.hasNext()) {
-	      QuerySolution querySolution = resultSet.next();
-	      result.add(querySolution.get(firstVar));
-	    }
-
-	    return result;
+	  String firstVar = resultSet.getResultVars().get(0);
+	  while (resultSet.hasNext()) {
+		  QuerySolution querySolution = resultSet.next();
+		  result.add(querySolution.get(firstVar));
 	  }
+
+	  return result;
+  }
+  
+  public static Map<RDFNode, Integer> convertToMap(ResultSet resultSet) {
+	  Map<RDFNode, Integer> result = new HashMap<RDFNode, Integer>();
+
+	  String firstVar = resultSet.getResultVars().get(0);
+	  String secondVar = resultSet.getResultVars().get(1);
+	  while (resultSet.hasNext()) {
+		  QuerySolution querySolution = resultSet.next();
+		  result.put(querySolution.get(firstVar), querySolution.get(secondVar).asLiteral().getInt());
+	  }
+
+	  return result;
+  }
   
   /**
    * Since result currently is somewhat inflexible, we are adding flexibility with convertors.

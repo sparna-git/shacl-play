@@ -67,8 +67,12 @@ public class ModelReadingUtils {
 		return label;
 	}
 	
+	public static List<Literal> readLiteral(Resource constraint, Property property) {
+		return readLiteralInLang(constraint, property, null);
+	}
+	
 	/**
-	 * Reads a Literal in a specific language, and returns all values as a List
+	 * Reads a Literal in a specific language (possibly null for all languages), and returns all values as a List
 	 */
 	public static List<Literal> readLiteralInLang(Resource constraint, Property property, String lang) {
 		if (constraint.hasProperty(property)) {
@@ -96,10 +100,17 @@ public class ModelReadingUtils {
 	}
 	
 	/**
-	 * Reads a Literal in a specific language, and returns all values concatenated as a single String
+	 * Reads a Literal in a specific language, and returns all values concatenated as a single String. lang can be null
 	 */
 	public static String readLiteralInLangAsString(Resource r, Property property, String lang) {
 		return ModelRenderingUtils.render(readLiteralInLang(r, property, lang), true);
+	}
+	
+	/**
+	 * Reads a Literal, and returns all values concatenated as a single String.
+	 */
+	public static String readLiteralAsString(Resource r, Property property) {
+		return ModelRenderingUtils.render(readLiteral(r, property), true);
 	}
 	
 	/**
@@ -116,6 +127,17 @@ public class ModelReadingUtils {
 			}
 			
 			return result;
+		}
+		
+		return null;
+	}
+	
+	/**
+	 * Reads all values of the given property, either as Resources or as Literal in a specific language
+	 */
+	public static List<RDFNode> readObjectAsResourceOrLiteral(Resource r, Property property) {
+		if(r.hasProperty(property)) {
+			return r.listProperties(property).toList().stream().map(s -> s.getObject()).collect(Collectors.toList());
 		}
 		
 		return null;

@@ -78,21 +78,14 @@ public class ShapesDocumentation {
 		
 		if(ontology != null) {
 			
-			if(ontology.getDctTitle() != null) {
-				this.setTitle(ontology.getDctTitle());
-			} else {
-				this.setTitle(ontology.getRdfsLabel());
-			}
+			this.setTitle(ontology.getTitleOrLabel(lang));
 			
-			String abstractString = null;
-			if(ontology.getDctermsAbstract() != null) {
-				Node document = parser.parse(ontology.getDctermsAbstract());					
+			String abstractString = ontology.getAbstractOrComment(lang);
+			if(abstractString != null) {
+				Node document = parser.parse(abstractString);					
 				abstractString = renderer.render(document);	
-			} else if(ontology.getRdfsComment() != null) {
-				Node document = parser.parse(ontology.getRdfsComment());					
-				abstractString = renderer.render(document);	
-			}	
-			this.setAbstract_(abstractString);
+				this.setAbstract_(abstractString);
+			}
 			
 			this.setDatecreated(ontology.getDateCreated());
 			this.setDateissued(ontology.getDateIssued());
@@ -100,38 +93,38 @@ public class ShapesDocumentation {
 			this.setModifiedDate(ontology.getDateModified());
 			this.setVersionInfo(ontology.getOwlVersionInfo());
 			
-			Optional.ofNullable(ontology.getLicense()).ifPresent(list -> {
+			Optional.ofNullable(ontology.getLicense(lang)).ifPresent(list -> {
 				this.license = list.stream()
 				.map(new RDFNodeToLinkMapper(lang))
 				.collect(Collectors.toList());
 			});
 			
-			Optional.ofNullable(ontology.getCreator()).ifPresent(list -> {
+			Optional.ofNullable(ontology.getCreator(lang)).ifPresent(list -> {
 				this.creator = list.stream()
 				.map(new RDFNodeToLinkMapper(lang))
 				.collect(Collectors.toList());
 			});
 			
-			Optional.ofNullable(ontology.getPublisher()).ifPresent(list -> {
+			Optional.ofNullable(ontology.getPublisher(lang)).ifPresent(list -> {
 				this.publisher = list.stream()
 				.map(new RDFNodeToLinkMapper(lang))
 				.collect(Collectors.toList());
 			});
 			
-			Optional.ofNullable(ontology.getRightsHolder()).ifPresent(list -> {
+			Optional.ofNullable(ontology.getRightsHolder(lang)).ifPresent(list -> {
 				this.rightsHolder = list.stream()
 				.map(new RDFNodeToLinkMapper(lang))
 				.collect(Collectors.toList());
 			});
 			
-			if(ontology.getDescription() != null) {	
-				Node document = parser.parse(ontology.getDescription());	
+			if(ontology.getDescription(lang) != null) {	
+				Node document = parser.parse(ontology.getDescription(lang));	
 				String descriptionRendered = renderer.render(document);				
 				this.setDescriptionDocument(descriptionRendered);
 			}
 			
-			if(ontology.getVersionNotes() != null) {				
-				Node document = parser.parse(ontology.getVersionNotes());	
+			if(ontology.getVersionNotes(lang) != null) {				
+				Node document = parser.parse(ontology.getVersionNotes(lang));	
 				String versionNodeRendered = renderer.render(document);				
 				this.setReleaseNotes(versionNodeRendered);
 			}
@@ -143,7 +136,7 @@ public class ShapesDocumentation {
 						.collect(Collectors.toList());
 			});
 			
-			this.setFormat(ontology.getOwlFormat());
+			this.setFormat(ontology.getDistributions());
 			
 			Optional.ofNullable(ontology.getRepository()).ifPresent(list -> {
 				this.feedback = list.stream()
@@ -153,6 +146,10 @@ public class ShapesDocumentation {
 			
 			
 		}		
+	}
+	
+	public ShapesDocumentationSection findSectionByUriOrId(String nodeShapeUriOrId) {
+		return this.sections.stream().filter(s -> s.getNodeShapeUriOrId().equals(nodeShapeUriOrId)).findFirst().orElse(null);
 	}
 	
 	

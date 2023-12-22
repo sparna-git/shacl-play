@@ -3,7 +3,6 @@ package fr.sparna.rdf.shacl.doc;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
@@ -17,10 +16,7 @@ import org.topbraid.shacl.vocabulary.SH;
 public class PropertyShape {
 
 	private Resource resource;
-	
-	// can be a URI or a blank node corresponding to a property path
-	
-	
+
 	
 	public PropertyShape(Resource resource) {
 		super();
@@ -29,6 +25,15 @@ public class PropertyShape {
 	
 	public Resource getResource() {
 		return resource;
+	}
+	
+	public String getURIOrId() {
+		if(this.resource.isURIResource()) {
+			return this.resource.getURI();
+		} else {
+			// returns the blank node ID in that case
+			return this.resource.asResource().getId().getLabelString();
+		}
 	}
 	
 	/**

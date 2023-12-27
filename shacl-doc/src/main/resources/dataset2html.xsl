@@ -61,6 +61,8 @@
 			<entry key="LABEL_CLOSE" label="Shape fermée" />
 			<entry key="LABEL_EXAMPLE" label="Exemple : "/>
 			<entry key="LABEL_SUPERCLASSES" label="Hérite de : "/>
+			
+			<entry key="BY" label=" par " />
 		</labels>
 	</xsl:variable>
 
@@ -110,6 +112,8 @@
 			<entry key="LABEL_CLOSE" label="Closed shape" />
 			<entry key="LABEL_EXAMPLE" label="Example: "/>
 			<entry key="LABEL_SUPERCLASSES" label="Inherits from: "/>
+			
+			<entry key="BY" label=" by " />
 		</labels>
 	</xsl:variable>
 
@@ -175,6 +179,10 @@
 					
 					h3 {
 						font-size: 1.4em;
+					}
+					
+					h4 {
+						font-size: 1.2em;
 					}
 					
 					@media only print {
@@ -356,18 +364,6 @@
 							    border: var(--bs-alert-border);
 							    border-radius: var(--bs-alert-border-radius);
 					}
-					
-					.chart-row:after {
-					    content: "";
-  						display: table;
-  						clear: both;
-					}
-					
-					.chart-column {
-  						float: left;
-  						width: 48%;
-  						padding-right: 1%;
-					}
 
 					.sp_badge {
 						vertical-align: super;
@@ -378,6 +374,29 @@
 						padding: 0px 4px;
 						text-align: center;
 						border-radius: 7px;
+					}
+					
+					/* chart sections */
+					
+					.chart {
+						
+					}
+					
+					.chart-content {
+						text-align: center;
+					}
+					
+					.chart-canvas {
+						width:70%;
+						display:inline-block;
+					}
+					
+					.sp_chart_title {
+						font-family: Georgia, Garamond, serif;
+						margin-bottom: 0rem;
+						font-weight: 500;
+						color: #1e1e1f;
+						line-height: 1.2em;
 					}
 							
 					<xsl:choose>
@@ -428,7 +447,8 @@
 								max-width:255px;
 							}
 							.sp_list_toc {padding-left: 0px;}
-							.sp_list_toc_l2 {padding-left: 10px;}					
+							.sp_list_toc_l2 {padding-left: 10px;}
+							.sp_list_toc_l3 {padding-left: 8px;}						
 						</xsl:otherwise>
 					</xsl:choose>
 					
@@ -574,6 +594,15 @@
 										</xsl:otherwise>
 									</xsl:choose>	
 								</a>
+								<xsl:if test="count(charts/chart) > 0">
+									<ul class="ul_type_none sp_list_toc_l3">										
+										<xsl:for-each select="charts/chart">
+											<xsl:variable name="chartSectionId"><xsl:apply-templates select="." mode="id" /></xsl:variable>
+											<li><a href="#{$chartSectionId}"><xsl:value-of select="$LABELS/labels/entry[@key='BY']/@label" /><xsl:value-of select="title" /></a></li>
+										</xsl:for-each>
+									</ul>
+								</xsl:if>								
+								<xsl:apply-templates select="title" />
 							</li>
 						</xsl:for-each>
 					</ul>
@@ -848,51 +877,30 @@
 	</xsl:template>
 	
 	<xsl:template match="section">
-		
-		<xsl:variable name="vColor" select="color"/>
 	
 		<div class="row mt-3">
 			<div class="col">
 				<section id="{sectionId}">
 					<div class="sp_section_title_table_wrapper">
 						
-						<xsl:element name="h3">
-							<xsl:attribute name="class">sp_section_title_table</xsl:attribute>							
+						<xsl:variable name="style">
 							<xsl:if test="string-length(color) &gt; 0">
-								<xsl:attribute name="style">color:<xsl:value-of select="color"/></xsl:attribute>
+								color:<xsl:value-of select="color"/>
 							</xsl:if>
-							
-							<xsl:choose>
-								<xsl:when test="numberOfTargets">
-									<xsl:value-of select="title"/><span class="sp_badge"><xsl:value-of select="numberOfTargets"/></span>
-								</xsl:when>
-								<xsl:otherwise>
-									<xsl:value-of select="title" />									
-								</xsl:otherwise>
-							</xsl:choose>
-						</xsl:element>
-							
+						</xsl:variable>
+						
+						<h3 class="sp_section_title_table" style="{$style}">
+							<xsl:value-of select="title"/>
+							<xsl:apply-templates select="numberOfTargets" />
+						</h3>
 									
 						<xsl:if test="subtitleUri">
 							<code class="sp_section_uri"><xsl:value-of select="subtitleUri" /></code>
 						</xsl:if>
 					</div>
 					
-					<!-- Message Severity -->
-					<xsl:if test="messages/message">
-						<div class="sp.alert sp_alert_danger">
-							<ul>
-								<xsl:for-each select="messages/message">
-									<li>
-										<em style="{concat('color:', $vColor)}">
-											<xsl:value-of select="."/>	
-										</em>
-									</li>
-								</xsl:for-each>	
-							</ul>
-						</div>						
-					</xsl:if>
-					
+					<!-- Messages -->
+					<xsl:apply-templates select="messages" />
 					
 					
 					<xsl:if test="description != ''">
@@ -969,107 +977,84 @@
 <xsl:value-of select="sparqlTarget" />					
 					</pre></code>
 					</xsl:if>
-
-					<!-- Section for Pie Chart -->
-					<xsl:variable name="currentSection" select="title"/>
-					<xsl:variable name="quote">'</xsl:variable>
-
-					<xsl:if test="charts/chart">
-					<div class="charts">
-						<div class="chart-row">
-							<xsl:for-each select="charts/chart">
-								<xsl:variable name="currentSectionId" select="concat($currentSection,'_',position())"/>
-									
-								<div class="chart-column">
-									<canvas id="{$currentSectionId}"></canvas>						
-								</div>
-								
-								<!-- JavaScript for drawn Pie Chart  -->
-								<script type="text/javascript">									
-							
-									const data<xsl:value-of select="$currentSectionId"/> = {
-										  labels: [<xsl:value-of select="./items/item/concat($quote,label,$quote)" separator=","/>],
-										  datasets: [{
-										    label: 'values',
-										    data: [<xsl:value-of select="./items/item/value" separator=","/>],
-										    hoverOffset: 4
-										  }]
-										};
-	
-									new Chart("<xsl:value-of select="$currentSectionId"/>",{
-										type: 'pie',
-									  	data: data<xsl:value-of select="$currentSectionId"/>,
-									  	options: {
-									  		plugins: {
-									  			legend: {
-									  				display: true,
-									                position: 'right'
-									  			},
-									  			title: {
-										        display: true,
-										        text: '<xsl:value-of select="title"/>'
-										      }
-									  		},
-									  		responsive: true
-									  	}
-									});
-								</script>								
-							</xsl:for-each>
-						</div>
-					</div>
-					</xsl:if>			
 					
-					<xsl:if test="count(properties/property)>0">
-						<table class="sp_table_propertyshapes table-striped table-responsive">
-							<thead>
-								<tr>
-									<th>
-										<xsl:value-of
-											select="$LABELS/labels/entry[@key='COLUMN_PROPERTY']/@label" />
-									</th>
-									<th >
-										<xsl:value-of
-											select="$LABELS/labels/entry[@key='COLUMN_URI']/@label" />
-									</th>
-									<th>
-										<xsl:value-of
-											select="$LABELS/labels/entry[@key='COLUMN_EXPECTED_VALUE']/@label" />
-									</th>
-									<th>
-										<xsl:value-of
-											select="$LABELS/labels/entry[@key='COLUMN_CARD']/@label" />
-									</th>
-									<!--  
-									<th class="sp_description_column">
-										<xsl:value-of
-											select="$LABELS/labels/entry[@key='COLUMN_DESCRIPTION']/@label" />
-									</th>
-									-->
-									<th>
-										<xsl:value-of
-											select="$LABELS/labels/entry[@key='COLUMN_NUMBEROCCURRENCES']/@label" />											
-									</th>
-									<th>
-										<xsl:value-of
-											select="$LABELS/labels/entry[@key='COLUMN_VALUESDISTINCTS']/@label" />											
-									</th>									
-								</tr>
-							</thead>
-							<tbody>
-								<xsl:apply-templates />
-							</tbody>
-						</table>
-					</xsl:if>
+					<!-- Properties table -->
+					<xsl:apply-templates select="properties" />
+					
+					<!-- Section for Pie Chart -->
+					<xsl:apply-templates select="charts" />		
+					
+					
 				</section>
 			</div>
 		</div>
 		<br/>
 	</xsl:template>
 	
+	<xsl:template match="numberOfTargets">
+		<span class="sp_badge"><xsl:value-of select="."/></span>
+	</xsl:template>
 
+	<xsl:template match="messages">
+		<div class="sp.alert sp_alert_danger">
+			<ul>
+				<xsl:apply-templates select="message" />
+			</ul>
+		</div>
+	</xsl:template>
+
+	<xsl:template match="message">
+		<li>
+			<em style="{concat('color:', ../../color)}">
+				<xsl:value-of select="."/>	
+			</em>
+		</li>
+	</xsl:template>
+	
+	
 	<!-- Properties -->
 	<xsl:template match="properties">
-		<xsl:apply-templates />
+		<xsl:if test="count(property)>0">
+			<table class="sp_table_propertyshapes table-striped table-responsive">
+				<thead>
+					<tr>
+						<th>
+							<xsl:value-of
+								select="$LABELS/labels/entry[@key='COLUMN_PROPERTY']/@label" />
+						</th>
+						<th >
+							<xsl:value-of
+								select="$LABELS/labels/entry[@key='COLUMN_URI']/@label" />
+						</th>
+						<th>
+							<xsl:value-of
+								select="$LABELS/labels/entry[@key='COLUMN_EXPECTED_VALUE']/@label" />
+						</th>
+						<th>
+							<xsl:value-of
+								select="$LABELS/labels/entry[@key='COLUMN_CARD']/@label" />
+						</th>
+						<!--  
+						<th class="sp_description_column">
+							<xsl:value-of
+								select="$LABELS/labels/entry[@key='COLUMN_DESCRIPTION']/@label" />
+						</th>
+						-->
+						<th>
+							<xsl:value-of
+								select="$LABELS/labels/entry[@key='COLUMN_NUMBEROCCURRENCES']/@label" />											
+						</th>
+						<th>
+							<xsl:value-of
+								select="$LABELS/labels/entry[@key='COLUMN_VALUESDISTINCTS']/@label" />											
+						</th>									
+					</tr>
+				</thead>
+				<tbody>
+					<xsl:apply-templates select="property" />
+				</tbody>
+			</table>
+		</xsl:if><!-- end properties table -->
 	</xsl:template>
 
 	<xsl:template match="property">
@@ -1190,7 +1175,63 @@
 			</td>
 		</xsl:element>
 		
-		
+	</xsl:template>
+	
+	<xsl:template match="charts">
+		<div class="charts">
+			<xsl:apply-templates />
+		</div>
+	</xsl:template>
+	
+	<xsl:template match="chart">
+		<xsl:variable name="currentSectionId">
+			<xsl:apply-templates select="." mode="id" />
+		</xsl:variable>
+		<xsl:variable name="quote">'</xsl:variable>
+	
+		<div class="chart" id="{$currentSectionId}">
+			<h4 class="sp_chart_title"><xsl:value-of select="../../title" /><xsl:value-of select="$LABELS/labels/entry[@key='BY']/@label" /><xsl:value-of select="title" /></h4>
+			
+			<div class="chart-content">
+				<div class="chart-canvas">			
+					<canvas id="{$currentSectionId}_canvas"></canvas>
+					
+					<!-- JavaScript for drawn Pie Chart  -->
+					<script type="text/javascript">
+						const data<xsl:value-of select="$currentSectionId"/> = {
+							  labels: [<xsl:value-of select="./items/item/concat($quote,label,$quote)" separator=","/>],
+							  datasets: [{
+							    label: 'values',
+							    data: [<xsl:value-of select="./items/item/value" separator=","/>],
+							    hoverOffset: 4
+							  }]
+							};
+			
+						new Chart("<xsl:value-of select="$currentSectionId"/>_canvas",{
+							type: 'pie',
+						  	data: data<xsl:value-of select="$currentSectionId"/>,
+						  	options: {
+						  		plugins: {
+						  			legend: {
+						  				display: true,
+						                position: 'right'
+						  			}
+						  		},
+						  		layout: {
+						  			autoPadding: false
+						  		},
+						  		aspectRatio: 2						  		
+						  	}
+						});
+					</script>					
+				</div>
+			</div>
+		</div>
+	
+	</xsl:template>
+	
+	<xsl:template match="chart" mode="id">
+		<xsl:value-of select="translate(concat(../../sectionId,'_chart',count(preceding-sibling::chart)+1), ' :','__')"/>
 	</xsl:template>
 	
 	<!-- Release notes at the end  -->

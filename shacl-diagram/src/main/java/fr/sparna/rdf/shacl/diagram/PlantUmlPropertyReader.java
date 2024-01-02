@@ -15,14 +15,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.topbraid.shacl.vocabulary.SH;
 
+import fr.sparna.rdf.jena.ModelReadingUtils;
+import fr.sparna.rdf.jena.ModelRenderingUtils;
+import fr.sparna.rdf.shacl.SHACL_PLAY;
+
 
 public class PlantUmlPropertyReader {
 	
 	private Logger log = LoggerFactory.getLogger(this.getClass().getName());
 	
 	protected List<PlantUmlBox> allBoxes;
-	protected ConstraintValueReader constraintValueReader = new ConstraintValueReader(); 
-
 
 	public PlantUmlPropertyReader(List<PlantUmlBox> allBoxes) {
 		super();
@@ -138,16 +140,16 @@ public class PlantUmlPropertyReader {
 		return orBoxes;
 	}
 	
-	public String readShPath(Resource constraint) {		
-		return constraintValueReader.readValueconstraint(constraint,SH.path);
+	public String readShPath(Resource constraint) {
+		return ModelRenderingUtils.render(ModelReadingUtils.readObjectAsResourceOrLiteral(constraint, SH.path), true);
 	}
 		
 	public String readShDatatype(Resource constraint) {
-		return constraintValueReader.readValueconstraintAsShortForm(constraint, SH.datatype);
+		return ModelRenderingUtils.render(ModelReadingUtils.readObjectAsResourceOrLiteral(constraint, SH.datatype), true);
 	}
 
 	public String readShNodeKind(Resource constraint) {
-		return constraintValueReader.readValueconstraint(constraint,SH.nodeKind);
+		return ModelRenderingUtils.render(ModelReadingUtils.readObjectAsResourceOrLiteral(constraint, SH.nodeKind), true);
 	}
 	
 	//Cardinality Constraint Components
@@ -158,10 +160,10 @@ public class PlantUmlPropertyReader {
 		String value_maxCount ="*";
 		String uml_code =null;
 		if (constraint.hasProperty(SH.minCount)){
-			value_minCount = constraintValueReader.readValueconstraint(constraint, SH.minCount);
+			value_minCount = ModelRenderingUtils.render(ModelReadingUtils.readObjectAsResourceOrLiteral(constraint, SH.minCount), true);
 		}
 		if (constraint.hasProperty(SH.maxCount)) {
-			value_maxCount = constraintValueReader.readValueconstraint(constraint, SH.maxCount);
+			value_maxCount = ModelRenderingUtils.render(ModelReadingUtils.readObjectAsResourceOrLiteral(constraint, SH.minCount), true);
 		}
 		
 		if ((constraint.hasProperty(SH.minCount)) || (constraint.hasProperty(SH.maxCount))){
@@ -190,19 +192,19 @@ public class PlantUmlPropertyReader {
 		
 		if (constraint.hasProperty(SH.minInclusive)) {
 			a1 = true;
-			value_minIn = "{field} (range : ["+constraintValueReader.readValueconstraint(constraint, SH.minInclusive)+"-";			
+			value_minIn = "{field} (range : ["+ModelRenderingUtils.render(ModelReadingUtils.readObjectAsResourceOrLiteral(constraint, SH.minInclusive), true)+"-";			
 		} 
 		if (constraint.hasProperty(SH.maxInclusive)){
 			a2 = true;
-			value_maxIn = "-"+constraintValueReader.readValueconstraint(constraint, SH.maxInclusive)+"])";			
+			value_maxIn = "-"+ModelRenderingUtils.render(ModelReadingUtils.readObjectAsResourceOrLiteral(constraint, SH.maxInclusive), true)+"])";			
 		} 
 		if (constraint.hasProperty(SH.minExclusive)){
 			a3 = true;
-			value_minEx = "{field} (range : ]"+constraintValueReader.readValueconstraint(constraint,SH.minExclusive)+"-";			
+			value_minEx = "{field} (range : ]"+ModelRenderingUtils.render(ModelReadingUtils.readObjectAsResourceOrLiteral(constraint, SH.minExclusive), true)+"-";			
 		} 
 		if(constraint.hasProperty(SH.maxExclusive)) {
 			a4 = true;
-			value_maxEx = "-"+constraintValueReader.readValueconstraint(constraint, SH.maxExclusive)+"[)";	
+			value_maxEx = "-"+ModelRenderingUtils.render(ModelReadingUtils.readObjectAsResourceOrLiteral(constraint, SH.maxExclusive), true)+"[)";	
 		}
 		
 		if ((a1) & (!a2)) {
@@ -230,10 +232,10 @@ public class PlantUmlPropertyReader {
 		String uml_code = null;
 		
 		if(constraint.hasProperty(SH.maxLength)){
-			value_maxLength = constraintValueReader.readValueconstraint(constraint, SH.maxLength);			
+			value_maxLength = ModelRenderingUtils.render(ModelReadingUtils.readObjectAsResourceOrLiteral(constraint, SH.maxLength), true);			
 		}				
 		if (constraint.hasProperty(SH.minLength)){
-			value_minLength = constraintValueReader.readValueconstraint(constraint, SH.minLength); 			
+			value_minLength = ModelRenderingUtils.render(ModelReadingUtils.readObjectAsResourceOrLiteral(constraint, SH.minLength), true); 			
 		}
 		if ((constraint.hasProperty(SH.maxLength)) || (constraint.hasProperty(SH.minLength))){
 			if(value_minLength=="") { value_minLength = "0"; }
@@ -245,7 +247,7 @@ public class PlantUmlPropertyReader {
 	
 
 	public String readShPattern(Resource constraint) {
-		return constraintValueReader.readValueconstraint(constraint, SH.pattern);
+		return ModelRenderingUtils.render(ModelReadingUtils.readObjectAsResourceOrLiteral(constraint, SH.pattern), true);
 	}
 	
 
@@ -271,9 +273,7 @@ public class PlantUmlPropertyReader {
 		if (
 				constraint.hasProperty(SH.uniqueLang)
 				&&
-				constraintValueReader.readValueconstraint(constraint, SH.uniqueLang) != null
-				&&
-				!constraintValueReader.readValueconstraint(constraint, SH.uniqueLang).equals("")
+				!ModelRenderingUtils.render(ModelReadingUtils.readObjectAsResourceOrLiteral(constraint, SH.uniqueLang), true).equals("")
 		) {			
 			value = "uniqueLang";
 		}
@@ -287,7 +287,7 @@ public class PlantUmlPropertyReader {
 			// 1. Lire la valeur de sh:node
 			//Resource nodeValue = constraint.asResource().getProperty(SH.node).getResource();
 			String nodeValue = null;
-			nodeValue = constraintValueReader.readValueconstraint(constraint, SH.node);		
+			nodeValue = ModelRenderingUtils.render(ModelReadingUtils.readObjectAsResourceOrLiteral(constraint, SH.node), true);		
 					
 		
 			// 2. Trouver le PlantUmlBox qui a ce nom
@@ -341,19 +341,19 @@ public class PlantUmlPropertyReader {
 	
 	
 	public Double readShOrder(Resource constraint) {
-		String v = constraintValueReader.readValueconstraint(constraint, SH.order);
+		String v = ModelRenderingUtils.render(ModelReadingUtils.readObjectAsResourceOrLiteral(constraint, SH.order), true);
 		
 		return (v != null)?Double.parseDouble(v):null;		
 	}
 		
 	public String readShHasValue(Resource constraint) {
-		return constraintValueReader.readValueconstraint(constraint, SH.hasValue);
+		return ModelRenderingUtils.render(ModelReadingUtils.readObjectAsResourceOrLiteral(constraint, SH.hasValue), true);
 	}
 
 	public PlantUmlBox readShQualifiedValueShape(Resource constraint) {
 		
 		// 1. Lire la valeur de sh:node
-		String nodeValue = constraintValueReader.readValueconstraint(constraint, SH.qualifiedValueShape);
+		String nodeValue = ModelRenderingUtils.render(ModelReadingUtils.readObjectAsResourceOrLiteral(constraint, SH.qualifiedValueShape), true);
 		
 		// 2. Trouver le PlantUmlBox qui a ce nom
 		PlantUmlBox theBox = null;
@@ -375,10 +375,10 @@ public class PlantUmlPropertyReader {
 		String uml_code =null;
 		
 		if (constraint.hasProperty(SH.qualifiedMinCount)){
-			value_minCount = constraintValueReader.readValueconstraint(constraint, SH.qualifiedMinCount);
+			value_minCount = ModelRenderingUtils.render(ModelReadingUtils.readObjectAsResourceOrLiteral(constraint, SH.qualifiedMinCount), true);
 		}
 		if (constraint.hasProperty(SH.qualifiedMaxCount)) {
-			value_maxCount = constraintValueReader.readValueconstraint(constraint, SH.qualifiedMaxCount);
+			value_maxCount = ModelRenderingUtils.render(ModelReadingUtils.readObjectAsResourceOrLiteral(constraint, SH.qualifiedMaxCount), true);
 		}
 		
 		if ((constraint.hasProperty(SH.qualifiedMinCount)) || (constraint.hasProperty(SH.qualifiedMaxCount))){
@@ -387,11 +387,7 @@ public class PlantUmlPropertyReader {
 			uml_code = null;
 		}
 		
-		return uml_code;
-		
+		return uml_code;	
 	}
-	
-	
-
 	
 }

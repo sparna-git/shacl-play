@@ -1,4 +1,4 @@
-package fr.sparna.rdf.shacl;
+package fr.sparna.rdf.jena;
 
 import java.util.HashSet;
 import java.util.Set;

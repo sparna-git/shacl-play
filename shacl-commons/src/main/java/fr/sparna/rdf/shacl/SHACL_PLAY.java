@@ -7,4 +7,8 @@ public class SHACL_PLAY {
 	public static String VALUE_PARTITION = NAMESPACE + "valuePartition";
 	
 	public static String VALUE = NAMESPACE + "value";
+	
+	public static String COLOR = NAMESPACE + "color";
+	
+	public static String PACKAGE = NAMESPACE + "package";
 }

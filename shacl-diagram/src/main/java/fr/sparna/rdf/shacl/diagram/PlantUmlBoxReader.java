@@ -9,11 +9,13 @@ import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.sparql.vocabulary.FOAF;
 import org.apache.jena.vocabulary.RDFS;
-import org.topbraid.shacl.vocabulary.SH;;
+import org.topbraid.shacl.vocabulary.SH;
+
+import fr.sparna.rdf.jena.ModelReadingUtils;
+import fr.sparna.rdf.jena.ModelRenderingUtils;
+import fr.sparna.rdf.shacl.SHACL_PLAY;;
 
 public class PlantUmlBoxReader {
-		
-	private ConstraintValueReader valueReader = new ConstraintValueReader();
 	
 	public PlantUmlBox read(Resource nodeShape, List<Resource> allNodeShapes) {
 		PlantUmlBox box = new PlantUmlBox(nodeShape);
@@ -52,11 +54,7 @@ public class PlantUmlBoxReader {
 	}	
 	
 	public String readLabel(Resource nodeShape) {
-		if(nodeShape.isURIResource()) {
-			return nodeShape.asResource().getModel().shortForm(nodeShape.getURI());
-		} else {
-			return nodeShape.toString();
-		}
+		return ModelRenderingUtils.render(nodeShape, true);
 	}
 	
 	public List<PlantUmlProperty> readProperties(Resource nodeShape, List<PlantUmlBox> allBoxes,Model owlGraph) {
@@ -134,7 +132,7 @@ public class PlantUmlBoxReader {
 	}	
 
 	public String readNametargetclass(Resource nodeShape) {
-		return valueReader.readValueconstraint(nodeShape, SH.targetClass);
+		return ModelRenderingUtils.render(ModelReadingUtils.readObjectAsResourceOrLiteral(nodeShape, SH.targetClass), true);
 	}
 
 	public String readPackageName(Resource nodeShape) {

@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.vocabulary.RDFS;
 
-import fr.sparna.rdf.shacl.doc.ModelReadingUtils;
+import fr.sparna.rdf.jena.ModelReadingUtils;
 import fr.sparna.rdf.shacl.doc.NodeShape;
 import fr.sparna.rdf.shacl.doc.PropertyShape;
 import fr.sparna.rdf.shacl.doc.model.Link;

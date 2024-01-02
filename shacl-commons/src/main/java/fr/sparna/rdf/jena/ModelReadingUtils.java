@@ -1,4 +1,4 @@
-package fr.sparna.rdf.shacl.doc;
+package fr.sparna.rdf.jena;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -133,7 +133,7 @@ public class ModelReadingUtils {
 	}
 	
 	/**
-	 * Reads all values of the given property, either as Resources or as Literal in a specific language
+	 * Reads all values of the given property, either as Resources or as Literal
 	 */
 	public static List<RDFNode> readObjectAsResourceOrLiteral(Resource r, Property property) {
 		if(r.hasProperty(property)) {

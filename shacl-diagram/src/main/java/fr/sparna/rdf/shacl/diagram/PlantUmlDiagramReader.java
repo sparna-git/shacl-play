@@ -10,6 +10,8 @@ import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.vocabulary.DCTerms;
 import org.topbraid.shacl.vocabulary.SH;
 
+import fr.sparna.rdf.jena.ModelReadingUtils;
+
 public class PlantUmlDiagramReader {
 
 	
@@ -57,15 +59,15 @@ public class PlantUmlDiagramReader {
 	}
 	
 	public String readDctTitle(Resource r, String lang) {
-		return ConstraintValueReader.readLiteralInLangAsString(r, DCTerms.title, lang);
+		return ModelReadingUtils.readLiteralInLangAsString(r, DCTerms.title, lang);
 	}
 	
 	public String readDctDescription(Resource r, String lang) {
-		return ConstraintValueReader.readLiteralInLangAsString(r, DCTerms.description, lang);
+		return ModelReadingUtils.readLiteralInLangAsString(r, DCTerms.description, lang);
 	}
 	
 	public double readShOrder(Resource r) {
-		List<Literal> values = ConstraintValueReader.readLiteralInLang(r, SH.order, null);
+		List<Literal> values = ModelReadingUtils.readLiteralInLang(r, SH.order, null);
 		if(values != null && values.size() > 0) {
 			return values.get(0).asLiteral().getDouble();
 		} else {

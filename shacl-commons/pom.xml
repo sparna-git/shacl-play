@@ -3,9 +3,9 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>fr.sparna.rdf.shacl</groupId>
-	<artifactId>shacl-generate</artifactId>
+	<artifactId>shacl-commons</artifactId>
 	<packaging>jar</packaging>
-	<name>shacl-generate</name>
+	<name>shacl-commons</name>
 
 	<parent>
 		<groupId>fr.sparna.rdf.shacl</groupId>
@@ -58,25 +58,6 @@
 			<groupId>org.apache.jena</groupId>
 			<artifactId>jena-shacl</artifactId>
 		</dependency>
-
-
-	    <dependency>
-	    	<groupId>org.apache.commons</groupId>
-	    	<artifactId>commons-collections4</artifactId>
-	    	<version>4.4</version>
-	    </dependency>
-
-	    <dependency>
-	    	<groupId>io.vavr</groupId>
-	    	<artifactId>vavr</artifactId>
-	    	<version>0.9.2</version>
-	    </dependency>
-	    
-	    <dependency>
-          <groupId>fr.sparna.rdf.shacl</groupId>
-          <artifactId>shacl-commons</artifactId>
-          <version>0.7.0</version>
-        </dependency>
 
 	</dependencies>
 </project>

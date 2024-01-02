@@ -62,6 +62,12 @@
       <groupId>net.sourceforge.plantuml</groupId>
       <artifactId>plantuml</artifactId>
     </dependency>
+
+	<dependency>
+      <groupId>fr.sparna.rdf.shacl</groupId>
+      <artifactId>shacl-commons</artifactId>
+      <version>0.7.0</version>
+    </dependency>
             
 	</dependencies>
 </project>

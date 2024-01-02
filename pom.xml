@@ -19,7 +19,8 @@
     
   <name>SHACL-Play root pom</name>
       
-  <modules>            
+  <modules>
+    <module>shacl-commons</module> 
     <module>shacl-diagram</module>            
     <module>shacl-doc</module>            
     <module>shacl-validator</module>            

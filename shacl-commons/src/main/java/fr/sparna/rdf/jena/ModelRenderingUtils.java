@@ -1,4 +1,4 @@
-package fr.sparna.rdf.shacl.doc;
+package fr.sparna.rdf.jena;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -11,9 +11,8 @@ import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.XSD;
-import org.topbraid.shacl.vocabulary.SH;
 
-import fr.sparna.rdf.shacl.doc.model.Link;
+import fr.sparna.rdf.shacl.SH;
 
 public class ModelRenderingUtils {
 

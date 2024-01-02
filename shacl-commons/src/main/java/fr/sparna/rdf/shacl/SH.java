@@ -21,7 +21,7 @@ public class SH {
     
     public final static Resource ValidationResult = ResourceFactory.createResource(NS + "ValidationResult");
     
-    
+    public final static Property conforms = ResourceFactory.createProperty(NS + "conforms");
     
     public final static Property focusNode = ResourceFactory.createProperty(NS + "focusNode");
     
@@ -31,7 +31,7 @@ public class SH {
     
     public final static Property resultSeverity = ResourceFactory.createProperty(NS + "resultSeverity");
     
-    public final static Property conforms = ResourceFactory.createProperty(NS + "conforms");
+    public final static Property oneOrMorePath = ResourceFactory.createProperty(NS + "oneOrMorePath");
     
     public final static Property resultPath = ResourceFactory.createProperty(NS + "resultPath");
     
@@ -45,6 +45,7 @@ public class SH {
     
     public final static Property value = ResourceFactory.createProperty(NS + "value");
     
+    public final static Property zeroOrMorePath = ResourceFactory.createProperty(NS + "zeroOrMorePath");
     
     
     public final static Resource Violation = ResourceFactory.createResource(NS + "Violation");

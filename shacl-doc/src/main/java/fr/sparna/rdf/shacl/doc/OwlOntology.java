@@ -13,6 +13,8 @@ import org.apache.jena.vocabulary.DCTerms;
 import org.apache.jena.vocabulary.OWL;
 import org.apache.jena.vocabulary.RDFS;
 
+import fr.sparna.rdf.jena.ModelReadingUtils;
+
 public class OwlOntology {
 	
 	public static String ADMS = "http://www.w3.org/ns/adms#";

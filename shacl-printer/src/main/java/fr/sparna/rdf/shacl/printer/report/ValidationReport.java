@@ -18,7 +18,7 @@ import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.vocabulary.XSD;
 
-import fr.sparna.rdf.shacl.JenaUtil;
+import fr.sparna.rdf.jena.JenaUtil;
 import fr.sparna.rdf.shacl.SH;
 
 public class ValidationReport {

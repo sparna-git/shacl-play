@@ -13,8 +13,8 @@ import org.apache.jena.vocabulary.VOID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import fr.sparna.rdf.jena.ModelRenderingUtils;
 import fr.sparna.rdf.shacl.SHACL_PLAY;
-import fr.sparna.rdf.shacl.doc.ModelRenderingUtils;
 import fr.sparna.rdf.shacl.doc.NodeShape;
 import fr.sparna.rdf.shacl.doc.PropertyShape;
 import fr.sparna.rdf.shacl.doc.model.Chart;

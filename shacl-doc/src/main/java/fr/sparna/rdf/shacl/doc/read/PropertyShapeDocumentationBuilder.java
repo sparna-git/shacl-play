@@ -6,7 +6,7 @@ import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 
-import fr.sparna.rdf.shacl.doc.ModelRenderingUtils;
+import fr.sparna.rdf.jena.ModelRenderingUtils;
 import fr.sparna.rdf.shacl.doc.NodeShape;
 import fr.sparna.rdf.shacl.doc.PropertyShape;
 import fr.sparna.rdf.shacl.doc.model.Link;

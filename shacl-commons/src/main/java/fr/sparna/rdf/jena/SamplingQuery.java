@@ -1,4 +1,4 @@
-package fr.sparna.rdf.shacl.generate;
+package fr.sparna.rdf.jena;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,13 +11,9 @@ import org.apache.jena.rdf.model.RDFNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import fr.sparna.rdf.jena.JenaResultSetHandler;
-import fr.sparna.rdf.jena.JenaResultSetHandlers;
-import fr.sparna.rdf.jena.QueryExecutionService;
-
 /**
  * Executes SPARQL queries by taking a sample of results over the entire triplestore.
- * Uses LIMIT x OFFSET y but not in consecutive pages. Increment the offset by a stepSize parameter.
+ * Uses "LIMIT x OFFSET y" but not in consecutive pages. Increment the offset by a stepSize parameter.
  * 
  * @author thomas
  *

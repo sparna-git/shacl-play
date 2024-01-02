@@ -38,16 +38,20 @@ public class Generate implements CliCommandIfc {
 		if(a.getEndpoint() != null) {
 			dataProvider = new SamplingShaclGeneratorDataProvider(new PaginatedQuery(100), a.getEndpoint());
 			ShaclGenerator generator = new ShaclGenerator();
+			generator.getExtraVisitors().add(new AssignLabelRoleVisitor());
+			generator.getExtraVisitors().add(new AssignDatatypesAndClassesToIriOrLiteralVisitor(dataProvider, new DefaultModelProcessor()));
+			
 			shapes = generator.generateShapes(
 					config,
 					dataProvider);
-			shapes = generator.generateShapes(config, dataProvider);
-
 		} else {
 			Model inputModel = ModelFactory.createDefaultModel(); 
 			InputModelReader.populateModel(inputModel, a.getInput());
 			dataProvider = new SamplingShaclGeneratorDataProvider(new PaginatedQuery(100), inputModel);
 			ShaclGenerator generator = new ShaclGenerator();
+			generator.getExtraVisitors().add(new AssignLabelRoleVisitor());
+			generator.getExtraVisitors().add(new AssignDatatypesAndClassesToIriOrLiteralVisitor(dataProvider, new DefaultModelProcessor()));
+			
 			shapes = generator.generateShapes(
 					config,
 					dataProvider);
@@ -65,11 +69,7 @@ public class Generate implements CliCommandIfc {
 		if(additionnalPrefixes != null) {
 			shapes.setNsPrefixes(additionnalPrefixes);
 		}		
-		
-		ShaclVisit modelStructure = new ShaclVisit(shapes);
-		modelStructure.visit(new AssignLabelRoleVisitor());
-		modelStructure.visit(new AssignDatatypesAndClassesToIriOrLiteralVisitor(dataProvider, new DefaultModelProcessor()));
-		
+
 		// write output file
 		OutputStream out = new FileOutputStream(a.getOutput());
 		shapes.write(out,FileUtils.guessLang(a.getOutput().getName(), "Turtle"));				

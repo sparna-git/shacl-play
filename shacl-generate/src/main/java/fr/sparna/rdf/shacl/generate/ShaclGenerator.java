@@ -1,5 +1,6 @@
 package fr.sparna.rdf.shacl.generate;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,12 +21,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.helpers.MessageFormatter;
 
+import fr.sparna.rdf.shacl.generate.progress.NoOpProgressMonitor;
+import fr.sparna.rdf.shacl.generate.progress.ProgressMonitor;
 import fr.sparna.rdf.shacl.generate.visitors.AssignClassesVisitor;
 import fr.sparna.rdf.shacl.generate.visitors.AssignDatatypesVisitor;
 import fr.sparna.rdf.shacl.generate.visitors.AssignMinCountAndMaxCountVisitor;
 import fr.sparna.rdf.shacl.generate.visitors.AssignNodeKindVisitor;
 import fr.sparna.rdf.shacl.generate.visitors.AssignValueOrInVisitor;
 import fr.sparna.rdf.shacl.generate.visitors.ShaclVisit;
+import fr.sparna.rdf.shacl.generate.visitors.ShaclVisitorIfc;
 
 /**
  * Algorithm to generation a SHACL model from data. Does not do any read operation by itself but reads its input from a data provider.
@@ -39,6 +43,17 @@ public class ShaclGenerator {
 	private static final String DEFAULT_MESSAGE_LANG = "en";
 	
 	private ShaclGeneratorDataProviderIfc dataProvider;
+	
+	protected ProgressMonitor progressMonitor;
+	
+	protected List<ShaclVisitorIfc> extraVisitors = new ArrayList<>();
+
+	protected volatile List<ShaclVisitorIfc> visitors;
+	
+	public ShaclGenerator() {
+		super();
+		this.progressMonitor = new NoOpProgressMonitor();
+	}
 
 	/**
 	 * Generates shapes using the given configuration and the given data provider
@@ -52,6 +67,21 @@ public class ShaclGenerator {
 		ShaclGeneratorDataProviderIfc dataProvider
 	) {
 		this.dataProvider = dataProvider;
+		
+		// add base visitors
+		this.visitors = new ArrayList<ShaclVisitorIfc>();
+		this.visitors.add(new AssignNodeKindVisitor(dataProvider));
+		this.visitors.add(new AssignClassesVisitor(dataProvider, configuration.getModelProcessor()));
+		this.visitors.add(new AssignDatatypesVisitor(dataProvider));		
+		this.visitors.add(new AssignMinCountAndMaxCountVisitor(dataProvider));
+		this.visitors.add(new AssignValueOrInVisitor(dataProvider));
+		
+		// add extra visitors
+		if(this.extraVisitors != null) {
+			log.debug("(generate) Add "+this.extraVisitors.size()+" extra visitors");
+			this.visitors.addAll(this.extraVisitors);
+		}
+		
 		return generateShapes(configuration);
 	}
 	
@@ -64,6 +94,8 @@ public class ShaclGenerator {
 	private Model generateShapes(
 		Configuration configuration
 	) {
+		this.progressMonitor.beginTask("Shapes generation", this.visitors.size()+1);
+		
 		Model shacl = ModelFactory.createDefaultModel();
 		// add sh namespace, always
 		shacl.setNsPrefix("sh", SHACLM.NS);
@@ -82,17 +114,20 @@ public class ShaclGenerator {
 		}
 		
 		// generate node shapes corresponding to types
+		this.progressMonitor.subTask("Creating node shapes and property shapes");
 		addTypes(configuration, shacl);
+		this.progressMonitor.worked(1);
 		log.debug("(generate) add types done");
 		
-		// post-process to assign nodeKind, datatypes and classes
+		// post-process to assign nodeKind, datatypes and classes, etc.
 		ShaclVisit visit = new ShaclVisit(shacl);
-		visit.visit(new AssignNodeKindVisitor(dataProvider));
-		visit.visit(new AssignClassesVisitor(dataProvider, configuration.getModelProcessor()));
-		visit.visit(new AssignDatatypesVisitor(dataProvider));		
-		visit.visit(new AssignMinCountAndMaxCountVisitor(dataProvider));
-		visit.visit(new AssignValueOrInVisitor(dataProvider));
+		for (ShaclVisitorIfc visitor : this.visitors) {
+			this.progressMonitor.subTask(visitor.getClass().getSimpleName());
+			visit.visit(visitor);
+			this.progressMonitor.worked(1);
+		}
 		
+		this.progressMonitor.done();
 		return shacl;
 	}
 	
@@ -274,6 +309,22 @@ public class ShaclGenerator {
 			}	
 		}
 		
+	}
+
+	public List<ShaclVisitorIfc> getExtraVisitors() {
+		return extraVisitors;
+	}
+
+	public void setExtraVisitors(List<ShaclVisitorIfc> extraVisitors) {
+		this.extraVisitors = extraVisitors;
+	}
+
+	public ProgressMonitor getProgressMonitor() {
+		return progressMonitor;
+	}
+
+	public void setProgressMonitor(ProgressMonitor progressMonitor) {
+		this.progressMonitor = progressMonitor;
 	}
 
 	public static String shortenUri(Model shacl, String uri) {

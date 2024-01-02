@@ -17,6 +17,8 @@ import org.slf4j.LoggerFactory;
 
 import fr.sparna.rdf.jena.JenaResultSetHandlers;
 import fr.sparna.rdf.jena.QueryExecutionService;
+import fr.sparna.rdf.jena.SamplingQuery;
+import fr.sparna.rdf.jena.ValuesQuery;
 
 public class SamplingShaclGeneratorDataProvider extends BaseShaclGeneratorDataProvider implements ShaclGeneratorDataProviderIfc {
 

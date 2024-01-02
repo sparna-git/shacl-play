@@ -34,18 +34,20 @@ public class DatasetDocumentationModelReader implements DatasetDocumentationRead
 		SamplingShaclGeneratorDataProvider dataProvider = new SamplingShaclGeneratorDataProvider(new PaginatedQuery(100),dataset);	
 		
 		ShaclGenerator generator = new ShaclGenerator();
-		Model shapes = generator.generateShapes(
-				config,
-				dataProvider);
+		
 		
 		// 2. Generate statistics as post-processing of the SHACL generation
 		// arbitrary model name for Dataset name generation
 		final String SOURCE_NAME = "data";
-		ShaclVisit shaclVisit = new ShaclVisit(shapes);
 		Model statisticsModel = ModelFactory.createDefaultModel();
-		shaclVisit.visit(new ComputeStatisticsVisitor(dataProvider, statisticsModel, SOURCE_NAME, false));
-		shaclVisit.visit(new ComputeValueStatisticsVisitor(dataProvider,statisticsModel,dataset));	
-
+		generator.getExtraVisitors().add(new ComputeStatisticsVisitor(dataProvider, statisticsModel, SOURCE_NAME, false));
+		generator.getExtraVisitors().add(new ComputeValueStatisticsVisitor(dataProvider,statisticsModel,dataset));
+		
+		// trigger generation
+		Model shapes = generator.generateShapes(
+				config,
+				dataProvider);
+		
 		
 		// 3. Generate standard SHACL documentation
 		ShapesDocumentationReaderIfc reader = new ShapesDocumentationModelReader(false, null);

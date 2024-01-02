@@ -1,5 +1,7 @@
 package fr.sparna.rdf.shacl.shaclplay.generate;
 
+import java.io.OutputStream;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -28,11 +30,12 @@ import fr.sparna.rdf.shacl.generate.DefaultModelProcessor;
 import fr.sparna.rdf.shacl.generate.PaginatedQuery;
 import fr.sparna.rdf.shacl.generate.SamplingShaclGeneratorDataProvider;
 import fr.sparna.rdf.shacl.generate.ShaclGenerator;
+import fr.sparna.rdf.shacl.generate.ShaclGeneratorAsync;
 import fr.sparna.rdf.shacl.generate.ShaclGeneratorDataProviderIfc;
+import fr.sparna.rdf.shacl.generate.progress.StringBufferProgressMonitor;
 import fr.sparna.rdf.shacl.generate.visitors.AssignLabelRoleVisitor;
 import fr.sparna.rdf.shacl.generate.visitors.ComputeStatisticsVisitor;
 import fr.sparna.rdf.shacl.generate.visitors.CopyStatisticsToDescriptionVisitor;
-import fr.sparna.rdf.shacl.generate.visitors.ShaclVisit;
 import fr.sparna.rdf.shacl.shaclplay.ApplicationData;
 import fr.sparna.rdf.shacl.shaclplay.ControllerCommons;
 import fr.sparna.rdf.shacl.shaclplay.ControllerModelFactory;
@@ -63,18 +66,25 @@ public class GenerateController {
 	){
 		try {
 			log.debug("generateUrl(url='"+url+"')");
-			
 
 			Configuration config = new Configuration(new DefaultModelProcessor(), "https://shacl-play.sparna.fr/shapes/", "shapes");
 			config.setShapesOntology("https://shacl-play.sparna.fr/shapes");
 			
-			SamplingShaclGeneratorDataProvider dataProvider = new SamplingShaclGeneratorDataProvider(new PaginatedQuery(100), url);
+			// load data
+			URL actualUrl = new URL(url);
+			Model datasetModel = ModelFactory.createDefaultModel();
+			datasetModel = ControllerCommons.populateModel(datasetModel, actualUrl);
+			
+			SamplingShaclGeneratorDataProvider dataProvider = new SamplingShaclGeneratorDataProvider(new PaginatedQuery(100), datasetModel);
 			
 			Model shapes = doGenerateShapes(
 					dataProvider,
 					config,
 					url,
-					computeStatistics
+					computeStatistics,
+					// async ?
+					requiresAsyncGeneration(null, datasetModel),
+					request
 			);		
 			
 			serialize(shapes, format, url, response);
@@ -123,6 +133,7 @@ public class GenerateController {
 			HttpServletRequest request,
 			HttpServletResponse response			
 	) {
+		log.debug("generate(statistics='"+computeStatistics+"')");
 		try {
 
 			// get the source type
@@ -135,6 +146,7 @@ public class GenerateController {
 			String sourceName = null;
 			
 			// first build the data provider, either for an endpoint or by loading a Model
+			Model datasetModel = ModelFactory.createDefaultModel();
 			if(source == SOURCE_TYPE.ENDPOINT) {
 				log.debug("Generating shapes for endpoint "+endpoint);
 				dataProvider = new SamplingShaclGeneratorDataProvider(new PaginatedQuery(100),endpoint);
@@ -146,7 +158,6 @@ public class GenerateController {
 				} else {
 					// Load data
 					log.debug("Determining dataset source...");
-					Model datasetModel = ModelFactory.createDefaultModel();
 					ControllerModelFactory modelPopulator = new ControllerModelFactory(null);
 					modelPopulator.populateModel(
 							datasetModel,
@@ -163,17 +174,29 @@ public class GenerateController {
 				}
 			}
 			
+			boolean async = requiresAsyncGeneration(endpoint, datasetModel);
+			
+			
 			// now generate the shapes
 			Model shapes = doGenerateShapes(
 					dataProvider,
 					config,
 					(source == SOURCE_TYPE.ENDPOINT)?endpoint:(source == SOURCE_TYPE.URL)?url:"https://dummy.dataset.uri",
-					computeStatistics
+					computeStatistics,
+					// async ?
+					async,
+					request
 			);			
 			
-			serialize(shapes, format, sourceName, response);
-			return null;
-			
+			if(!async) {
+				serialize(shapes, format, sourceName, response);
+				return null;
+			} else {
+				// stores format and source name to fetch them later on 'show'
+				request.getSession().setAttribute("format", format);
+				request.getSession().setAttribute("sourceName", sourceName);
+				return new ModelAndView("redirect:/generate/wait");
+			}		
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -181,31 +204,67 @@ public class GenerateController {
 		}
 	}
 	
+	private boolean requiresAsyncGeneration(String endpointUrl, Model dataset) {
+		return (
+				(
+						endpointUrl != null
+						&&
+						!endpointUrl.isEmpty()
+				)
+				||
+				( 
+						dataset != null
+						&&
+						dataset.size() > 10000
+				)
+		);
+	}
+	
 	private Model doGenerateShapes(
 			ShaclGeneratorDataProviderIfc dataProvider,
 			Configuration config,
 			String targetDatasetUri,
-			boolean withCount
+			boolean withCount,
+			boolean async,
+			HttpServletRequest request
 	) {
-		ShaclGenerator generator = new ShaclGenerator();
-		Model shapes = generator.generateShapes(
-				config,
-				dataProvider);
-		
-		ShaclVisit shaclVisit = new ShaclVisit(shapes);	
-		
-		// add dash:LabelRole
-		shaclVisit.visit(new AssignLabelRoleVisitor());
-		
-		// If withCount, process the ComputeStatisticsVisitor 
-		if (withCount) {
+		if(!async) {
+			ShaclGenerator generator = new ShaclGenerator();
+			generator.getExtraVisitors().add(new AssignLabelRoleVisitor());
+			
+			// if we requested statistics, add extra visitors
 			Model countModel = ModelFactory.createDefaultModel();
-			shaclVisit.visit(new ComputeStatisticsVisitor(dataProvider, countModel, targetDatasetUri, true));
-			shaclVisit.visit(new CopyStatisticsToDescriptionVisitor(countModel));
+			if (withCount) {	
+				generator.getExtraVisitors().add(new ComputeStatisticsVisitor(dataProvider, countModel, targetDatasetUri, true));
+				generator.getExtraVisitors().add(new CopyStatisticsToDescriptionVisitor(countModel));
+			}
+			
+			Model shapes = generator.generateShapes(
+					config,
+					dataProvider);
+			
+			// merge the count model with shapes model, in case the count model was populated
 			shapes.add(countModel);
-		}
-		
-		return shapes;
+			
+			return shapes;
+		} else {
+			ShaclGeneratorAsync generator = new ShaclGeneratorAsync(config, dataProvider);
+			generator.setProgressMonitor(new StringBufferProgressMonitor("SHACL generator"));
+			
+			generator.getExtraVisitors().add(new AssignLabelRoleVisitor());
+			
+			// if we requested statistics, add extra visitors
+			Model countModel = ModelFactory.createDefaultModel();
+			if (withCount) {	
+				generator.getExtraVisitors().add(new ComputeStatisticsVisitor(dataProvider, countModel, targetDatasetUri, true));
+				generator.getExtraVisitors().add(new CopyStatisticsToDescriptionVisitor(countModel));
+			}
+			
+			Thread thread = new Thread(generator);
+			thread.start();
+			request.getSession().setAttribute("generator", generator);
+			return null;
+		}	
 	}
 	
 	
@@ -226,7 +285,64 @@ public class GenerateController {
 		
 		ControllerCommons.serialize(dataModel, l, filename, response);
 	}
+	
+	@RequestMapping("/generate/wait")
+	public ModelAndView generateWait(){
+		return new ModelAndView("wait");
+	}
+	
+	/** 
+	 * Return a piece of JSON for displaying in the waiintg screen
+	 * @param request
+	 * @param response
+	 * @throws Exception
+	 */
+	@RequestMapping("/generate/progress")
+	public void progress(
+			HttpServletRequest request,
+			HttpServletResponse response
+	) throws Exception {
+		log.debug("progress...");
+		ShaclGeneratorAsync generator = (ShaclGeneratorAsync)request.getSession().getAttribute("generator");
+		
+		StringBuffer results = new StringBuffer();
+		results.append("{ "
+				+ "\"finished\":"+generator.isFinished()
+				+",\"percentage\":"+((StringBufferProgressMonitor)generator.getProgressMonitor()).getPercentage()
+				+",\"logs\": \""+((StringBufferProgressMonitor)generator.getProgressMonitor()).pollLogs().replace("\n", "<br />")+"\""
+				+"}");
+		OutputStream out = response.getOutputStream();
+		out.write(results.toString().getBytes());
+		out.flush();
+	}
 
+	
+	/**
+	 * Called when the waiting screen has ended and the generation is finished.
+	 * 
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("/generate/show")
+	public ModelAndView show(
+			HttpServletRequest request,
+			HttpServletResponse response
+	) throws Exception {
+		log.debug("getting generation results...");
+		ShaclGeneratorAsync generator = (ShaclGeneratorAsync)request.getSession().getAttribute("generator");
+		Model generatedShapes = generator.getGeneratedShapes();
+		
+		// here : we need to merge any extra model created by visitors into the final generated model
+		
+		String format = (String)request.getSession().getAttribute("format");
+		String sourceName = (String)request.getSession().getAttribute("sourceName");
+		
+		serialize(generatedShapes, format, sourceName, response);
+		return null;
+	}
+	
 	
 	/**
 	 * Handles an error in the validation form (stores the message in the Model, then forward to the view).

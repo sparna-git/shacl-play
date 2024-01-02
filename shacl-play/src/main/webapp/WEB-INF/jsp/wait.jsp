@@ -3,25 +3,39 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
+<!-- setup the locale for the messages based on the language in the session -->
+<fmt:setLocale value="${sessionScope['fr.sparna.rdf.shacl.shaclplay.SessionData'].userLocale.language}"/>
+<fmt:setBundle basename="fr.sparna.rdf.shacl.shaclplay.i18n.shaclplay"/>
+
 <html>
 	<head>
-		<title>SHACL Play! | Wait...</title>
+		<title><fmt:message key="window.app" /> | Wait...</title>
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		
+		<!-- Font Awesome -->
+	    <link rel="stylesheet" href="<c:url value="/resources/fa/css/all.min.css" />">
+		
 		<link rel="stylesheet" href="<c:url value="/resources/MDB-Free/css/bootstrap.min.css" />">
 		<link rel="stylesheet" href="<c:url value="/resources/MDB-Free/css/mdb.min.css" />">
 		<link rel="stylesheet" href="<c:url value="/resources/css/shacl-play.css" />">
 	</head>
 	<body>
 
-    <div class="container-fluid">
-    	<div class="col-md-8 col-md-offset-2">
-			<h3>Validation in progress...</h3>
+	<nav class="navbar navbar-expand-lg navbar-light" id="globalnav" >	
+	    <!-- Navbar brand -->
+	    <span class="navbar-brand"><i class="fal fa-home"></i>&nbsp;&nbsp;<fmt:message key="navbar.brand" /></span>
+	</nav>
+	
+
+    <div class="container">
+    	<div class="col col-md-offset-2">
+			<h3><i id="spinner" class="fal fa-shapes fa-spin"></i>&nbsp;In progress...</h3>
 			<br />
 			<div id="tail">
 			    
 			</div>
 			<br />
-			<i>Please wait, your browser window will refresh automatically once the validation is complete...</i>
+			<i>Please wait, your browser window will refresh automatically once the process is complete...</i>
 		</div>
 
     </div><!-- /.container-fluid -->
@@ -54,6 +68,8 @@
 	    	    	console.log(data.finished);
 	    	    	
 	    	    	if(data.finished == true) {
+	    	    		// unspin icon
+	    	    		$("#spinner").removeClass("fa-spin");
 	    	    		window.location.href="show";
 	    	    	} else {
 	    	    		setTimeout(doPoll,2500);	

@@ -446,7 +446,7 @@ public class ValidateController {
 				return new ModelAndView("validation-report", ShapesDisplayData.KEY, sdd);
 			} else {
 				doValidate(shapesModel, dataModel, true, closeShapes, createDetails, request);
-				return new ModelAndView("wait");
+				return new ModelAndView("redirect:/validate/wait");
 			}
 			
 		} catch (Exception e) {
@@ -508,7 +508,6 @@ public class ValidateController {
 			thread.start();
 			request.getSession().setAttribute("validator", validator);
 			return null;
-			// return new ModelAndView("wait");
 		}	
 	}
 
@@ -573,13 +572,18 @@ public class ValidateController {
 		}
 	}
 
+	@RequestMapping("/validate/wait")
+	public ModelAndView validateWait(){
+		return new ModelAndView("wait");
+	}
+	
 	/** 
 	 * Return a piece of JSON for displaying in the waiintg screen
 	 * @param request
 	 * @param response
 	 * @throws Exception
 	 */
-	@RequestMapping("/progress")
+	@RequestMapping("/validate/progress")
 	public void progress(
 			HttpServletRequest request,
 			HttpServletResponse response
@@ -606,7 +610,7 @@ public class ValidateController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping("/show")
+	@RequestMapping("/validate/show")
 	public ModelAndView show(
 			HttpServletRequest request,
 			HttpServletResponse response

@@ -76,7 +76,6 @@ public class ControllerCommons {
 	}
 	
 	public static Model populateModel(Model model, String inlineRdf) throws RiotException {
-		ByteArrayInputStream is = new ByteArrayInputStream(inlineRdf.getBytes());
 		
 		Lang[] supportedLangs = new Lang[] { Lang.TURTLE, Lang.RDFXML, Lang.NT, Lang.NQUADS, Lang.JSONLD, Lang.TRIG, Lang.TRIX };
 		Exception turtleException = null;
@@ -84,6 +83,7 @@ public class ControllerCommons {
 		boolean parsed = false;
 		for (Lang aLang : supportedLangs) {
 			try {
+				ByteArrayInputStream is = new ByteArrayInputStream(inlineRdf.getBytes());
 				model.read(is, null, aLang.getName());
 				log.debug("Successfully parsed inline data as "+aLang.getName());
 				parsed = true;

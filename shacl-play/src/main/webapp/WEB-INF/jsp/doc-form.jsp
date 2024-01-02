@@ -23,23 +23,10 @@
 		<link rel="stylesheet" href="<c:url value="/resources/jasny-bootstrap/jasny-bootstrap.min.css" />" />
 		<link rel="stylesheet" href="<c:url value="/resources/css/shacl-play.css" />" />	
 			
-		
-		<script type="text/javascript">
-			
-			function enabledShapeInput(selected) {
-				document.getElementById('sourceShape-' + selected).checked = true;
-				document.getElementById('inputShapeUrl').disabled = selected != 'inputShapeUrl';
-				document.getElementById('inputShapeCatalog').disabled = selected != 'inputShapeCatalog';
-				document.getElementById('inputShapeFile').disabled = selected != 'inputShapeFile';
-				document.getElementById('inputShapeInline').disabled = selected != 'inputShapeInline';
-			}
-
-	    </script>
-	
 	</head>
 	<body>
 
-	<jsp:include page="navbar.jsp">
+	<jsp:include page="include/navbar.jsp">
 		<jsp:param name="active" value="doc"/>
 	</jsp:include>
 
@@ -67,140 +54,26 @@
 				</div>
 	 
 			  	<form id="upload_form" action="doc" method="POST" enctype="multipart/form-data" class="form-horizontal">
-				      
+  
+					  <h2><i class="fal fa-shapes"></i>&nbsp;&nbsp;<fmt:message key="doc.shapes.title" /></h2>
+					  <!-- Include shapes blockquote -->
+					  <%@ include file="include/shapes-blockquote.jsp" %>
 					  
-
-						  <h2><i class="fal fa-shapes"></i>&nbsp;&nbsp;<fmt:message key="doc.shapes.title" /></h2>
-						  <blockquote class="blockquote bq-primary">		  
-						  
-						      <div class="form-group row">
-		
-							    <label for="inputShapeFile" class="col-sm-3 col-form-label">
-							    
-							    	<input
-											type="radio"
-											name="shapesSource"
-											id="sourceShape-inputShapeFile"
-											value="file"
-											checked="checked"
-											onchange="enabledShapeInput('inputShapeFile')" />
-							    	<fmt:message key="doc.shapes.upload" />
-							    
-							    </label>
-							    <div class="col-sm-9">
-							    		<div class="fileinput fileinput-new input-group" data-provides="fileinput">
-										  <div class="form-control" data-trigger="fileinput" id="inputShapeFile">
-										    <i class="fal fa-upload"></i><span class="fileinput-filename with-icon"></span>
-										  </div>
-										  <span class="input-group-append">
-										    <span class="input-group-text fileinput-exists" data-dismiss="fileinput">
-										      <fmt:message key="doc.shapes.upload.remove" />
-										    </span>
-										
-										    <span class="input-group-text btn-file">
-										      <span class="fileinput-new"><fmt:message key="doc.shapes.upload.select" /></span>
-										      <span class="fileinput-exists"><fmt:message key="doc.shapes.upload.change" /></span>
-										      <input type="file" name="inputShapeFile" multiple onchange="enabledShapeInput('inputShapeFile')">
-										    </span>
-										  </span>
-										</div>
-										<small class="form-text text-muted">
-											  <fmt:message key="doc.shapes.upload.help" />
-									  </small>
-							    </div>
-							  </div>
-						      
-						      <c:if test="${not empty data.catalog.entries}">
-							      <div class="form-group row">	
-								    <label for="inputShapeCatalog" class="col-sm-3 col-form-label">
-								    
-								    	<input
-												type="radio"
-												name="shapesSource"
-												id="sourceShape-inputShapeCatalog"
-												value="catalog"
-												onchange="enabledShapeInput('inputShapeCatalog')" />
-								    	<fmt:message key="doc.shapes.catalog" />					    
-								    </label>
-								    <div class="col-sm-9">
-								    		<select class="form-control" id="inputShapeCatalog" name="inputShapeCatalog" onchange="enabledShapeInput('inputShapeCatalog');">
-										      	<c:forEach items="${data.catalog.entries}" var="entry">
-										      		<option value="${entry.id}">${entry.title}</option>
-										      	</c:forEach>
-										    </select>
-										    <small class="form-text text-muted">
-												  <fmt:message key="doc.shapes.catalog.help" />
-										    </small>
-								    </div>
-								  </div>
-							  </c:if>
-							  
-							  <div class="form-group row">
-							    <label for="inputShapeUrl" class="col-sm-3 col-form-label">
-							    
-							    	<input
-											type="radio"
-											name="shapesSource"
-											id="sourceShape-inputShapeUrl"
-											value="url"
-											onchange="enabledShapeInput('inputShapeUrl')" />
-							    	<fmt:message key="doc.shapes.url" />
-							    </label>
-							    <div class="col-sm-9">
-							      <input 
-							      	type="text"
-							      	class="form-control"
-							      	id="inputShapeUrl"
-							      	name="inputShapeUrl"
-							      	placeholder="<fmt:message key="doc.shapes.url.placeholder" />"
-							      	onkeypress="enabledShapeInput('inputShapeUrl');"
-							      	onchange="enabledShapeInput('inputShapeUrl')"
-							      >
-							      <small class="form-text text-muted">
-									  <fmt:message key="doc.shapes.url.help" />
-							    </small>
-							    </div>
-							  </div>
-							  <div class="form-group row">
-							    <label for="inputShapeInline" class="col-sm-3 col-form-label">
-							    
-							    	<input
-											type="radio"
-											name="shapesSource"
-											id="sourceShape-inputShapeInline"
-											value="inline"
-											onchange="enabledShapeInput('inputShapeInline')" />
-							    	<fmt:message key="doc.shapes.inline" />
-							    </label>
-							    <div class="col-sm-9">
-							      <textarea 
-							      	class="form-control"
-							      	id="inputShapeInline"
-							      	name="inputShapeInline"
-							      	rows="5"
-							      	onkeypress="enabledShapeInput('inputShapeInline');"
-							      	onpaste="enabledShapeInput('inputShapeInline');"
-							      ></textarea>
-							      <small class="form-text text-muted">
-									  <fmt:message key="doc.shapes.inline.help" />
-								  </small>
-							    </div>	
-						      </div>
-						      <br/>
-						      						      		
-					      </blockquote>					  
-					  
-					  <h2><i class="fal fa-tools"></i>&nbsp;&nbsp;<fmt:message key="doc.options.title" /></h2>
+					  <h2><i class="fal fa-tools"></i>&nbsp;&nbsp;<fmt:message key="blockquote.options.title" /></h2>
 				      <blockquote class="blockquote bq-warning">
 				      	<!-- Language -->
 				      	<div class="form-group row">
-				      		<div class="col-sm-12">
-				      			<label for="choice_Language"><fmt:message key="doc.language.title"/></label>
-				      			<br/>
-								<label><fmt:message key="doc.language.option"/></label>
-								<input list="languageOption" name="language" style="width:4em;" value="en">
-				      		</div>
-				      	</div>
+							<label for="language" class="col-sm-3 col-form-label">
+								<fmt:message key="doc.options.language"/>				    
+							</label>
+						    <div class="col-sm-9">
+						    	<input list="languageOption" name="language" style="width:4em;" value="en">
+						    	<small class="form-text text-muted">
+								  <fmt:message key="doc.options.language.help"/>
+								</small>
+						    </div>									    
+						</div>
+
 				      	<!-- Logo -->
 						<div class="form-group row">
 						    <div class="col-sm-12">
@@ -226,25 +99,24 @@
 						</div>
 				      	<!-- Diagram -->
 				      	<div class="form-group row">
-						      	<div class="col-sm-12">
-							      	<div class="form-check">
-									  <input class="form-check-input" type="checkbox" id="includeDiagram" name="includeDiagram" onclick='chkbDiagramClick(this);' />
-									 <p id="text" style="display:none">Checkbox is CHECKED!</p>
-									  <label class="form-check-label" for="includeDiagram">
-									    <fmt:message key="doc.options.includeDiagram" />
-									  </label>
-									  <small class="form-text text-muted">
-										<fmt:message key="doc.options.includeDiagram.help" />
-									  </small>
-									</div>
+					      	<div class="col-sm-12">
+						      	<div class="form-check">
+								  <input class="form-check-input" type="checkbox" id="includeDiagram" name="includeDiagram" />
+								  <label class="form-check-label" for="includeDiagram">
+								    <fmt:message key="doc.options.includeDiagram" />
+								  </label>
+								  <small class="form-text text-muted">
+									<fmt:message key="doc.options.includeDiagram.help" />
+								  </small>
 								</div>
+							</div>
 						</div>
-						<!-- Output list option -->
+						<!-- Output format option -->
 						<div class="form-group row">
-							<label for="inputShapeCatalog" class="col-sm-3 col-form-label">
+							<label for="format" class="col-sm-3 col-form-label">
 								<fmt:message key="doc.options.format" />					    
 							</label>
-						    <div class="col-sm-9">
+						    <div class="col-sm-4">
 					    		<select class="form-control" id="format" name="format" >
 					    			<option value="HTML">HTML</option>
 					    			<option value="PDF">PDF</option>
@@ -670,7 +542,7 @@
     </div><!-- /.container-fluid -->
 
 			
-	<jsp:include page="footer.jsp"></jsp:include>
+	<jsp:include page="include/footer.jsp"></jsp:include>
 	
 	<!-- SCRIPTS -->
     <!-- JQuery -->

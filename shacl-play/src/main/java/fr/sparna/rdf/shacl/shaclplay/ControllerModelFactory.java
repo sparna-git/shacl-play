@@ -1,5 +1,6 @@
 package fr.sparna.rdf.shacl.shaclplay;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -8,7 +9,6 @@ import org.apache.jena.rdf.model.Model;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFLanguages;
 import org.apache.jena.riot.RiotException;
-import org.apache.jena.util.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
@@ -33,7 +33,8 @@ public class ControllerModelFactory {
 		FILE,
 		URL,
 		INLINE,
-		CATALOG
+		CATALOG,
+		ENDPOINT
 	}
 	
 	public void populateModelFromUrl(Model model, String url) throws ControllerModelException {
@@ -84,17 +85,7 @@ public class ControllerModelFactory {
 			try {
 				URL actualUrl = new URL(url);
 				ControllerCommons.populateModel(model, actualUrl);
-				// shape name is file part of URL
-				if(actualUrl.getPath().contains(".")) {
-					try {
-						this.sourceName = url.substring(url.lastIndexOf('/')+1, url.lastIndexOf('.'));
-					} catch (Exception e) {
-						this.sourceName = url.substring(url.lastIndexOf('/')+1, url.length());
-					}
-				} else {
-					// no file format in URL, like for shacl-shacl
-					this.sourceName = url.substring(url.lastIndexOf('/')+1, url.length());
-				}
+				this.sourceName = getSourceNameForUrl(url);
 			} catch (Exception e) {
 				throw new ControllerModelException(e.getMessage(), e);
 			}
@@ -117,7 +108,7 @@ public class ControllerModelFactory {
 			}
 
 			if(model.size() == 0) {
-				throw new ControllerModelException("No data could be parsed from inlines text.");
+				throw new ControllerModelException("No data could be parsed from inline text.");
 			}
 
 			break;
@@ -144,6 +135,26 @@ public class ControllerModelFactory {
 		default: {
 			throw new ControllerModelException("Cannot determine input source to use");	
 		}
+		}
+	}
+	
+	public static final String getSourceNameForUrl(String url) {
+		try {
+			URL actualUrl = new URL(url);
+			// shape name is file part of URL
+			if(actualUrl.getPath().contains(".")) {
+				try {
+					return url.substring(url.lastIndexOf('/')+1, url.lastIndexOf('.'));
+				} catch (Exception e) {
+					return url.substring(url.lastIndexOf('/')+1, url.length());
+				}
+			} else {
+				// no file format in URL, like for shacl-shacl
+				return url.substring(url.lastIndexOf('/')+1, url.length());
+			}
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+			return "url";
 		}
 	}
 

@@ -1,24 +1,24 @@
-package fr.sparna.rdf.shacl.shaclplay.excel;
+package fr.sparna.rdf.shacl.shaclplay.datasetdoc;
 
-import fr.sparna.rdf.shacl.shaclplay.catalog.shapes.ShapesCatalog;
+import fr.sparna.rdf.shacl.shaclplay.catalog.rules.RulesCatalog;
 
-public class ExcelFormData {
+public class DatasetDocFormData {
 
-	public static final String KEY = ExcelFormData.class.getSimpleName();
+	public static final String KEY = DatasetDocFormData.class.getSimpleName();
 	
 	protected String errorMessage;
 	
-	protected ShapesCatalog catalog;
+	protected RulesCatalog catalog;
 	
 	protected String selectedShapesKey;
 
 	/**
-	 * Creates a new DocFormData instance suitable for displaying the given error message.
+	 * Creates a new ConvertFormData instance suitable for displaying the given error message.
 	 * @param message
 	 * @return
 	 */
-	public static ExcelFormData error(String message) {
-		ExcelFormData data = new ExcelFormData();
+	public static DatasetDocFormData error(String message) {
+		DatasetDocFormData data = new DatasetDocFormData();
 		data.setErrorMessage(message);
 		return data;
 	}	
@@ -31,11 +31,11 @@ public class ExcelFormData {
 		this.errorMessage = errorMessage;
 	}
 
-	public ShapesCatalog getCatalog() {
+	public RulesCatalog getCatalog() {
 		return catalog;
 	}
 
-	public void setCatalog(ShapesCatalog catalog) {
+	public void setCatalog(RulesCatalog catalog) {
 		this.catalog = catalog;
 	}
 

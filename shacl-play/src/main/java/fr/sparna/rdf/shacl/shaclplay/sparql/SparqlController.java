@@ -59,18 +59,10 @@ public class SparqlController {
 	
 	@RequestMapping(
 			value="/sparql",
-			params={"source"},
+			params={"shapesSource"},
 			method = RequestMethod.POST
 	)
 	public ModelAndView sparql(
-			// radio box indicating type of input
-			@RequestParam(value="source", required=true) String sourceString,
-			// url of page if source=url
-			@RequestParam(value="inputUrl", required=false) String url,
-			// inline content if source=text
-			@RequestParam(value="inputInline", required=false) String text,
-			// uploaded file if source=file
-			@RequestParam(value="inputFile", required=false) List<MultipartFile> files,
 			// radio box indicating type of shapes
 			@RequestParam(value="shapesSource", required=true) String shapesSourceString,
 			// reference to Shapes URL if shapeSource=sourceShape-inputShapeUrl
@@ -81,8 +73,18 @@ public class SparqlController {
 			@RequestParam(value="inputShapeFile", required=false) List<MultipartFile> shapesFiles,
 			// inline Shapes if shapeSource=sourceShape-inputShapeInline
 			@RequestParam(value="inputShapeInline", required=false) String shapesText,
-			// closeShapes option
+			// radio box indicating type of input
+			@RequestParam(value="targetOverrideSource", required=true) String targetOverrideSourceString,
+			// url of page if source=url
+			@RequestParam(value="targetOverrideUrl", required=false) String targetOverrideUrl,
+			// inline content if source=text
+			@RequestParam(value="targetOverrideInline", required=false) String targetOverrideText,
+			// uploaded file if source=file
+			@RequestParam(value="targetOverrideFile", required=false) List<MultipartFile> targetOverrideFiles,
+			
+			// type of queries option
 			@RequestParam(value="formatCombine", required=false) boolean typeQuery,
+			
 			HttpServletRequest request,
 			HttpServletResponse response
 	) {
@@ -90,10 +92,10 @@ public class SparqlController {
 			log.debug("sparql(shapeSourceString='"+shapesSourceString+"')");
 			
 			// get the shapes source type
-			ControllerModelFactory.SOURCE_TYPE shapesSource = ControllerModelFactory.SOURCE_TYPE.valueOf(sourceString.toUpperCase());
+			ControllerModelFactory.SOURCE_TYPE shapesSource = ControllerModelFactory.SOURCE_TYPE.valueOf(targetOverrideSourceString.toUpperCase());
 			
-			// get the shapes source type Optional
-			ControllerModelFactory.SOURCE_TYPE shapesSourceOptional = ControllerModelFactory.SOURCE_TYPE.valueOf(shapesSourceString.toUpperCase()); 	
+			// get the targets override source
+			ControllerModelFactory.SOURCE_TYPE targetOverrideSource = ControllerModelFactory.SOURCE_TYPE.valueOf(shapesSourceString.toUpperCase()); 	
 			
 			// initialize shapes first
 			log.debug("Determining Shapes source...");
@@ -101,38 +103,36 @@ public class SparqlController {
 			ControllerModelFactory modelPopulator = new ControllerModelFactory(this.catalogService.getShapesCatalog());
 			modelPopulator.populateModel(
 					shapesModel,
-					shapesSource,
-					url,
-					text,
-					files,
+					targetOverrideSource,
+					shapesUrl,
+					shapesText,
+					shapesFiles,
 					null
 			);
-			String sourceName = modelPopulator.getSourceName();
-			
 			
 			log.debug("Done Loading Shapes. Model contains "+shapesModel.size()+" triples");
 			log.debug("Determining Target override source...");
 			
 			// Optional Shapes for target override
-			Model shapesModelOptional = null;
-			if(!(shapesSourceOptional == SOURCE_TYPE.FILE && shapesFiles.get(0).getOriginalFilename().equals(""))) {
-				log.debug(shapesFiles.get(0).getOriginalFilename());
-				shapesModelOptional = ModelFactory.createDefaultModel();
+			Model targetOverridesModel = null;
+			if(!(targetOverrideSource == SOURCE_TYPE.FILE && targetOverrideFiles.get(0).getOriginalFilename().equals(""))) {
+
+				targetOverridesModel = ModelFactory.createDefaultModel();
 				modelPopulator.populateModel(
-							shapesModelOptional,
-							shapesSourceOptional,
-							shapesUrl,
-							shapesText,
-							shapesFiles,
-							null
-				);	
+						targetOverridesModel,
+						shapesSource,
+						targetOverrideUrl,
+						targetOverrideText,
+						targetOverrideFiles,
+						null
+				);
 			}
 			
 			doOutputSparql(
 					shapesModel,
-					shapesModelOptional,
+					targetOverridesModel,
 					typeQuery,
-					sourceName,
+					modelPopulator.getSourceName(),
 					response
 			);
 			return null;
@@ -146,8 +146,8 @@ public class SparqlController {
 	
 	protected void doOutputSparql(
 			Model shapesModel,
-			Model shapesModelOpt,
-			Boolean typeQuery,
+			Model targetOverridesModel,
+			boolean singleQueryGeneration,
 			String sourceName,
 			HttpServletResponse response
 	) throws IOException {		
@@ -163,7 +163,7 @@ public class SparqlController {
 		// Call the sparqlgenerator model
 		SparqlGenerator qGenerator = new SparqlGenerator(zipOutputListener);
 		try {
-			qGenerator.generateSparql(shapesModel, shapesModelOpt, typeQuery);			
+			qGenerator.generateSparql(shapesModel, targetOverridesModel, singleQueryGeneration);			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

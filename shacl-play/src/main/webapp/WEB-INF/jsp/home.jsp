@@ -21,7 +21,7 @@
 	<link rel="stylesheet" href="<c:url value="/resources/css/shacl-play.css" />">
 </head>
 <body>
-	<jsp:include page="navbar.jsp">
+	<jsp:include page="include/navbar.jsp">
 		<jsp:param name="active" value="home"/>
 	</jsp:include>
 
@@ -144,7 +144,7 @@
 		<!-- Footer -->
 		<section id="footer">
 			<div class="container">
-				<jsp:include page="footer.jsp" />
+				<jsp:include page="include/footer.jsp" />
 			</div>
 		</section>
 	</div>

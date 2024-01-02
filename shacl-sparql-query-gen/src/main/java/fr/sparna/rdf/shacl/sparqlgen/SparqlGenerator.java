@@ -65,7 +65,7 @@ public class SparqlGenerator {
 
 	public void generateSparql(
 			Model shaclFile, 
-			Model targetsOverrideFile, 
+			Model targetsOverrideModel, 
 			boolean singleQueryGeneration
 	) throws Exception {
 		
@@ -85,9 +85,8 @@ public class SparqlGenerator {
 		/* 
 		 * , replace the values query in sh:Select
 		 */
-		
-		if(targetsOverrideFile!= null) {
-			List<Resource> nShapeResourcesOptional = targetsOverrideFile.listResourcesWithProperty(SH.target).toList();
+		if(targetsOverrideModel!= null) {
+			List<Resource> nShapeResourcesOptional = targetsOverrideModel.listResourcesWithProperty(SH.target).toList();
 			for (Resource nShape : nShapeResourcesOptional) {
 				NodeShape dbShaclOptional = reader.read(nShape);		
 				

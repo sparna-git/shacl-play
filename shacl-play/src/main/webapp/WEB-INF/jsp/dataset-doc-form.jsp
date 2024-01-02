@@ -8,7 +8,7 @@
 	value="${sessionScope['fr.sparna.rdf.shacl.shaclplay.SessionData'].userLocale.language}" />
 <fmt:setBundle basename="fr.sparna.rdf.shacl.shaclplay.i18n.shaclplay" />
 
-<c:set var="data" value="${requestScope['ConvertFormData']}" />
+<c:set var="data" value="${requestScope['DatasetDocFormData']}" />
 
 <html>
 	<head>
@@ -28,7 +28,7 @@
 	<body>
 
 		<jsp:include page="include/navbar.jsp">
-			<jsp:param name="active" value="context" />
+			<jsp:param name="active" value="dataset-doc" />
 		</jsp:include>
 
 		<div class="container-fluid">
@@ -44,67 +44,56 @@
 						</c:if>
 					</div>
 					
-					<h1 class="display-3"><fmt:message key="context.title" /></h1>
+					<h1 class="display-3"><fmt:message key="dataset-doc.title" /></h1>
 					
 					<div class="form-shortdesc">
 						<p>
-							This utility <em>generates a <a href="https://www.w3.org/TR/json-ld/#the-context">JSON-LD context document</a> from a SHACL specification</em>.
-							Detailed documentation is available <a href="#documentation">below</a>.
+							
 						</p>
 					</div>
 					
-					<form id="upload_form" action="context" method="POST" enctype="multipart/form-data" class="form-horizontal">
-						<h2><i class="fal fa-shapes"></i>&nbsp;&nbsp;<fmt:message key="context.shapes.title" /></h2>
+					<form id="upload_form" action="dataset-doc" method="POST" enctype="multipart/form-data" class="form-horizontal">
+						<h2><i class="fal fa-chart-network"></i>&nbsp;&nbsp;<fmt:message key="dataset-doc.dataset.title" /></h2>
 						
-						<!-- Include shapes blockquote -->
-					  	<%@ include file="include/shapes-blockquote.jsp" %>
+						<!-- Include data blockquote -->
+					  	<%@ include file="include/data-blockquote.jsp" %>												
 						
-						<!--  
 						<h2><i class="fal fa-tools"></i>&nbsp;&nbsp;<fmt:message key="blockquote.options.title" /></h2>
-				      	-->
-				      	
-				      	<button type="submit" id="validate-button" class="btn btn-info btn-lg"><fmt:message key="context.submit" /></button>
+				      	<blockquote class="blockquote bq-warning">
+							<!-- Language -->
+					      	<div class="form-group row">
+								<label for="language" class="col-sm-3 col-form-label">
+									<fmt:message key="dataset-doc.options.language"/>				    
+								</label>
+							    <div class="col-sm-9">
+							    	<input list="languageOption" name="language" style="width:4em;" value="en">
+							    	<small class="form-text text-muted">
+									  <fmt:message key="dataset-doc.options.language.help"/>
+									</small>
+							    </div>									    
+							</div>
+							
+							<div class="form-group row">
+								<label for="format" class="col-sm-3 col-form-label">
+									<fmt:message key="dataset-doc.options.format" />
+								</label>
+								<div class="col-sm-4">
+									<select class="form-control" id="format" name="format">
+										<option value="HTML">HTML</option>
+										<option value="PDF">PDF</option>
+										<option value="XML">XML</option>
+									</select>
+								</div>
+							</div>
+						</blockquote>
+						  
+						<button type="submit" id="validate-button" class="btn btn-info btn-lg"><fmt:message key="dataset-doc.submit" /></button>
 					</form>	
 					
 					<!-- Documentation -->	
 					<div style="margin-top:3em;">
 						<h3 id="documentation">Documentation</h3>
 						
-						
-												
-						<div style="margin-top:2em;">
-							<h4 id="algorithm">JSON-LD context document generation algorithm</h4>
-							<p>The algorithm follow these steps to generate the JSON-LD context:</p>
-							<ol>
-								<li>
-									Always add a mapping from <code>id</code>, <code>type</code> and <code>graph</code> 
-									to <code>@id</code>, <code>@type</code> and <code>@graph</code> respectively.</li>
-								<li>
-									Add <a href="https://www.w3.org/TR/json-ld/#compact-iris">prefix mappings</a> for each known prefixes in the SHACL file.
-								</li>
-								<li>
-									Add mappings with the URI of NodeShapes in the SHACL, using the local part of the URI as JSON key.
-								</li>
-								<li>
-									Add mappings with the URI of properties referred to in <code>sh:path</code> in the SHACL. SHACL property paths are not supported.
-									By default, the local part of the property URI is used as key, but a different JSON key can be specified by annotating the property shape
-									with the property <code>https://shacl-play.sparna.fr/ontology#shortname</code> (if the same property is referred to by multiple property shapes
-									annotated with different shortname,	the first one is used). Then :
-									<ol>
-										<li>
-											Determine the <code>@type</code> from datatypes : read the <code>sh:datatype</code> on property shapes referring to the property. 
-											If there is one, use it as the value of @type (if the same property is referred to by multiple property shapes
-											with different <code>sh:datatype</code>, the first one is used.)
-										</li>
-										<li>
-											Determine the <code>@type</code> from URI reference : if there are <code>sh:class</code>, <code>sh:node</code>, or if
-											<code>sh:nodeKind</code> = <code>sh:IRI</code> or <code>sh:BlankNodeOrIRI</code>, set the <code>@type</code> to <code>@id</code>
-										</li>
-									</ol>
-								</li>
-							</ol>
-							
-						</div>
 					</div>				
 				</div>
 			</div>

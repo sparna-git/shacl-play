@@ -11,11 +11,9 @@ public class JsonLdFormData {
 	
 	//protected RulesCatalog catalog;
 	protected ShapesCatalog catalog;
-	
-	protected String selectedShapesKey;
 
 	/**
-	 * Creates a new ConvertFormData instance suitable for displaying the given error message.
+	 * Creates a new JsonLdFormData instance suitable for displaying the given error message.
 	 * @param message
 	 * @return
 	 */
@@ -33,23 +31,6 @@ public class JsonLdFormData {
 		this.errorMessage = errorMessage;
 	}
 
-	/*
-	public RulesCatalog getCatalog() {
-		return catalog;
-	}
-
-	public void setCatalog(RulesCatalog catalog) {
-		this.catalog = catalog;
-	}
-	*/
-
-	public String getSelectedShapesKey() {
-		return selectedShapesKey;
-	}
-
-	public void setSelectedShapesKey(String selectedShapesKey) {
-		this.selectedShapesKey = selectedShapesKey;
-	}
 	
 	public ShapesCatalog getCatalog() {
 		return catalog;

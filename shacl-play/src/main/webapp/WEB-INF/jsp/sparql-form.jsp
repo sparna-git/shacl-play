@@ -26,18 +26,11 @@
 		
 		<script type="text/javascript">
 	
-			function enabledInput(selected) {
-				document.getElementById('source-' + selected).checked = true;
-				document.getElementById('inputUrl').disabled = selected != 'inputUrl';
-				document.getElementById('inputFile').disabled = selected != 'inputFile';
-				document.getElementById('inputInline').disabled = selected != 'inputInline';
-			}
-			
-			function enabledShapeInput(selected) {
-				document.getElementById('sourceShape-' + selected).checked = true;
-				document.getElementById('inputShapeUrl').disabled = selected != 'inputShapeUrl';
-				document.getElementById('inputShapeFile').disabled = selected != 'inputShapeFile';
-				document.getElementById('inputShapeInline').disabled = selected != 'inputShapeInline';
+			function enabledTargetOverrideInput(selected) {
+				document.getElementById('targetOverrideSource-' + selected).checked = true;
+				document.getElementById('targetOverrideUrl').disabled = selected != 'url';
+				document.getElementById('targetOverrideFile').disabled = selected != 'file';
+				document.getElementById('targetOverrideInline').disabled = selected != 'inline';
 			}
 			
 			function dowloadExample(){
@@ -52,7 +45,7 @@
 	</head>
 	<body>
 
-	<jsp:include page="navbar.jsp">
+	<jsp:include page="include/navbar.jsp">
 		<jsp:param name="active" value="sparql"/>
 	</jsp:include>
 
@@ -73,226 +66,119 @@
 				
 				<h1 class="display-3"><c:choose><c:when test="${empty data.selectedShapesKey}"><fmt:message key="sparql.title" /></c:when><c:otherwise><fmt:message key="sparql.title.validateWith" /> ${data.catalog.getCatalogEntryById(data.selectedShapesKey).title}</c:otherwise></c:choose></h1>	
 	 
+	 			<div class="form-shortdesc">
+	 				<p>
+						This is a <em>SHACL-based SPARQL generator</em>. It generates SPARQL queries used to extract a subset of data from a knowledge graph, 
+						based on the SHACL specification of the target dataset structure.
+						This tool takes into account a subset of SHACL constraints such as <code><a href="https://www.w3.org/TR/shacl/#HasValueConstraintComponent" target="_blank">sh:hasValue</a></code> , <code><a href="https://www.w3.org/TR/shacl/#InConstraintComponent" target="_blank">sh:in</a></code>, <code><a href="https://www.w3.org/TR/shacl/#LanguageInConstraintComponent" target="_blank">sh:languageIn</a></code>, <code><a href="https://www.w3.org/TR/shacl/#NodeConstraintComponent" target="_blank">sh:node</a></code> or <code><a href="https://www.w3.org/TR/shacl/#property-path-inverse" target="_blank">sh:inversePath</a></code>.
+						If generates <code><a href="https://www.w3.org/TR/rdf-sparql-query/#construct" target="_blank">CONSTRUCT</a></code> queries to return an RDF graph as an output.
+						<br />
+						Detailed documentation is available <a href="#documentation">below</a>.
+					</p>
+				</div>
+	 
 			  	<form id="upload_form" action="sparql" method="POST" enctype="multipart/form-data" class="form-horizontal">
 				      
 				      <h2><i class="fal fa-shapes"></i>&nbsp;&nbsp;<fmt:message key="sparql.inputData.title" /></h2>
-				      <blockquote class="blockquote bq-success">
-				      <div class="form-group row">
-				      	
-					    <label for="inputFile" class="col-sm-3 col-form-label">
-					    
-					    	<input
-									type="radio"
-									name="source"
-									id="source-inputFile"
-									value="file"
-									checked="checked"
-									onchange="enabledInput('inputFile')" />
-					    	<fmt:message key="sparql.inputData.upload" />
-					    
-					    </label>
-					    <div class="col-sm-9">
+					  <!-- Include shapes blockquote -->
+					  <%@ include file="include/shapes-blockquote.jsp" %>
+					  
+					  <h2><i class="fal fa-shapes"></i>&nbsp;&nbsp;<fmt:message key="sparql.targetOverride.title" /></h2>
+					  <blockquote class="blockquote bq-warning">		  
+					  
+					      <div class="form-group row">
+	
+						    <label for="targetOverrideFile" class="col-sm-3 col-form-label">
+						    
+						    	<input
+										type="radio"
+										name="targetOverrideSource"
+										id="targetOverrideSource-file"
+										value="file"
+										checked="checked"
+										onchange="enabledTargetOverrideInput('file')" />
+						    	<fmt:message key="sparql.targetOverride.upload" />
+						    
+						    </label>
+						    <div class="col-sm-9">
 					    		<div class="fileinput fileinput-new input-group" data-provides="fileinput">
-								  <div class="form-control" data-trigger="fileinput" id="inputFile">
+								  <div class="form-control" data-trigger="fileinput" id="inputShapeFile">
 								    <i class="fal fa-upload"></i><span class="fileinput-filename with-icon"></span>
 								  </div>
 								  <span class="input-group-append">
 								    <span class="input-group-text fileinput-exists" data-dismiss="fileinput">
-								      <fmt:message key="sparql.inputData.upload.remove" />
+								      <fmt:message key="sparql.targetOverride.upload.remove" />
 								    </span>
 								
 								    <span class="input-group-text btn-file">
-								      <span class="fileinput-new"><fmt:message key="sparql.inputData.upload.select" /></span>
-								      <span class="fileinput-exists"><fmt:message key="sparql.inputData.upload.change" /></span>
-								      <input type="file" name="inputFile" multiple onchange="enabledInput('inputFile')">
+								      <span class="fileinput-new"><fmt:message key="sparql.targetOverride.upload.select" /></span>
+								      <span class="fileinput-exists"><fmt:message key="sparql.targetOverride.upload.change" /></span>
+								      
+								      <input type="file" name="targetOverrideFile" multiple onchange="enabledTargetOverrideInput('file')">
 								    </span>
 								  </span>
 								</div>
 								<small class="form-text text-muted">
-								  <fmt:message key="sparql.inputData.upload.help" />
-								</small>
-					    </div>
-					  </div>
-					  <div class="form-group row">
-					    <label for="inputUrl" class="col-sm-3 col-form-label">
-					    
-					    	<input
-									type="radio"
-									name="source"
-									id="source-inputUrl"
-									value="url"
-									onchange="enabledInput('inputUrl')" />
-					    	<fmt:message key="sparql.inputData.url" />
-					    </label>
-					    <div class="col-sm-9">
-					      <input 
-					      	type="text"
-					      	class="form-control"
-					      	id="inputUrl"
-					      	name="inputUrl"
-					      	placeholder="<fmt:message key="sparql.inputData.url.placeholder" />"
-					      	onkeypress="enabledInput('inputUrl');"
-					      	onpaste="enabledInput('inputUrl');"
-					      />
-					      <small class="form-text text-muted">
-								  <fmt:message key="sparql.inputData.url.help" />
-						  </small>
-					    </div>
-					  </div>
-					  <div class="form-group row">
-					    <label for="inputInline" class="col-sm-3 col-form-label">
-					    
-					    	<input
-									type="radio"
-									name="source"
-									id="source-inputInline"
-									value="inline"
-									onchange="enabledInput('inputInline')" />
-					    	<fmt:message key="sparql.inputData.inline" />
-					    </label>
-					    <div class="col-sm-9">
-					      <textarea 
-					      	class="form-control"
-					      	id="inputInline"
-					      	name="inputInline"
-					      	rows="5"
-					      	onkeypress="enabledInput('inputInline');"
-							onpaste="enabledInput('inputInline')"
-					      ></textarea>
-					      <small class="form-text text-muted">
-								  <fmt:message key="sparql.inputData.inline.help" />
-						  </small>
-					    </div>
-					  </div>
-					  </blockquote>
-					  
-					  <c:if test="${empty data.selectedShapesKey}">
-						  <h2><i class="fal fa-shapes"></i>&nbsp;&nbsp;<fmt:message key="sparql.shapes.title" /></h2>
-						  <blockquote class="blockquote bq-primary">		  
-						  
-						      <div class="form-group row">
-		
-							    <label for="inputShapeFile" class="col-sm-3 col-form-label">
-							    
-							    	<input
-											type="radio"
-											name="shapesSource"
-											id="sourceShape-inputShapeFile"
-											value="file"
-											checked="checked"
-											onchange="enabledShapeInput('inputShapeFile')" />
-							    	<fmt:message key="sparql.shapes.upload" />
-							    
-							    </label>
-							    <div class="col-sm-9">
-							    		<div class="fileinput fileinput-new input-group" data-provides="fileinput">
-										  <div class="form-control" data-trigger="fileinput" id="inputShapeFile">
-										    <i class="fal fa-upload"></i><span class="fileinput-filename with-icon"></span>
-										  </div>
-										  <span class="input-group-append">
-										    <span class="input-group-text fileinput-exists" data-dismiss="fileinput">
-										      <fmt:message key="sparql.shapes.upload.remove" />
-										    </span>
-										
-										    <span class="input-group-text btn-file">
-										      <span class="fileinput-new"><fmt:message key="sparql.shapes.upload.select" /></span>
-										      <span class="fileinput-exists"><fmt:message key="sparql.shapes.upload.change" /></span>
-										      <input type="file" name="inputShapeFile" multiple onchange="enabledShapeInput('inputShapeFile')">
-										    </span>
-										  </span>
-										</div>
-										<small class="form-text text-muted">
-											  <fmt:message key="sparql.shapes.upload.help" />
-									  </small>
-							    </div>
-							  </div>
-						      
-						      <c:if test="${not empty data.catalog.entries}">
-							      <div class="form-group row">	
-								    <label for="inputShapeCatalog" class="col-sm-3 col-form-label">
-								    
-								    	<input
-												type="radio"
-												name="shapesSource"
-												id="sourceShape-inputShapeCatalog"
-												value="catalog"
-												onchange="enabledShapeInput('inputShapeCatalog')" />
-								    	<fmt:message key="sparql.shapes.catalog" />					    
-								    </label>
-								    <div class="col-sm-9">
-								    		<select class="form-control" id="inputShapeCatalog" name="inputShapeCatalog" onchange="enabledShapeInput('inputShapeCatalog');">
-										      	<c:forEach items="${data.catalog.entries}" var="entry">
-										      		<option value="${entry.id}">${entry.title}</option>
-										      	</c:forEach>
-										    </select>
-										    <small class="form-text text-muted">
-												  <fmt:message key="sparql.shapes.catalog.help" />
-										    </small>
-								    </div>
-								  </div>
-							  </c:if>
-							  
-							  <div class="form-group row">
-							    <label for="inputShapeUrl" class="col-sm-3 col-form-label">
-							    
-							    	<input
-											type="radio"
-											name="shapesSource"
-											id="sourceShape-inputShapeUrl"
-											value="url"
-											onchange="enabledShapeInput('inputShapeUrl')" />
-							    	<fmt:message key="sparql.shapes.url" />
-							    </label>
-							    <div class="col-sm-9">
-							      <input 
-							      	type="text"
-							      	class="form-control"
-							      	id="inputShapeUrl"
-							      	name="inputShapeUrl"
-							      	placeholder="<fmt:message key="sparql.shapes.url.placeholder" />"
-							      	onkeypress="enabledShapeInput('inputShapeUrl');"
-							      	onchange="enabledShapeInput('inputShapeUrl')"
-							      >
-							      <small class="form-text text-muted">
-									  <fmt:message key="sparql.shapes.url.help" />
+									  <fmt:message key="sparql.targetOverride.upload.help" />
 							    </small>
-							    </div>
-							  </div>
-							  <div class="form-group row">
-							    <label for="inputShapeInline" class="col-sm-3 col-form-label">
-							    
-							    	<input
-											type="radio"
-											name="shapesSource"
-											id="sourceShape-inputShapeInline"
-											value="inline"
-											onchange="enabledShapeInput('inputShapeInline')" />
-							    	<fmt:message key="sparql.shapes.inline" />
-							    </label>
-							    <div class="col-sm-9">
-							      <textarea 
-							      	class="form-control"
-							      	id="inputShapeInline"
-							      	name="inputShapeInline"
-							      	rows="5"
-							      	onkeypress="enabledShapeInput('inputShapeInline');"
-							      	onpaste="enabledShapeInput('inputShapeInline');"
-							      ></textarea>
-							      <small class="form-text text-muted">
-									  <fmt:message key="sparql.shapes.inline.help" />
-								  </small>
-							    </div>	
-						      </div>
-					      </blockquote>
-					  </c:if>
-					  <c:if test="${not empty data.selectedShapesKey}">
-					  	<input type="hidden" name="shapesSource" value="catalog" />
-					  	<input type="hidden" name="inputShapeCatalog" value="${data.selectedShapesKey}" />
-					  </c:if>
+						    </div>
+						  </div>
+					      							  
+						  <div class="form-group row">
+						    <label for="inputTargetOverrideUrl" class="col-sm-3 col-form-label">
+						    
+						    	<input
+										type="radio"
+										name="targetOverrideSource"
+										id="targetOverrideSource-url"
+										value="url"
+										onchange="enabledTargetOverrideInput('url')" />
+						    	<fmt:message key="sparql.targetOverride.url" />
+						    </label>
+						    <div class="col-sm-9">
+						      <input 
+						      	type="text"
+						      	class="form-control"
+						      	id="targetOverrideUrl"
+						      	name="targetOverrideUrl"
+						      	placeholder="<fmt:message key="sparql.targetOverride.url.placeholder" />"
+						      	onkeypress="enabledTargetOverrideInput('url');"
+						      	onchange="enabledTargetOverrideInput('url')"
+						      >
+						      <small class="form-text text-muted">
+								  <fmt:message key="sparql.targetOverride.url.help" />
+						    </small>
+						    </div>
+						  </div>
+						  <div class="form-group row">
+						    <label for="targetOverrideInline" class="col-sm-3 col-form-label">
+						    
+						    	<input
+										type="radio"
+										name="targetOverrideSource"
+										id="targetOverrideSource-inline"
+										value="inline"
+										onchange="enabledTargetOverrideInput('inline')" />
+						    	<fmt:message key="sparql.targetOverride.inline" />
+						    </label>
+						    <div class="col-sm-9">
+						      <textarea 
+						      	class="form-control"
+						      	id="targetOverrideInline"
+						      	name="targetOverrideInline"
+						      	rows="5"
+						      	onkeypress="enabledTargetOverrideInput('inline');"
+						      	onpaste="enabledTargetOverrideInput('inline');"
+						      ></textarea>
+						      <small class="form-text text-muted">
+								  <fmt:message key="sparql.targetOverride.inline.help" />
+							  </small>
+						    </div>	
+					      </div>
+				      </blockquote>
+
 					  
-					  
-					  
-					  <h2><i class="fal fa-tools"></i>&nbsp;&nbsp;<fmt:message key="sparql.options.title" /></h2>
+					  <h2><i class="fal fa-tools"></i>&nbsp;&nbsp;<fmt:message key="blockquote.options.title" /></h2>
 				      <blockquote class="blockquote bq-warning">					      
 					      <div class="form-group row">
 					      	<div class="col-sm-12">
@@ -309,7 +195,7 @@
 						  </div>						  
 					  </blockquote>
 					  
-				    <button type="submit" id="sparql-button" class="btn btn-info btn-lg"><fmt:message key="sparql.validate" /></button>			  	
+				    <button type="submit" id="sparql-button" class="btn btn-info btn-lg"><fmt:message key="sparql.submit" /></button>			  	
 			  	</form>
  		
 			
@@ -317,17 +203,6 @@
 				<div style="margin-top:3em;">
 					<h3>Documentation</h3>
 					<div id="documentation">
-						<h4>What is this tool ?</h4>
-						<p>
-						This is a SHACL-based SPARQL generator. It generates SPARQL queries used to extract a subset of data from a knowledge graph, 
-						based on the SHACL specification of the target dataset structure.
-						</p>
-						<p>
-						This tool takes into account a subset of SHACL constraints such as <code><a href="https://www.w3.org/TR/shacl/#HasValueConstraintComponent" target="_blank">sh:hasValue</a></code> , <code><a href="https://www.w3.org/TR/shacl/#InConstraintComponent" target="_blank">sh:in</a></code>, <code><a href="https://www.w3.org/TR/shacl/#LanguageInConstraintComponent" target="_blank">sh:languageIn</a></code>, <code><a href="https://www.w3.org/TR/shacl/#NodeConstraintComponent" target="_blank">sh:node</a></code> or <code><a href="https://www.w3.org/TR/shacl/#property-path-inverse" target="_blank">sh:inversePath</a></code>.
-						</p>
-						<p>
-						If generates <code><a href="https://www.w3.org/TR/rdf-sparql-query/#construct" target="_blank">CONSTRUCT</a></code> queries to return an RDF graph as an output.
-						</p>
 						<h4>Sample file</h4>
 						<p> 
 						   To test, and to better understand how the SPARQL query generation works you can download this <a href="<c:url value="/resources/example/PersonCountry.ttl"/>">turtle example of an application profile specified in SHACL</a>
@@ -394,6 +269,14 @@
 					</div>
 					
 					<div>
+						<h4>Targets override</h4>
+						<p>
+							If you provide a <em>target override model</em>, then the targets (sh:target) of the shapes will be read from this model instead of the original
+							SHACL shapes graph. This allows to use the same base model with different target specifications.
+						</p>
+					</div>
+					
+					<div>
 						<h4>SPARQL query generation algorithm (multiple queries)</h4>
 						
 						<!-- Shacl code convert to SPARQL Query -->
@@ -445,7 +328,7 @@
     </div><!-- /.container-fluid -->
 
 			
-	<jsp:include page="footer.jsp"></jsp:include>
+	<jsp:include page="include/footer.jsp"></jsp:include>
 	
 	<!-- SCRIPTS -->
     <!-- JQuery -->

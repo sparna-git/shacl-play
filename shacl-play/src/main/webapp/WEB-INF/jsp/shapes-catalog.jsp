@@ -37,7 +37,7 @@
 	</style>
 </head>
 <body>
-	<jsp:include page="navbar.jsp">
+	<jsp:include page="include/navbar.jsp">
 		<jsp:param name="active" value="shapes-catalog"/>
 	</jsp:include>
 
@@ -83,7 +83,7 @@
         </div>
     </div> 
 
-	<jsp:include page="footer.jsp" />
+	<jsp:include page="include/footer.jsp" />
 
 	<!-- SCRIPTS -->
     <!-- JQuery -->

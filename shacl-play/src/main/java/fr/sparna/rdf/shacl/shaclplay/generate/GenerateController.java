@@ -53,31 +53,31 @@ public class GenerateController {
 			method=RequestMethod.GET
 	)
 	public ModelAndView generateUrl(
-			@RequestParam(value="url", required=true) String shapesUrl,
+			@RequestParam(value="url", required=true) String url,
 			// Output format
 			@RequestParam(value="format", required=false, defaultValue = "Turtle") String format,
-			// Count Ocurrences Instant Option
-			@RequestParam(value="Ocurrencesinstances", required=false) boolean Ocurrencesinstances,
+			// compute statistics option
+			@RequestParam(value="statistics", required=false) boolean computeStatistics,
 			HttpServletRequest request,
 			HttpServletResponse response
 	){
 		try {
-			log.debug("generateUrl(shapesUrl='"+shapesUrl+"')");
+			log.debug("generateUrl(url='"+url+"')");
 			
 
 			Configuration config = new Configuration(new DefaultModelProcessor(), "https://shacl-play.sparna.fr/shapes/", "shapes");
 			config.setShapesOntology("https://shacl-play.sparna.fr/shapes");
 			
-			SamplingShaclGeneratorDataProvider dataProvider = new SamplingShaclGeneratorDataProvider(new PaginatedQuery(100), shapesUrl);
+			SamplingShaclGeneratorDataProvider dataProvider = new SamplingShaclGeneratorDataProvider(new PaginatedQuery(100), url);
 			
 			Model shapes = doGenerateShapes(
 					dataProvider,
 					config,
-					shapesUrl,
-					Ocurrencesinstances
+					url,
+					computeStatistics
 			);		
 			
-			serialize(shapes, format,response);
+			serialize(shapes, format, url, response);
 			return null;
 			
 		} catch (Exception e) {
@@ -102,67 +102,79 @@ public class GenerateController {
 	
 	@RequestMapping(
 			value="/generate",
-			params={"shapesSource"},
+			params={"source"},
 			method = RequestMethod.POST
 	)
 	public ModelAndView generate(
 			// radio box indicating type of shapes
-			@RequestParam(value="shapesSource", required=true) String shapesSourceString,
-			// reference to Shapes URL if shapeSource=sourceShape-inputShapeUrl
-			@RequestParam(value="inputShapeUrl", required=false) String shapesUrl,
-			//@RequestParam(value="inputShapeCatalog", required=false) String shapesCatalogId,
-			// uploaded shapes if shapeSource=sourceShape-inputShapeFile
-			@RequestParam(value="inputShapeFile", required=false) List<MultipartFile> shapesFiles,
-			// inline Shapes if shapeSource=sourceShape-inputShapeInline
-			//@RequestParam(value="inputShapeInline", required=false) String shapesText,
-			
+			@RequestParam(value="source", required=true) String sourceString,
+			// reference to data URL if source=source-inputUrl
+			@RequestParam(value="inputUrl", required=false) String url,
+			// uploaded data if source=source-inputFile
+			@RequestParam(value="inputFile", required=false) List<MultipartFile> inputFiles,
+			// inline data if source=source-inputInline
+			@RequestParam(value="inputInline", required=false) String text,
+			// reference to a SPARQL endpoint URL if source=source-inputUrlEndpoint
+			@RequestParam(value="inputUrlEndpoint", required=false) String endpoint,
 			// Format output file
 			@RequestParam(value="format", required=false, defaultValue = "Turtle") String format,
-			// Count Ocurrences Instant Option
-			@RequestParam(value="Ocurrencesinstances", required=false) boolean Ocurrencesinstances,
+			// statistics option
+			@RequestParam(value="statistics", required=false) boolean computeStatistics,
 			HttpServletRequest request,
 			HttpServletResponse response			
 	) {
 		try {
 
 			// get the source type
-			ControllerModelFactory.SOURCE_TYPE shapesSource = ControllerModelFactory.SOURCE_TYPE.valueOf(shapesSourceString.toUpperCase());
+			ControllerModelFactory.SOURCE_TYPE source = ControllerModelFactory.SOURCE_TYPE.valueOf(sourceString.toUpperCase());
 			
+			SamplingShaclGeneratorDataProvider dataProvider;
+			Configuration config = new Configuration(new DefaultModelProcessor(), "https://shacl-play.sparna.fr/shapes/", "shapes");
+			config.setShapesOntology("https://shacl-play.sparna.fr/shapes");
 			
-			// if source is a ULR, redirect to the API
-			if(shapesSource == SOURCE_TYPE.URL) {
-				return new ModelAndView("redirect:/generate?url="+URLEncoder.encode(shapesUrl, "UTF-8")+"&format="+format);
+			String sourceName = null;
+			
+			// first build the data provider, either for an endpoint or by loading a Model
+			if(source == SOURCE_TYPE.ENDPOINT) {
+				log.debug("Generating shapes for endpoint "+endpoint);
+				dataProvider = new SamplingShaclGeneratorDataProvider(new PaginatedQuery(100),endpoint);
+				sourceName = ControllerModelFactory.getSourceNameForUrl(endpoint);
 			} else {
-				
-				// initialize shapes first
-				log.debug("Determining Shapes source...");
-				Model shapesModel = ModelFactory.createDefaultModel();
-				ControllerModelFactory modelPopulator = new ControllerModelFactory(null);
-				modelPopulator.populateModel(
-						shapesModel,
-						shapesSource,
-						shapesUrl,
-						null,
-						shapesFiles,
-						null
-				);
-				log.debug("Done Loading Shapes. Model contains "+shapesModel.size()+" triples");
+				// if source is a URL, redirect to the API
+				if(source == SOURCE_TYPE.URL) {
+					return new ModelAndView("redirect:/generate?url="+URLEncoder.encode(url, "UTF-8")+"&format="+format+(computeStatistics?"&statistics=true":""));
+				} else {
+					// Load data
+					log.debug("Determining dataset source...");
+					Model datasetModel = ModelFactory.createDefaultModel();
+					ControllerModelFactory modelPopulator = new ControllerModelFactory(null);
+					modelPopulator.populateModel(
+							datasetModel,
+							source,
+							url,
+							text,
+							inputFiles,
+							null
+					);
+					log.debug("Done Loading dataset. Model contains "+datasetModel.size()+" triples");
 
-				Configuration config = new Configuration(new DefaultModelProcessor(), "https://shacl-play.sparna.fr/shapes/", "shapes");
-				config.setShapesOntology("https://shacl-play.sparna.fr/shapes");
-				
-				SamplingShaclGeneratorDataProvider dataProvider = new SamplingShaclGeneratorDataProvider(new PaginatedQuery(100),shapesModel);
-				
-				Model shapes = doGenerateShapes(
-						dataProvider,
-						config,
-						modelPopulator.getSourceName(),
-						Ocurrencesinstances
-				);			
-				
-				serialize(shapes, format,response);
-				return null;
-			}			
+					dataProvider = new SamplingShaclGeneratorDataProvider(new PaginatedQuery(100),datasetModel);
+					sourceName = modelPopulator.getSourceName();
+				}
+			}
+			
+			// now generate the shapes
+			Model shapes = doGenerateShapes(
+					dataProvider,
+					config,
+					(source == SOURCE_TYPE.ENDPOINT)?endpoint:(source == SOURCE_TYPE.URL)?url:"https://dummy.dataset.uri",
+					computeStatistics
+			);			
+			
+			serialize(shapes, format, sourceName, response);
+			return null;
+			
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			return handleGenerateFormError(request, e.getClass().getName() +" : "+e.getMessage(), e);
@@ -172,7 +184,7 @@ public class GenerateController {
 	private Model doGenerateShapes(
 			ShaclGeneratorDataProviderIfc dataProvider,
 			Configuration config,
-			String sourceName,
+			String targetDatasetUri,
 			boolean withCount
 	) {
 		ShaclGenerator generator = new ShaclGenerator();
@@ -185,10 +197,10 @@ public class GenerateController {
 		// add dash:LabelRole
 		shaclVisit.visit(new AssignLabelRoleVisitor());
 		
-		// If Ocurrencesinstances Check is True, building the ComputeStatisticsVisitor 
+		// If withCount, process the ComputeStatisticsVisitor 
 		if (withCount) {
 			Model countModel = ModelFactory.createDefaultModel();
-			shaclVisit.visit(new ComputeStatisticsVisitor(dataProvider, countModel, sourceName, true));
+			shaclVisit.visit(new ComputeStatisticsVisitor(dataProvider, countModel, targetDatasetUri, true));
 			shaclVisit.visit(new CopyStatisticsToDescriptionVisitor(countModel));
 			shapes.add(countModel);
 		}
@@ -200,6 +212,7 @@ public class GenerateController {
 	private void serialize(
 			Model dataModel,
 			String fileFormat,
+			String sourceName,
 			HttpServletResponse response
 	) throws Exception {
 
@@ -209,7 +222,7 @@ public class GenerateController {
 		}
 		
 		String dateString = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-		String filename="shacl"+"_"+dateString;
+		String filename=sourceName+"-"+"shacl"+"_"+dateString;
 		
 		ControllerCommons.serialize(dataModel, l, filename, response);
 	}

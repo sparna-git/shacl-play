@@ -58,8 +58,7 @@ public class JsonLdController {
 			
 			doContextShapes(shapesModel,response);
 			
-			return null;
-			
+			return null;			
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
@@ -94,7 +93,9 @@ public class JsonLdController {
 			// uploaded shapes if shapeSource=sourceShape-inputShapeFile
 			@RequestParam(value="inputShapeFile", required=false) List<MultipartFile> shapesFiles,
 			// inline Shapes if shapeSource=sourceShape-inputShapeInline
-			//@RequestParam(value="inputShapeInline", required=false) String shapesText,
+			@RequestParam(value="inputShapeInline", required=false) String shapesText,
+			// reference to Shapes Catalog ID if shapeSource=sourceShape-inputShapeCatalog
+			@RequestParam(value="inputShapeCatalog", required=false) String shapesCatalogId,
 			
 			HttpServletRequest request,
 			HttpServletResponse response			
@@ -104,24 +105,19 @@ public class JsonLdController {
 			// get the source type
 			ControllerModelFactory.SOURCE_TYPE shapesSource = ControllerModelFactory.SOURCE_TYPE.valueOf(shapesSourceString.toUpperCase());
 			
-			System.out.println(shapesSource);
-			
 			// if source is a ULR, redirect to the API
 			if(shapesSource == SOURCE_TYPE.URL) {
 				return new ModelAndView("redirect:/context?url="+URLEncoder.encode(shapesUrl, "UTF-8"));
 			} else {
-				
-				//log.debug("jsonLdContextFromUrl(shapesUrl='"+inputShapeFile+"')");		
-				
 				Model shapesModel = ModelFactory.createDefaultModel();
 				ControllerModelFactory modelPopulator = new ControllerModelFactory(this.catalogService.getShapesCatalog());
 				modelPopulator.populateModel(
 						shapesModel,
 						shapesSource,
 						shapesUrl,
-						null,
+						shapesText,
 						shapesFiles,
-						null
+						shapesCatalogId
 				);
 				//modelPopulator.populateModelFromUrl(shapesModel, shapesUrl);
 				log.debug("Done Loading Shapes. Model contains "+shapesModel.size()+" triples");

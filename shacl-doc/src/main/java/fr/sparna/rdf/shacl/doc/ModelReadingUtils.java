@@ -74,23 +74,23 @@ public class ModelReadingUtils {
 	/**
 	 * Reads a Literal in a specific language (possibly null for all languages), and returns all values as a List
 	 */
-	public static List<Literal> readLiteralInLang(Resource constraint, Property property, String lang) {
-		if (constraint.hasProperty(property)) {
+	public static List<Literal> readLiteralInLang(Resource resource, Property property, String lang) {
+		if (resource.hasProperty(property)) {
 			if(lang != null) {
 				// we asked for an explicit language
-				if(constraint.listProperties(property, lang).toList().size() > 0) {
-					return constraint.listProperties(property, lang).toList().stream()
+				if(resource.listProperties(property, lang).toList().size() > 0) {
+					return resource.listProperties(property, lang).toList().stream()
 							.map(s -> s.getObject().asLiteral())
 							.collect(Collectors.toList());
 				} else {
 					// also look for values with no language
-					return constraint.listProperties(property, "").toList().stream()
+					return resource.listProperties(property, "").toList().stream()
 							.map(s -> s.getObject().asLiteral())
 							.collect(Collectors.toList());
 				}
 			} else {
 				// we didn't asked for a specific language, search any property value
-				return constraint.listProperties(property).toList().stream()
+				return resource.listProperties(property).toList().stream()
 						.map(s -> s.getObject().asLiteral())
 						.collect(Collectors.toList());
 			}

@@ -1,5 +1,7 @@
-package fr.sparna.rdf.shacl.shaclplay.generate.dataset;
+package fr.sparna.rdf.shacl.shaclplay.datasetdoc;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.List;
 
@@ -19,11 +21,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.openhtmltopdf.pdfboxout.PdfRendererBuilder;
+
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentation;
 import fr.sparna.rdf.shacl.doc.read.DatasetDocumentationModelReader;
 import fr.sparna.rdf.shacl.doc.write.ShapesDocumentationJacksonXsltWriter;
 import fr.sparna.rdf.shacl.doc.write.ShapesDocumentationWriterIfc;
 import fr.sparna.rdf.shacl.doc.write.ShapesDocumentationWriterIfc.MODE;
+import fr.sparna.rdf.shacl.doc.write.ShapesDocumentationXmlWriter;
 import fr.sparna.rdf.shacl.generate.Configuration;
 import fr.sparna.rdf.shacl.generate.DefaultModelProcessor;
 import fr.sparna.rdf.shacl.generate.PaginatedQuery;
@@ -91,27 +96,27 @@ public class DatasetDocController {
 	){
 		DatasetDocFormData data = new DatasetDocFormData();
 		
-		return new ModelAndView("dataset-doc", DatasetDocFormData.KEY, data);	
+		return new ModelAndView("dataset-doc-form", DatasetDocFormData.KEY, data);	
 	}
 	
 	@RequestMapping(
 			value="/dataset-doc",
-			params={"shapesSource"},
+			params={"source"},
 			method = RequestMethod.POST
 	)
 	public ModelAndView generateDataset(
-			// radio box indicating type of shapes
-			@RequestParam(value="shapesSource", required=true) String datasetSourceString,
-			// reference to Shapes URL if shapeSource=sourceShape-inputShapeUrl
-			@RequestParam(value="inputShapeUrl", required=false) String datasetUrl,
-			//@RequestParam(value="inputShapeCatalog", required=false) String shapesCatalogId,
-			// uploaded shapes if shapeSource=sourceShape-inputShapeFile
-			@RequestParam(value="inputShapeFile", required=false) List<MultipartFile> datasetFiles,
-			// inline Shapes if shapeSource=sourceShape-inputShapeInline
-			//@RequestParam(value="inputShapeInline", required=false) String shapesText,
-			
-			// Format output file
+			// radio box indicating type of input
+			@RequestParam(value="source", required=true) String datasetSourceString,
+			// uploaded file if source=file
+			@RequestParam(value="inputFile", required=false) List<MultipartFile> datasetFiles,
+			// url of page if source=url
+			@RequestParam(value="inputUrl", required=false) String datasetUrl,
+			// inline content if source=text
+			@RequestParam(value="inputInline", required=false) String text,
+			// Format of the output
 			@RequestParam(value="format", required=false, defaultValue = "HTML") String format,
+			// Language Option
+			@RequestParam(value="language", required=false) String language,
 			HttpServletRequest request,
 			HttpServletResponse response			
 	) {
@@ -121,44 +126,109 @@ public class DatasetDocController {
 			ControllerModelFactory.SOURCE_TYPE datasetSource = ControllerModelFactory.SOURCE_TYPE.valueOf(datasetSourceString.toUpperCase());
 			
 			
-			// if source is a ULR, redirect to the API
+			// if source is a URL, redirect to the API
 			if(datasetSource == SOURCE_TYPE.URL) {
-				return new ModelAndView("redirect:/generateDatasetUrl?url="+URLEncoder.encode(datasetUrl, "UTF-8")+"&format="+format);
+				return new ModelAndView("redirect:/dataset-doc?url="+URLEncoder.encode(datasetUrl, "UTF-8")+"&format="+format);
 			} else {
 				
-				// initialize shapes first
-				log.debug("Determining dataset source...");
+				// load dataset
+				log.debug("Populating model...");
 				Model datasetModel = ModelFactory.createDefaultModel();
 				ControllerModelFactory modelPopulator = new ControllerModelFactory(null);
 				modelPopulator.populateModel(
 						datasetModel,
 						datasetSource,
 						datasetUrl,
-						null,
+						text,
 						datasetFiles,
 						null
 				);
-				log.debug("Done Loading Shapes. Model contains "+datasetModel.size()+" triples");
+				log.debug("Done Loading Dataset. Model contains "+datasetModel.size()+" triples");
 				
-				DatasetDocumentationModelReader reader = new DatasetDocumentationModelReader();
-				ShapesDocumentation sd = reader.readDatasetDocumentation(datasetModel, ModelFactory.createDefaultModel(), format, false);
-
-				/*
-				 * view html
-				 */
-				ShapesDocumentationWriterIfc writer = new ShapesDocumentationJacksonXsltWriter();
-				response.setContentType("text/html");
-				writer.writeDatasetDoc(sd,  //set of data
-						"en",  // language default	
-						response.getOutputStream(), //instance of output
-						MODE.HTML // this option is update to format config
-				);		
+				// defaults to english
+				if(language == null) {
+					language ="en";
+				}
+				
+				doOutputDoc(
+						datasetModel,
+						// true to read diagram
+						true,
+						format,
+						// logo URL
+						null,
+						modelPopulator.getSourceName(),
+						language,
+						response
+				);
 
 				return null;
 			}			
 		} catch (Exception e) {
 			e.printStackTrace();
 			return handleGenerateFormError(request, e.getClass().getName() +" : "+e.getMessage(), e);
+		}
+	}
+	
+	protected void doOutputDoc(
+			Model dataset,
+			// currently not used
+			boolean includeDiagram,
+			String format, // html or pdf or xml
+			String urlLogo,
+			String filename,
+			String language,
+			HttpServletResponse response
+	) throws IOException {	
+		response.setHeader("Content-Disposition", "inline; filename=\""+filename+".html\"");
+		
+		DatasetDocumentationModelReader reader = new DatasetDocumentationModelReader();
+		ShapesDocumentation sd = reader.readDatasetDocumentation(dataset, ModelFactory.createDefaultModel(), format, false);
+
+		
+		if (format.toLowerCase().equals("html")) {
+			ShapesDocumentationWriterIfc writer = new ShapesDocumentationJacksonXsltWriter();
+			response.setContentType("text/html");
+			writer.writeDatasetDoc(
+					sd,  
+					language,	
+					response.getOutputStream(),
+					MODE.HTML	
+			);
+		} else if (format.toLowerCase().equals("xml")) {	
+			ShapesDocumentationWriterIfc writer = new ShapesDocumentationXmlWriter();
+			response.setContentType("application/xml");
+			writer.writeDatasetDoc(
+					sd,
+					language,	
+					response.getOutputStream(),
+					MODE.XML	
+			);
+		} else if(format.toLowerCase().equals("pdf") ) {
+			ShapesDocumentationWriterIfc writer = new ShapesDocumentationJacksonXsltWriter();
+			// 1. write Documentation structure to XML
+			ByteArrayOutputStream htmlBytes = new ByteArrayOutputStream();
+			writer.writeDatasetDoc(
+					sd,
+					language,	
+					response.getOutputStream(),
+					MODE.XML	
+			);
+			
+			//read file html
+			String htmlCode = new String(htmlBytes.toByteArray(),"UTF-8");
+			// htmlCode.replace("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">", "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />");
+			
+			// Convert
+			response.setContentType("application/pdf");
+			PdfRendererBuilder _builder = new PdfRendererBuilder();			 
+			_builder.useFastMode();
+			
+			_builder.withHtmlContent(htmlCode,"http://shacl-play.sparna.fr/play");			
+			
+			_builder.toStream(response.getOutputStream());
+			_builder.testMode(false);
+			_builder.run();
 		}
 	}
 
@@ -181,7 +251,7 @@ public class DatasetDocController {
 		if(e != null) {
 			e.printStackTrace();
 		}
-		return new ModelAndView("dataset-doc", DatasetDocFormData.KEY, data);
+		return new ModelAndView("dataset-doc-form", DatasetDocFormData.KEY, data);
 	}
 	
 }

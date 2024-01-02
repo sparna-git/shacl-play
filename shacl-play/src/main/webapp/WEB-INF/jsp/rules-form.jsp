@@ -21,26 +21,12 @@
 		<link rel="stylesheet" href="<c:url value="/resources/MDB-Free/css/bootstrap.min.css" />">
 		<link rel="stylesheet" href="<c:url value="/resources/MDB-Free/css/mdb.min.css" />">
 		<link rel="stylesheet" href="<c:url value="/resources/jasny-bootstrap/jasny-bootstrap.min.css" />" />
-		<link rel="stylesheet" href="<c:url value="/resources/css/shacl-play.css" />" />	
-			
-		
-		<script type="text/javascript">
-			
-			function enabledShapeInput(selected) {
-				document.getElementById('sourceShape-' + selected).checked = true;
-				document.getElementById('inputShapeUrl').disabled = selected != 'inputShapeUrl';
-				document.getElementById('inputShapeCatalog').disabled = selected != 'inputShapeCatalog';
-				document.getElementById('inputShapeFile').disabled = selected != 'inputShapeFile';
-				document.getElementById('inputShapeInline').disabled = selected != 'inputShapeInline';
-			}
-
-	    </script>
-		
+		<link rel="stylesheet" href="<c:url value="/resources/css/shacl-play.css" />" />			
 		
 	</head>
 	<body>
 
-	<jsp:include page="navbar.jsp">
+	<jsp:include page="include/navbar.jsp">
 		<jsp:param name="active" value="rules"/>
 	</jsp:include>
 
@@ -62,135 +48,9 @@
 				<h1 class="display-3"><fmt:message key="rules.title" /></h1>	
 	 
 			  	<form id="upload_form" action="rules" method="POST" enctype="multipart/form-data" class="form-horizontal">
-				      
-					  
-
-						  <h2><i class="fal fa-shapes"></i>&nbsp;&nbsp;<fmt:message key="rules.shapes.title" /></h2>
-						  <blockquote class="blockquote bq-primary">		  
-						  
-						      <div class="form-group row">
-		
-							    <label for="inputShapeFile" class="col-sm-3 col-form-label">
-							    
-							    	<input
-											type="radio"
-											name="shapesSource"
-											id="sourceShape-inputShapeFile"
-											value="file"
-											checked="checked"
-											onchange="enabledShapeInput('inputShapeFile')" />
-							    	<fmt:message key="rules.shapes.upload" />
-							    
-							    </label>
-							    <div class="col-sm-9">
-							    		<div class="fileinput fileinput-new input-group" data-provides="fileinput">
-										  <div class="form-control" data-trigger="fileinput" id="inputShapeFile">
-										    <i class="fal fa-upload"></i><span class="fileinput-filename with-icon"></span>
-										  </div>
-										  <span class="input-group-append">
-										    <span class="input-group-text fileinput-exists" data-dismiss="fileinput">
-										      <fmt:message key="rules.shapes.upload.remove" />
-										    </span>
-										
-										    <span class="input-group-text btn-file">
-										      <span class="fileinput-new"><fmt:message key="rules.shapes.upload.select" /></span>
-										      <span class="fileinput-exists"><fmt:message key="rules.shapes.upload.change" /></span>
-										      <input type="file" name="inputShapeFile" multiple onchange="enabledShapeInput('inputShapeFile')">
-										    </span>
-										  </span>
-										</div>
-										<small class="form-text text-muted">
-											  <fmt:message key="rules.shapes.upload.help" />
-									  </small>
-							    </div>
-							  </div>
-						      
-						      <c:if test="${not empty data.catalog.entries}">
-							      <div class="form-group row">	
-								    <label for="inputShapeCatalog" class="col-sm-3 col-form-label">
-								    
-								    	<input
-												type="radio"
-												name="shapesSource"
-												id="sourceShape-inputShapeCatalog"
-												value="catalog"
-												onchange="enabledShapeInput('inputShapeCatalog')" />
-								    	<fmt:message key="rules.shapes.catalog" />					    
-								    </label>
-								    <div class="col-sm-9">
-								    		<select class="form-control" id="inputShapeCatalog" name="inputShapeCatalog" onchange="enabledShapeInput('inputShapeCatalog');">
-										      	<c:forEach items="${data.catalog.entries}" var="entry">
-										      		<option value="${entry.id}">${entry.title}</option>
-										      	</c:forEach>
-										    </select>
-										    <small class="form-text text-muted">
-												  <fmt:message key="rules.shapes.catalog.help" />
-										    </small>
-								    </div>
-								  </div>
-							  </c:if>
-							  
-							  <div class="form-group row">
-							    <label for="inputShapeUrl" class="col-sm-3 col-form-label">
-							    
-							    	<input
-											type="radio"
-											name="shapesSource"
-											id="sourceShape-inputShapeUrl"
-											value="url"
-											onchange="enabledShapeInput('inputShapeUrl')" />
-							    	<fmt:message key="rules.shapes.url" />
-							    </label>
-							    <div class="col-sm-9">
-							      <input 
-							      	type="text"
-							      	class="form-control"
-							      	id="inputShapeUrl"
-							      	name="inputShapeUrl"
-							      	placeholder="<fmt:message key="rules.shapes.url.placeholder" />"
-							      	onkeypress="enabledShapeInput('inputShapeUrl');"
-							      	onchange="enabledShapeInput('inputShapeUrl')"
-							      >
-							      <small class="form-text text-muted">
-									  <fmt:message key="rules.shapes.url.help" />
-							    </small>
-							    </div>
-							  </div>
-							  <div class="form-group row">
-							    <label for="inputShapeInline" class="col-sm-3 col-form-label">
-							    
-							    	<input
-											type="radio"
-											name="shapesSource"
-											id="sourceShape-inputShapeInline"
-											value="inline"
-											onchange="enabledShapeInput('inputShapeInline')" />
-							    	<fmt:message key="rules.shapes.inline" />
-							    </label>
-							    <div class="col-sm-9">
-							      <textarea 
-							      	class="form-control"
-							      	id="inputShapeInline"
-							      	name="inputShapeInline"
-							      	rows="5"
-							      	onkeypress="enabledShapeInput('inputShapeInline');"
-							      	onpaste="enabledShapeInput('inputShapeInline');"
-							      ></textarea>
-							      <small class="form-text text-muted">
-									  <fmt:message key="rules.shapes.inline.help" />
-								  </small>
-							    </div>	
-						      </div>
-					      </blockquote>					  
-					  
-					  
-					  <h2><i class="fal fa-tools"></i>&nbsp;&nbsp;<fmt:message key="rules.options.title" /></h2>
-				      <blockquote class="blockquote bq-warning">
-				      <div class="form-group row">
-
-								    
-					  </div>
-					  </blockquote>
+					  <h2><i class="fal fa-shapes"></i>&nbsp;&nbsp;<fmt:message key="rules.shapes.title" /></h2>
+					  <!-- Include rules blockquote -->
+					  <%@ include file="include/rules-blockquote.jsp" %>
 					  
 				    <button type="submit" id="validate-button" class="btn btn-info btn-lg"><fmt:message key="rules.submit" /></button>			  	
 			  	</form>
@@ -201,7 +61,7 @@
     </div><!-- /.container-fluid -->
 
 			
-	<jsp:include page="footer.jsp"></jsp:include>
+	<jsp:include page="include/footer.jsp"></jsp:include>
 	
 	<!-- SCRIPTS -->
     <!-- JQuery -->

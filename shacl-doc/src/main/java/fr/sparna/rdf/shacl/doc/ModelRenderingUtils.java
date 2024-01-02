@@ -19,7 +19,7 @@ public class ModelRenderingUtils {
 
 
 	public static String render(List<? extends RDFNode> list, boolean plainString) {
-		if(list == null) {
+		if(list == null || list.size() == 0) {
 			return null;
 		}
 		
@@ -64,9 +64,14 @@ public class ModelRenderingUtils {
 			}
 			
 			if (node.asLiteral().getDatatype() != null && !node.asLiteral().getDatatypeURI().equals(RDF.langString.getURI())) {
-				// nicely prints datatypes with their short form
-				return "\"" + node.asLiteral().getLexicalForm() + "\"<sup>^^"
-						+ node.getModel().shortForm(node.asLiteral().getDatatype().getURI())+"</sup>";
+				if(!node.asLiteral().getDatatypeURI().equals(XSD.xstring.getURI())) {
+					// nicely prints datatypes with their short form
+					return "\"" + node.asLiteral().getLexicalForm() + "\"<sup>^^"
+							+ node.getModel().shortForm(node.asLiteral().getDatatype().getURI())+"</sup>";
+				} else {
+					// if datatype is xsd:string, don't print it explicitely
+					return "\"" + node.asLiteral().getLexicalForm() + "\"";
+				}
 			} else if (node.asLiteral().getLanguage() != null) {
 				return "\"" + node.asLiteral().getLexicalForm() + "\"<sup>@"
 						+ node.asLiteral().getLanguage()+"</sup>";

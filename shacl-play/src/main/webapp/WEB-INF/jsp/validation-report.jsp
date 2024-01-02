@@ -26,7 +26,7 @@
 	<link rel="stylesheet" href="<c:url value="/resources/css/shacl-play.css" />">
 </head>
 <body>
-	<jsp:include page="navbar.jsp">
+	<jsp:include page="include/navbar.jsp">
 		<jsp:param name="active" value="validate"/>
 	</jsp:include>
 
@@ -78,7 +78,7 @@
 		</div>
 	</div>
 
-	<jsp:include page="footer.jsp" />
+	<jsp:include page="include/footer.jsp" />
 
 	<!-- SCRIPTS -->
     <!-- JQuery -->

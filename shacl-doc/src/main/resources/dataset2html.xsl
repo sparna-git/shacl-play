@@ -367,7 +367,7 @@
 
 					.sp_badge {
 						vertical-align: super;
-						font-size: 70%;
+						font-size: 80%;
 						background-color: #36a2eb;
 						color: white;
 						margin-left: 10px;

@@ -1,10 +1,10 @@
-package fr.sparna.rdf.shacl.shaclplay.datasetdoc;
+package fr.sparna.rdf.shacl.shaclplay.analyze;
 
 import fr.sparna.rdf.shacl.shaclplay.catalog.rules.RulesCatalog;
 
-public class DatasetDocFormData {
+public class AnalyzeFormData {
 
-	public static final String KEY = DatasetDocFormData.class.getSimpleName();
+	public static final String KEY = AnalyzeFormData.class.getSimpleName();
 	
 	protected String errorMessage;
 	
@@ -17,8 +17,8 @@ public class DatasetDocFormData {
 	 * @param message
 	 * @return
 	 */
-	public static DatasetDocFormData error(String message) {
-		DatasetDocFormData data = new DatasetDocFormData();
+	public static AnalyzeFormData error(String message) {
+		AnalyzeFormData data = new AnalyzeFormData();
 		data.setErrorMessage(message);
 		return data;
 	}	

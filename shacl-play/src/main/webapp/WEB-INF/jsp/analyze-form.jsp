@@ -8,7 +8,7 @@
 	value="${sessionScope['fr.sparna.rdf.shacl.shaclplay.SessionData'].userLocale.language}" />
 <fmt:setBundle basename="fr.sparna.rdf.shacl.shaclplay.i18n.shaclplay" />
 
-<c:set var="data" value="${requestScope['DatasetDocFormData']}" />
+<c:set var="data" value="${requestScope['AnalyzeFormData']}" />
 
 <html>
 	<head>
@@ -44,7 +44,7 @@
 						</c:if>
 					</div>
 					
-					<h1 class="display-3"><fmt:message key="dataset-doc.title" /></h1>
+					<h1 class="display-3"><fmt:message key="analyze.title" /></h1>
 					
 					<div class="form-shortdesc">
 						<p>
@@ -52,30 +52,33 @@
 						</p>
 					</div>
 					
-					<form id="upload_form" action="dataset-doc" method="POST" enctype="multipart/form-data" class="form-horizontal">
-						<h2><i class="fal fa-chart-network"></i>&nbsp;&nbsp;<fmt:message key="dataset-doc.dataset.title" /></h2>
-						
+					<form id="upload_form" action="analyze" method="POST" enctype="multipart/form-data" class="form-horizontal">
+						<h2><i class="fal fa-chart-network"></i>&nbsp;&nbsp;<fmt:message key="analyze.dataset.title" /></h2>						
 						<!-- Include data blockquote -->
 					  	<%@ include file="include/data-blockquote.jsp" %>												
+						
+						<h2><i class="fa-light fa-cloud-binary"></i>&nbsp;&nbsp;<fmt:message key="analyze.sparql.title" /></h2>
+						<!-- Include endpoint blockquote -->
+						<%@ include file="include/endpoint-blockquote.jsp" %>
 						
 						<h2><i class="fal fa-tools"></i>&nbsp;&nbsp;<fmt:message key="blockquote.options.title" /></h2>
 				      	<blockquote class="blockquote bq-warning">
 							<!-- Language -->
 					      	<div class="form-group row">
 								<label for="language" class="col-sm-3 col-form-label">
-									<fmt:message key="dataset-doc.options.language"/>				    
+									<fmt:message key="analyze.options.language"/>				    
 								</label>
 							    <div class="col-sm-9">
 							    	<input list="languageOption" name="language" style="width:4em;" value="en">
 							    	<small class="form-text text-muted">
-									  <fmt:message key="dataset-doc.options.language.help"/>
+									  <fmt:message key="analyze.options.language.help"/>
 									</small>
 							    </div>									    
 							</div>
 							
 							<div class="form-group row">
 								<label for="format" class="col-sm-3 col-form-label">
-									<fmt:message key="dataset-doc.options.format" />
+									<fmt:message key="analyze.options.format" />
 								</label>
 								<div class="col-sm-4">
 									<select class="form-control" id="format" name="format">
@@ -87,7 +90,7 @@
 							</div>
 						</blockquote>
 						  
-						<button type="submit" id="validate-button" class="btn btn-info btn-lg"><fmt:message key="dataset-doc.submit" /></button>
+						<button type="submit" id="validate-button" class="btn btn-info btn-lg"><fmt:message key="analyze.submit" /></button>
 					</form>	
 					
 					<!-- Documentation -->	

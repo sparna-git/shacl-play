@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import org.apache.jena.rdf.model.RDFList;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.shacl.vocabulary.SHACLM;
 import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.XSD;
 
@@ -84,42 +85,42 @@ public class ModelRenderingUtils {
 	}	
 
 
-	public static String renderShaclPropertyPath(Resource r) {
+	public static String renderSparqlPropertyPath(Resource r) {
 		if(r == null) return "";
 		
 		if(r.isURIResource()) {
-			return r.getModel().shortForm(r.getURI());
+			return "<"+r.getURI()+">";
 		} else if(r.canAs(RDFList.class)) {
 			List<RDFNode> l = r.as(RDFList.class).asJavaList();
-			return l.stream().map(i -> renderShaclPropertyPath(i.asResource())).collect(Collectors.joining("/"));
-		} else if(r.hasProperty(SH.alternativePath)) {
-			Resource alternatives = r.getPropertyResourceValue(SH.alternativePath);
+			return l.stream().map(i -> renderSparqlPropertyPath(i.asResource())).collect(Collectors.joining("/"));
+		} else if(r.hasProperty(SHACLM.alternativePath)) {
+			Resource alternatives = r.getPropertyResourceValue(SHACLM.alternativePath);
 			RDFList rdfList = alternatives.as( RDFList.class );
 			List<RDFNode> pathElements = rdfList.asJavaList();
-			return pathElements.stream().map(p -> renderShaclPropertyPath((Resource)p)).collect(Collectors.joining("|"));
-		} else if(r.hasProperty(SH.inversePath)) {
-			Resource value = r.getPropertyResourceValue(SH.inversePath);
+			return pathElements.stream().map(p -> renderSparqlPropertyPath((Resource)p)).collect(Collectors.joining("|"));
+		} else if(r.hasProperty(SHACLM.inversePath)) {
+			Resource value = r.getPropertyResourceValue(SHACLM.inversePath);
 			if(value.isURIResource()) {
-				return "^"+renderShaclPropertyPath(value);
+				return "^"+renderSparqlPropertyPath(value);
 			}
 			else {
-				return "^("+renderShaclPropertyPath(value)+")";
+				return "^("+renderSparqlPropertyPath(value)+")";
 			}
-		} else if(r.hasProperty(SH.zeroOrMorePath)) {
-			Resource value = r.getPropertyResourceValue(SH.zeroOrMorePath);
+		} else if(r.hasProperty(SHACLM.zeroOrMorePath)) {
+			Resource value = r.getPropertyResourceValue(SHACLM.zeroOrMorePath);
 			if(value.isURIResource()) {
-				return renderShaclPropertyPath(value)+"*";
+				return renderSparqlPropertyPath(value)+"*";
 			}
 			else {
-				return "("+renderShaclPropertyPath(value)+")*";
+				return "("+renderSparqlPropertyPath(value)+")*";
 			}
-		} else if(r.hasProperty(SH.oneOrMorePath)) {
-			Resource value = r.getPropertyResourceValue(SH.oneOrMorePath);
+		} else if(r.hasProperty(SHACLM.oneOrMorePath)) {
+			Resource value = r.getPropertyResourceValue(SHACLM.oneOrMorePath);
 			if(value.isURIResource()) {
-				return renderShaclPropertyPath(value)+"+";
+				return renderSparqlPropertyPath(value)+"+";
 			}
 			else {
-				return "("+renderShaclPropertyPath(value)+")+";
+				return "("+renderSparqlPropertyPath(value)+")+";
 			}
 		} else {
 			return null;

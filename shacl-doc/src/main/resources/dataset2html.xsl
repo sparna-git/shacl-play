@@ -448,7 +448,7 @@
 							}
 							.sp_list_toc {padding-left: 0px;}
 							.sp_list_toc_l2 {padding-left: 10px;}
-							.sp_list_toc_l3 {padding-left: 8px;}						
+							.sp_list_toc_l3 {padding-left: 8px; margin-bottom: 0.2rem;}						
 						</xsl:otherwise>
 					</xsl:choose>
 					

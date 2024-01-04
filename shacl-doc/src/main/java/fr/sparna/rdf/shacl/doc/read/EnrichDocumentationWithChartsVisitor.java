@@ -2,6 +2,9 @@ package fr.sparna.rdf.shacl.doc.read;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map.Entry;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.RDFList;
@@ -94,16 +97,20 @@ public class EnrichDocumentationWithChartsVisitor implements ShaclVisitorIfc {
 							List<ChartDataItem> dataItems = new ArrayList<>();
 							
 							// read object partitions for each value in the sh:in list
-							for (RDFNode aValue : values) {
+							// we need to sort the list first, by display labels
+							SortedMap<String, RDFNode> sortedValues = new TreeMap<>();
+							values.stream().forEach(v -> {
+								// build a label, same as in the documentation generation
+								String label = ModelRenderingUtils.render(v, true);	
+								sortedValues.put(label, v);
+							});
+							for (Entry<String, RDFNode> anEntry : sortedValues.entrySet()) {
 								// find corresponding object partition in statistics
-								Resource valuePartition = findValuePartition(aPropertyPartition, aValue);
+								Resource valuePartition = findValuePartition(aPropertyPartition, anEntry.getValue());
 								if(valuePartition != null) {
 									// read number of distinct subjects
-									int nbSubjects = valuePartition.getProperty(VOID.distinctSubjects).getInt();
-									// build a label, same as in the documentation generation
-									String label = ModelRenderingUtils.render(aValue, true);
-									
-									dataItems.add(new ChartDataItem(label, nbSubjects));
+									int nbSubjects = valuePartition.getProperty(VOID.distinctSubjects).getInt();									
+									dataItems.add(new ChartDataItem(anEntry.getKey(), nbSubjects));
 								}
 							}
 							

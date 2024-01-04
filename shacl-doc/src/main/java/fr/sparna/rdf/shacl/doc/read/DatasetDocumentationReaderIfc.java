@@ -9,7 +9,14 @@ public interface DatasetDocumentationReaderIfc {
 	public ShapesDocumentation readDatasetDocumentation(
 			Model dataset,
 			Model owlModel,
-		    String lang, 
-		    boolean outExpandDiagram);
+		    String lang
+	);
+	
+	public ShapesDocumentation generateDatasetDocumentation(
+			Model owlModel,
+			Model statisticsModel,
+			Model shapesModel,
+			String lang
+	);
 	
 }

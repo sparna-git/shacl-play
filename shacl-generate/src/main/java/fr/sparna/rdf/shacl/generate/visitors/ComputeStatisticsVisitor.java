@@ -17,6 +17,7 @@ import org.apache.jena.vocabulary.XSD;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import fr.sparna.rdf.jena.ModelRenderingUtils;
 import fr.sparna.rdf.shacl.generate.ShaclGenerator;
 import fr.sparna.rdf.shacl.generate.ShaclGeneratorDataProviderIfc;
 
@@ -26,7 +27,6 @@ public class ComputeStatisticsVisitor extends DatasetAwareShaclVisitorBase imple
 	
 	private Model model;
 	private String datasetUri;
-	private boolean addToDescription = false;
 	
 	// In the case of this visitor the output model can be different from the input model
 	private Model outputModel;
@@ -35,13 +35,11 @@ public class ComputeStatisticsVisitor extends DatasetAwareShaclVisitorBase imple
 	public ComputeStatisticsVisitor(
 			ShaclGeneratorDataProviderIfc dataProvider,
 			Model outputModel,
-			String datasetUri,
-			boolean addToDescription
+			String datasetUri
 	) {
 		super(dataProvider);
 		this.datasetUri = datasetUri;
 		this.outputModel = outputModel;
-		this.addToDescription = addToDescription;
 	}
 	
 	@Override
@@ -70,16 +68,6 @@ public class ComputeStatisticsVisitor extends DatasetAwareShaclVisitorBase imple
 	public void visitOntology(Resource ontology) {
 		// link Dataset to Ontology
 		outputModel.add(outputModel.createResource(this.datasetUri), SHACLM.suggestedShapesGraph, ontology);
-		
-		// append to description
-		if(this.addToDescription) {
-			ShaclGenerator.concatOnProperty(
-					ontology,
-					DCTerms.abstract_,
-					outputModel.createResource(this.datasetUri).getRequiredProperty(VOID.triples).getInt()+" triples in the dataset.",
-					"en"
-			);
-		}
 	}
 
 	@Override
@@ -103,15 +91,6 @@ public class ComputeStatisticsVisitor extends DatasetAwareShaclVisitorBase imple
 				log.debug("(count) node shape '{}' gets void:entities '{}'", aNodeShape.getURI(), count);
 				// assert number of triples
 				outputModel.add(outputModel.createResource(partitionUri), VOID.entities, model.createTypedLiteral(count));
-				// append to description
-				if(this.addToDescription) {
-					ShaclGenerator.concatOnProperty(
-							aNodeShape,
-							RDFS.comment,
-							count+" instances",
-							"en"
-					);
-				}
 			}
 		} else {
 			log.warn("Found node shape without sh:targetClass '{}', cannot compute statistics", aNodeShape.getURI());
@@ -134,7 +113,7 @@ public class ComputeStatisticsVisitor extends DatasetAwareShaclVisitorBase imple
 		// link property partition to PropertyShape
 		outputModel.add(propertyPartition, DCTerms.conformsTo, aPropertyShape);
 
-		String propertyPath = renderSparqlPropertyPath(aPropertyShape.getRequiredProperty(SHACLM.path).getObject().asResource());
+		String propertyPath = ModelRenderingUtils.renderSparqlPropertyPath(aPropertyShape.getRequiredProperty(SHACLM.path).getObject().asResource());
 		
 		if(aNodeShape.hasProperty(SHACLM.targetClass)) {
 			// count number of triples
@@ -156,16 +135,6 @@ public class ComputeStatisticsVisitor extends DatasetAwareShaclVisitorBase imple
 			// assert void:distinctObjects
 			log.debug("(count) property shape '{}' gets void:distinctObjects '{}'", aPropertyShape.getURI(), countDistinctObjects);
 			outputModel.add(propertyPartition, VOID.distinctObjects, model.createTypedLiteral(countDistinctObjects));
-			
-			// append to description
-			if(this.addToDescription) {
-				ShaclGenerator.concatOnProperty(
-						aPropertyShape,
-						SHACLM.description,
-						count+" occurences and "+countDistinctObjects+" distinct values",
-						"en"
-				);
-			}
 		}
 		else {
 			log.warn("Cannot count occurrences and distinct values inside node shape without targetClass '{}', for property shape '{}'", aNodeShape.getURI(), aPropertyShape.getURI());
@@ -195,48 +164,6 @@ public class ComputeStatisticsVisitor extends DatasetAwareShaclVisitorBase imple
 		// concat local name to datasetUri
 		String partitionUri = datasetUri+"/"+"partition"+"_"+localName;
 		return partitionUri;
-	}
-	
-	public static String renderSparqlPropertyPath(Resource r) {
-		if(r == null) return "";
-		
-		if(r.isURIResource()) {
-			return "<"+r.getURI()+">";
-		} else if(r.canAs(RDFList.class)) {
-			List<RDFNode> l = r.as(RDFList.class).asJavaList();
-			return l.stream().map(i -> renderSparqlPropertyPath(i.asResource())).collect(Collectors.joining("/"));
-		} else if(r.hasProperty(SHACLM.alternativePath)) {
-			Resource alternatives = r.getPropertyResourceValue(SHACLM.alternativePath);
-			RDFList rdfList = alternatives.as( RDFList.class );
-			List<RDFNode> pathElements = rdfList.asJavaList();
-			return pathElements.stream().map(p -> renderSparqlPropertyPath((Resource)p)).collect(Collectors.joining("|"));
-		} else if(r.hasProperty(SHACLM.inversePath)) {
-			Resource value = r.getPropertyResourceValue(SHACLM.inversePath);
-			if(value.isURIResource()) {
-				return "^"+renderSparqlPropertyPath(value);
-			}
-			else {
-				return "^("+renderSparqlPropertyPath(value)+")";
-			}
-		} else if(r.hasProperty(SHACLM.zeroOrMorePath)) {
-			Resource value = r.getPropertyResourceValue(SHACLM.zeroOrMorePath);
-			if(value.isURIResource()) {
-				return renderSparqlPropertyPath(value)+"*";
-			}
-			else {
-				return "("+renderSparqlPropertyPath(value)+")*";
-			}
-		} else if(r.hasProperty(SHACLM.oneOrMorePath)) {
-			Resource value = r.getPropertyResourceValue(SHACLM.oneOrMorePath);
-			if(value.isURIResource()) {
-				return renderSparqlPropertyPath(value)+"+";
-			}
-			else {
-				return "("+renderSparqlPropertyPath(value)+")+";
-			}
-		} else {
-			return null;
-		}
 	}
 
 

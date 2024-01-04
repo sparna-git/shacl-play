@@ -44,7 +44,7 @@ public class PropertyShape {
 	 * @return
 	 */
 	public String getShPathAsString() {
-		return (this.getShPath().isURIResource())?ModelRenderingUtils.render(this.getShPath(), false):ModelRenderingUtils.renderShaclPropertyPath(this.getShPath());
+		return (this.getShPath().isURIResource())?ModelRenderingUtils.render(this.getShPath(), false):ModelRenderingUtils.renderSparqlPropertyPath(this.getShPath());
 	}
 	
 	public String getShNameAsString(String lang) {

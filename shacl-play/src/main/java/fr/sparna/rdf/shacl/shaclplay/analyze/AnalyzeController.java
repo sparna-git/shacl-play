@@ -1,10 +1,9 @@
-package fr.sparna.rdf.shacl.shaclplay.generate;
+package fr.sparna.rdf.shacl.shaclplay.analyze;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
-import java.net.URL;
 import java.net.URLEncoder;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,8 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
-import org.apache.jena.riot.Lang;
-import org.apache.jena.riot.RDFLanguages;
 import org.owasp.encoder.Encode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +22,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.openhtmltopdf.pdfboxout.PdfRendererBuilder;
+
+import fr.sparna.rdf.shacl.doc.model.ShapesDocumentation;
+import fr.sparna.rdf.shacl.doc.read.DatasetDocumentationModelReader;
+import fr.sparna.rdf.shacl.doc.write.ShapesDocumentationJacksonXsltWriter;
+import fr.sparna.rdf.shacl.doc.write.ShapesDocumentationWriterIfc;
+import fr.sparna.rdf.shacl.doc.write.ShapesDocumentationWriterIfc.MODE;
+import fr.sparna.rdf.shacl.doc.write.ShapesDocumentationXmlWriter;
 import fr.sparna.rdf.shacl.generate.Configuration;
 import fr.sparna.rdf.shacl.generate.DefaultModelProcessor;
 import fr.sparna.rdf.shacl.generate.PaginatedQuery;
@@ -38,14 +43,12 @@ import fr.sparna.rdf.shacl.generate.visitors.AssignValueOrInVisitor;
 import fr.sparna.rdf.shacl.generate.visitors.ComputeStatisticsVisitor;
 import fr.sparna.rdf.shacl.generate.visitors.ComputeValueStatisticsVisitor;
 import fr.sparna.rdf.shacl.generate.visitors.CopyStatisticsToDescriptionVisitor;
-import fr.sparna.rdf.shacl.generate.visitors.AssignValueOrInVisitor.StatisticsBasedRequiresShValueOrInPredicate;
 import fr.sparna.rdf.shacl.shaclplay.ApplicationData;
-import fr.sparna.rdf.shacl.shaclplay.ControllerCommons;
 import fr.sparna.rdf.shacl.shaclplay.ControllerModelFactory;
 import fr.sparna.rdf.shacl.shaclplay.ControllerModelFactory.SOURCE_TYPE;
 
 @Controller
-public class GenerateController {
+public class AnalyzeController {
 
 	private Logger log = LoggerFactory.getLogger(this.getClass().getName());
 
@@ -55,71 +58,62 @@ public class GenerateController {
 	public static final int LARGE_DATASET_THRESHOLD = 10000;
 	
 	@RequestMapping(
-			value = {"generate"},
+			value = {"analyze"},
 			params={"url"},
 			method=RequestMethod.GET
 	)
-	public ModelAndView generateUrl(
+	public ModelAndView analyzeDatasetUrl(
 			@RequestParam(value="url", required=true) String url,
 			// Output format
-			@RequestParam(value="format", required=false, defaultValue = "Turtle") String format,
-			// compute statistics option
-			@RequestParam(value="statistics", required=false) boolean computeStatistics,
+			@RequestParam(value="format", required=false, defaultValue = "HTML") String format,
 			HttpServletRequest request,
 			HttpServletResponse response
 	){
 		try {
-			log.debug("generateUrl(url='"+url+"')");
-
+			log.debug("analyzeDatasetUrl(url='"+url+"')");
 			Configuration config = new Configuration(new DefaultModelProcessor(), "https://shacl-play.sparna.fr/shapes/", "shapes");
 			config.setShapesOntology("https://shacl-play.sparna.fr/shapes");
 			
-			// load data
-			URL actualUrl = new URL(url);
-			Model datasetModel = ModelFactory.createDefaultModel();
-			datasetModel = ControllerCommons.populateModel(datasetModel, actualUrl);
+			SamplingShaclGeneratorDataProvider dataProvider = new SamplingShaclGeneratorDataProvider(new PaginatedQuery(100), url);
 			
-			SamplingShaclGeneratorDataProvider dataProvider = new SamplingShaclGeneratorDataProvider(new PaginatedQuery(100), datasetModel);
-			
-			Model shapes = doGenerateShapes(
+			/*
+			Model shapes = doGenerateStatistic(
 					dataProvider,
 					config,
-					url,
-					computeStatistics,
-					// async ?
-					requiresAsyncGeneration(null, datasetModel),
-					request
+					shapesUrl,
+					datasetModel
 			);		
 			
-			serialize(shapes, format, url, response);
+			serialize(shapes, format,response);
+			*/
 			return null;
 			
 		} catch (Exception e) {
 			e.printStackTrace();
-			return handleGenerateFormError(request, e.getClass().getName() +" : "+e.getMessage(), e);
+			return handleAnalyzeFormError(request, e.getClass().getName() +" : "+e.getMessage(), e);
 		}
 	}
 
 	
 	@RequestMapping(
-			value = {"generate"},
+			value = {"analyze"},
 			method=RequestMethod.GET
 	)
-	public ModelAndView generate(
+	public ModelAndView analyze(
 			HttpServletRequest request,
 			HttpServletResponse response
 	){
-		GenerateFormData data = new GenerateFormData();
+		AnalyzeFormData data = new AnalyzeFormData();
 		
-		return new ModelAndView("generate-form", GenerateFormData.KEY, data);	
+		return new ModelAndView("analyze-form", AnalyzeFormData.KEY, data);	
 	}
 	
 	@RequestMapping(
-			value="/generate",
+			value="/analyze",
 			params={"source"},
 			method = RequestMethod.POST
 	)
-	public ModelAndView generate(
+	public ModelAndView analyze(
 			// radio box indicating type of shapes
 			@RequestParam(value="source", required=true) String sourceString,
 			// reference to data URL if source=source-inputUrl
@@ -130,14 +124,14 @@ public class GenerateController {
 			@RequestParam(value="inputInline", required=false) String text,
 			// reference to a SPARQL endpoint URL if source=source-inputUrlEndpoint
 			@RequestParam(value="inputUrlEndpoint", required=false) String endpoint,
-			// Format output file
-			@RequestParam(value="format", required=false, defaultValue = "Turtle") String format,
-			// statistics option
-			@RequestParam(value="statistics", required=false) boolean computeStatistics,
+			// Format of the output
+			@RequestParam(value="format", required=false, defaultValue = "HTML") String format,
+			// Language Option
+			@RequestParam(value="language", required=false) String language,
 			HttpServletRequest request,
 			HttpServletResponse response			
 	) {
-		log.debug("generate(statistics='"+computeStatistics+"')");
+		log.debug("analyze");
 		try {
 
 			// get the source type
@@ -158,7 +152,7 @@ public class GenerateController {
 			} else {
 				// if source is a URL, redirect to the API
 				if(source == SOURCE_TYPE.URL) {
-					return new ModelAndView("redirect:/generate?url="+URLEncoder.encode(url, "UTF-8")+"&format="+format+(computeStatistics?"&statistics=true":""));
+					return new ModelAndView("redirect:/analyze?url="+URLEncoder.encode(url, "UTF-8"));
 				} else {
 					// Load data
 					log.debug("Determining dataset source...");
@@ -178,6 +172,11 @@ public class GenerateController {
 				}
 			}
 			
+			// defaults to english
+			if(language == null) {
+				language ="en";
+			}
+			
 			boolean async = requiresAsyncGeneration(endpoint, datasetModel);
 			
 			
@@ -186,28 +185,49 @@ public class GenerateController {
 					dataProvider,
 					config,
 					(source == SOURCE_TYPE.ENDPOINT)?endpoint:(source == SOURCE_TYPE.URL)?url:"https://dummy.dataset.uri",
-					computeStatistics,
+					true,
 					// async ?
 					async,
 					request
-			);			
+			);
 			
 			if(!async) {
-				serialize(shapes, format, sourceName, response);
+				// generate the documentation
+				DatasetDocumentationModelReader reader = new DatasetDocumentationModelReader();
+				ShapesDocumentation sd = reader.generateDatasetDocumentation(
+						// owl ontology
+						ModelFactory.createDefaultModel(),
+						// statistics
+						shapes,
+						// shapes
+						shapes,
+						// language
+						language						
+				);
+				
+				// then serialize				
+				serialize(
+						sd,
+						format,
+						language,
+						sourceName,
+						response						
+				);
 				return null;
 			} else {
-				// stores format and source name to fetch them later on 'show'
+				// stores format and source name and language to fetch them later on 'show'
 				request.getSession().setAttribute("format", format);
 				request.getSession().setAttribute("sourceName", sourceName);
-				return new ModelAndView("redirect:/generate/wait");
+				request.getSession().setAttribute("language", language);
+				return new ModelAndView("redirect:/analyze/wait");
 			}		
 			
 		} catch (Exception e) {
 			e.printStackTrace();
-			return handleGenerateFormError(request, e.getClass().getName() +" : "+e.getMessage(), e);
+			return handleAnalyzeFormError(request, e.getClass().getName() +" : "+e.getMessage(), e);
 		}
 	}
-	
+
 	private boolean requiresAsyncGeneration(String endpointUrl, Model dataset) {
 		return (
 				(
@@ -256,7 +276,7 @@ public class GenerateController {
 			
 			return shapes;
 		} else {
-			ShaclGeneratorAsync generator = new ShaclGeneratorAsync(config, dataProvider);			
+			ShaclGeneratorAsync generator = new ShaclGeneratorAsync(config, dataProvider);		
 			generator.getExtraVisitors().add(new AssignLabelRoleVisitor());
 			
 			// if we requested statistics, add extra visitors
@@ -271,35 +291,76 @@ public class GenerateController {
 				generator.getExtraVisitors().add(new CopyStatisticsToDescriptionVisitor(countModel, true));
 			}
 			
-			generator.setSkipDatatypes(true);
+			// to save some time during generation process :
+			// generator.setSkipDatatypes(true);
 			generator.setProgressMonitor(new StringBufferProgressMonitor("SHACL generator"));
+			
 			Thread thread = new Thread(generator);
 			thread.start();
 			request.getSession().setAttribute("generator", generator);
 			return null;
 		}	
 	}
-	
-	
-	private void serialize(
-			Model dataModel,
-			String fileFormat,
-			String sourceName,
-			HttpServletResponse response
-	) throws Exception {
 
-		Lang l = RDFLanguages.nameToLang(fileFormat);
-		if(l == null) {
-			l = Lang.RDFXML;
+	
+	protected void serialize(
+			ShapesDocumentation sd,
+			String format,
+			String language,
+			String filename,
+			HttpServletResponse response
+	) throws IOException {		
+		
+		if (format.toLowerCase().equals("html")) {
+			response.setHeader("Content-Disposition", "inline; filename=\""+filename+".html\"");
+			ShapesDocumentationWriterIfc writer = new ShapesDocumentationJacksonXsltWriter();
+			response.setContentType("text/html");
+			writer.writeDatasetDoc(
+					sd,  
+					language,	
+					response.getOutputStream(),
+					MODE.HTML	
+			);
+		} else if (format.toLowerCase().equals("xml")) {
+			response.setHeader("Content-Disposition", "inline; filename=\""+filename+".xml\"");
+			ShapesDocumentationWriterIfc writer = new ShapesDocumentationXmlWriter();
+			response.setContentType("application/xml");
+			writer.writeDatasetDoc(
+					sd,
+					language,	
+					response.getOutputStream(),
+					MODE.XML	
+			);
+		} else if(format.toLowerCase().equals("pdf") ) {
+			response.setHeader("Content-Disposition", "inline; filename=\""+filename+".pdf\"");
+			ShapesDocumentationWriterIfc writer = new ShapesDocumentationJacksonXsltWriter();
+			// 1. write Documentation structure to XML
+			ByteArrayOutputStream htmlBytes = new ByteArrayOutputStream();
+			writer.writeDatasetDoc(
+					sd,
+					language,	
+					response.getOutputStream(),
+					MODE.XML	
+			);
+			
+			//read file html
+			String htmlCode = new String(htmlBytes.toByteArray(),"UTF-8");
+			// htmlCode.replace("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">", "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />");
+			
+			// Render PDF
+			response.setContentType("application/pdf");
+			PdfRendererBuilder _builder = new PdfRendererBuilder();			 
+			_builder.useFastMode();
+			
+			_builder.withHtmlContent(htmlCode,"http://shacl-play.sparna.fr/play");			
+			
+			_builder.toStream(response.getOutputStream());
+			_builder.testMode(false);
+			_builder.run();
 		}
-		
-		String dateString = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-		String filename=sourceName+"-"+"shacl"+"_"+dateString;
-		
-		ControllerCommons.serialize(dataModel, l, filename, response);
 	}
 	
-	@RequestMapping("/generate/wait")
+	@RequestMapping("/analyze/wait")
 	public ModelAndView generateWait(){
 		return new ModelAndView("wait");
 	}
@@ -310,7 +371,7 @@ public class GenerateController {
 	 * @param response
 	 * @throws Exception
 	 */
-	@RequestMapping("/generate/progress")
+	@RequestMapping("/analyze/progress")
 	public void progress(
 			HttpServletRequest request,
 			HttpServletResponse response
@@ -338,42 +399,65 @@ public class GenerateController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping("/generate/show")
+	@RequestMapping("/analyze/show")
 	public ModelAndView show(
 			HttpServletRequest request,
 			HttpServletResponse response
 	) throws Exception {
-		log.debug("getting generation results...");
+		log.debug("getting analysis results...");
+		
 		ShaclGeneratorAsync generator = (ShaclGeneratorAsync)request.getSession().getAttribute("generator");
 		Model generatedShapes = generator.getGeneratedShapes();
 		
 		String format = (String)request.getSession().getAttribute("format");
 		String sourceName = (String)request.getSession().getAttribute("sourceName");
+		String language = (String)request.getSession().getAttribute("language");
 		
-		serialize(generatedShapes, format, sourceName, response);
+		// generate the documentation
+		DatasetDocumentationModelReader reader = new DatasetDocumentationModelReader();
+		ShapesDocumentation sd = reader.generateDatasetDocumentation(
+				// owl ontology
+				ModelFactory.createDefaultModel(),
+				// statistics
+				generatedShapes,
+				// shapes
+				generatedShapes,
+				// language
+				language						
+		);
+		
+		// then serialize				
+		serialize(
+				sd,
+				format,
+				language,
+				sourceName,
+				response						
+		);
+		
 		return null;
 	}
-	
-	
+
+			
 	/**
-	 * Handles an error in the validation form (stores the message in the Model, then forward to the view).
+	 * Handles an error in the form (stores the message in the Model, then forward to the view).
 	 * 
 	 * @param request
 	 * @param message
 	 * @return
 	 */
-	protected ModelAndView handleGenerateFormError(
+	protected ModelAndView handleAnalyzeFormError(
 			HttpServletRequest request,
 			String message,
 			Exception e
 	) {
-		GenerateFormData data = new GenerateFormData();
+		AnalyzeFormData data = new AnalyzeFormData();
 		data.setErrorMessage(Encode.forHtml(message));
 
 		if(e != null) {
 			e.printStackTrace();
 		}
-		return new ModelAndView("generate-form", GenerateFormData.KEY, data);
+		return new ModelAndView("analyze-form", AnalyzeFormData.KEY, data);
 	}
 	
 }

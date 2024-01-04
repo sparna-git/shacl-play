@@ -7,10 +7,15 @@ import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.RDFList;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.shacl.vocabulary.SHACLM;
+import org.apache.jena.vocabulary.DCTerms;
+import org.apache.jena.vocabulary.VOID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import fr.sparna.rdf.jena.ModelRenderingUtils;
+import fr.sparna.rdf.shacl.generate.ShaclGenerator;
 import fr.sparna.rdf.shacl.generate.ShaclGeneratorDataProviderIfc;
 
 public class AssignValueOrInVisitor extends DatasetAwareShaclVisitorBase {
@@ -62,7 +67,7 @@ public class AssignValueOrInVisitor extends DatasetAwareShaclVisitorBase {
 		
 		if (log.isTraceEnabled()) log.trace("(setInOrHasValue) start");
 
-		String propertyPath = ComputeStatisticsVisitor.renderSparqlPropertyPath(path);
+		String propertyPath = ModelRenderingUtils.renderSparqlPropertyPath(path);
 		
 		List<RDFNode> distinctValues = this.dataProvider.listDistinctValues(targetClass.getURI(), propertyPath, this.valuesInThreshold+1);
 		if(distinctValues.size() <= this.valuesInThreshold) {
@@ -108,6 +113,49 @@ public class AssignValueOrInVisitor extends DatasetAwareShaclVisitorBase {
 					&&
 					propertyShape.getProperty(SHACLM.maxCount).getObject().asLiteral().getInt() == 1;
 		});
+	}
+	
+	public class StatisticsBasedRequiresShValueOrInPredicate implements Predicate<Resource> {
+
+		private Model statisticsModel;
+		
+		public StatisticsBasedRequiresShValueOrInPredicate(Model statisticsModel) {
+			super();
+			this.statisticsModel = statisticsModel;
+		}
+
+		@Override
+		public boolean test(Resource propertyShape) {
+			// if already set, don't do anything
+			if(
+					propertyShape.getProperty(SHACLM.in) != null
+					||
+					propertyShape.getProperty(SHACLM.value) != null
+			) {
+				return false;
+			}
+				
+			// find partition
+			List<Statement> partitionStatements = statisticsModel.listStatements(null, DCTerms.conformsTo, propertyShape).toList();
+			if(partitionStatements.size() > 0) {
+				Resource partition = partitionStatements.get(0).getSubject();
+				
+				// read the total number of triples
+				List<Statement> triplesStatement = partition.listProperties(VOID.triples).toList();
+				List<Statement> distinctObjectsStatement = partition.listProperties(VOID.distinctObjects).toList();				
+				
+				if(triplesStatement.size() > 0 && distinctObjectsStatement.size() > 0) {
+					int triples = triplesStatement.get(0).getInt();
+					int distinctObjects = distinctObjectsStatement.get(0).getInt();
+					
+					if(distinctObjects <= 12 && triples > (distinctObjects * 100)) {
+						return true;
+					}
+				}
+			}
+			return false;
+		}
+		
 	}
 	
 }

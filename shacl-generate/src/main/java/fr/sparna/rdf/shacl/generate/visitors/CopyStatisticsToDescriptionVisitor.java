@@ -21,12 +21,21 @@ public class CopyStatisticsToDescriptionVisitor implements ShaclVisitorIfc {
 	
 	private Model statisticsModel;
 	private Model shapesModel;
+	private boolean mergeStatisticsInShapesModel = false;
 
 	
 	public CopyStatisticsToDescriptionVisitor(
 			Model statisticsModel
 	) {
 		this.statisticsModel = statisticsModel;
+	}
+	
+	public CopyStatisticsToDescriptionVisitor(
+			Model statisticsModel,
+			boolean mergeStatisticsInShapesModel
+	) {
+		this.statisticsModel = statisticsModel;
+		this.mergeStatisticsInShapesModel = mergeStatisticsInShapesModel;
 	}
 	
 	@Override
@@ -115,7 +124,17 @@ public class CopyStatisticsToDescriptionVisitor implements ShaclVisitorIfc {
 
 	@Override
 	public void leaveModel(Model model) {
-		
+		if(this.mergeStatisticsInShapesModel) {
+			model.add(this.statisticsModel);
+		}
+	}
+
+	public boolean isMergeStatisticsInShapesModel() {
+		return mergeStatisticsInShapesModel;
+	}
+
+	public void setMergeStatisticsInShapesModel(boolean mergeStatisticsInShapesModel) {
+		this.mergeStatisticsInShapesModel = mergeStatisticsInShapesModel;
 	}
 
 }

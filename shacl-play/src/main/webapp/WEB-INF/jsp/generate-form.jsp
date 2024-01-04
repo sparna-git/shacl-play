@@ -53,40 +53,13 @@
 					</div>
 					
 					<form id="upload_form" action="generate" method="POST" enctype="multipart/form-data" class="form-horizontal">
-						<h2><i class="fal fa-chart-network"></i>&nbsp;&nbsp;<fmt:message key="generate.data.title" /></h2>
-						
+						<h2><i class="fal fa-chart-network"></i>&nbsp;&nbsp;<fmt:message key="generate.data.title" /></h2>						
 						<!-- Include data blockquote -->
 					  	<%@ include file="include/data-blockquote.jsp" %>
 						
 						<h2><i class="fa-light fa-cloud-binary"></i>&nbsp;&nbsp;<fmt:message key="generate.sparql.title" /></h2>
-						<blockquote class="blockquote bq-success">
-						  <div class="form-group row">
-						    <label for="inputUrlEndpoint" class="col-sm-3 col-form-label">
-						    
-						    	<input
-										type="radio"
-										name="source"
-										id="source-inputUrlEndpoint"
-										value="endpoint"
-										onchange="enabledInput('inputUrlEndpoint')" />
-						    	<fmt:message key="generate.sparql.url" />
-						    </label>
-						    <div class="col-sm-9">
-						      <input 
-						      	type="text"
-						      	class="form-control"
-						      	id="inputUrlEndpoint"
-						      	name="inputUrlEndpoint"
-						      	placeholder="<fmt:message key="generate.sparql.url.placeholder" />"
-						      	onkeypress="enabledInput('inputUrlEndpoint');"
-						      	onpaste="enabledInput('inputUrlEndpoint');"
-						      />
-						      <small class="form-text text-muted">
-									  <fmt:message key="generate.sparql.url.help" />
-							  </small>
-						    </div>
-						  </div>						
-						</blockquote>
+						<!-- Include endpoint blockquote -->
+						<%@ include file="include/endpoint-blockquote.jsp" %>
 						
 						<h2><i class="fal fa-tools"></i>&nbsp;&nbsp;<fmt:message key="blockquote.options.title" /></h2>
 				      	<blockquote class="blockquote bq-warning">

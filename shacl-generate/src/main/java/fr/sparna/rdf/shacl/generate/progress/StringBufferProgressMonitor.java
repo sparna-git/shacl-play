@@ -22,7 +22,7 @@ public class StringBufferProgressMonitor implements ProgressMonitor {
 	
 	@Override
     public void beginTask(String label, int totalWork) {
-		println("Begin task " + label + " (" + totalWork + " steps) at "+SimpleDateFormat.getTimeInstance().format(new Date()));
+		println("Begin task " + label + " (" + totalWork + " steps)");
 		this.totalWork = totalWork;
 		this.currentWork = 0;
 	}
@@ -35,7 +35,7 @@ public class StringBufferProgressMonitor implements ProgressMonitor {
 	
 	
 	protected void println(String text) {
-		String log = name + ": " + text+"\n";
+		String log = SimpleDateFormat.getTimeInstance().format(new Date()) + " - " + name + ": " + text+"\n";
 		buffer.append(log);
 	}
 

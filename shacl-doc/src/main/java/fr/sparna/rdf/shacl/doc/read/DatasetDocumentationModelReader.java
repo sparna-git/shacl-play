@@ -23,8 +23,7 @@ public class DatasetDocumentationModelReader implements DatasetDocumentationRead
 	public ShapesDocumentation readDatasetDocumentation(
 			Model dataset,
 			Model owlModel,
-			String lang,
-			boolean outExpandDiagram
+			String lang
 	) {
 		
 		// 1. Generate SHACL profile of the Dataset		
@@ -33,38 +32,44 @@ public class DatasetDocumentationModelReader implements DatasetDocumentationRead
 		config.setLang(lang);
 		SamplingShaclGeneratorDataProvider dataProvider = new SamplingShaclGeneratorDataProvider(new PaginatedQuery(100),dataset);	
 		
-		ShaclGenerator generator = new ShaclGenerator();
-		
-		
+		ShaclGenerator generator = new ShaclGenerator();		
 		// 2. Generate statistics as post-processing of the SHACL generation
 		// arbitrary model name for Dataset name generation
 		final String SOURCE_NAME = "data";
 		Model statisticsModel = ModelFactory.createDefaultModel();
-		generator.getExtraVisitors().add(new ComputeStatisticsVisitor(dataProvider, statisticsModel, SOURCE_NAME, false));
-		generator.getExtraVisitors().add(new ComputeValueStatisticsVisitor(dataProvider,statisticsModel,dataset));
+		generator.getExtraVisitors().add(new ComputeStatisticsVisitor(dataProvider, statisticsModel, SOURCE_NAME));
+		generator.getExtraVisitors().add(new ComputeValueStatisticsVisitor(dataProvider,statisticsModel));
 		
 		// trigger generation
 		Model shapes = generator.generateShapes(
 				config,
 				dataProvider);
 		
-		
+		return generateDatasetDocumentation(
+				owlModel,
+				statisticsModel,
+				shapes,
+				lang
+		);
+	}
+	
+	@Override
+	public ShapesDocumentation generateDatasetDocumentation(
+			Model owlModel,
+			Model statisticsModel,
+			Model shapesModel,
+			String lang
+	) {
 		// 3. Generate standard SHACL documentation
 		ShapesDocumentationReaderIfc reader = new ShapesDocumentationModelReader(false, null);
-		ShapesDocumentation shapesDocumenation = reader.readShapesDocumentation(shapes, ModelFactory.createDefaultModel(),lang,false);
+		ShapesDocumentation shapesDocumentation = reader.readShapesDocumentation(shapesModel, ModelFactory.createDefaultModel(),lang,false);
 		
-		// 4. Apply post-processing to the generated documentation
-		postProcessing(shapesDocumenation, statisticsModel, dataset, shapes, lang);
-
-		return shapesDocumenation;
-	}
-
-
-	// populate number of instances
-	private void postProcessing(ShapesDocumentation shapesDocumentation, Model statisticsModel, Model datasetModel, Model shapesModel, String lang) {
+		// 4. Apply post-processing to the generated documentation, to populate number of instances and charts
 		ShaclVisit visit = new ShaclVisit(shapesModel);
 		visit.visit(new EnrichDocumentationWithStatisticsVisitor(statisticsModel, shapesDocumentation));
 		visit.visit(new EnrichDocumentationWithChartsVisitor(statisticsModel, shapesDocumentation, lang));
+
+		return shapesDocumentation;
 	}
 	
 }

@@ -44,8 +44,7 @@ public class Analyze implements CliCommandIfc {
 		modelStructure.visit(new ComputeStatisticsVisitor(
 				dataProvider,
 				outputModel,
-				(a.getEndpoint() != null)?a.getEndpoint():"https://dummy.dataset.uri",
-				false
+				(a.getEndpoint() != null)?a.getEndpoint():"https://dummy.dataset.uri"
 		));
 
 		// write output file

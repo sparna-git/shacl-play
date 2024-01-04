@@ -13,6 +13,7 @@ import org.apache.jena.vocabulary.VOID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import fr.sparna.rdf.jena.ModelRenderingUtils;
 import fr.sparna.rdf.shacl.SHACL_PLAY;
 import fr.sparna.rdf.shacl.generate.ShaclGeneratorDataProviderIfc;
 
@@ -21,12 +22,10 @@ public class ComputeValueStatisticsVisitor extends DatasetAwareShaclVisitorBase 
 	private static final Logger log = LoggerFactory.getLogger(ComputeStatisticsVisitor.class);
 	
 	private Model statisticsModel;
-	private Model datasetModel;
 	
-	public ComputeValueStatisticsVisitor(ShaclGeneratorDataProviderIfc dataProvider, Model countModel, Model datasetModel) {
+	public ComputeValueStatisticsVisitor(ShaclGeneratorDataProviderIfc dataProvider, Model countModel) {
 		super(dataProvider);
 		this.statisticsModel = countModel;
-		this.datasetModel = datasetModel;
 	}
 
 	@Override
@@ -34,7 +33,7 @@ public class ComputeValueStatisticsVisitor extends DatasetAwareShaclVisitorBase 
 		if(aPropertyShape.hasProperty(SHACLM.in)) {
 			List<RDFNode> values = aPropertyShape.getProperty(SHACLM.in).getObject().as(RDFList.class).asJavaList();
 			
-			String propertyPath = ComputeStatisticsVisitor.renderSparqlPropertyPath(aPropertyShape.getRequiredProperty(SHACLM.path).getObject().asResource());
+			String propertyPath = ModelRenderingUtils.renderSparqlPropertyPath(aPropertyShape.getRequiredProperty(SHACLM.path).getObject().asResource());
 			
 			Map<RDFNode, Integer> counts = this.dataProvider.countValues(
 					aNodeShape.getRequiredProperty(SHACLM.targetClass).getObject().asResource().getURI(),

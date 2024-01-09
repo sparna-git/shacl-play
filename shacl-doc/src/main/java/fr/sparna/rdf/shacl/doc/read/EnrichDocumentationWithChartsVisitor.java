@@ -101,7 +101,8 @@ public class EnrichDocumentationWithChartsVisitor implements ShaclVisitorIfc {
 							SortedMap<String, RDFNode> sortedValues = new TreeMap<>();
 							values.stream().forEach(v -> {
 								// build a label, same as in the documentation generation
-								String label = ModelRenderingUtils.render(v, true);	
+								String label_output = ModelRenderingUtils.render(v, true);
+								String label = label_output.replace("'","\\'");
 								sortedValues.put(label, v);
 							});
 							for (Entry<String, RDFNode> anEntry : sortedValues.entrySet()) {

@@ -291,6 +291,10 @@ public class PlantUmlRenderer {
 	public String renderDiagram(PlantUmlDiagram diagram) {
 		StringBuffer sourceuml = new StringBuffer();	
 		sourceuml.append("@startuml\n");
+		// this allows to have dots in unescaped classes names, to avoid that are interpreted as namespaces
+		// see https://github.com/sparna-git/shacl-play/issues/122
+		// see https://forum.plantuml.net/221/dots-in-class-names
+		sourceuml.append("set namespaceSeparator none\n");
 		sourceuml.append("skinparam classFontSize 14"+"\n");
 		sourceuml.append("!define LIGHTORANGE\n");
 		sourceuml.append("skinparam componentStyle uml2\n");

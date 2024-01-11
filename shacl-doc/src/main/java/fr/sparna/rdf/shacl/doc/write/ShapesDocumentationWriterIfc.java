@@ -13,8 +13,6 @@ public interface ShapesDocumentationWriterIfc {
 		XML
 	}
 	
-	public void writeShapesDoc(ShapesDocumentation documentation, String outputLang, OutputStream output, MODE mode) throws IOException;
-	
-	public void writeDatasetDoc(ShapesDocumentation documentation, String outputLang, OutputStream output, MODE mode) throws IOException;
+	public void writeDoc(ShapesDocumentation documentation, String outputLang, OutputStream output, MODE mode) throws IOException;
 	
 }

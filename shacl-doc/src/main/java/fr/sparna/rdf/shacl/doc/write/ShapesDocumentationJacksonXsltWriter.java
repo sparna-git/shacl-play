@@ -47,15 +47,12 @@ public class ShapesDocumentationJacksonXsltWriter implements ShapesDocumentation
 		}
 		
 	}
+
 	
 	@Override
-	public void writeShapesDoc(ShapesDocumentation documentation, String outputLang, OutputStream output, MODE mode) throws IOException {
-		this.write(documentation, outputLang, output, mode, XSLT.SHAPES2HTML);
-	}
-	
-	@Override
-	public void writeDatasetDoc(ShapesDocumentation documentation, String outputLang, OutputStream output, MODE mode) throws IOException {
-		this.write(documentation, outputLang, output, mode, XSLT.DATASET2HTML);
+	public void writeDoc(ShapesDocumentation documentation, String outputLang, OutputStream output, MODE mode) throws IOException {
+		XSLT theXSLT = documentation.isDatasetDocumentation()?XSLT.DATASET2HTML:XSLT.SHAPES2HTML;		
+		this.write(documentation, outputLang, output, mode, theXSLT);
 	}
 	
 	

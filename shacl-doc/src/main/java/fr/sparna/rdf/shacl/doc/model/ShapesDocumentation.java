@@ -148,6 +148,16 @@ public class ShapesDocumentation {
 		}		
 	}
 	
+	/**
+	 * @return true if this documentation is the documentation of a Dataset with statistics
+	 */
+	@JacksonXmlProperty(localName = "datasetDocumentation")
+	public boolean isDatasetDocumentation() {
+		return this.sections.stream().anyMatch(section -> {
+			return (section.getNumberOfTargets() > 0) || section.propertySections.stream().anyMatch(ps -> ps.getDistinctObjects() > 0 || ps.getTriples() > 0);
+		});
+	}
+	
 	public ShapesDocumentationSection findSectionByUriOrId(String nodeShapeUriOrId) {
 		return this.sections.stream().filter(s -> s.getNodeShapeUriOrId().equals(nodeShapeUriOrId)).findFirst().orElse(null);
 	}

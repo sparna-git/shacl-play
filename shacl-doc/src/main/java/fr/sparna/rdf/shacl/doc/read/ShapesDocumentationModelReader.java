@@ -18,6 +18,7 @@ import fr.sparna.rdf.shacl.doc.model.NamespaceSection;
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentation;
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentationDiagram;
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentationSection;
+import fr.sparna.rdf.shacl.generate.visitors.ShaclVisit;
 
 public class ShapesDocumentationModelReader implements ShapesDocumentationReaderIfc {
 
@@ -34,8 +35,7 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 	public ShapesDocumentation readShapesDocumentation(
 			Model shaclGraph,
 			Model owlGraph,
-			String lang,
-			boolean avoidArrowsToEmptyBoxes
+			String lang
 	) {
 		
 		// parse SHACL & OWL
@@ -74,6 +74,15 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 			sections.add(section);
 		}
 		shapesDocumentation.setSections(sections);
+		
+		
+		// Apply post-processing to the generated documentation, to populate number of instances and charts
+		ShaclVisit visit = new ShaclVisit(shaclGraph);
+		// this assumes that the statistics are part of the SHACL graph
+		visit.visit(new EnrichDocumentationWithStatisticsVisitor(shaclGraph, shapesDocumentation));
+		visit.visit(new EnrichDocumentationWithChartsVisitor(shaclGraph, shapesDocumentation, lang));
+		
+		
 		return shapesDocumentation;
 	}
 	

@@ -34,9 +34,6 @@ public class Doc implements CliCommandIfc {
 	public void execute(Object args) throws Exception {
 		ArgumentsDoc a = (ArgumentsDoc)args;
 		
-		//Call imagen
-		
-		
 		// read input file or URL
 		Model shapesModel = ModelFactory.createDefaultModel(); 
 		InputModelReader.populateModel(shapesModel, a.getInput(), null);
@@ -62,28 +59,19 @@ public class Doc implements CliCommandIfc {
 				// copy imagen file in the output directory
 				Path sourceImg = FileSystems.getDefault().getPath(a.getImgLogo().toString());
 				Path outputDirImg = FileSystems.getDefault().getPath(fileOut.getParentFile().getPath()+"\\"+name_img);
-				try {
-					Files.copy(sourceImg, outputDirImg, StandardCopyOption.REPLACE_EXISTING);
-					
-				} catch (Exception e) {
-					// TODO: handle exception
-					System.out.println(e);
-				}
+				Files.copy(sourceImg, outputDirImg, StandardCopyOption.REPLACE_EXISTING);					
 			} else {
-				// not an axisting file, take it as a URL
+				// not an existing file, take it as a URL
 				name_img = a.getImgLogo();
 			}
 		}
 		
 		// generate doc
-		// true to read diagram
 		ShapesDocumentationReaderIfc reader = new ShapesDocumentationModelReader(a.getDiagramShacl(),name_img);
 		ShapesDocumentation doc = reader.readShapesDocumentation(
 				shapesModel,
 				owlModel,
-				a.getLanguage(),
-				// avoid arrows to empty boxes
-				true
+				a.getLanguage()
 		);
 		
 		
@@ -93,7 +81,7 @@ public class Doc implements CliCommandIfc {
 			// 1. write Documentation structure to XML
 			ShapesDocumentationWriterIfc writerHTML = new ShapesDocumentationJacksonXsltWriter();
 			ByteArrayOutputStream htmlBytes = new ByteArrayOutputStream();
-			writerHTML.writeShapesDoc(doc,a.getLanguage(), htmlBytes, MODE.PDF);
+			writerHTML.writeDoc(doc,a.getLanguage(), htmlBytes, MODE.PDF);
 			
 			//read file html
 			String htmlCode = new String(htmlBytes.toByteArray(),"UTF-8");
@@ -109,16 +97,16 @@ public class Doc implements CliCommandIfc {
 				_builder.testMode(false);
 				_builder.run();
 			}			
-		}else {
+		} else {
 			
 			if(a.getOutput().getName().endsWith(".xml")) {
 				// 2. write Documentation structure to XML
 				ShapesDocumentationWriterIfc writer = new ShapesDocumentationXmlWriter();
-				writer.writeShapesDoc(doc, a.getLanguage(), out,MODE.HTML);
+				writer.writeDoc(doc, a.getLanguage(), out, MODE.HTML);
 			} else {
 				// 2. write Documentation structure to HTML
 				ShapesDocumentationWriterIfc writer = new ShapesDocumentationJacksonXsltWriter();
-				writer.writeShapesDoc(doc, a.getLanguage(), out,MODE.HTML);
+				writer.writeDoc(doc, a.getLanguage(), out, MODE.HTML);
 			}
 			out.close();
 		}	

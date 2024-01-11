@@ -30,15 +30,9 @@ import fr.sparna.rdf.shacl.doc.model.ShapesDocumentation;
  *
  */
 public class ShapesDocumentationXmlWriter implements ShapesDocumentationWriterIfc {
-
-	@Override
-	public void writeDatasetDoc(ShapesDocumentation documentation, String outputLang, OutputStream output, MODE mode)
-			throws IOException {
-		this.write(documentation, outputLang, output, mode);		
-	}
 	
 	@Override
-	public void writeShapesDoc(ShapesDocumentation documentation, String outputLang, OutputStream output, MODE mode)
+	public void writeDoc(ShapesDocumentation documentation, String outputLang, OutputStream output, MODE mode)
 			throws IOException {
 		this.write(documentation, outputLang, output, mode);		
 	}

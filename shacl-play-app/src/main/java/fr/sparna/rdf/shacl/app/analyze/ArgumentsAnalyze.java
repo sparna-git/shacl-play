@@ -25,7 +25,7 @@ public class ArgumentsAnalyze {
 	
 	@Parameter(
 			names = { "-o", "--output" },
-			description = "Path where the statistics file will be written. The format of the file is determined based"
+			description = "Path where the statistics model will be written. The format of the file is determined based"
 					+ " on the file extension : '*.ttl, *.rdf, *.n3, *.nq, *.nt, *.trig, *.jsonld' ",
 			required = true
 	)
@@ -37,6 +37,14 @@ public class ArgumentsAnalyze {
 			required = true
 	)
 	private File shapes;
+	
+	@Parameter(
+			names = { "-os", "--outputShapes" },
+			description = "Path where the shapes graph will be written. This is optional: if not provided, shapes will not be written back. The format of the file is determined based"
+					+ " on the file extension : '*.ttl, *.rdf, *.n3, *.nq, *.nt, *.trig, *.jsonld' ",
+			required = false
+	)
+	private File outputShapes;
 
 
 	public String getEndpoint() {
@@ -69,6 +77,14 @@ public class ArgumentsAnalyze {
 
 	public void setShapes(File shapes) {
 		this.shapes = shapes;
+	}
+
+	public File getOutputShapes() {
+		return outputShapes;
+	}
+
+	public void setOutputShapes(File outputShapes) {
+		this.outputShapes = outputShapes;
 	}
 	
 	

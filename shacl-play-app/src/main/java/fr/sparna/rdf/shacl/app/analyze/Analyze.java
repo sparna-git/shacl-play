@@ -42,20 +42,32 @@ public class Analyze implements CliCommandIfc {
 			dataProvider = new SamplingShaclGeneratorDataProvider(new PaginatedQuery(100), inputModel);		
 		}
 		
-		Model outputModel = ModelFactory.createDefaultModel(); 
+		Model countModel = ModelFactory.createDefaultModel(); 
 		
 		ShaclVisit modelStructure = new ShaclVisit(shapes);
 		modelStructure.visit(new ComputeStatisticsVisitor(
 				dataProvider,
-				outputModel,
+				countModel,
 				(a.getEndpoint() != null)?a.getEndpoint():"https://dummy.dataset.uri"
 		));
 
-		modelStructure.visit(new ComputeValueStatisticsVisitor(dataProvider,outputModel));
+		AssignValueOrInVisitor yetAnotherTryOnAssigningValues = new AssignValueOrInVisitor(dataProvider);
+		yetAnotherTryOnAssigningValues.setRequiresShValueInPredicate(yetAnotherTryOnAssigningValues.new StatisticsBasedRequiresShValueOrInPredicate(countModel));
+		modelStructure.visit(yetAnotherTryOnAssigningValues);
+		modelStructure.visit(new ComputeValueStatisticsVisitor(dataProvider,countModel));
+		modelStructure.visit(new CopyStatisticsToDescriptionVisitor(countModel));
 
 		// write output file
-		OutputStream out = new FileOutputStream(a.getOutput());
-		outputModel.write(out,FileUtils.guessLang(a.getOutput().getName(), "Turtle"));				
+		try(OutputStream out = new FileOutputStream(a.getOutput())) {
+			countModel.write(out,FileUtils.guessLang(a.getOutput().getName(), "Turtle"));
+		}
+		
+		// if provided, also write the shapes file
+		if (a.getOutputShapes() != null) {
+			try(OutputStream out = new FileOutputStream(a.getOutputShapes())) {
+				shapes.write(out,FileUtils.guessLang(a.getOutputShapes().getName(), "Turtle"));
+			}	
+		}
 		
 	}
 }

@@ -9,7 +9,7 @@ public interface ShapesDocumentationReaderIfc {
 	public ShapesDocumentation readShapesDocumentation(
 			Model shapesModel,
 			Model owlModel,
-		    String lang,
-		    boolean outExpandDiagram);
+		    String lang
+    );
 	
 }

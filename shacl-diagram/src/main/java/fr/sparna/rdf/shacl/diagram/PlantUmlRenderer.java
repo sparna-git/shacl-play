@@ -1,7 +1,9 @@
 package fr.sparna.rdf.shacl.diagram;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -24,21 +26,23 @@ public class PlantUmlRenderer {
 		this.avoidArrowsToEmptyBoxes = avoidArrowsToEmptyBoxes;
 	}
 
-	private String render(PlantUmlProperty property, String boxName, boolean renderAsDatatypeProperty, String NodeShapeId) {
+	private String render(PlantUmlProperty property, String boxName, boolean renderAsDatatypeProperty, String NodeShapeId, Map<String, String> collectRelationProperties) {
 		
 		//get the color for the arrow drawn
 		String colorArrowProperty = "";
 		if(property.getValue_colorProperty() != null) {
 			colorArrowProperty = "[bold,#"+property.getValue_colorProperty()+"]";
 		}
-		
-		
+				
 		if (property.getValue_node() != null) {
-			return renderAsNodeReference(property, boxName, renderAsDatatypeProperty, colorArrowProperty);
+			String getCodeUML = renderAsNodeReference(property, boxName, renderAsDatatypeProperty, colorArrowProperty, collectRelationProperties);
+			return (getCodeUML.contains("->")) ? "" : getCodeUML;
 		} else if (property.getValue_class_property() != null) {
-			return renderAsClassReference(property, boxName, renderAsDatatypeProperty);
+			String getCodeUML = renderAsClassReference(property, boxName, renderAsDatatypeProperty, collectRelationProperties); 
+			return (getCodeUML.contains("->")) ? "" : getCodeUML;
 		} else if (property.getValue_qualifiedvalueshape() != null) {
-			return renderAsQualifiedShapeReference(property, boxName,colorArrowProperty);
+			String getCodeUML = renderAsQualifiedShapeReference(property, boxName,colorArrowProperty,collectRelationProperties); 
+			return (getCodeUML.contains("->")) ? "" : getCodeUML;
 		} else if (property.getValue_shor().size() > 0) {
 			return renderAsOr(property, boxName,colorArrowProperty, NodeShapeId);
 		} else {
@@ -48,7 +52,7 @@ public class PlantUmlRenderer {
 
 	// uml_shape+ " --> " +"\""+uml_node+"\""+" : "+uml_path+uml_datatype+"
 	// "+uml_literal+" "+uml_pattern+" "+uml_nodekind(uml_nodekind)+"\n";
-	private String renderAsNodeReference(PlantUmlProperty property, String boxName, Boolean renderAsDatatypeProperty, String colorArrow) {
+	private String renderAsNodeReference(PlantUmlProperty property, String boxName, Boolean renderAsDatatypeProperty, String colorArrow, Map<String, String> collectRelationProperties) {
 
 		// find in property if has attribut
 		String output = null;
@@ -110,13 +114,25 @@ public class PlantUmlRenderer {
 					ncount +=1;
 				}
 				
-				if(ncount > 1 ) {
-					
+				
+				
+				if(ncount > 1 ) {					
 					output = boxName + " <-[bold]-> \"" + property.getValue_node().getLabel() + "\" : " + inverse_label;
 				} else {
 					output = boxName + " <-[bold]-> \"" + property.getValue_node().getLabel() + "\" : " + property.getValue_path()
 					+ " / " + inverse_label;
 				}
+				
+				
+				// Merge all arrow 
+				collectData(
+						// key
+						boxName + " <-[bold]-> \"" + property.getValue_node().getLabel()+ "\" : ",
+						// Values
+						(ncount > 1 ) ? "\" : " + inverse_label : "\" : " + property.getValue_path(),
+						// Record
+						collectRelationProperties
+						);				
 				
 			} else {
 				
@@ -130,6 +146,26 @@ public class PlantUmlRenderer {
 					output += "(" + property.getValue_pattern() + ")" + " ";
 				}
 				
+				// merge the arrow
+				String option = "";
+				if (property.getValue_cardinality() != null) {
+					option += "<U+00A0>" + property.getValue_cardinality() + " ";
+				}				
+				if (property.getValue_pattern() != null && this.displayPatterns) {
+					option += "(" + property.getValue_pattern() + ")" + " ";
+				}
+				
+				// Merge all arrow 
+				collectData(
+						// key
+						boxName + " -"+colorArrow+"-> \"" + property.getValue_node().getLabel()+ "\" : ",
+						// Values
+						property.getValue_path() + option,
+						// Record
+						collectRelationProperties
+						);
+				
+				
 			}
 				
 			
@@ -138,12 +174,25 @@ public class PlantUmlRenderer {
 			//output = boxName + " -[bold]-> \"" + property.getValue_node().getLabel() + "\" : " + property.getValue_path();
 			output = boxName + " -"+colorArrow+"-> \"" + property.getValue_node().getLabel() + "\" : " + property.getValue_path();
 			
+			String option = "";
 			if (property.getValue_cardinality() != null) {
 				output += " " + property.getValue_cardinality() + " ";
+				option += "<U+00A0>" + property.getValue_cardinality() + " ";
 			}
 			if (property.getValue_pattern() != null && this.displayPatterns) {
 				output += "(" + property.getValue_pattern() + ")" + " ";
+				option += "(" + property.getValue_pattern() + ")" + " ";
 			}
+			
+			// function for Merge all arrow what point to same class
+			collectData(
+					// key
+					boxName + " -"+colorArrow+"-> \"" + property.getValue_node().getLabel()+ "\" : ",
+					// Values
+					property.getValue_path()+option ,
+					// Record
+					collectRelationProperties
+					);
 			
 		}
 
@@ -194,13 +243,22 @@ public class PlantUmlRenderer {
 
 	// value = uml_shape+ " --> " +"\""+uml_qualifiedvalueshape+"\""+" :
 	// "+uml_path+uml_datatype+" "+uml_qualifiedMinMaxCount+"\n";
-	private String renderAsQualifiedShapeReference(PlantUmlProperty property, String boxName, String colorArrow) {
+	private String renderAsQualifiedShapeReference(PlantUmlProperty property, String boxName, String colorArrow, Map<String, String> collectRelationProperties) {
 		String output = boxName + " -"+colorArrow+"-> \"" + property.getValue_qualifiedvalueshape().getLabel() + "\" : "
 				+ property.getValue_path();
 
+		String option="";
 		if (property.getValue_qualifiedMaxMinCount() != null) {
 			output += " " + property.getValue_qualifiedMaxMinCount() + " ";
+			option = " " + property.getValue_qualifiedMaxMinCount() + " ";
 		}
+		
+		collectData(
+				//codeKey
+				boxName + " -"+colorArrow+"-> \"" + property.getValue_qualifiedvalueshape().getLabel() + "\" : ",
+				//data value
+				property.getValue_path()+option+"\\n", 
+				collectRelationProperties);
 
 		output += "\n";
 
@@ -209,7 +267,7 @@ public class PlantUmlRenderer {
 
 	// value = uml_shape+" --> "+"\""+uml_class_property+"\""+" :
 	// "+uml_path+uml_literal+" "+uml_pattern+" "+uml_nodekind+"\n";
-	private String renderAsClassReference(PlantUmlProperty property, String boxName, boolean renderAsDatatypeProperty) {
+	private String renderAsClassReference(PlantUmlProperty property, String boxName, boolean renderAsDatatypeProperty, Map<String,String> collectRelationProperties) {
 
 		String output = "";
 		
@@ -238,15 +296,26 @@ public class PlantUmlRenderer {
 			// attempt with dotted lines
 			// output = boxName + " -[dotted]-> \"" + property.getValue_class_property() + "\" : " + property.getValue_path();
 			output = boxName + " --> \""+""+labelColor+ property.getValue_class_property() + "\" : " + property.getValue_path()+" ";
-			
-
+					
+			String option = "";
 			if (property.getValue_cardinality() != null) {
 				output += " " + property.getValue_cardinality() + " ";
+				option += "<U+00A0>" + property.getValue_cardinality() + " ";
 			}
 			if (property.getValue_pattern() != null && this.displayPatterns) {
 				output += "(" + property.getValue_pattern() + ")" + " ";
+				option += "(" + property.getValue_pattern() + ")" + " ";
 			}
 
+			collectData(
+						// Key
+						boxName + " --> \""+""+labelColor+ property.getValue_class_property() + "\" : ",
+						// data Value
+						property.getValue_path() + option+"\\n",
+						collectRelationProperties);
+			
+			
+			
 			output += labelColorClose;
 		}
 		
@@ -266,7 +335,7 @@ public class PlantUmlRenderer {
 		
 		
 		String output = boxName + " : "+""+labelColor+ property.getValue_path() + " ";
-
+		
 		if (property.getValue_datatype() != null) {
 			output += " : " + property.getValue_datatype() + " ";
 		}
@@ -284,6 +353,8 @@ public class PlantUmlRenderer {
 			output += " = " + property.getValue_hasValue() + " ";
 		}
 		output += labelColorClose+" \n";
+		
+		
 
 		return output;
 	}
@@ -334,8 +405,6 @@ public class PlantUmlRenderer {
 		// "+"\""+box.getNameshape()+"\""+((box.getNametargetclass() != null)?"
 		// "+"<"+box.getNametargetclass()+">":"");
 		String declaration = "";
-		
-		
 		String color = "";
 		if(box.getColorClass() != null) {
 			color = "#back:"+box.getColorClass()+";";
@@ -360,7 +429,9 @@ public class PlantUmlRenderer {
 					declaration += "\""+box.getLabel()+"\"" + " -up[#gray,bold]-|> " + "\""+aSuperClass.getLabel()+"\"" + "\n";
 				}
 			}
-
+			
+			String declarationPropertes = "";
+			Map<String,String> collectRelationProperties = new HashMap<>();
 			for (PlantUmlProperty plantUmlproperty : box.getProperties()) {
 				boolean displayAsDatatypeProperty = false;
 				
@@ -402,13 +473,68 @@ public class PlantUmlRenderer {
 					}
 				}
 				
-				declaration += this.render(plantUmlproperty, "\"" + box.getLabel() + "\"", displayAsDatatypeProperty,box.getLabel());
+				
+				String codePropertyPlantUml = this.render(plantUmlproperty, "\"" + box.getLabel() + "\"", displayAsDatatypeProperty,box.getLabel(), collectRelationProperties);
+				if (codePropertyPlantUml!="") {
+					declarationPropertes += codePropertyPlantUml;
+				} 
+				//declaration += this.render(plantUmlproperty, "\"" + box.getLabel() + "\"", displayAsDatatypeProperty,box.getLabel());
 			}
+			
+			if (collectRelationProperties.size() > 0) {
+				for (Map.Entry<String, String> entry : collectRelationProperties.entrySet()) {
+					declarationPropertes += entry.getKey() + entry.getValue()+"\n";
+				}
+			}
+			declaration += declarationPropertes;
 		}
-
+		
 		return declaration;
 	}
-
+	
+	/*
+	 * function for Merge all arrow what point to same class.
+	 * codeKey - property key
+	 * dataValue - other data
+	 * collectRelationProperties - save all properties and if the property is included in the map, generate a list of values.
+	 */
+	public void collectData(String codeKey,String dataValue ,Map<String,String> collectRelationProperties) {
+		
+		if (!linkPropertyExist(codeKey, collectRelationProperties)) {
+			// 
+			collectRelationProperties.put(
+					// key
+					codeKey,
+					// Values
+					dataValue);
+			
+		} else {
+			//update record
+			updatePropertyRelacionValue(
+					// key
+					codeKey,
+					//data values
+					dataValue ,
+					//Map
+					collectRelationProperties
+					);
+		}
+		
+	}	
+	
+	public boolean linkPropertyExist(String codeKey, Map<String,String> collectRelationProperties) {
+		return collectRelationProperties.entrySet().stream().filter(f -> f.getKey().equals(codeKey)).findAny().isPresent();
+	}
+	
+	public void updatePropertyRelacionValue(String codeKey,String newValue ,Map<String,String> collectRelationProperties) {
+		
+		String recordInMap = collectRelationProperties.entrySet().stream().filter(f -> f.getKey().equals(codeKey)).findFirst().get().getValue();
+		String record = recordInMap+newValue;
+		
+		collectRelationProperties.computeIfPresent(codeKey, (k,v) -> v = record);
+	}
+	
+	
 	public boolean isGenerateAnchorHyperlink() {
 		return generateAnchorHyperlink;
 	}

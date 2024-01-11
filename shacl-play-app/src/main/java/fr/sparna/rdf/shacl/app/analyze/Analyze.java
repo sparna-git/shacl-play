@@ -14,8 +14,12 @@ import fr.sparna.rdf.shacl.app.InputModelReader;
 import fr.sparna.rdf.shacl.generate.PaginatedQuery;
 import fr.sparna.rdf.shacl.generate.SamplingShaclGeneratorDataProvider;
 import fr.sparna.rdf.shacl.generate.ShaclGeneratorDataProviderIfc;
+import fr.sparna.rdf.shacl.generate.visitors.AssignValueOrInVisitor;
 import fr.sparna.rdf.shacl.generate.visitors.ComputeStatisticsVisitor;
+import fr.sparna.rdf.shacl.generate.visitors.ComputeValueStatisticsVisitor;
+import fr.sparna.rdf.shacl.generate.visitors.CopyStatisticsToDescriptionVisitor;
 import fr.sparna.rdf.shacl.generate.visitors.ShaclVisit;
+import fr.sparna.rdf.shacl.generate.visitors.AssignValueOrInVisitor.StatisticsBasedRequiresShValueOrInPredicate;
 
 public class Analyze implements CliCommandIfc {
 
@@ -46,6 +50,8 @@ public class Analyze implements CliCommandIfc {
 				outputModel,
 				(a.getEndpoint() != null)?a.getEndpoint():"https://dummy.dataset.uri"
 		));
+
+		modelStructure.visit(new ComputeValueStatisticsVisitor(dataProvider,outputModel));
 
 		// write output file
 		OutputStream out = new FileOutputStream(a.getOutput());

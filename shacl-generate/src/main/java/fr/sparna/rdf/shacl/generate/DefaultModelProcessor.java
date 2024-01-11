@@ -2,7 +2,6 @@ package fr.sparna.rdf.shacl.generate;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import org.apache.commons.collections4.CollectionUtils;
 
@@ -23,6 +22,12 @@ public class DefaultModelProcessor implements ModelProcessorIfc {
 		this.excludedNamespaces.add("http://www.w3.org/2000/01/rdf-schema#");
 		this.excludedNamespaces.add("http://www.w3.org/1999/02/22-rdf-syntax-ns#");
 		this.excludedNamespaces.add("http://www.w3.org/2001/XMLSchema#");
+	}
+	
+	public DefaultModelProcessor(List<String> excludedClasses, List<String> includedClasses) {
+		this();
+		this.excludedClasses = excludedClasses;
+		this.includedClasses = includedClasses;
 	}
 
 	@Override

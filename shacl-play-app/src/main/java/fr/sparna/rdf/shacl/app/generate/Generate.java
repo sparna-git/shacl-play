@@ -32,6 +32,8 @@ public class Generate implements CliCommandIfc {
 		
 		Configuration config = new Configuration(new DefaultModelProcessor(), "https://shacl-play.sparna.fr/shapes/", "shape");
 		config.setShapesOntology("https://shacl-play.sparna.fr/shapes/");
+		// pass the excludes and includes parameters
+		config.setModelProcessor(new DefaultModelProcessor(a.getExcludes(), a.getIncludes()));
 		
 		Model shapes;
 		ShaclGeneratorDataProviderIfc dataProvider;
@@ -51,6 +53,7 @@ public class Generate implements CliCommandIfc {
 			ShaclGenerator generator = new ShaclGenerator();
 			generator.getExtraVisitors().add(new AssignLabelRoleVisitor());
 			generator.getExtraVisitors().add(new AssignDatatypesAndClassesToIriOrLiteralVisitor(dataProvider, new DefaultModelProcessor()));
+			
 			
 			shapes = generator.generateShapes(
 					config,

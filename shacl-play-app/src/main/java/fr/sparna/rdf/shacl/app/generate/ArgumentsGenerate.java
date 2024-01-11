@@ -41,6 +41,20 @@ public class ArgumentsGenerate {
 	)
 	private List<String> prefixes;
 	
+	@Parameter(
+			names = { "-inc", "--include" },
+			description = "List of classes URI to be included in the analysis. Classes not in the list will not be analyzed.",
+			variableArity = true
+	)
+	private List<String> includes;
+	
+	@Parameter(
+			names = { "-exc", "--exclude" },
+			description = "List of classes URI to be excluded from the analysis. If a class is in this list, it will not be analyzed",
+			variableArity = true
+	)
+	private List<String> excludes;
+	
 	public Map<String, String> getAdditionnalPrefixes() {
 		if(this.prefixes == null) {
 			return null;
@@ -83,6 +97,14 @@ public class ArgumentsGenerate {
 
 	public void setPrefixes(List<String> prefixes) {
 		this.prefixes = prefixes;
+	}
+
+	public List<String> getIncludes() {
+		return includes;
+	}
+
+	public List<String> getExcludes() {
+		return excludes;
 	}
 	
 	

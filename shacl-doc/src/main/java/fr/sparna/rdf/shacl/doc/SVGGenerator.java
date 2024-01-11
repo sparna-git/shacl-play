@@ -19,6 +19,11 @@ public class SVGGenerator {
 		// The XML is stored into svg
 		String svgString = new String(out.toByteArray(), Charset.forName("UTF-8"));
 		
+		// replace the namespace
+		if (svgString.contains("g xmlns=\"\"")) {
+			svgString = svgString.replace("g xmlns=\"\"","g");
+		}
+		
 		// ensure the characters --> don't appear in the XML comments
 		svgString = svgString.replace("\" --> \"", "\" - -> \"");
 		

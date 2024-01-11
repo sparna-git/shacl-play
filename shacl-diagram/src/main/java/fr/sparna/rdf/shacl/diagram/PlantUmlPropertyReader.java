@@ -163,7 +163,7 @@ public class PlantUmlPropertyReader {
 			value_minCount = ModelRenderingUtils.render(ModelReadingUtils.readObjectAsResourceOrLiteral(constraint, SH.minCount), true);
 		}
 		if (constraint.hasProperty(SH.maxCount)) {
-			value_maxCount = ModelRenderingUtils.render(ModelReadingUtils.readObjectAsResourceOrLiteral(constraint, SH.minCount), true);
+			value_maxCount = ModelRenderingUtils.render(ModelReadingUtils.readObjectAsResourceOrLiteral(constraint, SH.maxCount), true);
 		}
 		
 		if ((constraint.hasProperty(SH.minCount)) || (constraint.hasProperty(SH.maxCount))){

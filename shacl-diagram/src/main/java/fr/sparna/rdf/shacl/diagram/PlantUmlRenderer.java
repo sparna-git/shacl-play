@@ -189,7 +189,7 @@ public class PlantUmlRenderer {
 					// key
 					boxName + " -"+colorArrow+"-> \"" + property.getValue_node().getLabel()+ "\" : ",
 					// Values
-					property.getValue_path()+option ,
+					property.getValue_path()+option,
 					// Record
 					collectRelationProperties
 					);
@@ -257,7 +257,7 @@ public class PlantUmlRenderer {
 				//codeKey
 				boxName + " -"+colorArrow+"-> \"" + property.getValue_qualifiedvalueshape().getLabel() + "\" : ",
 				//data value
-				property.getValue_path()+option+"\\n", 
+				property.getValue_path()+option, 
 				collectRelationProperties);
 
 		output += "\n";
@@ -311,7 +311,7 @@ public class PlantUmlRenderer {
 						// Key
 						boxName + " --> \""+""+labelColor+ property.getValue_class_property() + "\" : ",
 						// data Value
-						property.getValue_path() + option+"\\n",
+						property.getValue_path() + option,
 						collectRelationProperties);
 			
 			
@@ -483,7 +483,9 @@ public class PlantUmlRenderer {
 			
 			if (collectRelationProperties.size() > 0) {
 				for (Map.Entry<String, String> entry : collectRelationProperties.entrySet()) {
-					declarationPropertes += entry.getKey() + entry.getValue()+"\n";
+					String outputData = entry.getKey() + entry.getValue()+" \n";;
+					declarationPropertes +=  outputData;
+					
 				}
 			}
 			declaration += declarationPropertes;
@@ -493,9 +495,9 @@ public class PlantUmlRenderer {
 	}
 	
 	/*
-	 * function for Merge all arrow what point to same class.
+	 * function for Merge arrows what point to same class.
 	 * codeKey - property key
-	 * dataValue - other data
+	 * dataValue - data values or additional values
 	 * collectRelationProperties - save all properties and if the property is included in the map, generate a list of values.
 	 */
 	public void collectData(String codeKey,String dataValue ,Map<String,String> collectRelationProperties) {
@@ -526,12 +528,11 @@ public class PlantUmlRenderer {
 		return collectRelationProperties.entrySet().stream().filter(f -> f.getKey().equals(codeKey)).findAny().isPresent();
 	}
 	
+	/* Merge for each input data values in the same property */
 	public void updatePropertyRelacionValue(String codeKey,String newValue ,Map<String,String> collectRelationProperties) {
 		
 		String recordInMap = collectRelationProperties.entrySet().stream().filter(f -> f.getKey().equals(codeKey)).findFirst().get().getValue();
-		String record = recordInMap+newValue;
-		
-		collectRelationProperties.computeIfPresent(codeKey, (k,v) -> v = record);
+		collectRelationProperties.computeIfPresent(codeKey, (k,v) -> v = recordInMap+" \\l"+newValue);
 	}
 	
 	

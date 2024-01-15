@@ -1,14 +1,28 @@
 package fr.sparna.rdf.shacl.shaclplay.draw;
 
+import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
+import java.util.Base64;
+import java.util.Iterator;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import javax.imageio.ImageIO;
+import javax.imageio.ImageReader;
+import javax.imageio.stream.ImageInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -18,6 +32,8 @@ import org.owasp.encoder.Encode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -36,6 +52,7 @@ import fr.sparna.rdf.shacl.shaclplay.catalog.shapes.ShapesCatalogService;
 import net.sourceforge.plantuml.FileFormat;
 import net.sourceforge.plantuml.FileFormatOption;
 import net.sourceforge.plantuml.SourceStringReader;
+import net.sourceforge.plantuml.code.TranscoderUtil;
 
 
 @Controller
@@ -146,7 +163,7 @@ public class DrawController {
 			// get the shapes source type
 			ControllerModelFactory.SOURCE_TYPE shapesSource = ControllerModelFactory.SOURCE_TYPE.valueOf(shapesSourceString.toUpperCase());
 			
-			// read format
+			// read format 
 			FORMAT fmt = FORMAT.valueOf(format.toUpperCase());
 			
 			// if source is a ULR, redirect to the API
@@ -174,6 +191,11 @@ public class DrawController {
 			);
 			log.debug("Done Loading Shapes. Model contains "+shapesModel.size()+" triples");
 			
+			
+			//PREFIXES pm = new PREFIXES();
+			//shapesModel.setNsPrefixes(pm.getPrefixMap());
+			
+			
 			doOutputDiagram(
 					shapesModel,
 					modelPopulator.getSourceName(),
@@ -195,6 +217,10 @@ public class DrawController {
 			FORMAT format,
 			HttpServletResponse response
 	) throws IOException {
+		
+		
+		// Add a list of prefixes in the model for default
+		//shapesModel.setNsPrefixes(shapesModel);
 		
 		
 		PlantUmlDiagramGenerator writer = new PlantUmlDiagramGenerator(
@@ -230,20 +256,45 @@ public class DrawController {
 					response.getOutputStream().flush();
 				} else {
 					
-			        SourceStringReader reader = new SourceStringReader(diagrams.get(0).getPlantUmlString());
+					SourceStringReader reader = new SourceStringReader(diagrams.get(0).getPlantUmlString());
 			        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			        reader.outputImage(baos, new FileFormatOption(format.plantUmlFileFormat));
-			        String diagram = baos.toString("UTF-8");
+			        // read class for create a svg or png file
+					reader.outputImage(baos, new FileFormatOption(format.plantUmlFileFormat));
+			        
+			        response.setCharacterEncoding("UTF-8");
+			        
+			        String diagram = "";
+			        if (format.plantUmlFileFormat.toString().equals("PNG")) {
+			        	
+			        	//diagram = reader.outputImage(baos,0).toString(); //generateDiagramDescription(0).toString(); // png
+			        	//??
+			        	String pngLink = "http://www.plantuml.com/plantuml/png/"+TranscoderUtil.getDefaultTranscoder().encode(diagrams.get(0).getPlantUmlString());
+			        	URL pngURL = new URL(pngLink);
+			        	InputStream is = pngURL.openStream();
+			        	
+			        	byte[] b = new byte[2048];
+			            int length;
+			            while ((length = is.read(b)) != -1) {
+			                response.getOutputStream().write(b, 0, length);
+			            }
+			            is.close();
+			        			
+			            //response.getOutputStream().write(pngLink.getBytes(("UTF-8")));
+			        	
+			        } 		        
 			        
 			        // fix the problem when is generated a svg file
 			        if (format.plantUmlFileFormat.toString().equals("SVG")) {
 			        	diagram = diagram.replace("g xmlns=\"\"","g");
-			        	diagram = diagram.replace("\" --> \"", "\" - -> \"");
+			        	diagram = diagram.replace("\" --> \"", "\" - -> \"");			        	
+			        	
+				        response.getOutputStream().write(diagram.getBytes("UTF-8"));
+			        	
 			        }
 			        
-			        response.setCharacterEncoding("UTF-8");
-					response.getOutputStream().write(diagram.getBytes("UTF-8"));
-					response.getOutputStream().flush();		        
+			        //response.setCharacterEncoding("UTF-8");
+			        //response.getOutputStream().write(diagram.getBytes("UTF-8"));
+			        response.getOutputStream().flush();
 				}
 			} else {
 				// create a zip
@@ -292,7 +343,7 @@ public class DrawController {
 			for (PlantUmlDiagramOutput oneDiagram : diagrams) {
 				SourceStringReader reader = new SourceStringReader(oneDiagram.getPlantUmlString());
 				if(oneDiagram.getDisplayTitle() != null) {
-					response.getOutputStream().write(("<h2>"+oneDiagram.getDisplayTitle()+"</h2>\n").getBytes());
+					response.getOutputStream().write(("<h2>"+oneDiagram.getDisplayTitle()+"</h2>\n").getBytes());					
 				}
 				if(oneDiagram.getDiagramDescription() != null) {
 					response.getOutputStream().write(("<p>"+oneDiagram.getDiagramDescription()+"</p>\n").getBytes());

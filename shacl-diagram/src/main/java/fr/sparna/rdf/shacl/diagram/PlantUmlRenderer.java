@@ -371,6 +371,7 @@ public class PlantUmlRenderer {
 		sourceuml.append("skinparam componentStyle uml2\n");
 		sourceuml.append("skinparam wrapMessageWidth 100\n");
 		sourceuml.append("skinparam ArrowColor #Maroon\n");
+		sourceuml.append("set namespaceSeparator none \n"); // Command for not create an package uml
 		
 		PlantUmlRenderer renderer = new PlantUmlRenderer();
 		renderer.setGenerateAnchorHyperlink(this.generateAnchorHyperlink);

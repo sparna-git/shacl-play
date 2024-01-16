@@ -260,14 +260,13 @@ public class DrawController {
 			        ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			        // read class for create a svg or png file
 					reader.outputImage(baos, new FileFormatOption(format.plantUmlFileFormat));
-			        
+					String diagram = baos.toString();
+					
 			        response.setCharacterEncoding("UTF-8");
 			        
-			        String diagram = "";
+			        // display a ong file, generate from PlantUml
 			        if (format.plantUmlFileFormat.toString().equals("PNG")) {
 			        	
-			        	//diagram = reader.outputImage(baos,0).toString(); //generateDiagramDescription(0).toString(); // png
-			        	//??
 			        	String pngLink = "http://www.plantuml.com/plantuml/png/"+TranscoderUtil.getDefaultTranscoder().encode(diagrams.get(0).getPlantUmlString());
 			        	URL pngURL = new URL(pngLink);
 			        	InputStream is = pngURL.openStream();
@@ -277,10 +276,7 @@ public class DrawController {
 			            while ((length = is.read(b)) != -1) {
 			                response.getOutputStream().write(b, 0, length);
 			            }
-			            is.close();
-			        			
-			            //response.getOutputStream().write(pngLink.getBytes(("UTF-8")));
-			        	
+			            is.close();			        	
 			        } 		        
 			        
 			        // fix the problem when is generated a svg file
@@ -292,8 +288,6 @@ public class DrawController {
 			        	
 			        }
 			        
-			        //response.setCharacterEncoding("UTF-8");
-			        //response.getOutputStream().write(diagram.getBytes("UTF-8"));
 			        response.getOutputStream().flush();
 				}
 			} else {

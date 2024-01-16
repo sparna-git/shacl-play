@@ -67,7 +67,8 @@ public class AssignValueOrInVisitor extends DatasetAwareShaclVisitorBase {
 		
 		if (log.isTraceEnabled()) log.trace("(setInOrHasValue) start");
 
-		String propertyPath = ModelRenderingUtils.renderSparqlPropertyPath(path);
+		// false to not use prefixes in the generated query
+		String propertyPath = ModelRenderingUtils.renderSparqlPropertyPath(path, false);
 		
 		List<RDFNode> distinctValues = this.dataProvider.listDistinctValues(targetClass.getURI(), propertyPath, this.valuesInThreshold+1);
 		if(distinctValues.size() <= this.valuesInThreshold) {

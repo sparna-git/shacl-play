@@ -113,7 +113,8 @@ public class ComputeStatisticsVisitor extends DatasetAwareShaclVisitorBase imple
 		// link property partition to PropertyShape
 		outputModel.add(propertyPartition, DCTerms.conformsTo, aPropertyShape);
 
-		String propertyPath = ModelRenderingUtils.renderSparqlPropertyPath(aPropertyShape.getRequiredProperty(SHACLM.path).getObject().asResource());
+		// false to not use prefixes in the generated query
+		String propertyPath = ModelRenderingUtils.renderSparqlPropertyPath(aPropertyShape.getRequiredProperty(SHACLM.path).getObject().asResource(), false);
 		
 		if(aNodeShape.hasProperty(SHACLM.targetClass)) {
 			// count number of triples

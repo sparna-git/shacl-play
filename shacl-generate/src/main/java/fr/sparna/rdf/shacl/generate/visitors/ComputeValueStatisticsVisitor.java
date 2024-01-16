@@ -33,7 +33,8 @@ public class ComputeValueStatisticsVisitor extends DatasetAwareShaclVisitorBase 
 		if(aPropertyShape.hasProperty(SHACLM.in)) {
 			List<RDFNode> values = aPropertyShape.getProperty(SHACLM.in).getObject().as(RDFList.class).asJavaList();
 			
-			String propertyPath = ModelRenderingUtils.renderSparqlPropertyPath(aPropertyShape.getRequiredProperty(SHACLM.path).getObject().asResource());
+			// false to not use prefixes in the generated query
+			String propertyPath = ModelRenderingUtils.renderSparqlPropertyPath(aPropertyShape.getRequiredProperty(SHACLM.path).getObject().asResource(), false);
 			
 			Map<RDFNode, Integer> counts = this.dataProvider.countValues(
 					aNodeShape.getRequiredProperty(SHACLM.targetClass).getObject().asResource().getURI(),

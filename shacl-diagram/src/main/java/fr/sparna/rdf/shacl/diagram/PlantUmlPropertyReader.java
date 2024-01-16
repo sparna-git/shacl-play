@@ -141,7 +141,10 @@ public class PlantUmlPropertyReader {
 	}
 	
 	public String readShPath(Resource constraint) {
-		return ModelRenderingUtils.render(ModelReadingUtils.readObjectAsResourceOrLiteral(constraint, SH.path), true);
+		List<RDFNode> paths = ModelReadingUtils.readObjectAsResource(constraint, SH.path);
+		Resource firstResource = paths.stream().filter(p -> p.isResource()).map(p -> p.asResource()).findFirst().orElse(null);
+		// render the property path using prefixes
+		return ModelRenderingUtils.renderSparqlPropertyPath(firstResource, true);
 	}
 		
 	public String readShDatatype(Resource constraint) {

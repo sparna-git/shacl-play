@@ -40,11 +40,12 @@ public class PropertyShape {
 	}
 	
 	/**
-	 * Returns the short form of the property or the property path already shortened
+	 * Returns the display string of the path (using prefixes)
 	 * @return
 	 */
 	public String getShPathAsString() {
-		return (this.getShPath().isURIResource())?ModelRenderingUtils.render(this.getShPath(), false):ModelRenderingUtils.renderSparqlPropertyPath(this.getShPath());
+		// always ask for the rendering of the path using prefixes
+		return ModelRenderingUtils.renderSparqlPropertyPath(this.getShPath(), true);
 	}
 	
 	public String getShNameAsString(String lang) {

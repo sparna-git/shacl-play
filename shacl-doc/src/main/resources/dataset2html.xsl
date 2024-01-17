@@ -61,6 +61,7 @@
 			<entry key="LABEL_CLOSE" label="Shape fermée" />
 			<entry key="LABEL_EXAMPLE" label="Exemple : "/>
 			<entry key="LABEL_SUPERCLASSES" label="Hérite de : "/>
+			<entry key="LABEL_OR" label=" ou "/>
 			
 			<entry key="BY" label=" par " />
 		</labels>
@@ -112,6 +113,7 @@
 			<entry key="LABEL_CLOSE" label="Closed shape" />
 			<entry key="LABEL_EXAMPLE" label="Example: "/>
 			<entry key="LABEL_SUPERCLASSES" label="Inherits from: "/>
+			<entry key="LABEL_OR" label=" or "/>
 			
 			<entry key="BY" label=" by " />
 		</labels>
@@ -1120,7 +1122,7 @@
 									
 									<xsl:choose>
 										<xsl:when test="position() &lt; $length">
-											<code> or </code>
+											<code> <xsl:value-of select="$LABELS/labels/entry[@key='LABEL_OR']/@label" /> </code>
 										</xsl:when>
 									</xsl:choose>
 								</xsl:for-each>

@@ -25,8 +25,10 @@ public class PlantUmlProperty {
 	protected PlantUmlBox value_qualifiedvalueshape;
 	protected String value_qualifiedMaxMinCount;
 	protected List<String> value_inverseOf;
-	protected List<PlantUmlBox> value_shor;
+	protected List<String> value_shor;
+	protected List<String> value_shor_datatype;
 	protected String value_colorProperty;
+	
 	
 	/**
 	 * Returns the identifier of the arrow reference (a shortForm), either through an sh:node to an existing NodeShape,
@@ -51,6 +53,15 @@ public class PlantUmlProperty {
 	}
 	
 	
+	
+	public List<String> getValue_shor_datatype() {
+		return value_shor_datatype;
+	}
+	
+	public void setValue_shor_datatype(List<String> value_shor_datatype) {
+		this.value_shor_datatype = value_shor_datatype;
+	}
+
 	public String getValue_colorProperty() {
 		return value_colorProperty;
 	}
@@ -72,11 +83,11 @@ public class PlantUmlProperty {
 		this.propertyShape = propertyShape;
 	}
 
-	public List<PlantUmlBox> getValue_shor() {
+	public List<String> getValue_shor() {
 		return value_shor;
 	}
 	
-	public void setValue_shor(List<PlantUmlBox> value_shor) {
+	public void setValue_shor(List<String> value_shor) {
 		this.value_shor = value_shor;
 	}
 

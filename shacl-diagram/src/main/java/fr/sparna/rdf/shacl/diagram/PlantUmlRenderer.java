@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.apache.jena.rdf.model.Resource;
+
 public class PlantUmlRenderer {
 
 	protected boolean generateAnchorHyperlink = false;
@@ -43,7 +45,7 @@ public class PlantUmlRenderer {
 		} else if (property.getValue_qualifiedvalueshape() != null) {
 			String getCodeUML = renderAsQualifiedShapeReference(property, boxName,colorArrowProperty,collectRelationProperties); 
 			return (getCodeUML.contains("->")) ? "" : getCodeUML;
-		} else if (property.getValue_shor().size() > 0) {
+		} else if (property.getValue_shor() != null) {
 			return renderAsOr(property, boxName,colorArrowProperty, NodeShapeId);
 		} else {
 			return renderDefault(property, boxName);
@@ -234,10 +236,14 @@ public class PlantUmlRenderer {
 		output += "\n";
 
 		// now link diamond to each value in the sh:or
-		for (PlantUmlBox sDataOr : property.getValue_shor()) {
-			output += sNameDiamond + " .. " + " \""+sDataOr.getNodeShape().getModel().shortForm(sDataOr.getNodeShape().getURI())+ "\"" + "\n";
+		//for (PlantUmlBox sDataOr : property.getValue_shor()) {
+		//	output += sNameDiamond + " .. " + " \""+sDataOr.getNodeShape().getModel().shortForm(sDataOr.getNodeShape().getURI())+ "\"" + "\n";
+		//}
+		
+		for (String sDataOr : property.getValue_shor()) {
+			output += sNameDiamond + " .. " + " \""+sDataOr+ "\"" + "\n";
 		}
-
+		
 		return output;
 	}
 
@@ -336,9 +342,20 @@ public class PlantUmlRenderer {
 		
 		String output = boxName + " : "+""+labelColor+ property.getValue_path() + " ";
 		
+		// if  sh:Or value is of kind of datatype , for each property concat with or word .. eg. xsd:string or rdf:langString
+		String shOr_Datatype = "";
+		if (property.getValue_shor_datatype() != null) {
+			shOr_Datatype = property.getValue_shor_datatype().stream().map(s -> s.toString()).collect(Collectors.joining(" or ")); 
+		}
+		
 		if (property.getValue_datatype() != null) {
 			output += " : " + property.getValue_datatype() + " ";
+		}else if ((property.getValue_datatype() == null) && (shOr_Datatype != "")) {
+			output += " : " +shOr_Datatype+ " ";
 		}
+		
+		
+		
 		if (property.getValue_cardinality() != null) {
 			output += " " + property.getValue_cardinality() + " ";
 		}

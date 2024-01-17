@@ -1,5 +1,7 @@
 package fr.sparna.rdf.shacl.doc.model;
 
+import java.util.List;
+
 public class ExpectedValue {
 
 	// either linkNodeShape is populated and this is a link to a NodeShape indicated by linkNodeShapeUri...
@@ -8,13 +10,13 @@ public class ExpectedValue {
 	// ... or expectedValueLabel is populated and this is rendered as a code
 	private String expectedValueLabel;
 	// ... or the or is populated
-	private String or;
+	private List<String> or;
 	
-	public String getOr() {
+	public List<String> getOr() {
 		return or;
 	}
 
-	public void setOr(String shOr) {
+	public void setOr(List<String> shOr) {
 		this.or = shOr;
 	}
 	

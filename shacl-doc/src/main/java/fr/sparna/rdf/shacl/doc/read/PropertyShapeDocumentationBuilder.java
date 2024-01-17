@@ -1,5 +1,7 @@
 package fr.sparna.rdf.shacl.doc.read;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.jena.rdf.model.Model;
@@ -68,7 +70,8 @@ public class PropertyShapeDocumentationBuilder {
 		}
 		
 		// create a String of comma-separated short forms
-		proprieteDoc.getExpectedValue().setOr(ModelRenderingUtils.render(propertyShape.getShOr(), false));
+		//proprieteDoc.getExpectedValue().setOr(ModelRenderingUtils.render(propertyShape.getShOr(), false));
+		proprieteDoc.getExpectedValue().setOr(propertyShape.getShOr());
 		
 		return proprieteDoc;
 	}

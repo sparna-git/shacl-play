@@ -15,6 +15,8 @@ import org.topbraid.shacl.vocabulary.SH;
 
 import fr.sparna.rdf.jena.ModelReadingUtils;
 import fr.sparna.rdf.jena.ModelRenderingUtils;
+import fr.sparna.rdf.jena.shacl.ConstraintSHOrArrow;
+import fr.sparna.rdf.jena.shacl.ConstraintSHOrinBox;
 
 public class PropertyShape {
 
@@ -89,8 +91,24 @@ public class PropertyShape {
 		return result;
 	}
 
-	public List<Resource> getShOr() {
+	public List<String> getShOr() {
 		if (this.resource.hasProperty(SH.or)) {			
+			
+			ConstraintSHOrArrow shOrArrow = new ConstraintSHOrArrow(this.resource);
+			ConstraintSHOrinBox shOrDatatype = new ConstraintSHOrinBox(this.resource);
+			
+			List<String> lShOr = new ArrayList<>();
+			if (shOrArrow.getResourcefromShOr() != null) {
+				lShOr.addAll(shOrArrow.getResourcefromShOr());
+			}
+			
+			if (shOrDatatype.getResourcefromShOr() != null) {
+				lShOr.addAll(shOrDatatype.getResourcefromShOr());
+			}
+			
+			return lShOr;
+			
+			/*
 			Resource list = this.resource.getProperty(SH.or).getList().asResource();
 			List<RDFNode> rdflist = list.as(RDFList.class).asJavaList();
 
@@ -113,11 +131,12 @@ public class PropertyShape {
 				} 
 			});
 			return result;
+			*/
 		} else {
 			return null;
 		}
 	}
-
+	
 	public RDFNode getShHasValue() {
 		return Optional.ofNullable(this.resource.getProperty(SH.hasValue)).map(s -> s.getObject()).orElse(null);
 	}

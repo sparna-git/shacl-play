@@ -15,6 +15,7 @@ public class PlantUmlBox {
 	protected String packageName;	
 	protected String version;
 	protected String colorClass;
+	protected String backgroundColor;
 	protected List<Resource> diagramReferences;
 	
 	protected List<PlantUmlProperty> properties = new ArrayList<>();
@@ -35,6 +36,14 @@ public class PlantUmlBox {
 	}
 		
 	
+	public String getBackgroundColor() {
+		return backgroundColor;
+	}
+
+	public void setBackgroundColor(String backgroundColor) {
+		this.backgroundColor = backgroundColor;
+	}
+
 	public List<Resource> getDiagramReferences() {
 		return diagramReferences;
 	}

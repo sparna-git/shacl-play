@@ -58,6 +58,11 @@
 			<groupId>org.apache.jena</groupId>
 			<artifactId>jena-shacl</artifactId>
 		</dependency>
+		
+		<dependency>
+	      <groupId>org.topbraid</groupId>
+	      <artifactId>shacl</artifactId>
+	    </dependency>
 
 	</dependencies>
 </project>

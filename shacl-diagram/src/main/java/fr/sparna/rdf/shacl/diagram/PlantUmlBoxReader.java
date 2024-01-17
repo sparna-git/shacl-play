@@ -24,6 +24,7 @@ public class PlantUmlBoxReader {
 		box.setPackageName(this.readPackageName(nodeShape));
 		box.setNametargetclass(this.readNametargetclass(nodeShape));
 		box.setColorClass(this.readColor(nodeShape));
+		box.setBackgroundColor(this.readBackgroundColor(nodeShape));
 		box.setDiagramReferences(this.readDiagramReferences(nodeShape, allNodeShapes));
 		return box;
 	}
@@ -51,7 +52,20 @@ public class PlantUmlBoxReader {
 			e.printStackTrace();
 		}
 		return value;
-	}	
+	}
+	
+	
+	public String readBackgroundColor(Resource nodeShape) {	
+		String value = null;
+		try {
+			if(nodeShape.hasProperty(nodeShape.getModel().createProperty(SHACL_PLAY.BACKGROUNDCOLOR))) {
+				value= nodeShape.getProperty(nodeShape.getModel().createProperty(SHACL_PLAY.BACKGROUNDCOLOR)).getLiteral().getString();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return value;
+	}
 	
 	public String readLabel(Resource nodeShape) {
 		return ModelRenderingUtils.render(nodeShape, true);

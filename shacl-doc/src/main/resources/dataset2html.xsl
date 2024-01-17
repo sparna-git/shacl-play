@@ -1102,9 +1102,8 @@
 					<xsl:otherwise>
 						<xsl:choose>
 							<xsl:when test="string-length(expectedValue/or) > 0">
-								<xsl:variable name="length"
-									select="count(tokenize(expectedValue/or,','))" />
-								<xsl:for-each select="tokenize(expectedValue/or,',')">
+								<xsl:variable name="length" select="count(expectedValue/or/or)" />
+								<xsl:for-each select="expectedValue/or/or">
 								<xsl:variable name="current" select="normalize-space(.)" />
 									<xsl:choose>
 										<xsl:when test="starts-with($current,'xsd:') or starts-with($current,'sh:') or starts-with($current,'rdf:')">

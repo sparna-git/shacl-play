@@ -2,6 +2,7 @@ package fr.sparna.rdf.shacl.diagram;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.RDFList;
@@ -17,6 +18,8 @@ import org.topbraid.shacl.vocabulary.SH;
 
 import fr.sparna.rdf.jena.ModelReadingUtils;
 import fr.sparna.rdf.jena.ModelRenderingUtils;
+import fr.sparna.rdf.jena.shacl.ConstraintSHOrArrow;
+import fr.sparna.rdf.jena.shacl.ConstraintSHOrinBox;
 import fr.sparna.rdf.shacl.SHACL_PLAY;
 
 
@@ -53,6 +56,7 @@ public class PlantUmlPropertyReader {
 		p.setValue_qualifiedMaxMinCount(this.readShQualifiedMinCountQualifiedMaxCount(constraint));
 		p.setValue_inverseOf(this.readOwlInverseOf(owlGraph, p.getValue_path()));
 		p.setValue_shor(this.readShOrConstraint(constraint));
+		p.setValue_shor_datatype(this.readShOrDataType(constraint));
 		p.setValue_colorProperty(this.readColor(constraint));
 		
 		return p;
@@ -88,11 +92,18 @@ public class PlantUmlPropertyReader {
 		return inverBox;
 	}
 	
-	public List<PlantUmlBox> readShOrConstraint (Resource constraint) {
-		List<PlantUmlBox> orBoxes = new ArrayList<>();
-		
+	public List<String> readShOrConstraint (Resource constraint) {
 		// 1. Lire la valeur de sh:or
 		if (constraint.hasProperty(SH.or)) {
+			
+			
+			ConstraintSHOrArrow shOrArrow = new ConstraintSHOrArrow(constraint);
+			if (shOrArrow.getResourcefromShOr() != null) {
+				return shOrArrow.getResourcefromShOr();
+			}
+			
+			/*
+			List<String> shOrArrow = new ArrayList<>();
 			Resource theOr = constraint.getProperty(SH.or).getResource();
 			// now read all sh:node or sh:class inside
 			List<RDFNode> rdfList = theOr.as( RDFList.class ).asJavaList();
@@ -105,6 +116,14 @@ public class PlantUmlPropertyReader {
 					} else if (node.asResource().hasProperty(SH.class_)) {
 						value = node.asResource().getProperty(SH.class_).getResource();
 					}
+					
+					// 17012024	- the process update, currenty is store in a list of string type
+					if (value != null) {
+						String resolvedClassReference = this.resolveShClassReference(constraint.getModel(), value);
+						shOrArrow.add(resolvedClassReference);
+					}
+					
+					
 					
 					if(value != null) {
 						boolean flagNodeShape = false;
@@ -132,13 +151,61 @@ public class PlantUmlPropertyReader {
 								}
 							}
 						}	
-					}
+					} 
 				}				
 			}
+			if (shOrArrow.size() > 0) {
+				return shOrArrow;
+			}
+			*/
 		}
 		
-		return orBoxes;
+		return null;
 	}
+	
+	
+	public List<String> readShOrDataType(Resource constraint){
+		
+		// 1. Lire la valeur de sh:or
+		if (constraint.hasProperty(SH.or)) {
+			
+			ConstraintSHOrinBox shOrBox = new ConstraintSHOrinBox(constraint);
+			if(shOrBox.getResourcefromShOr() != null) {
+				return shOrBox.getResourcefromShOr();
+			}
+			
+			
+			/*
+			List<String> shOrinBox = new ArrayList<>();
+			Resource theOr = constraint.getProperty(SH.or).getResource();
+			// now read all sh:node or sh:class inside
+			List<RDFNode> rdfList = theOr.as( RDFList.class ).asJavaList();
+			for (RDFNode node : rdfList) {
+				if(node.canAs(Resource.class)) {
+					Resource value = null;
+					
+					if (node.asResource().hasProperty(SH.datatype)) {
+						value = node.asResource().getProperty(SH.datatype).getResource();
+					} else if (node.asResource().hasProperty(SH.nodeKind)) {
+						value = node.asResource().getProperty(SH.nodeKind).getResource();
+					}
+					
+					// 17012024	- the process update, currenty is store in a list of string type
+					if (value != null) {
+						String resolvedClassReference = this.resolveShClassReference(constraint.getModel(), value);
+						shOrinBox.add(resolvedClassReference);
+					}
+				}
+			}
+			if (shOrinBox.size() > 0) {
+				return shOrinBox;
+			}
+			*/
+		}
+		
+		return null;
+	}
+	
 	
 	public String readShPath(Resource constraint) {
 		List<RDFNode> paths = ModelReadingUtils.readObjectAsResource(constraint, SH.path);

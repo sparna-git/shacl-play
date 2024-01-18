@@ -28,6 +28,7 @@ public class PlantUmlProperty {
 	protected List<String> value_shor;
 	protected List<String> value_shor_datatype;
 	protected String value_colorProperty;
+	protected String value_colorBackGround;
 	
 	
 	/**
@@ -53,6 +54,15 @@ public class PlantUmlProperty {
 	}
 	
 	
+	
+	
+	public String getValue_colorBackGround() {
+		return value_colorBackGround;
+	}
+	
+	public void setValue_colorBackGround(String value_colorBackGround) {
+		this.value_colorBackGround = value_colorBackGround;
+	}
 	
 	public List<String> getValue_shor_datatype() {
 		return value_shor_datatype;

@@ -7,8 +7,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.apache.jena.rdf.model.Resource;
-
 public class PlantUmlRenderer {
 
 	protected boolean generateAnchorHyperlink = false;
@@ -424,10 +422,21 @@ public class PlantUmlRenderer {
 		// "+"<"+box.getNametargetclass()+">":"");
 		String declaration = "";
 		String color = "";
-		if(box.getColorClass() != null) {
-			color = "#back:"+box.getColorClass()+";";
+		String colorBackGround = "";
+		if (box.getBackgroundColor() != null) {
+			colorBackGround = "#back:"+box.getBackgroundColor();			
 		}else {
-			color = "";
+			colorBackGround = "";
+		}
+		
+		String labelColorClass = "";
+		if(box.getColorClass() != null) {
+			labelColorClass = ";text:"+box.getColorClass();
+		} else {
+			if (box.getBackgroundColor() != null) {
+				// When the shacl-play:color is not configurate in the nodeShape but shacl-play:background-color exist then get text color white default.
+				labelColorClass = ";text:white";
+			}
 		}
 		
 		if (box.getProperties().size() > 0 || box.getSuperClasses().size() > 0) {
@@ -439,7 +448,7 @@ public class PlantUmlRenderer {
 			}
 
 			declaration += (this.generateAnchorHyperlink) ? " [[#" + box.getLabel() + "]]" : "";
-			declaration += " " + color + "\n";
+			declaration += " " + colorBackGround+labelColorClass + "\n";
 			
 			if (box.getSuperClasses() != null) {
 				for (PlantUmlBox aSuperClass : box.getSuperClasses()) {

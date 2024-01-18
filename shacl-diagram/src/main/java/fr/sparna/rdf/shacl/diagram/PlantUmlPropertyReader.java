@@ -2,7 +2,7 @@ package fr.sparna.rdf.shacl.diagram;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
+import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.RDFList;
@@ -18,8 +18,7 @@ import org.topbraid.shacl.vocabulary.SH;
 
 import fr.sparna.rdf.jena.ModelReadingUtils;
 import fr.sparna.rdf.jena.ModelRenderingUtils;
-import fr.sparna.rdf.jena.shacl.ConstraintSHOrArrow;
-import fr.sparna.rdf.jena.shacl.ConstraintSHOrinBox;
+import fr.sparna.rdf.jena.shacl.ShOrReadingUtils;
 import fr.sparna.rdf.shacl.SHACL_PLAY;
 
 
@@ -93,71 +92,12 @@ public class PlantUmlPropertyReader {
 	}
 	
 	public List<String> readShOrConstraint (Resource constraint) {
-		// 1. Lire la valeur de sh:or
-		if (constraint.hasProperty(SH.or)) {
-			
-			
-			ConstraintSHOrArrow shOrArrow = new ConstraintSHOrArrow(constraint);
-			if (shOrArrow.getResourcefromShOr() != null) {
-				return shOrArrow.getResourcefromShOr();
-			}
-			
-			/*
-			List<String> shOrArrow = new ArrayList<>();
-			Resource theOr = constraint.getProperty(SH.or).getResource();
-			// now read all sh:node or sh:class inside
-			List<RDFNode> rdfList = theOr.as( RDFList.class ).asJavaList();
-			for (RDFNode node : rdfList) {
-				if(node.canAs(Resource.class)) {
-					Resource value = null;
-					
-					if (node.asResource().hasProperty(SH.node)) {
-						value = node.asResource().getProperty(SH.node).getResource();
-					} else if (node.asResource().hasProperty(SH.class_)) {
-						value = node.asResource().getProperty(SH.class_).getResource();
-					}
-					
-					// 17012024	- the process update, currenty is store in a list of string type
-					if (value != null) {
-						String resolvedClassReference = this.resolveShClassReference(constraint.getModel(), value);
-						shOrArrow.add(resolvedClassReference);
-					}
-					
-					
-					
-					if(value != null) {
-						boolean flagNodeShape = false;
-						String shortForm = value.getModel().shortForm(value.getURI());
-						
-						// 2. Trouver le PlantUmlBox qui a ce nom		
-						for (PlantUmlBox plantUmlBox : allBoxes) {
-							if(plantUmlBox.getLabel().equals(shortForm)) {
-								orBoxes.add(plantUmlBox);
-								break;
-							}
-						}
-						
-						// in case of sh:class, look for NodeShape with this class as targetClass
-						String resolvedClassReference = this.resolveShClassReference(constraint.getModel(), value);
-						// Statement, if shape exists in list of orBoxes, is not necessary save again
-						flagNodeShape = orBoxes.stream().filter( v -> v.getLabel().equals(resolvedClassReference)).findFirst().isPresent(); 
-						if (!flagNodeShape) {
-							if(resolvedClassReference != null) {
-								for (PlantUmlBox plantUmlBox : allBoxes) {
-									if(plantUmlBox.getLabel().equals(constraint.getModel().shortForm(resolvedClassReference))) {
-										orBoxes.add(plantUmlBox);
-										break;
-									}
-								}
-							}
-						}	
-					} 
-				}				
-			}
-			if (shOrArrow.size() > 0) {
-				return shOrArrow;
-			}
-			*/
+		if (constraint.hasProperty(SH.or)) {			
+			List<Resource> values = ShOrReadingUtils.readShClassAndShNodeInShOr(constraint.getProperty(SH.or).getList());
+			System.out.println("*** "+values);
+			if(values.size() > 0) {
+				return values.stream().map(r -> { return (r.isURIResource())?r.getModel().shortForm(r.getURI()):r.toString();}).collect(Collectors.toList());
+			}			
 		}
 		
 		return null;
@@ -165,42 +105,11 @@ public class PlantUmlPropertyReader {
 	
 	
 	public List<String> readShOrDataType(Resource constraint){
-		
-		// 1. Lire la valeur de sh:or
-		if (constraint.hasProperty(SH.or)) {
-			
-			ConstraintSHOrinBox shOrBox = new ConstraintSHOrinBox(constraint);
-			if(shOrBox.getResourcefromShOr() != null) {
-				return shOrBox.getResourcefromShOr();
-			}
-			
-			
-			/*
-			List<String> shOrinBox = new ArrayList<>();
-			Resource theOr = constraint.getProperty(SH.or).getResource();
-			// now read all sh:node or sh:class inside
-			List<RDFNode> rdfList = theOr.as( RDFList.class ).asJavaList();
-			for (RDFNode node : rdfList) {
-				if(node.canAs(Resource.class)) {
-					Resource value = null;
-					
-					if (node.asResource().hasProperty(SH.datatype)) {
-						value = node.asResource().getProperty(SH.datatype).getResource();
-					} else if (node.asResource().hasProperty(SH.nodeKind)) {
-						value = node.asResource().getProperty(SH.nodeKind).getResource();
-					}
-					
-					// 17012024	- the process update, currenty is store in a list of string type
-					if (value != null) {
-						String resolvedClassReference = this.resolveShClassReference(constraint.getModel(), value);
-						shOrinBox.add(resolvedClassReference);
-					}
-				}
-			}
-			if (shOrinBox.size() > 0) {
-				return shOrinBox;
-			}
-			*/
+		if (constraint.hasProperty(SH.or)) {			
+			List<Resource> values = ShOrReadingUtils.readShDatatypeAndShNodeKindInShOr(constraint.getProperty(SH.or).getList());
+			if(values.size() > 0) {
+				return values.stream().map(r -> { return (r.isURIResource())?r.getModel().shortForm(r.getURI()):r.toString();}).collect(Collectors.toList());
+			}			
 		}
 		
 		return null;

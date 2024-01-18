@@ -1,8 +1,8 @@
 package fr.sparna.rdf.shacl.doc;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
@@ -15,8 +15,7 @@ import org.topbraid.shacl.vocabulary.SH;
 
 import fr.sparna.rdf.jena.ModelReadingUtils;
 import fr.sparna.rdf.jena.ModelRenderingUtils;
-import fr.sparna.rdf.jena.shacl.ConstraintSHOrArrow;
-import fr.sparna.rdf.jena.shacl.ConstraintSHOrinBox;
+import fr.sparna.rdf.jena.shacl.ShOrReadingUtils;
 
 public class PropertyShape {
 
@@ -92,49 +91,15 @@ public class PropertyShape {
 	}
 
 	public List<String> getShOr() {
-		if (this.resource.hasProperty(SH.or)) {			
+		if (this.resource.hasProperty(SH.or)) {
 			
-			ConstraintSHOrArrow shOrArrow = new ConstraintSHOrArrow(this.resource);
-			ConstraintSHOrinBox shOrDatatype = new ConstraintSHOrinBox(this.resource);
-			
-			List<String> lShOr = new ArrayList<>();
-			if (shOrArrow.getResourcefromShOr() != null) {
-				lShOr.addAll(shOrArrow.getResourcefromShOr());
-			}
-			
-			if (shOrDatatype.getResourcefromShOr() != null) {
-				lShOr.addAll(shOrDatatype.getResourcefromShOr());
-			}
-			
-			return lShOr;
-			
-			/*
-			Resource list = this.resource.getProperty(SH.or).getList().asResource();
-			List<RDFNode> rdflist = list.as(RDFList.class).asJavaList();
-
-			List<Resource> result = new ArrayList<Resource>();
-			rdflist.stream().forEach(item -> {
-				if(item.isResource()) {
-					if(item.asResource().hasProperty(SH.node)) {
-						result.add(item.asResource().getPropertyResourceValue(SH.node));
-					} else if(item.asResource().hasProperty(SH.class_)) {
-						result.add(item.asResource().getPropertyResourceValue(SH.class_));
-					} else if(item.asResource().hasProperty(SH.datatype)) {
-						result.add(item.asResource().getPropertyResourceValue(SH.datatype));
-					} else if(item.asResource().hasProperty(SH.or)) {
-						// actually, this would be a NodeShape theoretically...
-						PropertyShape recursiveShape = new PropertyShape(item.asResource());
-						result.addAll(recursiveShape.getShOr());
-					} else if(item.asResource().hasProperty(SH.nodeKind)) {
-						result.add(item.asResource().getPropertyResourceValue(SH.nodeKind));
-					} 
-				} 
-			});
-			return result;
-			*/
-		} else {
-			return null;
+			List<Resource> values = ShOrReadingUtils.readShClassAndShNodeAndShDatatypeAndShNodeKindInShOr(this.resource.getProperty(SH.or).getList());
+			if(values.size() > 0) {
+				return values.stream().map(r -> { return (r.isURIResource())?r.getModel().shortForm(r.getURI()):r.toString();}).collect(Collectors.toList());
+			}			
 		}
+		
+		return null;
 	}
 	
 	public RDFNode getShHasValue() {

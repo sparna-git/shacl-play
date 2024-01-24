@@ -400,6 +400,44 @@
 						color: #1e1e1f;
 						line-height: 1.2em;
 					}
+					
+					/* Tooltip section */
+					
+					.tooltip-sh {
+						position: relative;
+						display: inline-block;
+						border-bottom: 1px dotted darkgray;
+					}
+					
+					.tooltip-sh .tooltip-query {
+					
+						visibility: hidden;
+						width: auto;
+						text-align: left;
+						border-radius: 6px;
+						padding: 5px 0;
+						fond-size: 0.875em;
+						
+						/* Position the tooltip */
+						position: absolute;
+						z-index: 1;	
+						/* Box Tooltip */
+						background-color: #D3D3D3;
+						-webkit-box-shadow: 0px 0px 3px 1px rgba(50, 50, 50, 0.4);
+						-moz-box-shadow: 0px 0px 3px 1px rgba(50, 50, 50, 0.4);
+					  	box-shadow: 0px 0px 3px 1px rgba(50, 50, 50, 0.4);					
+					  	-webkit-border-radius: 5px;
+					  -moz-border-radius: 5px;
+
+					  padding: 7px 12px;
+					  position: absolute;
+
+					  word-wrap: break-word;
+					}
+					
+					.tooltip-sh:hover .tooltip-query {
+						visibility: visible;
+					}		
 							
 					<xsl:choose>
 						<xsl:when test="$MODE = 'PDF'">
@@ -471,7 +509,7 @@
 				
 				<!-- Chart Library -->
 				<script src="https://cdn.jsdelivr.net/npm/chart.js">//</script>
-												
+							
 			</head>
 			<body>
 				
@@ -547,6 +585,15 @@
                		anchors.options.placement = 'left';
 					anchors.add();		
 				</script>
+				
+				<!-- Format a sparql code -->
+				<script type="text/javascript">
+					
+					const listCodeSparql = document.querySelectorAll("code#SparqlQuery")
+	
+					listCodeSparql.forEach((t) => t.innerHTML = t.innerHTML.replace("?result","?result &lt;br&gt;").replace("{","&lt;br&gt;{&lt;br&gt;").replace(";","; &lt;br&gt;").replace("}","&lt;br&gt;}") )
+	
+				</script>	
 					
 			</body>
 		</html>
@@ -1161,18 +1208,20 @@
 					<xsl:value-of select="cardinalite" />
 				</div>								
 			</td>
-			<!-- Description properties 
-			<td class="sp_table_propertyshapes_col_description">
-				<xsl:value-of select="description" />
-			</td>	
-			-->
 			<!-- Number of triples -->
 			<td>				
 				<xsl:value-of select="triples" />
 			</td>
 			<!-- Distinct objects -->
 			<td>
-				<xsl:value-of select="distinctObjects" />
+				<xsl:variable name="sparqlQuery" select="sparqlQueryProperty"/>
+				<div class="tooltip-sh"><xsl:value-of select="distinctObjects" />
+					<span class="tooltip-query">					
+						<code id="SparqlQuery">
+							<xsl:value-of select="$sparqlQuery"/>
+						</code>
+				</span>
+				</div>
 			</td>
 		</xsl:element>
 		
@@ -1249,5 +1298,6 @@
 	<!-- don't print what was not matched -->
 	<xsl:template match="text()"></xsl:template>
 
+	
 
 </xsl:stylesheet>

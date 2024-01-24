@@ -25,11 +25,18 @@ public class PropertyShapeDocumentation {
 	private String color;
 	private int triples;
 	private int distinctObjects;
+	
+	private String sparqlQueryProperty;
 
 	
-	
-	
-	
+	public String getSparqlQueryProperty() {
+		return sparqlQueryProperty;
+	}
+
+	public void setSparqlQueryProperty(String sparqlQueryProperty) {
+		this.sparqlQueryProperty = sparqlQueryProperty;
+	}
+
 	public ExpectedValue getExpectedValue() {
 		return expectedValue;
 	}

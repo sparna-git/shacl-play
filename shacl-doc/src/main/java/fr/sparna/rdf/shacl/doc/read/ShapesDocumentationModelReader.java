@@ -82,6 +82,8 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 		visit.visit(new EnrichDocumentationWithStatisticsVisitor(shaclGraph, shapesDocumentation));
 		visit.visit(new EnrichDocumentationWithChartsVisitor(shaclGraph, shapesDocumentation, lang));
 		
+		// Generate SparqlQuery for each property
+		visit.visit(new EnrichDocumentationWithQuerySparqlVisitor(shaclGraph, shapesDocumentation));
 		
 		return shapesDocumentation;
 	}

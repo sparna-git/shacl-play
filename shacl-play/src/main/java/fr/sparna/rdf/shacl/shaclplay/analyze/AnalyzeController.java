@@ -25,7 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.openhtmltopdf.pdfboxout.PdfRendererBuilder;
 
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentation;
-import fr.sparna.rdf.shacl.doc.read.DatasetDocumentationModelReader;
+import fr.sparna.rdf.shacl.doc.read.ShapesDocumentationModelReader;
 import fr.sparna.rdf.shacl.doc.write.ShapesDocumentationJacksonXsltWriter;
 import fr.sparna.rdf.shacl.doc.write.ShapesDocumentationWriterIfc;
 import fr.sparna.rdf.shacl.doc.write.ShapesDocumentationWriterIfc.MODE;
@@ -193,14 +193,12 @@ public class AnalyzeController {
 			
 			if(!async) {
 				// generate the documentation
-				DatasetDocumentationModelReader reader = new DatasetDocumentationModelReader();
-				ShapesDocumentation sd = reader.generateDatasetDocumentation(
+				ShapesDocumentationModelReader reader = new ShapesDocumentationModelReader(false, null);
+				ShapesDocumentation sd = reader.readShapesDocumentation(
+						// shapes + statistics
+						shapes,
 						// owl ontology
 						ModelFactory.createDefaultModel(),
-						// statistics
-						shapes,
-						// shapes
-						shapes,
 						// language
 						language						
 				);
@@ -315,7 +313,7 @@ public class AnalyzeController {
 			response.setHeader("Content-Disposition", "inline; filename=\""+filename+".html\"");
 			ShapesDocumentationWriterIfc writer = new ShapesDocumentationJacksonXsltWriter();
 			response.setContentType("text/html");
-			writer.writeDatasetDoc(
+			writer.writeDoc(
 					sd,  
 					language,	
 					response.getOutputStream(),
@@ -325,7 +323,7 @@ public class AnalyzeController {
 			response.setHeader("Content-Disposition", "inline; filename=\""+filename+".xml\"");
 			ShapesDocumentationWriterIfc writer = new ShapesDocumentationXmlWriter();
 			response.setContentType("application/xml");
-			writer.writeDatasetDoc(
+			writer.writeDoc(
 					sd,
 					language,	
 					response.getOutputStream(),
@@ -336,7 +334,7 @@ public class AnalyzeController {
 			ShapesDocumentationWriterIfc writer = new ShapesDocumentationJacksonXsltWriter();
 			// 1. write Documentation structure to XML
 			ByteArrayOutputStream htmlBytes = new ByteArrayOutputStream();
-			writer.writeDatasetDoc(
+			writer.writeDoc(
 					sd,
 					language,	
 					response.getOutputStream(),
@@ -414,14 +412,12 @@ public class AnalyzeController {
 		String language = (String)request.getSession().getAttribute("language");
 		
 		// generate the documentation
-		DatasetDocumentationModelReader reader = new DatasetDocumentationModelReader();
-		ShapesDocumentation sd = reader.generateDatasetDocumentation(
-				// owl ontology
-				ModelFactory.createDefaultModel(),
-				// statistics
-				generatedShapes,
+		ShapesDocumentationModelReader reader = new ShapesDocumentationModelReader(false, null);
+		ShapesDocumentation sd = reader.readShapesDocumentation(
 				// shapes
 				generatedShapes,
+				// owl ontology
+				ModelFactory.createDefaultModel(),
 				// language
 				language						
 		);

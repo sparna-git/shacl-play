@@ -2,6 +2,9 @@
 <xsl:stylesheet version="2.0"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 	
+	
+	<xsl:import href="dataset2html.xsl"/>
+	
 	<!-- Language parameter to the XSLT -->
 	<xsl:param name="LANG"/>
 	
@@ -22,6 +25,8 @@
 			<entry key="COLUMN_EXPECTED_VALUE" label="Valeur attendue" />
 			<entry key="COLUMN_CARD" label="Card." />
 			<entry key="COLUMN_DESCRIPTION" label="Description" />
+			<entry key="COLUMN_NUMBEROCCURRENCES" label="Triplets" />
+			<entry key="COLUMN_VALUESDISTINCTS" label="Valeurs" />
 
 			<entry key="PREFIXES.TITLE" label="Espaces de nom" />
 			<entry key="PREFIXES.COLUMN.PREFIX" label="Préfixe" />
@@ -71,6 +76,8 @@
 			<entry key="COLUMN_EXPECTED_VALUE" label="Expected value" />
 			<entry key="COLUMN_CARD" label="Card." />
 			<entry key="COLUMN_DESCRIPTION" label="Description" />
+			<entry key="COLUMN_NUMBEROCCURRENCES" label="Triples" />
+			<entry key="COLUMN_VALUESDISTINCTS" label="Values" />
 
 			<entry key="PREFIXES.TITLE" label="Namespaces" />
 			<entry key="PREFIXES.COLUMN.PREFIX" label="Prefix" />
@@ -113,7 +120,7 @@
 
 	<!-- Select labels based on language param -->
 	<xsl:variable name="LABELS" select="if($LANG = 'fr') then $LABELS_FR else $LABELS_EN" />
-
+	<xsl:variable name="flagDataset" select="ShapesDocumentation/datasetDocumentation"/>
 
 	<!-- Principal -->
 	<xsl:template match="/">
@@ -403,18 +410,18 @@
 				<div class="sp_container_principal container pt-4">
 					
 			        <xsl:choose>
-			            	<xsl:when test="string-length(imgLogo) &gt; 0">
-			            		<table style="width:100%">
-				            		<tr>
-				            			<td width="20%"><img src="{imgLogo}"/></td>
-				            			<td width="80%"><h1 class="mb-4 sp_section_title_header"><xsl:value-of select="title" /></h1></td>		
-				            		</tr>	
-			            		</table>
-			            	</xsl:when>
-			            	<xsl:otherwise>
-			            			<h1 class="mb-4 sp_section_title_header"><xsl:value-of select="title" /></h1>
-			            	</xsl:otherwise>
-			            </xsl:choose>			            
+		            	<xsl:when test="string-length(imgLogo) &gt; 0">
+		            		<table style="width:100%">
+			            		<tr>
+			            			<td width="20%"><img src="{imgLogo}"/></td>
+			            			<td width="80%"><h1 class="mb-4 sp_section_title_header"><xsl:value-of select="title" /></h1></td>		
+			            		</tr>	
+		            		</table>
+		            	</xsl:when>
+		            	<xsl:otherwise>
+		            			<h1 class="mb-4 sp_section_title_header"><xsl:value-of select="title" /></h1>
+		            	</xsl:otherwise>
+		            </xsl:choose>			            
 			         
 					<div>
 						<xsl:apply-templates select="datecreated" />
@@ -470,7 +477,30 @@
 	                  };
                		anchors.options.placement = 'left';
 					anchors.add();		
-				</script>				
+				</script>
+				
+				
+				<script type="text/javascript">					
+					const listCodeSparql = document.querySelectorAll("span#sparqlquery");
+					listCodeSparql.forEach((t) => t.innerHTML = t.innerHTML.replace("?result","?result &lt;br&gt;").replace("{","&lt;br&gt;{&lt;br&gt;").replace(";","; &lt;br&gt;").replace("}","&lt;br&gt;}").replace("SELECT","&lt;span style=\"color: blue;\"&gt;&lt;strong&gt;"+'SELECT'+"&lt;/strong&gt;&lt;/span&gt;").replace("WHERE","&lt;span style=\"color: blue;\"&gt;&lt;strong>WHERE&lt;/strong&gt;&lt;/span&gt;").replace("{","&lt;span style=\"color: #FF5733;\"&gt;&lt;strong&gt;{&lt;/strong&gt;&lt;/span&gt;").replace("}","&lt;span style=\"color: #FF5733;\"&gt;&lt;strong>}&lt;/strong&gt;&lt;/span&gt;") );
+				</script>
+
+				<script src="https://unpkg.com/@popperjs/core@2">//</script>
+    			<script src="https://unpkg.com/tippy.js@6">//</script>
+				<script type="text/javascript">
+					
+					// Instance 
+					tippy("div#sparql",{
+						content(reference) {
+							return reference.children.sparqlquery.innerHTML;
+						},
+						allowHTML: true,
+					});
+
+
+				</script>
+				
+						
 			</body>
 		</html>
 	</xsl:template>
@@ -506,13 +536,17 @@
 					</a>
 					<ul role="list" class="ul_type_none sp_list_toc_l2">
 						<!-- Section -->
-						<xsl:for-each select="sections/section">			
+						
+						<xsl:for-each select="sections/section">
 							<li>
 								<a href="{concat('#',sectionId)}">
-								<xsl:value-of select="title" />
+									<xsl:value-of select="title" />
+									<!-- Add indicator of number of target  -->
+									<xsl:apply-templates select="./numberOfTargets" mode="numberOfTargets_text"/>
 								</a>
 							</li>
 						</xsl:for-each>
+												
 					</ul>
 				</li>
 				<!-- Release notes -->
@@ -783,7 +817,7 @@
 		<h2 id="documentation" class="sp_section_subtitle">
 			<xsl:value-of select="$LABELS/labels/entry[@key='DOCUMENTATION.TITLE']/@label" />
 		</h2>
-		<xsl:apply-templates select="section" />
+		<xsl:apply-templates select="section" />		
 	</xsl:template>
 	
 	<xsl:template match="section">
@@ -791,12 +825,22 @@
 			<div class="col">
 				<section id="{sectionId}">
 					<div class="sp_section_title_table_wrapper">
-						<xsl:apply-templates select="title" />
+					
+						<h3 class="sp_section_title_table">
+							<xsl:value-of select="title" /><xsl:apply-templates select="numberOfTargets"/>
+						</h3>
 						
 						<xsl:if test="subtitleUri">
 							<code class="sp_section_uri"><xsl:value-of select="subtitleUri" /></code>
 						</xsl:if>
+					
 					</div>
+					
+					<!-- Messages -->
+					<xsl:if test="$ flagDataset">
+						<xsl:apply-templates select="messages" />
+					</xsl:if>
+					
 					<xsl:if test="description != ''">
 						<p>
 							<!--  disable output escaping so that HTML is preserved -->
@@ -858,61 +902,81 @@
 									<code><xsl:value-of select="skosExample"/></code>
 								</li>
 							</xsl:if>
+							
+							<!-- for dataset -->
+							<xsl:apply-templates select="MessageOfValidate"/>
 						</ul>
 					</xsl:if>
-					<xsl:if test="sparqlTarget">
-					<xsl:value-of select="$LABELS/labels/entry[@key='LABEL_TARGETCLASS']/@label" /><br/>
-					<code><pre>
-<xsl:value-of select="sparqlTarget" />					
-					</pre></code>
+					
+					<xsl:if test="sparqlTarget">					
+						<xsl:value-of select="$LABELS/labels/entry[@key='LABEL_TARGETCLASS']/@label" />
+						<br/>
+						<code>
+							<pre>
+								<xsl:value-of select="sparqlTarget" />					
+							</pre>
+						</code>
 					</xsl:if>
-					<xsl:if test="count(properties/property)>0">
-						<table class="sp_table_propertyshapes table-striped table-responsive">
-							<thead>
-								<tr>
-									<th>
-										<xsl:value-of
-											select="$LABELS/labels/entry[@key='COLUMN_PROPERTY']/@label" />
-									</th>
-									<th >
-										<xsl:value-of
-											select="$LABELS/labels/entry[@key='COLUMN_URI']/@label" />
-									</th>
-									<th>
-										<xsl:value-of
-											select="$LABELS/labels/entry[@key='COLUMN_EXPECTED_VALUE']/@label" />
-									</th>
-									<th>
-										<xsl:value-of
-											select="$LABELS/labels/entry[@key='COLUMN_CARD']/@label" />
-									</th>
-									<th class="sp_description_column">
-										<xsl:value-of
-											select="$LABELS/labels/entry[@key='COLUMN_DESCRIPTION']/@label" />
-									</th>
-								</tr>
-							</thead>
-							<tbody>
-								<xsl:apply-templates />
-							</tbody>
-						</table>
-					</xsl:if>
+					
+					<!-- Properties table -->
+					<xsl:apply-templates select="properties" />
+					
+					<!-- Section for Pie Chart -->
+					<xsl:apply-templates select="charts" />
+										
 				</section>
 			</div>
 		</div>
 		<br/>
 	</xsl:template>
 	
-	<xsl:template match="section/title">
-		<h3 class="sp_section_title_table">
-			<xsl:value-of select="." />
-		</h3>
-	</xsl:template>
-
 	<!-- Properties -->
-
 	<xsl:template match="properties">
-		<xsl:apply-templates />
+		<xsl:if test="count(property)>0">
+			<table class="sp_table_propertyshapes table-striped table-responsive">
+				<thead>
+					<tr>
+						<th>
+							<xsl:value-of
+								select="$LABELS/labels/entry[@key='COLUMN_PROPERTY']/@label" />
+						</th>
+						<th >
+							<xsl:value-of
+								select="$LABELS/labels/entry[@key='COLUMN_URI']/@label" />
+						</th>
+						<th>
+							<xsl:value-of
+								select="$LABELS/labels/entry[@key='COLUMN_EXPECTED_VALUE']/@label" />
+						</th>
+						<th>
+							<xsl:value-of
+								select="$LABELS/labels/entry[@key='COLUMN_CARD']/@label" />
+						</th>
+						<xsl:choose>
+							<xsl:when test="$flagDataset = 'false'">
+								<th class="sp_description_column">
+									<xsl:value-of
+										select="$LABELS/labels/entry[@key='COLUMN_DESCRIPTION']/@label" />
+								</th>								
+							</xsl:when>
+							<xsl:otherwise>
+								<th>
+									<xsl:value-of
+										select="$LABELS/labels/entry[@key='COLUMN_NUMBEROCCURRENCES']/@label" />											
+								</th>
+								<th>
+									<xsl:value-of
+										select="$LABELS/labels/entry[@key='COLUMN_VALUESDISTINCTS']/@label" />											
+								</th>
+							</xsl:otherwise>
+						</xsl:choose>			
+					</tr>
+				</thead>
+				<tbody>
+					<xsl:apply-templates select="property" />
+				</tbody>
+			</table>
+		</xsl:if><!-- end properties table -->
 	</xsl:template>
 
 	<xsl:template match="property">
@@ -1007,11 +1071,32 @@
 					<xsl:value-of select="cardinalite" />
 				</div>								
 			</td>
-			<!-- Description properties -->
-			<td class="sp_table_propertyshapes_col_description">
-				<xsl:value-of select="description" />
-				
-			</td>
+			
+			<xsl:choose>
+				<xsl:when test="$flagDataset = 'false'">
+					<!-- Description properties -->
+					<td class="sp_table_propertyshapes_col_description">
+						<xsl:value-of select="description" />
+					</td>				
+				</xsl:when>
+				<xsl:otherwise>					
+					<!-- Number of triples -->
+					<td>				
+						<xsl:value-of select="triples" />
+					</td>
+					<!-- Distinct objects -->
+					<td>
+						<div id="sparql">
+							<xsl:value-of select="distinctObjects" />
+							<xsl:if test="string-length(sparqlQueryProperty) &gt; 0">
+								<span id="sparqlquery" style="display: none;">
+									<xsl:value-of select="sparqlQueryProperty"/>
+								</span>
+							</xsl:if>
+						</div>
+					</td>					
+				</xsl:otherwise>
+			</xsl:choose>
 		</tr>
 	</xsl:template>
 	

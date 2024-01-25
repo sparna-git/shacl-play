@@ -32,32 +32,8 @@ import fr.sparna.rdf.shacl.doc.write.ShapesDocumentationWriterIfc.MODE;
 
 public class ShapesDocumentationJacksonXsltWriter implements ShapesDocumentationWriterIfc {
 
-	public enum XSLT {
-		
-		SHAPES2HTML("doc2html.xsl"),
-		DATASET2HTML("dataset2html.xsl");
-		
-		private String xsltFileName;
-		
-		private XSLT(String xsltFileName) {
-			this.xsltFileName = xsltFileName;
-		}
-
-		public String getXsltFileName() {
-			return xsltFileName;
-		}
-		
-	}
-
-	
 	@Override
-	public void writeDoc(ShapesDocumentation documentation, String outputLang, OutputStream output, MODE mode) throws IOException {
-		XSLT theXSLT = documentation.isDatasetDocumentation()?XSLT.DATASET2HTML:XSLT.SHAPES2HTML;		
-		this.write(documentation, outputLang, output, mode, theXSLT);
-	}
-	
-	
-	private void write(ShapesDocumentation documentation, String outputLang, OutputStream output, MODE mode, XSLT XSLTStyle) throws IOException {
+	public void write(ShapesDocumentation documentation, String outputLang, OutputStream output, MODE mode) throws IOException {
 		Document xmlDocument;
 		XMLStreamWriter xmlStreamWriter;
 		try {
@@ -86,8 +62,8 @@ public class ShapesDocumentationJacksonXsltWriter implements ShapesDocumentation
 	        //TransformerFactory transformerFactory = TransformerFactory.newInstance();
 	        //TransformerFactory.setAttribute("indent-number", 2);
 	        
-	        //Source xsltInput = new StreamSource(this.getClass().getClassLoader().getResourceAsStream("doc2html.xsl"));
-	        Source xsltInput = new StreamSource(this.getClass().getClassLoader().getResourceAsStream(XSLTStyle.getXsltFileName()));
+	        Source xsltInput = new StreamSource(this.getClass().getClassLoader().getResourceAsStream("doc2html.xsl"));
+	        //Source xsltInput = new StreamSource(this.getClass().getClassLoader().getResourceAsStream(XSLTStyle.getXsltFileName()));
 	        Transformer transformer = transformerFactory.newTransformer(xsltInput); 
 	        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 	        

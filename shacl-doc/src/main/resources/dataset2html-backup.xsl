@@ -5,6 +5,7 @@
 	<!-- Language parameter to the XSLT -->
 	<xsl:param name="LANG"/>
 	
+	
 	<!-- Indicates if we are producing the HTML for an HTML output of for a PDF conversion -->
 	<xsl:param name="MODE">HTML</xsl:param>
 
@@ -22,6 +23,8 @@
 			<entry key="COLUMN_EXPECTED_VALUE" label="Valeur attendue" />
 			<entry key="COLUMN_CARD" label="Card." />
 			<entry key="COLUMN_DESCRIPTION" label="Description" />
+			<entry key="COLUMN_NUMBEROCCURRENCES" label="Triplets" />
+			<entry key="COLUMN_VALUESDISTINCTS" label="Valeurs" />
 
 			<entry key="PREFIXES.TITLE" label="Espaces de nom" />
 			<entry key="PREFIXES.COLUMN.PREFIX" label="Préfixe" />
@@ -48,7 +51,7 @@
 				label="Cliquez sur le diagramme pour naviguer vers la section correspondante" />
 			<entry key="DIAGRAM.VIEW" label="Voir le diagramme en PNG" />
 
-			<entry key="DOCUMENTATION.TITLE" label="Documentation du modèle"/>
+			<entry key="DOCUMENTATION.TITLE" label="Documentation des données"/>
 			<entry key="DESCRIPTION.TITLE" label="Description"/>
 			<entry key="RELEASE_NOTES.TITLE" label="Notes de version" />
 
@@ -59,6 +62,8 @@
 			<entry key="LABEL_EXAMPLE" label="Exemple : "/>
 			<entry key="LABEL_SUPERCLASSES" label="Hérite de : "/>
 			<entry key="LABEL_OR" label=" ou "/>
+			
+			<entry key="BY" label=" par " />
 		</labels>
 	</xsl:variable>
 
@@ -71,6 +76,8 @@
 			<entry key="COLUMN_EXPECTED_VALUE" label="Expected value" />
 			<entry key="COLUMN_CARD" label="Card." />
 			<entry key="COLUMN_DESCRIPTION" label="Description" />
+			<entry key="COLUMN_NUMBEROCCURRENCES" label="Triples" />
+			<entry key="COLUMN_VALUESDISTINCTS" label="Values" />
 
 			<entry key="PREFIXES.TITLE" label="Namespaces" />
 			<entry key="PREFIXES.COLUMN.PREFIX" label="Prefix" />
@@ -96,7 +103,7 @@
 				label="Click diagram to navigate to corresponding section" />
 			<entry key="DIAGRAM.VIEW" label="View as PNG" />
 			
-			<entry key="DOCUMENTATION.TITLE" label="Model documentation"/>
+			<entry key="DOCUMENTATION.TITLE" label="Dataset documentation"/>
 			<entry key="DESCRIPTION.TITLE" label="Description"/>
 			<entry key="RELEASE_NOTES.TITLE" label="Release notes" />
 
@@ -107,6 +114,8 @@
 			<entry key="LABEL_EXAMPLE" label="Example: "/>
 			<entry key="LABEL_SUPERCLASSES" label="Inherits from: "/>
 			<entry key="LABEL_OR" label=" or "/>
+			
+			<entry key="BY" label=" by " />
 		</labels>
 	</xsl:variable>
 
@@ -172,6 +181,10 @@
 					
 					h3 {
 						font-size: 1.4em;
+					}
+					
+					h4 {
+						font-size: 1.2em;
 					}
 					
 					@media only print {
@@ -326,6 +339,67 @@
 					.sp_serialization_badge {
 						margin-right: 0.5em;
 					}
+					
+					.sp_alert_danger {						
+						    --bs-alert-color: #58151c;
+						    --bs-alert-bg: #f8d7da;
+						    --bs-alert-border-color: #f1aeb5;
+						    --bs-alert-link-color: #58151c;
+					}
+					
+					.sp_alert {
+							    --bs-alert-bg: transparent;
+							    --bs-alert-padding-x: 1rem;
+							    --bs-alert-padding-y: 1rem;
+							    --bs-alert-margin-bottom: 1rem;
+							    --bs-alert-color: inherit;
+							    --bs-alert-border-color: transparent;
+							    --bs-alert-border: 1px solid #f1aeb5;
+							    --bs-alert-border-radius: var(--bs-border-radius);
+							    --bs-alert-link-color: inherit;
+							    --bs-alert-border-radius: 0.375rem;
+							    position: relative;
+							    padding: var(--bs-alert-padding-y) var(--bs-alert-padding-x);
+							    margin-bottom: var(--bs-alert-margin-bottom);
+							    color: var(--bs-alert-color);
+							    background-color: #f8d7da;
+							    border: var(--bs-alert-border);
+							    border-radius: var(--bs-alert-border-radius);
+					}
+
+					.sp_badge {
+						vertical-align: super;
+						font-size: 80%;
+						background-color: #36a2eb;
+						color: white;
+						margin-left: 10px;
+						padding: 0px 4px;
+						text-align: center;
+						border-radius: 7px;
+					}
+					
+					/* chart sections */
+					
+					.chart {
+						
+					}
+					
+					.chart-content {
+						text-align: center;
+					}
+					
+					.chart-canvas {
+						width:70%;
+						display:inline-block;
+					}
+					
+					.sp_chart_title {
+						font-family: Georgia, Garamond, serif;
+						margin-bottom: 0rem;
+						font-weight: 500;
+						color: #1e1e1f;
+						line-height: 1.2em;
+					}
 							
 					<xsl:choose>
 						<xsl:when test="$MODE = 'PDF'">
@@ -375,14 +449,12 @@
 								max-width:255px;
 							}
 							.sp_list_toc {padding-left: 0px;}
-							.sp_list_toc_l2 {padding-left: 10px;}					
+							.sp_list_toc_l2 {padding-left: 10px;}
+							.sp_list_toc_l3 {padding-left: 8px; margin-bottom: 0.2rem;}						
 						</xsl:otherwise>
 					</xsl:choose>
 					
-					<xsl:apply-templates select="." mode="extra-css" />
-					
 				</style>
-				
 				
 				<meta charset="UTF-8"/>
 				<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
@@ -396,6 +468,9 @@
 					<meta name="twitter:title" content="{$var_title}"/>
 					<meta property="og:title" content="{$var_title}"/>
 				</xsl:if>
+				
+				<!-- Chart Library -->
+				<script src="https://cdn.jsdelivr.net/npm/chart.js">//</script>
 												
 			</head>
 			<body>
@@ -454,12 +529,13 @@
 					</xsl:if>
 				
 					<xsl:apply-templates select="descriptionDocument" />
-					
+						
 					<xsl:apply-templates select="sections" />
 					
 					<!--  release notes at the end -->
 					<xsl:apply-templates select="releaseNotes" />
 				</div>
+				
 				
 				
 				<!-- Anchor for the document -->
@@ -470,7 +546,8 @@
 	                  };
                		anchors.options.placement = 'left';
 					anchors.add();		
-				</script>				
+				</script>
+					
 			</body>
 		</html>
 	</xsl:template>
@@ -508,9 +585,26 @@
 						<!-- Section -->
 						<xsl:for-each select="sections/section">			
 							<li>
+								<!-- print number of instances in TOC -->
 								<a href="{concat('#',sectionId)}">
-								<xsl:value-of select="title" />
+									<xsl:choose>
+										<xsl:when test="numberOfTargets">										
+											<xsl:value-of select="title" />  (<xsl:value-of select="numberOfTargets"/>)
+										</xsl:when>
+										<xsl:otherwise>
+											<xsl:value-of select="title" />									
+										</xsl:otherwise>
+									</xsl:choose>	
 								</a>
+								<xsl:if test="count(charts/chart) > 0">
+									<ul class="ul_type_none sp_list_toc_l3">										
+										<xsl:for-each select="charts/chart">
+											<xsl:variable name="chartSectionId"><xsl:apply-templates select="." mode="id" /></xsl:variable>
+											<li><a href="#{$chartSectionId}"><xsl:value-of select="$LABELS/labels/entry[@key='BY']/@label" /><xsl:value-of select="title" /></a></li>
+										</xsl:for-each>
+									</ul>
+								</xsl:if>								
+								<xsl:apply-templates select="title" />
 							</li>
 						</xsl:for-each>
 					</ul>
@@ -663,7 +757,6 @@
 		</span>
 	</xsl:template>
 	
-	
 	<xsl:template match="abstract_">
 		<div class="row mt-3">
 			<div class="col">
@@ -733,8 +826,7 @@
 			<xsl:value-of select="."  disable-output-escaping="yes"/>			
 		</div>
 	</xsl:template>
-	
-	
+		
 	<!-- Prefix -->
 	<xsl:template match="prefixes">
 		<div class="row mt-3">
@@ -781,22 +873,38 @@
 	<!-- Sections -->
 	<xsl:template match="sections">
 		<h2 id="documentation" class="sp_section_subtitle">
-			<xsl:value-of select="$LABELS/labels/entry[@key='DOCUMENTATION.TITLE']/@label" />
+			<xsl:value-of select="$LABELS/labels/entry[@key='DOCUMENTATION.TITLE']/@label" />			
 		</h2>
-		<xsl:apply-templates select="section" />
+		<xsl:apply-templates select="section" />		
 	</xsl:template>
 	
 	<xsl:template match="section">
+	
 		<div class="row mt-3">
 			<div class="col">
 				<section id="{sectionId}">
 					<div class="sp_section_title_table_wrapper">
-						<xsl:apply-templates select="title" />
 						
+						<xsl:variable name="style">
+							<xsl:if test="string-length(color) &gt; 0">
+								color:<xsl:value-of select="color"/>
+							</xsl:if>
+						</xsl:variable>
+						
+						<h3 class="sp_section_title_table" style="{$style}">
+							<xsl:value-of select="title"/>
+							<xsl:apply-templates select="numberOfTargets" />
+						</h3>
+									
 						<xsl:if test="subtitleUri">
 							<code class="sp_section_uri"><xsl:value-of select="subtitleUri" /></code>
 						</xsl:if>
 					</div>
+					
+					<!-- Messages -->
+					<xsl:apply-templates select="messages" />
+					
+					
 					<xsl:if test="description != ''">
 						<p>
 							<!--  disable output escaping so that HTML is preserved -->
@@ -858,6 +966,11 @@
 									<code><xsl:value-of select="skosExample"/></code>
 								</li>
 							</xsl:if>
+							<xsl:if test="string-length(MessageOfValidate) &gt; 0">
+								<li>
+									<em>Message:</em><xsl:value-of select="MessageOfValidate"/>
+								</li>
+							</xsl:if>
 						</ul>
 					</xsl:if>
 					<xsl:if test="sparqlTarget">
@@ -866,57 +979,92 @@
 <xsl:value-of select="sparqlTarget" />					
 					</pre></code>
 					</xsl:if>
-					<xsl:if test="count(properties/property)>0">
-						<table class="sp_table_propertyshapes table-striped table-responsive">
-							<thead>
-								<tr>
-									<th>
-										<xsl:value-of
-											select="$LABELS/labels/entry[@key='COLUMN_PROPERTY']/@label" />
-									</th>
-									<th >
-										<xsl:value-of
-											select="$LABELS/labels/entry[@key='COLUMN_URI']/@label" />
-									</th>
-									<th>
-										<xsl:value-of
-											select="$LABELS/labels/entry[@key='COLUMN_EXPECTED_VALUE']/@label" />
-									</th>
-									<th>
-										<xsl:value-of
-											select="$LABELS/labels/entry[@key='COLUMN_CARD']/@label" />
-									</th>
-									<th class="sp_description_column">
-										<xsl:value-of
-											select="$LABELS/labels/entry[@key='COLUMN_DESCRIPTION']/@label" />
-									</th>
-								</tr>
-							</thead>
-							<tbody>
-								<xsl:apply-templates />
-							</tbody>
-						</table>
-					</xsl:if>
+					
+					<!-- Properties table -->
+					<xsl:apply-templates select="properties" />
+					
+					<!-- Section for Pie Chart -->
+					<xsl:apply-templates select="charts" />		
+					
+					
 				</section>
 			</div>
 		</div>
 		<br/>
 	</xsl:template>
 	
-	<xsl:template match="section/title">
-		<h3 class="sp_section_title_table">
-			<xsl:value-of select="." />
-		</h3>
+	<xsl:template match="numberOfTargets">
+		<span class="sp_badge"><xsl:value-of select="."/></span>
 	</xsl:template>
 
-	<!-- Properties -->
+	<xsl:template match="messages">
+		<div class="sp.alert sp_alert_danger">
+			<ul>
+				<xsl:apply-templates select="message" />
+			</ul>
+		</div>
+	</xsl:template>
 
+	<xsl:template match="message">
+		<li>
+			<em style="{concat('color:', ../../color)}">
+				<xsl:value-of select="."/>	
+			</em>
+		</li>
+	</xsl:template>
+	
+	
+	<!-- Properties -->
 	<xsl:template match="properties">
-		<xsl:apply-templates />
+		<xsl:if test="count(property)>0">
+			<table class="sp_table_propertyshapes table-striped table-responsive">
+				<thead>
+					<tr>
+						<th>
+							<xsl:value-of
+								select="$LABELS/labels/entry[@key='COLUMN_PROPERTY']/@label" />
+						</th>
+						<th >
+							<xsl:value-of
+								select="$LABELS/labels/entry[@key='COLUMN_URI']/@label" />
+						</th>
+						<th>
+							<xsl:value-of
+								select="$LABELS/labels/entry[@key='COLUMN_EXPECTED_VALUE']/@label" />
+						</th>
+						<th>
+							<xsl:value-of
+								select="$LABELS/labels/entry[@key='COLUMN_CARD']/@label" />
+						</th>
+						<!--  
+						<th class="sp_description_column">
+							<xsl:value-of
+								select="$LABELS/labels/entry[@key='COLUMN_DESCRIPTION']/@label" />
+						</th>
+						-->
+						<th>
+							<xsl:value-of
+								select="$LABELS/labels/entry[@key='COLUMN_NUMBEROCCURRENCES']/@label" />											
+						</th>
+						<th>
+							<xsl:value-of
+								select="$LABELS/labels/entry[@key='COLUMN_VALUESDISTINCTS']/@label" />											
+						</th>									
+					</tr>
+				</thead>
+				<tbody>
+					<xsl:apply-templates select="property" />
+				</tbody>
+			</table>
+		</xsl:if><!-- end properties table -->
 	</xsl:template>
 
 	<xsl:template match="property">
-		<tr>
+	
+		<xsl:element name="tr">
+			<xsl:if test="string-length(color) &gt; 0">
+				<xsl:attribute name="style">background-color:<xsl:value-of select="'#E58787'"/></xsl:attribute>				
+			</xsl:if>
 			<!-- Property name -->
 			<td>
 				<xsl:value-of select="label" />
@@ -927,7 +1075,14 @@
 					<xsl:choose>
 						<xsl:when test="propertyUri/href != ''">
 							<code>
-								<a href="{propertyUri/href}"><xsl:value-of select="propertyUri/label" /></a>							
+								<xsl:choose>
+									<xsl:when test="color != null">
+										<a href="{propertyUri/href}" style="{color}"><xsl:value-of select="propertyUri/label" /></a>
+									</xsl:when>
+									<xsl:otherwise>
+										<a href="{propertyUri/href}"><xsl:value-of select="propertyUri/label" /></a>
+									</xsl:otherwise>
+								</xsl:choose>															
 							</code>	
 						</xsl:when>
 						<xsl:otherwise>
@@ -951,10 +1106,10 @@
 							<xsl:when test="string-length(expectedValue/or) > 0">
 								<xsl:variable name="length" select="count(expectedValue/or/or)" />
 								<xsl:for-each select="expectedValue/or/or">
-									<xsl:variable name="current" select="normalize-space(.)" />
+								<xsl:variable name="current" select="normalize-space(.)" />
 									<xsl:choose>
 										<xsl:when test="starts-with($current,'xsd:') or starts-with($current,'sh:') or starts-with($current,'rdf:')">
-											<code><xsl:value-of select="$current" /></code>												
+											<code><xsl:value-of select="$current" /></code>
 										</xsl:when>
 										<xsl:otherwise>
 											<code>
@@ -964,13 +1119,12 @@
 											</code>
 										</xsl:otherwise>
 									</xsl:choose>
-									<!--  -->				
+									
 									<xsl:choose>
 										<xsl:when test="position() &lt; $length">
 											<code> <xsl:value-of select="$LABELS/labels/entry[@key='LABEL_OR']/@label" /> </code>
 										</xsl:when>
 									</xsl:choose>
-									
 								</xsl:for-each>
 							</xsl:when>
 							<xsl:otherwise>
@@ -1007,12 +1161,78 @@
 					<xsl:value-of select="cardinalite" />
 				</div>								
 			</td>
-			<!-- Description properties -->
+			<!-- Description properties 
 			<td class="sp_table_propertyshapes_col_description">
 				<xsl:value-of select="description" />
-				
+			</td>	
+			-->
+			<!-- Number of triples -->
+			<td>				
+				<xsl:value-of select="triples" />
 			</td>
-		</tr>
+			<!-- Distinct objects -->
+			<td>
+				<xsl:value-of select="distinctObjects" />
+			</td>
+		</xsl:element>
+		
+	</xsl:template>
+	
+	<xsl:template match="charts">
+		<div class="charts">
+			<xsl:apply-templates />
+		</div>
+	</xsl:template>
+	
+	<xsl:template match="chart">
+		<xsl:variable name="currentSectionId">
+			<xsl:apply-templates select="." mode="id" />
+		</xsl:variable>
+		<xsl:variable name="quote">'</xsl:variable>
+	
+		<div class="chart" id="{$currentSectionId}">
+			<h4 class="sp_chart_title"><xsl:value-of select="../../title" /><xsl:value-of select="$LABELS/labels/entry[@key='BY']/@label" /><xsl:value-of select="title" /></h4>
+			
+			<div class="chart-content">
+				<div class="chart-canvas">			
+					<canvas id="{$currentSectionId}_canvas"></canvas>
+					
+					<!-- JavaScript for drawn Pie Chart  -->
+					<script type="text/javascript">
+						const data<xsl:value-of select="$currentSectionId"/> = {
+							  labels: [<xsl:value-of select="./items/item/concat($quote,label,$quote)" separator=","/>],
+							  datasets: [{
+							    label: 'values',
+							    data: [<xsl:value-of select="./items/item/value" separator=","/>],
+							    hoverOffset: 4
+							  }]
+							};
+			
+						new Chart("<xsl:value-of select="$currentSectionId"/>_canvas",{
+							type: 'pie',
+						  	data: data<xsl:value-of select="$currentSectionId"/>,
+						  	options: {
+						  		plugins: {
+						  			legend: {
+						  				display: true,
+						                position: 'right'
+						  			}
+						  		},
+						  		layout: {
+						  			autoPadding: false
+						  		},
+						  		aspectRatio: 2						  		
+						  	}
+						});
+					</script>					
+				</div>
+			</div>
+		</div>
+	
+	</xsl:template>
+	
+	<xsl:template match="chart" mode="id">
+		<xsl:value-of select="translate(concat(../../sectionId,'_chart',count(preceding-sibling::chart)+1), ' :','__')"/>
 	</xsl:template>
 	
 	<!-- Release notes at the end  -->

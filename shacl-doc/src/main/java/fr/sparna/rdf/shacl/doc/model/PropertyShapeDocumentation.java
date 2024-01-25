@@ -28,6 +28,7 @@ public class PropertyShapeDocumentation {
 	
 	private String sparqlQueryProperty;
 
+	private String distinctObjectsSparqlQuery;
 	
 	public String getSparqlQueryProperty() {
 		return sparqlQueryProperty;

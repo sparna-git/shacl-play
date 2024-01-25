@@ -16,6 +16,7 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.URIResolver;
 import javax.xml.transform.dom.DOMResult;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
@@ -80,6 +81,7 @@ public class ShapesDocumentationJacksonXsltWriter implements ShapesDocumentation
 	        StreamResult xmlOutput = new StreamResult(output);
 	        // force Saxon
 	        TransformerFactory transformerFactory = TransformerFactory.newInstance("net.sf.saxon.TransformerFactoryImpl", this.getClass().getClassLoader());
+	        transformerFactory.setURIResolver(new ClasspathResourceURIResolver());
 	        // Jorge
 	        //TransformerFactory transformerFactory = TransformerFactory.newInstance();
 	        //TransformerFactory.setAttribute("indent-number", 2);
@@ -125,6 +127,13 @@ public class ShapesDocumentationJacksonXsltWriter implements ShapesDocumentation
 	        throw new RuntimeException(e); // simple exception handling, please review it
 	    }
 
+	}
+	
+	class ClasspathResourceURIResolver implements URIResolver {
+		@Override
+		public Source resolve(String href, String base) throws TransformerException {
+			return new StreamSource(ShapesDocumentationJacksonXsltWriter.class.getClassLoader().getResourceAsStream(href));
+		}
 	}
 
 }

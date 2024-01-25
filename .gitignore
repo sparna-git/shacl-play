@@ -11,3 +11,5 @@ deploy.sh
 shacl-diagram/output/
 
 shacl-play-app/shacl-play-app.log
+
+shacl-doc/src/main/resources/dataset2html-backup.xsl

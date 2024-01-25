@@ -57,6 +57,7 @@ public class PlantUmlPropertyReader {
 		p.setValue_shor(this.readShOrConstraint(constraint));
 		p.setValue_shor_datatype(this.readShOrDataType(constraint));
 		p.setValue_colorProperty(this.readColor(constraint));
+		p.setValue_colorBackGround(this.readColorBackGround(constraint));
 		
 		return p;
 	}
@@ -73,7 +74,19 @@ public class PlantUmlPropertyReader {
 			e.printStackTrace();
 		}
 		return value;
-	}	
+	}
+	
+	public String readColorBackGround(Resource nodeShape) {	
+		String value = null;
+		try {
+			if(nodeShape.hasProperty(nodeShape.getModel().createProperty(SHACL_PLAY.BACKGROUNDCOLOR))) {
+				value= nodeShape.getProperty(nodeShape.getModel().createProperty(SHACL_PLAY.BACKGROUNDCOLOR)).getLiteral().getString();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return value;
+	}
 	
 	public List<String> readOwlInverseOf(Model owlGraph, String path) {
 		List<String> inverBox = new ArrayList<>();

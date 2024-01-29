@@ -2,9 +2,6 @@
 <xsl:stylesheet version="2.0"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 	
-	
-	<xsl:import href="dataset2html.xsl"/>
-	
 	<!-- Language parameter to the XSLT -->
 	<xsl:param name="LANG"/>
 	
@@ -120,8 +117,7 @@
 
 	<!-- Select labels based on language param -->
 	<xsl:variable name="LABELS" select="if($LANG = 'fr') then $LABELS_FR else $LABELS_EN" />
-	<xsl:variable name="flagDataset" select="ShapesDocumentation/datasetDocumentation"/>
-
+	
 	<!-- Principal -->
 	<xsl:template match="/">
 		<xsl:variable name="method">
@@ -140,8 +136,11 @@
 		<!-- <xsl:text disable-output-escaping='yes'>&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"&gt;</xsl:text>  -->
 		<html lang="{$LANG}">
 			<head>
-				
-				<style>
+				<!-- Call style css -->
+				<style>	
+					<xsl:apply-templates select="../ShapesDocumentation" mode="style_css_doc"/>
+				</style>	
+					<!-- 
 					body {
 						margin: 0;
 						font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
@@ -333,7 +332,7 @@
 					.sp_serialization_badge {
 						margin-right: 0.5em;
 					}
-							
+					
 					<xsl:choose>
 						<xsl:when test="$MODE = 'PDF'">
 							.toc { }
@@ -386,10 +385,8 @@
 						</xsl:otherwise>
 					</xsl:choose>
 					
-					<xsl:apply-templates select="." mode="extra-css" />
+					-->
 					
-				</style>
-				
 				
 				<meta charset="UTF-8"/>
 				<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
@@ -478,31 +475,257 @@
                		anchors.options.placement = 'left';
 					anchors.add();		
 				</script>
-				
-				
-				<script type="text/javascript">					
-					const listCodeSparql = document.querySelectorAll("span#sparqlquery");
-					listCodeSparql.forEach((t) => t.innerHTML = t.innerHTML.replace("?result","?result &lt;br&gt;").replace("{","&lt;br&gt;{&lt;br&gt;").replace(";","; &lt;br&gt;").replace("}","&lt;br&gt;}").replace("SELECT","&lt;span style=\"color: blue;\"&gt;&lt;strong&gt;"+'SELECT'+"&lt;/strong&gt;&lt;/span&gt;").replace("WHERE","&lt;span style=\"color: blue;\"&gt;&lt;strong>WHERE&lt;/strong&gt;&lt;/span&gt;").replace("{","&lt;span style=\"color: #FF5733;\"&gt;&lt;strong&gt;{&lt;/strong&gt;&lt;/span&gt;").replace("}","&lt;span style=\"color: #FF5733;\"&gt;&lt;strong>}&lt;/strong&gt;&lt;/span&gt;") );
-				</script>
-
-				<script src="https://unpkg.com/@popperjs/core@2">//</script>
-    			<script src="https://unpkg.com/tippy.js@6">//</script>
-				<script type="text/javascript">
-					
-					// Instance 
-					tippy("div#sparql",{
-						content(reference) {
-							return reference.children.sparqlquery.innerHTML;
-						},
-						allowHTML: true,
-					});
-
-
-				</script>
-				
-						
 			</body>
 		</html>
+	</xsl:template>
+	
+	<!-- Style CSS -->
+	<xsl:template match="ShapesDocumentation" mode="style_css_doc">
+		
+			body {
+						margin: 0;
+						font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+							"Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif,
+							"Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+							"Noto Color Emoji";
+						background-color: #fff;
+					}
+					
+					.anchor {
+						float: left;
+						padding-right: 4px;
+						margin-left: -20px;
+						line-height: 1;
+						padding-top: 12px;
+					}
+							
+					a {
+						color: #007bff;
+						text-decoration: none;
+						background-color: transparent;
+					}
+					
+					a:-webkit-any-link {
+						cursor: pointer;
+					}
+					
+					.p {
+						font-size: 0.875em;
+					}
+					
+					h2 {
+						margin: 25px 0px 10px 0px;
+					}
+					
+					h3 {
+						font-size: 1.4em;
+					}
+					
+					@media only print {
+					}
+					
+					@page {
+						size: A4 portrait;
+						margin-top: 1.2cm;
+						margin-bottom: 1.2cm;
+						margin-left: 1.2cm;
+						margin-right: 1.2cm;
+						background-repeat: no-repeat;
+						background-position: 40px 10px;
+						
+						@bottom-center
+						{
+						content
+						:
+						counter(
+						page
+						);
+					}
+					
+					}
+							
+					/* This section draw the format web */
+					.ul_type_none {
+						list-style-type: none;
+					}
+					
+					.sp_list_description_properties {
+						/* don't set it lower otherwise it gets hidden in PDF */
+						padding-left: 20px;
+					}
+					
+					dl, ol, ul {
+						margin-top: 0;
+						margin-bottom: 1rem;
+					}
+					
+					li {
+						display: list-item;
+						text-align: -webkit-match-parent;
+					}
+					
+					.sp_section_title_header {
+						font-family: Georgia, Garamond, serif;	
+						margin-top: 25px;
+						margin-bottom: 2.5rem;
+					    font-size: 1.5625rem;
+						display: block;
+						font-weight: 500;
+						color: #1e1e1f;
+						line-height: 1.2em;   
+					}
+					
+					.sp_section_subtitle {
+						font-family: Georgia, Garamond, serif;	
+						margin-top: 0;
+						margin-bottom: 0.5rem;
+						display: block;
+						font-weight: 500;
+						color: #1e1e1f;
+						line-height: 1.2em;  
+					}
+					
+					.sp_section_title_table {
+						font-family: Georgia, Garamond, serif;	
+						/* 0 because URI is right under */
+						margin-bottom: 0rem;
+						display: block;
+						font-weight: 500;
+						color: #1e1e1f;
+						line-height: 1.2em; 
+					}
+							
+
+					.sp_section_title_toc {
+						font-family: Georgia, Garamond, serif;	
+					}
+
+					/* URI below the title of the section */
+					.sp_section_uri	 {
+						margin-top: 0px;
+					}
+
+					/* div wrapping section title and URI below - same as a paragraph margin */
+					.sp_section_title_table_wrapper {
+						margin-bottom: 16px;
+						border-bottom: 1px solid;	
+					}
+					
+					 
+					table {
+						display: table;
+						border-spacing: 0px;
+						margin-bottom: 1rem;
+					}
+					
+					tr:nth-child(even) {
+						background-color: #eee;
+					}
+							
+					.sp_table_prefixes table {
+						border-collapse: collapse;
+						margin-bottom: 1rem;
+						color: #212529;
+					}
+											
+					.sp_table_prefixes td {
+						padding: 0.25rem;
+						vertical-align: top;
+						border-top: 1px solid #dee2e6;
+					}
+					
+					.sp_table_propertyshapes {
+						border-collapse: collapse;
+						width: 100%;
+					}
+										
+					.sp_table_propertyshapes thead {
+						display: table-header-group;
+						vertical-align: middle;
+						border-color: inherit;
+					}
+													
+					.sp_table_propertyshapes tr {
+					    display: table-row;
+					    vertical-align: inherit;
+					    border-color: inherit;
+					}
+													
+					.sp_table_propertyshapes th:nth-child(4) {
+						width: 6%;
+					}
+													
+					.sp_table_propertyshapes td {
+						padding: 0.75rem;
+						border-top: 1px solid #dee2e6;
+					}
+													
+					.sp_table_propertyshapes tbody {
+						display: table-row-group;
+						vertical-align: middle;
+						border-color: inherit;
+					}
+										
+					.sp_table_propertyshapes_col_description {
+						word-break: break-word;
+					}
+					
+					.sp_serialization_badge {
+						margin-right: 0.5em;
+					}
+					
+					<xsl:choose>
+						<xsl:when test="$MODE = 'PDF'">
+							.toc { }
+							.sp_section_title_toc {
+								margin-block-start: 0.83em;
+							    margin-block-end: 0.83em;
+							    margin-inline-start: 0px;
+							    margin-inline-end: 0px;    
+								margin-bottom: 0.5rem;
+								display: block;
+								font-weight: 500;
+								color: #1e1e1f;
+								line-height: 1.2em;
+							}
+							
+							.sp_container_principal {
+								width: calc(100% - 40px);
+								max-width: 1000px;
+								margin-left: auto;
+								margin-right: auto;
+							}
+							
+							.pt-4 {
+								padding-top: 2.5rem !important;
+							}
+						</xsl:when>
+						<xsl:otherwise>
+							.container {
+							    width: calc(100% - 40px);
+							    max-width: 1000px;
+							    margin-left: 300px;
+							    margin-right: auto;
+							}
+							.container {width: calc(100% - 500px);}
+							.toc {
+								position: fixed;
+								top: 0;
+								left: 0;
+								font-size: small;
+								padding: 10px 10px;
+								width: auto;
+								border-right: solid 2px #eeeeee;
+								bottom: 0;
+								overflow-y: scroll;
+								background-color:white;
+								max-width:255px;
+							}
+							.sp_list_toc {padding-left: 0px;}
+							.sp_list_toc_l2 {padding-left: 10px;}					
+						</xsl:otherwise>
+					</xsl:choose>
+		
 	</xsl:template>
 	
 	<xsl:template match="ShapesDocumentation" mode="TOC">
@@ -827,7 +1050,7 @@
 					<div class="sp_section_title_table_wrapper">
 					
 						<h3 class="sp_section_title_table">
-							<xsl:value-of select="title" /><xsl:apply-templates select="numberOfTargets"/>
+							<xsl:value-of select="title" />
 						</h3>
 						
 						<xsl:if test="subtitleUri">
@@ -835,11 +1058,6 @@
 						</xsl:if>
 					
 					</div>
-					
-					<!-- Messages -->
-					<xsl:if test="$ flagDataset">
-						<xsl:apply-templates select="messages" />
-					</xsl:if>
 					
 					<xsl:if test="description != ''">
 						<p>
@@ -903,8 +1121,6 @@
 								</li>
 							</xsl:if>
 							
-							<!-- for dataset -->
-							<xsl:apply-templates select="MessageOfValidate"/>
 						</ul>
 					</xsl:if>
 					
@@ -919,10 +1135,7 @@
 					</xsl:if>
 					
 					<!-- Properties table -->
-					<xsl:apply-templates select="properties" />
-					
-					<!-- Section for Pie Chart -->
-					<xsl:apply-templates select="charts" />
+					<xsl:apply-templates select="properties" />					
 										
 				</section>
 			</div>
@@ -952,24 +1165,9 @@
 							<xsl:value-of
 								select="$LABELS/labels/entry[@key='COLUMN_CARD']/@label" />
 						</th>
-						<xsl:choose>
-							<xsl:when test="$flagDataset = 'false'">
-								<th class="sp_description_column">
-									<xsl:value-of
-										select="$LABELS/labels/entry[@key='COLUMN_DESCRIPTION']/@label" />
-								</th>								
-							</xsl:when>
-							<xsl:otherwise>
-								<th>
-									<xsl:value-of
-										select="$LABELS/labels/entry[@key='COLUMN_NUMBEROCCURRENCES']/@label" />											
-								</th>
-								<th>
-									<xsl:value-of
-										select="$LABELS/labels/entry[@key='COLUMN_VALUESDISTINCTS']/@label" />											
-								</th>
-							</xsl:otherwise>
-						</xsl:choose>			
+						<th class="sp_description_column">
+							<xsl:value-of select="$LABELS/labels/entry[@key='COLUMN_DESCRIPTION']/@label" />
+						</th>		
 					</tr>
 				</thead>
 				<tbody>
@@ -978,127 +1176,118 @@
 			</table>
 		</xsl:if><!-- end properties table -->
 	</xsl:template>
-
+	
+	
 	<xsl:template match="property">
 		<tr>
 			<!-- Property name -->
 			<td>
-				<xsl:value-of select="label" />
+				<xsl:apply-templates select="./label"/>
 			</td>
 			<!-- Property URI -->
 			<td>
-				<xsl:if test="propertyUri">
-					<xsl:choose>
-						<xsl:when test="propertyUri/href != ''">
-							<code>
-								<a href="{propertyUri/href}"><xsl:value-of select="propertyUri/label" /></a>							
-							</code>	
-						</xsl:when>
-						<xsl:otherwise>
-							<code><xsl:value-of select="propertyUri/label" /></code>
-						</xsl:otherwise>
-					</xsl:choose>
-				</xsl:if>				
+				<xsl:apply-templates select="./propertyUri"/>				
 			</td>
 			<!-- Expected Value -->
 			<td>
-				<xsl:choose>
-					<xsl:when test="expectedValue/linkNodeShape[node()]">
-						<code>
-							<a href="{concat('#',expectedValue/linkNodeShapeUri)}">
-								<xsl:value-of select="expectedValue/linkNodeShape" />
-							</a>
-						</code>
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:choose>
-							<xsl:when test="string-length(expectedValue/or) > 0">
-								<xsl:variable name="length" select="count(expectedValue/or/or)" />
-								<xsl:for-each select="expectedValue/or/or">
-									<xsl:variable name="current" select="normalize-space(.)" />
-									<xsl:choose>
-										<xsl:when test="starts-with($current,'xsd:') or starts-with($current,'sh:') or starts-with($current,'rdf:')">
-											<code><xsl:value-of select="$current" /></code>												
-										</xsl:when>
-										<xsl:otherwise>
-											<code>
-												<a href="{concat('#',$current)}">
-													<xsl:value-of select="$current" />
-												</a>
-											</code>
-										</xsl:otherwise>
-									</xsl:choose>
-									<!--  -->				
-									<xsl:choose>
-										<xsl:when test="position() &lt; $length">
-											<code> <xsl:value-of select="$LABELS/labels/entry[@key='LABEL_OR']/@label" /> </code>
-										</xsl:when>
-									</xsl:choose>
-									
-								</xsl:for-each>
-							</xsl:when>
-							<xsl:otherwise>
-								<code>
-									<!-- disable output espacing as we may have <sup> in rendering -->
-									<xsl:value-of disable-output-escaping="yes" select="expectedValue/expectedValueLabel" />
-								</code>
-							</xsl:otherwise>
-						</xsl:choose>
-					</xsl:otherwise>
-				</xsl:choose>
-				<br />
-				<xsl:if test="expectedValueAdditionnalInfoIn/text()">
-					<p>
-						<small>
-							<!-- disable output espacing as we may have <sup> in rendering -->
-							<xsl:value-of disable-output-escaping="yes"
-								select="concat('(',expectedValueAdditionnalInfoIn,')')" />
-						</small>
-					</p>
-				</xsl:if>
-				<xsl:if test="expectedValueAdditionnalInfoValue/text()">
-					<p>
-						<small>
-							<xsl:value-of
-								select="expectedValueAdditionnalInfoValue" />
-						</small>
-					</p>
-				</xsl:if>
+				<xsl:apply-templates select="./expectedValue"/>				
 			</td>
 			<!-- Cardinality -->
 			<td>
 				<div style="width:30px">
-					<xsl:value-of select="cardinalite" />
+					<xsl:apply-templates select="./cardinalite"/>
 				</div>								
 			</td>
-			
-			<xsl:choose>
-				<xsl:when test="$flagDataset = 'false'">
-					<!-- Description properties -->
-					<td class="sp_table_propertyshapes_col_description">
-						<xsl:value-of select="description" />
-					</td>				
-				</xsl:when>
-				<xsl:otherwise>					
-					<!-- Number of triples -->
-					<td>				
-						<xsl:value-of select="triples" />
-					</td>
-					<!-- Distinct objects -->
-					<td>
-						<div id="sparql">
-							<xsl:value-of select="distinctObjects" />
-							<xsl:if test="string-length(sparqlQueryProperty) &gt; 0">
-								<span id="sparqlquery" style="display: none;">
-									<xsl:value-of select="sparqlQueryProperty"/>
-								</span>
-							</xsl:if>
-						</div>
-					</td>					
-				</xsl:otherwise>
-			</xsl:choose>
+			<!-- Description properties -->
+			<td class="sp_table_propertyshapes_col_description">
+				<xsl:apply-templates select="./description"/>
+			</td>
 		</tr>
 	</xsl:template>
+	
+	<!-- Property name -->
+	<xsl:template match="property/label"><xsl:value-of select="." /></xsl:template>
+	<!-- Property URI -->
+	<xsl:template match="property/propertyUri">
+		<xsl:choose>
+			<xsl:when test="href != ''">
+				<code>
+					<a href="{href}"><xsl:value-of select="label" /></a>							
+				</code>	
+			</xsl:when>
+			<xsl:otherwise>
+				<code><xsl:value-of select="label" /></code>
+			</xsl:otherwise>
+		</xsl:choose>		
+	</xsl:template>
+	<!-- Expected Value -->
+	<xsl:template match="property/expectedValue">
+		<xsl:choose>
+			<xsl:when test="linkNodeShape[node()]">
+				<code>
+					<a href="{concat('#',linkNodeShapeUri)}">
+						<xsl:value-of select="linkNodeShape" />
+					</a>
+				</code>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:choose>
+					<xsl:when test="string-length(./or) > 0">
+						<xsl:for-each select="./or/or">
+							<xsl:variable name="current" select="normalize-space(.)" />
+							<xsl:choose>
+								<xsl:when test="starts-with($current,'xsd:') or starts-with($current,'sh:') or starts-with($current,'rdf:')">
+									<code><xsl:value-of select="$current" /></code>												
+								</xsl:when>
+								<xsl:otherwise>
+									<code>
+										<a href="{concat('#',$current)}">
+											<xsl:value-of select="$current" />
+										</a>
+									</code>
+								</xsl:otherwise>
+							</xsl:choose>
+							<!--  -->				
+							<xsl:choose>
+								<xsl:when test="position() &lt; last()">
+									<code> <xsl:value-of select="$LABELS/labels/entry[@key='LABEL_OR']/@label" /> </code>
+								</xsl:when>
+							</xsl:choose>							
+						</xsl:for-each>
+					</xsl:when>
+					<xsl:otherwise>
+						<code>
+							<!-- disable output espacing as we may have <sup> in rendering -->
+							<xsl:value-of disable-output-escaping="yes" select="expectedValueLabel" />
+						</code>
+					</xsl:otherwise>
+				</xsl:choose>
+			</xsl:otherwise>
+		</xsl:choose>
+		<br />
+		<xsl:if test="expectedValueAdditionnalInfoIn/text()">
+			<p>
+				<small>
+					<!-- disable output espacing as we may have <sup> in rendering -->
+					<xsl:value-of disable-output-escaping="yes"
+						select="concat('(',expectedValueAdditionnalInfoIn,')')" />
+				</small>
+			</p>
+		</xsl:if>
+		<xsl:if test="expectedValueAdditionnalInfoValue/text()">
+			<p>
+				<small>
+					<xsl:value-of
+						select="expectedValueAdditionnalInfoValue" />
+				</small>
+			</p>
+		</xsl:if>
+	</xsl:template>
+	
+	<!-- Cardinality -->
+	<xsl:template match="property/cardinalite"><xsl:value-of select="." /></xsl:template>
+	<!-- Description properties -->
+	<xsl:template match="property/description"><xsl:value-of select="." /></xsl:template>
 	
 	<!-- Release notes at the end  -->
 	<xsl:template match="releaseNotes[text() != '']">

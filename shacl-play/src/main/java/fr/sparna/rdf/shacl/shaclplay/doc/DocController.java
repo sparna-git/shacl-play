@@ -217,7 +217,7 @@ public class DocController {
 			ShapesDocumentationWriterIfc writer = new ShapesDocumentationJacksonXsltWriter();
 			response.setContentType("text/html");
 			// response.setContentType("application/xhtml+xml");
-			writer.write(doc, languageInput, response.getOutputStream(), MODE.HTML);			
+			writer.writeDoc(doc, languageInput, response.getOutputStream(), MODE.HTML);			
 		} else if (format.toLowerCase().equals("xml")) {
 			
 			ShapesDocumentationXmlWriter writeXML = new ShapesDocumentationXmlWriter();
@@ -229,7 +229,7 @@ public class DocController {
 			// 1. write Documentation structure to XML
 			ShapesDocumentationWriterIfc writerHTML = new ShapesDocumentationJacksonXsltWriter();
 			ByteArrayOutputStream htmlBytes = new ByteArrayOutputStream();
-			writerHTML.write(doc,languageInput, htmlBytes,MODE.PDF);
+			writerHTML.writeDoc(doc,languageInput, htmlBytes,MODE.PDF);
 			
 			//read file html
 			String htmlCode = new String(htmlBytes.toByteArray(),"UTF-8");

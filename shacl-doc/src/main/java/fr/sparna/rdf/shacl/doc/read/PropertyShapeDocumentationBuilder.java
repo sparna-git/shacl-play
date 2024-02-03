@@ -77,7 +77,7 @@ public class PropertyShapeDocumentationBuilder {
 	}
 	
 	public static Link buildPathLink(PropertyShape prop) {			
-		if(prop.getShPath().isURIResource()) {
+		if(prop.getShPath() != null && prop.getShPath().isURIResource()) {
 			return new Link(
 					prop.getShPath().getURI(),
 					prop.getShPathAsString()

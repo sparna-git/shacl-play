@@ -56,6 +56,11 @@ public class PropertyShape {
 	public String getDisplayLabel(Model owlModel, String lang) {
 		String result = ModelRenderingUtils.render(this.getShName(lang), true);
 		
+		if(result == null && this.getShPath() == null) {
+			// problem. Return something so at least we can debug
+			return this.getResource().toString();
+		}
+		
 		if(result == null && this.getShPath().isURIResource() && owlModel != null) {
 			// otherwise if we have skos:prefLabel on the property, take it
 			result = ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(owlModel.getResource(this.getShPath().getURI()), SKOS.prefLabel, lang), true);
@@ -76,6 +81,11 @@ public class PropertyShape {
 	
 	public String getDisplayDescription(Model owlModel, String lang) {
 		String result = ModelRenderingUtils.render(this.getShDescription(lang), true);
+		
+		if(result == null && this.getShPath() == null) {
+			// problem. Return something so at least we can debug
+			return "";
+		}
 		
 		if(result == null && this.getShPath().isURIResource()) {
 			// otherwise if we have skos:definition on the property, take it

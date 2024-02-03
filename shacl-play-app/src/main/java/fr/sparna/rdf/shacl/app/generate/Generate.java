@@ -48,7 +48,7 @@ public class Generate implements CliCommandIfc {
 					dataProvider);
 		} else {
 			Model inputModel = ModelFactory.createDefaultModel(); 
-			InputModelReader.populateModel(inputModel, a.getInput());
+			InputModelReader.populateModelFromFile(inputModel, a.getInput());
 			dataProvider = new SamplingShaclGeneratorDataProvider(new PaginatedQuery(100), inputModel);
 			ShaclGenerator generator = new ShaclGenerator();
 			generator.getExtraVisitors().add(new AssignLabelRoleVisitor());

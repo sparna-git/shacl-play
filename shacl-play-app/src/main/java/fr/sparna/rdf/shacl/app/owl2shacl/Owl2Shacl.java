@@ -22,7 +22,7 @@ public class Owl2Shacl implements CliCommandIfc {
 		
 		// read input file or URL
 		Model dataModel = ModelFactory.createDefaultModel(); 
-		InputModelReader.populateModel(dataModel, a.getInput());
+		InputModelReader.populateModelFromFile(dataModel, a.getInput());
 		
 		fr.sparna.rdf.shacl.owl2shacl.Owl2Shacl owl2shacl = new fr.sparna.rdf.shacl.owl2shacl.Owl2Shacl();
 		

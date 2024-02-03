@@ -36,12 +36,12 @@ public class Doc implements CliCommandIfc {
 		
 		// read input file or URL
 		Model shapesModel = ModelFactory.createDefaultModel(); 
-		InputModelReader.populateModel(shapesModel, a.getInput(), null);
+		InputModelReader.populateModelFromFile(shapesModel, a.getInput(), null);
 		
 		// read ontology file
 		Model owlModel = ModelFactory.createDefaultModel(); 
 		if(a.getOntologies() != null) {
-			InputModelReader.populateModel(owlModel, a.getOntologies(), null);
+			InputModelReader.populateModelFromFile(owlModel, a.getOntologies(), null);
 		}
 		
 		// create output dir if not existing

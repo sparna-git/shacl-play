@@ -36,11 +36,11 @@ public class ArgumentsAnalyze {
 			description = "Path to the shapes file against which the input data should be analyzed",
 			required = true
 	)
-	private File shapes;
+	private String shapes;
 	
 	@Parameter(
 			names = { "-os", "--outputShapes" },
-			description = "Path where the shapes graph will be written. This is optional: if not provided, shapes will not be written back. The format of the file is determined based"
+			description = "Path where the shapes graph will be written. The shapes graph will be enhanced by the statistical analysis process, with sh:in constraints when a few values have been found i nthe statistics. This is optional: if not provided, shapes will not be written back. The format of the file is determined based"
 					+ " on the file extension : '*.ttl, *.rdf, *.n3, *.nq, *.nt, *.trig, *.jsonld' ",
 			required = false
 	)
@@ -71,11 +71,11 @@ public class ArgumentsAnalyze {
 		this.output = output;
 	}
 
-	public File getShapes() {
+	public String getShapes() {
 		return shapes;
 	}
 
-	public void setShapes(File shapes) {
+	public void setShapes(String shapes) {
 		this.shapes = shapes;
 	}
 

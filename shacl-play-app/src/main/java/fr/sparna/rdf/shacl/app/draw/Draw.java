@@ -32,7 +32,7 @@ public class Draw implements CliCommandIfc {
 		
 		// read input file or URL
 		Model shapesModel = ModelFactory.createDefaultModel(); 
-		InputModelReader.populateModel(shapesModel, a.getInput(), null);
+		InputModelReader.populateModelFromFile(shapesModel, a.getInput(), null);
 		
 		// draw
 		PlantUmlDiagramGenerator writer = new PlantUmlDiagramGenerator(

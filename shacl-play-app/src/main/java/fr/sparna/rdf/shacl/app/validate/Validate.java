@@ -37,7 +37,7 @@ public class Validate implements CliCommandIfc {
 		
 		// read input file or URL
 		Model dataModel = ModelFactory.createDefaultModel(); 
-		InputModelReader.populateModel(dataModel, a.getInput(), a.getNamespaceMappings());
+		InputModelReader.populateModelFromFile(dataModel, a.getInput(), a.getNamespaceMappings());
 		
 		// if we are asked to copy input, copy it
 		if(a.getCopyInput() != null) {
@@ -48,13 +48,13 @@ public class Validate implements CliCommandIfc {
 		// read shapes file
 		OntModel shapesModel = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM);
 		log.debug("Reading shapes from "+a.getShapes());
-		InputModelReader.populateModel(shapesModel, a.getShapes(), a.getNamespaceMappings());
+		InputModelReader.populateModelFromFile(shapesModel, a.getShapes(), a.getNamespaceMappings());
 		
 		// read extra model
 		Model extraModel = null;
 		if(a.getExtra() != null) {
 			extraModel = ModelFactory.createDefaultModel();
-			InputModelReader.populateModel(extraModel, a.getExtra(), a.getNamespaceMappings());
+			InputModelReader.populateModelFromFile(extraModel, a.getExtra(), a.getNamespaceMappings());
 		}
 		
 		// run the validator

@@ -26,12 +26,12 @@ public class Infer implements CliCommandIfc {
 		
 		// read input file or URL
 		Model dataModel = ModelFactory.createDefaultModel(); 
-		InputModelReader.populateModel(dataModel, a.getInput());
+		InputModelReader.populateModelFromFile(dataModel, a.getInput());
 		
 		// read shapes file
 		OntModel shapesModel = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM);
 		log.debug("Reading shapes from "+a.getShapes());
-		InputModelReader.populateModel(shapesModel, a.getShapes());
+		InputModelReader.populateModelFromFile(shapesModel, a.getShapes());
 
 		// do the actual rule execution
 		Model results = RuleUtil.executeRules(

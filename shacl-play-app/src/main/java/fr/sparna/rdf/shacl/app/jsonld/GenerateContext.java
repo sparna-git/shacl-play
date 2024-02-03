@@ -21,7 +21,7 @@ public class GenerateContext implements CliCommandIfc {
 		
 		// read input file or URL
 		Model shapesModel = ModelFactory.createDefaultModel(); 
-		InputModelReader.populateModel(shapesModel, a.getInput(), null);
+		InputModelReader.populateModelFromFile(shapesModel, a.getInput(), null);
 		
 		JsonLdContextGenerator contextGenerator = new JsonLdContextGenerator();
 		String context = contextGenerator.generateJsonLdContext(shapesModel);

@@ -38,7 +38,7 @@ public class Analyze implements CliCommandIfc {
 			dataProvider = new SamplingShaclGeneratorDataProvider(new PaginatedQuery(100), a.getEndpoint());
 		} else {
 			Model inputModel = ModelFactory.createDefaultModel(); 
-			InputModelReader.populateModel(inputModel, a.getInput());
+			InputModelReader.populateModelFromFile(inputModel, a.getInput());
 			dataProvider = new SamplingShaclGeneratorDataProvider(new PaginatedQuery(100), inputModel);		
 		}
 		
@@ -51,10 +51,13 @@ public class Analyze implements CliCommandIfc {
 				(a.getEndpoint() != null)?a.getEndpoint():"https://dummy.dataset.uri"
 		));
 
+		// we are going to assign sh:in to the property shapes based on the statistics gathered
 		AssignValueOrInVisitor yetAnotherTryOnAssigningValues = new AssignValueOrInVisitor(dataProvider);
 		yetAnotherTryOnAssigningValues.setRequiresShValueInPredicate(yetAnotherTryOnAssigningValues.new StatisticsBasedRequiresShValueOrInPredicate(countModel));
 		modelStructure.visit(yetAnotherTryOnAssigningValues);
+		// then we add value statistics to the count model
 		modelStructure.visit(new ComputeValueStatisticsVisitor(dataProvider,countModel));
+		// then we copy the statistics in the description of the shape
 		modelStructure.visit(new CopyStatisticsToDescriptionVisitor(countModel));
 
 		// write output file

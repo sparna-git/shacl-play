@@ -20,13 +20,13 @@ public class Shacl2Sparql implements CliCommandIfc {
 		
 		//first model
 		Model iModel = ModelFactory.createDefaultModel();
-		InputModelReader.populateModel(iModel, a.getInput(), null);
+		InputModelReader.populateModelFromFile(iModel, a.getInput(), null);
 		
 		//first model
 		Model itofModel = null;
 		if(a.getTargetsOverrideFile() != null) {
 			Model tof = ModelFactory.createDefaultModel();
-			InputModelReader.populateModel(tof, a.getTargetsOverrideFile(), null);
+			InputModelReader.populateModelFromFile(tof, a.getTargetsOverrideFile(), null);
 
 			itofModel = ModelFactory.createDefaultModel();
 			itofModel.add(tof);

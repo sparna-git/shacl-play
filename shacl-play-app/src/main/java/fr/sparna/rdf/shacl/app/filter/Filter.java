@@ -24,10 +24,10 @@ public class Filter implements CliCommandIfc {
 		ArgumentsFilter a = (ArgumentsFilter)args;
 		
 		Model shapes = ModelFactory.createDefaultModel(); 
-		InputModelReader.populateModel(shapes, a.getShapes());
+		InputModelReader.populateModelFromFile(shapes, a.getShapes());
 		
 		Model statistics = ModelFactory.createDefaultModel(); 
-		InputModelReader.populateModel(statistics, a.getStatistics());
+		InputModelReader.populateModelFromFile(statistics, a.getStatistics());
 		
 		ShaclVisit modelStructure = new ShaclVisit(shapes);
 		if(a.isDescription()) {

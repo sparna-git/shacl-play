@@ -37,11 +37,7 @@ public class PlantUmlPropertyReader {
 	public PlantUmlProperty readPlantUmlProperty(Resource constraint, Model owlGraph) {
 		
 		PlantUmlProperty p = new PlantUmlProperty(constraint);
-		
-		p.setValue_path(this.readShPath(constraint));
-		p.setValue_datatype(this.readShDatatype(constraint));
-		p.setValue_nodeKind(this.readShNodeKind(constraint));
-		p.setValue_cardinality(this.readShMinCountMaxCount(constraint));		
+				
 		p.setValue_range(this.readShMinInclusiveMaxInclusive(constraint));		
 		p.setValue_length(this.readShMinLengthMaxLength(constraint));		
 		p.setValue_pattern(this.readShPattern(constraint));		
@@ -54,44 +50,14 @@ public class PlantUmlPropertyReader {
 		p.setValue_qualifiedvalueshape(this.readShQualifiedValueShape(constraint));
 		p.setValue_qualifiedMaxMinCount(this.readShQualifiedMinCountQualifiedMaxCount(constraint));
 		p.setValue_inverseOf(this.readOwlInverseOf(owlGraph, p.getValue_path()));
-		p.setValue_shor(this.readShOrConstraint(constraint));
-		p.setValue_shor_datatype(this.readShOrDataType(constraint));
-		p.setValue_colorProperty(this.readColor(constraint));
-		p.setValue_colorBackGround(this.readColorBackGround(constraint));
 		
 		return p;
-	}
-	
-	
-	
-	public String readColor(Resource nodeShape) {	
-		String value = null;
-		try {
-			if(nodeShape.hasProperty(nodeShape.getModel().createProperty(SHACL_PLAY.COLOR))) {
-				value= nodeShape.getProperty(nodeShape.getModel().createProperty(SHACL_PLAY.COLOR)).getLiteral().getString();
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return value;
-	}
-	
-	public String readColorBackGround(Resource nodeShape) {	
-		String value = null;
-		try {
-			if(nodeShape.hasProperty(nodeShape.getModel().createProperty(SHACL_PLAY.BACKGROUNDCOLOR))) {
-				value= nodeShape.getProperty(nodeShape.getModel().createProperty(SHACL_PLAY.BACKGROUNDCOLOR)).getLiteral().getString();
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return value;
 	}
 	
 	public List<String> readOwlInverseOf(Model owlGraph, String path) {
 		List<String> inverBox = new ArrayList<>();
 		if(path != null) {
-			// read everything typed as NodeShape
+			// read everything typed as Object property
 			List<Resource> pathOWL = owlGraph.listResourcesWithProperty(RDF.type, OWL.ObjectProperty).toList();
 			for(Resource inverseOfResource : pathOWL) {
 				if(inverseOfResource.getLocalName().equals(path)){
@@ -102,69 +68,6 @@ public class PlantUmlPropertyReader {
 			}				
 		}		
 		return inverBox;
-	}
-	
-	public List<String> readShOrConstraint (Resource constraint) {
-		if (constraint.hasProperty(SH.or)) {			
-			List<Resource> values = ShOrReadingUtils.readShClassAndShNodeInShOr(constraint.getProperty(SH.or).getList());
-			System.out.println("*** "+values);
-			if(values.size() > 0) {
-				return values.stream().map(r -> { return (r.isURIResource())?r.getModel().shortForm(r.getURI()):r.toString();}).collect(Collectors.toList());
-			}			
-		}
-		
-		return null;
-	}
-	
-	
-	public List<String> readShOrDataType(Resource constraint){
-		if (constraint.hasProperty(SH.or)) {			
-			List<Resource> values = ShOrReadingUtils.readShDatatypeAndShNodeKindInShOr(constraint.getProperty(SH.or).getList());
-			if(values.size() > 0) {
-				return values.stream().map(r -> { return (r.isURIResource())?r.getModel().shortForm(r.getURI()):r.toString();}).collect(Collectors.toList());
-			}			
-		}
-		
-		return null;
-	}
-	
-	
-	public String readShPath(Resource constraint) {
-		List<RDFNode> paths = ModelReadingUtils.readObjectAsResource(constraint, SH.path);
-		Resource firstResource = paths.stream().filter(p -> p.isResource()).map(p -> p.asResource()).findFirst().orElse(null);
-		// render the property path using prefixes
-		return ModelRenderingUtils.renderSparqlPropertyPath(firstResource, true);
-	}
-		
-	public String readShDatatype(Resource constraint) {
-		return ModelRenderingUtils.render(ModelReadingUtils.readObjectAsResourceOrLiteral(constraint, SH.datatype), true);
-	}
-
-	public String readShNodeKind(Resource constraint) {
-		return ModelRenderingUtils.render(ModelReadingUtils.readObjectAsResourceOrLiteral(constraint, SH.nodeKind), true);
-	}
-	
-	//Cardinality Constraint Components
-	
-
-	public String readShMinCountMaxCount(Resource constraint) {
-		String value_minCount = "0";
-		String value_maxCount ="*";
-		String uml_code =null;
-		if (constraint.hasProperty(SH.minCount)){
-			value_minCount = ModelRenderingUtils.render(ModelReadingUtils.readObjectAsResourceOrLiteral(constraint, SH.minCount), true);
-		}
-		if (constraint.hasProperty(SH.maxCount)) {
-			value_maxCount = ModelRenderingUtils.render(ModelReadingUtils.readObjectAsResourceOrLiteral(constraint, SH.maxCount), true);
-		}
-		
-		if ((constraint.hasProperty(SH.minCount)) || (constraint.hasProperty(SH.maxCount))){
-			uml_code = "["+ value_minCount +".."+ value_maxCount +"]";
-		} else {
-			uml_code = null;
-		}
-		
-		return uml_code;
 	}
 	
 	//Value Range Constraint Components

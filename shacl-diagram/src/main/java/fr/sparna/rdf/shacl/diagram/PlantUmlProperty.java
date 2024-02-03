@@ -1,14 +1,21 @@
 package fr.sparna.rdf.shacl.diagram;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
+import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
+import org.topbraid.shacl.vocabulary.SH;
+
+import fr.sparna.rdf.jena.ModelReadingUtils;
+import fr.sparna.rdf.jena.ModelRenderingUtils;
+import fr.sparna.rdf.jena.shacl.ShOrReadingUtils;
+import fr.sparna.rdf.shacl.SHACL_PLAY;
 
 public class PlantUmlProperty {
 
 	protected Resource propertyShape;
 	
-	protected String value_path;
 	protected String value_datatype;
 	protected String value_nodeKind;
 	protected String value_cardinality;	
@@ -25,10 +32,11 @@ public class PlantUmlProperty {
 	protected PlantUmlBox value_qualifiedvalueshape;
 	protected String value_qualifiedMaxMinCount;
 	protected List<String> value_inverseOf;
-	protected List<String> value_shor;
-	protected List<String> value_shor_datatype;
-	protected String value_colorProperty;
-	protected String value_colorBackGround;
+	
+	public PlantUmlProperty(Resource propertyShape) {
+		super();
+		this.propertyShape = propertyShape;
+	}
 	
 	
 	/**
@@ -57,28 +65,24 @@ public class PlantUmlProperty {
 	
 	
 	public String getValue_colorBackGround() {
-		return value_colorBackGround;
-	}
-	
-	public void setValue_colorBackGround(String value_colorBackGround) {
-		this.value_colorBackGround = value_colorBackGround;
+		return ModelRenderingUtils.render(ModelReadingUtils.readObjectAsResourceOrLiteral(this.propertyShape, propertyShape.getModel().createProperty(SHACL_PLAY.BACKGROUNDCOLOR)), true);
 	}
 	
 	public List<String> getValue_shor_datatype() {
-		return value_shor_datatype;
-	}
-	
-	public void setValue_shor_datatype(List<String> value_shor_datatype) {
-		this.value_shor_datatype = value_shor_datatype;
+		if (this.propertyShape.hasProperty(SH.or)) {			
+			List<Resource> values = ShOrReadingUtils.readShDatatypeAndShNodeKindInShOr(this.propertyShape.getProperty(SH.or).getList());
+			if(values.size() > 0) {
+				return values.stream().map(r -> { return (r.isURIResource())?r.getModel().shortForm(r.getURI()):r.toString();}).collect(Collectors.toList());
+			}			
+		}
+		
+		return null;
 	}
 
 	public String getValue_colorProperty() {
-		return value_colorProperty;
+		return ModelRenderingUtils.render(ModelReadingUtils.readObjectAsResourceOrLiteral(this.propertyShape, propertyShape.getModel().createProperty(SHACL_PLAY.COLOR)), true);
 	}
 
-	public void setValue_colorProperty(String value_colorProperty) {
-		this.value_colorProperty = value_colorProperty;
-	}
 
 	public List<String> getValue_inverseOf() {
 		return value_inverseOf;
@@ -88,46 +92,56 @@ public class PlantUmlProperty {
 		this.value_inverseOf = value_inverseOf;
 	}
 
-	public PlantUmlProperty(Resource propertyShape) {
-		super();
-		this.propertyShape = propertyShape;
-	}
-
 	public List<String> getValue_shor() {
-		return value_shor;
-	}
-	
-	public void setValue_shor(List<String> value_shor) {
-		this.value_shor = value_shor;
+		if (this.propertyShape.hasProperty(SH.or)) {			
+			List<Resource> values = ShOrReadingUtils.readShClassAndShNodeInShOr(this.propertyShape.getProperty(SH.or).getList());
+			if(values.size() > 0) {
+				return values.stream().map(r -> { return (r.isURIResource())?r.getModel().shortForm(r.getURI()):r.toString();}).collect(Collectors.toList());
+			}			
+		}
+		
+		return null;
 	}
 
 	
 	public String getValue_path() {
-		return value_path;
-	}
-
-	public void setValue_path(String value_path) {
-		this.value_path = value_path;
+		List<RDFNode> paths = ModelReadingUtils.readObjectAsResource(this.propertyShape, SH.path);
+		if(paths != null) {
+			Resource firstResource = paths.stream().filter(p -> p.isResource()).map(p -> p.asResource()).findFirst().orElse(null);
+			// render the property path using prefixes
+			return ModelRenderingUtils.renderSparqlPropertyPath(firstResource, true);
+		} else {
+			// TODO : this default behavior should be elsewhere probably
+			return this.propertyShape.getURI();
+		}
 	}
 
 	public String getValue_datatype() {
-		return value_datatype;
-	}
-
-	public void setValue_datatype(String value_datatype) {
-		this.value_datatype = value_datatype;
+		return ModelRenderingUtils.render(ModelReadingUtils.readObjectAsResourceOrLiteral(this.propertyShape, SH.datatype), true);
 	}
 
 	public String getValue_nodeKind() {
-		return value_nodeKind;
-	}
-
-	public void setValue_nodeKind(String value_nodeKind) {
-		this.value_nodeKind = value_nodeKind;
+		return ModelRenderingUtils.render(ModelReadingUtils.readObjectAsResourceOrLiteral(this.propertyShape, SH.nodeKind), true);
 	}
 
 	public String getValue_cardinality() {
-		return value_cardinality;
+		String value_minCount = "0";
+		String value_maxCount ="*";
+		String uml_code =null;
+		if (this.propertyShape.hasProperty(SH.minCount)){
+			value_minCount = ModelRenderingUtils.render(ModelReadingUtils.readObjectAsResourceOrLiteral(this.propertyShape, SH.minCount), true);
+		}
+		if (this.propertyShape.hasProperty(SH.maxCount)) {
+			value_maxCount = ModelRenderingUtils.render(ModelReadingUtils.readObjectAsResourceOrLiteral(this.propertyShape, SH.maxCount), true);
+		}
+		
+		if ((this.propertyShape.hasProperty(SH.minCount)) || (this.propertyShape.hasProperty(SH.maxCount))){
+			uml_code = "["+ value_minCount +".."+ value_maxCount +"]";
+		} else {
+			uml_code = null;
+		}
+		
+		return uml_code;
 	}
 
 	public void setValue_cardinality(String value_cardinality) {

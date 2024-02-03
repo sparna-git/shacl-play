@@ -432,11 +432,6 @@ public class PlantUmlRenderer {
 		String labelColorClass = "";
 		if(box.getColorClass() != null) {
 			labelColorClass = ";text:"+box.getColorClass();
-		} else {
-			if (box.getBackgroundColor() != null) {
-				// When the shacl-play:color is not configurate in the nodeShape but shacl-play:background-color exist then get text color white default.
-				labelColorClass = ";text:white";
-			}
 		}
 		
 		if (box.getProperties().size() > 0 || box.getSuperClasses().size() > 0) {

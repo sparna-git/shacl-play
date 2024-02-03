@@ -132,7 +132,7 @@
 	</xsl:template>
 	
 	
-	<xsl:template match="ShapesDocumentation" mode="style_css_dataset">		
+	<xsl:template match="ShapesDocumentation" mode="style_css_extra">		
 			.sp_serialization_badge {
 				margin-right: 0.5em;
 				}
@@ -182,14 +182,15 @@
 					width:70%;
 					display:inline-block;
 					}
-	
-			<!-- Chart Library -->
-			<script src="https://cdn.jsdelivr.net/npm/chart.js">//</script>	
 			
 	</xsl:template>
 	
-	<xsl:template match="ShapesDocumentation" mode="javaScript_dataset">
-		
+	<xsl:template match="ShapesDocumentation" mode="javascript_extra_header">
+		<!-- Chart Library -->
+		<script src="https://cdn.jsdelivr.net/npm/chart.js">//</script>	
+	</xsl:template>
+	
+	<xsl:template match="ShapesDocumentation" mode="javascript_extra">
 		
 		<!-- Only for generate a structure format -->
 		<script type="text/javascript">					
@@ -197,134 +198,21 @@
 			listCodeSparql.forEach((t) => t.innerHTML = t.innerHTML.replace("SELECT","&lt;code&gt;&lt;span style=\"color: blue;\"&gt;&lt;strong&gt;SELECT&lt;/strong&gt;&lt;/span&gt;").replace("?result","?result &lt;br&gt;").replace("WHERE","&lt;span style=\"color: blue;\"&gt;&lt;strong&gt;WHERE&lt;/strong&gt;&lt;/span&gt;").replace("{","&lt;span style=\"color: #FF5733;\"&gt;&lt;strong&gt;&lt;br&gt;{&lt;br&gt;&lt;/strong&gt;&lt;/span&gt;").replace("}","&lt;span style=\"color: #FF5733;\"&gt;&lt;strong>&lt;br&gt;}&lt;/strong&gt;&lt;/span&gt;&lt;/code&gt;")) 
 		</script>
 
-
 		<!-- Tippy -->
 		<script src="https://unpkg.com/@popperjs/core@2">//</script>
     	<script src="https://unpkg.com/tippy.js@6">//</script>
-		<script type="text/javascript">
-					
-					// Instance 
-					tippy("div#sparql",{
-						content(reference) {
-							return reference.children.sparqlquery.innerHTML;
-						},
-						allowHTML: true,
-					});
-
-
+		<script type="text/javascript">					
+			// Instance 
+			tippy("div#sparql",{
+				content(reference) {
+					return reference.children.sparqlquery.innerHTML;
+				},
+				allowHTML: true,
+			});
 		</script>
 	</xsl:template>
 	
 	
-	
-	<xsl:template match="ShapesDocumentation">
-		<!-- <xsl:text disable-output-escaping='yes'>&lt;!DOCTYPE html&gt;</xsl:text> -->
-		<!-- <xsl:text disable-output-escaping='yes'>&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"&gt;</xsl:text>  -->
-		<html lang="{$LANG}">
-			<head>
-				<!-- Call style css -->
-				<style>
-					<!-- Style Doc -->
-					<xsl:apply-templates select="../ShapesDocumentation" mode="style_css_doc"/>
-					<!-- Style Dataset -->
-					<xsl:apply-templates select="../ShapesDocumentation" mode="style_css_dataset"/>					
-				</style>
-				
-				<meta charset="UTF-8"/>
-				<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-				<meta name="lang" content="{$LANG}"/>
-				<meta property="og:locale" content="{$LANG}"/>
-				
-				<xsl:variable name="var_title" select="title"/>
-				<xsl:if test="$var_title != ''">
-					<title><xsl:value-of select="$var_title"/></title>
-					<meta name="apple-mobile-web-app-title" content="{$var_title}"/>
-					<meta name="twitter:title" content="{$var_title}"/>
-					<meta property="og:title" content="{$var_title}"/>
-				</xsl:if>
-												
-			</head>
-			<body>
-				
-				<div class="sp_container_principal container pt-4">
-					
-			        <xsl:choose>
-		            	<xsl:when test="string-length(imgLogo) &gt; 0">
-		            		<table style="width:100%">
-			            		<tr>
-			            			<td width="20%"><img src="{imgLogo}"/></td>
-			            			<td width="80%"><h1 class="mb-4 sp_section_title_header"><xsl:value-of select="title" /></h1></td>		
-			            		</tr>	
-		            		</table>
-		            	</xsl:when>
-		            	<xsl:otherwise>
-		            			<h1 class="mb-4 sp_section_title_header"><xsl:value-of select="title" /></h1>
-		            	</xsl:otherwise>
-		            </xsl:choose>			            
-			         
-					<div>
-						<xsl:apply-templates select="datecreated" />
-						<xsl:apply-templates select="dateissued" />
-						<xsl:apply-templates select="modifiedDate" />
-						<xsl:apply-templates select="yearCopyRighted" />
-						<xsl:apply-templates select="versionInfo" />
-						<xsl:apply-templates select="licenses" />
-						<xsl:apply-templates select="creators" />
-						<xsl:apply-templates select="publishers" />
-						<xsl:apply-templates select="rightsHolders" />
-						<xsl:apply-templates select="feedbacks" />
-						<!-- section for the formats -->
-						<xsl:if test="string-length(formats) &gt; 0">
-							<xsl:apply-templates select="formats" />
-						</xsl:if>
-						<br/>						
-					</div>					
-					
-					<xsl:apply-templates select="abstract_" />
-					<xsl:apply-templates select="." mode="TOC" />
-					<xsl:apply-templates select="prefixes" />
-					<xsl:if test="diagrams or depictions">						
-						<xsl:if test="string-length(diagrams) &gt; 0 ">
-							<div class="sp_section_row mt-3">
-								<div class="sp_section_col">
-									<section>
-										<h2 id="diagrams" class="sp_section_subtitle">
-											<xsl:value-of select="$LABELS/labels/entry[@key='DIAGRAM.TITLE']/@label" />
-										</h2>
-										<xsl:apply-templates select="diagrams" />
-										<xsl:apply-templates select="depictions"/>
-									</section>
-								</div>
-							</div>	
-						</xsl:if>						
-					</xsl:if>
-				
-					<xsl:apply-templates select="descriptionDocument" />
-					
-					<xsl:apply-templates select="sections" />
-					
-					<!--  release notes at the end -->
-					<xsl:apply-templates select="releaseNotes" />
-				</div>
-				
-				
-				<!-- Anchor for the document -->
-				<script src="https://cdn.jsdelivr.net/npm/anchor-js/anchor.min.js">//</script>
-    			<script>				
-					anchors.options = {
-	                    icon: '#'
-	                  };
-               		anchors.options.placement = 'left';
-					anchors.add();		
-				</script>
-				
-				
-				<!-- JavaScript -->
-				<xsl:apply-templates select="../ShapesDocumentation" mode="javaScript_dataset"/>
-				
-			</body>
-		</html>
-	</xsl:template>
 	
 	
 	
@@ -467,11 +355,27 @@
 		</xsl:if>
 	</xsl:template>
 
-	<xsl:template match="numberOfTargets" mode="numberOfTargets_text">
+	<xsl:template match="section" mode="TOC">
+		<li>
+			<a href="{concat('#',sectionId)}">
+				<xsl:value-of select="title" />
+				<!-- Add indicator of number of target  -->
+				<xsl:apply-templates select="./numberOfTargets" mode="TOC"/>
+			</a>
+			<xsl:if test="count(charts/chart) > 0">
+				<ul class="ul_type_none sp_list_toc_l3">										
+					<xsl:for-each select="charts/chart">
+						<xsl:variable name="chartSectionId"><xsl:apply-templates select="." mode="id" /></xsl:variable>
+						<li><a href="#{$chartSectionId}"><xsl:value-of select="$LABELS/labels/entry[@key='BY']/@label" /><xsl:value-of select="title" /></a></li>
+					</xsl:for-each>
+				</ul>
+			</xsl:if>	
+		</li>
+	</xsl:template>
+
+	<xsl:template match="numberOfTargets" mode="TOC">
 		<xsl:if test="number(.) != 0">
-			(
-			<xsl:value-of select="." />
-			)
+			(<xsl:value-of select="." />)
 		</xsl:if>
 	</xsl:template>
 
@@ -611,42 +515,34 @@
 
 					<!-- JavaScript for drawn Pie Chart -->
 					<script type="text/javascript">
-						const data
-						<xsl:value-of select="$currentSectionId" />
-						= {
-						labels: [
-						<xsl:value-of
-							select="./items/item/concat($quote,label,$quote)" separator="," />
-						],
-						datasets: [{
-						label: 'values',
-						data: [
-						<xsl:value-of select="./items/item/value"
-							separator="," />
-						],
-						hoverOffset: 4
-						}]
+						const data<xsl:value-of select="$currentSectionId" /> = {
+							labels: [
+								<xsl:value-of select="./items/item/normalize-space(concat($quote,label,$quote))" separator="," />
+							],
+							datasets: [{
+								label: 'values',
+								data: [
+								<xsl:value-of select="./items/item/value" separator="," />
+								],
+								hoverOffset: 4
+							}]
 						};
 
-						new Chart("
-						<xsl:value-of select="$currentSectionId" />
-						_canvas",{
-						type: 'pie',
-						data: data
-						<xsl:value-of select="$currentSectionId" />
-						,
-						options: {
-						plugins: {
-						legend: {
-						display: true,
-						position: 'right'
-						}
-						},
-						layout: {
-						autoPadding: false
-						},
-						aspectRatio: 2
-						}
+						new Chart("<xsl:value-of select="$currentSectionId" />_canvas",{
+							type: 'pie',
+							data: data<xsl:value-of select="$currentSectionId" />,
+							options: {
+								plugins: {
+									legend: {
+										display: true,
+										position: 'right'
+									}
+								},
+								layout: {
+									autoPadding: false
+								},
+								aspectRatio: 2
+							}
 						});
 					</script>
 				</div>

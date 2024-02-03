@@ -139,254 +139,8 @@
 				<!-- Call style css -->
 				<style>	
 					<xsl:apply-templates select="../ShapesDocumentation" mode="style_css_doc"/>
-				</style>	
-					<!-- 
-					body {
-						margin: 0;
-						font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-							"Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif,
-							"Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
-							"Noto Color Emoji";
-						background-color: #fff;
-					}
-					
-					.anchor {
-						float: left;
-						padding-right: 4px;
-						margin-left: -20px;
-						line-height: 1;
-						padding-top: 12px;
-					}
-							
-					a {
-						color: #007bff;
-						text-decoration: none;
-						background-color: transparent;
-					}
-					
-					a:-webkit-any-link {
-						cursor: pointer;
-					}
-					
-					.p {
-						font-size: 0.875em;
-					}
-					
-					h2 {
-						margin: 25px 0px 10px 0px;
-					}
-					
-					h3 {
-						font-size: 1.4em;
-					}
-					
-					@media only print {
-					}
-					
-					@page {
-						size: A4 portrait;
-						margin-top: 1.2cm;
-						margin-bottom: 1.2cm;
-						margin-left: 1.2cm;
-						margin-right: 1.2cm;
-						background-repeat: no-repeat;
-						background-position: 40px 10px;
-						
-						@bottom-center
-						{
-						content
-						:
-						counter(
-						page
-						);
-					}
-					
-					}
-							
-					/* This section draw the format web */
-					.ul_type_none {
-						list-style-type: none;
-					}
-					
-					.sp_list_description_properties {
-						/* don't set it lower otherwise it gets hidden in PDF */
-						padding-left: 20px;
-					}
-					
-					dl, ol, ul {
-						margin-top: 0;
-						margin-bottom: 1rem;
-					}
-					
-					li {
-						display: list-item;
-						text-align: -webkit-match-parent;
-					}
-					
-					.sp_section_title_header {
-						font-family: Georgia, Garamond, serif;	
-						margin-top: 25px;
-						margin-bottom: 2.5rem;
-					    font-size: 1.5625rem;
-						display: block;
-						font-weight: 500;
-						color: #1e1e1f;
-						line-height: 1.2em;   
-					}
-					
-					.sp_section_subtitle {
-						font-family: Georgia, Garamond, serif;	
-						margin-top: 0;
-						margin-bottom: 0.5rem;
-						display: block;
-						font-weight: 500;
-						color: #1e1e1f;
-						line-height: 1.2em;  
-					}
-					
-					.sp_section_title_table {
-						font-family: Georgia, Garamond, serif;	
-						/* 0 because URI is right under */
-						margin-bottom: 0rem;
-						display: block;
-						font-weight: 500;
-						color: #1e1e1f;
-						line-height: 1.2em; 
-					}
-							
-
-					.sp_section_title_toc {
-						font-family: Georgia, Garamond, serif;	
-					}
-
-					/* URI below the title of the section */
-					.sp_section_uri	 {
-						margin-top: 0px;
-					}
-
-					/* div wrapping section title and URI below - same as a paragraph margin */
-					.sp_section_title_table_wrapper {
-						margin-bottom: 16px;
-						border-bottom: 1px solid;	
-					}
-					
-					 
-					table {
-						display: table;
-						border-spacing: 0px;
-						margin-bottom: 1rem;
-					}
-					
-					tr:nth-child(even) {
-						background-color: #eee;
-					}
-							
-					.sp_table_prefixes table {
-						border-collapse: collapse;
-						margin-bottom: 1rem;
-						color: #212529;
-					}
-											
-					.sp_table_prefixes td {
-						padding: 0.25rem;
-						vertical-align: top;
-						border-top: 1px solid #dee2e6;
-					}
-					
-					.sp_table_propertyshapes {
-						border-collapse: collapse;
-						width: 100%;
-					}
-										
-					.sp_table_propertyshapes thead {
-						display: table-header-group;
-						vertical-align: middle;
-						border-color: inherit;
-					}
-													
-					.sp_table_propertyshapes tr {
-					    display: table-row;
-					    vertical-align: inherit;
-					    border-color: inherit;
-					}
-													
-					.sp_table_propertyshapes th:nth-child(4) {
-						width: 6%;
-					}
-													
-					.sp_table_propertyshapes td {
-						padding: 0.75rem;
-						border-top: 1px solid #dee2e6;
-					}
-													
-					.sp_table_propertyshapes tbody {
-						display: table-row-group;
-						vertical-align: middle;
-						border-color: inherit;
-					}
-										
-					.sp_table_propertyshapes_col_description {
-						word-break: break-word;
-					}
-					
-					.sp_serialization_badge {
-						margin-right: 0.5em;
-					}
-					
-					<xsl:choose>
-						<xsl:when test="$MODE = 'PDF'">
-							.toc { }
-							.sp_section_title_toc {
-								margin-block-start: 0.83em;
-							    margin-block-end: 0.83em;
-							    margin-inline-start: 0px;
-							    margin-inline-end: 0px;    
-								margin-bottom: 0.5rem;
-								display: block;
-								font-weight: 500;
-								color: #1e1e1f;
-								line-height: 1.2em;
-							}
-							
-							.sp_container_principal {
-								width: calc(100% - 40px);
-								max-width: 1000px;
-								margin-left: auto;
-								margin-right: auto;
-							}
-							
-							.pt-4 {
-								padding-top: 2.5rem !important;
-							}
-						</xsl:when>
-						<xsl:otherwise>
-							.container {
-							    width: calc(100% - 40px);
-							    max-width: 1000px;
-							    margin-left: 300px;
-							    margin-right: auto;
-							}
-							.container {width: calc(100% - 500px);}
-							.toc {
-								position: fixed;
-								top: 0;
-								left: 0;
-								font-size: small;
-								padding: 10px 10px;
-								width: auto;
-								border-right: solid 2px #eeeeee;
-								bottom: 0;
-								overflow-y: scroll;
-								background-color:white;
-								max-width:255px;
-							}
-							.sp_list_toc {padding-left: 0px;}
-							.sp_list_toc_l2 {padding-left: 10px;}					
-						</xsl:otherwise>
-					</xsl:choose>
-					
-					-->
-					
+					<xsl:apply-templates select="../ShapesDocumentation" mode="style_css_extra"/>
+				</style>		
 				
 				<meta charset="UTF-8"/>
 				<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
@@ -400,6 +154,8 @@
 					<meta name="twitter:title" content="{$var_title}"/>
 					<meta property="og:title" content="{$var_title}"/>
 				</xsl:if>
+				
+				<xsl:apply-templates select="../ShapesDocumentation" mode="javascript_extra_header"/>
 												
 			</head>
 			<body>
@@ -475,6 +231,7 @@
                		anchors.options.placement = 'left';
 					anchors.add();		
 				</script>
+				<xsl:apply-templates select="../ShapesDocumentation" mode="javascript_extra"/>
 			</body>
 		</html>
 	</xsl:template>
@@ -722,7 +479,8 @@
 								max-width:255px;
 							}
 							.sp_list_toc {padding-left: 0px;}
-							.sp_list_toc_l2 {padding-left: 10px;}					
+							.sp_list_toc_l2 {padding-left: 10px;}	
+							.sp_list_toc_l3 {padding-left: 8px;}					
 						</xsl:otherwise>
 					</xsl:choose>
 		
@@ -759,17 +517,7 @@
 					</a>
 					<ul role="list" class="ul_type_none sp_list_toc_l2">
 						<!-- Section -->
-						
-						<xsl:for-each select="sections/section">
-							<li>
-								<a href="{concat('#',sectionId)}">
-									<xsl:value-of select="title" />
-									<!-- Add indicator of number of target  -->
-									<xsl:apply-templates select="./numberOfTargets" mode="numberOfTargets_text"/>
-								</a>
-							</li>
-						</xsl:for-each>
-												
+						<xsl:apply-templates select="sections/section" mode="TOC" />												
 					</ul>
 				</li>
 				<!-- Release notes -->
@@ -782,6 +530,14 @@
 				</xsl:if>
 			</ul>
 		</div>		
+	</xsl:template>
+
+	<xsl:template match="section" mode="TOC">
+		<li>
+			<a href="{concat('#',sectionId)}">
+				<xsl:value-of select="title" />
+			</a>
+		</li>
 	</xsl:template>
 
 	<xsl:template match="datecreated">

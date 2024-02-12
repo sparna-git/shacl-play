@@ -1,8 +1,10 @@
 package fr.sparna.rdf.jena;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
@@ -67,8 +69,8 @@ public class ModelReadingUtils {
 		return label;
 	}
 	
-	public static List<Literal> readLiteral(Resource constraint, Property property) {
-		return readLiteralInLang(constraint, property, null);
+	public static List<Literal> readLiteral(Resource r, Property property) {
+		return readLiteralInLang(r, property, null);
 	}
 	
 	/**
@@ -96,7 +98,7 @@ public class ModelReadingUtils {
 			}
 		}
 		
-		return null;
+		return Collections.emptyList();
 	}
 	
 	/**
@@ -129,7 +131,7 @@ public class ModelReadingUtils {
 			return result;
 		}
 		
-		return null;
+		return Collections.emptyList();
 	}
 	
 	/**
@@ -140,18 +142,30 @@ public class ModelReadingUtils {
 			return r.listProperties(property).toList().stream().map(s -> s.getObject()).collect(Collectors.toList());
 		}
 		
-		return null;
+		return Collections.emptyList();
 	}
 	
 	/**
-	 * Reads all values of the given property as Resources
+	 * Reads all values of the given property as Resource
 	 */
-	public static List<RDFNode> readObjectAsResource(Resource r, Property property) {
+	public static List<Resource> readObjectAsResource(Resource r, Property property) {
 		if(r.hasProperty(property)) {
-			return r.listProperties(property).toList().stream().map(s -> s.getObject()).collect(Collectors.toList());
+			return r.listProperties(property).toList().stream().filter(s -> s.getObject().isResource()).map(s -> s.getObject().asResource()).collect(Collectors.toList());
 		}
 		
-		return null;
+		return Collections.emptyList();
+	}
+	
+	public static Optional<Literal> getOptionalLiteral(Resource r, Property p) {
+		return Optional.ofNullable(r.getProperty(p)).filter(s -> s.getObject().isLiteral()).map(s -> s.getObject().asLiteral());
+	}
+	
+	public static Optional<Resource> getOptionalResource(Resource r, Property p) {
+		return Optional.ofNullable(r.getProperty(p)).filter(s -> s.getObject().isResource()).map(s -> s.getObject().asResource());
+	}
+	
+	public static Optional<RDFNode> getOptionalRdfNode(Resource r, Property p) {
+		return Optional.ofNullable(r.getProperty(p)).filter(s -> s.getObject().isResource()).map(s -> s.getObject());
 	}
 	
 	public static List<RDFNode> asJavaList(Resource resource) {

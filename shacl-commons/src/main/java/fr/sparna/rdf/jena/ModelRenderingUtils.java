@@ -17,7 +17,31 @@ import fr.sparna.rdf.shacl.SH;
 
 public class ModelRenderingUtils {
 
+	/**
+	 * Render a list of RDFNode as a string, in plain text
+	 * @param list
+	 * @return
+	 */
+	public static String render(List<? extends RDFNode> list) {
+		return ModelRenderingUtils.render(list, true);
+	}
+	
+	/**
+	 * Render an RDFNode as a String, in plain text
+	 * 
+	 * @param node
+	 * @return
+	 */
+	public static String render(RDFNode node) {
+		return ModelRenderingUtils.render(node, true);
+	}
 
+	/**
+	 * Render a list of RDFNode as a comma-separated string. If plainString is true, make it a plainString, otherwise uses HTML markup to display e.g. datatypes and languages in "sup" tags
+	 * @param list the list of RDFNode to be displayed
+	 * @param plainString true to retrieve a plainString, false to retrieve a pice of HTML
+	 * @return
+	 */
 	public static String render(List<? extends RDFNode> list, boolean plainString) {
 		if(list == null || list.size() == 0) {
 			return null;
@@ -28,6 +52,13 @@ public class ModelRenderingUtils {
 		}).collect(Collectors.joining(", "));
 	}
 	
+	/**
+	 * Render an RDFNode as a String. If plainString is true, make it a plainString, otherwise uses HTML markup to display e.g. datatypes and languages in "sup" tags
+	 * 
+	 * @param node The node to be renderd as String
+	 * @param plainString true to retrieve a plainString, false to retrieve a pice of HTML
+	 * @return
+	 */
 	public static String render(RDFNode node, boolean plainString) {
 		if(node == null) {
 			return null;
@@ -84,11 +115,24 @@ public class ModelRenderingUtils {
 		}
 	}	
 
+	/**
+	 * Renders the  provided SHACL Property path as a SPARQL property path syntax, using prefixed URIs.
+	 * 
+	 * @param r the SHACL property path to render in SPARQL
+	 * @return
+	 */
 	public static String renderSparqlPropertyPath(Resource r) {
-		// by defalt, render the property path without prefixes
+		// by default, render the property path without prefixes
 		return renderSparqlPropertyPath(r, true);
 	}
 
+	/**
+	 * Renders the  provided SHACL Property path as a SPARQL property path syntax. If usePrefixes if true, will use prefixed URIs, otherwise will use full URIs.
+	 * 
+	 * @param r the SHACL property path to render in SPARQL
+	 * @param usePrefixes true to use prefixes, false to use full URIs 
+	 * @return
+	 */
 	public static String renderSparqlPropertyPath(Resource r, boolean usePrefixes) {
 		if(r == null) return "";
 		

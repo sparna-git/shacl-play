@@ -71,10 +71,7 @@ public class PlantUmlDiagramGenerator {
 		
 		// 2. Une fois qu'on a toute la liste, lire les proprietes
 		for (PlantUmlBox aBox : plantUmlBoxes) {
-			aBox.setProperties(nodeShapeReader.readProperties(aBox.getNodeShape(), plantUmlBoxes,owlGraph));
-			if(includeSubclassLinks) {
-				aBox.setSuperClasses(nodeShapeReader.readSuperClasses(aBox.getNodeShape(), plantUmlBoxes,owlGraph));
-			}
+			aBox.setProperties(nodeShapeReader.readProperties(aBox.getNodeShape(),owlGraph));
 		}
 		
 		// then create the PlanUmlDiagrams
@@ -84,7 +81,8 @@ public class PlantUmlDiagramGenerator {
 		// and then render each diagram
 		PlantUmlRenderer renderer = new PlantUmlRenderer();
 		renderer.setGenerateAnchorHyperlink(this.generateAnchorHyperlink);
-		renderer.setAvoidArrowsToEmptyBoxes(avoidArrowsToEmptyBoxes);
+		renderer.setAvoidArrowsToEmptyBoxes(this.avoidArrowsToEmptyBoxes);
+		renderer.setIncludeSubclassLinks(this.includeSubclassLinks);
 		
 		List<PlantUmlDiagramOutput> codePlantUml = diagrams.stream().map(d -> new PlantUmlDiagramOutput(d, renderer)).sorted((o1,o2) -> {
 			if(o1.getDiagramOrder() > 0) {

@@ -4,8 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.jena.rdf.model.Resource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class PlantUmlDiagram {
+	
+	private Logger log = LoggerFactory.getLogger(this.getClass().getName());
+	
 	protected Resource resource;
 	protected List<PlantUmlBox> boxes = new ArrayList<>();
 	protected String title;
@@ -14,6 +19,53 @@ public class PlantUmlDiagram {
 	
 	public PlantUmlBox findBoxById(String id) {
 		return this.boxes.stream().filter(b -> b.getLabel().equals(id)).findFirst().orElse(null);
+	}
+	
+	public PlantUmlBox findBoxByResource(Resource r) {
+		return this.boxes.stream().filter(b -> b.getNodeShape().toString().equals(r.toString())).findFirst().orElse(null);
+	}
+	
+	public PlantUmlBox findBoxByTargetClass(Resource classUri) {
+		return this.boxes.stream().filter(b -> b.isTargeting(classUri)).findFirst().orElse(null);
+	}
+	
+	/**
+	 * Returns the identifier of the arrow reference (a shortForm), either through an sh:node to an existing NodeShape,
+	 * an sh:class to an existing NodeShape, or an sh:class to a class that is not a NodeShape or targeted by a NodeShape
+	 * 
+	 * @param allBoxes
+	 * @return
+	 */
+	public String resolvePropertyShapeShNodeOrShClass(PlantUmlProperty property) {
+		if(property.getShNode().isPresent()) {
+			return property.getShNodeLabel();
+		} else if(property.getShClass().isPresent()) {			
+			// sh:class may not be targeted to a NodeShape
+			// PlantUML will make up a box with the class shortForm automatically
+			// we need to return it to indicate the property will generate an arrow in the diagram
+			// we don't jave to search in the PlantUmlBoxes
+			return this.resolveShClassReference(property);
+			
+			// TODO : we may be interested to get the references made through a sh:or ?
+		}
+		return null;
+	}
+	
+	public String resolveShClassReference(PlantUmlProperty property) {
+		return property.getShClass().map(cl -> {
+			PlantUmlBox b = this.findBoxByTargetClass(cl);
+			if(b != null) {
+				return b.getLabel();
+			} else {
+				if (cl.isURIResource()) { 
+					return cl.getModel().shortForm(cl.getURI());
+				} else {
+					log.warn("Found a blank sh:class reference on a shape with sh:path "+cl+", cannot handle it");
+					return null;
+				}
+			}
+		}).orElse(null);
+		
 	}
 	
 	public List<PlantUmlBox> getBoxes() {

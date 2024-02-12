@@ -21,7 +21,7 @@ public class PlantUmlDiagramReader {
 		Set<Resource> allDiagramReferences = new HashSet<>();
 		for (PlantUmlBox oneBox : boxes) {
 			// List<String> references = oneBox.getDiagramReferences().stream().map(r -> r.getURI()).collect(Collectors.toList());
-			allDiagramReferences.addAll(oneBox.getDiagramReferences());
+			allDiagramReferences.addAll(oneBox.getDepiction());
 		}
 		
 		if(allDiagramReferences.size() == 0) {
@@ -36,7 +36,7 @@ public class PlantUmlDiagramReader {
 				d.setResource(aRef);
 				// store all boxes that are included in this diagram
 				for (PlantUmlBox oneBox : boxes) {
-					if(oneBox.getDiagramReferences().contains(aRef)) {
+					if(oneBox.getDepiction().contains(aRef)) {
 						d.getBoxes().add(oneBox);
 					}
 				}

@@ -28,7 +28,7 @@ public class OwlOntology {
 	}	
 	
 	public List<RDFNode> getRepository() {
-		return ModelReadingUtils.readObjectAsResource(this.resource, DOAP.repository);
+		return ModelReadingUtils.readObjectAsResourceOrLiteral(this.resource, DOAP.repository);
 	}
 
 	public List<DcatDistribution> getDistributions() {
@@ -87,7 +87,7 @@ public class OwlOntology {
 	}
 
 	public List<RDFNode> getDepiction() {
-		return ModelReadingUtils.readObjectAsResource(this.resource, FOAF.depiction);
+		return ModelReadingUtils.readObjectAsResourceOrLiteral(this.resource, FOAF.depiction);
 	}
 
 	public String getDctTitle(String lang) {

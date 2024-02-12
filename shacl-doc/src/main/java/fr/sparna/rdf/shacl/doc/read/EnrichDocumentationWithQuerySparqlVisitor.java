@@ -64,21 +64,14 @@ public class EnrichDocumentationWithQuerySparqlVisitor implements ShaclVisitorIf
 	@Override
 	public void visitPropertyShape(Resource aPropertyShape, Resource aNodeShape) {
 		
-		List<Resource> propertyPartitions = this.statisticsModel.listStatements(null, DCTerms.conformsTo, aPropertyShape).mapWith(t-> t.getSubject()).toList();
+		PropertyShape ps = new PropertyShape(aPropertyShape);
+		NodeShape ns = new NodeShape(aNodeShape);
 		
-		if(propertyPartitions.size() == 0) {
-			log.debug("Cannot find corresponding property partition for "+aPropertyShape);
-		} else {
-			if(propertyPartitions.size() > 1) {
-				log.debug("More than one property partition found for "+aPropertyShape);
-			}
-			Resource aPropertyPartition = propertyPartitions.get(0);
-			
+		// this works only if we have a targetClass and a URI in sh:path
+		if(ns.getShTargetClass() != null && ps.getShPath().isURIResource()) {
 			// find corresponding section in doc
-			NodeShape ns = new NodeShape(aNodeShape);
 			ShapesDocumentationSection section = this.documentation.findSectionByUriOrId(ns.getURIOrId());
 			if(section != null) {
-				PropertyShape ps = new PropertyShape(aPropertyShape);
 				PropertyShapeDocumentation propertySection = section.findPropertyShapeDocumentationSectionByUriOrId(ps.getURIOrId());
 				
 				if(propertySection != null) {
@@ -96,7 +89,7 @@ public class EnrichDocumentationWithQuerySparqlVisitor implements ShaclVisitorIf
 					// Dataset
 					eBlock.addTriple(new Triple(this.subject, this.type,NodeFactory.createURI(section.getTargetClass().getHref())));
 					
-					eBlock.addTriple(new Triple(this.subject, NodeFactory.createURI(aPropertyPartition.getURI()),Var.alloc("result")));
+					eBlock.addTriple(new Triple(this.subject, NodeFactory.createURI(ps.getShPath().getURI()),Var.alloc("result")));
 					
 					eWhere.addElement(eBlock);
 					
@@ -104,10 +97,24 @@ public class EnrichDocumentationWithQuerySparqlVisitor implements ShaclVisitorIf
 					
 					//output Script Sparql Query
 					propertySection.setSparqlQueryProperty(q.toString());
-					
-					
 				}
 			}
+		}
+		
+
+		
+		
+		List<Resource> propertyPartitions = this.statisticsModel.listStatements(null, DCTerms.conformsTo, aPropertyShape).mapWith(t-> t.getSubject()).toList();
+		
+		if(propertyPartitions.size() == 0) {
+			log.debug("Cannot find corresponding property partition for "+aPropertyShape);
+		} else {
+			if(propertyPartitions.size() > 1) {
+				log.debug("More than one property partition found for "+aPropertyShape);
+			}
+			Resource aPropertyPartition = propertyPartitions.get(0);
+			
+
 		}		
 				
 	}

@@ -14,7 +14,8 @@
 	 -->
 
 	<!-- french labels -->
-	<xsl:variable name="LABELS_FR">
+	<!-- this "BASE" variable can be overwritten by other stylesheets -->
+	<xsl:variable name="LABELS_FR_BASE">
 		<labels>
 			<entry key="TOC" label="Table des Matières" />
 			<entry key="COLUMN_PROPERTY" label="Nom de la propriété" />
@@ -63,9 +64,14 @@
 			<entry key="LABEL_OR" label=" ou "/>
 		</labels>
 	</xsl:variable>
+	<!-- In this stylesheet we just copy the base labels -->
+	<xsl:variable name="LABELS_FR">
+		<xsl:copy-of select="$LABELS_FR_BASE" />
+	</xsl:variable>
 
 	<!-- English labels -->
-	<xsl:variable name="LABELS_EN">
+	<!-- this "BASE" variable can be overwritten by other stylesheets -->
+	<xsl:variable name="LABELS_EN_BASE">
 		<labels>
 			<entry key="TOC" label="Table of Contents" />
 			<entry key="COLUMN_PROPERTY" label="Property name" />
@@ -112,6 +118,10 @@
 			<entry key="LABEL_SUPERCLASSES" label="Inherits from: "/>
 			<entry key="LABEL_OR" label=" or "/>
 		</labels>
+	</xsl:variable>
+	<!-- In this stylesheet we just copy the base labels -->
+	<xsl:variable name="LABELS_EN">
+		<xsl:copy-of select="$LABELS_EN_BASE" />
 	</xsl:variable>
 
 
@@ -805,9 +815,7 @@
 				<section id="{sectionId}">
 					<div class="sp_section_title_table_wrapper">
 					
-						<h3 class="sp_section_title_table">
-							<xsl:value-of select="title" />
-						</h3>
+						<xsl:apply-templates select="title" />
 						
 						<xsl:if test="subtitleUri">
 							<code class="sp_section_uri"><xsl:value-of select="subtitleUri" /></code>
@@ -876,6 +884,11 @@
 									<code><xsl:value-of select="skosExample"/></code>
 								</li>
 							</xsl:if>
+							<xsl:if test="string-length(MessageOfValidate) &gt; 0">
+								<li>
+									<em>Message:</em><xsl:value-of select="MessageOfValidate"/>
+								</li>
+							</xsl:if>
 							
 						</ul>
 					</xsl:if>
@@ -891,12 +904,21 @@
 					</xsl:if>
 					
 					<!-- Properties table -->
-					<xsl:apply-templates select="properties" />					
+					<xsl:apply-templates select="properties" />		
+					
+					<!-- Section for Pie Chart -->
+					<xsl:apply-templates select="charts" />				
 										
 				</section>
 			</div>
 		</div>
 		<br/>
+	</xsl:template>
+	
+	<xsl:template match="section/title">
+		<h3 class="sp_section_title_table">
+			<xsl:value-of select="." />
+		</h3>
 	</xsl:template>
 	
 	<!-- Properties -->

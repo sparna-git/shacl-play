@@ -2,61 +2,11 @@
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
 	<xsl:import href="doc2html.xsl"/>
-
-	<!-- Language parameter to the XSLT -->
-	<xsl:param name="LANG"/>
-	
-	<!-- Indicates if we are producing the HTML for an HTML output of for a PDF conversion -->
-	<xsl:param name="MODE">HTML</xsl:param>
 	
 	<xsl:variable name="LABELS_FR">
 		<labels>
-			<entry key="TOC" label="Table des Matières" />
-			<entry key="COLUMN_PROPERTY" label="Nom de la propriété" />
-			<entry key="COLUMN_URI" label="URI" />
-			<entry key="COLUMN_EXPECTED_VALUE" label="Valeur attendue" />
-			<entry key="COLUMN_CARD" label="Card." />
-			<entry key="COLUMN_DESCRIPTION" label="Description" />
-			<entry key="COLUMN_NUMBEROCCURRENCES" label="Triplets" />
-			<entry key="COLUMN_VALUESDISTINCTS" label="Valeurs" />
-
-			<entry key="PREFIXES.TITLE" label="Espaces de nom" />
-			<entry key="PREFIXES.COLUMN.PREFIX" label="Préfixe" />
-			<entry key="PREFIXES.COLUMN.URI" label="Espace de nom" />
-
-			<entry key="METADATA.VERSION" label="Version : " />
-			<entry key="METADATA.INTRODUCTION" label="Introduction" />
-			<entry key="METADATA.DATECREATED" label="Date de création : " />
-			<entry key="METADATA.DATE" label="Dernière modification : " />
-			<entry key="METADATA.DATEISSUED" label="Date de publication : " />
-			<entry key="METADATA.DATECOPYRIGHTED" label="Date de copyright : " />
-			<entry key="METADATA.LICENSE" label="License : " />
-			<entry key="METADATA.CREATOR" label="Auteur : " />
-			<entry key="METADATA.PUBLISHER" label="Editeur : " />
-			<entry key="METADATA.RIGHTHOLDER" label="Titulaire des droits : " />
-			<entry key="METADATA.FEEDBACK" label="Contact : " />
-			
-			
-			<entry key="METADATA.FORMATS" label="Télécharger les données : " />
-
-			<entry key="DIAGRAM.TITLE" label="Diagrammes" />
-
-			<entry key="DIAGRAM.HELP"
-				label="Cliquez sur le diagramme pour naviguer vers la section correspondante" />
-			<entry key="DIAGRAM.VIEW" label="Voir le diagramme en PNG" />
-
+			<xsl:copy-of select="$LABELS_FR_BASE/labels/*[@key != 'DOCUMENTATION.TITLE']" />
 			<entry key="DOCUMENTATION.TITLE" label="Documentation des données"/>
-			<entry key="DESCRIPTION.TITLE" label="Description"/>
-			<entry key="RELEASE_NOTES.TITLE" label="Notes de version" />
-
-			<entry key="LABEL_TARGETCLASS" label="S'applique à : " />
-			<entry key="LABEL_NODEKIND" label="Type de noeud : " />
-			<entry key="LABEL_PATTERNS" label="Structure des URIs: " />
-			<entry key="LABEL_CLOSE" label="Shape fermée" />
-			<entry key="LABEL_EXAMPLE" label="Exemple : "/>
-			<entry key="LABEL_SUPERCLASSES" label="Hérite de : "/>
-			<entry key="LABEL_OR" label=" ou "/>
-			
 			<entry key="BY" label=" par " />
 		</labels>
 	</xsl:variable>
@@ -64,51 +14,8 @@
 	<!-- English labels -->
 	<xsl:variable name="LABELS_EN">
 		<labels>
-			<entry key="TOC" label="Table of Contents" />
-			<entry key="COLUMN_PROPERTY" label="Property name" />
-			<entry key="COLUMN_URI" label="URI" />
-			<entry key="COLUMN_EXPECTED_VALUE" label="Expected value" />
-			<entry key="COLUMN_CARD" label="Card." />
-			<entry key="COLUMN_DESCRIPTION" label="Description" />
-			<entry key="COLUMN_NUMBEROCCURRENCES" label="Triples" />
-			<entry key="COLUMN_VALUESDISTINCTS" label="Values" />
-
-			<entry key="PREFIXES.TITLE" label="Namespaces" />
-			<entry key="PREFIXES.COLUMN.PREFIX" label="Prefix" />
-			<entry key="PREFIXES.COLUMN.URI" label="Namespace" />
-
-			<entry key="METADATA.DATE" label="Last updated: " />
-			<entry key="METADATA.VERSION" label="Version: " />
-			<entry key="METADATA.INTRODUCTION" label="Abstract" />
-			<entry key="METADATA.DATECREATED" label="Creation date: " />
-			<entry key="METADATA.DATEISSUED" label="Issue date: " />
-			<entry key="METADATA.DATECOPYRIGHTED" label="Copyright date: " />
-			<entry key="METADATA.LICENSE" label="License: " />
-			<entry key="METADATA.CREATOR" label="Creator: " />
-			<entry key="METADATA.PUBLISHER" label="Publisher: " />
-			<entry key="METADATA.RIGHTHOLDER" label="Rightsholder: " />
-			<entry key="METADATA.FEEDBACK" label="Feedback: " />
-			<entry key="METADATA.VERSIONNOTES" label="Version notes: " />
-			
-			<entry key="METADATA.FORMATS" label="Download serialization: " />
-			
-			<entry key="DIAGRAM.TITLE" label="Diagrams" />
-			<entry key="DIAGRAM.HELP"
-				label="Click diagram to navigate to corresponding section" />
-			<entry key="DIAGRAM.VIEW" label="View as PNG" />
-			
+			<xsl:copy-of select="$LABELS_EN_BASE/labels/*[@key != 'DOCUMENTATION.TITLE']" />
 			<entry key="DOCUMENTATION.TITLE" label="Dataset documentation"/>
-			<entry key="DESCRIPTION.TITLE" label="Description"/>
-			<entry key="RELEASE_NOTES.TITLE" label="Release notes" />
-
-			<entry key="LABEL_TARGETCLASS" label="Applies to: " />
-			<entry key="LABEL_NODEKIND" label="Nodes: " />
-			<entry key="LABEL_PATTERNS" label="URI pattern: " />
-			<entry key="LABEL_CLOSE" label="Closed shape" />
-			<entry key="LABEL_EXAMPLE" label="Example: "/>
-			<entry key="LABEL_SUPERCLASSES" label="Inherits from: "/>
-			<entry key="LABEL_OR" label=" or "/>
-			
 			<entry key="BY" label=" by " />
 		</labels>
 	</xsl:variable>
@@ -116,20 +23,6 @@
 
 	<!-- Select labels based on language param -->
 	<xsl:variable name="LABELS" select="if($LANG = 'fr') then $LABELS_FR else $LABELS_EN" />
-
-
-	<!-- Principal -->
-	<xsl:template match="/">
-		<xsl:variable name="method">
-			<xsl:choose>
-				<xsl:when test="$MODE='PDF'">xhtml</xsl:when>
-				<xsl:otherwise>html</xsl:otherwise>
-			</xsl:choose>
-		</xsl:variable>
-		<xsl:result-document method="{$method}" omit-xml-declaration="yes" indent="yes">
-			<xsl:apply-templates />
-		</xsl:result-document>
-	</xsl:template>
 	
 	
 	<xsl:template match="ShapesDocumentation" mode="style_css_extra">		
@@ -194,8 +87,11 @@
 		
 		<!-- Only for generate a structure format -->
 		<script type="text/javascript">					
-			const listCodeSparql = document.querySelectorAll("span#sparqlquery");
-			listCodeSparql.forEach((t) => t.innerHTML = t.innerHTML.replace("SELECT","&lt;code&gt;&lt;span style=\"color: blue;\"&gt;&lt;strong&gt;SELECT&lt;/strong&gt;&lt;/span&gt;").replace("?result","?result &lt;br&gt;").replace("WHERE","&lt;span style=\"color: blue;\"&gt;&lt;strong&gt;WHERE&lt;/strong&gt;&lt;/span&gt;").replace("{","&lt;span style=\"color: #FF5733;\"&gt;&lt;strong&gt;&lt;br&gt;{&lt;br&gt;&lt;/strong&gt;&lt;/span&gt;").replace("}","&lt;span style=\"color: #FF5733;\"&gt;&lt;strong>&lt;br&gt;}&lt;/strong&gt;&lt;/span&gt;&lt;/code&gt;")) 
+			const listCodeSparql = document.querySelectorAll(".sparqlQuery");
+			// listCodeSparql.forEach((t) => t.innerHTML = t.innerHTML.replace("SELECT","&lt;code&gt;&lt;span style=\"color: blue;\"&gt;&lt;strong&gt;SELECT&lt;/strong&gt;&lt;/span&gt;").replace("?result","?result &lt;br&gt;").replace("WHERE","&lt;span style=\"color: blue;\"&gt;&lt;strong&gt;WHERE&lt;/strong&gt;&lt;/span&gt;").replace("{","&lt;span style=\"color: #FF5733;\"&gt;&lt;strong&gt;&lt;br&gt;{&lt;br&gt;&lt;/strong&gt;&lt;/span&gt;").replace("}","&lt;span style=\"color: #FF5733;\"&gt;&lt;strong>&lt;br&gt;}&lt;/strong&gt;&lt;/span&gt;&lt;/code&gt;")) 
+			// listCodeSparql.forEach((t) => t.innerHTML = t.innerHTML.replace("?result","?result &lt;br&gt;").replace("{","&lt;br&gt;{&lt;br&gt;").replace("}","&lt;br&gt;}"))
+			// listCodeSparql.forEach((t) => t.innerHTML = t.innerHTML.replace("\n","&lt;br /&gt;"));
+			listCodeSparql.forEach((t) => t.innerHTML = t.innerHTML.replace(/\n/g, "<br />"));
 		</script>
 
 		<!-- Tippy -->
@@ -203,148 +99,30 @@
     	<script src="https://unpkg.com/tippy.js@6">//</script>
 		<script type="text/javascript">					
 			// Instance 
-			tippy("div#sparql",{
+			tippy(".sparqlPopup",{
 				content(reference) {
-					return reference.children.sparqlquery.innerHTML;
+					return reference.parentElement.querySelector('.sparqlQuery').innerHTML;
+					// return reference.children.getElementsByTagName('span').innerHTML;
 				},
 				allowHTML: true,
+				trigger: 'click',
+				// this allows to select the text inside the popup
+				interactive: true
 			});
 		</script>
 	</xsl:template>
 	
-	
-	
-	
-	
+	<xsl:template match="section/title">
+		<xsl:variable name="style">
+			<xsl:if test="string-length(../color) &gt; 0">
+				color:<xsl:value-of select="../color"/>
+			</xsl:if>
+		</xsl:variable>
 		
-	<xsl:template match="section">	
-		<div class="row mt-3">
-			<div class="col">
-				<section id="{sectionId}">
-					<div class="sp_section_title_table_wrapper">
-						
-						<xsl:variable name="style">
-							<xsl:if test="string-length(color) &gt; 0">
-								color:<xsl:value-of select="color"/>
-							</xsl:if>
-						</xsl:variable>
-						
-						<h3 class="sp_section_title_table" style="{$style}">
-							<xsl:value-of select="title"/>
-							<xsl:apply-templates select="numberOfTargets" />
-						</h3>
-									
-						<xsl:if test="subtitleUri">
-							<code class="sp_section_uri"><xsl:value-of select="subtitleUri" /></code>
-						</xsl:if>
-					</div>
-					
-					<!-- Messages -->
-					<xsl:apply-templates select="messages" />
-					
-					
-					<xsl:if test="description != ''">
-						<p>
-							<!--  disable output escaping so that HTML is preserved -->
-							<em><xsl:value-of select="description" disable-output-escaping="yes" /></em>
-						</p>
-					</xsl:if>
-					<xsl:if
-						test="targetClass/href or superClasses/link or nodeKind != '' or pattern != '' or closed='true' or skosExample != ''">
-						<ul class="sp_list_description_properties">
-							<xsl:if test="targetClass/href">
-								<li>
-									<xsl:value-of
-										select="$LABELS/labels/entry[@key='LABEL_TARGETCLASS']/@label" />
-									<a href="{targetClass/href}">
-										<xsl:value-of select="targetClass/label" />
-									</a>
-								</li>
-							</xsl:if>
-							<xsl:if test="superClasses/link">
-								<li>
-									<xsl:value-of
-										select="$LABELS/labels/entry[@key='LABEL_SUPERCLASSES']/@label" />
-									<xsl:for-each select="superClasses/link">
-										<xsl:choose>
-											<xsl:when test="position() = 1">
-								                <a href="{href}"><xsl:value-of select="label" /></a>
-								            </xsl:when>
-								            <xsl:otherwise>
-								                , <a href="{href}"><xsl:value-of select="label" /></a>
-								            </xsl:otherwise>
-										</xsl:choose>
-									</xsl:for-each>
-								</li>
-							</xsl:if>
-							<xsl:if test="nodeKind != ''">
-								<li>
-									<xsl:value-of
-										select="$LABELS/labels/entry[@key='LABEL_NODEKIND']/@label" />
-									<xsl:value-of select="nodeKind" />
-								</li>
-							</xsl:if>
-							<xsl:if test="closed='true'">
-								<li>
-									<xsl:value-of
-										select="$LABELS/labels/entry[@key='LABEL_CLOSE']/@label" />
-								</li>
-							</xsl:if>
-							<xsl:if test="pattern != ''">
-								<li>
-									<xsl:value-of
-										select="$LABELS/labels/entry[@key='LABEL_PATTERNS']/@label" />
-									<code><xsl:value-of select="pattern" /></code>							
-								</li>
-							</xsl:if>
-							<!-- Example -->
-							<xsl:if test="skosExample != ''">
-								<li>
-									<xsl:value-of select="$LABELS/labels/entry[@key='LABEL_EXAMPLE']/@label"/>
-									<code><xsl:value-of select="skosExample"/></code>
-								</li>
-							</xsl:if>
-							<xsl:if test="string-length(MessageOfValidate) &gt; 0">
-								<li>
-									<em>Message:</em><xsl:value-of select="MessageOfValidate"/>
-								</li>
-							</xsl:if>
-						</ul>
-					</xsl:if>
-					<xsl:if test="sparqlTarget">
-					<xsl:value-of select="$LABELS/labels/entry[@key='LABEL_TARGETCLASS']/@label" /><br/>
-					<code>
-						<pre>
-							<xsl:value-of select="sparqlTarget" />					
-						</pre>
-					</code>
-					</xsl:if>
-					
-					<!-- Properties table -->
-					<xsl:apply-templates select="properties" />
-					
-					<!-- Section for Pie Chart -->
-					<xsl:apply-templates select="charts" />		
-					
-					
-				</section>
-			</div>
-		</div>
-		<br/>
-	</xsl:template>
-
-	<xsl:template match="section/color">
-		<li>
-			<em>Message:</em>
-			<xsl:value-of select="MessageOfValidate" />
-		</li>
-	</xsl:template>
-
-	<xsl:template match="section/MessageOfValidate">
-		<li>
-			<em>Message:</em>
-			<xsl:value-of select="MessageOfValidate" />
-		</li>
+		<h3 class="sp_section_title_table" style="{$style}">
+			<xsl:value-of select="."/>
+			<xsl:apply-templates select="../numberOfTargets" />
+		</h3>
 	</xsl:template>
 
 	<xsl:template match="numberOfTargets">
@@ -379,6 +157,7 @@
 		</xsl:if>
 	</xsl:template>
 
+	<!--  to be re-introduced later
 	<xsl:template match="messages">
 		<div class="sp.alert sp_alert_danger">
 			<ul>
@@ -395,6 +174,7 @@
 			</em>
 		</li>
 	</xsl:template>
+	-->
 
 	<!-- Properties -->
 	<xsl:template match="properties">
@@ -460,10 +240,14 @@
 			</td>
 			<!-- Distinct Objects -->
 			<td>
-				<div id="sparql">
-					<xsl:apply-templates select="./distinctObjects"/>
-					<!-- Code Sparql Query -->
-					<xsl:apply-templates select="./sparqlQueryProperty"/>
+				<div>
+					<div>
+						<xsl:apply-templates select="./distinctObjects"/>
+						<span class="sparqlPopup" style="font-size:smaller; cursor: pointer;">&#160;[sparql]</span>
+						<!-- <span class="sparqlPopup" style="font-size:smaller; cursor: pointer;"><br />list&#160;in&#160;sparql</span> -->
+						<!-- Code Sparql Query -->
+						<xsl:apply-templates select="./sparqlQueryProperty"/>
+					</div>					
 				</div>	
 			</td>
 		</tr>
@@ -481,7 +265,7 @@
 	
 	<!-- Sparql Query -->
 	<xsl:template match="property/sparqlQueryProperty">
-		<span id="sparqlquery" style="display: none;">
+		<span class="sparqlQuery" style="display: none;">
 			<xsl:value-of select="." />
 		</span>
 	</xsl:template>

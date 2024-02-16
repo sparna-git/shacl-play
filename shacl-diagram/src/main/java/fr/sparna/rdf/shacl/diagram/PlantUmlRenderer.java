@@ -84,17 +84,19 @@ public class PlantUmlRenderer {
 				output += ModelRenderingUtils.render(property.getShNodeKind().get()) + " ";
 			}				
 		} else if(property.getShNode().isPresent() && diagram.findBoxByResource(property.getShNode().get()).getProperties().size() > 0) {
+			
+			
 			boolean bInverseOf = false;
 			// find the relation when it's the inverse Of property
 			int inverseOf = (property.getInverseOfProperty().isPresent())?1:0;
 			String inverse_label = "";
 			
-			ctrlnodeOrigen = property.getShNodeLabel();
+			ctrlnodeOrigen = property.getShNodeLabel();			
 			for (PlantUmlProperty inverseOfProperty : this.diagram.findBoxByResource(property.getShNode().get()).getProperties()) {
 
 				if (inverseOfProperty.getShNode() != null) {
 					// TODO : this cannot work and need to be fixed
-					if (inverseOfProperty.getShNodeLabel().equals(property.getShNodeLabel())) {	
+					if (inverseOfProperty.getShNodeLabel() != null && inverseOfProperty.getShNodeLabel().equals(property.getShNodeLabel())) {	
 						bInverseOf = true;
 						ctrlnodeDest = inverseOfProperty.getShNodeLabel();
 						inverse_label += inverseOfProperty.getPathAsSparql();
@@ -110,7 +112,7 @@ public class PlantUmlRenderer {
 						inverse_label += " / ";
 					}
 				}
-			}
+			}			
 
 			if(inverse_label.length() > 0) {
 				inverse_label = inverse_label.substring(0, inverse_label.length() - 3);
@@ -419,7 +421,7 @@ public class PlantUmlRenderer {
 		// "+"\""+box.getNameshape()+"\""+((box.getNametargetclass() != null)?"
 		// "+"<"+box.getNametargetclass()+">":"");
 		String declaration = "";
-		String color = "";
+
 		String colorBackGround = "";
 		if (box.getBackgroundColorString() != null) {
 			colorBackGround = "#back:"+box.getBackgroundColorString();			
@@ -429,7 +431,12 @@ public class PlantUmlRenderer {
 		
 		String labelColorClass = "";
 		if(box.getColorString() != null) {
-			labelColorClass = ";text:"+box.getColorString();
+			if(!colorBackGround.equals("")) {
+				labelColorClass += ";";
+			} else {
+				labelColorClass += "#";
+			}
+			labelColorClass += "text:"+box.getColorString();
 		}
 		
 		// resolve subclasses only if we were asked for it

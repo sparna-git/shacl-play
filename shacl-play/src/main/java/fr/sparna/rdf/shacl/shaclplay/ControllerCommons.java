@@ -87,6 +87,7 @@ public class ControllerCommons {
 				model.read(is, null, aLang.getName());
 				log.debug("Successfully parsed inline data as "+aLang.getName());
 				parsed = true;
+				break;
 			} catch (Exception e) {
 				log.debug("Unable to parse inline data as "+aLang.getName());
 				if(aLang == Lang.TURTLE) {

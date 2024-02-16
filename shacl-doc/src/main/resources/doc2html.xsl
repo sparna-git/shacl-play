@@ -1079,7 +1079,9 @@
 	</xsl:template>
 
 	<!-- don't print what was not matched -->
-	<xsl:template match="text()"></xsl:template>
+	<!-- Note the #all special keyword to apply this template to all modes -->
+	<xsl:template match="*" mode="#all" />
+	<xsl:template match="text()" mode="#all"></xsl:template>
 
 
 </xsl:stylesheet>

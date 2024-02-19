@@ -6,11 +6,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.shacl.vocabulary.SHACLM;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import fr.sparna.commons.document.ToolsForConversion;
 import fr.sparna.rdf.jena.ModelRenderingUtils;
 
 public class PlantUmlRenderer {
@@ -81,11 +83,12 @@ public class PlantUmlRenderer {
 				output += "(" + ModelRenderingUtils.render(property.getShPattern().get()) + ")" + " ";
 			}
 			if (property.getShNodeKind().isPresent() && !property.getShNodeKind().get().equals(SHACLM.IRI)) {
-				output += ModelRenderingUtils.render(property.getShNodeKind().get()) + " ";
+				output += ModelRenderingUtils.render(property.getShNodeKind().get()) + " " ;
 			}				
 		} else if(property.getShNode().isPresent() && diagram.findBoxByResource(property.getShNode().get()).getProperties().size() > 0) {
 			
 			
+			/*
 			boolean bInverseOf = false;
 			// find the relation when it's the inverse Of property
 			int inverseOf = (property.getInverseOfProperty().isPresent())?1:0;
@@ -145,38 +148,38 @@ public class PlantUmlRenderer {
 						);				
 				
 			} else {
-				
+			*/	
 				//output = boxName + " -[bold]-> \"" + property.getValue_node().getLabel() + "\" : " + property.getValue_path();
-				output = boxName + " -"+colorArrow+"-> \"" + property.getShNodeLabel() + "\" : " + property.getPathAsSparql();
-				
-				if (property.getPlantUmlCardinalityString() != null) {
-					output += " " + property.getPlantUmlCardinalityString() + " ";
-				}
-				if (property.getShPattern().isPresent() && this.displayPatterns) {
-					output += "(" + ModelRenderingUtils.render(property.getShPattern().get()) + ")" + " ";
-				}
-				
-				// merge the arrow
-				String option = "";
-				if (property.getPlantUmlCardinalityString() != null) {
-					option += "<U+00A0>" + property.getPlantUmlCardinalityString() + " ";
-				}				
-				if (property.getShPattern().isPresent() && this.displayPatterns) {
-					option += "(" + ModelRenderingUtils.render(property.getShPattern().get()) + ")" + " ";
-				}
-				
-				// Merge all arrow 
-				collectData(
-						// key
-						boxName + " -"+colorArrow+"-> \"" + property.getShNodeLabel()+ "\" : ",
-						// Values
-						property.getPathAsSparql() + option,
-						// Record
-						collectRelationProperties
-						);
-				
-				
+			output = boxName + " -"+colorArrow+"-> \"" + property.getShNodeLabel() + "\" : " + property.getPathAsSparql();
+			
+			if (property.getPlantUmlCardinalityString() != null) {
+				output += " " + property.getPlantUmlCardinalityString() + " ";
 			}
+			if (property.getShPattern().isPresent() && this.displayPatterns) {
+				output += "(" + ModelRenderingUtils.render(property.getShPattern().get()) + ")" + " ";
+			}
+			
+			// merge the arrow
+			String option = "";
+			if (property.getPlantUmlCardinalityString() != null) {
+				option += "<U+00A0>" + property.getPlantUmlCardinalityString() + " ";
+			}				
+			if (property.getShPattern().isPresent() && this.displayPatterns) {
+				option += "(" + ModelRenderingUtils.render(property.getShPattern().get()) + ")" + " ";
+			}
+			
+			// Merge all arrow 
+			collectData(
+					// key
+					boxName + " -"+colorArrow+"-> \"" + property.getShNodeLabel()+ "\" : ",
+					// Values
+					property.getPathAsSparql() + option,
+					// Record
+					collectRelationProperties
+					);
+				
+				
+			//}
 				
 			
 		} else {
@@ -298,7 +301,7 @@ public class PlantUmlRenderer {
 				output += "(" + ModelRenderingUtils.render(property.getShPattern().get()) + ")" + " ";
 			}
 			if (property.getShNodeKind().isPresent() && !property.getShNodeKind().equals(SHACLM.IRI)) {
-				output += ModelRenderingUtils.render(property.getShNodeKind().get()) + " ";
+				output += ModelRenderingUtils.render(property.getShNodeKind().get()) + " " ;
 			}
 			
 		} else {
@@ -379,10 +382,27 @@ public class PlantUmlRenderer {
 		if (property.getShHasValue().isPresent()) {
 			output += " = " + ModelRenderingUtils.render(property.getShHasValue().get()) + " ";
 		}
+		
+		
+		if (
+			 (!property.getShHasValue().isPresent())
+			 &&
+			 (!property.getShClass().isPresent())
+			 &&
+			 (!property.getShDatatype().isPresent())
+			 &&
+			 (!property.getShNode().isPresent())
+			 &&					
+			 (property.getPlantUmlCardinalityString() == null)
+			 &&
+			 (property.getShNodeKind().isPresent()) 
+			) {
+			String nameNodeKind = ModelRenderingUtils.render(property.getShNodeKind().get()); 
+			output += " :  "+nameNodeKind.split(":")[1];
+		}
+				
 		output += labelColorClose+" \n";
 		
-		
-
 		return output;
 	}
 	

@@ -1,7 +1,14 @@
 package fr.sparna.rdf.shacl.shaclplay;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import fr.sparna.rdf.shacl.shaclplay.catalog.AbstractCatalogEntry;
 import fr.sparna.rdf.shacl.shaclplay.catalog.Catalog;
+
 
 public class ControllerModelFactory {
 
@@ -83,9 +91,19 @@ public class ControllerModelFactory {
 			log.debug("Data is from a URL "+url);
 
 			try {
-				URL actualUrl = new URL(url);
-				ControllerCommons.populateModel(model, actualUrl);
-				this.sourceName = getSourceNameForUrl(url);
+				
+				URL actualUrl = new URL(url);	
+				
+				if(actualUrl.getFile().endsWith("zip")) {
+					log.debug("Detected a zip extension");					
+					// read zip file
+					InputStream FileZip = actualUrl.openStream();
+					
+					ControllerCommons.populateModelFromZip(model, FileZip);
+				} else {
+					ControllerCommons.populateModel(model, actualUrl);						
+					this.sourceName = getSourceNameForUrl(url);
+				}			
 			} catch (Exception e) {
 				throw new ControllerModelException(e.getMessage(), e);
 			}
@@ -157,7 +175,8 @@ public class ControllerModelFactory {
 			return "url";
 		}
 	}
-
+	
+	
 	public String getSourceName() {
 		return sourceName;
 	}

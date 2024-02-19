@@ -1,7 +1,5 @@
 package fr.sparna.rdf.shacl.doc.read;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.apache.jena.rdf.model.Model;

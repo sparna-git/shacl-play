@@ -61,6 +61,9 @@
 										<a href="<c:url value="/draw" />"><fmt:message key="navbar.menu1.draw.label" /></a>
 									</li>
 									<li style="display: list-item; text-align: -webkit-match-parent; padding: 0.3rem;">
+										<a href="<c:url value="/shaclexcel" />"><fmt:message key="navbar.menu1.shaclexcel.label" /></a>
+									</li>
+									<li style="display: list-item; text-align: -webkit-match-parent; padding: 0.3rem;">
 										<a href="<c:url value="/context" />"><fmt:message key="navbar.menu1.context.label" /></a>
 									</li>
 									<li style="display: list-item; text-align: -webkit-match-parent; padding: 0.3rem;">

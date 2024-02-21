@@ -71,7 +71,7 @@ public class PlantUmlDiagramGenerator {
 		
 		// 2. Une fois qu'on a toute la liste, lire les proprietes
 		for (PlantUmlBox aBox : plantUmlBoxes) {
-			aBox.setProperties(nodeShapeReader.readProperties(aBox.getNodeShape(),owlGraph));
+			aBox.setProperties(nodeShapeReader.readProperties(aBox.getNodeShape()));
 		}
 		
 		// then create the PlanUmlDiagrams

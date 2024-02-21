@@ -6,13 +6,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.shacl.vocabulary.SHACLM;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import fr.sparna.commons.document.ToolsForConversion;
 import fr.sparna.rdf.jena.ModelRenderingUtils;
 
 public class PlantUmlRenderer {

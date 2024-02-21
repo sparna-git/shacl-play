@@ -25,14 +25,12 @@ public class PlantUmlProperty {
 	private Logger log = LoggerFactory.getLogger(this.getClass().getName());
 	
 	protected Resource propertyShape;
-	protected Model owlModel;
 	
 	protected List<String> value_inverseOf;
 	
-	public PlantUmlProperty(Resource propertyShape, Model owlModel) {
+	public PlantUmlProperty(Resource propertyShape) {
 		super();
 		this.propertyShape = propertyShape;
-		this.owlModel = owlModel;
 	}
 	
 	public Resource getPropertyShape() {
@@ -132,23 +130,7 @@ public class PlantUmlProperty {
 		} else {
 			return new ArrayList<Literal>();
 		}
-	}
-	
-	public Optional<Resource> getInverseOfProperty() {
-		if(this.getShPath().isPresent() && this.getShPath().get().isURIResource()) {
-			// read everything typed as Object property
-			List<Resource> pathOWL = this.owlModel.listResourcesWithProperty(RDF.type, OWL.ObjectProperty).toList();
-			for(Resource inverseOfResource : pathOWL) {
-				if(inverseOfResource.getURI().equals(this.getShPath().get().getURI())){
-					if(inverseOfResource.hasProperty(OWL.inverseOf)) {
-						return Optional.of(inverseOfResource.getProperty(OWL.inverseOf).getObject().asResource());
-					}
-				}
-			}				
-		}		
-		return Optional.empty();
-	}
-	
+	}	
 	
 	
 	public String getShNodeLabel() {
@@ -173,10 +155,6 @@ public class PlantUmlProperty {
 		}
 		
 		return null;
-	}
-
-	public String getInverseOfString() {
-		return this.getInverseOfProperty().map(io -> io.getLocalName()).orElse("");
 	}
 
 	public List<String> getValue_shor() {

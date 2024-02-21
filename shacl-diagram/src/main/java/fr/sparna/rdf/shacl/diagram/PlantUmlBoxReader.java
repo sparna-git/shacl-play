@@ -22,7 +22,7 @@ public class PlantUmlBoxReader {
 		return box;
 	}
 	
-	public List<PlantUmlProperty> readProperties(Resource nodeShape,Model owlGraph) {
+	public List<PlantUmlProperty> readProperties(Resource nodeShape) {
 		
 		List<Statement> propertyStatements = nodeShape.listProperties(SH.property).toList();
 		List<PlantUmlProperty> properties = new ArrayList<>();
@@ -33,7 +33,7 @@ public class PlantUmlBoxReader {
 			
 			if(object.isResource()) {
 				Resource propertyShape = object.asResource();			
-				PlantUmlProperty plantvalueproperty = new PlantUmlProperty(propertyShape, owlGraph);
+				PlantUmlProperty plantvalueproperty = new PlantUmlProperty(propertyShape);
 				properties.add(plantvalueproperty);					
 			}
 		

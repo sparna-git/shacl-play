@@ -48,65 +48,17 @@
 				<h1 class="display-3"><fmt:message key="shaclexcel.title" /></h1>	
 				
 				<div class="form-shortdesc">
-					<p>This documentation generation utility ................. </p>
+					<p>You would like to edit SHACL, but you are wondering how to get started ? Start from Excel.</p>
 				</div>
-	 
-			  	<form id="upload_form" action="doc" method="POST" enctype="multipart/form-data" class="form-horizontal">
-  
-					  
-					  <!-- Include shapes blockquote -->
-					  
-					  <!--  
-					  <h2><i class="fal fa-shapes"></i>&nbsp;&nbsp;<fmt:message key="doc.shapes.title" /></h2>
-					  < % @ include file="include/shapes-blockquote.jsp" %>
-					  -->
-					  <!-- 
-					  <h2><i class="fal fa-tools"></i>&nbsp;&nbsp;<fmt:message key="blockquote.options.title" /></h2>
-				     
-				      <blockquote class="blockquote bq-warning">
-				      	<!- - Language - ->
-				      	<div class="form-group row">
-							<label for="language" class="col-sm-3 col-form-label">
-								<fmt:message key="doc.options.language"/>				    
-							</label>
-						    <div class="col-sm-9">
-						    	<input list="languageOption" name="language" style="width:4em;" value="en">
-						    	<small class="form-text text-muted">
-								  <fmt:message key="doc.options.language.help"/>
-								</small>
-						    </div>									    
-						</div>
-						-->
-
-			
-				      
-						<!-- Output format option 
-						<div class="form-group row">
-							<label for="format" class="col-sm-3 col-form-label">
-								<fmt:message key="doc.options.format" />					    
-							</label>
-						    <div class="col-sm-4">
-					    		<select class="form-control" id="format" name="format" >
-					    			<option value="HTML">HTML</option>
-					    			<option value="PDF">PDF</option>
-					    			<option value="XML">XML</option>					    			
-							    </select>
-						    </div>									    
-						 </div>
-						 
-						
-					  </blockquote>
-					  
-					  <button type="submit" id="validate-button" class="btn btn-info btn-lg"><fmt:message key="shaclexcel.submit" /></button>
-					  -->	  	
-			  	</form>
  				
  				<!-- Documentation -->	
 				<div style="margin-top:3em;">
-					<h3 id="documentation">Documentation ...............</h3>
+					<h3 id="documentation">How-to edit SHACL specifications from Excel files</h3>					
 					
-					
-										
+					<div style="margin-top:2em;">
+						<h4 id="download">Download the template file</h4>
+						<p>Start by downloading the template file <a href="<c:url value="/resources/example/SHACL-template.xlsx"/>">here</a></p>	
+					</div>						
 				</div>			
 			</div>
 		</div>

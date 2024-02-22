@@ -55,22 +55,22 @@
 							    <!-- Menu -->
 								<ul style="list-style-type:none;justify-content: flex-start; padding: 0.3rem;">
 									<li style="display: list-item; text-align: -webkit-match-parent; padding: 0.3rem;">
-										<a href="<c:url value="/doc" />"><fmt:message key="navbar.menu1.doc.label" /></a>
+										<a href="<c:url value="/shaclexcel" />" title="<fmt:message key="navbar.menu1.shaclexcel.tooltip" />"><fmt:message key="navbar.menu1.shaclexcel.label" /></a>
 									</li>
 									<li style="display: list-item; text-align: -webkit-match-parent; padding: 0.3rem;">
-										<a href="<c:url value="/draw" />"><fmt:message key="navbar.menu1.draw.label" /></a>
+										<a href="<c:url value="/doc" />" title="<fmt:message key="navbar.menu1.doc.tooltip" />"><fmt:message key="navbar.menu1.doc.label" /></a>
 									</li>
 									<li style="display: list-item; text-align: -webkit-match-parent; padding: 0.3rem;">
-										<a href="<c:url value="/shaclexcel" />"><fmt:message key="navbar.menu1.shaclexcel.label" /></a>
+										<a href="<c:url value="/draw" />" title="<fmt:message key="navbar.menu1.draw.tooltip" />"><fmt:message key="navbar.menu1.draw.label" /></a>
 									</li>
 									<li style="display: list-item; text-align: -webkit-match-parent; padding: 0.3rem;">
-										<a href="<c:url value="/context" />"><fmt:message key="navbar.menu1.context.label" /></a>
+										<a href="<c:url value="/context" />" title="<fmt:message key="navbar.menu1.context.tooltip" />"><fmt:message key="navbar.menu1.context.label" /></a>
 									</li>
 									<li style="display: list-item; text-align: -webkit-match-parent; padding: 0.3rem;">
-										<a href="<c:url value="/sparql" />"><fmt:message key="navbar.menu1.sparql.label" /></a>
+										<a href="<c:url value="/sparql" />" title="<fmt:message key="navbar.menu1.sparql.tooltip" />"><fmt:message key="navbar.menu1.sparql.label" /></a>
 									</li>
 									<li style="display: list-item; text-align: -webkit-match-parent; padding: 0.3rem;">
-										<a href="<c:url value="/shapes-catalog" />"><fmt:message key="navbar.menu1.shapes-catalog.label" /></a>
+										<a href="<c:url value="/shapes-catalog" />" title="<fmt:message key="navbar.menu1.shapes-catalog.tooltip" />"><fmt:message key="navbar.menu1.shapes-catalog.label" /></a>
 									</li>
 								</ul>
 							</div>
@@ -93,13 +93,13 @@
 							    <!-- Menu -->
 							    <ul style="list-style-type:none;padding: 0.3rem;">
 									<li style="display: list-item; text-align: -webkit-match-parent; padding: 0.3rem;">
-										<a href="<c:url value="/validate" />"><fmt:message key="navbar.menu2.validate.label" /></a>										
+										<a href="<c:url value="/validate" />" title="<fmt:message key="navbar.menu2.validate.tooltip" />"><fmt:message key="navbar.menu2.validate.label" /></a>										
 									</li>
 									<li style="display: list-item; text-align: -webkit-match-parent; padding: 0.3rem;">
-										<a href="<c:url value="/generate" />"><fmt:message key="navbar.menu2.generate.label" /></a>										
+										<a href="<c:url value="/generate" />" title="<fmt:message key="navbar.menu2.generate.tooltip" />"><fmt:message key="navbar.menu2.generate.label" /></a>										
 									</li>
 									<li style="display: list-item; text-align: -webkit-match-parent; padding: 0.3rem;">
-										<a href="<c:url value="/validate#badges" />"><fmt:message key="navbar.menu2.badge.label" /></a>										
+										<a href="<c:url value="/validate#badges" />" title="<fmt:message key="navbar.menu2.badge.tooltip" />"><fmt:message key="navbar.menu2.badge.label" /></a>										
 									</li>			
 								</ul>
 							</div>
@@ -122,13 +122,13 @@
 								<!-- Menu -->
 								<ul style="list-style-type:none;justify-content: flex-start; padding: 0.3rem;">
 									<li style="display: list-item; text-align: -webkit-match-parent; padding: 0.3rem;">
-										<a href="<c:url value="/convert" />"><fmt:message key="navbar.menu3.from-owl.label" /></a>										
+										<a href="<c:url value="/convert" />" title="<fmt:message key="navbar.menu3.from-owl.tooltip" />"><fmt:message key="navbar.menu3.from-owl.label" /></a>										
 									</li>
 									<li style="display: list-item; text-align: -webkit-match-parent; padding: 0.3rem;">
-										<a href="<c:url value="/rules" />"><fmt:message key="navbar.menu3.rules.label" /></a>
+										<a href="<c:url value="/rules" />" title="<fmt:message key="navbar.menu3.rules.tooltip" />"><fmt:message key="navbar.menu3.rules.label" /></a>
 									</li>
 									<li style="display: list-item; text-align: -webkit-match-parent; padding: 0.3rem;">
-										<a href="<c:url value="/rules-catalog" />"><fmt:message key="navbar.menu3.rules-catalog.label" /></a>
+										<a href="<c:url value="/rules-catalog" />" title="<fmt:message key="navbar.menu3.rules-catalog.tooltip" />"><fmt:message key="navbar.menu3.rules-catalog.label" /></a>
 									</li>						
 								</ul>								
 							</div>

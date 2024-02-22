@@ -29,6 +29,7 @@
 	            	<fmt:message key="navbar.menu1"/>
 	            </a>
 	            <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
+	            	<a class="dropdown-item" href="<c:url value="/shaclexcel" />" title="<fmt:message key="navbar.menu1.shaclexcel.tooltip" />"><fmt:message key="navbar.menu1.shaclexcel.label" /></a>
 		            <a class="dropdown-item" href="<c:url value="/doc" />" title="<fmt:message key="navbar.menu1.doc.tooltip" />"><fmt:message key="navbar.menu1.doc.label" /></a>
 		            <a class="dropdown-item" href="<c:url value="/draw" />" title="<fmt:message key="navbar.menu1.draw.tooltip" />"><fmt:message key="navbar.menu1.draw.label" /></a>
 		            <a class="dropdown-item" href="<c:url value="/context" />" title="<fmt:message key="navbar.menu1.context.tooltip" />"><fmt:message key="navbar.menu1.context.label"/></a>		            

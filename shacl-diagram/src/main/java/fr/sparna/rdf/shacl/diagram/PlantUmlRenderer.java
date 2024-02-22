@@ -42,7 +42,6 @@ public class PlantUmlRenderer {
 			PlantUmlProperty property,
 			PlantUmlBox box,
 			boolean renderAsDatatypeProperty,
-			String NodeShapeId,
 			Map<String, String> collectRelationProperties
 	) {
 		
@@ -62,7 +61,7 @@ public class PlantUmlRenderer {
 			String getCodeUML = renderAsQualifiedShapeReference(property, box,colorArrowProperty,collectRelationProperties); 
 			return (getCodeUML.contains("->")) ? "" : getCodeUML;
 		} else if (property.hasShOrShClassOrShNode()) {
-			return renderAsOr(property, box,colorArrowProperty, NodeShapeId);
+			return renderAsOr(property, box,colorArrowProperty);
 		} else {
 			return renderDefault(property, box);
 		}
@@ -161,7 +160,7 @@ public class PlantUmlRenderer {
 	}
 
 	// value = uml_shape+" --> "+"\""+uml_or;
-	private String renderAsOr(PlantUmlProperty property, PlantUmlBox box, String colorArrow, String NodeShapeId) {
+	private String renderAsOr(PlantUmlProperty property, PlantUmlBox box, String colorArrow) {
 		// use property local name to garantee unicity of diamond
 		String nodeShapeLocalName = box.getNodeShape().getLocalName();
 		String nodeshapeId = nodeShapeLocalName.contains(":")?nodeShapeLocalName.split(":")[1]:nodeShapeLocalName;
@@ -416,7 +415,7 @@ public class PlantUmlRenderer {
 				declaration = "Class" + " " + "\"" + box.getLabel() + "\"";
 			}
 
-			declaration += (this.generateAnchorHyperlink) ? " [[#" + box.getLabel() + "]]" : "";
+			declaration += (this.generateAnchorHyperlink) ? " [[#" + box.getNodeShape().getModel().shortForm(box.getNodeShape().getURI()) + "]]" : "";
 			declaration += " " + colorBackGround+labelColorClass + "\n";
 			
 			if (superClassesBoxes != null) {
@@ -474,7 +473,6 @@ public class PlantUmlRenderer {
 						plantUmlproperty, 
 						box,
 						displayAsDatatypeProperty,
-						box.getLabel(),
 						collectRelationProperties
 				);
 				if (codePropertyPlantUml!="") {

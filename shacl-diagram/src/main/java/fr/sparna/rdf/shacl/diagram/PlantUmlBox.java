@@ -86,8 +86,13 @@ public class PlantUmlBox {
 	}	
 	
 	public String getLabel() {
-		return ModelRenderingUtils.render(this.nodeShape, true);
-	}	
+		// use the sh:targetClass if present, otherwise use the URI of the NodeShape
+		return ModelRenderingUtils.render(this.nodeShape, true)+this.getTargetClass().map(targetClass -> " ("+ModelRenderingUtils.render(targetClass, true)+")").orElse("");
+	}
+	
+	public String getPlantUmlQuotedBoxName() {
+		return "\"" + this.getLabel() + "\"";
+	}
 
 	public List<PlantUmlProperty> getProperties() {	
 		return properties;

@@ -7,6 +7,8 @@ import org.apache.jena.rdf.model.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import fr.sparna.rdf.jena.ModelRenderingUtils;
+
 public class PlantUmlDiagram {
 	
 	private Logger log = LoggerFactory.getLogger(this.getClass().getName());
@@ -26,7 +28,11 @@ public class PlantUmlDiagram {
 	}
 	
 	public PlantUmlBox findBoxByTargetClass(Resource classUri) {
-		return this.boxes.stream().filter(b -> b.isTargeting(classUri)).findFirst().orElse(null);
+		return findBoxByTargetClass(classUri, this.boxes);
+	}
+	
+	public static PlantUmlBox findBoxByTargetClass(Resource classUri, List<PlantUmlBox> boxes) {
+		return boxes.stream().filter(b -> b.isTargeting(classUri)).findFirst().orElse(null);
 	}
 	
 	/**
@@ -38,7 +44,12 @@ public class PlantUmlDiagram {
 	 */
 	public String resolvePropertyShapeShNodeOrShClass(PlantUmlProperty property) {
 		if(property.getShNode().isPresent()) {
-			return property.getShNodeLabel();
+			PlantUmlBox box = this.findBoxByResource(property.getShNode().get());
+			if(box != null) {
+				return box.getLabel();
+			} else {
+				return ModelRenderingUtils.render(property.getShNode().get(), true);
+			}
 		} else if(property.getShClass().isPresent()) {			
 			// sh:class may not be targeted to a NodeShape
 			// PlantUML will make up a box with the class shortForm automatically
@@ -64,8 +75,29 @@ public class PlantUmlDiagram {
 					return null;
 				}
 			}
-		}).orElse(null);
-		
+		}).orElse(null);		
+	}
+
+	/**
+	 * @return the PlantUmlBox corresponding to the sh:node reference is present, or the sh:class reference if present, or null
+	 */
+	public PlantUmlBox resolveShNodeOrShClassBox(PlantUmlProperty property) {
+		if(property.getShNode().isPresent()) {
+			return this.findBoxByResource(property.getShNode().get());
+		} else if(property.getShClass().isPresent()) {			
+			return this.resolveShClassBox(property);			
+			// TODO : we may be interested to scan the references made through a sh:or
+		}
+		return null;
+	}
+	
+	/**
+	 * @return the PlantUmlBox corresponding to the sh:class reference of the provided property, or null if sh:class is not present, or the box cannot be found
+	 */
+	public PlantUmlBox resolveShClassBox(PlantUmlProperty property) {
+		return property.getShClass().map(cl -> {
+			return this.findBoxByTargetClass(cl);
+		}).orElse(null);		
 	}
 	
 	public List<PlantUmlBox> getBoxes() {

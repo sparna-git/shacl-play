@@ -6,11 +6,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Literal;
-import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
-import org.apache.jena.vocabulary.OWL;
-import org.apache.jena.vocabulary.RDF;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.topbraid.shacl.vocabulary.SH;
@@ -130,7 +127,15 @@ public class PlantUmlProperty {
 		} else {
 			return new ArrayList<Literal>();
 		}
-	}	
+	}
+	
+	public boolean hasShOrShClassOrShNode() {
+		return 
+				(this.getShOrShClass() != null && this.getShOrShClass().size() > 0)
+				|| 
+				(this.getShOrShNode() != null && this.getShOrShNode().size() > 0)
+		;
+	}
 	
 	
 	public String getShNodeLabel() {
@@ -140,29 +145,48 @@ public class PlantUmlProperty {
 	public String getShQualifiedValueShapeLabel() {
 		return this.getShQualifiedValueShape().map(r -> ModelRenderingUtils.render(r, true)).orElse(null);
 	}
-
 	
 	public String getColorString() {
 		return this.getColor().map(node -> node.asLiteral().toString()).orElse(null);
 	}
 	
-	public List<String> getValue_shor_datatype() {
+	public List<Resource> getShOrShDatatype() {
 		if (this.propertyShape.hasProperty(SH.or)) {			
-			List<Resource> values = ShOrReadingUtils.readShDatatypeAndShNodeKindInShOr(this.propertyShape.getProperty(SH.or).getList());
+			List<Resource> values = ShOrReadingUtils.readShDatatypeInShOr(this.propertyShape.getProperty(SH.or).getList());
 			if(values.size() > 0) {
-				return values.stream().map(r -> { return (r.isURIResource())?r.getModel().shortForm(r.getURI()):r.toString();}).collect(Collectors.toList());
-			}			
+				return values;
+			}
+		}		
+		return null;
+	}
+	
+	public List<Resource> getShOrShNodeKind() {
+		if (this.propertyShape.hasProperty(SH.or)) {			
+			List<Resource> values = ShOrReadingUtils.readShNodeKindInShOr(this.propertyShape.getProperty(SH.or).getList());
+			if(values.size() > 0) {
+				return values;
+			}
+		}		
+		return null;
+	}
+	
+	public List<Resource> getShOrShClass() {
+		if (this.propertyShape.hasProperty(SH.or)) {			
+			List<Resource> values = ShOrReadingUtils.readShClassInShOr(this.propertyShape.getProperty(SH.or).getList());
+			if(values.size() > 0) {
+				return values;
+			}
 		}
 		
 		return null;
 	}
-
-	public List<String> getValue_shor() {
+	
+	public List<Resource> getShOrShNode() {
 		if (this.propertyShape.hasProperty(SH.or)) {			
-			List<Resource> values = ShOrReadingUtils.readShClassAndShNodeInShOr(this.propertyShape.getProperty(SH.or).getList());
+			List<Resource> values = ShOrReadingUtils.readShNodeInShOr(this.propertyShape.getProperty(SH.or).getList());
 			if(values.size() > 0) {
-				return values.stream().map(r -> { return (r.isURIResource())?r.getModel().shortForm(r.getURI()):r.toString();}).collect(Collectors.toList());
-			}			
+				return values;
+			}
 		}
 		
 		return null;

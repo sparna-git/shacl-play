@@ -1,8 +1,10 @@
 package fr.sparna.rdf.shacl.doc;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Literal;
@@ -165,10 +167,45 @@ public class NodeShape {
 	}
 	
 	public List<Resource> getRdfsSubClassOf() {
-		return nodeShape.listProperties(RDFS.subClassOf).toList().stream()
+		return NodeShape.getRdfsSubClassOfOf(nodeShape);
+	}
+	
+	public static List<Resource> getRdfsSubClassOfOf(Resource resource) {
+		return resource.listProperties(RDFS.subClassOf).toList().stream()
 				.map(s -> s.getResource())
 				.filter(r -> { return r.isURIResource() && !r.getURI().equals(OWL.Thing.getURI()); })
 				.collect(Collectors.toList());
+	}
+	
+	public List<Resource> getShTargetClassRdfsSubclassOfInverseOfShTargetClass() {
+		Set<Resource> result = new HashSet<Resource>();
+		Resource targetClass = this.getShTargetClass();
+		if(targetClass != null) {
+			List<Resource> subClassesOf = NodeShape.getRdfsSubClassOfOf(targetClass);
+			if(subClassesOf != null && subClassesOf.size() > 0) {
+				for (Resource aSuperClass : subClassesOf) {
+					List<Resource> shapeWithThisTarget = nodeShape.getModel().listStatements(null, SH.targetClass, aSuperClass).toList().stream().map(s -> s.getSubject()).collect(Collectors.toList());
+					for (Resource aShapeWithSuperClassAsTarget : shapeWithThisTarget) {
+						result.add(aShapeWithSuperClassAsTarget);
+					}
+				}
+			}
+		}
+		
+		return new ArrayList<Resource>(result);
+	}
+	
+	/**
+	 * Returns a list containing the shapes that this one is subClassOf plus the shapes that target a class, which the class that this shape target
+	 * is a subClassOf.
+	 * 
+	 * @return
+	 */
+	public List<Resource> getSuperShapes() {
+		List<Resource> superShapes = new ArrayList<Resource>();
+		superShapes.addAll(this.getRdfsSubClassOf());
+		superShapes.addAll(this.getShTargetClassRdfsSubclassOfInverseOfShTargetClass());
+		return superShapes;
 	}
 	
 	

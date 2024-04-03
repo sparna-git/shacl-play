@@ -1,5 +1,6 @@
 package fr.sparna.rdf.shacl.doc.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -43,9 +44,15 @@ public class ShapesDocumentationSection {
 	@JacksonXmlProperty(localName = "link")
 	private List<Link> superClasses;
 	
+	/*
 	@JacksonXmlElementWrapper(localName="properties")
 	@JacksonXmlProperty(localName = "property")
 	public List<PropertyShapeDocumentation> propertySections;
+	*/
+	
+	@JacksonXmlElementWrapper(localName="propertyGroups")
+	@JacksonXmlProperty(localName = "propertyGroup")
+	public List<PropertyShapesGroupDocumentation> propertyGroups;
 
 	@JacksonXmlElementWrapper(localName="charts")
 	@JacksonXmlProperty(localName = "chart")
@@ -60,7 +67,15 @@ public class ShapesDocumentationSection {
 	
 	
 	public PropertyShapeDocumentation findPropertyShapeDocumentationSectionByUriOrId(String propertyUri) {
-		return this.propertySections.stream().filter(s -> s.getPropertyShapeUriOrId().equals(propertyUri)).findFirst().orElse(null);
+		return getPropertiesInAllGroups().stream().filter(s -> s.getPropertyShapeUriOrId().equals(propertyUri)).findFirst().orElse(null);
+	}
+	
+	public List<PropertyShapeDocumentation> getPropertiesInAllGroups() {
+		List<PropertyShapeDocumentation> allProperties = new ArrayList<>();
+		for (PropertyShapesGroupDocumentation aGroup : propertyGroups) {
+			allProperties.addAll(aGroup.getProperties());
+		}
+		return allProperties;
 	}
 
 	public List<Chart> getCharts() {
@@ -150,13 +165,6 @@ public class ShapesDocumentationSection {
 	public void setClosed(Boolean closed) {
 		this.closed = closed;
 	}
-	
-	public List<PropertyShapeDocumentation> getPropertySections() {
-		return propertySections;
-	}
-	public void setPropertySections(List<PropertyShapeDocumentation> propertySections) {
-		this.propertySections = propertySections;
-	}
 
 	public String getSectionId() {
 		return sectionId;
@@ -196,6 +204,15 @@ public class ShapesDocumentationSection {
 
 	public void setNodeShapeUriOrId(String nodeShapeUriOrId) {
 		this.nodeShapeUriOrId = nodeShapeUriOrId;
+	}
+
+	public List<PropertyShapesGroupDocumentation> getPropertyGroups() {
+		return propertyGroups;
+	}
+
+	public void setPropertyGroups(List<PropertyShapesGroupDocumentation> propertyGroups) {
+		this.propertyGroups = propertyGroups;
 	}	
+	
 	
 }

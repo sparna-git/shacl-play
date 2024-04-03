@@ -415,7 +415,7 @@
 					.sp_table_propertyshapes tr {
 					    display: table-row;
 					    vertical-align: inherit;
-					    border-color: inherit;
+					    border-color: inherit;					    
 					}
 													
 					.sp_table_propertyshapes th:nth-child(4) {
@@ -435,6 +435,16 @@
 										
 					.sp_table_propertyshapes_col_description {
 						word-break: break-word;
+					}
+					
+					tr.sp_propertyGroup {
+						font-style: italic;
+						background-color: #def0f7;
+					}
+					
+					tr.sp_propertyGroup td {
+						border-bottom: 1px solid black;
+						padding-bottom: 0.25 rem;
 					}
 					
 					.sp_serialization_badge {
@@ -904,7 +914,7 @@
 					</xsl:if>
 					
 					<!-- Properties table -->
-					<xsl:apply-templates select="properties" />		
+					<xsl:apply-templates select="propertyGroups" />		
 					
 					<!-- Section for Pie Chart -->
 					<xsl:apply-templates select="charts" />				
@@ -921,9 +931,9 @@
 		</h3>
 	</xsl:template>
 	
-	<!-- Properties -->
-	<xsl:template match="properties">
-		<xsl:if test="count(property)>0">
+	<!-- Property groups -->
+	<xsl:template match="propertyGroups">
+		<xsl:if test="count(propertyGroup) > 0">
 			<table class="sp_table_propertyshapes table-striped table-responsive">
 				<thead>
 					<tr>
@@ -949,10 +959,25 @@
 					</tr>
 				</thead>
 				<tbody>
-					<xsl:apply-templates select="property" />
+					<xsl:apply-templates select="propertyGroup" />
 				</tbody>
-			</table>
-		</xsl:if><!-- end properties table -->
+			</table><!-- end properties table -->
+		</xsl:if>
+	</xsl:template>
+	
+	<xsl:template match="propertyGroup">
+		<!-- only display groups if there are more than 1 !! -->
+		<xsl:if test="count(../propertyGroup) > 1">
+			<tr class="sp_propertyGroup"><td colspan="5">Properties from <a href="{targetClass/href}"><xsl:value-of select="targetClass/label" /></a></td></tr>
+		</xsl:if>
+		
+		<!-- Properties table -->
+		<xsl:apply-templates select="properties" />	
+	</xsl:template>
+	
+	<!-- Properties -->
+	<xsl:template match="properties">
+		<xsl:apply-templates select="property" />
 	</xsl:template>
 	
 	

@@ -47,6 +47,10 @@ public class ShapesGraph {
 		return owlGraph;
 	}
 	
+	public NodeShape findNodeShapeByResource(Resource r) {
+		return this.allNodeShapes.stream().filter(ns -> ns.getNodeShape().toString().equals(r.toString())).findFirst().orElse(null);
+	}
+	
 	
 	private OwlOntology readOWL(Model shaclGraph, String lang) {
 		

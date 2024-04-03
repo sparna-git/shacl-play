@@ -1,24 +1,28 @@
 package fr.sparna.rdf.shacl.doc.read;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.vocabulary.RDFS;
 
 import fr.sparna.rdf.jena.ModelReadingUtils;
 import fr.sparna.rdf.shacl.doc.NodeShape;
 import fr.sparna.rdf.shacl.doc.PropertyShape;
+import fr.sparna.rdf.shacl.doc.ShapesGraph;
 import fr.sparna.rdf.shacl.doc.model.Link;
 import fr.sparna.rdf.shacl.doc.model.PropertyShapeDocumentation;
+import fr.sparna.rdf.shacl.doc.model.PropertyShapesGroupDocumentation;
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentationSection;
 
 public class ShapesDocumentationSectionBuilder {
 
 	public static ShapesDocumentationSection build(
 			NodeShape nodeShape,
-			List<NodeShape> allNodeShapes,
+			ShapesGraph shapesGraph,
 			Model shaclGraph,
 			Model owlGraph,
 			String lang
@@ -71,33 +75,88 @@ public class ShapesDocumentationSectionBuilder {
 		
 		// rdfs:subClassOf
 		currentSection.setSuperClasses(nodeShape.getRdfsSubClassOf().stream()
-				.filter(r -> allNodeShapes.stream().anyMatch(ns -> ns.getNodeShape().toString().equals(r.toString())))
-				.map(r -> {
-					// use the label if present, otherwise use the short form
-					String label = ModelReadingUtils.readLiteralInLangAsString(r, RDFS.label, lang);
-					if(label != null) {
-						return new Link(
-								"#"+r.getModel().shortForm(r.getURI()),
-								label
-						);
-					} else {
-						return new Link(
-								"#"+r.getModel().shortForm(r.getURI()),
-								r.getModel().shortForm(r.getURI())
-						);
-					}
-		}).collect(Collectors.toList()));
+				.filter(r -> shapesGraph.findNodeShapeByResource(r) != null)
+				.map(r -> createLinkFromShape(r, lang))
+				.collect(Collectors.toList()));
 		
-		// Read the property shapes
-		List<PropertyShapeDocumentation> ListPropriete = new ArrayList<>();
-		for (PropertyShape propriete : nodeShape.getProperties()) {
-			PropertyShapeDocumentation psd = PropertyShapeDocumentationBuilder.build(propriete, allNodeShapes, shaclGraph, owlGraph, lang);				
-			ListPropriete.add(psd);
+		// shapes targeting a super-class of this shape target
+		if(currentSection.getSuperClasses() == null || currentSection.getSuperClasses().size() == 0) {
+			currentSection.setSuperClasses(nodeShape.getShTargetClassRdfsSubclassOfInverseOfShTargetClass().stream()
+					.filter(r -> shapesGraph.findNodeShapeByResource(r) != null)
+					.map(r -> createLinkFromShape(r, lang))
+					.collect(Collectors.toList()));
 		}
 		
-		currentSection.setPropertySections(ListPropriete);
+		
+		// Read the property shapes from this shape and supershapes
+		List<PropertyShapesGroupDocumentation> groups = readPropertyGroupsRec(
+				nodeShape,
+				shapesGraph,
+				shaclGraph,
+				owlGraph,
+				lang
+		);			
+		
+		currentSection.setPropertyGroups(groups);
 
 		return currentSection;
 	}
+	
+	static List<PropertyShapesGroupDocumentation> readPropertyGroupsRec(
+			NodeShape nodeShape,
+			ShapesGraph shapesGraph,
+			Model shaclGraph,
+			Model owlGraph,
+			String lang
+	) {
+		List<PropertyShapesGroupDocumentation> groups = new ArrayList<>();
+		
+		PropertyShapesGroupDocumentation thisGroup = new PropertyShapesGroupDocumentation();
+		thisGroup.setTargetClass(new Link(
+					"#"+nodeShape.getShortFormOrId(),
+					nodeShape.getDisplayLabel(owlGraph, lang)
+		));
+		List<PropertyShapeDocumentation> properties = new ArrayList<>();
+		for (PropertyShape propriete : nodeShape.getProperties()) {
+			PropertyShapeDocumentation psd = PropertyShapeDocumentationBuilder.build(propriete, shapesGraph.getAllNodeShapes(), shaclGraph, owlGraph, lang);				
+			properties.add(psd);
+		}
+		thisGroup.setProperties(properties);
+		groups.add(thisGroup);
+		
+		// then recurse up
+		List<Resource> superShapes = nodeShape.getSuperShapes();
+		for (Resource aSuperShape : superShapes) {
+			// find corresponding node shape
+			NodeShape superShape = shapesGraph.findNodeShapeByResource(aSuperShape);
+			if(superShape != null) {
+				groups.addAll(readPropertyGroupsRec(
+						superShape,
+						shapesGraph,
+						shaclGraph,
+						owlGraph,
+						lang
+				));
+			}
+		}
+		
+		return groups;
+	}
+	
+	static Link createLinkFromShape(Resource r, String lang) {
+		// use the label if present, otherwise use the short form
+		String label = ModelReadingUtils.readLiteralInLangAsString(r, RDFS.label, lang);
+		if(label != null) {
+			return new Link(
+					"#"+r.getModel().shortForm(r.getURI()),
+					label
+			);
+		} else {
+			return new Link(
+					"#"+r.getModel().shortForm(r.getURI()),
+					r.getModel().shortForm(r.getURI())
+			);
+		}
+	 }
 	
 }

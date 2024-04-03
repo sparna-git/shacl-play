@@ -65,7 +65,7 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 		List<ShapesDocumentationSection> sections = new ArrayList<>();
 		for (NodeShape nodeShape : shapesModel.getAllNodeShapes()) {
 			ShapesDocumentationSection section = ShapesDocumentationSectionBuilder.build(nodeShape, 
-					shapesModel.getAllNodeShapes(), 
+					shapesModel, 
 					 // Model
 					shaclGraph, 
 					// Model

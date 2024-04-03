@@ -176,11 +176,10 @@
 	</xsl:template>
 	-->
 
-	<!-- Properties -->
-	<xsl:template match="properties">
-		<xsl:if test="count(property)>0">
-			<table
-				class="sp_table_propertyshapes table-striped table-responsive">
+	<!-- Property groups -->
+	<xsl:template match="propertyGroups">
+		<xsl:if test="count(propertyGroup) > 0">
+			<table class="sp_table_propertyshapes table-striped table-responsive">
 				<thead>
 					<tr>
 						<th>
@@ -206,14 +205,14 @@
 						<th>
 							<xsl:value-of
 								select="$LABELS/labels/entry[@key='COLUMN_VALUESDISTINCTS']/@label" />
-						</th>
+						</th>	
 					</tr>
 				</thead>
 				<tbody>
-					<xsl:apply-templates select="property" />
+					<xsl:apply-templates select="propertyGroup" />
 				</tbody>
-			</table>
-		</xsl:if><!-- end properties table -->
+			</table><!-- end properties table -->
+		</xsl:if>
 	</xsl:template>
 
 	<xsl:template match="property">

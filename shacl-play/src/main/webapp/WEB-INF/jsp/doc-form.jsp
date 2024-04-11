@@ -401,7 +401,18 @@
 							  		<td>xsd:integer</td>
 							  		<td>No</td>
 							  		<td class="text-break">Sections of the generated documentation are sorted according to sh:order on sh:NodeShape, or by label if not present.</td>
-							  	</tr>					  	
+							  	</tr>
+							  	<tr>
+							  		<th scope="row"><code>rdfs:subClassOf</code> or <code>sh:targetClass/rdfs:subClassOf</code></th>
+							  		<td>sh:IRI</td>
+							  		<td>No</td>
+							  		<td class="text-break">
+							  			If the NodeShape itself or its target class are subclasses of another class, then this is indicated in the header.
+							  			<br />
+							  			Also note that the properties table will be populated with property shapes from the super classes, in different sections "à la"
+							  			 schema.org.							  		
+							  		</td>
+							  	</tr>				  	
 							</tbody>
 						</table>
 

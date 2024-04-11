@@ -62,6 +62,8 @@
 			<entry key="LABEL_EXAMPLE" label="Exemple : "/>
 			<entry key="LABEL_SUPERCLASSES" label="Hérite de : "/>
 			<entry key="LABEL_OR" label=" ou "/>
+			
+			<entry key="LABEL_NO_PROPERTIES" label="Aucune propriété spécifique"/>
 		</labels>
 	</xsl:variable>
 	<!-- In this stylesheet we just copy the base labels -->
@@ -117,6 +119,8 @@
 			<entry key="LABEL_EXAMPLE" label="Example: "/>
 			<entry key="LABEL_SUPERCLASSES" label="Inherits from: "/>
 			<entry key="LABEL_OR" label=" or "/>
+			
+			<entry key="LABEL_NO_PROPERTIES" label="No specific properties"/>
 		</labels>
 	</xsl:variable>
 	<!-- In this stylesheet we just copy the base labels -->
@@ -605,7 +609,7 @@
 		<br />	
 	</xsl:template>
 
-	<xsl:template match="creators">
+	<xsl:template match="creators[creator]">
 		<b>
 			<xsl:value-of
 				select="$LABELS/labels/entry[@key='METADATA.CREATOR']/@label" />
@@ -614,7 +618,7 @@
 		<br />
 	</xsl:template>
 	
-	<xsl:template match="publishers">
+	<xsl:template match="publishers[publisher]">
 		<b>
 			<xsl:value-of
 				select="$LABELS/labels/entry[@key='METADATA.PUBLISHER']/@label" />
@@ -623,7 +627,7 @@
 		<br />	
 	</xsl:template>
 	
-	<xsl:template match="rightsHolders">
+	<xsl:template match="rightsHolders[rightsHolder]">
 		<b>
 			<xsl:value-of
 				select="$LABELS/labels/entry[@key='METADATA.RIGHTHOLDER']/@label" />
@@ -632,7 +636,7 @@
 		<br />
 	</xsl:template>
 	
-	<xsl:template match="licenses">
+	<xsl:template match="licenses[license]">
 		<b>
 			<xsl:value-of
 				select="$LABELS/labels/entry[@key='METADATA.LICENSE']/@label" />
@@ -641,7 +645,7 @@
 		<br />
 	</xsl:template>
 	
-	<xsl:template match="feedbacks">
+	<xsl:template match="feedbacks[feedback]">
 		<b>
 			<xsl:value-of
 				select="$LABELS/labels/entry[@key='METADATA.FEEDBACK']/@label" />
@@ -977,6 +981,12 @@
 	
 	<!-- Properties -->
 	<xsl:template match="properties">
+		<xsl:if test="count(property) = 0">
+			<tr>
+				<td colspan="5"><em><xsl:value-of select="$LABELS/labels/entry[@key='LABEL_NO_PROPERTIES']/@label" /></em></td>
+			</tr>
+		</xsl:if>
+	
 		<xsl:apply-templates select="property" />
 	</xsl:template>
 	

@@ -3,6 +3,7 @@ package fr.sparna.rdf.shacl.doc.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
@@ -65,11 +66,12 @@ public class ShapesDocumentationSection {
 	
 	private int numberOfTargets;
 	
-	
+	@JsonIgnore
 	public PropertyShapeDocumentation findPropertyShapeDocumentationSectionByUriOrId(String propertyUri) {
 		return getPropertiesInAllGroups().stream().filter(s -> s.getPropertyShapeUriOrId().equals(propertyUri)).findFirst().orElse(null);
 	}
 	
+	@JsonIgnore
 	public List<PropertyShapeDocumentation> getPropertiesInAllGroups() {
 		List<PropertyShapeDocumentation> allProperties = new ArrayList<>();
 		for (PropertyShapesGroupDocumentation aGroup : propertyGroups) {

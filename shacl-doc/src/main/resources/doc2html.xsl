@@ -1078,20 +1078,20 @@
 			</xsl:otherwise>
 		</xsl:choose>
 		<br />
-		<xsl:if test="expectedValueAdditionnalInfoIn/text()">
+		<xsl:if test="../expectedValueAdditionnalInfoIn/text()">
 			<p>
 				<small>
 					<!-- disable output espacing as we may have <sup> in rendering -->
 					<xsl:value-of disable-output-escaping="yes"
-						select="concat('(',expectedValueAdditionnalInfoIn,')')" />
+						select="concat('(',../expectedValueAdditionnalInfoIn,')')" />
 				</small>
 			</p>
 		</xsl:if>
-		<xsl:if test="expectedValueAdditionnalInfoValue/text()">
+		<xsl:if test="../expectedValueAdditionnalInfoValue/text()">
 			<p>
 				<small>
 					<xsl:value-of
-						select="expectedValueAdditionnalInfoValue" />
+						select="../expectedValueAdditionnalInfoValue" />
 				</small>
 			</p>
 		</xsl:if>

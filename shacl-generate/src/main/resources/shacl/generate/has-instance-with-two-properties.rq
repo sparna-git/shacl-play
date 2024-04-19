@@ -1,6 +1,10 @@
 ask {
   ?uri a $type .
   ?uri $property ?x, ?y.
-
-  filter (?x != ?y)
+  # On a changé l'instrution Filter parce que, dans le validation, 
+  # on est arrivé pas à valider correctement les deux valeur  
+  # par contraire, on va utiliser la fonction sameTerm
+  # sameTerm https://www.w3.org/TR/sparql11-query/#func-sameTerm
+  #filter (?x != ?y)
+  FILTER ( !sameTerm(?x, ?y) )
 }

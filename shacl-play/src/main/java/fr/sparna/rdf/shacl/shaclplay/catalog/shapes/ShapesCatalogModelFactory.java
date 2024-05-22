@@ -20,7 +20,6 @@ public class ShapesCatalogModelFactory {
 		ShapesCatalog catalog = new ShapesCatalog();
 		
 		model.listSubjectsWithProperty(RDF.type, DCAT.Dataset).forEachRemaining(r -> {
-			log.debug("Parsing Catalog entry "+r.getLocalName());
 			ShapesCatalogEntry entry = new ShapesCatalogEntry();
 			
 			AbstractCatalogEntryResourceFactory reader = new AbstractCatalogEntryResourceFactory();

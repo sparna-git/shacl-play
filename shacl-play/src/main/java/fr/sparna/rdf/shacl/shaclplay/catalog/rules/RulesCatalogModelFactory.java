@@ -16,7 +16,6 @@ public class RulesCatalogModelFactory {
 		RulesCatalog catalog = new RulesCatalog();
 		
 		model.listSubjectsWithProperty(RDF.type, DCAT.Dataset).forEachRemaining(r -> {
-			log.debug("Parsing Catalog entry "+r.getLocalName());
 			RulesCatalogEntry entry = new RulesCatalogEntry();
 			
 			AbstractCatalogEntryResourceFactory reader = new AbstractCatalogEntryResourceFactory();

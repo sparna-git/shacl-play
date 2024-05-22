@@ -20,8 +20,6 @@ public class AbstractCatalogEntryResourceFactory {
 	
 	public AbstractCatalogEntry populate(AbstractCatalogEntry entry, Resource r) {
 
-		log.debug("Parsing Catalog entry "+r.getLocalName());
-
 		// ID
 		entry.setId(r.getLocalName());
 		// title + description

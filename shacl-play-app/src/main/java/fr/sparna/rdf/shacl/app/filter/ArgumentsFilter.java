@@ -5,7 +5,7 @@ import java.io.File;
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.Parameters;
 
-@Parameters(commandDescription = "Filters a shape model against a statistics file.")
+@Parameters(commandDescription = "Filters a shape model against a statistics file. Properties used less than 0.1% of the time will be removed from the SHACL file.")
 public class ArgumentsFilter {
 	
 	

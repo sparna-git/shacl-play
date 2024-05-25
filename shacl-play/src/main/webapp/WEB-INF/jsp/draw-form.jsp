@@ -141,10 +141,15 @@
 									</td>
 								</tr>
 								<tr>
+									<th scope="row" width="30%"><code>https://shacl-play.sparna.fr/ontology#background-color</code></th>
+									<td>xsd:string</td>
+									<td class="text-break">Color of the box itself. Values can be a color name, like <code>"Green"</code> or an hex code, like <code>"4456BB"</code>
+									</td>
+								</tr>
+								<tr>
 									<th scope="row" width="30%"><code>https://shacl-play.sparna.fr/ontology#color</code></th>
 									<td>xsd:string</td>
-									<td class="text-break">Color of the box. Values can be a color name, like <code>"Green"</code>
-									or an hex code, like <code>"4456BB"</code>
+									<td class="text-break">Color of the text inside the box. Values can be a color name, like <code>"Green"</code> or an hex code, like <code>"4456BB"</code>
 									</td>
 								</tr>
 							</tbody>
@@ -186,6 +191,30 @@
 							</tbody>
 						</table>
 					</div>
+
+					<div style="margin-top:2em;">
+						<h4 id="gallery">Diagram gallery</h4>
+
+						<p>
+							<a href="https://github.com/euBusinessGraph/eubg-data/raw/master/model/ebg-shapes.shacl">EBG shapes</a>
+							<br/>
+							<img src="<c:url value="/resources/img/diagram-ebg-shapes.png"/>" width="100%"/>
+						</p>
+
+						<p>
+							<a href="https://gist.githubusercontent.com/tfrancart/cd7af66ba629352f353bec49b76efb98/raw/ScoLOMFR-V6-AP-SHACL.ttl">ScoloMFR Application profile</a>, SKOS based
+							<br/>
+							<img src="<c:url value="/resources/img/diagram-ScoLOMFR-V6-AP-SHACL.png"/>" width="100%"/>
+						</p>
+
+						<p>
+							<a href="https://docs.google.com/spreadsheets/d/195NKb43Ck1yPGrIK4H8_HYGw9GTPnbtY">Sparnatural configuration profile</a>
+							<br/>
+							<img src="<c:url value="/resources/img/diagram-sparnatural-configuration.png"/>" width="100%"/>
+						</p>
+
+					</div>
+
 				</div>
 				
 

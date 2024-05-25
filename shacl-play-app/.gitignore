@@ -3,3 +3,5 @@
 /.project
 /.classpath
 /.settings
+/.apt_generated/
+/.apt_generated_tests/

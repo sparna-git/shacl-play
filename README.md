@@ -1,10 +1,17 @@
-[![Deploy SHACL-Play](https://github.com/sparna-git/shacl-play/actions/workflows/maven.yml/badge.svg)](https://github.com/sparna-git/shacl-play/actions/workflows/maven.yml)
-
 
 # SHACL Play!
 SHACL validator and printer **live at https://shacl-play.sparna.fr**
 
 ## Running the application.
+
+### As a command-line
+
+The easiest and recommended way to run the application is by using its command-line version. There is no need to locally install the online version.
+For this:
+- Install Java 11
+- [Download the command-line app from the release section](https://github.com/sparna-git/shacl-play/releases/latest)
+- Refer to the [command-line documentation](https://github.com/sparna-git/shacl-play/wiki/Run-SHACL-Play-App-from-command-line)
+
 ### With Docker
 The following `docker` commands should be sufficient to get you started.
 First, build the image with:

@@ -11,6 +11,7 @@ import org.apache.jena.rdf.model.Model;
 import fr.sparna.rdf.shacl.diagram.PlantUmlDiagramOutput;
 import fr.sparna.rdf.shacl.doc.NodeShape;
 import fr.sparna.rdf.shacl.doc.NodeShapeReader;
+import fr.sparna.rdf.shacl.doc.OwlOntology;
 import fr.sparna.rdf.shacl.doc.PlantUmlSourceGenerator;
 import fr.sparna.rdf.shacl.doc.ShaclPrefixReader;
 import fr.sparna.rdf.shacl.doc.ShapesGraph;
@@ -23,12 +24,14 @@ import fr.sparna.rdf.shacl.generate.visitors.ShaclVisit;
 public class ShapesDocumentationModelReader implements ShapesDocumentationReaderIfc {
 
 	protected boolean readDiagram = true;
+	protected boolean hideProperties = false;
 	protected String imgLogo = null;
 	
-	public ShapesDocumentationModelReader(boolean readDiagram,String imgLogo) {
+	public ShapesDocumentationModelReader(boolean readDiagram,String imgLogo, boolean hideProperties) {
 		super();
 		this.readDiagram = readDiagram;
 		this.imgLogo = imgLogo;
+		this.hideProperties = hideProperties;
 	}
 
 	@Override
@@ -50,6 +53,7 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 			List<PlantUmlDiagramOutput> plantUmlDiagrams = sourceGenerator.generatePlantUmlDiagram(
 					shaclGraph,
 					owlGraph,
+					this.hideProperties,
 					lang
 			);
 			

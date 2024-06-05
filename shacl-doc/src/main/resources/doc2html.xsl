@@ -169,6 +169,12 @@
 					<meta property="og:title" content="{$var_title}"/>
 				</xsl:if>
 				
+				<xsl:if test="jsonldOWL">
+					<script type="application/ld+json">
+						<xsl:apply-templates select="jsonldOWL" />
+					</script>
+				</xsl:if>
+				
 				<xsl:apply-templates select="../ShapesDocumentation" mode="javascript_extra_header"/>
 												
 			</head>
@@ -554,6 +560,10 @@
 				</xsl:if>
 			</ul>
 		</div>		
+	</xsl:template>
+	
+	<xsl:template match="jsonldOWL">
+		<xsl:value-of select="."/>		
 	</xsl:template>
 
 	<xsl:template match="section" mode="TOC">

@@ -111,6 +111,8 @@ public class DrawController {
 	public ModelAndView drawUrl(
 			@RequestParam(value="url", required=true) String shapesUrl,
 			@RequestParam(value="format", required=false, defaultValue = "svg") String format,
+			// hide Properties
+			@RequestParam(value="hideProperties", required=false) boolean hideProperties,
 			HttpServletRequest request,
 			HttpServletResponse response
 	){
@@ -128,6 +130,7 @@ public class DrawController {
 					shapesModel,
 					modelPopulator.getSourceName(),
 					fmt,
+					hideProperties,
 					response);
 			return null;
 		} catch (Exception e) {
@@ -154,6 +157,8 @@ public class DrawController {
 			@RequestParam(value="inputShapeInline", required=false) String shapesText,
 			// output format svg / png
 			@RequestParam(value="format", required=false, defaultValue = "svg") String format,
+			// hide Properties
+			@RequestParam(value="hideProperties", required=false) boolean hideProperties,
 			HttpServletRequest request,
 			HttpServletResponse response
 	) {
@@ -168,14 +173,13 @@ public class DrawController {
 			
 			// if source is a ULR, redirect to the API
 			if(shapesSource == SOURCE_TYPE.URL) {
-				return new ModelAndView("redirect:/draw?format="+fmt.name().toLowerCase()+"&url="+URLEncoder.encode(shapesUrl, "UTF-8"));
+				return new ModelAndView("redirect:/draw?format="+fmt.name().toLowerCase()+"&hideProperties="+hideProperties+"&url="+URLEncoder.encode(shapesUrl, "UTF-8"));
 			} else if (shapesSource == SOURCE_TYPE.CATALOG) {
 				AbstractCatalogEntry entry = this.catalogService.getShapesCatalog().getCatalogEntryById(shapesCatalogId);
-				return new ModelAndView("redirect:/draw?format="+fmt.name().toLowerCase()+"&url="+URLEncoder.encode(entry.getTurtleDownloadUrl().toString(), "UTF-8"));
+				return new ModelAndView("redirect:/draw?format="+fmt.name().toLowerCase()+"&hideProperties="+hideProperties+"&url="+URLEncoder.encode(entry.getTurtleDownloadUrl().toString(), "UTF-8"));
 			} else {
 				
-			}
-			
+			}			
 			
 			// initialize shapes first			
 			log.debug("Determining Shapes source...");
@@ -191,15 +195,11 @@ public class DrawController {
 			);
 			log.debug("Done Loading Shapes. Model contains "+shapesModel.size()+" triples");
 			
-			
-			//PREFIXES pm = new PREFIXES();
-			//shapesModel.setNsPrefixes(pm.getPrefixMap());
-			
-			
 			doOutputDiagram(
 					shapesModel,
 					modelPopulator.getSourceName(),
 					fmt,
+					hideProperties,
 					response
 			);
 			return null;
@@ -215,6 +215,7 @@ public class DrawController {
 			Model shapesModel,
 			String filename,
 			FORMAT format,
+			boolean hideProperties,
 			HttpServletResponse response
 	) throws IOException {
 		
@@ -230,6 +231,8 @@ public class DrawController {
 				false,
 				// avoid arrows to empty boxes
 				true,
+				// hide Properties
+				hideProperties,
 				// a language for label and description reading
 				"en"
 		);

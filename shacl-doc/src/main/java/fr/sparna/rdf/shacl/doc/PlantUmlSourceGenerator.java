@@ -13,6 +13,7 @@ public class PlantUmlSourceGenerator {
 	public List<PlantUmlDiagramOutput> generatePlantUmlDiagram(
 			Model shapesModel,
 			Model owlModel,
+			boolean hideProperties,
 			String lang
 	) {
 
@@ -25,6 +26,8 @@ public class PlantUmlSourceGenerator {
 				true,
 				// avoid arrows to empty boxes
 				true,
+				//
+				hideProperties,
 				lang);
 		Model finalModel = ModelFactory.createDefaultModel();
 		finalModel.add(shapesModel);

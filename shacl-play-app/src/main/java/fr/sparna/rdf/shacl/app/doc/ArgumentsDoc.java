@@ -52,6 +52,13 @@ public class ArgumentsDoc {
 	)
 	private Boolean diagramShacl=false;
 	
+	@Parameter(
+			names = { "-h", "--hide" },
+			description = "hide datatype properties.",
+			required = false
+	)
+	private Boolean hidePropertiesShacl=false;
+	
 	
 	@Parameter(
 			names = { "-m", "--img" },
@@ -124,5 +131,12 @@ public class ArgumentsDoc {
 	public void setOntologies(List<File> ontologies) {
 		this.ontologies = ontologies;
 	}
-	
+
+	public Boolean getHidePropertiesShacl() {
+		return hidePropertiesShacl;
+	}
+
+	public void setHidePropertiesShacl(Boolean hidePropertiesShacl) {
+		this.hidePropertiesShacl = hidePropertiesShacl;
+	}
 }

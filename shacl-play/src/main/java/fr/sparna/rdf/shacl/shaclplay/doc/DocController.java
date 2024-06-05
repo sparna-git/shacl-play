@@ -74,6 +74,8 @@ public class DocController {
 			@RequestParam(value="url", required=true) String shapesUrl,
 			// includeDiagram option
 			@RequestParam(value="includeDiagram", required=false) boolean includeDiagram,
+			// hide Properties
+			@RequestParam(value="hideProperties", required=false) boolean hideProperties,
 			// List Option
 			@RequestParam(value="format", required=false, defaultValue = "html") String format,
 			// Logo Option
@@ -99,6 +101,7 @@ public class DocController {
 					shapesModel,
 					// true to read diagram
 					includeDiagram,
+					hideProperties,
 					format,
 					urlLogo,
 					modelPopulator.getSourceName(),
@@ -129,6 +132,8 @@ public class DocController {
 			@RequestParam(value="inputShapeInline", required=false) String shapesText,
 			// includeDiagram option
 			@RequestParam(value="includeDiagram", required=false) boolean includeDiagram,
+			// hide Properties
+			@RequestParam(value="hideProperties", required=false) boolean hideProperties,
 			// print PDF Option
 			@RequestParam(value="format", required=false, defaultValue = "html") String format,
 			// Logo Option
@@ -149,10 +154,10 @@ public class DocController {
 			
 			// if source is a ULR, redirect to the API
 			if(shapesSource == SOURCE_TYPE.URL) {
-				return new ModelAndView("redirect:/doc?format="+format.toLowerCase()+"&url="+URLEncoder.encode(shapesUrl, "UTF-8")+"&includeDiagram="+includeDiagram+((printPDF)?"&printPDF=true":"")+((!language.equals("en"))?"&language="+language:"")+((urlLogo != null)?"&inputLogo="+URLEncoder.encode(urlLogo, "UTF-8"):""));
+				return new ModelAndView("redirect:/doc?format="+format.toLowerCase()+"&url="+URLEncoder.encode(shapesUrl, "UTF-8")+"&includeDiagram="+includeDiagram+"&hideProperties="+hideProperties+((printPDF)?"&printPDF=true":"")+((!language.equals("en"))?"&language="+language:"")+((urlLogo != null)?"&inputLogo="+URLEncoder.encode(urlLogo, "UTF-8"):""));
 			} else if (shapesSource == SOURCE_TYPE.CATALOG) {
 				AbstractCatalogEntry entry = this.catalogService.getShapesCatalog().getCatalogEntryById(shapesCatalogId);
-				return new ModelAndView("redirect:/doc?format="+format.toLowerCase()+"&url="+URLEncoder.encode(entry.getTurtleDownloadUrl().toString(), "UTF-8")+"&includeDiagram="+includeDiagram+((printPDF)?"&printPDF=true":"")+((!language.equals("en"))?"&language="+language:"")+((urlLogo != null)?"&inputLogo="+URLEncoder.encode(urlLogo, "UTF-8"):""));				
+				return new ModelAndView("redirect:/doc?format="+format.toLowerCase()+"&url="+URLEncoder.encode(entry.getTurtleDownloadUrl().toString(), "UTF-8")+"&includeDiagram="+includeDiagram+"&hideProperties="+hideProperties+((printPDF)?"&printPDF=true":"")+((!language.equals("en"))?"&language="+language:"")+((urlLogo != null)?"&inputLogo="+URLEncoder.encode(urlLogo, "UTF-8"):""));				
 			}
 			
 			
@@ -179,6 +184,7 @@ public class DocController {
 					shapesModel,
 					// true to read diagram
 					includeDiagram,
+					hideProperties,
 					format,
 					urlLogo,
 					modelPopulator.getSourceName(),
@@ -197,6 +203,7 @@ public class DocController {
 	protected void doOutputDoc(
 			Model shapesModel,
 			boolean includeDiagram,
+			boolean hideProperties,
 			String format, // printPDF,
 			String urlLogo,
 			String filename,
@@ -205,7 +212,7 @@ public class DocController {
 	) throws IOException {		
 		response.setHeader("Content-Disposition", "inline; filename=\""+filename+".html\"");
 
-		ShapesDocumentationReaderIfc reader = new ShapesDocumentationModelReader(includeDiagram, urlLogo);
+		ShapesDocumentationReaderIfc reader = new ShapesDocumentationModelReader(includeDiagram, urlLogo, hideProperties);
 		ShapesDocumentation doc = reader.readShapesDocumentation(
 				shapesModel,
 				// OWL graph
@@ -213,7 +220,8 @@ public class DocController {
 				languageInput
 		);
 		
-		if (format.toLowerCase().equals("html")) {
+		
+		if (format.toLowerCase().equals("html")) { 
 			ShapesDocumentationWriterIfc writer = new ShapesDocumentationJacksonXsltWriter();
 			response.setContentType("text/html");
 			// response.setContentType("application/xhtml+xml");

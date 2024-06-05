@@ -111,6 +111,20 @@
 								</div>
 							</div>
 						</div>
+						<!-- Hide Properties -->
+						<div class="form-group row">
+					      	<div class="col-sm-12">
+						      	<div class="form-check">
+								  <input class="form-check-input" type="checkbox" id="hideProperties" name="hideProperties" />
+								  <label class="form-check-label" for="hideProperties">
+								    <fmt:message key="doc.options.hideProperties" />
+								  </label>
+								  <small class="form-text text-muted">
+									<fmt:message key="doc.options.hideProperties.help" />
+								  </small>
+								</div>
+							</div>
+						</div>						
 						<!-- Output format option -->
 						<div class="form-group row">
 							<label for="format" class="col-sm-3 col-form-label">

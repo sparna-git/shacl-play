@@ -161,6 +161,13 @@
 			<version>0.0.1-RC19</version>
 		</dependency>
 		-->
+		
+		<!-- JSON -->
+		<dependency>
+			<groupId>org.json</groupId>
+		    <artifactId>json</artifactId>
+		    <version>20240303</version>
+		</dependency>
 
 	</dependencies>
 </project>

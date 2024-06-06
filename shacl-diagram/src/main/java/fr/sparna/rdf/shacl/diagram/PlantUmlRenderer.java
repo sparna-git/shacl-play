@@ -6,10 +6,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.apache.jena.rdf.model.Property;
+import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.Statement;
+import org.apache.jena.rdf.model.StmtIterator;
 import org.apache.jena.shacl.vocabulary.SHACLM;
+import org.apache.jena.vocabulary.RDFS;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.topbraid.shacl.vocabulary.SH;
 
 import fr.sparna.rdf.jena.ModelRenderingUtils;
 
@@ -21,6 +27,7 @@ public class PlantUmlRenderer {
 	protected boolean displayPatterns = false;
 	protected boolean avoidArrowsToEmptyBoxes = true;
 	protected boolean includeSubclassLinks = true;
+	protected boolean hidePropertiesBoxes = false;
 	
 	protected List<String> inverseList = new ArrayList<String>();
 	
@@ -30,12 +37,13 @@ public class PlantUmlRenderer {
 		super();
 	}
 
-	public PlantUmlRenderer(boolean generateAnchorHyperlink, boolean displayPatterns, boolean avoidArrowsToEmptyBoxes, boolean includeSubclassLinks) {
+	public PlantUmlRenderer(boolean generateAnchorHyperlink, boolean displayPatterns, boolean avoidArrowsToEmptyBoxes, boolean includeSubclassLinks, boolean hidePropertiesBoxes) {
 		super();
 		this.generateAnchorHyperlink = generateAnchorHyperlink;
 		this.displayPatterns = displayPatterns;
 		this.avoidArrowsToEmptyBoxes = avoidArrowsToEmptyBoxes;
 		this.includeSubclassLinks = includeSubclassLinks;
+		this.hidePropertiesBoxes = hidePropertiesBoxes;
 	}
 
 	private String render(
@@ -50,11 +58,11 @@ public class PlantUmlRenderer {
 		if(property.getColorString() != null) {
 			colorArrowProperty = "[bold,#"+property.getColorString()+"]";
 		}
-				
+		
 		if (property.getShNode().isPresent()) {
 			String getCodeUML = renderAsNodeReference(property, box, renderAsDatatypeProperty, colorArrowProperty, collectRelationProperties);
 			return (getCodeUML.contains("->")) ? "" : getCodeUML;
-		} else if (property.getShClass().isPresent()) {
+		} else if (property.getShClass().isPresent()) {			
 			String getCodeUML = renderAsClassReference(property, box, renderAsDatatypeProperty, collectRelationProperties); 
 			return (getCodeUML.contains("->")) ? "" : getCodeUML;
 		} else if (property.getShQualifiedValueShape().isPresent()) {
@@ -372,6 +380,12 @@ public class PlantUmlRenderer {
 		sourceuml.append("hide circle\n");
 		sourceuml.append("hide methods\n");
 		sourceuml.append("hide empty members\n");
+		
+		// hideProperties is true, hide all properties
+		if (this.hidePropertiesBoxes) {
+			sourceuml.append("hide fields\n");
+		}		
+		
 		sourceuml.append("@enduml\n");
 		
 		// return output
@@ -427,6 +441,7 @@ public class PlantUmlRenderer {
 			
 			String declarationPropertes = "";
 			Map<String,String> collectRelationProperties = new HashMap<>();
+			List<String> notations = new ArrayList<>(); 
 			for (PlantUmlProperty plantUmlproperty : box.getProperties()) {
 				boolean displayAsDatatypeProperty = false;
 				
@@ -475,10 +490,44 @@ public class PlantUmlRenderer {
 						displayAsDatatypeProperty,
 						collectRelationProperties
 				);
+				
+				
+				/*
 				if (codePropertyPlantUml!="") {
+					declarationPropertes += codePropertyPlantUml; 
+				}
+				*/
+				// add new object in the box
+				if (plantUmlproperty.getShGroup().isPresent()) {		
+					// read property group
+					List<PlantUmlProperty> propertiesGpo = new ArrayList<>();
+					String notationName = "";
+					
+					for (Statement r : plantUmlproperty.getShGroup().get().listProperties().toList()) {
+						Resource pr = r.getPredicate();
+						String ob = r.getObject().getModel().shortForm(r.getObject().toString());
+						
+						if (pr.equals(RDFS.label)) {
+							notationName = ob;
+						}						
+					}
+					String codeGroup = box.getPlantUmlQuotedBoxName() + " : "+ "__<b>"+notationName+"</b>__\n";
+					// Declaration for add separator in the box
+					codeGroup += this.renderDefault(plantUmlproperty, box);
+					
+//					codeGroup += box.getPlantUmlQuotedBoxName() + " : "+  ;					
+					notations.add(codeGroup);
+				} else {
 					declarationPropertes += codePropertyPlantUml;
-				} 
+				}
+				
 				//declaration += this.render(plantUmlproperty, "\"" + box.getLabel() + "\"", displayAsDatatypeProperty,box.getLabel());
+			}
+			
+			if (notations.size() > 0) {
+				for (String notation : notations) {
+					declarationPropertes += notation;
+				}				 
 			}
 			
 			if (collectRelationProperties.size() > 0) {
@@ -591,6 +640,13 @@ public class PlantUmlRenderer {
 	public void setIncludeSubclassLinks(boolean includeSubclassLinks) {
 		this.includeSubclassLinks = includeSubclassLinks;
 	}
-	
+
+	public boolean isHidePropertiesBoxes() {
+		return hidePropertiesBoxes;
+	}
+
+	public void setHidePropertiesBoxes(boolean hidePropertiesBoxes) {
+		this.hidePropertiesBoxes = hidePropertiesBoxes;
+	}
 
 }

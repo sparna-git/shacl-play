@@ -39,6 +39,11 @@ public class PlantUmlProperty {
 		return ModelReadingUtils.getOptionalLiteral(propertyShape, propertyShape.getModel().createProperty(SHACL_PLAY.COLOR));
 	}
 	
+	public Optional<Resource> getdiagramViewer() {
+		return ModelReadingUtils.getOptionalResource(propertyShape, propertyShape.getModel().createProperty(SHACL_PLAY.DIAGRAMVIEWER));
+	}
+	
+	
 	public Optional<Resource> getShNode() {
 		return ModelReadingUtils.getOptionalResource(propertyShape, SH.node);
 	}
@@ -46,6 +51,16 @@ public class PlantUmlProperty {
 	public Optional<Resource> getShClass() {
 		return ModelReadingUtils.getOptionalResource(propertyShape, SH.class_);
 	}
+	
+	public Optional<Resource> getShGroup() {
+		return ModelReadingUtils.getOptionalResource(propertyShape, SH.group);
+	}
+	
+	/*
+	public Optional<Resource> getShPropertyGroup() {
+		return ModelReadingUtils.getOptionalResource(propertyShape, SH.PropertyGroup);
+	}
+	*/
 	
 	public Optional<Resource> getShQualifiedValueShape() {
 		return ModelReadingUtils.getOptionalResource(propertyShape, SH.qualifiedValueShape);

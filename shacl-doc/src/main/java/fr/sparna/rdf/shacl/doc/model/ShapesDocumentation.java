@@ -1,6 +1,7 @@
 package fr.sparna.rdf.shacl.doc.model;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
@@ -34,6 +35,8 @@ public class ShapesDocumentation {
 	protected String datecreated;
 	protected String dateissued;
 	protected String yearCopyRighted;
+	
+	protected String jsonldOWL;
 	
 	@JacksonXmlElementWrapper(localName="diagrams")
 	@JacksonXmlProperty(localName = "diagram")
@@ -144,7 +147,59 @@ public class ShapesDocumentation {
 				.collect(Collectors.toList());
 			});
 			
+			// JSON Object
+			org.json.JSONObject jOutput = new org.json.JSONObject();
+			jOutput.put("@context","https://schema.org");
+			jOutput.put("@type","TechArticle");
+			jOutput.put("url","https://data.europarl.europa.eu/def/eli-ep#");
+			jOutput.put("name",this.title);
+			jOutput.put("datePublished",this.datecreated);
+			jOutput.put("version",this.versionInfo);
+
+			// license
+			if (!this.getLicense().isEmpty()) {
+				List<String> listURL = new ArrayList<>();
+				for (Link l : this.getLicense()) {
+					listURL.add(l.getHref());
+				}
+				jOutput.put("license",listURL);
+			}
 			
+			if (!this.creator.isEmpty()) {
+				org.json.JSONArray jcreator = new org.json.JSONArray(); 
+				org.json.JSONObject jObj = new org.json.JSONObject();
+				jObj.put("@type","Organization");
+				jObj.put("name",this.title);
+				List<String> listURL = new ArrayList<>();
+				for (Link l : this.getCreator()) {
+					listURL.add(l.getHref());
+				}
+				jObj.put("url",listURL);
+				
+				jcreator.put(jObj);
+				jOutput.put("author",jcreator);
+			}
+			
+			if (!this.publisher.isEmpty()) {
+				org.json.JSONArray jpublisher = new org.json.JSONArray(); 
+				org.json.JSONObject jObjPublisher = new org.json.JSONObject();
+				
+				jObjPublisher.put("@type","Organization");
+				jObjPublisher.put("name",this.title);
+				List<String> listURL = new ArrayList<>();
+				for (Link l : this.getPublisher()) {
+					listURL.add(l.getHref());
+				}
+				jObjPublisher.put("url",listURL);
+				
+				jpublisher.put(jObjPublisher);
+				jOutput.put("publisher",jpublisher);
+				
+			}
+			
+			if (jOutput.length() > 4) {
+				this.setJsonldOWL(jOutput.toString());
+			}	
 		}		
 	}
 	
@@ -290,10 +345,14 @@ public class ShapesDocumentation {
 	public void setReleaseNotes(String releaseNotes) {
 		this.releaseNotes = releaseNotes;
 	}
+	
+	public String getJsonldOWL() {
+		return jsonldOWL;
+	}
 
-
-
-
+	public void setJsonldOWL(String jsonldOWL) {
+		this.jsonldOWL = jsonldOWL;
+	}
 
 	class RDFNodeToLinkMapper implements Function<RDFNode, Link>{
 		protected String lang;

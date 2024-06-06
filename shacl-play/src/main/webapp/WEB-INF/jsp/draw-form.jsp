@@ -62,22 +62,36 @@
 					  <%@ include file="include/shapes-blockquote.jsp" %>
 					  
 					  <h2><i class="fal fa-tools"></i>&nbsp;&nbsp;<fmt:message key="blockquote.options.title" /></h2>
+				      
 				      <blockquote class="blockquote bq-warning">
-				      <div class="form-group row">
-
-							<label for="format" class="col-sm-3 col-form-label">
+				      	<!-- Hide Properties -->
+						<div class="form-group row">
+					      	<div class="col-sm-12">
+						      	<div class="form-check">
+								  <input class="form-check-input" type="checkbox" id="hideProperties" name="hideProperties" />
+								  <label class="form-check-label" for="hideProperties">
+								    <fmt:message key="draw.options.hideProperties" />
+								  </label>
+								  <small class="form-text text-muted">
+									<fmt:message key="draw.options.hideProperties.help" />
+								  </small>
+								</div>
+							</div>
+						</div>
+						<!-- output type -->
+				      	<div class="form-group row">
+				      		<label for="format" class="col-sm-3 col-form-label">
 								<fmt:message key="draw.options.format" />					    
 							</label>
-						    <div class="col-sm-9">
+							<div class="col-sm-9">
 					    		<select class="form-control" id="format" name="format" >
 					    			<option value="SVG">SVG</option>
 					    			<option value="PNG">PNG</option>
-					    			<option value="TXT">TXT</option>
-					    			<option value="HTML">HTML (with SVG inside) (includes all diagrams)</option>
-							    </select>
-						    </div>
-								    
-					  </div>
+				    				<option value="TXT">TXT</option>
+				    				<option value="HTML">HTML (with SVG inside) (includes all diagrams)</option>
+						    	</select>
+							</div>									    
+					  	</div>
 					  </blockquote>
 					  
 				    <button type="submit" id="validate-button" class="btn btn-info btn-lg"><fmt:message key="draw.submit" /></button>			  	

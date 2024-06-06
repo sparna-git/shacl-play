@@ -67,7 +67,7 @@ public class Doc implements CliCommandIfc {
 		}
 		
 		// generate doc
-		ShapesDocumentationReaderIfc reader = new ShapesDocumentationModelReader(a.getDiagramShacl(),name_img);
+		ShapesDocumentationReaderIfc reader = new ShapesDocumentationModelReader(a.getDiagramShacl(), name_img, a.getHidePropertiesShacl());
 		ShapesDocumentation doc = reader.readShapesDocumentation(
 				shapesModel,
 				owlModel,

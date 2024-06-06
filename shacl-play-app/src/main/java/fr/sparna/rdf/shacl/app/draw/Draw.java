@@ -39,6 +39,8 @@ public class Draw implements CliCommandIfc {
 				a.isIncludeSubclasses(),
 				false,
 				true,
+				// hide Properties
+				false,
 				// language
 				null
 		);

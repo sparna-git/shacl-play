@@ -55,7 +55,7 @@ public class SessionFilter implements Filter {
 		
 		SessionData session = SessionData.get(request.getSession());
 		if(session == null) {
-			log.debug("No session data present. Will create it.");
+			log.trace("No session data present. Will create it.");
 			session = new SessionData();
 			session.store(request.getSession());
 			
@@ -64,7 +64,7 @@ public class SessionFilter implements Filter {
 		}
 		
 		if(request.getParameter("lang") != null) {
-			log.debug("Detected 'lang' param. Will set a new user locale.");
+			log.trace("Detected 'lang' param. Will set a new user locale.");
 			session.setUserLocale(new Locale(request.getParameter("lang")));
 		}
 		

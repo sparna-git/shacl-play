@@ -177,7 +177,7 @@
 								<li>
 									For each node shape previously found, <strong>determines if one of the property shape is a label of the entity</strong>.
 									If a property skos:prefLabel, foaf:name, dcterms:title, schema:name or rdfs:label (in this order) is found, mark it as a label. Otherwise, tries to find
-									a literal property of datatype xsd:string or rdf:langString, with a sh:minCount 1; if only is found, mark it as a label.
+									a literal property of datatype xsd:string or rdf:langString, with a sh:minCount 1; if only one is found, mark it as a label.
 									Generates a <code>dash:propertyRole</code> with <code>dash:LabelRole</code> value accordingly.
 								</li>
 								<li>
@@ -188,6 +188,61 @@
 								</li>
 							</ol>
 							
+						</div>
+
+						<div style="margin-top:2em;">
+							<h4 id="algorithm">Modelling of datasets statistics</h4>
+							<p>Here is an example of how statistics are expressed:</p>
+							<pre>
+@prefix void:  &lt;http://rdfs.org/ns/void#> .
+@prefix dct:   &lt;http://purl.org/dc/terms/> .
+@prefix xsd:   &lt;http://www.w3.org/2001/XMLSchema#> .
+@prefix dcat:  &lt;http://www.w3.org/ns/dcat#> .
+@prefix sh:    &lt;http://www.w3.org/ns/shacl#></http:>
+
+# The dataset being analyzed
+&lt;https://xxx/sparql>
+	a                    void:Dataset ;
+	# one partition is created per NodeShape
+	void:classPartition  &lt;https://xxx/sparql/partition_Place> ;
+	# Total number of triples in the Dataset
+	void:triples         "11963716"^^xsd:int ;
+	# A pointer to the URI of the shapes graph being used to generate these statistics
+	sh:suggestedShapesGraph
+	&lt;https://xxx/shapes/> .
+
+# A "Node Shape partition", that is, a partition of the entire dataset corresponding to all
+# targets of one NodeShape
+&lt;https://xxx/partition_Place>
+	# Link to the NodeShape
+	dct:conformsTo          &lt;https://xxx/shapes/Place> ;
+	# When the NodeShape actually targets instances of a class, the partition we are describing is 
+	# actually a class partition, and we can indicate the class here
+	void:class              &lt;https://www.ica.org/standards/RiC/ontology#Place> ;
+	# Total number of targets of that shape in the dataset
+	void:entities           "4551"^^xsd:int ;
+	# One property partition is created per property shape in the node shape
+	void:propertyPartition  &lt;https://xxx/partition_Place_label> , &lt;https://xxx/partition_Place_sameAs> .
+
+# A "Property Shape partition", that is, a sub-partition of a "Node Shape partition" corresponding to all
+# triples matching the path of the property
+&lt;https://xxx/partition_Place_label>
+	# a link ot the property shape
+	dct:conformsTo        &lt;https://xxx/shapes/Place_label> ;
+	# number of distinct values of the property shape
+	void:distinctObjects  "17330"^^xsd:int ;
+	# when the property shape as a simple path as a predicate, we can repeat it here
+	# and our partition is actually a real property partition
+	void:property         &lt;http://www.w3.org/2000/01/rdf-schema#label> ;
+	# number of triples corresponding to the property shape
+	void:triples          "17567"^^xsd:int .
+
+&lt;https://xxx/partition_Place_sameAs>
+	dct:conformsTo        &lt;https://xxx/shapes/Place_sameAs> ;
+	void:distinctObjects  "14847"^^xsd:int ;
+	void:property         &lt;http://www.w3.org/2002/07/owl#sameAs> ;
+	void:triples          "14854"^^xsd:int .
+							</pre>
 						</div>
 					</div>				
 				</div>

@@ -16,6 +16,7 @@ import org.apache.jena.vocabulary.VOID;
 import org.apache.jena.vocabulary.XSD;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.topbraid.shacl.vocabulary.SH;
 
 import fr.sparna.rdf.jena.ModelRenderingUtils;
 import fr.sparna.rdf.shacl.generate.ShaclGenerator;
@@ -62,6 +63,7 @@ public class ComputeStatisticsVisitor extends DatasetAwareShaclVisitorBase imple
 		outputModel.setNsPrefix("dct", DCTerms.NS);
 		outputModel.setNsPrefix("xsd", XSD.NS);
 		outputModel.setNsPrefix("dcat", DCAT.NS);
+		outputModel.setNsPrefix("sh", SH.NS);
 	}
 
 	@Override

@@ -60,7 +60,7 @@
     
  
     <logger name="fr.sparna.rdf" additivity="false">
-        <level value="TRACE" />
+        <level value="DEBUG" />
         <appender-ref ref="SHACLPLAY_ROLLING_FILE" />
         <appender-ref ref="STDOUT" />
     </logger>

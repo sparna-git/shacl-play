@@ -211,20 +211,18 @@
 					<xsl:apply-templates select="abstract_" />
 					<xsl:apply-templates select="." mode="TOC" />
 					<xsl:apply-templates select="prefixes" />
-					<xsl:if test="diagrams or depictions">						
-						<xsl:if test="string-length(diagrams) &gt; 0 ">
-							<div class="sp_section_row mt-3">
-								<div class="sp_section_col">
-									<section>
-										<h2 id="diagrams" class="sp_section_subtitle">
-											<xsl:value-of select="$LABELS/labels/entry[@key='DIAGRAM.TITLE']/@label" />
-										</h2>
-										<xsl:apply-templates select="diagrams" />
-										<xsl:apply-templates select="depictions"/>
-									</section>
-								</div>
-							</div>	
-						</xsl:if>						
+					<xsl:if test="diagrams/diagram or depictions/depiction">						
+						<div class="sp_section_row mt-3">
+							<div class="sp_section_col">
+								<section>
+									<h2 id="diagrams" class="sp_section_subtitle">
+										<xsl:value-of select="$LABELS/labels/entry[@key='DIAGRAM.TITLE']/@label" />
+									</h2>
+									<xsl:apply-templates select="diagrams" />
+									<xsl:apply-templates select="depictions"/>
+								</section>
+							</div>
+						</div>						
 					</xsl:if>
 				
 					<xsl:apply-templates select="descriptionDocument" />

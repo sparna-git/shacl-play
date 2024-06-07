@@ -21,6 +21,7 @@ public class PlantUmlRenderer {
 	protected boolean displayPatterns = false;
 	protected boolean avoidArrowsToEmptyBoxes = true;
 	protected boolean includeSubclassLinks = true;
+	protected boolean hideProperties = false;
 	
 	protected List<String> inverseList = new ArrayList<String>();
 	
@@ -30,12 +31,13 @@ public class PlantUmlRenderer {
 		super();
 	}
 
-	public PlantUmlRenderer(boolean generateAnchorHyperlink, boolean displayPatterns, boolean avoidArrowsToEmptyBoxes, boolean includeSubclassLinks) {
+	public PlantUmlRenderer(boolean generateAnchorHyperlink, boolean displayPatterns, boolean avoidArrowsToEmptyBoxes, boolean includeSubclassLinks, boolean hideProperties) {
 		super();
 		this.generateAnchorHyperlink = generateAnchorHyperlink;
 		this.displayPatterns = displayPatterns;
 		this.avoidArrowsToEmptyBoxes = avoidArrowsToEmptyBoxes;
 		this.includeSubclassLinks = includeSubclassLinks;
+		this.hideProperties = hideProperties;
 	}
 
 	private String render(
@@ -372,6 +374,11 @@ public class PlantUmlRenderer {
 		sourceuml.append("hide circle\n");
 		sourceuml.append("hide methods\n");
 		sourceuml.append("hide empty members\n");
+		
+		if (this.hideProperties) {
+			sourceuml.append("hide fields\n");
+		}
+		
 		sourceuml.append("@enduml\n");
 		
 		// return output
@@ -415,7 +422,7 @@ public class PlantUmlRenderer {
 				declaration = "Class" + " " + "\"" + box.getLabel() + "\"";
 			}
 
-			declaration += (this.generateAnchorHyperlink) ? " [[#" + box.getNodeShape().getModel().shortForm(box.getNodeShape().getURI()) + "]]" : "";
+			declaration += (this.generateAnchorHyperlink) ? " [[#" + box.getNodeShape().getModel().shortForm(box.getNodeShape().getURI()) +"}]]" : "";
 			declaration += " " + colorBackGround+labelColorClass + "\n";
 			
 			if (superClassesBoxes != null) {
@@ -475,9 +482,11 @@ public class PlantUmlRenderer {
 						displayAsDatatypeProperty,
 						collectRelationProperties
 				);
+				
+				
 				if (codePropertyPlantUml!="") {
-					declarationPropertes += codePropertyPlantUml;
-				} 
+					declarationPropertes += codePropertyPlantUml; 
+				}
 				//declaration += this.render(plantUmlproperty, "\"" + box.getLabel() + "\"", displayAsDatatypeProperty,box.getLabel());
 			}
 			
@@ -591,6 +600,13 @@ public class PlantUmlRenderer {
 	public void setIncludeSubclassLinks(boolean includeSubclassLinks) {
 		this.includeSubclassLinks = includeSubclassLinks;
 	}
-	
+
+	public boolean isHideProperties() {
+		return hideProperties;
+	}
+
+	public void setHideProperties(boolean hideProperties) {
+		this.hideProperties = hideProperties;
+	}
 
 }

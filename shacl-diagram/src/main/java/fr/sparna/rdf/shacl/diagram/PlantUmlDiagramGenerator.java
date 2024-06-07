@@ -86,7 +86,7 @@ public class PlantUmlDiagramGenerator {
 		renderer.setGenerateAnchorHyperlink(this.generateAnchorHyperlink);
 		renderer.setAvoidArrowsToEmptyBoxes(this.avoidArrowsToEmptyBoxes);
 		renderer.setIncludeSubclassLinks(this.includeSubclassLinks);
-		renderer.setHidePropertiesBoxes(this.hidePropertiesBoxes);
+		renderer.setHideProperties(this.hidePropertiesBoxes);
 		
 		List<PlantUmlDiagramOutput> codePlantUml = diagrams.stream().map(d -> new PlantUmlDiagramOutput(d, renderer)).sorted((o1,o2) -> {
 			if(o1.getDiagramOrder() > 0) {

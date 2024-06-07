@@ -11,10 +11,6 @@ public class PropertyShapeDocumentation {
 	
 	// Note : URI of the Link will be null if sh:path is a property path
 	private Link propertyUri;
-	
-
-	private String expectedValueAdditionnalInfoIn;
-	private String expectedValueAdditionnalInfoValue;
 
 	private String cardinalite;
 	private String description;
@@ -60,22 +56,6 @@ public class PropertyShapeDocumentation {
 
 	public void setPropertyUri(Link propertyUri) {
 		this.propertyUri = propertyUri;
-	}
-
-	public String getExpectedValueAdditionnalInfoIn() {
-		return expectedValueAdditionnalInfoIn;
-	}
-
-	public void setExpectedValueAdditionnalInfoIn(String expectedValueAdditionnalInfoIn) {
-		this.expectedValueAdditionnalInfoIn = expectedValueAdditionnalInfoIn;
-	}
-
-	public String getExpectedValueAdditionnalInfoValue() {
-		return expectedValueAdditionnalInfoValue;
-	}
-
-	public void setExpectedValueAdditionnalInfoValue(String expectedValueAdditionnalInfoValue) {
-		this.expectedValueAdditionnalInfoValue = expectedValueAdditionnalInfoValue;
 	}
 
 	public String getCardinalite() {

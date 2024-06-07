@@ -1,16 +1,22 @@
 package fr.sparna.rdf.shacl.doc.read;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
+import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.vocabulary.RDF;
+import org.apache.jena.vocabulary.XSD;
 
 import fr.sparna.rdf.jena.ModelRenderingUtils;
 import fr.sparna.rdf.shacl.doc.NodeShape;
 import fr.sparna.rdf.shacl.doc.PropertyShape;
+import fr.sparna.rdf.shacl.doc.model.ExpectedValue;
 import fr.sparna.rdf.shacl.doc.model.Link;
 import fr.sparna.rdf.shacl.doc.model.PropertyShapeDocumentation;
+import net.sourceforge.plantuml.board.BNode;
 
 
 public class PropertyShapeDocumentationBuilder {
@@ -36,32 +42,36 @@ public class PropertyShapeDocumentationBuilder {
 			for(NodeShape aBox : allNodeShapes) {
 				// using toString instead of getURI so that it works with anonymous nodeshapes
 				if(aBox.getNodeShape().toString().equals(propertyShape.getShNode().toString())) {
-					proprieteDoc.getExpectedValue().setLinkNodeShapeUri(aBox.getShortFormOrId());
-					proprieteDoc.getExpectedValue().setLinkNodeShape(aBox.getDisplayLabel(owlGraph, lang));	
+					Link l = new Link(aBox.getShortFormOrId(), aBox.getDisplayLabel(owlGraph, lang));
+					proprieteDoc.getExpectedValue().setLinkNodeShape(l);	
 				}
 			}
 		}
 		
-		proprieteDoc.getExpectedValue().setExpectedValueLabel(selectExpectedValueLabel(
+		proprieteDoc.getExpectedValue().setExpectedValue(selectExpectedValueAsLink(
 				propertyShape.getShClass(),
 				propertyShape.getShNode(),
 				propertyShape.getShDatatype(),
 				propertyShape.getShNodeKind(),
 				propertyShape.getShHasValue()
 		));
-		proprieteDoc.setExpectedValueAdditionnalInfoIn(ModelRenderingUtils.render(propertyShape.getShIn(), false));
-		
+
+		if(propertyShape.getShIn() != null) {
+			List<Link> links = propertyShape.getShIn().stream().map(i -> buildLink(i)).collect(Collectors.toList());
+			proprieteDoc.getExpectedValue().setInValues(links);
+		}
+
 		if(propertyShape.getShClass() != null) {
 			for(NodeShape aNodeShape : allNodeShapes) {
 				if(aNodeShape.getShTargetClass() != null && aNodeShape.getShTargetClass().getURI().equals(propertyShape.getShClass().getURI())) {
-					proprieteDoc.getExpectedValue().setLinkNodeShapeUri(aNodeShape.getShortFormOrId()); //aName.getShortForm().getLocalName()
-					proprieteDoc.getExpectedValue().setLinkNodeShape(aNodeShape.getDisplayLabel(owlGraph, lang));
+					Link l = new Link(aNodeShape.getShortFormOrId(), aNodeShape.getDisplayLabel(owlGraph, lang));
+					proprieteDoc.getExpectedValue().setLinkNodeShape(l);
 					break;
 					// checks that the URI of the NodeShape is itself equal to the sh:class
 					// add a check to work only with named URI node shapes
 				} else if (aNodeShape.getNodeShape().isURIResource() && aNodeShape.getNodeShape().getURI().equals(propertyShape.getShClass().getURI())) {
-					proprieteDoc.getExpectedValue().setLinkNodeShapeUri(aNodeShape.getShortFormOrId()); //aName.getShortForm().getLocalName()
-					proprieteDoc.getExpectedValue().setLinkNodeShape(aNodeShape.getDisplayLabel(owlGraph, lang));
+					Link l = new Link(aNodeShape.getShortFormOrId(), aNodeShape.getDisplayLabel(owlGraph, lang));
+					proprieteDoc.getExpectedValue().setLinkNodeShape(l);
 					break;
 				}
 			}					
@@ -101,29 +111,39 @@ public class PropertyShapeDocumentationBuilder {
 		
 		return minCount + ".." + maxCount;
 	}
-	
-	public static String selectExpectedValueLabel(
+
+	public static Link selectExpectedValueAsLink(
 			Resource shClass,
 			Resource shNode,
 			Resource shDatatype,
 			Resource shNodeKind,
 			RDFNode shHasValue
 	) {
-		String value = null;
+		Link l = null;
 
 		if (shHasValue != null) {
-			value = ModelRenderingUtils.render(shHasValue, false);
+			l = buildLink(shHasValue);
 		} else if (shClass != null) {
-			value = ModelRenderingUtils.render(shClass, false);
+			l = buildLink(shClass);
 		} else if (shNode != null) {
-			value = ModelRenderingUtils.render(shNode, false);
+			l = buildLink(shNode);
 		} else if (shDatatype != null) {
-			value = ModelRenderingUtils.render(shDatatype, false);
+			if(
+				!shDatatype.asResource().getURI().startsWith(XSD.NS)
+				&&
+				!shDatatype.asResource().getURI().startsWith(RDF.uri)
+			) {
+				l = buildLink(shDatatype);
+			} else {
+				// avoid putting a link to well-known datatypes
+				l = new Link(null, ModelRenderingUtils.render(shDatatype, true));
+			}
 		} else if (shNodeKind != null) {
-			value = renderNodeKind(shNodeKind);
+			// avoid putting a link to node kinds
+			l = new Link(null, renderNodeKind(shNodeKind));
 		}
 		
-		return value;
+		return l;
 	}
 	
 	public static String renderNodeKind(Resource nodeKind) {
@@ -137,6 +157,25 @@ public class PropertyShapeDocumentationBuilder {
 		} else {
 			return rendered;
 		}
+	}
+
+	public static Link buildLink(
+			RDFNode node
+	) {
+		Link l = new Link();
+
+		if (node instanceof Literal) {
+			Literal lt = node.asLiteral();
+			l.setLabel(lt.getLexicalForm());
+			l.setLang(lt.getLanguage());
+			l.setDatatype(ModelRenderingUtils.render(node.getModel().createResource(lt.getDatatypeURI()), false) );
+		} else if (node instanceof Resource) {
+			l.setHref(node.asResource().getURI());
+			l.setLabel(ModelRenderingUtils.render(node, true));
+		} else if (node instanceof BNode) {
+			l.setLabel(ModelRenderingUtils.render(node, true));
+		}		
+		return l;
 	}
 	
 }

@@ -1046,9 +1046,21 @@
 		<xsl:choose>
 			<xsl:when test="linkNodeShape[node()]">
 				<code>
-					<a href="{concat('#',linkNodeShapeUri)}">
-						<xsl:value-of select="linkNodeShape" />
+					<a href="{concat('#',linkNodeShape/href)}">
+						<xsl:value-of select="linkNodeShape/label" />
 					</a>
+				</code>
+			</xsl:when>
+			<xsl:when test="expectedValue[node()]">
+				<code>
+					<xsl:choose>
+						<xsl:when test="expectedValue/href/text()">
+							<a href="{expectedValue/href}"><xsl:value-of select="expectedValue/label" /></a>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="expectedValue/label" />
+						</xsl:otherwise>
+					</xsl:choose>
 				</code>
 			</xsl:when>
 			<xsl:otherwise>
@@ -1086,20 +1098,20 @@
 			</xsl:otherwise>
 		</xsl:choose>
 		<br />
-		<xsl:if test="../expectedValueAdditionnalInfoIn/text()">
+		<xsl:if test="inValues/inValue">
 			<p>
 				<small>
-					<!-- disable output espacing as we may have <sup> in rendering -->
-					<xsl:value-of disable-output-escaping="yes"
-						select="concat('(',../expectedValueAdditionnalInfoIn,')')" />
-				</small>
-			</p>
-		</xsl:if>
-		<xsl:if test="../expectedValueAdditionnalInfoValue/text()">
-			<p>
-				<small>
-					<xsl:value-of
-						select="../expectedValueAdditionnalInfoValue" />
+					<xsl:for-each select="inValues/inValue">
+						<xsl:choose>
+							<xsl:when test="href/text()">
+								<a href="{href}"><xsl:value-of select="label" /></a>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:value-of select="label" />
+							</xsl:otherwise>
+						</xsl:choose>
+						<xsl:if test="position() != last()">, </xsl:if>
+					</xsl:for-each>
 				</small>
 			</p>
 		</xsl:if>

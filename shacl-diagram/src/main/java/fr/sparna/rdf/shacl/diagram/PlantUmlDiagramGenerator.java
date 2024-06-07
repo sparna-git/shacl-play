@@ -16,18 +16,21 @@ public class PlantUmlDiagramGenerator {
 	protected boolean includeSubclassLinks = true;
 	protected boolean generateAnchorHyperlink = false;
 	protected boolean avoidArrowsToEmptyBoxes = true;
+	protected boolean hidePropertiesBoxes = false;
 	protected String lang;
 	
 	public PlantUmlDiagramGenerator(
 			boolean includeSubclassLinks,
 			boolean generateAnchorHyperlink,
 			boolean avoidArrowsToEmptyBoxes,
+			boolean hidePropertiesBoxes,
 			String lang
 	) {
 		super();
 		this.includeSubclassLinks = includeSubclassLinks;
 		this.generateAnchorHyperlink = generateAnchorHyperlink;
 		this.avoidArrowsToEmptyBoxes = avoidArrowsToEmptyBoxes;
+		this.hidePropertiesBoxes = hidePropertiesBoxes;
 		this.lang = lang;
 	}
 
@@ -48,7 +51,7 @@ public class PlantUmlDiagramGenerator {
 			if(n.isResource() && !nodeShapes.contains(n)) {
 				nodeShapes.add(n.asResource());
 			}
-		}
+		}		
 		
 		// 1. Lire toutes les box
 		PlantUmlBoxReader nodeShapeReader = new PlantUmlBoxReader();		
@@ -83,6 +86,7 @@ public class PlantUmlDiagramGenerator {
 		renderer.setGenerateAnchorHyperlink(this.generateAnchorHyperlink);
 		renderer.setAvoidArrowsToEmptyBoxes(this.avoidArrowsToEmptyBoxes);
 		renderer.setIncludeSubclassLinks(this.includeSubclassLinks);
+		renderer.setHidePropertiesBoxes(this.hidePropertiesBoxes);
 		
 		List<PlantUmlDiagramOutput> codePlantUml = diagrams.stream().map(d -> new PlantUmlDiagramOutput(d, renderer)).sorted((o1,o2) -> {
 			if(o1.getDiagramOrder() > 0) {

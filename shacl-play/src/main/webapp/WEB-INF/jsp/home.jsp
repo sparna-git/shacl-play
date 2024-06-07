@@ -58,16 +58,16 @@
 										<a href="<c:url value="/shaclexcel" />" title="<fmt:message key="navbar.menu1.shaclexcel.tooltip" />"><fmt:message key="navbar.menu1.shaclexcel.label" /></a>
 									</li>
 									<li style="display: list-item; text-align: -webkit-match-parent; padding: 0.3rem;">
-										<a href="<c:url value="/doc" />" title="<fmt:message key="navbar.menu1.doc.tooltip" />"><fmt:message key="navbar.menu1.doc.label" /></a>
+										<a href="<c:url value="/doc" />" title="<fmt:message key="navbar.menu1.doc.tooltip" />"><fmt:message key="navbar.menu1.doc.label" /></a> | <small>&nbsp;<a href="<c:url value="/doc#documentation" />" title="documentation"><i class="fal fa-book"></i></a></small>
 									</li>
 									<li style="display: list-item; text-align: -webkit-match-parent; padding: 0.3rem;">
-										<a href="<c:url value="/draw" />" title="<fmt:message key="navbar.menu1.draw.tooltip" />"><fmt:message key="navbar.menu1.draw.label" /></a>
+										<a href="<c:url value="/draw" />" title="<fmt:message key="navbar.menu1.draw.tooltip" />"><fmt:message key="navbar.menu1.draw.label" /></a> | <small>&nbsp;<a href="<c:url value="/draw#documentation" />" title="documentation"><i class="fal fa-book"></i></a></small>
 									</li>
 									<li style="display: list-item; text-align: -webkit-match-parent; padding: 0.3rem;">
-										<a href="<c:url value="/context" />" title="<fmt:message key="navbar.menu1.context.tooltip" />"><fmt:message key="navbar.menu1.context.label" /></a>
+										<a href="<c:url value="/context" />" title="<fmt:message key="navbar.menu1.context.tooltip" />"><fmt:message key="navbar.menu1.context.label" /></a> | <small>&nbsp;<a href="<c:url value="/context#documentation" />" title="documentation"><i class="fal fa-book"></i></a></small>
 									</li>
 									<li style="display: list-item; text-align: -webkit-match-parent; padding: 0.3rem;">
-										<a href="<c:url value="/sparql" />" title="<fmt:message key="navbar.menu1.sparql.tooltip" />"><fmt:message key="navbar.menu1.sparql.label" /></a>
+										<a href="<c:url value="/sparql" />" title="<fmt:message key="navbar.menu1.sparql.tooltip" />"><fmt:message key="navbar.menu1.sparql.label" /></a> | <small>&nbsp;<a href="<c:url value="/sparql#documentation" />" title="documentation"><i class="fal fa-book"></i></a></small>
 									</li>
 									<li style="display: list-item; text-align: -webkit-match-parent; padding: 0.3rem;">
 										<a href="<c:url value="/shapes-catalog" />" title="<fmt:message key="navbar.menu1.shapes-catalog.tooltip" />"><fmt:message key="navbar.menu1.shapes-catalog.label" /></a>
@@ -93,10 +93,10 @@
 							    <!-- Menu -->
 							    <ul style="list-style-type:none;padding: 0.3rem;">
 									<li style="display: list-item; text-align: -webkit-match-parent; padding: 0.3rem;">
-										<a href="<c:url value="/validate" />" title="<fmt:message key="navbar.menu2.validate.tooltip" />"><fmt:message key="navbar.menu2.validate.label" /></a>										
+										<a href="<c:url value="/validate" />" title="<fmt:message key="navbar.menu2.validate.tooltip" />"><fmt:message key="navbar.menu2.validate.label" /></a> | <small>&nbsp;<a href="<c:url value="/validate#documentation" />" title="documentation"><i class="fal fa-book"></i></a></small>										
 									</li>
 									<li style="display: list-item; text-align: -webkit-match-parent; padding: 0.3rem;">
-										<a href="<c:url value="/generate" />" title="<fmt:message key="navbar.menu2.generate.tooltip" />"><fmt:message key="navbar.menu2.generate.label" /></a>										
+										<a href="<c:url value="/generate" />" title="<fmt:message key="navbar.menu2.generate.tooltip" />"><fmt:message key="navbar.menu2.generate.label" /></a> | <small>&nbsp;<a href="<c:url value="/generate#documentation" />" title="documentation"><i class="fal fa-book"></i></a></small>										
 									</li>
 									<li style="display: list-item; text-align: -webkit-match-parent; padding: 0.3rem;">
 										<a href="<c:url value="/validate#badges" />" title="<fmt:message key="navbar.menu2.badge.tooltip" />"><fmt:message key="navbar.menu2.badge.label" /></a>										

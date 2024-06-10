@@ -39,10 +39,6 @@ public class PlantUmlProperty {
 		return ModelReadingUtils.getOptionalLiteral(propertyShape, propertyShape.getModel().createProperty(SHACL_PLAY.COLOR));
 	}
 	
-	public Optional<Resource> getdiagramViewer() {
-		return ModelReadingUtils.getOptionalResource(propertyShape, propertyShape.getModel().createProperty(SHACL_PLAY.DIAGRAMVIEWER));
-	}
-	
 	
 	public Optional<Resource> getShNode() {
 		return ModelReadingUtils.getOptionalResource(propertyShape, SH.node);

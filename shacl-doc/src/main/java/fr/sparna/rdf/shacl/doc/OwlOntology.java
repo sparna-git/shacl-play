@@ -12,6 +12,7 @@ import org.apache.jena.vocabulary.DCAT;
 import org.apache.jena.vocabulary.DCTerms;
 import org.apache.jena.vocabulary.OWL;
 import org.apache.jena.vocabulary.RDFS;
+import org.topbraid.shacl.vocabulary.SH;
 
 import fr.sparna.rdf.jena.ModelReadingUtils;
 
@@ -89,7 +90,11 @@ public class OwlOntology {
 	public List<RDFNode> getDepiction() {
 		return ModelReadingUtils.readObjectAsResourceOrLiteral(this.resource, FOAF.depiction);
 	}
-
+	
+	public String getOWLUri() {
+		return this.resource.toString();
+	}
+	
 	public String getDctTitle(String lang) {
 		return ModelReadingUtils.readLiteralInLangAsString(this.resource, DCTerms.title, lang);
 	}

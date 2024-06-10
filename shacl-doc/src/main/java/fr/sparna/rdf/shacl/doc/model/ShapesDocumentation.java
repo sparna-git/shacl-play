@@ -151,31 +151,34 @@ public class ShapesDocumentation {
 			org.json.JSONObject jOutput = new org.json.JSONObject();
 			jOutput.put("@context","https://schema.org");
 			jOutput.put("@type","TechArticle");
-			jOutput.put("url","https://data.europarl.europa.eu/def/eli-ep#");
+			jOutput.put("url",ontology.getOWLUri());
 			jOutput.put("name",this.title);
 			jOutput.put("datePublished",this.datecreated);
 			jOutput.put("version",this.versionInfo);
-
-			// license
+			
+			// License
 			if (!this.getLicense().isEmpty()) {
 				List<String> listURL = new ArrayList<>();
 				for (Link l : this.getLicense()) {
 					listURL.add(l.getHref());
 				}
 				jOutput.put("license",listURL);
-			}
+			} 
 			
+			// Author
 			if (!this.creator.isEmpty()) {
 				org.json.JSONArray jcreator = new org.json.JSONArray(); 
 				org.json.JSONObject jObj = new org.json.JSONObject();
 				jObj.put("@type","Organization");
-				jObj.put("name",this.title);
-				List<String> listURL = new ArrayList<>();
-				for (Link l : this.getCreator()) {
-					listURL.add(l.getHref());
-				}
-				jObj.put("url",listURL);
 				
+				for (Link l : this.getCreator()) {
+					if (l.getHref() == l.getLabel()) {
+						jObj.put("url",l.getHref());
+					} else {
+						jObj.put("name",l.getLabel());
+						jObj.put("url",l.getHref());
+					}
+				}
 				jcreator.put(jObj);
 				jOutput.put("author",jcreator);
 			}
@@ -185,13 +188,14 @@ public class ShapesDocumentation {
 				org.json.JSONObject jObjPublisher = new org.json.JSONObject();
 				
 				jObjPublisher.put("@type","Organization");
-				jObjPublisher.put("name",this.title);
-				List<String> listURL = new ArrayList<>();
-				for (Link l : this.getPublisher()) {
-					listURL.add(l.getHref());
+				for (Link l : this.getCreator()) {
+					if (l.getHref() == l.getLabel()) {
+						jObjPublisher.put("url",l.getHref());
+					} else {
+						jObjPublisher.put("name",l.getLabel());
+						jObjPublisher.put("url",l.getHref());
+					}
 				}
-				jObjPublisher.put("url",listURL);
-				
 				jpublisher.put(jObjPublisher);
 				jOutput.put("publisher",jpublisher);
 				

@@ -7,7 +7,9 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.shacl.vocabulary.SHACLM;
+import org.apache.jena.vocabulary.RDFS;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -112,16 +114,17 @@ public class PlantUmlRenderer {
 				option += "(" + ModelRenderingUtils.render(property.getShPattern().get()) + ")" + " ";
 			}
 			
-			// Merge all arrow 
-			collectData(
-					// key
-					box.getPlantUmlQuotedBoxName() + " -"+colorArrow+"-> \"" + nodeReference+ "\" : ",
-					// Values
-					property.getPathAsSparql() + option,
-					// Record
-					collectRelationProperties
-					);				
-			
+			// Merge all arrow
+			if (!property.getShGroup().isPresent()) {
+				collectData(
+						// key
+						box.getPlantUmlQuotedBoxName() + " -"+colorArrow+"-> \"" + nodeReference+ "\" : ",
+						// Values
+						property.getPathAsSparql() + option,
+						// Record
+						collectRelationProperties
+						);
+			}
 		} else {
 			
 			//output = boxName + " -[bold]-> \"" + property.getValue_node().getLabel() + "\" : " + property.getValue_path();
@@ -138,7 +141,8 @@ public class PlantUmlRenderer {
 			}
 			
 			// function for Merge all arrow what point to same class
-			collectData(
+			if (!property.getShGroup().isPresent()) {
+				collectData(
 					// key
 					box.getPlantUmlQuotedBoxName() + " -"+colorArrow+"-> \"" + nodeReference + "\" : ",
 					// Values
@@ -146,6 +150,7 @@ public class PlantUmlRenderer {
 					// Record
 					collectRelationProperties
 					);
+			}
 			
 		}
 
@@ -215,12 +220,14 @@ public class PlantUmlRenderer {
 			option = " " + property.getPlantUmlQualifiedCardinalityString() + " ";
 		}
 		
-		collectData(
-				//codeKey
-				box.getPlantUmlQuotedBoxName() + " -"+colorArrow+"-> \"" + property.getShQualifiedValueShapeLabel() + "\" : ",
-				//data value
-				property.getPathAsSparql()+option, 
-				collectRelationProperties);
+		if (!property.getShGroup().isPresent()) {
+			collectData(
+					//codeKey
+					box.getPlantUmlQuotedBoxName() + " -"+colorArrow+"-> \"" + property.getShQualifiedValueShapeLabel() + "\" : ",
+					//data value
+					property.getPathAsSparql()+option, 
+					collectRelationProperties);
+		}
 
 		output += "\n";
 
@@ -269,13 +276,15 @@ public class PlantUmlRenderer {
 				option += "(" + ModelRenderingUtils.render(property.getShPattern().get()) + ")" + " ";
 			}
 
-			collectData(
-				// Key
-				box.getPlantUmlQuotedBoxName() + " --> \""+""+labelColor+ classReference + "\" : ",
-				// data Value
-				property.getPathAsSparql() + option,
-				collectRelationProperties
-			);
+			if (!property.getShGroup().isPresent()) {
+				collectData(
+					// Key
+					box.getPlantUmlQuotedBoxName() + " --> \""+""+labelColor+ classReference + "\" : ",
+					// data Value
+					property.getPathAsSparql() + option,
+					collectRelationProperties
+				);
+			}
 			
 			output += labelColorClose;
 		}
@@ -414,6 +423,8 @@ public class PlantUmlRenderer {
 			superClassesBoxes = box.getRdfsSubClassOf().stream().map(sc -> this.diagram.findBoxByResource(sc)).filter(b -> b != null).collect(Collectors.toList());
 		}
 		
+		List<String> notations = new ArrayList<>();
+		Map<String,String> collectGroupProperties = new HashMap<>();
 		if (box.getProperties().size() > 0 || superClassesBoxes.size() > 0) {
 			if (box.getNodeShape().isAnon()) {
 				// give it an empty label
@@ -484,20 +495,59 @@ public class PlantUmlRenderer {
 				);
 				
 				
-				if (codePropertyPlantUml!="") {
-					declarationPropertes += codePropertyPlantUml; 
+				// if the property a une sh:Group, remove the contain in the property and generate a new property
+				if (plantUmlproperty.getShGroup().isPresent()) {				
+					
+					
+					// read property group
+					List<PlantUmlProperty> propertiesGpo = new ArrayList<>();
+					String notationName = "";
+					
+					for (Statement r : plantUmlproperty.getShGroup().get().listProperties().toList()) {
+						Resource pr = r.getPredicate();						
+						if (pr.equals(RDFS.label)) {
+							String ob = r.getObject().asLiteral().getLexicalForm();
+							notationName = ob;
+						}						
+					}
+					
+					String GroupId = box.getPlantUmlQuotedBoxName() + " : "+ "__"+notationName+"__\n";
+					// Declaration for add separator in the box
+					//String codeGroup = this.renderDefault(plantUmlproperty, box);
+					
+					String codePropertyPlantUmlGroup = this.render(
+							plantUmlproperty, 
+							box,
+							true,
+							collectRelationProperties
+					);
+					
+					if (collectGroupProperties.get(GroupId) == null) {
+						collectGroupProperties.put(GroupId,codePropertyPlantUmlGroup);
+					} else {
+						collectGroupProperties.computeIfPresent(GroupId, (k,v) -> v.concat(codePropertyPlantUmlGroup));
+					}					
+					
+				} else {
+					if (codePropertyPlantUml!="") {
+						declarationPropertes += codePropertyPlantUml; 
+					}					
 				}
-				//declaration += this.render(plantUmlproperty, "\"" + box.getLabel() + "\"", displayAsDatatypeProperty,box.getLabel());
 			}
 			
 			if (collectRelationProperties.size() > 0) {
 				for (Map.Entry<String, String> entry : collectRelationProperties.entrySet()) {
 					String outputData = entry.getKey() + entry.getValue()+" \n";;
-					declarationPropertes +=  outputData;
-					
+					declarationPropertes +=  outputData;					
 				}
 			}
 			declaration += declarationPropertes;
+		}
+		
+		if (collectGroupProperties.size() > 0) {
+			for (Map.Entry<String, String> entry : collectGroupProperties.entrySet()) {				
+				declaration += entry.getKey() + entry.getValue()+"\n";				
+			}
 		}
 		
 		return declaration;

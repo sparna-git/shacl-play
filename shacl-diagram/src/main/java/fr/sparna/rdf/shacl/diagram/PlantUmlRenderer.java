@@ -388,6 +388,10 @@ public class PlantUmlRenderer {
 			sourceuml.append("hide fields\n");
 		}
 		
+		if (diagram.usesShGroup(diagram.boxes)) {
+			sourceuml.append("remove @unlinked\n");
+		}
+		
 		sourceuml.append("@enduml\n");
 		
 		// return output
@@ -423,7 +427,6 @@ public class PlantUmlRenderer {
 			superClassesBoxes = box.getRdfsSubClassOf().stream().map(sc -> this.diagram.findBoxByResource(sc)).filter(b -> b != null).collect(Collectors.toList());
 		}
 		
-		List<String> notations = new ArrayList<>();
 		Map<String,String> collectGroupProperties = new HashMap<>();
 		if (box.getProperties().size() > 0 || superClassesBoxes.size() > 0) {
 			if (box.getNodeShape().isAnon()) {

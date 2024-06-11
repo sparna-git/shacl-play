@@ -202,7 +202,7 @@ public class ShapesDocumentation {
 			}
 			
 			if (jOutput.length() > 4) {
-				this.setJsonldOWL(jOutput.toString());
+				this.setJsonldOWL(jOutput.toString(4));
 			}	
 		}		
 	}

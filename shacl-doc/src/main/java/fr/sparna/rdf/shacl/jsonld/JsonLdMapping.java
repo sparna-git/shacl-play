@@ -25,12 +25,25 @@ public class JsonLdMapping {
 
 	public void write(StringBuffer buffer) {
 		if(isOnlyIdMapping()) {
-			buffer.append("\""+term+"\""+": "+"\""+id+"\"");
+			//buffer.append("\""+term+"\""+": "+"\""+id+"\"");
+			buffer.append("\""+term+"\""+": "+id);
 		} else {
-			buffer.append("\""+term+"\""+": "+"{\"@id\":\""+id+"\"");
-			if(type != null) {
+			
+			if (id.contains("@container")) {
+				buffer.append("\""+term+"\""+": "+"{\"@id\""+":"+id);
+			} else {
+				buffer.append("\""+term+"\""+": "+"{\"@id\""+":"+id);
+				if (type != null ) { 				
+					buffer.append(", \"@type\""+":"+"\""+type+"\"");
+				}
+			}
+			
+			//buffer.append("\""+term+"\""+": "+"{\"@id\":\""+id+"\"");
+			/*
+			if (type != null ) { 				
 				buffer.append(", \"@type\""+":"+"\""+type+"\"");
 			}
+			*/
 			buffer.append("}");
 		}
 		

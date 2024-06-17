@@ -99,6 +99,11 @@ public class PlantUmlDiagram {
 			return this.findBoxByTargetClass(cl);
 		}).orElse(null);		
 	}
+
+	public boolean usesShGroup(List<PlantUmlBox> boxes) {
+		// tester si sh:group est utilisé au moins une fois par une sh:property		
+		return boxes.stream().map( p -> p.getProperties().stream().filter(pp -> pp.getShGroup().isPresent()).findAny().isPresent()).findAny().isPresent();
+	}
 	
 	public List<PlantUmlBox> getBoxes() {
 		return boxes;

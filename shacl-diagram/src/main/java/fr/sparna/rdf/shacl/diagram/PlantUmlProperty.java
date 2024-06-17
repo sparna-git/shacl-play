@@ -5,9 +5,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.apache.jena.graph.Triple;
 import org.apache.jena.rdf.model.Literal;
+import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.Statement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.topbraid.shacl.vocabulary.SH;
@@ -41,6 +44,10 @@ public class PlantUmlProperty {
 	
 	public Optional<Resource> getShNode() {
 		return ModelReadingUtils.getOptionalResource(propertyShape, SH.node);
+	}
+	
+	public Optional<Resource> getShGroup() {
+		return ModelReadingUtils.getOptionalResource(propertyShape, SH.group);
 	}
 	
 	public Optional<Resource> getShClass() {

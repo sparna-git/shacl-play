@@ -30,19 +30,21 @@ public class JsonLdContextGenerator {
 	protected String atIdMapping = "id";
 	protected String atTypeMapping = "type";
 	protected String atGraphMapping = "graph";
+
+	protected boolean useContainerSet = true;
 	
 	public String generateJsonLdContext(Model model) {		
 		JsonLdContext context = new JsonLdContext();
 		
 		// ### set hardcoded mappings
 		if(this.atIdMapping != null) {
-			context.add(new JsonLdMapping(this.atIdMapping, "\"@id\""));
+			context.add(new JsonLdMapping(this.atIdMapping, "@id"));
 		}
 		if(this.atTypeMapping != null) {
-			context.add(new JsonLdMapping(this.atTypeMapping, "\"@type\""));
+			context.add(new JsonLdMapping(this.atTypeMapping, "@type"));
 		}
 		if(this.atGraphMapping != null) {
-			context.add(new JsonLdMapping(this.atGraphMapping, "\"@graph\""));
+			context.add(new JsonLdMapping(this.atGraphMapping, "@graph"));
 		}
 		
 		// ### map each known prefixes
@@ -51,7 +53,7 @@ public class JsonLdContextGenerator {
 		// sort the list
 		keys.sort((ns1,ns2) -> ns1.compareToIgnoreCase(ns2));
 		for (String aKey : keys) {
-			String idContext = "\""+model.getNsPrefixMap().get(aKey)+"\"";
+			String idContext = model.getNsPrefixMap().get(aKey);
 			context.add(new JsonLdMapping(aKey, idContext));
 		}
 		
@@ -62,7 +64,7 @@ public class JsonLdContextGenerator {
 		
 		// print
 		context.startNewSection();
-		nodeShapes.stream().forEach(ns -> context.add(new JsonLdMapping(ns.getLocalName(),"\""+ns.getModel().shortForm(ns.getURI())+"\"")));
+		nodeShapes.stream().forEach(ns -> context.add(new JsonLdMapping(ns.getLocalName(),ns.getModel().shortForm(ns.getURI()))));
 		
 		// find each PropertyShape
 		context.startNewSection();
@@ -88,19 +90,27 @@ public class JsonLdContextGenerator {
 			if(shortnames.size() > 1) {
 				log.warn("Found multiple shortnames for path "+path+", will use only one : '"+term+"'");
 			}
+
+			JsonLdMapping mapping = new JsonLdMapping(term,path.getModel().shortForm(path.getURI()));
 			
 			// ### determine the @type
 			// if there is a sh:datatype, set type as the datatype
-			String type = null;
 			Set<Resource> datatypes = JsonLdContextGenerator.findDatatypesOfPath(path, model);
 			if(datatypes.size() > 1) {
 				log.warn("Found different datatypes declared for path "+path+", will declare only one");
 			} else if(!datatypes.isEmpty()) {
 				Resource theDatatype = datatypes.iterator().next();
-				type = theDatatype.getURI();
-				if(type.startsWith(XSD.NS)) {
-					type = "xsd:"+theDatatype.getLocalName();
+				String datatype = theDatatype.getURI();
+				if(datatype.startsWith(XSD.NS)) {
+					mapping.setType("xsd:"+theDatatype.getLocalName());
+				}		
+				
+				if (datatype.equals(RDF.langString.getURI())) {
+					mapping.setContainer("@language");
+				} else {
+					mapping.setType(datatype);
 				}
+
 			}
 			
 			// if there are sh:class, sh:node, or sh:nodeKind = sh:IRI, or sh:nodeKind = sh:BlankNodeOrIRI, set the type to @id
@@ -117,24 +127,24 @@ public class JsonLdContextGenerator {
 					||
 					nodeKinds.stream().anyMatch(r -> r.getURI().equals(SH.BlankNodeOrIRI.getURI()))
 			) {
-				type = "@id";
+				mapping.setType("@id");
 			}
 			
-			
-			Set<String> maxCount = this.findShMaxCount(path, model);
-			String nMaxCount = maxCount.iterator().next();
-			
-			String idContext = "\"" +path.getModel().shortForm(path.getURI())+"\""  ;
-			if ((Integer.valueOf(nMaxCount) > 1) && !type.equals("http://www.w3.org/1999/02/22-rdf-syntax-ns#langString") ) {
-				idContext += ", \"@container\" : \"@set\"";
-			} 
-			
-			if (type != null && type.equals("http://www.w3.org/1999/02/22-rdf-syntax-ns#langString")) {
-				idContext += ", \"@container\" : \"@language\"";
+			if(useContainerSet) {
+				if(datatypes.isEmpty() || !datatypes.iterator().next().getURI().equals(RDF.langString.getURI())) {
+					Set<Integer> maxCounts = JsonLdContextGenerator.findShMaxCount(path, model);
+					if(maxCounts.size() == 0) {
+						mapping.setContainer("@set");
+					} else {
+						Integer maxCount = maxCounts.iterator().next();
+						if(maxCount > 1) {
+							mapping.setContainer("@set");
+						}
+					}
+				}
 			}
-			
-			//context.add(new JsonLdMapping(term,path.getModel().shortForm(path.getURI()), type));
-			context.add(new JsonLdMapping(term,idContext, type));
+
+			context.add(mapping);
 			
 			// ### map @language
 			// if the datatype is rdf:langString, then...
@@ -149,6 +159,14 @@ public class JsonLdContextGenerator {
 		StringBuffer buffer = new StringBuffer();
 		context.write(buffer);
 		return buffer.toString();
+	}	
+	
+	public boolean isUseContainerSet() {
+		return useContainerSet;
+	}
+
+	public void setUseContainerSet(boolean useContainerSet) {
+		this.useContainerSet = useContainerSet;
 	}
 	
 	private static List<Resource> findAllNodeShapes(Model model) {
@@ -193,21 +211,14 @@ public class JsonLdContextGenerator {
 		return nodes;		
 	}
 	
-	private static Set<String> findShMaxCount(Resource path,Model model) {
+	private static Set<Integer> findShMaxCount(Resource path,Model model) {
 		List<Resource> propertyShapesWithPath = findPropertyShapesWithPath(path, model);
-		Set<String> shMaxCount = new HashSet<>();
-		for (Resource r : propertyShapesWithPath) {
-			if (r.hasProperty(SH.minCount)) {			
-				if (r.hasProperty(SH.maxCount)) {
-					shMaxCount.add(String.valueOf(r.getProperty(SH.maxCount).getObject().asLiteral().getInt()));
-				} else {
-					shMaxCount.add("2");
-				}
-			} else {
-				shMaxCount.add("-1");
+		Set<Integer> shMaxCount = new HashSet<>();
+		for (Resource r : propertyShapesWithPath) {		
+			if (r.hasProperty(SH.maxCount)) {
+				shMaxCount.add(r.getProperty(SH.maxCount).getInt());
 			}
 		}
-		
 		
 		return shMaxCount;
 	}

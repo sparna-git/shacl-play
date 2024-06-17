@@ -1,4 +1,4 @@
-package fr.sparna.jsonschema;
+package fr.sparna.jsonschema.model;
 
 import java.util.Arrays;
 import java.util.HashMap;

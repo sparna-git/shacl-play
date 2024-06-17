@@ -5,7 +5,7 @@ import java.util.Map;
 
 import static java.util.Objects.requireNonNull;
 
-import fr.sparna.jsonschema.Schema;
+import fr.sparna.jsonschema.model.Schema;
 import fr.sparna.jsonschema.writer.JSONPrinter;
 import fr.sparna.jsonschema.writer.JSONWriter;
 

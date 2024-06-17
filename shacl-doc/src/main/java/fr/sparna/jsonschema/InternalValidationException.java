@@ -2,6 +2,8 @@ package fr.sparna.jsonschema;
 
 import java.util.List;
 
+import fr.sparna.jsonschema.model.Schema;
+
 class InternalValidationException extends ValidationException {
 
     InternalValidationException(Schema violatedSchema, Class<?> expectedType, Object actualValue) {

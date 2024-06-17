@@ -45,6 +45,8 @@ public abstract class Schema {
 
         public Map<String, Object> unprocessedProperties = new HashMap<>(0);
 
+        public Map<String, Schema> embeddedSchemas = new HashMap<>(0);
+
         public Builder<S> title(String title) {
             this.title = title;
             return this;
@@ -98,6 +100,16 @@ public abstract class Schema {
             return this;
         }
 
+        public Builder<S> embeddedSchemas(Map<String, Schema> embeddedSchemas) {
+            this.embeddedSchemas = embeddedSchemas;
+            return this;
+        }
+
+        public Builder<S> embeddedSchema(String name, Schema embeddedSchema) {
+            this.embeddedSchemas.put(name, embeddedSchema);
+            return this;
+        }
+
         public abstract S build();
 
     }
@@ -123,6 +135,8 @@ public abstract class Schema {
 
     private final Map<String, Object> unprocessedProperties;
 
+    private final Map<String, Schema> embeddedSchemas;
+
     /**
      * Constructor.
      *
@@ -140,6 +154,7 @@ public abstract class Schema {
         this.readOnly = builder.readOnly;
         this.writeOnly = builder.writeOnly;
         this.unprocessedProperties = new HashMap<>(builder.unprocessedProperties);
+        this.embeddedSchemas = new HashMap<>(builder.embeddedSchemas);
     }
 
     /**
@@ -297,6 +312,12 @@ public abstract class Schema {
     public Boolean isWriteOnly() {
         return writeOnly;
     }
+
+    public Map<String, Schema> getEmbeddedSchemas() {
+        return embeddedSchemas;
+    }
+
+    
 
     /**
      * Returns the properties of the original schema JSON which aren't keywords of json schema

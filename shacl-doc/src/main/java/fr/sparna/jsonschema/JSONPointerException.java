@@ -26,6 +26,8 @@ SOFTWARE.
 
 import org.json.JSONException;
 
+import fr.sparna.jsonschema.model.JSONPointer;
+
 /**
  * The JSONPointerException is thrown by {@link JSONPointer} if an error occurs
  * during evaluating a pointer.

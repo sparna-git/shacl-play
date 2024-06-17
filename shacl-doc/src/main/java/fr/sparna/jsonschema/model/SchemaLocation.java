@@ -1,4 +1,4 @@
-package fr.sparna.jsonschema;
+package fr.sparna.jsonschema.model;
 
 import static java.util.Collections.emptyList;
 import static java.util.Objects.requireNonNull;

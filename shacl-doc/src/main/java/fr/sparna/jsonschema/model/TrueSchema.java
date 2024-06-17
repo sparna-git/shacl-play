@@ -1,6 +1,6 @@
-package fr.sparna.jsonschema;
+package fr.sparna.jsonschema.model;
 
-import fr.sparna.jsonschema.internal.JSONPrinter;
+import fr.sparna.jsonschema.writer.JSONPrinter;
 
 /**
  * @author erosb

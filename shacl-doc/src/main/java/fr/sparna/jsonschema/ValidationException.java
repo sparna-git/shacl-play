@@ -13,6 +13,9 @@ import java.util.stream.Collectors;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import fr.sparna.jsonschema.model.JSONPointer;
+import fr.sparna.jsonschema.model.Schema;
+
 /**
  * Thrown by {@link Schema} subclasses on validation failure.
  */

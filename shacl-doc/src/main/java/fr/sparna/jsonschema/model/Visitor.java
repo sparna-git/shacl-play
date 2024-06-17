@@ -1,11 +1,8 @@
-package fr.sparna.jsonschema.visitor;
+package fr.sparna.jsonschema.model;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import fr.sparna.jsonschema.model.EmptySchema;
-import fr.sparna.jsonschema.model.Schema;
 
 abstract class Visitor {
 

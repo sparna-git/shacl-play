@@ -1,4 +1,4 @@
-package fr.sparna.jsonschema.visitor;
+package fr.sparna.jsonschema.model;
 
 import java.util.List;
 import java.util.Map;
@@ -7,10 +7,6 @@ import java.util.Set;
 
 import org.json.JSONException;
 
-import fr.sparna.jsonschema.model.EmptySchema;
-import fr.sparna.jsonschema.model.Schema;
-import fr.sparna.jsonschema.model.SpecificationVersion;
-import fr.sparna.jsonschema.model.TrueSchema;
 import fr.sparna.jsonschema.writer.JSONPrinter;
 
 class ToStringVisitor extends Visitor {
@@ -44,6 +40,13 @@ class ToStringVisitor extends Visitor {
         Object schemaKeywordValue = schema.getUnprocessedProperties().get("$schema");
         String idKeyword = deduceSpecVersion(schemaKeywordValue).idKeyword();
         writer.ifPresent(idKeyword, schema.getId());
+
+        // Thomas
+        if(!schema.getEmbeddedSchemas().isEmpty()) {
+            writer.key("$defs");
+            writer.printSchemaMap(schema.getEmbeddedSchemas());
+        }
+
         schema.getUnprocessedProperties().forEach((key, val) -> writer.key(key).value(val));
         schema.describePropertiesTo(writer);
         if (!jsonObjectIsOpenForCurrentSchemaInstance) {

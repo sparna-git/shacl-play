@@ -1,4 +1,4 @@
-package fr.sparna.jsonschema;
+package fr.sparna.jsonschema.exception;
 
 /*
 Copyright (c) 2002 JSON.org

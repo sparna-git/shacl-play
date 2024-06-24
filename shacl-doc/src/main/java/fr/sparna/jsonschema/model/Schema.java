@@ -28,10 +28,16 @@ public abstract class Schema {
     public abstract static class Builder<S extends Schema> {
 
         private String title;
+        
+        private String comment;
+        
+        private String expectedKeyword;
 
         private String description;
 
         private String id;
+        
+        private String version;
 
         private SchemaLocation schemaLocation;
 
@@ -46,9 +52,22 @@ public abstract class Schema {
         public Map<String, Object> unprocessedProperties = new HashMap<>(0);
 
         public Map<String, Schema> embeddedSchemas = new HashMap<>(0);
-
+        
+        public Map<String, Schema> customsSchemas = new HashMap<>(0);
+        
+        
         public Builder<S> title(String title) {
             this.title = title;
+            return this;
+        }
+        
+        public Builder<S> comment(String comment) {
+            this.comment = comment;
+            return this;
+        }
+        
+        public Builder<S> expectedKeyword(String expectedKeyword) {
+            this.expectedKeyword = expectedKeyword;
             return this;
         }
 
@@ -61,6 +80,11 @@ public abstract class Schema {
             this.id = id;
             return this;
         }
+        
+        public Builder<S> version(String version) {
+            this.version = version;
+            return this;
+        }        
 
         /**
          * @deprecated Use {@link #schemaLocation(SchemaLocation)} instead.
@@ -104,21 +128,39 @@ public abstract class Schema {
             this.embeddedSchemas = embeddedSchemas;
             return this;
         }
+        
+        public Builder<S> customsSchemas(Map<String, Schema> customsSchemas) {
+            this.customsSchemas = customsSchemas;
+            return this;
+        }
 
         public Builder<S> embeddedSchema(String name, Schema embeddedSchema) {
             this.embeddedSchemas.put(name, embeddedSchema);
             return this;
         }
-
+        
+        
+        public Builder<S> customSchemas(String name, Schema customsSchemas) {
+            this.customsSchemas.put(name, customsSchemas);
+            return this;
+        }
+        
+        
         public abstract S build();
 
     }
 
     private final String title;
+    
+    private final String comment;
+    
+    private final String expectedKeyword;
 
     private final String description;
 
     private final String id;
+    
+    private final String version;
 
     @Deprecated
     protected final String schemaLocation;
@@ -136,6 +178,8 @@ public abstract class Schema {
     private final Map<String, Object> unprocessedProperties;
 
     private final Map<String, Schema> embeddedSchemas;
+    
+    private final Map<String, Schema> customsSchemas;
 
     /**
      * Constructor.
@@ -145,8 +189,11 @@ public abstract class Schema {
      */
     protected Schema(Builder<?> builder) {
         this.title = builder.title;
+        this.comment = builder.comment;
+        this.expectedKeyword = builder.expectedKeyword;
         this.description = builder.description;
         this.id = builder.id;
+        this.version = builder.version;
         this.schemaLocation = builder.schemaLocation == null ? null : builder.schemaLocation.toString();
         this.location = builder.schemaLocation;
         this.defaultValue = builder.defaultValue;
@@ -155,8 +202,11 @@ public abstract class Schema {
         this.writeOnly = builder.writeOnly;
         this.unprocessedProperties = new HashMap<>(builder.unprocessedProperties);
         this.embeddedSchemas = new HashMap<>(builder.embeddedSchemas);
+        this.customsSchemas = new HashMap<>(builder.customsSchemas);
     }
-
+    
+    
+   
     /**
      * Determines if this {@code Schema} instance defines any restrictions for the object property
      * denoted by {@code field}. The {@code field} should be a JSON pointer, denoting the property to
@@ -256,9 +306,12 @@ public abstract class Schema {
             Schema schema = (Schema) o;
             return schema.canEqual(this) &&
                     Objects.equals(title, schema.title) &&
+                    Objects.equals(comment, schema.comment) &&
+                    Objects.equals(expectedKeyword, schema.expectedKeyword) &&                    
                     Objects.equals(defaultValue, schema.defaultValue) &&
                     Objects.equals(description, schema.description) &&
                     Objects.equals(id, schema.id) &&
+                    Objects.equals(version, schema.version) &&
                     Objects.equals(nullable, schema.nullable) &&
                     Objects.equals(readOnly, schema.readOnly) &&
                     Objects.equals(writeOnly, schema.writeOnly) &&
@@ -270,22 +323,35 @@ public abstract class Schema {
 
     @Override
     public int hashCode() {
-        return Objects.hash(title, description, id, defaultValue, nullable, readOnly, writeOnly, unprocessedProperties);
+        return Objects.hash(title, comment, expectedKeyword,description, id, version ,defaultValue, nullable, readOnly, writeOnly, unprocessedProperties);
     }
 
     public String getTitle() {
         return title;
     }
+    
+    
+    public String getComment() {
+		return comment;
+	}
 
-    public String getDescription() {
+	public String getExpectedKeyword() {
+		return expectedKeyword;
+	}
+
+	public String getDescription() {
         return description;
     }
 
     public String getId() {
         return id;
     }
+    
+    public String getVersion() {
+		return version;
+	}
 
-    public String getSchemaLocation() {
+	public String getSchemaLocation() {
         return schemaLocation;
     }
 
@@ -315,11 +381,13 @@ public abstract class Schema {
 
     public Map<String, Schema> getEmbeddedSchemas() {
         return embeddedSchemas;
-    }
+    }    
 
-    
+    public Map<String, Schema> getCustomsSchemas() {
+		return customsSchemas;
+	}
 
-    /**
+	/**
      * Returns the properties of the original schema JSON which aren't keywords of json schema
      * (therefore they weren't recognized during schema loading).
      */

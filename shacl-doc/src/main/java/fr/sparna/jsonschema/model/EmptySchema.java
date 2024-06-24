@@ -1,6 +1,5 @@
 package fr.sparna.jsonschema.model;
 
-import fr.sparna.jsonschema.Schema.Builder;
 
 /**
  * A schema not specifying any restrictions, ie. accepting any values.

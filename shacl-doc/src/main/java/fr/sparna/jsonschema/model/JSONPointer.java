@@ -13,7 +13,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import fr.sparna.jsonschema.JSONPointerException;
+import fr.sparna.jsonschema.exception.JSONPointerException;
 
 /*
 This class is ported into the everit-org/json-schema library manually, to make the library run with

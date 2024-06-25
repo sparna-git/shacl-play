@@ -33,22 +33,6 @@ public class StringSchema extends Schema {
             return new StringSchema(this);
         }
 
-        /**
-         * Setter for the format validator. It should be used in conjunction with
-         * {@link FormatValidator#forFormat(String)} if a {@code "format"} value is found in a schema
-         * json.
-         *
-         * @param formatValidator
-         *         the format validator
-         * @return {@code this}
-         */
-        /*
-        public Builder formatValidator(final FormatValidator formatValidator) {
-            this.formatValidator = requireNonNull(formatValidator, "formatValidator cannot be null");
-            return this;
-        }
-        */
-
         public Builder maxLength(final Integer maxLength) {
             this.maxLength = maxLength;
             return this;

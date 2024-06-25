@@ -31,15 +31,15 @@ class ToStringVisitor extends Visitor {
             writer.object();
         }
         writer.ifPresent("title", schema.getTitle());
+        writer.ifPresent("$id", schema.getId());
+        writer.ifPresent("$schema", schema.getSchema());
+        writer.ifPresent("$comment", schema.getComment());
         writer.ifPresent("description", schema.getDescription());
         writer.ifPresent("nullable", schema.isNullable());
         writer.ifPresent("default", schema.getDefaultValue());
         writer.ifPresent("readOnly", schema.isReadOnly());
         writer.ifPresent("writeOnly", schema.isWriteOnly());
         super.visitSchema(schema);
-        Object schemaKeywordValue = schema.getUnprocessedProperties().get("$schema");
-        String idKeyword = deduceSpecVersion(schemaKeywordValue).idKeyword();
-        writer.ifPresent(idKeyword, schema.getId());
         schema.getUnprocessedProperties().forEach((key, val) -> writer.key(key).value(val));
         schema.describePropertiesTo(writer);
         if (!jsonObjectIsOpenForCurrentSchemaInstance) {
@@ -50,15 +50,6 @@ class ToStringVisitor extends Visitor {
          * Custom Elements 
          * 
          */
-        // Custom comment
-        if (schema.getComment() != null) {
-        	writer.ifPresent("$comment", schema.getComment());
-        }
-        
-        // 
-        if (schema.getExpectedKeyword() != null) {
-        	writer.ifPresent("type", schema.getExpectedKeyword());
-        }
         
         // Thomas
         if(!schema.getEmbeddedSchemas().isEmpty()) {
@@ -299,7 +290,7 @@ class ToStringVisitor extends Visitor {
                     super.visit(subschema);
                 });
             } else {
-                writer.key(combinedSchema.getCriterion().toString());
+                writer.key(combinedSchema.getCriterion().getIdentifier());
                 writer.array();
                 combinedSchema.getSubschemas().forEach(subschema -> subschema.accept(this));
                 writer.endArray();

@@ -285,55 +285,6 @@ public class ObjectSchema extends Schema {
     }
 
 
-
-    @Override
-    public boolean definesProperty(String field) {
-        String[] headAndTail = headAndTailOfJsonPointerFragment(field);
-        String nextToken = headAndTail[0];
-        String remaining = headAndTail[1];
-        field = headAndTail[2];
-        return !field.isEmpty() && (definesSchemaProperty(nextToken, remaining)
-                || definesPatternProperty(nextToken, remaining)
-                || definesSchemaDependencyProperty(field));
-    }
-
-    private boolean definesSchemaProperty(String current, String remaining) {
-        current = JSONPointer.unescape(current);
-        boolean hasSuffix = !(remaining == null);
-        if (propertySchemas.containsKey(current)) {
-            if (hasSuffix) {
-                return propertySchemas.get(current).definesProperty(remaining);
-            } else {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private boolean definesPatternProperty(String current, String remaining) {
-        for (Map.Entry<Regexp, Schema> entry : patternProperties.entrySet()) {
-            Regexp pattern = entry.getKey();
-            if (!pattern.patternMatchingFailure(current).isPresent()) {
-                if (remaining == null || entry.getValue().definesProperty(remaining)) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    private boolean definesSchemaDependencyProperty(String field) {
-        if (schemaDependencies.containsKey(field)) {
-            return true;
-        }
-        for (Schema schema : schemaDependencies.values()) {
-            if (schema.definesProperty(field)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {

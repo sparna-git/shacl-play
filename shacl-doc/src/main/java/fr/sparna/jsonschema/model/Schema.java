@@ -17,6 +17,8 @@ import fr.sparna.jsonschema.writer.JSONPrinter;
  */
 public abstract class Schema {
 
+    public static final String JSON_SCHEMA_VERSION = "https://json-schema.org/draft/2020-12/schema";
+
     /**
      * Abstract builder class for the builder classes of {@code Schema} subclasses. This builder is
      * used to load the generic properties of all types of schemas like {@code title} or
@@ -30,8 +32,6 @@ public abstract class Schema {
         private String title;
         
         private String comment;
-        
-        private String expectedKeyword;
 
         private String description;
 
@@ -63,11 +63,6 @@ public abstract class Schema {
         
         public Builder<S> comment(String comment) {
             this.comment = comment;
-            return this;
-        }
-        
-        public Builder<S> expectedKeyword(String expectedKeyword) {
-            this.expectedKeyword = expectedKeyword;
             return this;
         }
 
@@ -150,11 +145,11 @@ public abstract class Schema {
 
     }
 
+    private final String schema;
+
     private final String title;
     
     private final String comment;
-    
-    private final String expectedKeyword;
 
     private final String description;
 
@@ -188,9 +183,11 @@ public abstract class Schema {
      *         the builder containing the optional title, description and id attributes of the schema
      */
     protected Schema(Builder<?> builder) {
+        // always the same value
+        this.schema = JSON_SCHEMA_VERSION;
+
         this.title = builder.title;
         this.comment = builder.comment;
-        this.expectedKeyword = builder.expectedKeyword;
         this.description = builder.description;
         this.id = builder.id;
         this.version = builder.version;
@@ -203,78 +200,6 @@ public abstract class Schema {
         this.unprocessedProperties = new HashMap<>(builder.unprocessedProperties);
         this.embeddedSchemas = new HashMap<>(builder.embeddedSchemas);
         this.customsSchemas = new HashMap<>(builder.customsSchemas);
-    }
-    
-    
-   
-    /**
-     * Determines if this {@code Schema} instance defines any restrictions for the object property
-     * denoted by {@code field}. The {@code field} should be a JSON pointer, denoting the property to
-     * be queried.
-     * <p>
-     * For example the field {@code "#/rectangle/a"} is defined by the following schema:
-     * </p>
-     * <pre>
-     * <code>
-     * objectWithSchemaRectangleDep" : {
-     *   "type" : "object",
-     *   "dependencies" : {
-     *       "d" : {
-     *           "type" : "object",
-     *           "properties" : {
-     *               "rectangle" : {
-     *                  "$ref" : "#/definitions/Rectangle"
-     *               },
-     *               "list": {
-     *                   "type": "array",
-     *                   "items": {
-     *                       "properties": {
-     *                          "prop": {}
-     *                       }
-     *                   },
-     *                   "minItems": 2,
-     *                   "maxItems: 3
-     *               }
-     *           }
-     *       }
-     *   },
-     *   "definitions" : {
-     *       "size" : {
-     *           "type" : "number",
-     *           "minimum" : 0
-     *       },
-     *       "Rectangle" : {
-     *           "type" : "object",
-     *           "properties" : {
-     *               "a" : {"$ref" : "#/definitions/size"},
-     *               "b" : {"$ref" : "#/definitions/size"}
-     *           }
-     *       }
-     *    }
-     * }
-     * </code>
-     * </pre>
-     *
-     * You can also check if a subschema of an array defines a property. In that case, to traverse the array, you can either use
-     * an integer array index, or the {@code "all"} or {@code "any"} meta-indexes. For example, in the above schema
-     * <ul>
-     *     <li>{@code definesProperty("#/list/any/prop")} returns {@code true}</li>
-     *     <li>{@code definesProperty("#/list/all/prop")} returns {@code true}</li>
-     *     <li>{@code definesProperty("#/list/1/prop")} returns {@code true}</li>
-     *     <li>{@code definesProperty("#/list/1/nonexistent")} returns {@code false} (the property is not present in the
-     *     subschema)</li>
-     *     <li>{@code definesProperty("#/list/8/prop")} returns {@code false} (the {@code "list"} does not define
-     *     property {@code 8}, since {@code "maxItems"} is {@code 3})</li>
-     * </ul>
-     * The default implementation of this method always returns false.
-     *
-     * @param field
-     *         should be a JSON pointer in its string representation.
-     * @return {@code true} if the propertty denoted by {@code field} is defined by this schema
-     * instance
-     */
-    public boolean definesProperty(String field) {
-        return false;
     }
 
     /**
@@ -306,8 +231,7 @@ public abstract class Schema {
             Schema schema = (Schema) o;
             return schema.canEqual(this) &&
                     Objects.equals(title, schema.title) &&
-                    Objects.equals(comment, schema.comment) &&
-                    Objects.equals(expectedKeyword, schema.expectedKeyword) &&                    
+                    Objects.equals(comment, schema.comment) &&                  
                     Objects.equals(defaultValue, schema.defaultValue) &&
                     Objects.equals(description, schema.description) &&
                     Objects.equals(id, schema.id) &&
@@ -323,7 +247,7 @@ public abstract class Schema {
 
     @Override
     public int hashCode() {
-        return Objects.hash(title, comment, expectedKeyword,description, id, version ,defaultValue, nullable, readOnly, writeOnly, unprocessedProperties);
+        return Objects.hash(title, comment,description, id, version ,defaultValue, nullable, readOnly, writeOnly, unprocessedProperties);
     }
 
     public String getTitle() {
@@ -333,10 +257,6 @@ public abstract class Schema {
     
     public String getComment() {
 		return comment;
-	}
-
-	public String getExpectedKeyword() {
-		return expectedKeyword;
 	}
 
 	public String getDescription() {
@@ -387,7 +307,11 @@ public abstract class Schema {
 		return customsSchemas;
 	}
 
-	/**
+	public String getSchema() {
+        return schema;
+    }
+
+    /**
      * Returns the properties of the original schema JSON which aren't keywords of json schema
      * (therefore they weren't recognized during schema loading).
      */

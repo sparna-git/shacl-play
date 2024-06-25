@@ -146,8 +146,6 @@ public class Main {
 			schema.id(owl.getOWLUri().toString()).getClass(); 
 		}
 		
-		schema.expectedKeyword("object");
-		
 		return schema;
 	}
 	
@@ -162,7 +160,6 @@ public class Main {
 		return EmptySchema
 	    		.builder()
 	    		.comment("would contain always the fixed context URL")
-	    		.expectedKeyword("String")
 	    		.unprocessedProperties(ImmutableMap.of("cons", "http://json-schema.org/draft-04/schema"))	    		
 	    		.build();
 	}
@@ -197,9 +194,11 @@ public class Main {
 			if (ps.getShDatatype().isPresent()) {				
 				Optional<JSONTYPE> typefound = JSONTYPE.findTyeValue(ps.getShDatatype().get().getLocalName().toString());
 				
+				/*
 				Schema datatype = ObjectSchema.builder()
 						.expectedKeyword(typefound.get().getType().toString())
 						.build();
+						 */
 				// Add Data Type
 				//obj.addPropertySchema(ps.getPathAsSparql(), datatype);
 				// Add Format

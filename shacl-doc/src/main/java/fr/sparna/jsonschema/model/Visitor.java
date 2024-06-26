@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import fr.sparna.jsonschema.regexp.*;
 import fr.sparna.jsonschema.model.Schema;
 
 abstract class Visitor {
@@ -165,10 +164,12 @@ abstract class Visitor {
             visitSchemaOfAdditionalProperties(objectSchema.getSchemaOfAdditionalProperties());
         }
         
+        /*
         Map<Regexp, Schema> patternProperties = objectSchema.getRegexpPatternProperties();
         if (patternProperties != null) {
             visitPatternProperties(patternProperties);
         }
+        */
         
         for (Map.Entry<String, Schema> schemaDep : objectSchema.getSchemaDependencies().entrySet()) {
             visitSchemaDependency(schemaDep.getKey(), schemaDep.getValue());
@@ -186,11 +187,13 @@ abstract class Visitor {
         }
     }
 
+    /*
     void visitPatternProperties(Map<Regexp, Schema> patternProperties) {
         for (Map.Entry<Regexp, Schema> entry : patternProperties.entrySet()) {
             visitPatternPropertySchema(entry.getKey(), entry.getValue());
         }
     }
+    */
 
     void visitPropertySchemas(Map<String, Schema> propertySchemas) {
         for (Map.Entry<String, Schema> entry : propertySchemas.entrySet()) {
@@ -206,9 +209,11 @@ abstract class Visitor {
         visitSchema(schema);
     }
 
+    /*
     void visitPatternPropertySchema(Regexp propertyNamePattern, Schema schema) {
         visitSchema(schema);
     }
+    */
 
     void visitSchemaOfAdditionalProperties(Schema schemaOfAdditionalProperties) {
         visitSchema(schemaOfAdditionalProperties);
@@ -237,17 +242,8 @@ abstract class Visitor {
         visitSchema(stringSchema);
         visitMinLength(stringSchema.getMinLength());
         visitMaxLength(stringSchema.getMaxLength());
-        visitPattern(stringSchema.getRegexpPattern());
-        //visitFormat(stringSchema.getFormatValidator());
     }
 
-    /*
-    void visitFormat(FormatValidator formatValidator) {
-    }
-    */
-
-    void visitPattern(Regexp pattern) {
-    }
 
     void visitMaxLength(Integer maxLength) {
     }
@@ -259,24 +255,5 @@ abstract class Visitor {
         visitSchema(combinedSchema);
     }
 
-    /*
-    void visitConditionalSchema(ConditionalSchema conditionalSchema) {
-        visitSchema(conditionalSchema);
-        conditionalSchema.getIfSchema().ifPresent(this::visitIfSchema);
-        conditionalSchema.getThenSchema().ifPresent(this::visitThenSchema);
-        conditionalSchema.getElseSchema().ifPresent(this::visitElseSchema);
-    }
-    */
 
-    void visitIfSchema(Schema ifSchema) {
-        visitSchema(ifSchema);
-    }
-
-    void visitThenSchema(Schema thenSchema) {
-        visitSchema(thenSchema);
-    }
-
-    void visitElseSchema(Schema elseSchema) {
-        visitSchema(elseSchema);
-    }
 }

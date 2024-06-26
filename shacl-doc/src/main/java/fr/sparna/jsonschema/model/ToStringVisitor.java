@@ -1,22 +1,23 @@
 package fr.sparna.jsonschema.model;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import fr.sparna.jsonschema.writer.JSONPrinter;
-import fr.sparna.jsonschema.regexp.Regexp;
+//import FormatValidator.NONE;
 
 import org.json.JSONException;
 
 class ToStringVisitor extends Visitor {
 
-    private final JSONPrinter writer;
+	private final JSONPrinter writer;
 
     private boolean jsonObjectIsOpenForCurrentSchemaInstance = false;
 
     private boolean skipNextObject = false;
 
-    private SpecificationVersion deducedSpecVersion;
+    //private SpecificationVersion deducedSpecVersion;
 
     ToStringVisitor(JSONPrinter writer) {
         this.writer = writer;
@@ -39,6 +40,7 @@ class ToStringVisitor extends Visitor {
         writer.ifPresent("default", schema.getDefaultValue());
         writer.ifPresent("readOnly", schema.isReadOnly());
         writer.ifPresent("writeOnly", schema.isWriteOnly());
+        writer.ifPresent("format", schema.getFormat());
         super.visitSchema(schema);
         schema.getUnprocessedProperties().forEach((key, val) -> writer.key(key).value(val));
         schema.describePropertiesTo(writer);
@@ -67,7 +69,7 @@ class ToStringVisitor extends Visitor {
         jsonObjectIsOpenForCurrentSchemaInstance = orig;
     }
     
-    
+    /*
     private SpecificationVersion deduceSpecVersion(Object schemaKeywordValue) {
         if (deducedSpecVersion != null) {
             return deducedSpecVersion;
@@ -79,7 +81,7 @@ class ToStringVisitor extends Visitor {
             return deducedSpecVersion = SpecificationVersion.DRAFT_4;
         }
     }
-    
+    */
 
     private void printInJsonObject(Runnable task) {
         if (skipNextObject) {
@@ -198,6 +200,7 @@ class ToStringVisitor extends Visitor {
     @Override 
     void visitConstSchema(ConstSchema constSchema) {
         printInJsonObject(() -> {
+        	writer.key("type").value("string");
             writer.key("const");
             writer.value(constSchema.getPermittedValue());
             super.visitConstSchema(constSchema);
@@ -272,6 +275,7 @@ class ToStringVisitor extends Visitor {
         writer.endObject();
     }
 
+    /*
     @Override 
     void visitPatternProperties(Map<Regexp, Schema> patternProperties) {
         if (!patternProperties.isEmpty()) {
@@ -279,6 +283,7 @@ class ToStringVisitor extends Visitor {
             printSchemaMap(patternProperties);
         }
     }
+    */
 
     @Override 
     void visitCombinedSchema(CombinedSchema combinedSchema) {
@@ -342,11 +347,8 @@ class ToStringVisitor extends Visitor {
             writer.ifPresent("minLength", schema.getMinLength());
             writer.ifPresent("maxLength", schema.getMaxLength());
             writer.ifPresent("pattern", schema.getPattern());
-            /*
-            if (schema.getFormatValidator() != null && !NONE.equals(schema.getFormatValidator())) {
-                writer.key("format").value(schema.getFormatValidator().formatName());
-            }
-            */
+            
+            
             super.visitStringSchema(schema);
         });
     }

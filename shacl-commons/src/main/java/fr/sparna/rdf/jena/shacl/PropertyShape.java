@@ -39,6 +39,10 @@ public class PropertyShape {
 		return ModelReadingUtils.getOptionalLiteral(propertyShape, propertyShape.getModel().createProperty(SHACL_PLAY.COLOR));
 	}
 	
+	public Optional<Resource> getEmbed() {
+		return ModelReadingUtils.getOptionalResource(propertyShape, propertyShape.getModel().createProperty(SHACL_PLAY.EMBED));
+	}
+	
 	public Optional<Resource> getShNode() {
 		return ModelReadingUtils.getOptionalResource(propertyShape, SH.node);
 	}

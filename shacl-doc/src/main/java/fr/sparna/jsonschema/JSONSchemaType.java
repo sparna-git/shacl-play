@@ -3,8 +3,9 @@ package fr.sparna.jsonschema;
 import java.util.Arrays;
 import java.util.Optional;
 
+	
 	//Type-specific keywords
-    enum JSONTYPE {
+    enum JSONSchemaType {
 
 	STRING("string", "string"),
 	BOOLEAN("boolean", "boolean"),
@@ -40,14 +41,12 @@ import java.util.Optional;
 	TOKEN("token", "string"),
 	MNTOKEN("NMTOKEN", "string"),
 	NAME("Name", "string"),
-	NCNAME("NCName", "string"),
-	LANGSTRING("langString","string"),
-	PUBLICREGISTER("publicRegister","string");
-	
-	private final String formatType;
+	NCNAME("NCName", "string");
+    
+    private final String formatType;
 	private final String type;
 	
-	JSONTYPE (String format,String type) {
+	JSONSchemaType (String format,String type) {
 		this.formatType = format;
 		this.type = type;
 	}
@@ -60,9 +59,9 @@ import java.util.Optional;
 		return type;
 	}
 	
-	public static Optional<JSONTYPE> findTyeValue(String valueType) {
+	public static Optional<JSONSchemaType> findTyeValue(String valueType) {
 		
-		return Arrays.stream(JSONTYPE.values())
+		return Arrays.stream(JSONSchemaType.values())
 				.filter(e -> e.getFormatType().toString().equals(valueType))
 				.findFirst();
 	}	

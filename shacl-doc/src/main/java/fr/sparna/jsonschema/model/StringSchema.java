@@ -5,8 +5,8 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.Objects;
 
-import fr.sparna.jsonschema.regexp.JavaUtilRegexpFactory;
-import fr.sparna.jsonschema.regexp.Regexp;
+//import fr.sparna.jsonschema.regexp.JavaUtilRegexpFactory;
+//import fr.sparna.jsonschema.regexp.Regexp;
 
 /**
  * {@code String} schema validator.
@@ -22,11 +22,11 @@ public class StringSchema extends Schema {
 
         private Integer maxLength;
 
-        private Regexp pattern;
+        private String pattern; //Regexp
+        
+        private String Format;
 
         private boolean requiresString = true;
-
-        //private FormatValidator formatValidator = NONE;
 
         @Override
         public StringSchema build() {
@@ -43,11 +43,13 @@ public class StringSchema extends Schema {
             return this;
         }
 
+        /*
         public Builder pattern(final String pattern) {
-            return pattern(new JavaUtilRegexpFactory().createHandler(pattern));
+            return pattern; //(new JavaUtilRegexpFactory().createHandler(pattern));
         }
+        */
 
-        public Builder pattern(Regexp pattern) {
+        public Builder pattern(String pattern) {
             this.pattern = pattern;
             return this;
         }
@@ -67,11 +69,9 @@ public class StringSchema extends Schema {
 
     private final Integer maxLength;
 
-    private final Regexp pattern;
+    private final String pattern; //Regexp
 
     private final boolean requiresString;
-
-    //private final FormatValidator formatValidator;
 
     public StringSchema() {
         this(builder());
@@ -100,19 +100,20 @@ public class StringSchema extends Schema {
         return minLength;
     }
 
-    Regexp getRegexpPattern() {
+    String getRegexpPattern() { //Regexp 
         return pattern;
     }
 
-    public java.util.regex.Pattern getPattern() {
+    public String getPattern() { //java.util.regex.Pattern
         if (pattern == null) {
             return null;
         } else {
-            return java.util.regex.Pattern.compile(pattern.toString());
+            return pattern.toString(); //java.util.regex.Pattern.compile(pattern.toString());
         }
     }
 
-    @Override void accept(Visitor visitor) {
+    @Override 
+    void accept(Visitor visitor) {
         visitor.visitStringSchema(this);
     }
 
@@ -149,10 +150,6 @@ public class StringSchema extends Schema {
         return Objects.equals(formatValidator.formatName(), that.formatValidator.formatName());
     }
 
-    
-    public FormatValidator getFormatValidator() {
-        return formatValidator;
-    }
     */
 
     @Override

@@ -31,6 +31,8 @@ public abstract class Schema {
 
         private String title;
         
+        private String schemaVersion;
+        
         private String comment;
 
         private String description;
@@ -38,6 +40,8 @@ public abstract class Schema {
         private String id;
         
         private String version;
+        
+        private String format;
 
         private SchemaLocation schemaLocation;
 
@@ -53,11 +57,14 @@ public abstract class Schema {
 
         public Map<String, Schema> embeddedSchemas = new HashMap<>(0);
         
-        public Map<String, Schema> customsSchemas = new HashMap<>(0);
-        
         
         public Builder<S> title(String title) {
             this.title = title;
+            return this;
+        }
+        
+        public Builder<S> schemaVersion(String schemaVersion) {
+            this.schemaVersion = schemaVersion;
             return this;
         }
         
@@ -79,7 +86,12 @@ public abstract class Schema {
         public Builder<S> version(String version) {
             this.version = version;
             return this;
-        }        
+        }
+        
+        public Builder<S> format(String format) {
+            this.format = format;
+            return this;
+        }
 
         /**
          * @deprecated Use {@link #schemaLocation(SchemaLocation)} instead.
@@ -124,28 +136,17 @@ public abstract class Schema {
             return this;
         }
         
-        public Builder<S> customsSchemas(Map<String, Schema> customsSchemas) {
-            this.customsSchemas = customsSchemas;
-            return this;
-        }
-
+       
         public Builder<S> embeddedSchema(String name, Schema embeddedSchema) {
             this.embeddedSchemas.put(name, embeddedSchema);
             return this;
         }
         
-        
-        public Builder<S> customSchemas(String name, Schema customsSchemas) {
-            this.customsSchemas.put(name, customsSchemas);
-            return this;
-        }
-        
-        
         public abstract S build();
 
     }
 
-    private final String schema;
+    private final String schemaVersion;
 
     private final String title;
     
@@ -156,6 +157,8 @@ public abstract class Schema {
     private final String id;
     
     private final String version;
+    
+    private final String format;
 
     @Deprecated
     protected final String schemaLocation;
@@ -174,7 +177,6 @@ public abstract class Schema {
 
     private final Map<String, Schema> embeddedSchemas;
     
-    private final Map<String, Schema> customsSchemas;
 
     /**
      * Constructor.
@@ -184,13 +186,14 @@ public abstract class Schema {
      */
     protected Schema(Builder<?> builder) {
         // always the same value
-        this.schema = JSON_SCHEMA_VERSION;
+        this.schemaVersion = builder.schemaVersion;// = JSON_SCHEMA_VERSION;
 
         this.title = builder.title;
         this.comment = builder.comment;
         this.description = builder.description;
         this.id = builder.id;
         this.version = builder.version;
+        this.format = builder.format;
         this.schemaLocation = builder.schemaLocation == null ? null : builder.schemaLocation.toString();
         this.location = builder.schemaLocation;
         this.defaultValue = builder.defaultValue;
@@ -198,8 +201,7 @@ public abstract class Schema {
         this.readOnly = builder.readOnly;
         this.writeOnly = builder.writeOnly;
         this.unprocessedProperties = new HashMap<>(builder.unprocessedProperties);
-        this.embeddedSchemas = new HashMap<>(builder.embeddedSchemas);
-        this.customsSchemas = new HashMap<>(builder.customsSchemas);
+        this.embeddedSchemas = new HashMap<>(builder.embeddedSchemas);        
     }
 
     /**
@@ -270,6 +272,10 @@ public abstract class Schema {
     public String getVersion() {
 		return version;
 	}
+    
+    public String getFormat() {
+		return format;
+	}
 
 	public String getSchemaLocation() {
         return schemaLocation;
@@ -303,12 +309,8 @@ public abstract class Schema {
         return embeddedSchemas;
     }    
 
-    public Map<String, Schema> getCustomsSchemas() {
-		return customsSchemas;
-	}
-
 	public String getSchema() {
-        return schema;
+        return schemaVersion;
     }
 
     /**

@@ -14,9 +14,6 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 import fr.sparna.jsonschema.exception.SchemaException;
-import fr.sparna.jsonschema.regexp.JavaUtilRegexpFactory;
-import fr.sparna.jsonschema.regexp.Regexp;
-import fr.sparna.jsonschema.regexp.RegexpFactory;
 
 /**
  * Object schema validator.
@@ -28,13 +25,15 @@ public class ObjectSchema extends Schema {
      */
     public static class Builder extends Schema.Builder<ObjectSchema> {
 
+    	/*
         private static final RegexpFactory DEFAULT_REGEXP_FACTORY = new JavaUtilRegexpFactory();
 
         private static final Regexp toRegexp(String pattern) {
             return DEFAULT_REGEXP_FACTORY.createHandler(pattern);
         }
+        */
 
-        private final Map<Regexp, Schema> patternProperties = new HashMap<>();
+       //private final Map<Regexp, Schema> patternProperties = new HashMap<>();
 
         private boolean requiresObject = true;
 
@@ -98,23 +97,6 @@ public class ObjectSchema extends Schema {
 
         public Builder minProperties(Integer minProperties) {
             this.minProperties = minProperties;
-            return this;
-        }
-
-        @Deprecated
-        public Builder patternProperty(Pattern pattern, Schema schema) {
-            Regexp handler = toRegexp(pattern.toString());
-            return patternProperty(handler, schema);
-        }
-
-        @Deprecated
-        public Builder patternProperty(String pattern, Schema schema) {
-            Regexp handler = toRegexp(pattern);
-            return patternProperty(handler, schema);
-        }
-
-        public Builder patternProperty(Regexp pattern, Schema schema) {
-            this.patternProperties.put(pattern, schema);
             return this;
         }
 
@@ -190,7 +172,7 @@ public class ObjectSchema extends Schema {
 
     private final boolean requiresObject;
 
-    private final Map<Regexp, Schema> patternProperties;
+    //private final Map<Regexp, Schema> patternProperties;
 
     private final boolean oneOrMoreDefaultProperty;
 
@@ -217,7 +199,7 @@ public class ObjectSchema extends Schema {
         this.propertyDependencies = copyMap(builder.propertyDependencies);
         this.schemaDependencies = copyMap(builder.schemaDependencies);
         this.requiresObject = builder.requiresObject;
-        this.patternProperties = copyMap(builder.patternProperties);
+        //this.patternProperties = copyMap(builder.patternProperties);
         this.propertyNameSchema = builder.propertyNameSchema;
         this.oneOrMoreDefaultProperty = builder.oneOrMoreDefaultProperty;
     }
@@ -230,6 +212,7 @@ public class ObjectSchema extends Schema {
         return minProperties;
     }
 
+    /*
     Map<Regexp, Schema> getRegexpPatternProperties() {
         return patternProperties;
     }
@@ -243,6 +226,7 @@ public class ObjectSchema extends Schema {
                         (Map.Entry<java.util.regex.Pattern, Schema> entry) -> entry.getValue()
                 ));
     }
+    */
 
     public Map<String, Set<String>> getPropertyDependencies() {
         return propertyDependencies;
@@ -302,7 +286,7 @@ public class ObjectSchema extends Schema {
                     Objects.equals(maxProperties, that.maxProperties) &&
                     Objects.equals(propertyDependencies, that.propertyDependencies) &&
                     Objects.equals(schemaDependencies, that.schemaDependencies) &&
-                    Objects.equals(patternProperties, that.patternProperties) &&
+                    //Objects.equals(patternProperties, that.patternProperties) &&
                     Objects.equals(propertyNameSchema, that.propertyNameSchema) &&
                     oneOrMoreDefaultProperty == that.oneOrMoreDefaultProperty &&
                     super.equals(that);
@@ -315,7 +299,8 @@ public class ObjectSchema extends Schema {
     public int hashCode() {
         return Objects.hash(super.hashCode(), propertySchemas, propertyNameSchema, additionalProperties,
                 schemaOfAdditionalProperties, requiredProperties, minProperties, maxProperties, propertyDependencies,
-                schemaDependencies, requiresObject, patternProperties, oneOrMoreDefaultProperty);
+                schemaDependencies, requiresObject, //patternProperties, 
+                oneOrMoreDefaultProperty);
     }
 
     @Override

@@ -13,4 +13,7 @@ public class SHACL_PLAY {
 	public static String BACKGROUNDCOLOR = NAMESPACE + "background-color";
 	
 	public static String PACKAGE = NAMESPACE + "package";
+	
+	public static String EMBED = NAMESPACE + "embed";
+	
 }

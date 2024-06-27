@@ -44,7 +44,7 @@ public class JsonSchemaGenerator {
     private List<String> rootShapes;
     // maps URI to JSON terms
     private UriToJsonMapper uriMapper;
-
+    // the string value to put in final @context
     private String targetContextUrl;
 
 
@@ -62,12 +62,8 @@ public class JsonSchemaGenerator {
         log.info("Generating JSON schema...");
         List<NodeShape> nodeShapes = readModel(shaclGraph);
 		    
-	    /*
-	     *  JSON Schema
-	     */
-		
-		// Create JSON Schema Empty
-		//root
+		// Create JSON Schema 
+        // root schema
 		ObjectSchema.Builder rootSchema = ObjectSchema.builder();
 		
 		// TODO : peupler à partir de l'ontologie
@@ -86,17 +82,9 @@ public class JsonSchemaGenerator {
 		for (NodeShape ns : nodeShapes) {
 			
 			rootSchema.embeddedSchema(
-					ns.getNodeShape().getLocalName()
-					,
+					ns.getNodeShape().getLocalName(),
 					// Properties
-					generatePropertiesFromPropertyShape(
-							// properties
-							ns.getProperties(),
-							// NodeShape
-							ns.getNodeShape(),
-							//model
-							shaclGraph
-							)
+					generatePropertiesFromPropertyShape(ns.getProperties())
 					);
 		}
 		
@@ -240,7 +228,7 @@ public class JsonSchemaGenerator {
 	}
          */
 	
-	private Schema generatePropertiesFromPropertyShape(List<PropertyShape> properties,Resource nodeShape ,Model model) throws Exception {
+	private Schema generatePropertiesFromPropertyShape(List<PropertyShape> properties) throws Exception {
 	
 		ObjectSchema.Builder objectSchema = ObjectSchema.builder();
 		for (PropertyShape ps : properties) {

@@ -15,5 +15,9 @@ public class SHACL_PLAY {
 	public static String PACKAGE = NAMESPACE + "package";
 	
 	public static String EMBED = NAMESPACE + "embed";
+
+	public static String EMBED_NEVER = NAMESPACE + "EmbedNever";
+
+	public static String SHORTNAME = NAMESPACE + "shortname";
 	
 }

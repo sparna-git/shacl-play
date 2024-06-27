@@ -1,0 +1,141 @@
+{
+  "title": "TA schema",
+  "version": "0.1-beta",
+  "description": "A test JSON schema for adopted texts",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://data.europarl.europa.eu/adopted-text.jsonld",
+  "$defs": {
+    "context": {
+      "$comment": "would contain always the fixed context URL",
+      "type": "string",
+      "const": "https://data.europarl.europa.eu/context.jsonld"
+    },
+    "container_language": {
+      "type": "object",
+      "patternProperties": {
+        "^[A-Za-z]{2,3}$" : {
+          "$comment": "Overly simplified version of the regex. See https://github.com/w3c/wot-thing-description/blob/main/validation/td-json-schema-validation.json for a complete regex",
+          "type" : "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "AdoptedText": {
+      "type":"object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "iri-reference"
+        },
+        "identifier": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string",
+          "const": "Work"
+        },
+        "work_type": {
+          "type": "string",
+          "pattern": "^def/ep-document-types/.*$",
+          "const": "def/ep-document-types/TEXT_ADOPTED"
+        },
+        "notation_publicRegister": {
+          "type": "string"
+        },
+        "title_dcterms": {
+          "$ref": "#/$defs/container_language"
+        },
+        "is_realized_by": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "format": "iri-reference"
+          }
+        },
+        "inverse_corrects": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "format": "iri-reference"
+          }
+        }
+      },
+      "required": ["id", "identifier", "type", "work_type", "notation_publicRegister", "title_dcterms"],
+      "additionalProperties": false
+    },
+    "Expression": {
+      "type":"object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "iri-reference"
+        },
+        "type": {
+          "type": "string",
+          "const": "Expression"
+        },
+        "language": {
+          "type": "string",
+          "format": "iri-reference"
+        },
+        "title": {
+          "$ref": "#/$defs/container_language"
+        }
+      },
+      "additionalProperties": false
+    },
+    "Corrigendum": {
+      "type":"object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "iri-reference"
+        },
+        "type": {
+          "type": "string",
+          "const": "Work"
+        },
+        "identifier": {
+          "type": "string"
+        },
+        "work_type": {
+          "type": "string",
+          "pattern": "^def/ep-document-types/.*$",
+          "const": "def/ep-document-types/CORRIGENDUM"
+        },
+      },
+      "additionalProperties": false
+    }
+  },
+
+  "type": "object",
+  "properties": {
+    "@context": {
+      "$ref": "#/$defs/context"
+    },
+    "data": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "oneOf": [
+          {
+            "$ref": "#/$defs/AdoptedText"
+          },
+          {
+            "$ref": "#/$defs/Expression"
+          },
+          {
+            "$ref": "#/$defs/Corrigendum"
+          }
+        ]
+        
+      }
+    }
+
+  },
+  "required": ["data", "@context"],
+  "additionalProperties": false
+
+}

@@ -1,0 +1,41 @@
+{
+  "@context" : "https://data.europarl.europa.eu/context.jsonld",
+  "data": [
+    {
+      "id": "eli/dl/doc/TA-9-2022-0269",
+      "type": "Work",
+      "is_realized_by": [
+        {
+          "id": "eli/dl/doc/TA-9-2022-0269/it",
+          "type": "Expression",
+          "language": "http://publications.europa.eu/resource/authority/language/ITA",
+          "title": {
+            "it": "Legge sui servizi digitali ***I"
+          }
+        },
+        {
+          "id": "eli/dl/doc/TA-9-2022-0269/hr",
+          "type": "Expression",
+          "language": "http://publications.europa.eu/resource/authority/language/HRV",
+          "title": {
+            "hr": "Akt o digitalnim uslugama ***I"
+          }
+        }
+      ],
+      "work_type": "def/ep-document-types/TEXT_ADOPTED",
+      "identifier": "TA-9-2022-0269",
+      "title_dcterms": {
+        "mt": "L-Att dwar is-Servizzi Diġitali ***I",
+        "ro": "Regulamentul privind serviciile digitale ***I",
+      },
+      "notation_publicRegister": "P9_TA(2022)0269",
+      "inverse_corrects": [
+        {
+          "id": "eli/dl/doc/TA-9-2022-0269-COR01",
+          "type": "Work",
+          "work_type": "def/ep-document-types/CORRIGENDUM",
+        }
+      ]
+    }
+  ]
+}

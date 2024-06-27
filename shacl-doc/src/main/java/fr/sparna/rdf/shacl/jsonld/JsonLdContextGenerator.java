@@ -7,8 +7,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.swing.text.html.HTMLDocument.HTMLReader.IsindexAction;
-
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -21,9 +19,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.topbraid.shacl.vocabulary.SH;
 
-public class JsonLdContextGenerator {
+import fr.sparna.rdf.shacl.SHACL_PLAY;
 
-	private static final String SHORTNAME = "https://shacl-play.sparna.fr/ontology#shortname";
+public class JsonLdContextGenerator {
 
 	private Logger log = LoggerFactory.getLogger(this.getClass().getName());
 	
@@ -238,7 +236,7 @@ public class JsonLdContextGenerator {
 		Set<String> shortnames = new HashSet<>();
 		for (Resource resource : propertyShapesWithPath) {
 			// read shortname constraint
-			shortnames.addAll(JsonLdContextGenerator.readDatatypeProperty(resource, model.createProperty(SHORTNAME)).stream().map(l -> l.getString()).collect(Collectors.toSet()));
+			shortnames.addAll(JsonLdContextGenerator.readDatatypeProperty(resource, model.createProperty(SHACL_PLAY.SHORTNAME)).stream().map(l -> l.getString()).collect(Collectors.toSet()));
 		}
 		return shortnames;		
 	}

@@ -73,10 +73,6 @@ public class StringSchema extends Schema {
 
     private final boolean requiresString;
 
-    public StringSchema() {
-        this(builder());
-    }
-
     /**
      * Constructor.
      *

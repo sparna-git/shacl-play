@@ -1,0 +1,188 @@
+{
+  // prendre le title de l'ontologie
+  "title": "TA schema",
+  // version de l'ontologie
+  "version": "0.1-beta",
+  // description de l'ontologie
+  "description": "A test JSON schema for adopted texts",
+  // toujours la même valeur
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  // URI de l'ontologie SHACL
+  "$id": "https://data.europarl.europa.eu/def/adopted-texts",
+  "$defs": {
+
+    // toujours présent
+    "context": {
+      "$comment": "would contain always the fixed context URL",
+      "type": "string",
+      "const": "https://data.europarl.europa.eu/context.jsonld"
+    },
+
+    // toujours présent
+    "container_language": {
+      "type": "object",
+      "patternProperties": {
+        "^[A-Za-z]{2,3}$" : {
+          "$comment": "Overly simplified version of the regex. See https://github.com/w3c/wot-thing-description/blob/main/validation/td-json-schema-validation.json for a complete regex",
+          "type" : "string"
+        }
+      },
+      "additionalProperties": false
+    },
+
+    // utiliser les URI des NodeShapes pour créer les sections dans $def
+    "AdoptedText": {
+      "type":"object",
+      "properties": {
+        
+        // toujours la même clé "id" qui correspond à l'URI
+        "id": {
+          "type": "string",
+          "format": "iri-reference"
+        },
+
+        // les property shapes de la NodeShape
+        // utiliser le même algorithme de sélection de la clé JSON que dans la génération du @context
+        "identifier": {
+          // mapping de datatype
+          "type": "string"
+        },
+
+        "type": {
+          "type": "string",
+          "const": "Work"
+        },
+        "work_type": {
+          "type": "string",
+
+          // sh:pattern
+          "pattern": "^def/ep-document-types/.*$",
+          
+          // sh:hasValue
+          "const": "def/ep-document-types/TEXT_ADOPTED"
+        },
+        "notation_publicRegister": {
+          "type": "string"
+        },
+
+        "title_dcterms": {
+          // cas où le datatype est rdf:langString
+          "$ref": "#/$defs/container_language"
+        },
+
+        "is_realized_by": {
+          // soit pas de sh:maxCount ou sh:maxCount > 1
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            // comportement par défaut : faire une $ref à la NodeShape qui sera "embeddée"
+            // référence au schema JSON généré à partir de la NodeShape référencé par sh:node ou via sh:class
+            "$ref": "#/$defs/Expression"
+            // si il y a le flag shacl-play:embed shacl-play:EmbedNever sur la property shape, alors
+            // 1. il faut générer ça:
+            // "type": "string",
+            // "format": "iri-reference"
+            // 2. la NodeShape qui est référencée en sh:node ou sh:class doit se retrouver au premier niveau
+            // "oneOf": [
+            // {
+            //  "$ref": "#/$defs/AdoptedText"
+            // },
+            // {
+            //  "$ref": "#/$defs/Expression"
+            // },
+            // {
+            //  "$ref": "#/$defs/Corrigendum"
+            // }
+            // ]
+          }
+        },
+        "inverse_corrects": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/Corrigendum"
+          }
+        }
+      },
+      // liste de toutes les propriétés où sh:minCount > 0
+      "required": ["id", "identifier", "type", "work_type", "notation_publicRegister", "title_dcterms"],
+      "additionalProperties": false
+    },
+
+
+
+    "Expression": {
+      "type":"object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "iri-reference"
+        },
+        "type": {
+          "type": "string",
+          "const": "Expression"
+        },
+        "language": {
+          "type": "string",
+          // sh:nodeKind = sh:IRI mais sans sh:node ni sh:class
+          "format": "iri-reference"
+        },
+        "title": {
+          "$ref": "#/$defs/container_language"
+        }
+      },
+      "additionalProperties": false
+    },
+
+
+
+    "Corrigendum": {
+      "type":"object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "iri-reference"
+        },
+        "type": {
+          "type": "string",
+          "const": "Work"
+        },
+        "identifier": {
+          "type": "string"
+        },
+        "work_type": {
+          "type": "string",
+          "pattern": "^def/ep-document-types/.*$",
+          "const": "def/ep-document-types/CORRIGENDUM"
+        },
+      },
+      "additionalProperties": false
+    }
+
+
+  },
+
+  "type": "object",
+  "properties": {
+    // toujours présent
+    "@context": {
+      "$ref": "#/$defs/context"
+    },
+    "data": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        // trouver la shape "racine"
+        // avoir un algo qui permettent de trouver la shape "racine"
+        // soit c'est une ou plusieurs NodeShape qui ne sont jamais référencée par un sh:node ou sh:class
+        // ou bien on prend en paramètre de lancement l'URI de la NodeShape racine
+        // il faut tenir compte du flag shacl-play:embed shacl-play:EmbedNever ;
+        "$ref": "#/$defs/AdoptedText"
+      }
+    }
+
+  },
+  "required": ["data", "@context"],
+  "additionalProperties": false
+
+}

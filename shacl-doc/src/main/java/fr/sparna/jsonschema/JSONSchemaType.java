@@ -7,15 +7,17 @@ import java.util.Optional;
 	//Type-specific keywords
     enum JSONSchemaType {
 
+	// TODO : à la place du localName dans "format", il faut avoir l'URI entière du datatype
+	// TODO : il faut gérer l'ajout d'un 
 	STRING("string", "string"),
 	BOOLEAN("boolean", "boolean"),
 	DECIMAL("decimal", "number"),
 	INTEGER("integer", "integer"),
 	FLOAT("float", "number"),
-	DATE("date", "string"),  // with "format", "date"
-	TIME("time", "string"),  // with "format", "time"
-	DATETIME("dateTime", "string"),  // with "format", "date-time"
-	DATETIMESTAMP("dateTimeStamp", "string"),  // with "format", "date-time"
+	DATE("date", "string", "date"),  // with "format", "date"
+	TIME("time", "string", "time"),  // with "format", "time"
+	DATETIME("dateTime", "string", "date-time"),  // with "format", "date-time"
+	DATETIMESTAMP("dateTimeStamp", "string", "date-time"),  // with "format", "date-time"
 	GMONTH("gMonth", "string"),
 	GDAY("gDay", "string"),
 	GYEARMONTH("gYearMonth", "string"),
@@ -43,26 +45,39 @@ import java.util.Optional;
 	NAME("Name", "string"),
 	NCNAME("NCName", "string");
     
-    private final String formatType;
+    private final String datatypeUri;
 	private final String type;
+	private final String format;
 	
-	JSONSchemaType (String format,String type) {
-		this.formatType = format;
+	JSONSchemaType (String datatypeUri,String type) {
+		this.datatypeUri = datatypeUri;
 		this.type = type;
+		this.format = null;
 	}
 
-	public String getFormatType() {
-		return formatType;
+	JSONSchemaType (String datatypeUri,String type, String format) {
+		this.datatypeUri = datatypeUri;
+		this.type = type;
+		this.format = format;
+	}
+
+	public String getDatatypeUri() {
+		return datatypeUri;
 	}
 
 	public String getType() {
 		return type;
 	}
+
+	public String getFormat() {
+		return format;
+	}
+
 	
-	public static Optional<JSONSchemaType> findTyeValue(String valueType) {
+	public static Optional<JSONSchemaType> findByDatatypeUri(String valueType) {
 		
 		return Arrays.stream(JSONSchemaType.values())
-				.filter(e -> e.getFormatType().toString().equals(valueType))
+				.filter(e -> e.getDatatypeUri().toString().equals(valueType))
 				.findFirst();
 	}	
 }

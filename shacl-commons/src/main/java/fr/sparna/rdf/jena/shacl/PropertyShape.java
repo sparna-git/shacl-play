@@ -14,7 +14,6 @@ import org.topbraid.shacl.vocabulary.SH;
 
 import fr.sparna.rdf.jena.ModelReadingUtils;
 import fr.sparna.rdf.jena.ModelRenderingUtils;
-import fr.sparna.rdf.jena.shacl.ShOrReadingUtils;
 import fr.sparna.rdf.shacl.SHACL_PLAY;
 
 public class PropertyShape {
@@ -208,6 +207,10 @@ public class PropertyShape {
 	
 	public boolean isUniqueLang() {
 		return this.getShUniqueLang().isPresent() && this.getShUniqueLang().get().getBoolean();
+	}
+
+	public boolean isEmbedNever() {
+		return this.getEmbed().isPresent() && this.getEmbed().get().getURI().equals(SHACL_PLAY.EMBED_NEVER);
 	}
 	
 	public String getPlantUmlCardinalityString() {

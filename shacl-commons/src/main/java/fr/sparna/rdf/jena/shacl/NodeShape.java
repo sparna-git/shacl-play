@@ -31,6 +31,10 @@ public class NodeShape {
 		return nodeShape;
 	}
 	
+	public Optional<Literal> getShClose() {
+		return ModelReadingUtils.getOptionalLiteral(nodeShape,SH.closed);
+	}
+	
 	public Optional<Literal> getBackgroundColor() {
 		return ModelReadingUtils.getOptionalLiteral(nodeShape, nodeShape.getModel().createProperty(SHACL_PLAY.BACKGROUNDCOLOR));
 	}
@@ -69,6 +73,8 @@ public class NodeShape {
 	public String getColorString() {
 		return this.getColor().map(node -> node.asLiteral().toString()).orElse(null);
 	}
+	
+	
 	
 	/*
 	public int countShNodeOrShClassReferencesTo(String id, PlantUmlDiagram diagram) {

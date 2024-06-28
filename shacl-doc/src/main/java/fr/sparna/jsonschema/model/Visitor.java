@@ -170,12 +170,10 @@ abstract class Visitor {
             visitSchemaOfAdditionalProperties(objectSchema.getSchemaOfAdditionalProperties());
         }
         
-        /*
-        Map<Regexp, Schema> patternProperties = objectSchema.getRegexpPatternProperties();
+        Map<String, Schema> patternProperties = objectSchema.getRegexpPatternProperties();
         if (patternProperties != null) {
             visitPatternProperties(patternProperties);
         }
-        */
         
         for (Map.Entry<String, Schema> schemaDep : objectSchema.getSchemaDependencies().entrySet()) {
             visitSchemaDependency(schemaDep.getKey(), schemaDep.getValue());
@@ -193,13 +191,12 @@ abstract class Visitor {
         }
     }
 
-    /*
-    void visitPatternProperties(Map<Regexp, Schema> patternProperties) {
-        for (Map.Entry<Regexp, Schema> entry : patternProperties.entrySet()) {
+    
+    void visitPatternProperties(Map<String, Schema> patternProperties) {
+        for (Map.Entry<String, Schema> entry : patternProperties.entrySet()) {
             visitPatternPropertySchema(entry.getKey(), entry.getValue());
         }
     }
-    */
 
     void visitPropertySchemas(Map<String, Schema> propertySchemas) {
         for (Map.Entry<String, Schema> entry : propertySchemas.entrySet()) {
@@ -215,11 +212,10 @@ abstract class Visitor {
         visitSchema(schema);
     }
 
-    /*
-    void visitPatternPropertySchema(Regexp propertyNamePattern, Schema schema) {
+    
+    void visitPatternPropertySchema(String propertyNamePattern, Schema schema) {
         visitSchema(schema);
     }
-    */
 
     void visitSchemaOfAdditionalProperties(Schema schemaOfAdditionalProperties) {
         visitSchema(schemaOfAdditionalProperties);

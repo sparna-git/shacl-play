@@ -33,7 +33,7 @@ public class ObjectSchema extends Schema {
         }
         */
 
-       //private final Map<Regexp, Schema> patternProperties = new HashMap<>();
+    	private final Map<String, Schema> patternProperties = new HashMap<>();
 
         private boolean requiresObject = true;
 
@@ -141,6 +141,11 @@ public class ObjectSchema extends Schema {
             this.propertyNameSchema = propertyNameSchema;
             return this;
         }
+        
+        public Builder patternProperty(String pattern, Schema schema) {
+            this.patternProperties.put(pattern, schema);
+            return this;
+        }
 
     }
 
@@ -172,7 +177,7 @@ public class ObjectSchema extends Schema {
 
     private final boolean requiresObject;
 
-    //private final Map<Regexp, Schema> patternProperties;
+    private final Map<String, Schema> patternProperties;
 
     private final boolean oneOrMoreDefaultProperty;
 
@@ -199,7 +204,7 @@ public class ObjectSchema extends Schema {
         this.propertyDependencies = copyMap(builder.propertyDependencies);
         this.schemaDependencies = copyMap(builder.schemaDependencies);
         this.requiresObject = builder.requiresObject;
-        //this.patternProperties = copyMap(builder.patternProperties);
+        this.patternProperties = copyMap(builder.patternProperties);
         this.propertyNameSchema = builder.propertyNameSchema;
         this.oneOrMoreDefaultProperty = builder.oneOrMoreDefaultProperty;
     }
@@ -212,21 +217,19 @@ public class ObjectSchema extends Schema {
         return minProperties;
     }
 
-    /*
-    Map<Regexp, Schema> getRegexpPatternProperties() {
+    
+    Map<String, Schema> getRegexpPatternProperties() {
         return patternProperties;
     }
 
-    @Deprecated
-    public Map<Pattern, Schema> getPatternProperties() {
+    public Map<String, Schema> getPatternProperties() {
         return patternProperties.entrySet().stream()
-                .map(entry -> new AbstractMap.SimpleEntry<>(java.util.regex.Pattern.compile(entry.getKey().toString()), entry.getValue()))
+                .map(entry -> new AbstractMap.SimpleEntry<>(entry.getKey(), entry.getValue()))
                 .collect(toMap(
-                        (Map.Entry<java.util.regex.Pattern, Schema> entry) -> entry.getKey(),
-                        (Map.Entry<java.util.regex.Pattern, Schema> entry) -> entry.getValue()
+                        (Map.Entry<String, Schema> entry) -> entry.getKey(),
+                        (Map.Entry<String, Schema> entry) -> entry.getValue()
                 ));
     }
-    */
 
     public Map<String, Set<String>> getPropertyDependencies() {
         return propertyDependencies;

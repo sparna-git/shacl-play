@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.vocabulary.OWL;
 import org.apache.jena.vocabulary.RDF;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -68,12 +69,18 @@ public class JsonSchemaGenerator {
 		
         rootSchema.schemaVersion(JSON_SCHEMA_VERSION);
 
+        // Read Ontology
+        getRoot(shaclGraph,rootSchema,rootShapes);
+        
 		// TODO : peupler à partir de l'ontologie
-		rootSchema.title("TA");		
+        /*
+        rootSchema.title("TA");		
 		rootSchema.id("https://data.europarl.europa.eu/def/adopted-texts");
 		rootSchema.description("A test JSON schema for adopted texts");
 		rootSchema.version("Version Ontology");				
-		
+		*/
+        
+        
 		/*
 		 * 
 		 * Generate Embed Properties
@@ -82,10 +89,12 @@ public class JsonSchemaGenerator {
 		// Read nodeshape and generate own properties how to json schema
 		for (NodeShape ns : nodeShapes) {
 			
+			boolean flagSHClose = ns.getShClose().isPresent() ? ns.getShClose().get().getBoolean(): false;
+			
 			rootSchema.embeddedSchema(
 					ns.getNodeShape().getLocalName(),
 					// Properties
-					generatePropertiesFromPropertyShape(ns.getProperties(), shaclGraph)
+					generatePropertiesFromPropertyShape(ns.getProperties(), shaclGraph, flagSHClose)
 					);
 		}
 		
@@ -148,32 +157,38 @@ public class JsonSchemaGenerator {
         return ("#/$defs/"+r.getLocalName());
     }
 
-    private Builder<EmptySchema> getRoot(OwlOntology owl) {
-		
-		Builder<EmptySchema> schema = EmptySchema.builder();
-		
-		// Title
+    private void getRoot(Model shaclGraph,ObjectSchema.Builder rootSchema, List<String> rootShape) {
+    	
+    	// Generate OWL
+    	OwlOntology owl = getOntology(shaclGraph);
+    	
+    	// Title
 		if (owl.getTitleOrLabel("en") != null) {
-			schema.title(owl.getTitleOrLabel("en"));
+			rootSchema.title(owl.getTitleOrLabel("en"));
 		}
 		
 		// Version
 		if (owl.getOwlVersionInfo() != null) {
-			schema.version(owl.getOwlVersionInfo());			
+			rootSchema.version(owl.getOwlVersionInfo());			
 		}
 
 		// Description
 		if (owl.getDescription("en") != null) {
-			schema.description(owl.getDescription("en"));			
+			rootSchema.description(owl.getDescription("en"));			
 		}
 		
-		// Id
+		/*
+		 *  Write URI if EXIST in the ontology, if not get ID in the RootNodeShape
+		 */
+		
 		if (owl.getOWLUri() != null) {
-			//schema.unprocessedProperties(ImmutableMap.of("$id", owl.getOWLUri().toString()));			
-			schema.id(owl.getOWLUri().toString()).getClass(); 
+			rootSchema.id(owl.getOWLUri().toString()); 
+		} else {
+			rootShape
+				.stream()
+				.map(rs -> rootSchema.id(rs.toString()));
 		}
 		
-		return schema;
 	}
 	
 	private Schema getContext() {
@@ -193,48 +208,20 @@ public class JsonSchemaGenerator {
 	
 	private Schema getContainerLanguage() {
 		
-        // TODO : c'est faux, il faut utiliser un "patternProperties"
-		Schema containerLanguage = StringSchema.builder() 
-				// Declare type object 
-				.pattern("^[A-Za-z]{2,3}$")
-				.comment("Overly simplified version of the regex. See https://github.com/w3c/wot-thing-description/blob/main/validation/td-json-schema-validation.json for a complete regex")
+       Schema containerLanguage = ObjectSchema
+				.builder()
+				.patternProperty("^[A-Za-z]{2,3}$", 
+						StringSchema
+						.builder() 
+						.comment("Overly simplified version of the regex. See https://github.com/w3c/wot-thing-description/blob/main/validation/td-json-schema-validation.json for a complete regex")
+						.build())
+				.additionalProperties(false)
 				.build();
 		
 	    return containerLanguage;
 	}
 	
-    /*
-	private CombinedSchema.Builder generateEmbedProperty(List<NodeShape> nodeShapes, List<Resource> NodeShapeRoot) {
-		
-		
-		List<Schema> AnyOfList = new ArrayList<>();
-		for (NodeShape ns : nodeShapes) {
-			
-			List<PropertyShape> embedProperty = ns.getProperties()
-					.stream()
-					.filter(f -> f.getEmbed().isPresent())
-					.collect(Collectors.toList());
-		
-			
-			if (embedProperty.size() > 0) {
-				for (PropertyShape ps : embedProperty) {
-					AnyOfList.add(ReferenceSchema.builder().refValue(JsonSchemaGenerator.buildSchemaReference(ps.getShNode().get().asResource())).build());				
-				}
-			}
-		}
-		
-		if (AnyOfList.size() > 0) {
-			for (Resource r : NodeShapeRoot) {
-				AnyOfList.add(ReferenceSchema.builder().refValue(JsonSchemaGenerator.buildSchemaReference(r)).build());
-			}
-		}
-		
-		return CombinedSchema.anyOf(AnyOfList);
-		
-	}
-         */
-	
-	private Schema generatePropertiesFromPropertyShape(List<PropertyShape> properties, Model model) throws Exception {
+	private Schema generatePropertiesFromPropertyShape(List<PropertyShape> properties, Model model, boolean flagAdditionalProperties) throws Exception {
 	
 		ObjectSchema.Builder objectSchema = ObjectSchema.builder();
 		for (PropertyShape ps : properties) {
@@ -281,7 +268,7 @@ public class JsonSchemaGenerator {
 						
 					} else {
                         // TODO : changer l'appel pour passer l'URI complète du datatype
-						Optional<JSONSchemaType> typefound = JSONSchemaType.findByDatatypeUri(theDatatype.getLocalName());
+						Optional<JSONSchemaType> typefound = JSONSchemaType.findByDatatypeUri(datatype);
 						
 						if (typefound.isPresent()) {
 							if (typefound.get().getJsonSchemaType().toString().equals("string")) {
@@ -300,7 +287,7 @@ public class JsonSchemaGenerator {
 								objectSchema.addPropertySchema(term, NumberSchema.builder().build());
 							}
 						} else {
-							// TODO : insérer un StringSchema
+							objectSchema.addPropertySchema(term, StringSchema.builder().build() ); 
 						}
 						
 					}
@@ -355,10 +342,11 @@ public class JsonSchemaGenerator {
 		objectSchema.addPropertySchema("id", StringSchema.builder().format("iri-reference").build() );
 		objectSchema.addRequiredProperty("id");
 		
-        // TODO : do that depending on sh:closed / not sh:closed
-		objectSchema.additionalProperties(false);
-				
-		return objectSchema.build();
+		if (flagAdditionalProperties) {
+			objectSchema.additionalProperties(false);
+		}
+		
+        return objectSchema.build();
 		
 	}
 	
@@ -439,28 +427,26 @@ public class JsonSchemaGenerator {
         return nodeShapes.stream().filter(predicate).collect(Collectors.toList());
     }
 
-    /*
-	private String getFormatDataType(String dataType) {		
+    private OwlOntology getOntology(Model shaclGraph) {
+    	
+    	/*
+    	 * Lecture de OWL 
+    	*/
+    	
+		// this is tricky, because we can have multiple ones if SHACL is merged with OWL or imports OWL
+		List<Resource> sOWL = shaclGraph.listResourcesWithProperty(RDF.type, OWL.Ontology).toList();
 		
-		if (dataType.equals("date")) {
-			return "date";
-		} else if (dataType.equals("dateTime")) {
-			return "date-time";
-		} else if (dataType.equals("time")) {
-			return "time";
-		} else if (dataType.equals("iri")) {
-			//return FormatValidator.forFormat(new URIFormatValidator().formatName());
-			return "iri";
-		// Resource
-		} else if (dataType.equals("iri-reference")) {
-			return "iri-reference";
-		} else if (dataType.equals("regex")) {
-			//return FormatValidator.forFormat("iri");
-			return "iri-reference";
-		} else {
-			return null;
+		// let's decide first to exclude the ones that are owl:import-ed from others
+		List<Resource> owl = sOWL.stream().filter(onto1 -> {
+			return !sOWL.stream().anyMatch(onto2 -> onto2.hasProperty(OWL.imports, onto1));
+		}).collect(Collectors.toList());
+		
+		OwlOntology ontologyObject = null;
+		if(owl.size() > 0) {
+			ontologyObject = new OwlOntology(owl.get(0));
 		}
-	}
-         */
-
+		
+		return ontologyObject;
+    	
+    }
 }

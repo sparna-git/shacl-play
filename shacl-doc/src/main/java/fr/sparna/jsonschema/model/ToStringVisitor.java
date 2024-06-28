@@ -69,20 +69,6 @@ class ToStringVisitor extends Visitor {
         jsonObjectIsOpenForCurrentSchemaInstance = orig;
     }
     
-    /*
-    private SpecificationVersion deduceSpecVersion(Object schemaKeywordValue) {
-        if (deducedSpecVersion != null) {
-            return deducedSpecVersion;
-        }
-        if (schemaKeywordValue instanceof String) {
-            return deducedSpecVersion = SpecificationVersion.lookupByMetaSchemaUrl((String) schemaKeywordValue)
-                    .orElse(SpecificationVersion.DRAFT_4);
-        } else {
-            return deducedSpecVersion = SpecificationVersion.DRAFT_4;
-        }
-    }
-    */
-
     private void printInJsonObject(Runnable task) {
         if (skipNextObject) {
             skipNextObject = false;
@@ -122,12 +108,14 @@ class ToStringVisitor extends Visitor {
 
     
 
-    @Override void visitAllItemSchema(Schema allItemSchema) {
+    @Override 
+    void visitAllItemSchema(Schema allItemSchema) {
         writer.key("items");
         visit(allItemSchema);
     }
 
-    @Override void visitEmptySchema(EmptySchema emptySchema) {
+    @Override 
+    void visitEmptySchema(EmptySchema emptySchema) {
         if (emptySchema instanceof TrueSchema) {
             writer.value(true);
         } else {
@@ -279,16 +267,14 @@ class ToStringVisitor extends Visitor {
         writer.endObject();
     }
 
-    /*
-    @Override 
-    void visitPatternProperties(Map<Regexp, Schema> patternProperties) {
+    
+    void visitPatternProperties(Map<String, Schema> patternProperties) {
         if (!patternProperties.isEmpty()) {
             writer.key("patternProperties");
             printSchemaMap(patternProperties);
         }
     }
-    */
-
+    
     @Override 
     void visitCombinedSchema(CombinedSchema combinedSchema) {
         printInJsonObject(() -> {

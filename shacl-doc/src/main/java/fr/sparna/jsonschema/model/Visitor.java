@@ -57,9 +57,11 @@ abstract class Visitor {
             visitAllItemSchema(arraySchema.getAllItemSchema());
         }
         visitAdditionalItems(arraySchema.permitsAdditionalItems());
+        /*
         if (arraySchema.getItemSchemas() != null) {
             visitItemSchemas(arraySchema.getItemSchemas());
         }
+        */
         if (arraySchema.getSchemaOfAdditionalItems() != null) {
             visitSchemaOfAdditionalItems(arraySchema.getSchemaOfAdditionalItems());
         }
@@ -68,6 +70,7 @@ abstract class Visitor {
         }
     }
 
+    /*
     void visitItemSchemas(List<Schema> itemSchemas) {
         if (itemSchemas != null) {
             for (int i = 0; i < itemSchemas.size(); ++i) {
@@ -75,6 +78,7 @@ abstract class Visitor {
             }
         }
     }
+    */
 
     void visitMinItems(Integer minItems) {
     }
@@ -92,9 +96,11 @@ abstract class Visitor {
     void visitAdditionalItems(boolean additionalItems) {
     }
 
+    /*
     void visitItemSchema(int index, Schema itemSchema) {
         visitSchema(itemSchema);
     }
+    */
 
     void visitSchemaOfAdditionalItems(Schema schemaOfAdditionalItems) {
         visitSchema(schemaOfAdditionalItems);

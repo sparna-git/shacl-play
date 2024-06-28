@@ -64,10 +64,11 @@ public class JsonSchemaGenerator {
 		    
 		// Create JSON Schema 
         // root schema
-		ObjectSchema.Builder rootSchema = ObjectSchema.builder();
+		ObjectSchema.Builder rootSchema = ObjectSchema.builder();		
 		
-		// TODO : peupler à partir de l'ontologie
         rootSchema.schemaVersion(JSON_SCHEMA_VERSION);
+
+		// TODO : peupler à partir de l'ontologie
 		rootSchema.title("TA");		
 		rootSchema.id("https://data.europarl.europa.eu/def/adopted-texts");
 		rootSchema.description("A test JSON schema for adopted texts");
@@ -78,13 +79,13 @@ public class JsonSchemaGenerator {
 		 * Generate Embed Properties
 		 * 
 		 */
-		// Read nodeshape and generae own properties how to json schema
+		// Read nodeshape and generate own properties how to json schema
 		for (NodeShape ns : nodeShapes) {
 			
 			rootSchema.embeddedSchema(
 					ns.getNodeShape().getLocalName(),
 					// Properties
-					generatePropertiesFromPropertyShape(ns.getProperties())
+					generatePropertiesFromPropertyShape(ns.getProperties(), shaclGraph)
 					);
 		}
 		
@@ -109,18 +110,23 @@ public class JsonSchemaGenerator {
 		// find the root node shapes
 		List<NodeShape> rootNodeShapes = findRootNodeShapes(nodeShapes);
 
+		Schema dataSchema;
         if(rootNodeShapes.size() > 1) {
             // if there are more than 1, use an AnyOf schema
-            List<Schema> AnyOfList = new ArrayList<>();
+            List<Schema> anyOfList = new ArrayList<>();
             for (NodeShape nsroot : rootNodeShapes) {
-                AnyOfList.add(ReferenceSchema.builder().refValue(JsonSchemaGenerator.buildSchemaReference(nsroot.getNodeShape())).build());
+                anyOfList.add(ReferenceSchema.builder().refValue(JsonSchemaGenerator.buildSchemaReference(nsroot.getNodeShape())).build());
             }
-            rootSchema.addPropertySchema("data", ArraySchema.builder().minItems(1).addItemSchema(CombinedSchema.anyOf(AnyOfList).build()).build());
+			dataSchema = ArraySchema.builder().minItems(1).allItemSchema(CombinedSchema.anyOf(anyOfList).build()).build();
         } else if(rootNodeShapes.size() == 1) {
             // if there is only one, use only this one
             Schema singleRootSchema = ReferenceSchema.builder().refValue(JsonSchemaGenerator.buildSchemaReference(rootNodeShapes.get(0).getNodeShape())).build();
-            rootSchema.addPropertySchema("data", ArraySchema.builder().minItems(1).allItemSchema(singleRootSchema).build());
-        }
+            dataSchema = ArraySchema.builder().minItems(1).allItemSchema(singleRootSchema).build();
+        } else {
+			throw new Exception("Could not determine a root schema");
+		}
+
+		rootSchema.addPropertySchema("data", dataSchema);
 		
 		/*
 		 * Generate Required Property
@@ -181,7 +187,7 @@ public class JsonSchemaGenerator {
 		return ConstSchema
 	    		.builder()
 	    		.permittedValue(this.targetContextUrl)
-	    		.comment("would contain always the fixed context URL")
+	    		.comment("The fixed context URL")
 	    		.build();
 	}
 	
@@ -228,7 +234,7 @@ public class JsonSchemaGenerator {
 	}
          */
 	
-	private Schema generatePropertiesFromPropertyShape(List<PropertyShape> properties) throws Exception {
+	private Schema generatePropertiesFromPropertyShape(List<PropertyShape> properties, Model model) throws Exception {
 	
 		ObjectSchema.Builder objectSchema = ObjectSchema.builder();
 		for (PropertyShape ps : properties) {
@@ -278,27 +284,23 @@ public class JsonSchemaGenerator {
 						Optional<JSONSchemaType> typefound = JSONSchemaType.findByDatatypeUri(theDatatype.getLocalName());
 						
 						if (typefound.isPresent()) {
-							if (typefound.get().getType().toString().equals("string")) {
+							if (typefound.get().getJsonSchemaType().toString().equals("string")) {
 								
 								objectSchema.addPropertySchema(term, StringSchema
 										.builder()
-										.format(typefound.get().getFormat())
+										.format(typefound.get().getJsonSchemaFormat())
 										.build()
 										);
-							} else if (typefound.get().getType().equals("boolean")) {
+							} else if (typefound.get().getJsonSchemaType().equals("boolean")) {
 								objectSchema.addPropertySchema(term, 
 										BooleanSchema
 											.builder()											
 											.build());
-							} else if (typefound.get().getType().equals("number") || typefound.get().getType().equals("integer")) {
+							} else if (typefound.get().getJsonSchemaType().equals("number") || typefound.get().getJsonSchemaType().equals("integer")) {
 								objectSchema.addPropertySchema(term, NumberSchema.builder().build());
-							} else {
-								objectSchema.addPropertySchema(term, 
-										ObjectSchema
-										.builder()
-										.format(typefound.get().getFormat())
-										.build());
 							}
+						} else {
+							// TODO : insérer un StringSchema
 						}
 						
 					}
@@ -327,18 +329,18 @@ public class JsonSchemaGenerator {
 			//sh:node
 			if (!ps.getShNode().isEmpty()) {				
 				
-				// TODO : ce n'est pas bon, on peut aussi avoir le cas d'un Array avec EmbedNever qui n'est pas pris en compte ici
-				if (ps.getEmbed().isPresent()) {
-					if (ps.getEmbed().get().getURI().equals(SHACL_PLAY.EMBED_NEVER)) {
-						objectSchema.addPropertySchema(term,StringSchema.builder().format("iri-reference").build());
-					}
+				Schema propertySchema = null;
+				if(ps.isEmbedNever()) {
+					propertySchema = StringSchema.builder().format("iri-reference").build();
 				} else {
-                    Schema refDefault = ReferenceSchema.builder().refValue(JsonSchemaGenerator.buildSchemaReference(ps.getShNode().get().asResource())).build();
-					if (ps.getShMaxCount().isPresent() && ps.getShMaxCount().get().asLiteral().getInt() > 1 ) {
-						objectSchema.addPropertySchema(term,ArraySchema.builder().minItems(1)
-							.addItemSchema(refDefault).build());
-					}
-				}					
+                    propertySchema = ReferenceSchema.builder().refValue(JsonSchemaGenerator.buildSchemaReference(ps.getShNode().get().asResource())).build();
+				}
+				
+				if (!ps.getShMaxCount().isPresent() || ps.getShMaxCount().get().asLiteral().getInt() > 1 ) {
+					objectSchema.addPropertySchema(term,ArraySchema.builder().minItems(1).allItemSchema(propertySchema).build());
+				} else {
+					objectSchema.addPropertySchema(term,propertySchema);
+				}
 			}
 				
 			if (ps.getShMinCount().isPresent()) {
@@ -353,7 +355,7 @@ public class JsonSchemaGenerator {
 		objectSchema.addPropertySchema("id", StringSchema.builder().format("iri-reference").build() );
 		objectSchema.addRequiredProperty("id");
 		
-        // TODO : do that depending on closed / not closed
+        // TODO : do that depending on sh:closed / not sh:closed
 		objectSchema.additionalProperties(false);
 				
 		return objectSchema.build();

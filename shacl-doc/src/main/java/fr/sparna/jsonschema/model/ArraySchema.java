@@ -1,12 +1,6 @@
 package fr.sparna.jsonschema.model;
 
-import static java.util.Objects.requireNonNull;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
-
-import fr.sparna.jsonschema.exception.SchemaException;
 
 /**
  * Array schema validator.
@@ -30,30 +24,11 @@ public class ArraySchema
 
         private Schema allItemSchema;
 
-        private List<Schema> itemSchemas = null;
-
         private boolean additionalItems = true;
 
         private Schema schemaOfAdditionalItems;
 
         private Schema containedItemSchema;
-
-        /**
-         * Adds an item schema for tuple validation. The array items of the subject under validation
-         * will be matched to expected schemas by their index. In other words the {n}th
-         * {@code addItemSchema()} invocation defines the expected schema of the {n}th item of the array
-         * being validated.
-         *
-         * @param itemSchema the schema of the next item.
-         * @return this
-         */
-        public Builder addItemSchema(final Schema itemSchema) {
-            if (itemSchemas == null) {
-                itemSchemas = new ArrayList<Schema>();
-            }
-            itemSchemas.add(requireNonNull(itemSchema, "itemSchema cannot be null"));
-            return this;
-        }
 
         public Builder additionalItems(final boolean additionalItems) {
             this.additionalItems = additionalItems;
@@ -115,8 +90,6 @@ public class ArraySchema
 
     private final boolean additionalItems;
 
-    private final List<Schema> itemSchemas;
-
     private final boolean requiresArray;
 
     private final Schema schemaOfAdditionalItems;
@@ -134,26 +107,23 @@ public class ArraySchema
         this.maxItems = builder.maxItems;
         this.uniqueItems = builder.uniqueItems;
         this.allItemSchema = builder.allItemSchema;
-        this.itemSchemas = builder.itemSchemas;
         if (!builder.additionalItems && allItemSchema != null) {
             additionalItems = true;
         } else {
             additionalItems = builder.schemaOfAdditionalItems != null || builder.additionalItems;
         }
         this.schemaOfAdditionalItems = builder.schemaOfAdditionalItems;
+        /*
         if (!(allItemSchema == null || itemSchemas == null)) {
             throw new SchemaException("cannot perform both tuple and list validation");
         }
+        */
         this.requiresArray = builder.requiresArray;
         this.containedItemSchema = builder.containedItemSchema;
     }
 
     public Schema getAllItemSchema() {
         return allItemSchema;
-    }
-
-    public List<Schema> getItemSchemas() {
-        return itemSchemas;
     }
 
     public Integer getMaxItems() {
@@ -198,7 +168,6 @@ public class ArraySchema
                     Objects.equals(minItems, that.minItems) &&
                     Objects.equals(maxItems, that.maxItems) &&
                     Objects.equals(allItemSchema, that.allItemSchema) &&
-                    Objects.equals(itemSchemas, that.itemSchemas) &&
                     Objects.equals(schemaOfAdditionalItems, that.schemaOfAdditionalItems) &&
                     Objects.equals(containedItemSchema, that.containedItemSchema) &&
                     super.equals(o);
@@ -220,6 +189,6 @@ public class ArraySchema
     @Override
     public int hashCode() {
         return Objects.hash(super.hashCode(), minItems, maxItems, uniqueItems, allItemSchema,
-                additionalItems, itemSchemas, requiresArray, schemaOfAdditionalItems, containedItemSchema);
+                additionalItems, requiresArray, schemaOfAdditionalItems, containedItemSchema);
     }
 }

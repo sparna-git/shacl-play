@@ -8,7 +8,6 @@ import java.util.Optional;
     enum JSONSchemaType {
 
 	// TODO : à la place du localName dans "format", il faut avoir l'URI entière du datatype
-	// TODO : il faut gérer l'ajout d'un 
 	STRING("string", "string"),
 	BOOLEAN("boolean", "boolean"),
 	DECIMAL("decimal", "number"),
@@ -20,6 +19,7 @@ import java.util.Optional;
 	DATETIMESTAMP("dateTimeStamp", "string", "date-time"),  // with "format", "date-time"
 	GMONTH("gMonth", "string"),
 	GDAY("gDay", "string"),
+	GYEAR("gYear", "string"),
 	GYEARMONTH("gYearMonth", "string"),
 	GMONTHDAY("gMonthDay", "string"),
 	DURATION("duration", "string"),
@@ -46,31 +46,31 @@ import java.util.Optional;
 	NCNAME("NCName", "string");
     
     private final String datatypeUri;
-	private final String type;
-	private final String format;
+	private final String jsonSchemaType;
+	private final String jsonSchemaFormat;
 	
-	JSONSchemaType (String datatypeUri,String type) {
+	JSONSchemaType (String datatypeUri,String jsonSchemaType) {
 		this.datatypeUri = datatypeUri;
-		this.type = type;
-		this.format = null;
+		this.jsonSchemaType = jsonSchemaType;
+		this.jsonSchemaFormat = null;
 	}
 
-	JSONSchemaType (String datatypeUri,String type, String format) {
+	JSONSchemaType (String datatypeUri,String jsonSchemaType, String jsonSchemaFormat) {
 		this.datatypeUri = datatypeUri;
-		this.type = type;
-		this.format = format;
+		this.jsonSchemaType = jsonSchemaType;
+		this.jsonSchemaFormat = jsonSchemaFormat;
 	}
 
 	public String getDatatypeUri() {
 		return datatypeUri;
 	}
 
-	public String getType() {
-		return type;
+	public String getJsonSchemaType() {
+		return jsonSchemaType;
 	}
 
-	public String getFormat() {
-		return format;
+	public String getJsonSchemaFormat() {
+		return jsonSchemaFormat;
 	}
 
 	

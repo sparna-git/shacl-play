@@ -135,6 +135,7 @@ class ToStringVisitor extends Visitor {
         }
     }
 
+    /*
     @Override 
     void visitItemSchemas(List<Schema> itemSchemas) {
         writer.key("items");
@@ -142,11 +143,14 @@ class ToStringVisitor extends Visitor {
         super.visitItemSchemas(itemSchemas);
         writer.endArray();
     }
+    */
 
+    /*
     @Override 
     void visitItemSchema(int index, Schema itemSchema) {
         visit(itemSchema);
     }
+    */
 
     @Override 
     void visitSchemaOfAdditionalItems(Schema schemaOfAdditionalItems) {

@@ -25,13 +25,11 @@ import fr.sparna.jsonschema.model.NumberSchema;
 import fr.sparna.jsonschema.model.ObjectSchema;
 import fr.sparna.jsonschema.model.ReferenceSchema;
 import fr.sparna.jsonschema.model.Schema;
-import fr.sparna.jsonschema.model.Schema.Builder;
 import fr.sparna.jsonschema.model.StringSchema;
 import fr.sparna.rdf.jena.shacl.NodeShape;
-import fr.sparna.rdf.jena.shacl.NodeShapeReader;
 import fr.sparna.rdf.jena.shacl.OwlOntology;
 import fr.sparna.rdf.jena.shacl.PropertyShape;
-import fr.sparna.rdf.shacl.SHACL_PLAY;
+import fr.sparna.rdf.jena.shacl.ShapesGraph;
 
 public class JsonSchemaGenerator {
     
@@ -55,69 +53,52 @@ public class JsonSchemaGenerator {
         this.uriMapper = new LocalNameUriToJsonMapper();
     }
 
-    public JsonSchemaGenerator(String targetContextUrl, String rootShape) {
-        this(targetContextUrl, Collections.singletonList(rootShape));
+    public JsonSchemaGenerator(String rootShape) {
+        this(null, Collections.singletonList(rootShape));
     }
 
     public Schema convertToJsonSchema(Model shaclGraph) throws Exception {
         log.info("Generating JSON schema...");
-        List<NodeShape> nodeShapes = readModel(shaclGraph);
+		ShapesGraph shapesGraph = new ShapesGraph(shaclGraph, null);
 		    
 		// Create JSON Schema 
         // root schema
 		ObjectSchema.Builder rootSchema = ObjectSchema.builder();		
-		
+		// always set the schema version to the latest one
         rootSchema.schemaVersion(JSON_SCHEMA_VERSION);
+		// always set a @context $def
+		rootSchema.embeddedSchema(CONTEXT, getContextSchema());
+		// always set a "container_language" $def
+		rootSchema.embeddedSchema(CONTAINER_LANGUAGE, getContainerLanguage());
+
+		// always set a @context pointing to the $def
+		rootSchema.addPropertySchema(CONTEXT, 
+		ReferenceSchema
+			.builder()
+			.refValue("#/$defs/"+CONTEXT)
+			.build());
+		
+		// @context is required
+		rootSchema.addRequiredProperty(CONTEXT);
+		// always set additionalProperties to false
+		rootSchema.additionalProperties(false);
 
         // Read Ontology
-        getRoot(shaclGraph,rootSchema,rootShapes);
+        populateMetadataFromOntology(shapesGraph,rootSchema);        
         
-		// TODO : peupler à partir de l'ontologie
-        /*
-        rootSchema.title("TA");		
-		rootSchema.id("https://data.europarl.europa.eu/def/adopted-texts");
-		rootSchema.description("A test JSON schema for adopted texts");
-		rootSchema.version("Version Ontology");				
-		*/
-        
-        
-		/*
-		 * 
-		 * Generate Embed Properties
-		 * 
-		 */
-		// Read nodeshape and generate own properties how to json schema
-		for (NodeShape ns : nodeShapes) {
-			
-			boolean flagSHClose = ns.getShClose().isPresent() ? ns.getShClose().get().getBoolean(): false;
-			
+		// Read nodeshapes and generate corresponding object schemas
+		for (NodeShape ns : shapesGraph.getAllNodeShapes()) {			
 			rootSchema.embeddedSchema(
 					ns.getNodeShape().getLocalName(),
-					// Properties
-					generatePropertiesFromPropertyShape(ns.getProperties(), shaclGraph, flagSHClose)
-					);
+					// create the object schema from the node shape
+					convertNodeShapeToObjectSchema(ns, shaclGraph)
+			);
 		}
 		
-		// Context Default
-		rootSchema.embeddedSchema(CONTEXT, getContext());
-		// Default
-		rootSchema.embeddedSchema(CONTAINER_LANGUAGE, getContainerLanguage());
-		
-		
-		/*
-		 * Generate Properties
-		 * 
-		 */
-		
-		// the @context property is present all time
-		rootSchema.addPropertySchema(CONTEXT, 
-				ReferenceSchema
-					.builder()
-					.refValue("#/$defs/"+CONTEXT)
-					.build());
-		
 		// find the root node shapes
-		List<NodeShape> rootNodeShapes = findRootNodeShapes(nodeShapes);
+		List<NodeShape> rootNodeShapes = findRootNodeShapes(shapesGraph.getAllNodeShapes());
+
+		// now create the "data" schema
 
 		Schema dataSchema;
         if(rootNodeShapes.size() > 1) {
@@ -136,13 +117,7 @@ public class JsonSchemaGenerator {
 		}
 
 		rootSchema.addPropertySchema("data", dataSchema);
-		
-		/*
-		 * Generate Required Property
-		 */		
 		rootSchema.addRequiredProperty("data");
-		rootSchema.addRequiredProperty(CONTEXT);
-		rootSchema.additionalProperties(false);
 		
 		log.info("Done generating JSON schema...");
 		return rootSchema.build();
@@ -157,53 +132,52 @@ public class JsonSchemaGenerator {
         return ("#/$defs/"+r.getLocalName());
     }
 
-    private void getRoot(Model shaclGraph,ObjectSchema.Builder rootSchema, List<String> rootShape) {
+    private void populateMetadataFromOntology(ShapesGraph shapesGraph,ObjectSchema.Builder rootSchema) {
     	
     	// Generate OWL
-    	OwlOntology owl = getOntology(shaclGraph);
+    	OwlOntology owl = shapesGraph.getOntology();
     	
-    	// Title
-		if (owl.getTitleOrLabel("en") != null) {
-			rootSchema.title(owl.getTitleOrLabel("en"));
-		}
-		
-		// Version
-		if (owl.getOwlVersionInfo() != null) {
-			rootSchema.version(owl.getOwlVersionInfo());			
+		if(owl != null) {
+			// Title
+			if (owl.getTitleOrLabel("en") != null) {
+				rootSchema.title(owl.getTitleOrLabel("en"));
+			}
+			
+			// Version
+			if (owl.getOwlVersionInfo() != null) {
+				rootSchema.version(owl.getOwlVersionInfo());			
+			}
+
+			// Description
+			if (owl.getDescription("en") != null) {
+				rootSchema.description(owl.getDescription("en"));			
+			}
+			
+			// URI of the ontology
+			if (owl.getOWLUri() != null) {
+				rootSchema.id(owl.getOWLUri().toString()); 
+			} 
 		}
 
-		// Description
-		if (owl.getDescription("en") != null) {
-			rootSchema.description(owl.getDescription("en"));			
-		}
-		
-		/*
-		 *  Write URI if EXIST in the ontology, if not get ID in the RootNodeShape
-		 */
-		
-		if (owl.getOWLUri() != null) {
-			rootSchema.id(owl.getOWLUri().toString()); 
-		} else {
-			rootShape
-				.stream()
-				.map(rs -> rootSchema.id(rs.toString()));
-		}
 		
 	}
 	
-	private Schema getContext() {
-		
-		/*
-		 *  Get URI of Ontology
-		 *  
-		 *  if not exist, get URI of NodeShape Header
-		 */
-		
-		return ConstSchema
+	private Schema getContextSchema() {
+		// if we know the target context URL, use it, otherwise use a simple string schema
+		if(this.targetContextUrl != null) {
+			return ConstSchema
 	    		.builder()
 	    		.permittedValue(this.targetContextUrl)
-	    		.comment("The fixed context URL")
+	    		.comment("The fixed @context JSON-LD URL")
 	    		.build();
+		} else {
+			return StringSchema
+	    		.builder()
+	    		.format("iri-reference")
+	    		.comment("The URL of the JSON-LD @context")
+	    		.build();
+		}
+		
 	}
 	
 	private Schema getContainerLanguage() {
@@ -221,10 +195,18 @@ public class JsonSchemaGenerator {
 	    return containerLanguage;
 	}
 	
-	private Schema generatePropertiesFromPropertyShape(List<PropertyShape> properties, Model model, boolean flagAdditionalProperties) throws Exception {
+	private Schema convertNodeShapeToObjectSchema(
+		NodeShape nodeShape,
+		Model model
+	) throws Exception {
 	
 		ObjectSchema.Builder objectSchema = ObjectSchema.builder();
-		for (PropertyShape ps : properties) {
+		
+		// always set an id property, always required
+		objectSchema.addPropertySchema("id", StringSchema.builder().format("iri-reference").build() );
+		objectSchema.addRequiredProperty("id");
+		
+		for (PropertyShape ps : nodeShape.getProperties()) {
 				
 			// Name of Property
             Resource path = ps.getShPath().get().asResource();
@@ -295,7 +277,7 @@ public class JsonSchemaGenerator {
 				}		
 			}
 		
-			// sh:Pattern
+			// sh:pattern
             ps.getShPattern().ifPresent(pattern -> {
                 Schema patternObj = StringSchema
 						.builder()
@@ -320,6 +302,7 @@ public class JsonSchemaGenerator {
 				if(ps.isEmbedNever()) {
 					propertySchema = StringSchema.builder().format("iri-reference").build();
 				} else {
+					// make sure the NodeShape exists, otherwise the schema is inconsistent
                     propertySchema = ReferenceSchema.builder().refValue(JsonSchemaGenerator.buildSchemaReference(ps.getShNode().get().asResource())).build();
 				}
 				
@@ -334,15 +317,11 @@ public class JsonSchemaGenerator {
 				if (ps.getShMinCount().get().getInt() > 0) {
 					objectSchema.addRequiredProperty(term);
 				}
-			}
-			
+			}			
 		}			
 		
-		// always set an id property
-		objectSchema.addPropertySchema("id", StringSchema.builder().format("iri-reference").build() );
-		objectSchema.addRequiredProperty("id");
-		
-		if (flagAdditionalProperties) {
+		// set additionnal properties to false if the NodeShape is sh:closed
+		if (nodeShape.isClosed()) {
 			objectSchema.additionalProperties(false);
 		}
 		
@@ -350,35 +329,13 @@ public class JsonSchemaGenerator {
 		
 	}
 	
-	private List<NodeShape> readModel(Model shaclGraph) {
-		
-		// read everything typed as NodeShape
-		List<Resource> nodeShapes = shaclGraph.listResourcesWithProperty(RDF.type, SH.NodeShape).toList();
-				
-		// 1. Lire toutes les box
-		NodeShapeReader nodeShapeReader = new NodeShapeReader();
-		List<NodeShape> sortedNodeShapes = nodeShapes.stream().map(res -> nodeShapeReader.read(res, nodeShapes)).sorted((b1,b2) -> {
-			if(b1.getNodeShape().isAnon()) {
-				if(!b2.getNodeShape().isAnon()) {
-					return b1.getNodeShape().toString().compareTo(b2.getNodeShape().toString());
-				}else {
-					return -1;
-				}
-			}else {
-				if(!b2.getNodeShape().isAnon()) {
-					return 1;
-				} else {
-					return b1.getLabel().compareTo(b2.getLabel());
-				}
-			}
-		}).collect(Collectors.toList());
-		
-		for (NodeShape aNodeShape : sortedNodeShapes) {
-			aNodeShape.setProperties(nodeShapeReader.readProperties(aNodeShape.getNodeShape()));
-		}
-		
-		return sortedNodeShapes;
-	}	
+	public String getTargetContextUrl() {
+		return targetContextUrl;
+	}
+
+	public void setTargetContextUrl(String targetContextUrl) {
+		this.targetContextUrl = targetContextUrl;
+	}
 
     private List<NodeShape> findRootNodeShapes(List<NodeShape> nodeShapes) {
 
@@ -400,7 +357,7 @@ public class JsonSchemaGenerator {
                                 return 
                                 r.getURI().equals(nodeShape.getNodeShape().getURI())
                                 ||
-                                (nodeShape.getTargetClass().isPresent() && r.getURI().equals(nodeShape.getTargetClass().get().getURI()))
+                                (nodeShape.getTargetClass() != null && r.getURI().equals(nodeShape.getTargetClass().getURI()))
                                 ;
                             }).isPresent()
                         ) {
@@ -425,28 +382,5 @@ public class JsonSchemaGenerator {
         };
 
         return nodeShapes.stream().filter(predicate).collect(Collectors.toList());
-    }
-
-    private OwlOntology getOntology(Model shaclGraph) {
-    	
-    	/*
-    	 * Lecture de OWL 
-    	*/
-    	
-		// this is tricky, because we can have multiple ones if SHACL is merged with OWL or imports OWL
-		List<Resource> sOWL = shaclGraph.listResourcesWithProperty(RDF.type, OWL.Ontology).toList();
-		
-		// let's decide first to exclude the ones that are owl:import-ed from others
-		List<Resource> owl = sOWL.stream().filter(onto1 -> {
-			return !sOWL.stream().anyMatch(onto2 -> onto2.hasProperty(OWL.imports, onto1));
-		}).collect(Collectors.toList());
-		
-		OwlOntology ontologyObject = null;
-		if(owl.size() > 0) {
-			ontologyObject = new OwlOntology(owl.get(0));
-		}
-		
-		return ontologyObject;
-    	
     }
 }

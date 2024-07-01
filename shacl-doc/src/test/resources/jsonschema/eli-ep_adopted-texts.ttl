@@ -103,6 +103,17 @@ ta:LanguageReference a sh:NodeShape;
   shacl-play:color "DarkGrey";
   sh:property ta:P94, ta:P95 .
 
+ta:ConceptReference a sh:NodeShape;
+  rdfs:comment "This node shape refers to the class skos:Concept"@en;
+  skos:example "http://eurovoc.europa.eu/2836";
+  sh:nodeKind sh:IRI;
+  sh:pattern "http://eurovoc.europa.eu/.*$";
+  sh:closed "true"^^xsd:boolean;
+  rdfs:label "Reference to a Concept (Eurovoc)"@en;
+  sh:order "12"^^xsd:integer;
+  owl:versionInfo "1.1";
+  shacl-play:color "DarkGrey" .
+
 ta:P9 owl:versionInfo "1.0";
   sh:path rdf:type;
   sh:name "type"@en;
@@ -176,13 +187,13 @@ ta:P22 owl:versionInfo "1.0";
   shacl-play:shortname "is_realized_by" .
 
 ta:P27 owl:versionInfo "1.0";
-  sh:path _:2b89185e0581401fa28d995b7c886651722;
+  sh:path _:15c957d5d7564c4ea71ae47c64f4c2f58;
   sh:name "inverse corrects"@en;
   sh:nodeKind sh:IRI;
   sh:node ta:Corrigendum;
   shacl-play:shortname "inverse_corrects" .
 
-_:2b89185e0581401fa28d995b7c886651722 sh:inversePath eli:corrects .
+_:15c957d5d7564c4ea71ae47c64f4c2f58 sh:inversePath eli:corrects .
 
 ta:P60 owl:versionInfo "1.0";
   sh:path rdf:type;

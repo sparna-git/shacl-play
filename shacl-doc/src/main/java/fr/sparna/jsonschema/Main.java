@@ -20,8 +20,8 @@ public class Main {
 		shaclGraph.read(new FileInputStream(shaclFile), RDF.uri, FileUtils.guessLang(shaclFile, "RDF/XML"));	
 		
 		JsonSchemaGenerator generator = new JsonSchemaGenerator(
-			"https://data.europarl.europa.eu/context.jsonld",
-			"https://data.europarl.europa.eu/def/adopted-texts#AdoptedText");
+			"https://data.europarl.europa.eu/def/adopted-texts#AdoptedText"
+		);
 		Schema output = generator.convertToJsonSchema(shaclGraph);
 		
 		// Print Output

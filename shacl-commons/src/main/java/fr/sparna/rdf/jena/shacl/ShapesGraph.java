@@ -1,6 +1,7 @@
 package fr.sparna.rdf.jena.shacl;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,18 +17,15 @@ public class ShapesGraph {
 	private Model owlGraph;
 	
 	private List<NodeShape> allNodeShapes = new ArrayList<>();
-	private OwlOntology ontologyObject;
+	private OwlOntology ontology;
 	
-	/**
-	 * TODO : lang should not be here. It should be an accessor parameter in OwlOntology class
-	 */
-	public ShapesGraph(Model shaclGraph, Model owlGraph, String lang) {
+	public ShapesGraph(Model shaclGraph, Model owlGraph) {
 		super();
 		this.shaclGraph = shaclGraph;
 		this.owlGraph = owlGraph;
 		
-		this.ontologyObject = this.readOWL(shaclGraph, lang);
-		this.allNodeShapes = this.readAllNodeShapes(shaclGraph, owlGraph, lang);
+		this.ontology = this.readOWL(shaclGraph);
+		this.allNodeShapes = this.readAllNodeShapes(shaclGraph, owlGraph);
 	}
 	
 	
@@ -35,8 +33,8 @@ public class ShapesGraph {
 		return allNodeShapes; 
 	}
 
-	public OwlOntology getOntologyObject() {
-		return ontologyObject;
+	public OwlOntology getOntology() {
+		return ontology;
 	}
 
 	public Model getShaclGraph() {
@@ -52,7 +50,7 @@ public class ShapesGraph {
 	}
 	
 	
-	private OwlOntology readOWL(Model shaclGraph, String lang) {
+	private OwlOntology readOWL(Model shaclGraph) {
 		
 		// Lecture de OWL
 		// this is tricky, because we can have multiple ones if SHACL is merged with OWL or imports OWL
@@ -71,46 +69,44 @@ public class ShapesGraph {
 		return ontologyObject;
 	}
 	
-	private ArrayList<NodeShape> readAllNodeShapes(Model shaclGraph, Model owlGraph, String lang) {
+	private List<NodeShape> readAllNodeShapes(Model shaclGraph, Model owlGraph) {
 		
 		List<Resource> nodeShapes = shaclGraph.listResourcesWithProperty(RDF.type, SH.NodeShape).toList();
 
 		// 1. Lire toutes les classes		
-		ArrayList<NodeShape> allNodeShapes = new ArrayList<>();
-		NodeShapeReader reader = new NodeShapeReader();
+		List<NodeShape> allNodeShapes = new ArrayList<>();
 		for (Resource nodeShape : nodeShapes) {
 			allNodeShapes.add(new NodeShape(nodeShape));
 		}
+		
+		return allNodeShapes; 		
+	}
 
-		// sort node shapes
-		/*
-		allNodeShapes.sort((NodeShape ns1, NodeShape ns2) -> {
-			if (ns1.getShOrder() != null) {
-				if (ns2.getShOrder() != null) {
-					return ((ns1.getShOrder() - ns2.getShOrder()) > 0)?1:-1;
+	class NodeShapeDisplayLabelComparator implements Comparator<NodeShape> {
+
+		private String lang;		
+
+		public NodeShapeDisplayLabelComparator(String lang) {
+			this.lang = lang;
+		}
+
+		@Override
+		public int compare(NodeShape ns1, NodeShape ns2) {
+			if (ns1.getOrder() != null) {
+				if (ns2.getOrder() != null) {
+					return ((ns1.getOrderFloat() - ns2.getOrderFloat()) > 0)?1:-1;
 				} else {
 					return -1;
 				}
 			} else {
-				if (ns2.getShOrder() != null) {
+				if (ns2.getOrder() != null) {
 					return 1;
 				} else {
 					// both sh:order are null, try with their display label
-					return ns1.getDisplayLabel(owlGraph, lang).compareTo(ns2.getDisplayLabel(owlGraph, lang));
+					return ns1.getDisplayLabel(lang).compareTo(ns2.getDisplayLabel(lang));
 				}
 			}
-		})
-		;
-		*/
-
-		// 2. Lire les propriétés
-		/*
-		for (NodeShape aBox : allNodeShapes) {
-			aBox.setProperties(reader.readProperties(aBox.getNodeShape(), allNodeShapes, owlGraph));
 		}
-		*/
-		
-		return allNodeShapes; 
 		
 	}
 	

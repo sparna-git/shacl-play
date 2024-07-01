@@ -34,8 +34,10 @@
           "id": "eli/dl/doc/TA-9-2022-0269-COR01",
           "type": "Work",
           "work_type": "def/ep-document-types/CORRIGENDUM",
+          "identifier": "TA-9-2022-0269-COR01"
         }
-      ]
+      ],
+      "date_document":"2024-06-28"
     }
   ]
 }

@@ -1051,50 +1051,42 @@
 					</a>
 				</code>
 			</xsl:when>
-			<xsl:when test="expectedValue[node()]">
+			<xsl:when test="expectedValue[href/text()]">
 				<code>
+					<a href="{expectedValue/href}"><xsl:value-of select="expectedValue/label" /></a>
+				</code>
+			</xsl:when>
+			<xsl:when test="./or/or">
+				<xsl:for-each select="./or/or">
+					<xsl:variable name="current" select="normalize-space(.)" />
 					<xsl:choose>
-						<xsl:when test="expectedValue/href/text()">
-							<a href="{expectedValue/href}"><xsl:value-of select="expectedValue/label" /></a>
+						<xsl:when test="starts-with($current,'xsd:') or starts-with($current,'sh:') or starts-with($current,'rdf:')">
+							<code><xsl:value-of select="$current" /></code>												
 						</xsl:when>
 						<xsl:otherwise>
-							<xsl:value-of select="expectedValue/label" />
+							<code>
+								<a href="{concat('#',$current)}">
+									<xsl:value-of select="$current" />
+								</a>
+							</code>
 						</xsl:otherwise>
 					</xsl:choose>
+					<!--  -->				
+					<xsl:choose>
+						<xsl:when test="position() &lt; last()">
+							<code> <xsl:value-of select="$LABELS/labels/entry[@key='LABEL_OR']/@label" /> </code>
+						</xsl:when>
+					</xsl:choose>							
+				</xsl:for-each>
+			</xsl:when>
+			<xsl:when test="expectedValue[label/text()]">
+				<code>
+					<!-- disable output espacing as we may have <sup> in rendering -->
+					<xsl:value-of disable-output-escaping="yes" select="expectedValue/label" />
 				</code>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:choose>
-					<xsl:when test="string-length(./or) > 0">
-						<xsl:for-each select="./or/or">
-							<xsl:variable name="current" select="normalize-space(.)" />
-							<xsl:choose>
-								<xsl:when test="starts-with($current,'xsd:') or starts-with($current,'sh:') or starts-with($current,'rdf:')">
-									<code><xsl:value-of select="$current" /></code>												
-								</xsl:when>
-								<xsl:otherwise>
-									<code>
-										<a href="{concat('#',$current)}">
-											<xsl:value-of select="$current" />
-										</a>
-									</code>
-								</xsl:otherwise>
-							</xsl:choose>
-							<!--  -->				
-							<xsl:choose>
-								<xsl:when test="position() &lt; last()">
-									<code> <xsl:value-of select="$LABELS/labels/entry[@key='LABEL_OR']/@label" /> </code>
-								</xsl:when>
-							</xsl:choose>							
-						</xsl:for-each>
-					</xsl:when>
-					<xsl:otherwise>
-						<code>
-							<!-- disable output espacing as we may have <sup> in rendering -->
-							<xsl:value-of disable-output-escaping="yes" select="expectedValueLabel" />
-						</code>
-					</xsl:otherwise>
-				</xsl:choose>
+				<!-- Oups, don't know how to handle this -->
 			</xsl:otherwise>
 		</xsl:choose>
 		<br />

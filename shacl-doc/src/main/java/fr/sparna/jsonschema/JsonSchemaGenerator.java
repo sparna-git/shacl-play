@@ -102,12 +102,12 @@ public class JsonSchemaGenerator {
 
 		Schema dataSchema;
         if(rootNodeShapes.size() > 1) {
-            // if there are more than 1, use an AnyOf schema
-            List<Schema> anyOfList = new ArrayList<>();
+            // if there are more than 1, use an OneOf schema
+            List<Schema> oneOfList = new ArrayList<>();
             for (NodeShape nsroot : rootNodeShapes) {
-                anyOfList.add(ReferenceSchema.builder().refValue(JsonSchemaGenerator.buildSchemaReference(nsroot.getNodeShape())).build());
+                oneOfList.add(ReferenceSchema.builder().refValue(JsonSchemaGenerator.buildSchemaReference(nsroot.getNodeShape())).build());
             }
-			dataSchema = ArraySchema.builder().minItems(1).allItemSchema(CombinedSchema.anyOf(anyOfList).build()).build();
+			dataSchema = ArraySchema.builder().minItems(1).allItemSchema(CombinedSchema.anyOf(oneOfList).build()).build();
         } else if(rootNodeShapes.size() == 1) {
             // if there is only one, use only this one
             Schema singleRootSchema = ReferenceSchema.builder().refValue(JsonSchemaGenerator.buildSchemaReference(rootNodeShapes.get(0).getNodeShape())).build();
@@ -249,7 +249,6 @@ public class JsonSchemaGenerator {
 						objectSchema.addPropertySchema(term, refSchema);
 						
 					} else {
-                        // TODO : changer l'appel pour passer l'URI complète du datatype
 						Optional<JSONSchemaType> typefound = JSONSchemaType.findByDatatypeUri(datatype);
 						
 						if (typefound.isPresent()) {
@@ -343,6 +342,7 @@ public class JsonSchemaGenerator {
 
             @Override
             public boolean test(NodeShape ns) {
+				log.debug("testing if "+ns.getNodeShape().getURI()+" is a root node shape...");
                 // to be a root, a NodeShape must either:
 
                 // 1. be referenced as sh:node or indirectly via sh:class from a property shape
@@ -351,17 +351,18 @@ public class JsonSchemaGenerator {
                 for (NodeShape nodeShape : nodeShapes) {
                     for (PropertyShape propertyShape : nodeShape.getProperties()) {
                         if(
-                            propertyShape.getShNode().filter(r -> r.getURI().equals(nodeShape.getNodeShape().getURI())).isPresent()
+                            propertyShape.getShNode().filter(r -> r.getURI().equals(ns.getNodeShape().getURI())).isPresent()
                             ||
                             propertyShape.getShClass().filter(r -> {
                                 return 
-                                r.getURI().equals(nodeShape.getNodeShape().getURI())
+                                r.getURI().equals(ns.getNodeShape().getURI())
                                 ||
-                                (nodeShape.getTargetClass() != null && r.getURI().equals(nodeShape.getTargetClass().getURI()))
+                                (ns.getTargetClass() != null && r.getURI().equals(ns.getTargetClass().getURI()))
                                 ;
                             }).isPresent()
                         ) {
                             if(propertyShape.isEmbedNever()) {
+								log.debug("Found that "+ns.getNodeShape().getURI() + " is not embedded in property "+propertyShape.getPropertyShape().getURI());
                                 isEmbedded = false;
                                 break;
                             }

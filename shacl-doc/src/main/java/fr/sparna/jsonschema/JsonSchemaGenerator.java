@@ -207,6 +207,13 @@ public class JsonSchemaGenerator {
 		objectSchema.addRequiredProperty("id");
 		
 		for (PropertyShape ps : nodeShape.getProperties()) {
+			
+			if ((ps.getShDeactivated().isPresent())
+				&&
+				(ps.getShDeactivated().get().getBoolean()) )	{
+					break;
+			}
+			
 				
 			// Name of Property
             Resource path = ps.getShPath().get().asResource();
@@ -252,7 +259,8 @@ public class JsonSchemaGenerator {
 						Optional<JSONSchemaType> typefound = JSONSchemaType.findByDatatypeUri(datatype);
 						
 						if (typefound.isPresent()) {
-							if (typefound.get().getJsonSchemaType().toString().equals("string")) {
+							
+							if (typefound.get().getJsonSchemaLiteral().toString().toLowerCase().equals("string")) {
 								
 								objectSchema.addPropertySchema(term, StringSchema
 										.builder()

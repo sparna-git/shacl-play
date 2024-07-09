@@ -163,6 +163,10 @@ public class PropertyShape {
 		return null;
 	}
 	
+	public Optional<Literal> getShDeactivated() {
+		return ModelReadingUtils.getOptionalLiteral(this.propertyShape,SH.deactivated);
+	}
+	
 	public List<Resource> getShOrShNodeKind() {
 		if (this.propertyShape.hasProperty(SH.or)) {			
 			List<Resource> values = ShOrReadingUtils.readShNodeKindInShOr(this.propertyShape.getProperty(SH.or).getList());

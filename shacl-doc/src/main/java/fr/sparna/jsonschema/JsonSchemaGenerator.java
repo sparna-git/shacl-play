@@ -45,16 +45,19 @@ public class JsonSchemaGenerator {
     private UriToJsonMapper uriMapper;
     // the string value to put in final @context
     private String targetContextUrl;
+	// the language in which to read the labels and description
+	private String lang;
 
 
-    public JsonSchemaGenerator(String targetContextUrl, List<String> rootShapes) {
+    public JsonSchemaGenerator(String lang, String targetContextUrl, List<String> rootShapes) {
+		this.lang = lang;
         this.targetContextUrl = targetContextUrl;
         this.rootShapes = rootShapes;
         this.uriMapper = new LocalNameUriToJsonMapper();
     }
 
-    public JsonSchemaGenerator(String rootShape) {
-        this(null, Collections.singletonList(rootShape));
+    public JsonSchemaGenerator(String lang, String rootShape) {
+        this(lang, null, Collections.singletonList(rootShape));
     }
 
     public Schema convertToJsonSchema(Model shaclGraph) throws Exception {
@@ -87,11 +90,14 @@ public class JsonSchemaGenerator {
         populateMetadataFromOntology(shapesGraph,rootSchema);        
         
 		// Read nodeshapes and generate corresponding object schemas
+		Predicate<NodeShape> hasNoActivePropertyShape = this.buildHasNoActivePropertyShapePredicate();
 		for (NodeShape ns : shapesGraph.getAllNodeShapes()) {			
 			rootSchema.embeddedSchema(
 					ns.getNodeShape().getLocalName(),
 					// create the object schema from the node shape
-					convertNodeShapeToObjectSchema(ns, shaclGraph)
+					hasNoActivePropertyShape.test(ns)
+					?convertNodeShapeToStringSchema(ns, shaclGraph)
+					:convertNodeShapeToObjectSchema(ns, shaclGraph)
 			);
 		}
 		
@@ -138,25 +144,17 @@ public class JsonSchemaGenerator {
     	OwlOntology owl = shapesGraph.getOntology();
     	
 		if(owl != null) {
-			// Title
-			if (owl.getTitleOrLabel("en") != null) {
-				rootSchema.title(owl.getTitleOrLabel("en"));
-			}
-			
-			// Version
-			if (owl.getOwlVersionInfo() != null) {
-				rootSchema.version(owl.getOwlVersionInfo());			
-			}
+			// URI = id
+			rootSchema.id(owl.getResource().getURI()); 
 
-			// Description
-			if (owl.getDescription("en") != null) {
-				rootSchema.description(owl.getDescription("en"));			
-			}
+			// title
+			Optional.ofNullable(owl.getTitleOrLabel(this.lang)).ifPresent(title -> rootSchema.title(title));
 			
-			// URI of the ontology
-			if (owl.getOWLUri() != null) {
-				rootSchema.id(owl.getOWLUri().toString()); 
-			} 
+			// version
+			Optional.ofNullable(owl.getOwlVersionInfo()).ifPresent(version -> rootSchema.version(version));
+
+			// description
+			Optional.ofNullable(owl.getDescription(this.lang)).ifPresent(desc -> rootSchema.description(desc));			
 		}
 
 		
@@ -195,6 +193,36 @@ public class JsonSchemaGenerator {
 	    return containerLanguage;
 	}
 	
+	private Schema convertNodeShapeToStringSchema(
+		NodeShape nodeShape,
+		Model model
+	) throws Exception {
+		StringSchema.Builder stringSchema = StringSchema.builder();
+
+		stringSchema.format("iri-reference");
+
+		return stringSchema.build();
+	}
+
+	private Predicate<NodeShape> buildHasNoActivePropertyShapePredicate(
+
+	) {
+		return new Predicate<NodeShape>() {
+
+			@Override
+			public boolean test(NodeShape ns) {
+				// as soon as we find one non-deactivated property shape, we return false
+				for (PropertyShape ps : ns.getProperties()) {
+					if (!ps.isDeactivated()) {
+						return false;
+					}
+				}
+				// no property shape active at all, return true
+				return true;
+			}
+		};
+	}
+
 	private Schema convertNodeShapeToObjectSchema(
 		NodeShape nodeShape,
 		Model model
@@ -208,10 +236,9 @@ public class JsonSchemaGenerator {
 		
 		for (PropertyShape ps : nodeShape.getProperties()) {
 			
-			if ((ps.getShDeactivated().isPresent())
-				&&
-				(ps.getShDeactivated().get().getBoolean()) )	{
-					break;
+			// skip the property shape if it is deactivated
+			if (ps.isDeactivated()) {
+				break;
 			}
 			
 				
@@ -277,10 +304,8 @@ public class JsonSchemaGenerator {
 							}
 						} else {
 							objectSchema.addPropertySchema(term, StringSchema.builder().build() ); 
-						}
-						
+						}						
 					}
-
 				}		
 			}
 		

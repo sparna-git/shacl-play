@@ -27,10 +27,6 @@ public class OwlOntology {
 		this.resource = rOntology;		
 	}	
 	
-	public String getOWLUri() {
-		return this.resource.toString();
-	}
-	
 	public List<RDFNode> getRepository() {
 		return ModelReadingUtils.readObjectAsResourceOrLiteral(this.resource, DOAP.repository);
 	}
@@ -153,7 +149,10 @@ public class OwlOntology {
 	public String getVersionNotes(String lang) {
 		return ModelReadingUtils.readLiteralInLangAsString(this.resource,this.resource.getModel().createProperty(VERSION_NOTES), lang);
 	}
-	
+
+	public Resource getResource() {
+		return resource;
+	}
 	
 	
 }

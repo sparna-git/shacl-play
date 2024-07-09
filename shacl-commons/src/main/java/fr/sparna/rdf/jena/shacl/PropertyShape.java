@@ -213,6 +213,10 @@ public class PropertyShape {
 		return this.getShUniqueLang().isPresent() && this.getShUniqueLang().get().getBoolean();
 	}
 
+	public boolean isDeactivated() {
+		return this.getShDeactivated().isPresent() && this.getShDeactivated().get().getBoolean();
+	}
+
 	public boolean isEmbedNever() {
 		return this.getEmbed().isPresent() && this.getEmbed().get().getURI().equals(SHACL_PLAY.EMBED_NEVER);
 	}

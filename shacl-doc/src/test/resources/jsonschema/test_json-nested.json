@@ -8,12 +8,8 @@
         {
           "id": "eli/dl/doc/TA-9-2022-0269/it",
           "type": "Expression",
-          // Update :
-          // "language": "http://publications.europa.eu/resource/authority/language/ITA"
           "language": [
-            {
-              "id":"http://publications.europa.eu/resource/authority/language/ITA"
-            }
+            "http://publications.europa.eu/resource/authority/language/ITA"
           ],
           "title": {
             "it": "Legge sui servizi digitali ***I"
@@ -22,22 +18,15 @@
         {
           "id": "eli/dl/doc/TA-9-2022-0269/hr",
           "type": "Expression",
-          // update
-          // "language": "http://publications.europa.eu/resource/authority/language/HRV",
           "language": [
-            {
-          		"id":"http://publications.europa.eu/resource/authority/language/HRV"
-            }
+            "http://publications.europa.eu/resource/authority/language/HRV"
           ],
           "title": {
             "hr": "Akt o digitalnim uslugama ***I"
           }
         }
       ],
-      // Update : "work-type": "def/ep-document-types/TEXT_ADOPTED"
-      "work_type": { 
-        "id":"def/ep-document-types/TEXT_ADOPTED" 
-      }, 
+      "work_type": "def/ep-document-types/TEXT_ADOPTED",
       "identifier": "TA-9-2022-0269",
       "title_dcterms": {
         "mt": "L-Att dwar is-Servizzi Diġitali ***I",
@@ -48,10 +37,7 @@
         {
           "id": "eli/dl/doc/TA-9-2022-0269-COR01",
           "type": "Work",
-          // Update : "work-type": "def/ep-document-types/CORRIGENDUM"
-          "work_type": {
-            "id" : "def/ep-document-types/CORRIGENDUM"
-          },
+          "work_type": "def/ep-document-types/CORRIGENDUM",
           "identifier": "TA-9-2022-0269-COR01" // Add
         }
       ],

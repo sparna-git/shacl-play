@@ -191,7 +191,7 @@ ta:P27 owl:versionInfo "1.0";
   sh:name "inverse corrects"@en;
   sh:nodeKind sh:IRI;
   sh:node ta:Corrigendum;
-  shacl-play:embed shacl-play:EmbedNever ;
+  # shacl-play:embed shacl-play:EmbedNever ;
   shacl-play:shortname "inverse_corrects" .
 
 _:15c957d5d7564c4ea71ae47c64f4c2f58 sh:inversePath eli:corrects .

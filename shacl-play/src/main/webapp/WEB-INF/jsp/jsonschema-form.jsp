@@ -53,7 +53,7 @@
 						</p>
 					</div>
 					
-					<form id="upload_form" action="schema" method="POST" enctype="multipart/form-data" class="form-horizontal">
+					<form id="upload_form" action="jsonschema" method="POST" enctype="multipart/form-data" class="form-horizontal">
 						<h2><i class="fal fa-shapes"></i>&nbsp;&nbsp;<fmt:message key="schema.shapes.title" /></h2>
 						
 						<!-- Include shapes blockquote -->

@@ -42,7 +42,7 @@ public class JsonSchemaController {
 	
 	
 	@RequestMapping(
-			value = {"schema"},
+			value = {"jsonschema"},
 			method=RequestMethod.GET
 	)	
 	public ModelAndView schema(
@@ -51,12 +51,12 @@ public class JsonSchemaController {
 	){
 		JsonSchemaFormData data = new JsonSchemaFormData();
 		
-		return new ModelAndView("schema-form", JsonSchemaFormData.KEY, data);	
+		return new ModelAndView("jsonschema-form", JsonSchemaFormData.KEY, data);	
 	}
 	
 	
 	@RequestMapping(
-			value = {"schema"},
+			value = {"jsonschema"},
 			params={"url"},
 			method=RequestMethod.GET
 	)
@@ -87,7 +87,7 @@ public class JsonSchemaController {
 	}
 	
 	@RequestMapping(
-			value="/schema",
+			value="/jsonschema",
 			params={"shapesSource"},
 			method = RequestMethod.POST
 	)
@@ -142,33 +142,25 @@ public class JsonSchemaController {
 	
 	private Model doSchemaShapes(
 			Model shapesModel,
-			String url,
+			String rootUri,
 			HttpServletResponse response
 	) throws Exception {
 		
 		
-		JsonSchemaGenerator generator = new JsonSchemaGenerator(url);
-				//"https://data.europarl.europa.eu/def/adopted-texts#AdoptedText"
-			//);
+		JsonSchemaGenerator generator = new JsonSchemaGenerator("en", rootUri);
 		
+		// convert the shacl shapes to json schema
 		Schema output = generator.convertToJsonSchema(shapesModel);
-		
-		// read NodeShape
-		//JsonLdContextGenerator contextGenerator = new JsonLdContextGenerator();
-		//String context = contextGenerator.generateJsonLdContext(shapesModel);
-		
-		// Print Output
-		JSONObject getJSONConvert = new JSONObject(output.toString());
-		//System.out.println(o.toString(2));
-		
+		JSONObject jsonSchemaOutput = new JSONObject(output.toString());
+
 		response.setContentType("application/schema+json");
 		response.setCharacterEncoding("UTF-8");
-		response.getOutputStream().write(output.toString().getBytes());
+		response.getOutputStream().write(jsonSchemaOutput.toString(2).getBytes());
 		return null;
 	}
 	
 	/**
-	 * Handles an error in the validation form (stores the message in the Model, then forward to the view).
+	 * Handles an error (stores the message in the Model, then forward to the view).
 	 * 
 	 * @param request
 	 * @param message
@@ -185,7 +177,7 @@ public class JsonSchemaController {
 		if(e != null) {
 			e.printStackTrace();
 		}
-		return new ModelAndView("schema-form", JsonSchemaFormData.KEY, data);
+		return new ModelAndView("jsonschema-form", JsonSchemaFormData.KEY, data);
 	}
 	
 }

@@ -96,7 +96,7 @@ public class JsonSchemaGenerator {
 					ns.getNodeShape().getLocalName(),
 					// create the object schema from the node shape
 					hasNoActivePropertyShape.test(ns)
-					?convertNodeShapeToStringSchema(ns, shaclGraph)
+					?convertNodeShapeToStringSchema(ns)
 					:convertNodeShapeToObjectSchema(ns, shaclGraph)
 			);
 		}
@@ -193,9 +193,11 @@ public class JsonSchemaGenerator {
 	    return containerLanguage;
 	}
 	
+	/**
+	 * This is the case where the ndoeShape has no active property shape : we want it to be a simple iri-reference
+	 */
 	private Schema convertNodeShapeToStringSchema(
-		NodeShape nodeShape,
-		Model model
+		NodeShape nodeShape
 	) throws Exception {
 		StringSchema.Builder stringSchema = StringSchema.builder();
 
@@ -283,11 +285,11 @@ public class JsonSchemaGenerator {
 						objectSchema.addPropertySchema(term, refSchema);
 						
 					} else {
-						Optional<JSONSchemaType> typefound = JSONSchemaType.findByDatatypeUri(datatype);
+						Optional<DatatypeToJsonSchemaMapping> typefound = DatatypeToJsonSchemaMapping.findByDatatypeUri(datatype);
 						
 						if (typefound.isPresent()) {
 							
-							if (typefound.get().getJsonSchemaLiteral().toString().toLowerCase().equals("string")) {
+							if (typefound.get().getJsonSchemaType().toString().toLowerCase().equals("string")) {
 								
 								objectSchema.addPropertySchema(term, StringSchema
 										.builder()

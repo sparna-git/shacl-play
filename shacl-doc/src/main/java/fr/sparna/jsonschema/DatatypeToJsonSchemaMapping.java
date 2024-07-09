@@ -8,10 +8,7 @@ import java.util.Optional;
 		STRING("string"),
 		INTEGER("integer"),
 		NUMBER("number"),
-		BOOLEAN("boolean"), 
-		DATE("date"), 
-		TIME("time"), 
-		DATETIME("date-time");
+		BOOLEAN("boolean");
 		
 		private final String typeString;
 		
@@ -26,34 +23,23 @@ import java.util.Optional;
 
 	
 	// Type-specific keywords
-	enum JSONSchemaType {
+	enum DatatypeToJsonSchemaMapping {
 
 		STRING("http://www.w3.org/2001/XMLSchema#string", JsonSchemaType.STRING),
 		BOOLEAN("http://www.w3.org/2001/XMLSchema#boolean", JsonSchemaType.BOOLEAN),
 		DECIMAL("http://www.w3.org/2001/XMLSchema#decimal", JsonSchemaType.NUMBER),
 		INTEGER("http://www.w3.org/2001/XMLSchema#integer", JsonSchemaType.INTEGER),
 		FLOAT("http://www.w3.org/2001/XMLSchema#float",JsonSchemaType.NUMBER),
-		//DATE("http://www.w3.org/2001/XMLSchema#date", TYPELiteral.STRING, TYPELiteral.DATE), // with "format", "date"
-		DATES("http://www.w3.org/2001/XMLSchema#date", JsonSchemaType.STRING), // with "format", "date"
-		DATED("http://www.w3.org/2001/XMLSchema#date", JsonSchemaType.DATE), // with "format", "date"
-		//TIME("http://www.w3.org/2001/XMLSchema#time", TYPELiteral.STRING, TYPELiteral.TIME), // with "format", "time"
-		TIMES("http://www.w3.org/2001/XMLSchema#time", JsonSchemaType.STRING), // with "format", "time"
-		TIMET("http://www.w3.org/2001/XMLSchema#time", JsonSchemaType.TIME), // with "format", "time"
-		//DATETIME("http://www.w3.org/2001/XMLSchema#dateTime", TYPELiteral.STRING, TYPELiteral.DATETIME), // with "format", "date-time"
-		DATETIMES("http://www.w3.org/2001/XMLSchema#dateTime", JsonSchemaType.STRING), // with "format", "date-time"
-		DATETIMEDT("http://www.w3.org/2001/XMLSchema#dateTime", JsonSchemaType.DATETIME), // with "format", "date-time"
-		//DATETIMESTAMP("http://www.w3.org/2001/XMLSchema#dateTimeStamp", TYPELiteral.STRING, TYPELiteral.DATETIME), // with "format",// "date-time"
-		DATETIMESTAMPSDTS("http://www.w3.org/2001/XMLSchema#dateTimeStamp", JsonSchemaType.STRING), // with "format",// "date-time"
-		DATETIMESTAMPDDTS("http://www.w3.org/2001/XMLSchema#dateTimeStamp", JsonSchemaType.DATETIME), // with "format",// "date-time"
+		DATE("http://www.w3.org/2001/XMLSchema#date", JsonSchemaType.STRING, "date"), // with "format", "date"
+		TIME("http://www.w3.org/2001/XMLSchema#time", JsonSchemaType.STRING, "time"), // with "format", "time"
+		DATETIME("http://www.w3.org/2001/XMLSchema#dateTime", JsonSchemaType.STRING, "date-time"), // with "format", "date-time"
+		DATETIMESTAMP("http://www.w3.org/2001/XMLSchema#dateTimeStamp", JsonSchemaType.STRING, "date-time"), // with "format",// "date-time"
 		GMONTH("http://www.w3.org/2001/XMLSchema#gMonth", JsonSchemaType.STRING),
 		GDAY("http://www.w3.org/2001/XMLSchema#gDay", JsonSchemaType.STRING),
 		GYEAR("http://www.w3.org/2001/XMLSchema#gYear", JsonSchemaType.STRING),
 		GYEARMONTH("http://www.w3.org/2001/XMLSchema#gYearMonth", JsonSchemaType.STRING),
 		GMONTHDAY("http://www.w3.org/2001/XMLSchema#gMonthDay", JsonSchemaType.STRING),
-		DURATION("http://www.w3.org/2001/XMLSchema#duration", JsonSchemaType.STRING),
-		// YEARMONTHDURATION("http://www.w3.org/2001/XMLSchema#yearMonthDuration",
-		// "string"),
-		// DAYTIMEDURATION("dayTimeDuration", "string"),
+		DURATION("http://www.w3.org/2001/XMLSchema#duration", JsonSchemaType.STRING, "duration"), // with "format", "duration"
 		SHORT("http://www.w3.org/2001/XMLSchema#short", JsonSchemaType.INTEGER),
 		INT("http://www.w3.org/2001/XMLSchema#int", JsonSchemaType.INTEGER),
 		LONG("http://www.w3.org/2001/XMLSchema#long", JsonSchemaType.INTEGER),
@@ -75,51 +61,35 @@ import java.util.Optional;
 		NCNAME("http://www.w3.org/2001/XMLSchema#NCName", JsonSchemaType.STRING);
 
 		private final String datatypeUri;
-		private final String jsonSchemaType;
 		private final String jsonSchemaFormat;
-		private final JsonSchemaType jsonSchemaLiteral;
-		
-		JSONSchemaType(String datatypeUri, String jsonSchemaType,JsonSchemaType jsonSchemaLiteral) {
-			this.datatypeUri = datatypeUri;
-			this.jsonSchemaType = jsonSchemaType;
-			this.jsonSchemaFormat = null;
-			this.jsonSchemaLiteral = jsonSchemaLiteral;
-		}
+		private final JsonSchemaType jsonSchemaType;
 
-		JSONSchemaType(String datatypeUri, String jsonSchemaType, String jsonSchemaFormat,JsonSchemaType jsonSchemaLiteral) {
-			this.datatypeUri = datatypeUri;
-			this.jsonSchemaType = jsonSchemaType;
+		DatatypeToJsonSchemaMapping(String datatypeUri, JsonSchemaType jsonSchemaLiteral, String jsonSchemaFormat) {
+			this.datatypeUri = datatypeUri;			
+			this.jsonSchemaType = jsonSchemaLiteral;
 			this.jsonSchemaFormat = jsonSchemaFormat;
-			this.jsonSchemaLiteral = jsonSchemaLiteral;
 		}
 
-		JSONSchemaType(String datatypeUri, JsonSchemaType jsonSchemaLiteral) {
-			this.datatypeUri = datatypeUri;
-			this.jsonSchemaType = null;
-			this.jsonSchemaFormat = null;
-			this.jsonSchemaLiteral = jsonSchemaLiteral;
+		DatatypeToJsonSchemaMapping(String datatypeUri, JsonSchemaType jsonSchemaLiteral) {
+			this(datatypeUri, jsonSchemaLiteral, null);
 		}
 
 		public String getDatatypeUri() {
 			return datatypeUri;
 		}
 
-		public String getJsonSchemaType() {
-			return jsonSchemaType;
-		}
-
 		public String getJsonSchemaFormat() {
 			return jsonSchemaFormat;
 		}
 		
-		public JsonSchemaType getJsonSchemaLiteral() {
-			return jsonSchemaLiteral;
+		public JsonSchemaType getJsonSchemaType() {
+			return jsonSchemaType;
 		}
 		
 
-		public static Optional<JSONSchemaType> findByDatatypeUri(String valueType) {
+		public static Optional<DatatypeToJsonSchemaMapping> findByDatatypeUri(String valueType) {
 
-			return Arrays.stream(JSONSchemaType.values()).filter(e -> e.getDatatypeUri().toString().equals(valueType))
+			return Arrays.stream(DatatypeToJsonSchemaMapping.values()).filter(e -> e.getDatatypeUri().toString().equals(valueType))
 					.findFirst();
 		}
 	}

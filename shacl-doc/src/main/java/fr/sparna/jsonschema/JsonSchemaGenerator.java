@@ -26,6 +26,7 @@ import fr.sparna.jsonschema.model.ObjectSchema;
 import fr.sparna.jsonschema.model.ReferenceSchema;
 import fr.sparna.jsonschema.model.Schema;
 import fr.sparna.jsonschema.model.StringSchema;
+import fr.sparna.jsonschema.model.CombinedSchema.ValidationCriterion;
 import fr.sparna.rdf.jena.shacl.NodeShape;
 import fr.sparna.rdf.jena.shacl.OwlOntology;
 import fr.sparna.rdf.jena.shacl.PropertyShape;
@@ -321,13 +322,7 @@ public class JsonSchemaGenerator {
 				objectSchema.addPropertySchema(term, patternObj);
             });
 		
-			// sh:hasValue	
-            ps.getShHasValue().ifPresent(value -> {
-                Schema hasValue = ConstSchema.builder()
-						.permittedValue(this.uriMapper.mapToJson(ps.getShHasValue().get().asResource()))
-						.build();
-				objectSchema.addPropertySchema(term, hasValue);
-            });
+			
 		
 			//sh:node
 			if (!ps.getShNode().isEmpty()) {				
@@ -346,6 +341,23 @@ public class JsonSchemaGenerator {
 					objectSchema.addPropertySchema(term,propertySchema);
 				}
 			}
+
+			// sh:hasValue	
+            ps.getShHasValue().ifPresent(value -> {
+                Schema hasValue = ConstSchema.builder()
+						.permittedValue(this.uriMapper.mapToJson(ps.getShHasValue().get().asResource()))
+						.build();
+
+				List<Schema> test = new ArrayList<Schema>();
+				test.add(hasValue);
+				test.add(StringSchema.builder().format("iri-reference").build());
+				CombinedSchema combinedSchema = CombinedSchema.builder(test).criterion(ValidationCriterion.ALL_CRITERION).build();
+				objectSchema.addPropertySchema(term, combinedSchema);
+
+				// objectSchema.addPropertySchema(term, hasValue);
+            });
+
+			
 				
 			if (ps.getShMinCount().isPresent()) {
 				if (ps.getShMinCount().get().getInt() > 0) {
@@ -377,7 +389,6 @@ public class JsonSchemaGenerator {
 
             @Override
             public boolean test(NodeShape ns) {
-				log.debug("testing if "+ns.getNodeShape().getURI()+" is a root node shape...");
                 // to be a root, a NodeShape must either:
 
                 // 1. be referenced as sh:node or indirectly via sh:class from a property shape

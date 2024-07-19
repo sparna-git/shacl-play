@@ -38,8 +38,11 @@ public class PropertyShape {
 		return ModelReadingUtils.getOptionalLiteral(propertyShape, propertyShape.getModel().createProperty(SHACL_PLAY.COLOR));
 	}
 	
-	public Optional<Resource> getEmbed() {
-		return ModelReadingUtils.getOptionalResource(propertyShape, propertyShape.getModel().createProperty(SHACL_PLAY.EMBED));
+	/**
+	 * Could be either an IRI or a boolean set to false
+	 */
+	public Optional<RDFNode> getEmbed() {
+		return ModelReadingUtils.getOptionalRdfNode(propertyShape, propertyShape.getModel().createProperty(SHACL_PLAY.EMBED));
 	}
 	
 	public Optional<Resource> getShNode() {
@@ -217,8 +220,19 @@ public class PropertyShape {
 		return this.getShDeactivated().isPresent() && this.getShDeactivated().get().getBoolean();
 	}
 
+	/**
+	 * @return true if shacl-play embed is either false or shacl-play:EmbedNever
+	 */
 	public boolean isEmbedNever() {
-		return this.getEmbed().isPresent() && this.getEmbed().get().getURI().equals(SHACL_PLAY.EMBED_NEVER);
+		return (
+			this.getEmbed().isPresent()
+			&&
+			(
+				(this.getEmbed().get().isResource() && this.getEmbed().get().asResource().getURI().equals(SHACL_PLAY.EMBED_NEVER))
+				||
+				(this.getEmbed().get().isLiteral() && (!this.getEmbed().get().asLiteral().getBoolean()))
+			)
+		);
 	}
 	
 	public String getPlantUmlCardinalityString() {

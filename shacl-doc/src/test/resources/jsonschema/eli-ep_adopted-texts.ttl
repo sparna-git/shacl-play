@@ -64,7 +64,7 @@ ta:Corrigendum a sh:NodeShape;
   sh:order "5"^^xsd:integer;
   owl:versionInfo "1.0";
   shacl-play:color "Orange";
-  sh:property ta:P60, ta:P61, ta:P62 .
+  sh:property ta:P60, ta:P61, ta:P62, ta:P72 .
 
 ta:Expression a sh:NodeShape;
   rdfs:comment "This node shape represents a subset of eli:Expression"@en;
@@ -187,14 +187,13 @@ ta:P22 owl:versionInfo "1.0";
   shacl-play:shortname "is_realized_by" .
 
 ta:P27 owl:versionInfo "1.0";
-  sh:path _:15c957d5d7564c4ea71ae47c64f4c2f58;
+  sh:path _:15c957d5d7564c4ea71ae47c64f4c2f512;
   sh:name "inverse corrects"@en;
   sh:nodeKind sh:IRI;
   sh:node ta:Corrigendum;
-  # shacl-play:embed shacl-play:EmbedNever ;
   shacl-play:shortname "inverse_corrects" .
 
-_:15c957d5d7564c4ea71ae47c64f4c2f58 sh:inversePath eli:corrects .
+_:15c957d5d7564c4ea71ae47c64f4c2f512 sh:inversePath eli:corrects .
 
 ta:P60 owl:versionInfo "1.0";
   sh:path rdf:type;
@@ -223,6 +222,15 @@ ta:P62 owl:versionInfo "2.1.0";
   sh:node ta:WorkTypeReference;
   sh:hasValue ep-document-types:CORRIGENDUM;
   shacl-play:shortname "work_type" .
+
+ta:P72 owl:versionInfo "1.0";
+  sh:path eli:corrects;
+  sh:name "corrects"@en;
+  sh:maxCount "1"^^xsd:integer;
+  sh:nodeKind sh:IRI;
+  sh:node ta:AdoptedText;
+  shacl-play:embed shacl-play:EmbedNever;
+  shacl-play:shortname "corrects" .
 
 ta:P75 owl:versionInfo "1.0";
   sh:path rdf:type;

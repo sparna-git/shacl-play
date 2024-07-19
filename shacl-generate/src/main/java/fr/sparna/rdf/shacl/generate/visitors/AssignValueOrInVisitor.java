@@ -22,7 +22,7 @@ public class AssignValueOrInVisitor extends DatasetAwareShaclVisitorBase {
 	
 	private static final Logger log = LoggerFactory.getLogger(AssignValueOrInVisitor.class);	
 	
-	public static final int DEFAULT_VALUES_THRESHOLD = 12;
+	public static final int DEFAULT_VALUES_THRESHOLD = 20;
 	
 	/**
 	 * The maximum number of distinct values for a given property for which sh:value or sh:in will be generated 

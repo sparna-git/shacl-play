@@ -39,7 +39,7 @@ public class ComputeValueStatisticsVisitor extends DatasetAwareShaclVisitorBase 
 			Map<RDFNode, Integer> counts = this.dataProvider.countValues(
 					aNodeShape.getRequiredProperty(SHACLM.targetClass).getObject().asResource().getURI(),
 					propertyPath,
-					12
+					AssignValueOrInVisitor.DEFAULT_VALUES_THRESHOLD
 			);
 			
 			// get corresponding property partition

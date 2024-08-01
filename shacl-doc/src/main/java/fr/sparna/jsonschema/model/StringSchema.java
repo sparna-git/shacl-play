@@ -25,6 +25,10 @@ public class StringSchema extends Schema {
         private String pattern; //Regexp
         
         private String Format;
+        
+        private String title_custom;
+        
+        private String description_custom;
 
         private boolean requiresString = true;
 
@@ -42,6 +46,18 @@ public class StringSchema extends Schema {
             this.minLength = minLength;
             return this;
         }
+        
+        public Builder title_custom(final String title) {
+            this.title_custom = title;
+            return this;
+        }
+        
+        public Builder description_custom(final String description) {
+            this.description_custom = description;
+            return this;
+        }
+        
+        
 
         /*
         public Builder pattern(final String pattern) {
@@ -70,6 +86,10 @@ public class StringSchema extends Schema {
     private final Integer maxLength;
 
     private final String pattern; //Regexp
+    
+    private final String title_custom;
+    
+    private final String description_custom;
 
     private final boolean requiresString;
 
@@ -85,6 +105,8 @@ public class StringSchema extends Schema {
         this.maxLength = builder.maxLength;
         this.requiresString = builder.requiresString;
         this.pattern = builder.pattern;
+        this.title_custom = builder.title_custom;
+        this.description_custom = builder.description_custom;
         //this.formatValidator = builder.formatValidator;
     }
 
@@ -99,8 +121,16 @@ public class StringSchema extends Schema {
     String getRegexpPattern() { //Regexp 
         return pattern;
     }
+    
+    public String getTitle_custom() {
+		return title_custom;
+	}
 
-    public String getPattern() { //java.util.regex.Pattern
+	public String getDescription_custom() {
+		return description_custom;
+	}
+
+	public String getPattern() { //java.util.regex.Pattern
         if (pattern == null) {
             return null;
         } else {

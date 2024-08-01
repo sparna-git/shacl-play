@@ -1,6 +1,9 @@
 package fr.sparna.jsonschema;
 
+import static java.util.stream.Collectors.toList;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -9,6 +12,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.RDFList;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.vocabulary.OWL;
 import org.apache.jena.vocabulary.RDF;
@@ -21,6 +25,7 @@ import fr.sparna.jsonschema.model.BooleanSchema;
 import fr.sparna.jsonschema.model.CombinedSchema;
 import fr.sparna.jsonschema.model.ConstSchema;
 import fr.sparna.jsonschema.model.EmptySchema;
+import fr.sparna.jsonschema.model.EnumSchema;
 import fr.sparna.jsonschema.model.NumberSchema;
 import fr.sparna.jsonschema.model.ObjectSchema;
 import fr.sparna.jsonschema.model.ReferenceSchema;
@@ -92,7 +97,8 @@ public class JsonSchemaGenerator {
         
 		// Read nodeshapes and generate corresponding object schemas
 		Predicate<NodeShape> hasNoActivePropertyShape = this.buildHasNoActivePropertyShapePredicate();
-		for (NodeShape ns : shapesGraph.getAllNodeShapes()) {			
+		for (NodeShape ns : shapesGraph.getAllNodeShapes()) {
+			
 			rootSchema.embeddedSchema(
 					ns.getNodeShape().getLocalName(),
 					// create the object schema from the node shape
@@ -201,8 +207,21 @@ public class JsonSchemaGenerator {
 		NodeShape nodeShape
 	) throws Exception {
 		StringSchema.Builder stringSchema = StringSchema.builder();
+		
+		String title_custom = null;
+		if (nodeShape.getRdfsLabel("en") != null) {
+			title_custom = nodeShape.getRdfsLabel("en").stream().map(label -> label.toString()).collect(Collectors.joining(" "));
+		}
+		
+		String description_custom = null;
+		if (nodeShape.getRdfsComment("en") != null) {
+			description_custom = nodeShape.getRdfsComment("en").stream().map(l -> l.toString()).collect(Collectors.joining(" "));
+		}
 
-		stringSchema.format("iri-reference");
+		stringSchema
+			.title(title_custom)
+			.description(description_custom)
+			.format("iri-reference");
 
 		return stringSchema.build();
 	}
@@ -230,9 +249,20 @@ public class JsonSchemaGenerator {
 		NodeShape nodeShape,
 		Model model
 	) throws Exception {
-	
-		ObjectSchema.Builder objectSchema = ObjectSchema.builder();
 		
+		
+		ObjectSchema.Builder objectSchema = ObjectSchema.builder();	
+		
+		
+		if (nodeShape.getRdfsLabel("en") != null) {
+			objectSchema.title(nodeShape.getRdfsLabel("en").stream().map(s -> s.toString()).collect(Collectors.joining(" ")));
+		}
+		
+		if (nodeShape.getRdfsComment("en") != null) {
+			objectSchema.description(nodeShape.getRdfsComment("en").stream().map(l -> l.toString()).collect(Collectors.joining(" ")));
+		}
+		
+				
 		// always set an id property, always required
 		objectSchema.addPropertySchema("id", StringSchema.builder().format("iri-reference").build() );
 		objectSchema.addRequiredProperty("id");
@@ -244,13 +274,14 @@ public class JsonSchemaGenerator {
 				break;
 			}
 			
-				
 			// Name of Property
             Resource path = ps.getShPath().get().asResource();
 			Set<String> shortnames = ShaclReadingUtils.findShortNamesOfPath(path,model);
 			if(shortnames.isEmpty()) {
 				shortnames.add(uriMapper.mapToJson(path));
 			} 
+			
+			// Get name of property 
 			String term = shortnames.iterator().next();
 			if(shortnames.size() > 1) {
                 log.warn("Found multiple shortnames for path "+path+", will use only one : '"+term+"'");
@@ -258,18 +289,43 @@ public class JsonSchemaGenerator {
 		
 			objectSchema.addPropertySchema(term, EmptySchema.builder().build());
 		
+			
+			String titleProperty = null;
+            // Title
+            if (ps.getShName().isPresent()) {
+            	String valueTitle = ps.getShName().get().asLiteral().toString();
+            	if (valueTitle != null) {
+            		titleProperty = valueTitle;
+            	}
+            }
+	            
+            String descriptionProperty = null;
+ 			// sh:description
+            if (ps.getShDescription().isPresent()) {
+            	
+            	String valueDescription =  ps.getShDescription().get().asLiteral().toString();
+            	if (valueDescription != null) {
+            		descriptionProperty = valueDescription;
+            	}
+            }
+			
+			
+			
+			
 			// NodeKind
             ps.getShNodeKind().filter(nodeKind -> nodeKind.getURI().equals(SH.IRI.getURI())).ifPresent(nodeKind -> {
                 if (!ps.getShClass().isPresent() && !ps.getShNode().isPresent()) {
                     objectSchema.addPropertySchema(term, 
-                        StringSchema.builder()
-                        .format("iri-reference")
-                        .build()
+                        StringSchema
+                        	.builder()
+                        	.format("iri-reference")
+                        	.build()
                     );
                 }
             });		
-				
-			if (ps.getShDatatype().isPresent()) {				
+            
+            // Datatype
+            if (ps.getShDatatype().isPresent()) {				
 			
 				Set<Resource> datatypes = ShaclReadingUtils.findDatatypesOfPath(ps.getShPath().get().asResource(), model);
 				if(datatypes.size() > 1) {
@@ -280,6 +336,8 @@ public class JsonSchemaGenerator {
 					if (datatype.equals(RDF.langString.getURI())) {						
 						Schema refSchema = ReferenceSchema
 								.builder()
+								.title_custom(titleProperty)
+								.description_custom(descriptionProperty)
 								.refValue("#/$defs/"+CONTAINER_LANGUAGE)
 								.build();
 						
@@ -288,83 +346,157 @@ public class JsonSchemaGenerator {
 					} else {
 						Optional<DatatypeToJsonSchemaMapping> typefound = DatatypeToJsonSchemaMapping.findByDatatypeUri(datatype);
 						
-						if (typefound.isPresent()) {
-							
-							if (typefound.get().getJsonSchemaType().toString().toLowerCase().equals("string")) {
-								
+						if (typefound.isPresent()) {							
+							if (typefound.get().getJsonSchemaType().toString().toLowerCase().equals("string")) {								
 								objectSchema.addPropertySchema(term, StringSchema
-										.builder()
-										.format(typefound.get().getJsonSchemaFormat())
-										.build()
-										);
+																		.builder()
+																		.title_custom(titleProperty)
+																		.description_custom(descriptionProperty)
+																		.format(typefound.get().getJsonSchemaFormat())
+																		.build()
+															   );
 							} else if (typefound.get().getJsonSchemaType().equals("boolean")) {
 								objectSchema.addPropertySchema(term, 
 										BooleanSchema
-											.builder()											
+											.builder()
+											.title_custom(titleProperty)
+											.description_custom(descriptionProperty)
 											.build());
 							} else if (typefound.get().getJsonSchemaType().equals("number") || typefound.get().getJsonSchemaType().equals("integer")) {
-								objectSchema.addPropertySchema(term, NumberSchema.builder().build());
+								objectSchema.addPropertySchema(term, NumberSchema
+																		.builder()
+																		.title_custom(titleProperty)
+																		.description_custom(descriptionProperty)
+																		.build());
 							}
 						} else {
-							objectSchema.addPropertySchema(term, StringSchema.builder().build() ); 
+							objectSchema.addPropertySchema(term, StringSchema
+																	.builder()
+																	.title_custom(titleProperty)
+																	.description_custom(descriptionProperty)
+																	.build()
+															); 
 						}						
 					}
 				}		
 			}
 		
 			// sh:pattern
-            ps.getShPattern().ifPresent(pattern -> {
-                Schema patternObj = StringSchema
+            if (!ps.getShPattern().isEmpty()) {
+            	Schema patternObj = StringSchema
 						.builder()
+						.title_custom(titleProperty)
+						.description_custom(descriptionProperty)
 						.pattern(ps.getShPattern().get().toString())
 						.build();
 				
 				objectSchema.addPropertySchema(term, patternObj);
-            });
-		
+            	
+            }
 			
 		
 			//sh:node
 			if (!ps.getShNode().isEmpty()) {				
 				
+				Schema propertySchema_without_titles = null;
 				Schema propertySchema = null;
 				if(ps.isEmbedNever()) {
-					propertySchema = StringSchema.builder().format("iri-reference").build();
+					
+					propertySchema = StringSchema
+							.builder()
+							.title_custom(titleProperty)
+							.description_custom(descriptionProperty)
+							.format("iri-reference")
+							.build();
+					
+					
+					propertySchema_without_titles = StringSchema
+							.builder()
+							.format("iri-reference")
+							.build();
 				} else {
 					// make sure the NodeShape exists, otherwise the schema is inconsistent
-                    propertySchema = ReferenceSchema.builder().refValue(JsonSchemaGenerator.buildSchemaReference(ps.getShNode().get().asResource())).build();
+					propertySchema = ReferenceSchema
+                    		.builder()
+                    		.title_custom(titleProperty)
+                    		.description_custom(descriptionProperty)
+                    		.refValue(JsonSchemaGenerator
+                    					.buildSchemaReference(ps.getShNode().get().asResource()))
+                    		.build();
+					
+					
+					
+					propertySchema_without_titles = ReferenceSchema
+                    		.builder()
+                    		.refValue(JsonSchemaGenerator
+                    					.buildSchemaReference(ps.getShNode().get().asResource()))
+                    		.build();
 				}
 				
 				if (!ps.getShMaxCount().isPresent() || ps.getShMaxCount().get().asLiteral().getInt() > 1 ) {
-					objectSchema.addPropertySchema(term,ArraySchema.builder().minItems(1).allItemSchema(propertySchema).build());
+					objectSchema.addPropertySchema(term,ArraySchema
+															.builder()
+															.title(titleProperty)
+															.description(descriptionProperty)
+															.minItems(1)
+															.allItemSchema(propertySchema_without_titles)
+															.build()
+														);
 				} else {
+					
 					objectSchema.addPropertySchema(term,propertySchema);
 				}
 			}
+			
+			
+			// sh:in
+			if (ps.getShIn() != null) {
+				
+				// Get all items in Object
+				Object[] shInValues = ps.getShIn().toArray();
+				// Create  
+				List<Object> list = Arrays.asList(shInValues);				
+			
+				Schema jsonSchemaEnum = EnumSchema
+						.builder()
+						.title_custom(titleProperty)
+						.description_custom(descriptionProperty)
+						.possibleValues(list)
+						.build();
+				
+				objectSchema.addPropertySchema(term, jsonSchemaEnum);
+				
+			}
 
 			// sh:hasValue	
-            ps.getShHasValue().ifPresent(value -> {
-                Schema hasValue = ConstSchema.builder()
-						.permittedValue(this.uriMapper.mapToJson(ps.getShHasValue().get().asResource()))
+			if (!ps.getShHasValue().isEmpty()) {
+				Schema hasValue = ConstSchema
+                		.builder()
+                		.permittedValue(this.uriMapper.mapToJson(ps.getShHasValue().get().asResource()))
 						.build();
 
 				List<Schema> test = new ArrayList<Schema>();
 				test.add(hasValue);
 				test.add(StringSchema.builder().format("iri-reference").build());
-				CombinedSchema combinedSchema = CombinedSchema.builder(test).criterion(ValidationCriterion.ALL_CRITERION).build();
+				CombinedSchema combinedSchema = CombinedSchema
+													.builder(test)
+													.title_custom(titleProperty)
+													.description_custom(descriptionProperty)
+													.criterion(ValidationCriterion.ALL_CRITERION).build();
 				objectSchema.addPropertySchema(term, combinedSchema);
-
-				// objectSchema.addPropertySchema(term, hasValue);
-            });
-
+				
+			}
 			
 				
 			if (ps.getShMinCount().isPresent()) {
 				if (ps.getShMinCount().get().getInt() > 0) {
 					objectSchema.addRequiredProperty(term);
 				}
-			}			
-		}			
+			}
+			
+		}	
+		
+		
 		
 		// set additionnal properties to false if the NodeShape is sh:closed
 		if (nodeShape.isClosed()) {

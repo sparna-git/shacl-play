@@ -19,6 +19,10 @@ public class ReferenceSchema extends Schema {
     public static class Builder extends Schema.Builder<ReferenceSchema> {
 
         private ReferenceSchema retval;
+        
+        private String title_custom;
+        
+        private String description_custom;
 
         /**
          * The value of {@code "$ref"}
@@ -49,6 +53,16 @@ public class ReferenceSchema extends Schema {
             }
             return copy;
         }
+        
+        public Builder title_custom(String title) {
+        	this.title_custom = title;
+        	return this;
+        }
+        
+        public Builder description_custom(String description) {
+        	this.description_custom = description;
+        	return this;
+        }
     }
 
     public static Builder builder() {
@@ -58,11 +72,17 @@ public class ReferenceSchema extends Schema {
     private Schema referredSchema;
 
     private final String refValue;
+    
+    private final String title_custom;
+    
+    private final String description_custom;
 
 
     public ReferenceSchema(final Builder builder) {
         super(builder);
         this.refValue = requireNonNull(builder.refValue, "refValue cannot be null");
+        this.title_custom = builder.title_custom;
+        this.description_custom = builder.description_custom;
     }
 
 
@@ -73,8 +93,20 @@ public class ReferenceSchema extends Schema {
     public String getReferenceValue() {
         return refValue;
     }
+    
+    
 
-    /**
+    public String getTitle_custom() {
+		return title_custom;
+	}
+
+
+	public String getDescription_custom() {
+		return description_custom;
+	}
+
+
+	/**
      * Called by {@link org.everit.json.schema.loader.SchemaLoader#load()} to set the referred root
      * schema after completing the loading process of the entire schema document.
      *
@@ -105,7 +137,7 @@ public class ReferenceSchema extends Schema {
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), refValue);
+        return Objects.hash(super.hashCode(), refValue, title_custom, description_custom, title_custom, description_custom);
     }
 
     @Override

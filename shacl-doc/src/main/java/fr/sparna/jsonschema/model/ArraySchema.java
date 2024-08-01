@@ -29,6 +29,9 @@ public class ArraySchema
         private Schema schemaOfAdditionalItems;
 
         private Schema containedItemSchema;
+        
+        private String title_custom;
+        private String description_custom;
 
         public Builder additionalItems(final boolean additionalItems) {
             this.additionalItems = additionalItems;
@@ -48,6 +51,16 @@ public class ArraySchema
         public Builder maxItems(final Integer maxItems) {
             this.maxItems = maxItems;
             return this;
+        }
+        
+        public Builder title(final String title) {
+        	this.title_custom = title;
+        	return this;
+        }
+        
+        public Builder description(final String description) {
+        	this.description_custom = description;
+        	return this;
         }
 
         public Builder minItems(final Integer minItems) {
@@ -95,6 +108,11 @@ public class ArraySchema
     private final Schema schemaOfAdditionalItems;
 
     private final Schema containedItemSchema;
+    
+    /* custom */
+    private final String title_custom;
+    /* custom */
+    private final String description_custom;
 
     /**
      * Constructor.
@@ -103,6 +121,8 @@ public class ArraySchema
      */
     public ArraySchema(final Builder builder) {
         super(builder);
+        this.title_custom = builder.title_custom;
+        this.description_custom = builder.description_custom;
         this.minItems = builder.minItems;
         this.maxItems = builder.maxItems;
         this.uniqueItems = builder.uniqueItems;
@@ -120,6 +140,8 @@ public class ArraySchema
         */
         this.requiresArray = builder.requiresArray;
         this.containedItemSchema = builder.containedItemSchema;
+        
+       
     }
 
     public Schema getAllItemSchema() {
@@ -133,8 +155,16 @@ public class ArraySchema
     public Integer getMinItems() {
         return minItems;
     }
+    
+    public String getTitle_custom() {
+		return title_custom;
+	}
 
-    public Schema getSchemaOfAdditionalItems() {
+	public String getDescription_custom() {
+		return description_custom;
+	}
+
+	public Schema getSchemaOfAdditionalItems() {
         return schemaOfAdditionalItems;
     }
 
@@ -167,6 +197,8 @@ public class ArraySchema
                     requiresArray == that.requiresArray &&
                     Objects.equals(minItems, that.minItems) &&
                     Objects.equals(maxItems, that.maxItems) &&
+                    Objects.equals(title_custom, that.title_custom) &&
+                    Objects.equals(description_custom, that.description_custom) &&
                     Objects.equals(allItemSchema, that.allItemSchema) &&
                     Objects.equals(schemaOfAdditionalItems, that.schemaOfAdditionalItems) &&
                     Objects.equals(containedItemSchema, that.containedItemSchema) &&
@@ -189,6 +221,6 @@ public class ArraySchema
     @Override
     public int hashCode() {
         return Objects.hash(super.hashCode(), minItems, maxItems, uniqueItems, allItemSchema,
-                additionalItems, requiresArray, schemaOfAdditionalItems, containedItemSchema);
+                additionalItems, requiresArray, schemaOfAdditionalItems, containedItemSchema, title_custom, description_custom);
     }
 }

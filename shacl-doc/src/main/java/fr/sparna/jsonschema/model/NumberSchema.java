@@ -1,6 +1,8 @@
 package fr.sparna.jsonschema.model;
 import java.util.Objects;
 
+import fr.sparna.jsonschema.model.CombinedSchema.Builder;
+
 /**
  * Number schema validator.
  */
@@ -28,6 +30,10 @@ public class NumberSchema extends Schema {
         private boolean requiresNumber = true;
 
         private boolean requiresInteger = false;
+        
+        private String title_custom;
+        
+        private String description_custom;        
 
         @Override
         public NumberSchema build() {
@@ -78,6 +84,17 @@ public class NumberSchema extends Schema {
             this.exclusiveMaximumLimit = exclusiveMaximumLimit;
             return this;
         }
+        
+        public Builder title_custom(String title) {
+            this.title_custom = title;
+            return this;
+        }
+        
+        public Builder description_custom(String description) {
+            this.description_custom = description;
+            return this;
+        }
+        
     }
 
     public static Builder builder() {
@@ -101,6 +118,10 @@ public class NumberSchema extends Schema {
     private final Number exclusiveMaximumLimit;
 
     private final boolean requiresInteger;
+    
+    private final String title_custom;
+    
+    private final String description_custom;
 
     public NumberSchema() {
         this(builder());
@@ -123,6 +144,8 @@ public class NumberSchema extends Schema {
         this.requiresInteger = builder.requiresInteger;
         this.exclusiveMinimumLimit = builder.exclusiveMinimumLimit;
         this.exclusiveMaximumLimit = builder.exclusiveMaximumLimit;
+        this.title_custom = builder.title_custom;
+        this.description_custom = builder.description_custom;
     }
 
     public Number getMaximum() {
@@ -160,8 +183,16 @@ public class NumberSchema extends Schema {
     public Number getExclusiveMaximumLimit() {
         return exclusiveMaximumLimit;
     }
+    
+    public String getTitle_custom() {
+		return title_custom;
+	}
 
-    @Override void accept(Visitor visitor) {
+	public String getDescription_custom() {
+		return description_custom;
+	}
+
+	@Override void accept(Visitor visitor) {
         visitor.visitNumberSchema(this);
     }
 
@@ -192,7 +223,7 @@ public class NumberSchema extends Schema {
     public int hashCode() {
         return Objects
                 .hash(super.hashCode(), requiresNumber, minimum, maximum, multipleOf, exclusiveMinimum, exclusiveMaximum,
-                        exclusiveMinimumLimit, exclusiveMaximumLimit, requiresInteger);
+                        exclusiveMinimumLimit, exclusiveMaximumLimit, requiresInteger, title_custom, description_custom);
     }
 
     @Override

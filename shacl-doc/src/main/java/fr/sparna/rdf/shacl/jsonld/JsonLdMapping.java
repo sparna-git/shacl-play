@@ -6,12 +6,13 @@ public class JsonLdMapping {
 	protected String id;
 	protected String type;
 	protected String container;
+	protected boolean inverse;
 	
 	public JsonLdMapping(String term, String id) {
 		super();
 		this.term = term;
 		this.id = id;
-	}	
+	}
 	
 	public JsonLdMapping(String term, String id, String type) {
 		super();
@@ -30,8 +31,14 @@ public class JsonLdMapping {
 	public void write(StringBuffer buffer) {
 		if(isOnlyIdMapping()) {
 			buffer.append("\""+term+"\""+": "+"\""+id+"\"");
-		} else {			
-			buffer.append("\""+term+"\""+": "+"{\"@id\":\""+id+"\"");
+		} else {
+			
+			if (!this.inverse) {
+				buffer.append("\""+term+"\""+": "+"{\"@id\":\""+id+"\"");
+			} else {
+				buffer.append("\""+term+"\""+": "+"{\"@reverse\":\""+id+"\"");
+			}
+			
 			if (type != null ) { 				
 				buffer.append(", \"@type\""+":"+"\""+type+"\"");
 			}
@@ -58,7 +65,11 @@ public class JsonLdMapping {
 		this.container = container;
 	}
 
-	
-	
-	
+	public boolean getInverse() {
+		return inverse;
+	}
+
+	public void setInverse(boolean inverse) {
+		this.inverse = inverse;
+	}	
 }

@@ -2,6 +2,7 @@ package fr.sparna.rdf.shacl.jsonld;
 
 import java.io.FileInputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -69,17 +70,50 @@ public class JsonLdContextGenerator {
 		List<Resource> propertyShapes = JsonLdContextGenerator.findAllPropertyShapes(model);
 		
 		// find each paths in property shapes
-		List<Resource> paths = new ArrayList<>(propertyShapes.stream().map(r -> r.getRequiredProperty(SH.path).getResource())
+		List<Resource> paths = new ArrayList<>(propertyShapes.stream().map(r -> r.getRequiredProperty(SH.path).getResource()) 
 				// exclude blank nodes / property paths
-				.filter(r -> r.isURIResource())
+				.filter(r -> r.isURIResource() ) 
 				.collect(Collectors.toSet())
 		);
+		
+		// Add all inverse path
+		//Resource shInversePath = findInversePath(model);
+		List<Resource> InversePaths = new ArrayList<>(propertyShapes.stream().map(r -> 
+				r.getRequiredProperty(SH.path).getResource().getPropertyResourceValue(SH.inversePath)
+			) 
+				.collect(Collectors.toSet())
+		);
+		
 		// sort the list
 		paths.sort((p1,p2) -> p1.getLocalName().compareToIgnoreCase(p2.getLocalName()));
 		
+		// Remove null in inversePaths
+		InversePaths.removeAll(Collections.singleton(null));
+		
+		
 		// ### map each paths...
 		for(Resource path : paths) {
+			
+			Set<String> shortnames = findShortNamesOfPath(path, model);
+			if(shortnames.isEmpty()) {
+				shortnames.add(path.getLocalName());
+			} 
+			String term = shortnames.iterator().next();
+			if(shortnames.size() > 1) {
+				log.warn("Found multiple shortnames for path "+path+", will use only one : '"+term+"'");
+			}
+			
+			// Write in Context
+			generateJsonLD(context, 
+							path, 
+							model, 
+							term, 
+							false // False because is not part of the sh:inversePath
+							);
+			
+			
 			// ### determine the term : the shacl-play:shortname annotation, or the localName by default
+			/*
 			Set<String> shortnames = findShortNamesOfPath(path, model);
 			if(shortnames.isEmpty()) {
 				shortnames.add(path.getLocalName());
@@ -124,6 +158,8 @@ public class JsonLdContextGenerator {
 					nodeKinds.stream().anyMatch(r -> r.getURI().equals(SH.IRI.getURI()))
 					||
 					nodeKinds.stream().anyMatch(r -> r.getURI().equals(SH.BlankNodeOrIRI.getURI()))
+					||
+					!inversePath.isEmpty()
 			) {
 				mapping.setType("@id");
 			}
@@ -143,7 +179,7 @@ public class JsonLdContextGenerator {
 			}
 
 			context.add(mapping);
-			
+			*/
 			// ### map @language
 			// if the datatype is rdf:langString, then...
 			// if there is a sh:languageIn with a single value, set a @language to the value
@@ -153,11 +189,109 @@ public class JsonLdContextGenerator {
 			// if we have an sh:hasValue or sh:in, then map the possible values to JSON terms
 		}
 		
+		
+		// inverse Path
+		for(Resource path : InversePaths) {			
+			
+			Set<String> shortnames = findShortNamesOfInversePath(path, model);
+			if(shortnames.isEmpty()) {
+				shortnames.add(path.getLocalName());
+			} 
+			String term = shortnames.iterator().next();
+			if(shortnames.size() > 1) {
+				log.warn("Found multiple shortnames for path "+path+", will use only one : '"+term+"'");
+			}
+			
+			// Write in Context
+			generateJsonLD(
+					context, 
+					path, 
+					model, 
+					"inverse_"+term, 
+					true // False because is not part of the sh:inversePath
+					);			
+		}
+		
 		// then serialize and debug
 		StringBuffer buffer = new StringBuffer();
 		context.write(buffer);
 		return buffer.toString();
-	}	
+	}
+	
+	private void generateJsonLD(JsonLdContext context, Resource path, Model model,String term,boolean isInversePath) {
+		
+		JsonLdMapping mapping = null;
+		mapping = new JsonLdMapping(term,path.getModel().shortForm(path.getURI()));
+		
+		if (isInversePath) {
+			mapping.setInverse(true);
+		}
+		
+		// ### determine the @type
+		// if there is a sh:datatype, set type as the datatype
+		Set<Resource> datatypes = JsonLdContextGenerator.findDatatypesOfPath(path, model);
+		if(datatypes.size() > 1) {
+			log.warn("Found different datatypes declared for path "+path+", will declare only one");
+		} else if(!datatypes.isEmpty()) {
+			Resource theDatatype = datatypes.iterator().next();
+			String datatype = theDatatype.getURI();
+			if(datatype.startsWith(XSD.NS)) {
+				mapping.setType("xsd:"+theDatatype.getLocalName());
+			}		
+			
+			if (datatype.equals(RDF.langString.getURI())) {
+				mapping.setContainer("@language");
+			} else {
+				mapping.setType(datatype);
+			}
+		}
+		
+		/* if there are 
+		 *  - sh:class, 
+		 *  - sh:node, or 
+		 *  - sh:nodeKind = sh:IRI, or 
+		 *  - sh:nodeKind = sh:BlankNodeOrIRI, 
+		 *  
+		 *  Set the type to @id
+		 */
+ 		Set<Resource> classes = findShClassOfPath(path, model);
+		Set<Resource> nodes = findShNodeOfPath(path, model);
+		Set<Resource> nodeKinds = findShNodeKindOfPath(path, model);
+		
+		if(
+				!classes.isEmpty()
+				||
+				!nodes.isEmpty()
+				||
+				nodeKinds.stream().anyMatch(r -> r.getURI().equals(SH.IRI.getURI()))
+				||
+				nodeKinds.stream().anyMatch(r -> r.getURI().equals(SH.BlankNodeOrIRI.getURI()))
+				||
+				isInversePath
+		) {
+			mapping.setType("@id");
+		}
+			
+		
+		if(useContainerSet) {
+			if(datatypes.isEmpty() || !datatypes.iterator().next().getURI().equals(RDF.langString.getURI())) {
+				Set<Integer> maxCounts = JsonLdContextGenerator.findShMaxCount(path, model);
+				if(maxCounts.size() == 0) {
+					mapping.setContainer("@set");
+				} else {
+					Integer maxCount = maxCounts.iterator().next();
+					if(maxCount > 1) {
+						mapping.setContainer("@set");
+					}
+				}
+			}
+		}
+
+		context.add(mapping);
+		
+		
+	}
+	
 	
 	public boolean isUseContainerSet() {
 		return useContainerSet;
@@ -175,8 +309,22 @@ public class JsonLdContextGenerator {
 		return model.listSubjectsWithProperty(SH.path).toList();
 	}
 	
+	private static Set<Resource> findInversePath(Resource path, Model model) {
+		
+		List<Resource> propertyShapesWithInversePath = findPropertyShapesWithInversePath(path, model);
+		Set<Resource> inversePath = new HashSet<>();
+		for (Resource rInversePath : propertyShapesWithInversePath) {
+			inversePath.add(rInversePath);
+		}
+		return inversePath;
+	}
+	
 	private static List<Resource> findPropertyShapesWithPath(Resource path, Model model) {
-		return model.listSubjectsWithProperty(SH.path, path).toList();
+		return model.listSubjectsWithProperty(SH.path, path).toList();		
+	}
+	
+	private static List<Resource> findPropertyShapesWithInversePath(Resource path, Model model) {
+		return model.listSubjectsWithProperty(SH.inversePath, path).toList();		
 	}
 	
 	private static Set<Resource> findDatatypesOfPath(Resource path, Model model) {
@@ -233,6 +381,18 @@ public class JsonLdContextGenerator {
 
 	private static Set<String> findShortNamesOfPath(Resource path, Model model) {
 		List<Resource> propertyShapesWithPath = findPropertyShapesWithPath(path, model);
+		
+		Set<String> shortnames = new HashSet<>();
+		for (Resource resource : propertyShapesWithPath) {
+			// read shortname constraint
+			shortnames.addAll(JsonLdContextGenerator.readDatatypeProperty(resource, model.createProperty(SHACL_PLAY.SHORTNAME)).stream().map(l -> l.getString()).collect(Collectors.toSet()));
+		}
+		return shortnames;		
+	}
+	
+	private static Set<String> findShortNamesOfInversePath(Resource path, Model model) {
+		List<Resource> propertyShapesWithPath = findPropertyShapesWithInversePath(path, model);
+		
 		Set<String> shortnames = new HashSet<>();
 		for (Resource resource : propertyShapesWithPath) {
 			// read shortname constraint

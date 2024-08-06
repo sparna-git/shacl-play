@@ -49,12 +49,15 @@ public class FilterOnStatisticsVisitor extends AbstractFilterVisitor implements 
 					if(entitiesCountStatement != null) {
 						int entitiesCount = entitiesCountStatement.getInt();
 						
-						// then compare with threshold
-						double usagePercentage = (propertyCount*100/entitiesCount);
-						if(usagePercentage < this.thresholdPercentage) {
-							log.debug("(remove) removing property shape '{}' as it is present on only {}% of entities", aPropertyShape, DECIMAL_FORMAT.format(usagePercentage));
-							return true;
-						}
+						// avoid division by 0
+						if(entitiesCount != 0) {
+							// then compare with threshold
+							double usagePercentage = (propertyCount*100/entitiesCount);
+							if(usagePercentage < this.thresholdPercentage) {
+								log.debug("(remove) removing property shape '{}' as it is present on only {}% of entities", aPropertyShape, DECIMAL_FORMAT.format(usagePercentage));
+								return true;
+							}
+						}						
 					}
 				}
 

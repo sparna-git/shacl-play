@@ -64,7 +64,8 @@ public abstract class AbstractFilterVisitor implements ShaclVisitorIfc {
 	}
 	
 	private void removeNodeShape(Resource aNodeShape) {
-		throw new RuntimeException("Not yet implemented");
+		// throw new RuntimeException("Not yet implemented");
+		System.out.println("Removing NodeShape not implemented yet : "+aNodeShape.getURI());
 	}
 	
 	public abstract boolean filterNodeShape(Resource aNodeShape);

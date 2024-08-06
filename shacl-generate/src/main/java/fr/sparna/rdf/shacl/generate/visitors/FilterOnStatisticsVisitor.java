@@ -29,38 +29,38 @@ public class FilterOnStatisticsVisitor extends AbstractFilterVisitor implements 
 		this.statisticsModel = statisticsModel;
 	}
 
-	// never filter node shapes
+	// filter node shapes that have an entity count == 0
 	public boolean filterNodeShape(Resource aNodeShape) {
-		return false;
+		// read number of entities on the NodeShape	
+		Resource classPartition = findPartitionCorrespondingToShape(aNodeShape);
+		Integer entitiesCount = getCount(classPartition);
+		if(entitiesCount != null && entitiesCount == 0) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	public boolean filterPropertyShape(Resource aPropertyShape, Resource aNodeShape) {
 		// read the count on a partition that is dcterms:conformsTo
 		Resource propertyPartition = findPartitionCorrespondingToShape(aPropertyShape);
 		if(propertyPartition != null) {
-			Statement triplesCountStatement = propertyPartition.getProperty(VOID.triples);
-			if(triplesCountStatement != null) {
-				int propertyCount = triplesCountStatement.getInt();
-				
-				// read number of entities on the NodeShape				
+			Integer propertyCount = getCount(propertyPartition);
+			if(propertyCount != null) {
+				// read number of entities on the NodeShape	
 				Resource classPartition = findPartitionCorrespondingToShape(aNodeShape);
-				if(classPartition != null) {
-					Statement entitiesCountStatement = classPartition.getProperty(VOID.entities);
-					if(entitiesCountStatement != null) {
-						int entitiesCount = entitiesCountStatement.getInt();
-						
-						// avoid division by 0
-						if(entitiesCount != 0) {
-							// then compare with threshold
-							double usagePercentage = (propertyCount*100/entitiesCount);
-							if(usagePercentage < this.thresholdPercentage) {
-								log.debug("(remove) removing property shape '{}' as it is present on only {}% of entities", aPropertyShape, DECIMAL_FORMAT.format(usagePercentage));
-								return true;
-							}
-						}						
-					}
+				Integer entitiesCount = getCount(classPartition);
+				if(entitiesCount != null) {
+					// avoid division by 0
+					if(entitiesCount != 0) {
+						// then compare with threshold
+						double usagePercentage = (propertyCount*100/entitiesCount);
+						if(usagePercentage < this.thresholdPercentage) {
+							log.debug("(remove) removing property shape '{}' as it is present on only {}% of entities", aPropertyShape, DECIMAL_FORMAT.format(usagePercentage));
+							return true;
+						}
+					}						
 				}
-
 			}
 		}
 
@@ -76,6 +76,28 @@ public class FilterOnStatisticsVisitor extends AbstractFilterVisitor implements 
 			return resources.get(0);
 		}
 		return null;
+	}
+
+	/**
+	 * Returns either the entities count associated to a class partition, or the triple count associated to a property partition
+	 * 
+	 * @param partition the class or property partition
+	 * @return the count, or null if not found
+	 */
+	private Integer getCount(Resource partition) {
+		Statement entitiesCountStatement = partition.getProperty(VOID.entities);
+		if(entitiesCountStatement != null) {
+			return entitiesCountStatement.getInt();
+		} else {
+			// try with triple count
+			Statement triplesCountStatement = partition.getProperty(VOID.triples);
+			if(triplesCountStatement != null) {
+				return triplesCountStatement.getInt();
+			} else {
+				// nothing found
+				return null;
+			}
+		}
 	}
 
 	@Override

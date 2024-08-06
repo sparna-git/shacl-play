@@ -28,7 +28,8 @@ public class EmptySchema extends Schema {
         super(builder);
     }
 
-    @Override public void accept(Visitor visitor) {
+    @Override 
+    public void accept(Visitor visitor) {
         visitor.visitEmptySchema(this);
     }
 

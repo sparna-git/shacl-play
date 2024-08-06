@@ -89,6 +89,14 @@ class ToStringVisitor extends Visitor {
         printInJsonObject(() -> {
             super.visitBooleanSchema(schema);
             writer.key("type").value("boolean");
+            
+            if (schema.getTitle_custom() != null) {
+            	writer.ifPresent("title", schema.getTitle_custom());
+            }
+            
+            if (schema.getDescription_custom() != null) {
+            	writer.ifPresent("description", schema.getDescription_custom());
+            }
         });
     }
 
@@ -102,6 +110,15 @@ class ToStringVisitor extends Visitor {
                     .ifPresent("minItems", schema.getMinItems())
                     .ifPresent("maxItems", schema.getMaxItems())
                     .ifFalse("additionalItems", schema.permitsAdditionalItems());
+            
+            if (schema.getTitle_custom() != null) {
+            	writer.ifPresent("title", schema.getTitle_custom());
+            }
+            
+            if (schema.getDescription_custom() != null) {
+            	writer.ifPresent("description", schema.getDescription_custom());
+            }
+            
             super.visitArraySchema(schema);
         });
     }
@@ -179,12 +196,25 @@ class ToStringVisitor extends Visitor {
             writer.ifPresent("multipleOf", schema.getMultipleOf());
             writer.ifTrue("exclusiveMinimum", schema.isExclusiveMinimum());
             writer.ifTrue("exclusiveMaximum", schema.isExclusiveMaximum());
+            
+            if (schema.getTitle_custom() != null) {
+            	writer.ifPresent("title", schema.getTitle_custom());
+            }
+            
+            if (schema.getDescription_custom() != null) {
+            	writer.ifPresent("description", schema.getDescription_custom());
+            }
+            
             try {
                 writer.ifPresent("exclusiveMinimum", schema.getExclusiveMinimumLimit());
                 writer.ifPresent("exclusiveMaximum", schema.getExclusiveMaximumLimit());
             } catch (JSONException e) {
                 throw new IllegalStateException("overloaded use of exclusiveMinimum or exclusiveMaximum keyword");
             }
+            
+            
+            
+            
             super.visitNumberSchema(schema);
         });
     }
@@ -195,6 +225,8 @@ class ToStringVisitor extends Visitor {
         	writer.key("type").value("string");
             writer.key("const");
             writer.value(constSchema.getPermittedValue());
+            
+            
             super.visitConstSchema(constSchema);
         });
     }
@@ -290,6 +322,15 @@ class ToStringVisitor extends Visitor {
                 combinedSchema.getSubschemas().forEach(subschema -> subschema.accept(this));
                 writer.endArray();
             }
+            
+            if (combinedSchema.getTitle_custom() != null) {
+            	writer.ifPresent("title", combinedSchema.getTitle_custom());
+            }
+            
+            if (combinedSchema.getDescription_custom() != null) {
+            	writer.ifPresent("description", combinedSchema.getDescription_custom());
+            }
+                        
         });
 
     }
@@ -338,6 +379,13 @@ class ToStringVisitor extends Visitor {
             writer.ifPresent("maxLength", schema.getMaxLength());
             writer.ifPresent("pattern", schema.getPattern());
             
+            if (schema.getTitle_custom() != null) {
+            	writer.ifPresent("title", schema.getTitle_custom());            	
+            }
+            
+            if (schema.getDescription_custom() != null) {
+            	writer.ifPresent("description", schema.getDescription_custom());
+            }
             
             super.visitStringSchema(schema);
         });
@@ -351,6 +399,15 @@ class ToStringVisitor extends Visitor {
             schema.getPossibleValues().forEach(writer::value);
             writer.endArray();
             super.visitEnumSchema(schema);
+            
+            if (schema.getTitle_custom() != null) {
+            	writer.ifPresent("title", schema.getTitle_custom());
+            }
+            
+            if (schema.getDescription_custom() != null) {
+            	writer.ifPresent("description", schema.getDescription_custom());
+            }
+            
         });
     }
 
@@ -360,6 +417,15 @@ class ToStringVisitor extends Visitor {
             writer.key("$ref");
             writer.value(referenceSchema.getReferenceValue());
             super.visitReferenceSchema(referenceSchema);
+            
+            if (referenceSchema.getTitle_custom() != null) {
+            	writer.ifPresent("title", referenceSchema.getTitle_custom());
+            }
+            
+            if (referenceSchema.getDescription_custom() != null) {
+            	writer.ifPresent("description", referenceSchema.getDescription_custom());
+            }
+            
         });
     }
 }

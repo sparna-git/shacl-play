@@ -39,6 +39,10 @@ public class EnumSchema extends Schema {
     public static class Builder extends Schema.Builder<EnumSchema> {
 
         private List<Object> possibleValues = new ArrayList<>();
+        
+        private String title_custom;
+        
+        private String description_custom;
 
         @Override
         public EnumSchema build() {
@@ -59,6 +63,16 @@ public class EnumSchema extends Schema {
             this.possibleValues = possibleValues.stream().collect(toList());
             return this;
         }
+        
+        public Builder title_custom(String title) {
+        	this.title_custom = title;
+        	return this;        	
+        }
+        
+        public Builder description_custom(String description) {
+        	this.description_custom = description;
+        	return this;        	
+        }
     }
 
     public static Builder builder() {
@@ -66,10 +80,16 @@ public class EnumSchema extends Schema {
     }
 
     private final List<Object> possibleValues;
+    
+    private final String title_custom;
+    
+    private final String description_custom;
 
     public EnumSchema(Builder builder) {
         super(builder);
         possibleValues = Collections.unmodifiableList(toJavaValues(builder.possibleValues));
+        title_custom = builder.title_custom;
+        description_custom = builder.description_custom;
     }
 
     public Set<Object> getPossibleValues() {
@@ -97,10 +117,11 @@ public class EnumSchema extends Schema {
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), possibleValues);
+        return Objects.hash(super.hashCode(), possibleValues, title_custom, description_custom);
     }
 
-    @Override public void accept(Visitor visitor) {
+    @Override 
+    public void accept(Visitor visitor) {
         visitor.visitEnumSchema(this);
     }
 
@@ -108,5 +129,13 @@ public class EnumSchema extends Schema {
     protected boolean canEqual(Object other) {
         return other instanceof EnumSchema;
     }
+
+	public String getTitle_custom() {
+		return title_custom;
+	}
+
+	public String getDescription_custom() {
+		return description_custom;
+	}
 
 }

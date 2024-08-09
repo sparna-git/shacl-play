@@ -197,14 +197,6 @@ class ToStringVisitor extends Visitor {
             writer.ifTrue("exclusiveMinimum", schema.isExclusiveMinimum());
             writer.ifTrue("exclusiveMaximum", schema.isExclusiveMaximum());
             
-            if (schema.getTitle_custom() != null) {
-            	writer.ifPresent("title", schema.getTitle_custom());
-            }
-            
-            if (schema.getDescription_custom() != null) {
-            	writer.ifPresent("description", schema.getDescription_custom());
-            }
-            
             try {
                 writer.ifPresent("exclusiveMinimum", schema.getExclusiveMinimumLimit());
                 writer.ifPresent("exclusiveMaximum", schema.getExclusiveMaximumLimit());
@@ -379,14 +371,6 @@ class ToStringVisitor extends Visitor {
             writer.ifPresent("maxLength", schema.getMaxLength());
             writer.ifPresent("pattern", schema.getPattern());
             
-            if (schema.getTitle_custom() != null) {
-            	writer.ifPresent("title", schema.getTitle_custom());            	
-            }
-            
-            if (schema.getDescription_custom() != null) {
-            	writer.ifPresent("description", schema.getDescription_custom());
-            }
-            
             super.visitStringSchema(schema);
         });
     }
@@ -417,14 +401,6 @@ class ToStringVisitor extends Visitor {
             writer.key("$ref");
             writer.value(referenceSchema.getReferenceValue());
             super.visitReferenceSchema(referenceSchema);
-            
-            if (referenceSchema.getTitle_custom() != null) {
-            	writer.ifPresent("title", referenceSchema.getTitle_custom());
-            }
-            
-            if (referenceSchema.getDescription_custom() != null) {
-            	writer.ifPresent("description", referenceSchema.getDescription_custom());
-            }
             
         });
     }

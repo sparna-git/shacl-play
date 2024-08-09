@@ -208,19 +208,19 @@ public class JsonSchemaGenerator {
 	) throws Exception {
 		StringSchema.Builder stringSchema = StringSchema.builder();
 		
-		String title_custom = null;
-		if (nodeShape.getRdfsLabel("en") != null) {
-			title_custom = nodeShape.getRdfsLabel("en").stream().map(label -> label.toString()).collect(Collectors.joining(" "));
+		String title = null;
+		if (nodeShape.getRdfsLabel(lang) != null) {
+			title = nodeShape.getRdfsLabel(lang).stream().map(label -> label.getString()).collect(Collectors.joining(" "));
 		}
 		
-		String description_custom = null;
-		if (nodeShape.getRdfsComment("en") != null) {
-			description_custom = nodeShape.getRdfsComment("en").stream().map(l -> l.toString()).collect(Collectors.joining(" "));
+		String description = null;
+		if (nodeShape.getRdfsComment(lang) != null) {
+			description = nodeShape.getRdfsComment(lang).stream().map(l -> l.getString()).collect(Collectors.joining(" "));
 		}
 
 		stringSchema
-			.title(title_custom)
-			.description(description_custom)
+			.title(title)
+			.description(description)
 			.format("iri-reference");
 
 		return stringSchema.build();
@@ -254,12 +254,12 @@ public class JsonSchemaGenerator {
 		ObjectSchema.Builder objectSchema = ObjectSchema.builder();	
 		
 		
-		if (nodeShape.getRdfsLabel("en") != null) {
-			objectSchema.title(nodeShape.getRdfsLabel("en").stream().map(s -> s.toString()).collect(Collectors.joining(" ")));
+		if (nodeShape.getRdfsLabel(lang) != null) {
+			objectSchema.title(nodeShape.getRdfsLabel(lang).stream().map(s -> s.getString()).collect(Collectors.joining(" ")));
 		}
 		
-		if (nodeShape.getRdfsComment("en") != null) {
-			objectSchema.description(nodeShape.getRdfsComment("en").stream().map(l -> l.toString()).collect(Collectors.joining(" ")));
+		if (nodeShape.getRdfsComment(lang) != null) {
+			objectSchema.description(nodeShape.getRdfsComment(lang).stream().map(l -> l.getString()).collect(Collectors.joining(" ")));
 		}
 		
 				
@@ -292,25 +292,16 @@ public class JsonSchemaGenerator {
 			
 			String titleProperty = null;
             // Title
-            if (ps.getShName().isPresent()) {
-            	String valueTitle = ps.getShName().get().asLiteral().toString();
-            	if (valueTitle != null) {
-            		titleProperty = valueTitle;
-            	}
-            }
+			if (!ps.getShName(lang).isEmpty()) {
+				titleProperty = ps.getShName(lang).stream().map(s -> s.getString()).collect(Collectors.joining(" "));
+			}
 	            
             String descriptionProperty = null;
  			// sh:description
-            if (ps.getShDescription().isPresent()) {
-            	
-            	String valueDescription =  ps.getShDescription().get().asLiteral().toString();
-            	if (valueDescription != null) {
-            		descriptionProperty = valueDescription;
-            	}
-            }
-			
-			
-			
+			 if (!ps.getShDescription(lang).isEmpty()) {
+				descriptionProperty = ps.getShDescription(lang).stream().map(s -> s.getString()).collect(Collectors.joining(" "));
+			}
+		
 			
 			// NodeKind
             ps.getShNodeKind().filter(nodeKind -> nodeKind.getURI().equals(SH.IRI.getURI())).ifPresent(nodeKind -> {
@@ -335,10 +326,11 @@ public class JsonSchemaGenerator {
 					String datatype = theDatatype.getURI();
 					if (datatype.equals(RDF.langString.getURI())) {						
 						Schema refSchema = ReferenceSchema
-								.builder()
-								.title_custom(titleProperty)
-								.description_custom(descriptionProperty)
-								.refValue("#/$defs/"+CONTAINER_LANGUAGE)
+								.builder()	
+								// note : the builder-specific method needs to be called **before** the generic method
+								.refValue("#/$defs/"+CONTAINER_LANGUAGE)							
+								.title(titleProperty)
+								.description(descriptionProperty)								
 								.build();
 						
 						objectSchema.addPropertySchema(term, refSchema);
@@ -350,8 +342,8 @@ public class JsonSchemaGenerator {
 							if (typefound.get().getJsonSchemaType().toString().toLowerCase().equals("string")) {								
 								objectSchema.addPropertySchema(term, StringSchema
 																		.builder()
-																		.title_custom(titleProperty)
-																		.description_custom(descriptionProperty)
+																		.title(titleProperty)
+																		.description(descriptionProperty)
 																		.format(typefound.get().getJsonSchemaFormat())
 																		.build()
 															   );
@@ -365,15 +357,15 @@ public class JsonSchemaGenerator {
 							} else if (typefound.get().getJsonSchemaType().equals("number") || typefound.get().getJsonSchemaType().equals("integer")) {
 								objectSchema.addPropertySchema(term, NumberSchema
 																		.builder()
-																		.title_custom(titleProperty)
-																		.description_custom(descriptionProperty)
+																		.title(titleProperty)
+																		.description(descriptionProperty)
 																		.build());
 							}
 						} else {
 							objectSchema.addPropertySchema(term, StringSchema
 																	.builder()
-																	.title_custom(titleProperty)
-																	.description_custom(descriptionProperty)
+																	.title(titleProperty)
+																	.description(descriptionProperty)
 																	.build()
 															); 
 						}						
@@ -385,9 +377,10 @@ public class JsonSchemaGenerator {
             if (!ps.getShPattern().isEmpty()) {
             	Schema patternObj = StringSchema
 						.builder()
-						.title_custom(titleProperty)
-						.description_custom(descriptionProperty)
-						.pattern(ps.getShPattern().get().toString())
+						// note : the builder-specific method needs to be called **before** the generic method
+						.pattern(ps.getShPattern().get().getString())
+						.title(titleProperty)
+						.description(descriptionProperty)						
 						.build();
 				
 				objectSchema.addPropertySchema(term, patternObj);
@@ -404,8 +397,8 @@ public class JsonSchemaGenerator {
 					
 					propertySchema = StringSchema
 							.builder()
-							.title_custom(titleProperty)
-							.description_custom(descriptionProperty)
+							.title(titleProperty)
+							.description(descriptionProperty)
 							.format("iri-reference")
 							.build();
 					
@@ -418,10 +411,11 @@ public class JsonSchemaGenerator {
 					// make sure the NodeShape exists, otherwise the schema is inconsistent
 					propertySchema = ReferenceSchema
                     		.builder()
-                    		.title_custom(titleProperty)
-                    		.description_custom(descriptionProperty)
-                    		.refValue(JsonSchemaGenerator
+							// note : the builder-specific method needs to be called **before** the generic method
+							.refValue(JsonSchemaGenerator
                     					.buildSchemaReference(ps.getShNode().get().asResource()))
+                    		.title(titleProperty)
+                    		.description(descriptionProperty)                    		
                     		.build();
 					
 					

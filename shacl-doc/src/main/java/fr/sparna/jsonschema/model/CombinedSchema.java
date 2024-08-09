@@ -39,11 +39,7 @@ public class CombinedSchema extends Schema {
 
         private Collection<Schema> subschemas = new ArrayList<>();
 
-        private boolean synthetic;
-        
-        private String title_custom;
-        
-        private String description_custom;        
+        private boolean synthetic;      
         
 
         @Override
@@ -68,16 +64,6 @@ public class CombinedSchema extends Schema {
 
         public Builder isSynthetic(boolean synthetic) {
             this.synthetic = synthetic;
-            return this;
-        }
-        
-        public Builder title_custom(String title) {
-            this.title_custom = title;
-            return this;
-        }
-        
-        public Builder description_custom(String description) {
-            this.description_custom = description;
             return this;
         }
         
@@ -109,10 +95,6 @@ public class CombinedSchema extends Schema {
     private final Collection<Schema> subschemas;
 
     private final ValidationCriterion criterion;
-    
-    private final String title_custom;
-    
-    private final String description_custom;
 
     /**
      * Constructor.
@@ -125,8 +107,6 @@ public class CombinedSchema extends Schema {
         this.synthetic = builder.synthetic;
         this.criterion = requireNonNull(builder.criterion, "criterion cannot be null");
         this.subschemas = sortByCombinedFirst(requireNonNull(builder.subschemas, "subschemas cannot be null"));
-        this.title_custom = builder.title_custom;
-        this.description_custom = builder.description_custom;
     }
 
     private static int compareBySchemaType(Schema lschema, Schema rschema) {
@@ -187,14 +167,6 @@ public class CombinedSchema extends Schema {
     protected boolean canEqual(Object other) {
         return other instanceof CombinedSchema;
     }
-
-	public String getTitle_custom() {
-		return title_custom;
-	}
-
-	public String getDescription_custom() {
-		return description_custom;
-	}
     
     
 }

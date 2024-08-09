@@ -314,14 +314,6 @@ class ToStringVisitor extends Visitor {
                 combinedSchema.getSubschemas().forEach(subschema -> subschema.accept(this));
                 writer.endArray();
             }
-            
-            if (combinedSchema.getTitle_custom() != null) {
-            	writer.ifPresent("title", combinedSchema.getTitle_custom());
-            }
-            
-            if (combinedSchema.getDescription_custom() != null) {
-            	writer.ifPresent("description", combinedSchema.getDescription_custom());
-            }
                         
         });
 

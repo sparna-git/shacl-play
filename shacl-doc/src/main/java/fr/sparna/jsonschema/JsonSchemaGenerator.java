@@ -273,224 +273,30 @@ public class JsonSchemaGenerator {
 			if (ps.isDeactivated()) {
 				break;
 			}
-			
+
 			// Name of Property
-            Resource path = ps.getShPath().get().asResource();
+			Resource path = ps.getShPath().get().asResource();
 			Set<String> shortnames = ShaclReadingUtils.findShortNamesOfPath(path,model);
 			if(shortnames.isEmpty()) {
 				shortnames.add(uriMapper.mapToJson(path));
 			} 
-			
+
 			// Get name of property 
 			String term = shortnames.iterator().next();
 			if(shortnames.size() > 1) {
-                log.warn("Found multiple shortnames for path "+path+", will use only one : '"+term+"'");
-			}
-		
-			objectSchema.addPropertySchema(term, EmptySchema.builder().build());
-		
-			
-			String titleProperty = null;
-            // Title
-			if (!ps.getShName(lang).isEmpty()) {
-				titleProperty = ps.getShName(lang).stream().map(s -> s.getString()).collect(Collectors.joining(" "));
-			}
-	            
-            String descriptionProperty = null;
- 			// sh:description
-			 if (!ps.getShDescription(lang).isEmpty()) {
-				descriptionProperty = ps.getShDescription(lang).stream().map(s -> s.getString()).collect(Collectors.joining(" "));
-			}
-		
-			
-			// NodeKind
-            ps.getShNodeKind().filter(nodeKind -> nodeKind.getURI().equals(SH.IRI.getURI())).ifPresent(nodeKind -> {
-                if (!ps.getShClass().isPresent() && !ps.getShNode().isPresent()) {
-                    objectSchema.addPropertySchema(term, 
-                        StringSchema
-                        	.builder()
-                        	.format("iri-reference")
-                        	.build()
-                    );
-                }
-            });		
-            
-            // Datatype
-            if (ps.getShDatatype().isPresent()) {				
-			
-				Set<Resource> datatypes = ShaclReadingUtils.findDatatypesOfPath(ps.getShPath().get().asResource(), model);
-				if(datatypes.size() > 1) {
-					log.warn("Found different datatypes declared for path "+path+", will declare only one");
-				} else if(!datatypes.isEmpty()) {
-					Resource theDatatype = datatypes.iterator().next();
-					String datatype = theDatatype.getURI();
-					if (datatype.equals(RDF.langString.getURI())) {						
-						Schema refSchema = ReferenceSchema
-								.builder()	
-								// note : the builder-specific method needs to be called **before** the generic method
-								.refValue("#/$defs/"+CONTAINER_LANGUAGE)							
-								.title(titleProperty)
-								.description(descriptionProperty)								
-								.build();
-						
-						objectSchema.addPropertySchema(term, refSchema);
-						
-					} else {
-						Optional<DatatypeToJsonSchemaMapping> typefound = DatatypeToJsonSchemaMapping.findByDatatypeUri(datatype);
-						
-						if (typefound.isPresent()) {							
-							if (typefound.get().getJsonSchemaType().toString().toLowerCase().equals("string")) {								
-								objectSchema.addPropertySchema(term, StringSchema
-																		.builder()
-																		.title(titleProperty)
-																		.description(descriptionProperty)
-																		.format(typefound.get().getJsonSchemaFormat())
-																		.build()
-															   );
-							} else if (typefound.get().getJsonSchemaType().equals("boolean")) {
-								objectSchema.addPropertySchema(term, 
-										BooleanSchema
-											.builder()
-											.title_custom(titleProperty)
-											.description_custom(descriptionProperty)
-											.build());
-							} else if (typefound.get().getJsonSchemaType().equals("number") || typefound.get().getJsonSchemaType().equals("integer")) {
-								objectSchema.addPropertySchema(term, NumberSchema
-																		.builder()
-																		.title(titleProperty)
-																		.description(descriptionProperty)
-																		.build());
-							}
-						} else {
-							objectSchema.addPropertySchema(term, StringSchema
-																	.builder()
-																	.title(titleProperty)
-																	.description(descriptionProperty)
-																	.build()
-															); 
-						}						
-					}
-				}		
-			}
-		
-			// sh:pattern
-            if (!ps.getShPattern().isEmpty()) {
-            	Schema patternObj = StringSchema
-						.builder()
-						// note : the builder-specific method needs to be called **before** the generic method
-						.pattern(ps.getShPattern().get().getString())
-						.title(titleProperty)
-						.description(descriptionProperty)						
-						.build();
-				
-				objectSchema.addPropertySchema(term, patternObj);
-            	
-            }
-			
-		
-			//sh:node
-			if (!ps.getShNode().isEmpty()) {				
-				
-				Schema propertySchema_without_titles = null;
-				Schema propertySchema = null;
-				if(ps.isEmbedNever()) {
-					
-					propertySchema = StringSchema
-							.builder()
-							.title(titleProperty)
-							.description(descriptionProperty)
-							.format("iri-reference")
-							.build();
-					
-					
-					propertySchema_without_titles = StringSchema
-							.builder()
-							.format("iri-reference")
-							.build();
-				} else {
-					// make sure the NodeShape exists, otherwise the schema is inconsistent
-					propertySchema = ReferenceSchema
-                    		.builder()
-							// note : the builder-specific method needs to be called **before** the generic method
-							.refValue(JsonSchemaGenerator
-                    					.buildSchemaReference(ps.getShNode().get().asResource()))
-                    		.title(titleProperty)
-                    		.description(descriptionProperty)                    		
-                    		.build();
-					
-					
-					
-					propertySchema_without_titles = ReferenceSchema
-                    		.builder()
-                    		.refValue(JsonSchemaGenerator
-                    					.buildSchemaReference(ps.getShNode().get().asResource()))
-                    		.build();
-				}
-				
-				if (!ps.getShMaxCount().isPresent() || ps.getShMaxCount().get().asLiteral().getInt() > 1 ) {
-					objectSchema.addPropertySchema(term,ArraySchema
-															.builder()
-															.title(titleProperty)
-															.description(descriptionProperty)
-															.minItems(1)
-															.allItemSchema(propertySchema_without_titles)
-															.build()
-														);
-				} else {
-					
-					objectSchema.addPropertySchema(term,propertySchema);
-				}
-			}
-			
-			
-			// sh:in
-			if (ps.getShIn() != null) {
-				
-				// Get all items in Object
-				Object[] shInValues = ps.getShIn().toArray();
-				// Create  
-				List<Object> list = Arrays.asList(shInValues);				
-			
-				Schema jsonSchemaEnum = EnumSchema
-						.builder()
-						.title_custom(titleProperty)
-						.description_custom(descriptionProperty)
-						.possibleValues(list)
-						.build();
-				
-				objectSchema.addPropertySchema(term, jsonSchemaEnum);
-				
+				log.warn("Found multiple shortnames for path "+path+", will use only one : '"+term+"'");
 			}
 
-			// sh:hasValue	
-			if (!ps.getShHasValue().isEmpty()) {
-				Schema hasValue = ConstSchema
-                		.builder()
-                		.permittedValue(this.uriMapper.mapToJson(ps.getShHasValue().get().asResource()))
-						.build();
+			objectSchema.addPropertySchema(term, this.convertPropertyShapeSchema(nodeShape, ps, model));
 
-				List<Schema> test = new ArrayList<Schema>();
-				test.add(hasValue);
-				test.add(StringSchema.builder().format("iri-reference").build());
-				CombinedSchema combinedSchema = CombinedSchema
-													.builder(test)
-													.title_custom(titleProperty)
-													.description_custom(descriptionProperty)
-													.criterion(ValidationCriterion.ALL_CRITERION).build();
-				objectSchema.addPropertySchema(term, combinedSchema);
-				
-			}
-			
-				
+			// add to required properties if necessary
 			if (ps.getShMinCount().isPresent()) {
 				if (ps.getShMinCount().get().getInt() > 0) {
 					objectSchema.addRequiredProperty(term);
 				}
 			}
 			
-		}	
-		
-		
+		}		
 		
 		// set additionnal properties to false if the NodeShape is sh:closed
 		if (nodeShape.isClosed()) {
@@ -499,6 +305,174 @@ public class JsonSchemaGenerator {
 		
         return objectSchema.build();
 		
+	}
+
+	private Schema convertPropertyShapeSchema(
+		NodeShape nodeShape,
+		PropertyShape ps,
+		Model model
+	) throws Exception {
+
+		// schema title
+		String titleProperty = null;		
+		if (!ps.getShName(lang).isEmpty()) {
+			titleProperty = ps.getShName(lang).stream().map(s -> s.getString()).collect(Collectors.joining(" "));
+		}
+			
+		// schema description
+		String descriptionProperty = null;
+		if (!ps.getShDescription(lang).isEmpty()) {
+			descriptionProperty = ps.getShDescription(lang).stream().map(s -> s.getString()).collect(Collectors.joining(" "));
+		}
+
+		// precedence order
+		// 1. sh:hasValue ==> ConstSchema
+		// 2. sh:in ==> EnumSchema
+		// 3. sh:node ==> iri-reference if no embed, or ReferenceSchema if embed, wrapped into ArraySchema if maxCount > 1
+		// 4. sh:pattern ==> StringSchema with pattern
+		// 5. sh:datatype ==> StringSchema or ReferenceSchema to ContainerLanguage or BooleanSchema or NumberSchema
+		// 6. sh:nodeKing == IRI ==> StringSchema with format = iri-reference
+		// otherwise return EmptySchema
+
+		// sh:hasValue	
+		if (!ps.getShHasValue().isEmpty()) {
+			return ConstSchema
+				.builder()
+				.permittedValue(this.uriMapper.mapToJson(ps.getShHasValue().get().asResource()))
+				.build();
+		}
+
+		// sh:in
+		if (ps.getShIn() != null) {
+	
+			// Get all items in Object
+			Object[] shInValues = ps.getShIn().toArray();
+			// Create  
+			List<Object> list = Arrays.asList(shInValues);				
+
+			return EnumSchema
+					.builder()
+					.title_custom(titleProperty)
+					.description_custom(descriptionProperty)
+					.possibleValues(list)
+					.build();			
+		}
+
+		//sh:node
+		if (!ps.getShNode().isEmpty()) {				
+	
+			Schema.Builder builder;
+
+			if(ps.isEmbedNever()) {
+				// no embedding, this is a URI reference
+				builder = StringSchema
+				.builder()
+				.format("iri-reference");
+			} else {
+				// this is a reference to another Schema coming from the NodeShape
+				// TODO : make sure the NodeShape exists, otherwise the schema is inconsistent
+				builder = ReferenceSchema
+					.builder()
+					// note : the builder-specific method needs to be called **before** the generic method
+					.refValue(JsonSchemaGenerator
+								.buildSchemaReference(ps.getShNode().get().asResource()));
+			}
+			
+			if (!ps.getShMaxCount().isPresent() || ps.getShMaxCount().get().asLiteral().getInt() > 1 ) {
+				// this is an ArraySchema that will contain the inner Schema built previously
+				Schema innerSchema = builder.build();
+
+				builder = ArraySchema
+				.builder()
+				.minItems(1)
+				.allItemSchema(innerSchema);
+			} 
+
+			// set title and description on the final outer builder, ArraySchema or StringSchema or RereferenceSchema
+			builder.title(titleProperty).description(descriptionProperty);
+			return builder.build();
+		}
+
+		// sh:pattern
+		if (!ps.getShPattern().isEmpty()) {
+			return StringSchema
+					.builder()
+					// note : the builder-specific method needs to be called **before** the generic method
+					.pattern(ps.getShPattern().get().getString())
+					.title(titleProperty)
+					.description(descriptionProperty)						
+					.build();
+			
+		}
+
+		// Datatype
+		if (ps.getShDatatype().isPresent()) {				
+
+			Set<Resource> datatypes = ShaclReadingUtils.findDatatypesOfPath(ps.getShPath().get().asResource(), model);
+			if(datatypes.size() > 1) {
+				log.warn("Found different datatypes declared for path "+ps.getShPath().get().asResource()+", will declare only one");
+			}
+			
+			if(!datatypes.isEmpty()) {
+				Resource theDatatype = datatypes.iterator().next();
+				String datatype = theDatatype.getURI();
+				if (datatype.equals(RDF.langString.getURI())) {						
+					return ReferenceSchema
+							.builder()	
+							// note : the builder-specific method needs to be called **before** the generic method
+							.refValue("#/$defs/"+CONTAINER_LANGUAGE)							
+							.title(titleProperty)
+							.description(descriptionProperty)								
+							.build();
+					
+				} else {
+					Optional<DatatypeToJsonSchemaMapping> typefound = DatatypeToJsonSchemaMapping.findByDatatypeUri(datatype);
+					
+					if (typefound.isPresent()) {							
+						if (typefound.get().getJsonSchemaType().toString().toLowerCase().equals("string")) {								
+							return StringSchema
+								.builder()
+								.title(titleProperty)
+								.description(descriptionProperty)
+								.format(typefound.get().getJsonSchemaFormat())
+								.build();
+						} else if (typefound.get().getJsonSchemaType().equals("boolean")) {
+							return BooleanSchema
+										.builder()
+										.title_custom(titleProperty)
+										.description_custom(descriptionProperty)
+										.build();
+						} else if (typefound.get().getJsonSchemaType().equals("number") || typefound.get().getJsonSchemaType().equals("integer")) {
+							return NumberSchema
+								.builder()
+								.title(titleProperty)
+								.description(descriptionProperty)
+								.build();
+						}
+					}
+
+					// default to StringSchema
+					return StringSchema
+						.builder()
+						.title(titleProperty)
+						.description(descriptionProperty)
+						.build();
+					
+				}
+			}		
+		}
+
+		// NodeKind
+		if (ps.getShNodeKind().filter(nodeKind -> nodeKind.getURI().equals(SH.IRI.getURI())).isPresent()) {	
+			return StringSchema
+			.builder()
+			.format("iri-reference")
+			.build();
+		}
+
+		// nothing, return an EmptySchema
+		return EmptySchema.builder().title(titleProperty).description(descriptionProperty).build();
+
 	}
 	
 	public String getTargetContextUrl() {

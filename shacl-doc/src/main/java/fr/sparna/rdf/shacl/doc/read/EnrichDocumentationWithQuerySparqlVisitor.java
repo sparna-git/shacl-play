@@ -21,6 +21,7 @@ import org.slf4j.LoggerFactory;
 
 import fr.sparna.rdf.shacl.doc.NodeShape;
 import fr.sparna.rdf.shacl.doc.PropertyShape;
+import fr.sparna.rdf.shacl.doc.model.Link;
 import fr.sparna.rdf.shacl.doc.model.PropertyShapeDocumentation;
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentation;
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentationSection;
@@ -87,7 +88,14 @@ public class EnrichDocumentationWithQuerySparqlVisitor implements ShaclVisitorIf
 					ElementTriplesBlock eBlock = new ElementTriplesBlock();		
 					
 					// Dataset
-					eBlock.addTriple(new Triple(this.subject, this.type,NodeFactory.createURI(section.getTargetClass().getHref())));
+					//eBlock.addTriple(new Triple(this.subject, this.type,NodeFactory.createURI(section.getTargetClass().getHref())));
+					
+					for (Link r : section.getTargetClass()) {
+						eBlock.addTriple(new Triple(this.subject, this.type,NodeFactory.createURI(r.getHref())));
+					}
+					
+					
+					
 					
 					eBlock.addTriple(new Triple(this.subject, NodeFactory.createURI(ps.getShPath().getURI()),Var.alloc("result")));
 					

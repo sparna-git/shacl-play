@@ -43,8 +43,33 @@ public class ShapesDocumentationSectionBuilder {
 		// rdfs:comment
 		currentSection.setDescription(nodeShape.getDisplayDescription(owlGraph, lang));
 		
+		// sh:targetSubjectsOf or sh:targetObjectsOf
+		if (nodeShape.getShtargetSubjectsOf() != null) {
+			currentSection.setTargetSubjectsOf(nodeShape.getShtargetSubjectsOf().getURI());
+		}
+		
+		if (nodeShape.getShtargetObjectsOf() != null) {
+			currentSection.setTargetObjectsOf(nodeShape.getShtargetObjectsOf().getURI());
+		}
+		
 		// sh:targetClass
 		if(nodeShape.getShTargetClass() != null) {
+			
+			// Create List<Link>
+			List<Link> tClass = nodeShape.getShTargetClass()
+									.stream()
+									.map(s -> 
+										new Link(s.getURI(),
+												// label of link is the label if known, otherwise it is the short form
+												s.getModel().shortForm(s.getURI())
+												)											
+											)
+									.collect(Collectors.toList());
+			
+			
+			currentSection.setTargetClass(tClass);
+			
+			/*
 			currentSection.setTargetClass(
 				new Link(
 						nodeShape.getShTargetClass().getURI(),
@@ -52,6 +77,7 @@ public class ShapesDocumentationSectionBuilder {
 						nodeShape.getShTargetClass().getModel().shortForm(nodeShape.getShTargetClass().getURI())
 				)				
 			);
+			*/
 		}
 		
 		// sparql target

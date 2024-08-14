@@ -315,14 +315,14 @@ public class JsonSchemaGenerator {
 
 		// schema title
 		String titleProperty = null;		
-		if (!ps.getShName(lang).isEmpty()) {
-			titleProperty = ps.getShName(lang).stream().map(s -> s.getString()).collect(Collectors.joining(" "));
+		if (ps.getShName().isPresent()) {
+			titleProperty = ps.getShName().get().asLiteral().getString(); //ps.getShName().stream().map(s -> s.getString()).collect(Collectors.joining(" "));
 		}
 			
 		// schema description
 		String descriptionProperty = null;
-		if (!ps.getShDescription(lang).isEmpty()) {
-			descriptionProperty = ps.getShDescription(lang).stream().map(s -> s.getString()).collect(Collectors.joining(" "));
+		if (ps.getShDescription().isPresent()) {
+			descriptionProperty = ps.getShDescription().get().asLiteral().getString(); //ps.getShDescription(lang).stream().map(s -> s.getString()).collect(Collectors.joining(" "));
 		}
 
 		// precedence order

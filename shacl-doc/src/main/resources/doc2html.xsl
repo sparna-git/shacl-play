@@ -119,8 +119,11 @@
 			<entry key="LABEL_EXAMPLE" label="Example: "/>
 			<entry key="LABEL_SUPERCLASSES" label="Inherits from: "/>
 			<entry key="LABEL_OR" label=" or "/>
+			<entry key="LABEL_TARGETSUBJECTSOF" label="Subject Of: "/>
+			<entry key="LABEL_TARGETOBJECTSOF" label="Object Of: "/>
 			
 			<entry key="LABEL_NO_PROPERTIES" label="No specific properties"/>
+			
 		</labels>
 	</xsl:variable>
 	<!-- In this stylesheet we just copy the base labels -->
@@ -852,16 +855,37 @@
 						</p>
 					</xsl:if>
 					<xsl:if
-						test="targetClass/href or superClasses/link or nodeKind != '' or pattern != '' or closed='true' or skosExample != ''">
+						test="targetClass/href or superClasses/link or nodeKind != '' or pattern != '' or closed='true' or skosExample != '' or targetSubjectsOf != '' or targetObjectsOf != ''">
 						<ul class="sp_list_description_properties">
-							<xsl:if test="targetClass/href">
+							<xsl:if test="targetClass/targetClass">
+								
+								<!--  
 								<li>
-									<xsl:value-of
-										select="$LABELS/labels/entry[@key='LABEL_TARGETCLASS']/@label" />
 									<a href="{targetClass/href}">
 										<xsl:value-of select="targetClass/label" />
 									</a>
 								</li>
+								-->
+								<li>
+									<xsl:value-of select="$LABELS/labels/entry[@key='LABEL_TARGETCLASS']/@label" />
+									<xsl:for-each select="targetClass/targetClass">
+										<xsl:variable name="TargetClass_Href" select="href"/>
+										<xsl:variable name="TargetClass_label" select="label"/>
+										
+										<a href="{$TargetClass_Href}">
+											<xsl:value-of select="$TargetClass_label" />
+										</a>
+										<xsl:choose>
+											<xsl:when test="position() = last()">
+												<xsl:text></xsl:text>
+											</xsl:when>
+											<xsl:when test="position() != last()">
+												<xsl:text> | </xsl:text>
+											</xsl:when>											
+										</xsl:choose>
+									</xsl:for-each>
+								</li>
+								
 							</xsl:if>
 							<xsl:if test="superClasses/link">
 								<li>
@@ -894,9 +918,28 @@
 							</xsl:if>
 							<xsl:if test="pattern != ''">
 								<li>
-									<xsl:value-of
-										select="$LABELS/labels/entry[@key='LABEL_PATTERNS']/@label" />
-									<code><xsl:value-of select="pattern" /></code>							
+									<xsl:value-of select="$LABELS/labels/entry[@key='LABEL_PATTERNS']/@label" />
+									<xsl:choose>
+										<xsl:when test="contains(pattern,',')">
+											<br></br>
+											<xsl:for-each select="tokenize(pattern,',')">
+												<code>
+													<xsl:value-of select="."/>
+												</code>
+												<xsl:choose>
+													<xsl:when test="position() = last()">
+														<xsl:text></xsl:text>
+													</xsl:when>
+													<xsl:when test="position() != last()">
+														<br></br>
+													</xsl:when>
+												</xsl:choose>
+											</xsl:for-each>
+										</xsl:when>
+										<xsl:otherwise>
+											<code><xsl:value-of select="pattern"/></code>
+										</xsl:otherwise>
+									</xsl:choose>	
 								</li>
 							</xsl:if>
 							<!-- Example -->
@@ -911,7 +954,18 @@
 									<em>Message:</em><xsl:value-of select="MessageOfValidate"/>
 								</li>
 							</xsl:if>
-							
+							<xsl:if test="targetSubjectsOf">
+								<li>
+									<xsl:value-of select="$LABELS/labels/entry[@key='LABEL_TARGETSUBJECTSOF']/@label" />
+									<xsl:value-of select="targetSubjectsOf"/>
+								</li>
+							</xsl:if>
+							<xsl:if test="targetObjectsOf">
+								<li>
+									<xsl:value-of select="$LABELS/labels/entry[@key='LABEL_TARGETOBJECTSOF']/@label" />
+									<xsl:value-of select="targetObjectsOf"/>
+								</li>
+							</xsl:if>
 						</ul>
 					</xsl:if>
 					

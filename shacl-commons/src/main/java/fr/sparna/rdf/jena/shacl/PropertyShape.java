@@ -9,7 +9,6 @@ import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.RDFList;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
-import org.apache.jena.vocabulary.RDF;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.topbraid.shacl.vocabulary.SH;
@@ -59,6 +58,8 @@ public class PropertyShape {
 			return null;
 		}
 	}
+
+	
 	
 	public Optional<Resource> getShClass() {
 		return ModelReadingUtils.getOptionalResource(propertyShape, SH.class_);
@@ -87,9 +88,23 @@ public class PropertyShape {
 	public Optional<Literal> getShName() {
 		return ModelReadingUtils.getOptionalLiteral(this.propertyShape, SH.name);
 	}
+
+	/**
+	 * @return The sh:name list in the provided language, or an empty list if none is present
+	 */
+	public List<Literal> getShName(String lang) {
+		return ModelReadingUtils.readLiteralInLang(propertyShape, SH.name, lang);
+	}
 	
 	public Optional<Literal> getShDescription() {
 		return ModelReadingUtils.getOptionalLiteral(this.propertyShape, SH.description);
+	}
+
+	/**
+	 * @return The sh:name list in the provided language, or an empty list if none is present
+	 */
+	public List<Literal> getShDescription(String lang) {
+		return ModelReadingUtils.readLiteralInLang(propertyShape, SH.description, lang);
 	}
 	
 	public Optional<RDFNode> getShHasValue() {

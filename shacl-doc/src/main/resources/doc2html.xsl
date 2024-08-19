@@ -119,8 +119,8 @@
 			<entry key="LABEL_EXAMPLE" label="Example: "/>
 			<entry key="LABEL_SUPERCLASSES" label="Inherits from: "/>
 			<entry key="LABEL_OR" label=" or "/>
-			<entry key="LABEL_TARGETSUBJECTSOF" label="Subject Of: "/>
-			<entry key="LABEL_TARGETOBJECTSOF" label="Object Of: "/>
+			<entry key="LABEL_TARGETSUBJECTSOF" label="Applies to subjects of: "/>
+			<entry key="LABEL_TARGETOBJECTSOF" label="Applies to objects of: "/>
 			
 			<entry key="LABEL_NO_PROPERTIES" label="No specific properties"/>
 			

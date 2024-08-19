@@ -28,7 +28,10 @@ import fr.sparna.rdf.shacl.doc.model.ShapesDocumentationSection;
 import fr.sparna.rdf.shacl.generate.visitors.ShaclVisitorIfc;
 
 
-
+/**
+ * Generates the SPARQL query to list all distinct values of each property in the documentation,
+ * and adds this to the documentation of each property shape.
+ */
 public class EnrichDocumentationWithQuerySparqlVisitor implements ShaclVisitorIfc {
 
 	private Logger log = LoggerFactory.getLogger(this.getClass().getName());
@@ -87,14 +90,10 @@ public class EnrichDocumentationWithQuerySparqlVisitor implements ShaclVisitorIf
 					ElementGroup eWhere = new ElementGroup();		
 					ElementTriplesBlock eBlock = new ElementTriplesBlock();		
 					
-					// Dataset
-					//eBlock.addTriple(new Triple(this.subject, this.type,NodeFactory.createURI(section.getTargetClass().getHref())));
-					
+					// TODO : this will not work in case of multiple target classes
 					for (Link r : section.getTargetClass()) {
 						eBlock.addTriple(new Triple(this.subject, this.type,NodeFactory.createURI(r.getHref())));
 					}
-					
-					
 					
 					
 					eBlock.addTriple(new Triple(this.subject, NodeFactory.createURI(ps.getShPath().getURI()),Var.alloc("result")));

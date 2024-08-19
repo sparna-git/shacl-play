@@ -160,7 +160,7 @@ public class CombinedSchema extends Schema {
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), subschemas, criterion, synthetic, title_custom, description_custom);
+        return Objects.hash(super.hashCode(), subschemas, criterion, synthetic);
     }
 
     @Override

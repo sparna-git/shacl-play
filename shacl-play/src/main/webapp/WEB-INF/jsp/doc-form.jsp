@@ -381,10 +381,16 @@
 							  		are searched on the target class.</td>
 								</tr>
 								<tr>
-									<th scope="row"><code>sh:targetClass</code></th>
+									<th scope="row"><code>sh:targetClass</code> (can be repeated)</th>
 									<td>sh:IRI</td>
 									<td>No</td>
-									<td class="text-break">The class to which the NodeShape applies.</td>
+									<td class="text-break">The class to which the NodeShape applies. This can be repeated multiple times</td>
+							  	</tr>
+								  <tr>
+									<th scope="row"><code>sh:targetSubjectsOf</code> or <code>sh:targetObjectsOf</code></th>
+									<td>sh:IRI</td>
+									<td>No</td>
+									<td class="text-break">The property for which this shape will target the subjects or the objects.</td>
 							  	</tr>
 							  	<tr>
 									<th scope="row"><code>sh:target/sh:select</code></th>
@@ -423,7 +429,7 @@
 							  		<td class="text-break">
 							  			If the NodeShape itself or its target class are subclasses of another class, then this is indicated in the header.
 							  			<br />
-							  			Also note that the properties table will be populated with property shapes from the super classes, in different sections "à la"
+							  			Also note that the properties table will be populated with property shapes from the super classes, in different sections "ï¿½ la"
 							  			 schema.org.							  		
 							  		</td>
 							  	</tr>				  	

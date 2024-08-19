@@ -202,6 +202,13 @@
 									<td class="text-break">If the property indicated in <code>sh:path</code> is known to have an inverse, then a single arrow
 									will be printed instead of 2.</td>
 								</tr>
+								<tr>
+									<th scope="row" width="30%"><code>sh:group</code><br /> + <code>rdfs:label</code></th>
+									<td>IRI</td>
+									<td class="text-break">Groups the property inside a section in the box in the diagram, labelled with its <code>rdfs:label</code>. 
+										This also has the effect of turning "arrows" into "class attributes", in other words displaying object properties as data properties.
+										This is useful to make the diagram more compact for references to e.g. controlled vocabularies / skos:Concept.</td>
+								</tr>
 							</tbody>
 						</table>
 					</div>

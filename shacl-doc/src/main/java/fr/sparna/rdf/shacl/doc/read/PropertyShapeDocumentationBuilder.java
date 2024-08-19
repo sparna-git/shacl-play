@@ -63,7 +63,7 @@ public class PropertyShapeDocumentationBuilder {
 
 		if(propertyShape.getShClass() != null) {
 			for(NodeShape aNodeShape : allNodeShapes) {
-				if(aNodeShape.getShTargetClass() != null && aNodeShape.getShTargetClass().getURI().equals(propertyShape.getShClass().getURI())) {
+				if(aNodeShape.getShTargetClass() != null && findShClassInShTargetClass(aNodeShape.getShTargetClass(),propertyShape.getShClass().getURI())) {
 					Link l = new Link(aNodeShape.getShortFormOrId(), aNodeShape.getDisplayLabel(owlGraph, lang));
 					proprieteDoc.getExpectedValue().setLinkNodeShape(l);
 					break;
@@ -83,6 +83,19 @@ public class PropertyShapeDocumentationBuilder {
 		
 		return proprieteDoc;
 	}
+	
+	
+	public static boolean findShClassInShTargetClass(List<Resource> getTargetClass,String getURIShClass) {
+		
+		boolean	bResult = false;
+		for (Resource r : getTargetClass) {
+			if (r.getURI().equals(getURIShClass)){
+				bResult = true;
+			}	
+		}
+		return bResult;
+	}
+	
 	
 	public static Link buildPathLink(PropertyShape prop) {			
 		if(prop.getShPath() != null && prop.getShPath().isURIResource()) {

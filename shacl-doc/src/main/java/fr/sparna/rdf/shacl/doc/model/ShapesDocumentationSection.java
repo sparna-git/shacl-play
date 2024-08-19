@@ -28,13 +28,16 @@ public class ShapesDocumentationSection {
 	private String subtitleUri;	
 	private String description;
 	
-	private Link targetClass;
+	private List<Link> targetClass;
 	
 	private String pattern;
 	private String nodeKind;
 	private Boolean closed;
 	private String skosExample;
 	private String color;
+	
+	private String targetSubjectsOf;
+	private String targetObjectsOf;
 	
 	/**
 	 * The target of the shape when it is expressed using a SPARQL query
@@ -128,11 +131,11 @@ public class ShapesDocumentationSection {
 		this.description = description;
 	}
 	
-	public Link getTargetClass() {
+	public List<Link> getTargetClass() {
 		return targetClass;
 	}
 
-	public void setTargetClass(Link targetClass) {
+	public void setTargetClass(List<Link> targetClass) {
 		this.targetClass = targetClass;
 	}
 
@@ -214,7 +217,22 @@ public class ShapesDocumentationSection {
 
 	public void setPropertyGroups(List<PropertyShapesGroupDocumentation> propertyGroups) {
 		this.propertyGroups = propertyGroups;
+	}
+
+	public String getTargetSubjectsOf() {
+		return targetSubjectsOf;
+	}
+
+	public String getTargetObjectsOf() {
+		return targetObjectsOf;
+	}
+
+	public void setTargetSubjectsOf(String targetSubjectsOf) {
+		this.targetSubjectsOf = targetSubjectsOf;
+	}
+
+	public void setTargetObjectsOf(String targetObjectsOf) {
+		this.targetObjectsOf = targetObjectsOf;
 	}	
-	
 	
 }

@@ -9,6 +9,8 @@ RUN mvn package
 
 FROM tomcat:9.0-jdk17
 
+RUN apt update -y && apt install graphviz -y
+
 RUN rm -rf /usr/local/tomcat/webapps/*
 
 COPY --from=builder /build/shacl-play/target/*.war /usr/local/tomcat/webapps/ROOT.war

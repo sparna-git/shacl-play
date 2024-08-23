@@ -388,7 +388,9 @@ public class PlantUmlRenderer {
 			sourceuml.append("hide fields\n");
 		}
 		
-		if (diagram.usesShGroup(diagram.boxes)) {
+		// we don't set remove @unlinked if the diagram contains a single box otherwise
+		// PlantUML crashes
+		if (diagram.usesShGroup(diagram.boxes) && diagram.boxes.size() > 1) {
 			sourceuml.append("remove @unlinked\n");
 		}
 		

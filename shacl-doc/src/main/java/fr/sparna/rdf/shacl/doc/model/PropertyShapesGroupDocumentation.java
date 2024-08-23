@@ -5,6 +5,9 @@ import java.util.List;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
+/**
+ * Group of property shapes in the table, à la schema.org
+ */
 public class PropertyShapesGroupDocumentation {
 
 	private Link targetClass;

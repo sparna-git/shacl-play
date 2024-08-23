@@ -57,7 +57,12 @@ public class PlantUmlBox {
 	
 	public boolean isTargeting(Resource classUri) {
 		boolean hasShTargetClass = this.getTargetClass().filter(c -> c.equals(classUri)).isPresent();
-		boolean isItselfTheClass = this.nodeShape.hasProperty(RDF.type, RDFS.Class) && this.nodeShape.hasProperty(RDF.type, SH.NodeShape);
+		boolean isItselfTheClass = 
+		this.nodeShape.hasProperty(RDF.type, RDFS.Class)
+		&&
+		this.nodeShape.hasProperty(RDF.type, SH.NodeShape)
+		&&
+		this.nodeShape.equals(classUri);
 		
 		return hasShTargetClass || isItselfTheClass;
 	}

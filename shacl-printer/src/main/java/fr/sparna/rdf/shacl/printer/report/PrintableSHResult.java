@@ -22,7 +22,11 @@ public class PrintableSHResult {
 	}
 
 	public String getResultPath() {
-		return RDFRenderer.renderResource(shresult.getPath());
+		if(shresult != null) {
+			return RDFRenderer.renderResource(shresult.getPath());
+		} else {
+			return "";
+		}		
 	}
 
 	public String getResultSeverity() {

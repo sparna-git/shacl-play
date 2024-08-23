@@ -49,8 +49,6 @@ public class ValidationReport {
 			// Turn the results Resource objects into SHResult instances
 			this.results = new LinkedList<SHResult>();
 			for(Resource candidate : results) {
-				// SHResult result = SHFactory.asResult(candidate);
-				// SHResult result = candidate.as(SHResult.class);
 				SHResult result = new SHResult(candidate);
 				this.results.add(result);
 			}

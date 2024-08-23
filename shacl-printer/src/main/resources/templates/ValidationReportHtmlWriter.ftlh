@@ -77,7 +77,7 @@
                           <#list report.getLimitedResultsFor(summaryEntry) as result>
                               <tr>
                                 <td><span title="${result.focusNode}">${result.focusNode}</span></td>
-                                <td><#if result.shresult.path??><span title="${result.shresult.path}">${result.resultPath}</span<#else>&nbsp;</#if></td>
+                                <td><span title="${result.resultPath}">${result.resultPath}</span></td>
                                 <td>${result.value?no_esc}</td>
                               </tr>
                           </#list>
@@ -98,7 +98,7 @@
                       <#list report.getLimitedResultsFor(summaryEntry) as result>
                           <tr>
                             <td><span title="${result.focusNode}">${result.focusNode}</span></td>
-                            <td><#if result.shresult.path??><span title="${result.shresult.path}">${result.resultPath}</span<#else>&nbsp;</#if></td>
+                            <td><span title="${result.resultPath}">${result.resultPath}</span></td>
                             <td>${result.value?no_esc}</td>
                           </tr>
                       </#list>

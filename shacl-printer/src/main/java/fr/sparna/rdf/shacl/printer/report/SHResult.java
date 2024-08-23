@@ -12,8 +12,6 @@ public class SHResult {
 
 	private Resource resource;
 	
-	
-
 	public SHResult(Resource result) {
 		super();
 		this.resource = result;
@@ -23,36 +21,29 @@ public class SHResult {
 		return SHResult.getPropertyAsString(resource, SH.resultMessage);
 	}
 
-
 	RDFNode getFocusNode() {
 		return SHResult.getProperty(this.resource, SH.focusNode);
 	}
-
 
 	Resource getPath() {
 		return getPropertyResourceValue(SH.resultPath);
 	}
 
-
 	Resource getSeverity() {
 		return getPropertyResourceValue(SH.resultSeverity);
 	}
-
 
 	Resource getSourceConstraint() {
 		return getPropertyResourceValue(SH.sourceConstraint);
 	}
 
-
 	Resource getSourceConstraintComponent() {
 		return getPropertyResourceValue(SH.sourceConstraintComponent);
 	}
 
-
 	Resource getSourceShape() {
 		return getPropertyResourceValue(SH.sourceShape);
 	}
-
 
 	RDFNode getValue() {
 		return SHResult.getProperty(this.resource, SH.value);

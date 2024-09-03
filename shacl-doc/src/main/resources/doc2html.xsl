@@ -710,8 +710,7 @@
 			</a>
 		</span>
 	</xsl:template>
-	
-	
+		
 	<xsl:template match="abstract_">
 		<div class="row mt-3">
 			<div class="col">
@@ -774,7 +773,7 @@
 	<!-- Description Title -->
 	<xsl:template match="descriptionDocument[text() != '']">
 		<div>
-			<h2 id="description" class="sp_section_subtitle">
+			<h2 id="description" class="sp_section_subtitle" style="margin-top: 1em;">
 				<xsl:value-of select="$LABELS/labels/entry[@key='DESCRIPTION.TITLE']/@label" />
 			</h2>
 			<!--  disable output escaping so that HTML is preserved -->
@@ -919,6 +918,7 @@
 							<xsl:if test="pattern != ''">
 								<li>
 									<xsl:value-of select="$LABELS/labels/entry[@key='LABEL_PATTERNS']/@label" />
+									<!--
 									<xsl:choose>
 										<xsl:when test="contains(pattern,',')">
 											<br></br>
@@ -937,9 +937,11 @@
 											</xsl:for-each>
 										</xsl:when>
 										<xsl:otherwise>
-											<code><xsl:value-of select="pattern"/></code>
+											
 										</xsl:otherwise>
-									</xsl:choose>	
+									</xsl:choose>
+									-->
+									<code><xsl:value-of select="pattern"/></code>	
 								</li>
 							</xsl:if>
 							<!-- Example -->

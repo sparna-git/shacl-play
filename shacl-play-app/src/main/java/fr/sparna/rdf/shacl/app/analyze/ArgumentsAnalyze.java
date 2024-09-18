@@ -33,7 +33,7 @@ public class ArgumentsAnalyze {
 
 	@Parameter(
 			names = { "-s", "--shapes" },
-			description = "Path to the shapes file against which the input data should be analyzed",
+			description = "Path to the shapes file against which the input data should be analyzed, or URL of the shapes file",
 			required = true
 	)
 	private String shapes;

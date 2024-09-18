@@ -234,6 +234,10 @@ public class NodeShape {
 	public List<Resource> getRdfsSubClassOf() {
 		return NodeShape.getRdfsSubClassOfOf(nodeShape);
 	}
+
+	public List<Resource> getShNode() {
+		return nodeShape.listProperties(SH.node).toList().stream().map(s -> s.getObject().asResource()).collect(Collectors.toList());
+	}
 	
 	public static List<Resource> getRdfsSubClassOfOf(Resource resource) {
 		return resource.listProperties(RDFS.subClassOf).toList().stream()
@@ -267,8 +271,10 @@ public class NodeShape {
 	}
 	
 	/**
-	 * Returns a list containing the shapes that this one is subClassOf plus the shapes that target a class, which the class that this shape target
-	 * is a subClassOf.
+	 * Returns a list containing :
+	 * 1. the shapes that this one is subClassOf 
+	 * 2. plus the shapes that target a class, which the class that this shape target is a subClassOf.
+	 * 3. plus a shape that is referenced by this shape by a sh:node
 	 * 
 	 * @return
 	 */
@@ -276,6 +282,7 @@ public class NodeShape {
 		List<Resource> superShapes = new ArrayList<Resource>();
 		superShapes.addAll(this.getRdfsSubClassOf());
 		superShapes.addAll(this.getShTargetClassRdfsSubclassOfInverseOfShTargetClass());
+		superShapes.addAll(this.getShNode());
 		return superShapes;
 	}
 	

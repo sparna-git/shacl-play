@@ -9,6 +9,9 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
+/**
+ * One section in the final documentation, corresponding to one NodeShape
+ */
 @JsonInclude(Include.NON_NULL)
 public class ShapesDocumentationSection {
 

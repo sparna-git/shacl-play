@@ -33,9 +33,7 @@ public class ShapesDocumentationSectionBuilder {
 		currentSection.setNodeShapeUriOrId(nodeShape.getURIOrId());
 		currentSection.setSectionId(nodeShape.getShortFormOrId());
 		// if the node shape is itself a class, set its subtitle to the URI
-		if(nodeShape.isAClass()) {
-			currentSection.setSubtitleUri(nodeShape.getNodeShape().getURI());
-		}
+		currentSection.setSubtitleUri(nodeShape.getNodeShape().getURI());
 		
 		// title : either skos:prefLabel or rdfs:label or the URI short form
 		currentSection.setTitle(nodeShape.getDisplayLabel(owlGraph, lang));
@@ -99,13 +97,14 @@ public class ShapesDocumentationSectionBuilder {
 		// skos:example
 		currentSection.setSkosExample((nodeShape.getSkosExample() != null)?nodeShape.getSkosExample().toString():null);
 		
-		// rdfs:subClassOf
+		// rdfs:subClassOf if shape is also a class
 		currentSection.setSuperClasses(nodeShape.getRdfsSubClassOf().stream()
 				.filter(r -> shapesGraph.findNodeShapeByResource(r) != null)
 				.map(r -> createLinkFromShape(r, lang))
 				.collect(Collectors.toList()));
 		
 		// shapes targeting a super-class of this shape target
+		// --> ontological superclasses
 		if(currentSection.getSuperClasses() == null || currentSection.getSuperClasses().size() == 0) {
 			currentSection.setSuperClasses(nodeShape.getShTargetClassRdfsSubclassOfInverseOfShTargetClass().stream()
 					.filter(r -> shapesGraph.findNodeShapeByResource(r) != null)

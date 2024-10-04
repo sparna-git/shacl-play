@@ -94,7 +94,13 @@ public class PlantUmlRenderer {
 			if (property.getShNodeKind().isPresent() && !property.getShNodeKind().get().equals(SHACLM.IRI)) {
 				output += ModelRenderingUtils.render(property.getShNodeKind().get()) + " " ;
 			}				
-		} else if(property.getShNode().isPresent() && diagram.findBoxByResource(property.getShNode().get()).getProperties().size() > 0) {
+		} else if(
+			property.getShNode().isPresent()
+			&&
+			diagram.findBoxByResource(property.getShNode().get()) != null
+			&&
+			diagram.findBoxByResource(property.getShNode().get()).getProperties().size() > 0
+		) {
 
 			output = box.getPlantUmlQuotedBoxName() + " -"+colorArrow+"-> \"" + nodeReference + "\" : " + property.getPathAsSparql();
 			
@@ -578,7 +584,6 @@ public class PlantUmlRenderer {
 			return b.getLabel();
 		} else {
 			return ModelRenderingUtils.render(shNodeReference, true);
-
 		}
 	}
 	

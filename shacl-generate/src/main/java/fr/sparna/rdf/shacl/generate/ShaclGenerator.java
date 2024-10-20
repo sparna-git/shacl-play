@@ -44,13 +44,27 @@ public class ShaclGenerator {
 	
 	private ShaclGeneratorDataProviderIfc dataProvider;
 	
-	protected ProgressMonitor progressMonitor;
-	
-	protected List<ShaclVisitorIfc> extraVisitors = new ArrayList<>();
+	protected ProgressMonitor progressMonitor;	
 
+	/**
+	 * Whether to skip datatype assignement
+	 */
 	protected boolean skipDatatypes = false;
+
+	/**
+	 * Whether sh:name and rdfs:label should be generated on the generated shapes, from the URI
+	 */
+	protected boolean generateLabels = true;
 	
+	/**
+	 * Base visitors - cannot be changed
+	 */
 	protected transient List<ShaclVisitorIfc> visitors;
+
+	/**
+	 * Extra visitors that can be set from the outside
+	 */
+	protected List<ShaclVisitorIfc> extraVisitors = new ArrayList<>();
 	
 	
 	
@@ -204,10 +218,12 @@ public class ShaclGenerator {
 				s -> concatOnProperty(typeShape, RDFS.comment, s, DEFAULT_MESSAGE_LANG)
 		);
 		
-		// add the name
-		String name = this.dataProvider.getName(typeUri, configuration.getLang());		
-		if(name != null) {
-			shacl.add(typeShape, RDFS.label, shacl.createLiteral(name, configuration.getLang()));
+		if(this.generateLabels) {
+			// add the name
+			String name = this.dataProvider.getName(typeUri, configuration.getLang());		
+			if(name != null) {
+				shacl.add(typeShape, RDFS.label, shacl.createLiteral(name, configuration.getLang()));
+			}
 		}	
 		
 		// add the property shapes on this NodeShape
@@ -276,10 +292,12 @@ public class ShaclGenerator {
 		// add the sh:path triple to the output Model
 		shacl.add(propertyShape, SHACLM.path, path);
 
-		// add the name
-		String name = this.dataProvider.getName(property, configuration.getLang());		
-		if(name != null) {
-			shacl.add(propertyShape, SHACLM.name, shacl.createLiteral(name, configuration.getLang()));
+		if(this.generateLabels) {
+			// add the name
+			String name = this.dataProvider.getName(property, configuration.getLang());		
+			if(name != null) {
+				shacl.add(propertyShape, SHACLM.name, shacl.createLiteral(name, configuration.getLang()));
+			}
 		}
 
 	}
@@ -339,6 +357,14 @@ public class ShaclGenerator {
 
 	public void setSkipDatatypes(boolean skipDatatypes) {
 		this.skipDatatypes = skipDatatypes;
+	}
+
+	public boolean isGenerateLabels() {
+		return generateLabels;
+	}
+
+	public void setGenerateLabels(boolean generateLabels) {
+		this.generateLabels = generateLabels;
 	}
 
 	public static String shortenUri(Model shacl, String uri) {

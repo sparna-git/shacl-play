@@ -8,7 +8,6 @@ import java.util.Map;
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.Parameters;
 
-import fr.sparna.cli.SpaceSplitter;
 
 @Parameters(commandDescription = "Generates the SHACL profile of an input knowledge graph")
 public class ArgumentsGenerate {
@@ -54,6 +53,13 @@ public class ArgumentsGenerate {
 			variableArity = true
 	)
 	private List<String> excludes;
+
+	@Parameter(
+		names = { "-nl", "--no-labels" },
+		description = "Set this option to avoid generating sh:name and rdfs:label on the shapes. Defaults to false",
+		required = false
+	)
+	private boolean noLabels = false;
 	
 	public Map<String, String> getAdditionnalPrefixes() {
 		if(this.prefixes == null) {
@@ -106,6 +112,13 @@ public class ArgumentsGenerate {
 	public List<String> getExcludes() {
 		return excludes;
 	}
-	
+
+	public boolean isNoLabels() {
+		return noLabels;
+	}
+
+	public void setNoLabels(boolean noLabels) {
+		this.noLabels = noLabels;
+	}
 	
 }

@@ -42,6 +42,9 @@ public class Generate implements CliCommandIfc {
 			ShaclGenerator generator = new ShaclGenerator();
 			generator.getExtraVisitors().add(new AssignLabelRoleVisitor());
 			generator.getExtraVisitors().add(new AssignDatatypesAndClassesToIriOrLiteralVisitor(dataProvider, new DefaultModelProcessor()));
+			if(a.isNoLabels()) {
+				generator.setGenerateLabels(false);
+			}
 			
 			shapes = generator.generateShapes(
 					config,
@@ -53,7 +56,9 @@ public class Generate implements CliCommandIfc {
 			ShaclGenerator generator = new ShaclGenerator();
 			generator.getExtraVisitors().add(new AssignLabelRoleVisitor());
 			generator.getExtraVisitors().add(new AssignDatatypesAndClassesToIriOrLiteralVisitor(dataProvider, new DefaultModelProcessor()));
-			
+			if(a.isNoLabels()) {
+				generator.setGenerateLabels(false);
+			}
 			
 			shapes = generator.generateShapes(
 					config,

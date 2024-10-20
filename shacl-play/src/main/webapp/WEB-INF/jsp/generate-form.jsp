@@ -64,6 +64,22 @@
 						<h2><i class="fal fa-tools"></i>&nbsp;&nbsp;<fmt:message key="blockquote.options.title" /></h2>
 				      	<blockquote class="blockquote bq-warning">
 					      
+
+						<!-- Generate labels option -->
+						<div class="form-group row"> 	
+							<div class="col-sm-12">
+								<div class="form-check">
+								<input class="form-check-input" type="checkbox" id="generateLabels" name="generateLabels" checked="true" />
+								<label class="form-check-label" for="generateLabels">
+								  <fmt:message key="generate.options.generateLabels" />
+								</label>
+								<small class="form-text text-muted">
+								  <fmt:message key="generate.options.generateLabels.help" />
+								</small>
+							  </div>
+						  </div>			  
+						</div>
+
 						<!-- Compute statistics option -->
 						 <div class="form-group row"> 	
 					      	<div class="col-sm-12">

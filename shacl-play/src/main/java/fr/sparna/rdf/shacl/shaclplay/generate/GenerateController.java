@@ -38,7 +38,6 @@ import fr.sparna.rdf.shacl.generate.visitors.AssignValueOrInVisitor;
 import fr.sparna.rdf.shacl.generate.visitors.ComputeStatisticsVisitor;
 import fr.sparna.rdf.shacl.generate.visitors.ComputeValueStatisticsVisitor;
 import fr.sparna.rdf.shacl.generate.visitors.CopyStatisticsToDescriptionVisitor;
-import fr.sparna.rdf.shacl.generate.visitors.AssignValueOrInVisitor.StatisticsBasedRequiresShValueOrInPredicate;
 import fr.sparna.rdf.shacl.shaclplay.ApplicationData;
 import fr.sparna.rdf.shacl.shaclplay.ControllerCommons;
 import fr.sparna.rdf.shacl.shaclplay.ControllerModelFactory;
@@ -66,6 +65,8 @@ public class GenerateController {
 			// compute statistics option
 			@RequestParam(value="statistics", required=false) boolean computeStatistics,
 			HttpServletRequest request,
+			// compute statistics option
+			@RequestParam(value="generateLabels", required=false, defaultValue="true") boolean generateLabels,
 			HttpServletResponse response
 	){
 		try {
@@ -88,6 +89,7 @@ public class GenerateController {
 					computeStatistics,
 					// async ?
 					requiresAsyncGeneration(null, datasetModel),
+					generateLabels,
 					request
 			);		
 			
@@ -134,6 +136,8 @@ public class GenerateController {
 			@RequestParam(value="format", required=false, defaultValue = "Turtle") String format,
 			// statistics option
 			@RequestParam(value="statistics", required=false) boolean computeStatistics,
+			// generate labels option
+			@RequestParam(value="generateLabels", required=false) boolean generateLabels,
 			HttpServletRequest request,
 			HttpServletResponse response			
 	) {
@@ -189,6 +193,8 @@ public class GenerateController {
 					computeStatistics,
 					// async ?
 					async,
+					// generate labels
+					true,
 					request
 			);			
 			
@@ -230,11 +236,13 @@ public class GenerateController {
 			String targetDatasetUri,
 			boolean withCount,
 			boolean async,
+			boolean generateLabels,
 			HttpServletRequest request
 	) {
 		if(!async) {
 			ShaclGenerator generator = new ShaclGenerator();
 			generator.getExtraVisitors().add(new AssignLabelRoleVisitor());
+			generator.setGenerateLabels(generateLabels);
 			
 			// if we requested statistics, add extra visitors
 			Model countModel = ModelFactory.createDefaultModel();

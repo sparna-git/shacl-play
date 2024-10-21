@@ -12,8 +12,7 @@ import com.beust.jcommander.Parameters;
 
 import fr.sparna.cli.SpaceSplitter;
 
-@Parameters(commandDescription = "Validates some input RDF data against the provided SHACL file, and writes the output in one or more output file. The format "
-		+ "of the output file(s) is determined based on the file extension.")
+@Parameters(commandDescription = "Generates a documentation page from a SHACL input file, in HTML or PDF, in a given language.")
 public class ArgumentsDoc {
 
 	@Parameter(

@@ -1,17 +1,13 @@
 package fr.sparna.rdf.shacl.app.draw;
 
 import java.io.File;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.Parameters;
 
-import fr.sparna.cli.SpaceSplitter;
 
-@Parameters(commandDescription = "Validates some input RDF data against the provided SHACL file, and writes the output in one or more output file. The format "
-		+ "of the output file(s) is determined based on the file extension.")
+@Parameters(commandDescription = "Draw a UML diagram from a SHACL file")
 public class ArgumentsDraw {
 
 	@Parameter(

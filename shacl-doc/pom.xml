@@ -10,7 +10,7 @@
 	<parent>
 		<groupId>fr.sparna.rdf.shacl</groupId>
 		<artifactId>shacl-play-root-pom</artifactId>
-		<version>0.8.0</version>
+		<version>0.8.1</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
@@ -99,14 +99,14 @@
 		<dependency>
 			<groupId>fr.sparna.rdf.shacl</groupId>
 			<artifactId>shacl-diagram</artifactId>
-			<version>0.8.0</version>
+			<version>0.8.1</version>
 		</dependency>
 
 		<!-- SHACL generation -->
 		<dependency>
 			<groupId>fr.sparna.rdf.shacl</groupId>
 			<artifactId>shacl-generate</artifactId>
-			<version>0.8.0</version>
+			<version>0.8.1</version>
 		</dependency>
 
 		<!-- PDF -->

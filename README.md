@@ -1,6 +1,21 @@
 
 # SHACL Play!
-SHACL validator and printer **live at https://shacl-play.sparna.fr**
+SHACL validator and documentation generator **live at https://shacl-play.sparna.fr**
+
+## Cool things you can do with SHACL
+
+With SHACL Play you can:
+- validate an RDF dataset against a SHACL specification, and produce a human-readable report ([`validate` command](https://github.com/sparna-git/shacl-play/wiki/Run-SHACL-Play-App-from-command-line#validate))
+- generate an HTML documentation of your SHACL application profile ([`doc` command](https://github.com/sparna-git/shacl-play/wiki/Run-SHACL-Play-App-from-command-line#doc)), or a diagram ([`draw` command](https://github.com/sparna-git/shacl-play/wiki/Run-SHACL-Play-App-from-command-line#draw))
+- generate a SHACL from an RDF dataset ([`generate` command](https://github.com/sparna-git/shacl-play/wiki/Run-SHACL-Play-App-from-command-line#generate))
+- obtain the statistics of an RDF dataset from a SHACL specification ([`analyze` command](https://github.com/sparna-git/shacl-play/wiki/Run-SHACL-Play-App-from-command-line#analyze))
+- generate SPARQL queries from a SHACL spec ([`shacl2sparql` command](https://github.com/sparna-git/shacl-play/wiki/Run-SHACL-Play-App-from-command-line#shacl2sparql))
+
+and other cool things with SHACL Rules, too, like applying them for inference.
+
+## Check out Sparnatural, too
+
+If you use SHACL you may be interested to know that the [Sparnatural Knowledge Graph explorer](https://sparnatural.eu) uses a SHACL file for its [configuration](https://docs.sparnatural.eu/how-to-configure-shacl/How-to-configure-Sparnatural-shacl.html). Which means you can use the same SHACL file to document your dataset, validate data, and provide a query UI.
 
 ## Running the application.
 

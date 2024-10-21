@@ -5,11 +5,11 @@ SHACL validator and documentation generator **live at https://shacl-play.sparna.
 ## Cool things you can do with SHACL
 
 With SHACL Play you can:
-- validate an RDF dataset against a SHACL specification, and produce a human-readable report ([`validate` command](https://github.com/sparna-git/shacl-play/wiki/Run-SHACL-Play-App-from-command-line#validate))
-- generate an HTML documentation of your SHACL application profile ([`doc` command](https://github.com/sparna-git/shacl-play/wiki/Run-SHACL-Play-App-from-command-line#doc)), or a diagram ([`draw` command](https://github.com/sparna-git/shacl-play/wiki/Run-SHACL-Play-App-from-command-line#draw))
-- generate a SHACL from an RDF dataset ([`generate` command](https://github.com/sparna-git/shacl-play/wiki/Run-SHACL-Play-App-from-command-line#generate))
-- obtain the statistics of an RDF dataset from a SHACL specification ([`analyze` command](https://github.com/sparna-git/shacl-play/wiki/Run-SHACL-Play-App-from-command-line#analyze))
-- generate SPARQL queries from a SHACL spec ([`shacl2sparql` command](https://github.com/sparna-git/shacl-play/wiki/Run-SHACL-Play-App-from-command-line#shacl2sparql))
+- validate an RDF dataset against a SHACL specification, and produce a human-readable report ([`validate`](https://github.com/sparna-git/shacl-play/wiki/Run-SHACL-Play-App-from-command-line#validate)  command)
+- generate an HTML documentation of your SHACL application profile ([`doc`](https://github.com/sparna-git/shacl-play/wiki/Run-SHACL-Play-App-from-command-line#doc) command), or a diagram ([`draw`](https://github.com/sparna-git/shacl-play/wiki/Run-SHACL-Play-App-from-command-line#draw))
+- generate a SHACL from an RDF dataset ([`generate`](https://github.com/sparna-git/shacl-play/wiki/Run-SHACL-Play-App-from-command-line#generate) command)
+- obtain the statistics of an RDF dataset from a SHACL specification ([`analyze`](https://github.com/sparna-git/shacl-play/wiki/Run-SHACL-Play-App-from-command-line#analyze) command)
+- generate SPARQL queries from a SHACL spec ([`shacl2sparql`](https://github.com/sparna-git/shacl-play/wiki/Run-SHACL-Play-App-from-command-line#shacl2sparql) command)
 
 and other cool things with SHACL Rules, too, like applying them for inference.
 

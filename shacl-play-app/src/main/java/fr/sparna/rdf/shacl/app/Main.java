@@ -32,19 +32,20 @@ import fr.sparna.rdf.shacl.app.validate.Validate;
 public class Main {
 
 	enum COMMAND {		
-
-		REPORT(new ArgumentsGenerateReport(), new GenerateReport()),
-		INFER(new ArgumentsInfer(), new Infer()),
-		OWL2SHACL(new ArgumentsOwl2Shacl(), new Owl2Shacl()),
-		DRAW(new ArgumentsDraw(), new Draw()),
+	
+		ANALYZE(new ArgumentsAnalyze(), new Analyze()),
 		DOC(new ArgumentsDoc(), new Doc()),
-		SHACL2SPARQL(new ArgumentsShacl2Sparql(), new Shacl2Sparql()),
-		SPARQLBATCH(new ArgumentsSparqlBatch(), new SparqlBatch()),
+		DRAW(new ArgumentsDraw(), new Draw()),
+		FILTER(new ArgumentsFilter(), new Filter()),
 		GENERATECONTEXT(new ArgumentsGenerateContext(), new GenerateContext()),
 		GENERATE(new ArgumentsGenerate(), new Generate()),
-		VALIDATE(new ArgumentsValidate(), new Validate()),
-		ANALYZE(new ArgumentsAnalyze(), new Analyze()),
-		FILTER(new ArgumentsFilter(), new Filter());
+		INFER(new ArgumentsInfer(), new Infer()),
+		OWL2SHACL(new ArgumentsOwl2Shacl(), new Owl2Shacl()),
+		REPORT(new ArgumentsGenerateReport(), new GenerateReport()),
+		SHACL2SPARQL(new ArgumentsShacl2Sparql(), new Shacl2Sparql()),
+		SPARQLBATCH(new ArgumentsSparqlBatch(), new SparqlBatch()),
+		VALIDATE(new ArgumentsValidate(), new Validate());		
+		
 
 		private CliCommandIfc command;
 		private Object arguments;

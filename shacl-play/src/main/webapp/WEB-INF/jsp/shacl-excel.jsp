@@ -57,8 +57,41 @@
 					
 					<div style="margin-top:2em;">
 						<h4 id="download">Download the template file</h4>
-						<p>Start by downloading the template file <a href="<c:url value="/resources/example/SHACL-template.xlsx"/>">here</a></p>	
-					</div>						
+						<p>Start by downloading the template file <strong><a href="<c:url value="/resources/example/SHACL-template.xlsx"/>">here</a></strong></p>	
+					</div>
+
+					<div style="margin-top:2em;">
+						<h4 id="fill-in">Fill-in the spreadsheet</h4>
+						<p>The file has the following structure:</p>
+						<ul>
+							<li>In tab "prefix", declare the necessary prefixes</li>
+							<li>In tab "NodeShapes", declare the NodeShapes with their <code>sh:targetClass</code> and other constraints</li>
+							<li>In tab "PropertyShapes", make one "section" (blue line) per node shape, and declare the property shapes attached to each node shape.:
+								<ul>
+									<li>The link to the node shape is made in column <code>^sh:property</code>.</li>
+									<li>The predicate (or path) is in column <code>sh:path</code>. SHACL property paths are supported, you need to write them as in Turtle, e.g. <code>[sh:inversePath foaf:knows]</code>.</li>
+									<li>The URI of the property shape is computed automatically in column <code>URI</code>, based on the line number.</li>
+									<li>SHACL constraints are in the corresponding columns <code>sh:minCount</code>, <code>sh:maxCount</code>, <code>sh:nodeKind</code>, <code>sh:datatype</code>, <code>sh:class</code>, <code>sh:node</code>, etc.</li>
+									<li>You can add more columns as needed. See <a href="https://xls2rdf.sparna.fr/rest/doc.html">the detailled xls2rdf converter documentation</a> for all possible features.</li>
+								</ul>
+							</li>
+						</ul>	
+					</div>
+
+					<div style="margin-top:2em;">
+						<h4 id="convert">Convert the Excel using xls2rdf</h4>
+						<p>Once you have filled in the Excel file, you can convert it to SHACL using the <a href="https://xls2rdf.sparna.fr">xsl2rdf converter</a>. The converter is available in different packagings : online API, command-line app, Java lib, and also an <a href="https://skos-play.sparna.fr/play/convert">online Excel conversion form</a> which is the most practical solution to start with :</p>
+						<ol>
+							<li>Upload your Excel file</li>
+							<li>Check the box at the bottom "Ignore SKOS post-processings"</li>
+							<li>Click on "Convert" and download the resulting SHACL file.</li>
+						</ol>
+					</div>
+
+					<div style="margin-top:2em;">
+						<h4 id="test">Test in the documentation generator</h4>
+						<p>Test how your SHACL looks like by uploading it in <a href="doc">the documentation generator</a>.</p>
+					</div>					
 				</div>			
 			</div>
 		</div>

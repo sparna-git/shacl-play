@@ -53,6 +53,10 @@ public class PlantUmlBox {
 				.filter(r -> { return r.isURIResource() && !r.getURI().equals(OWL.Thing.getURI()); })
 				.collect(Collectors.toList());
 	}
+
+	public List<Resource> getShNode() {
+		return nodeShape.listProperties(SH.node).toList().stream().map(s -> s.getResource()).collect(Collectors.toList());
+	}
 	
 	
 	public boolean isTargeting(Resource classUri) {

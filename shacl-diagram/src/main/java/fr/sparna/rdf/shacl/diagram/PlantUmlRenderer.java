@@ -433,6 +433,9 @@ public class PlantUmlRenderer {
 		List<PlantUmlBox> superClassesBoxes = new ArrayList<>();
 		if(this.includeSubclassLinks) {
 			superClassesBoxes = box.getRdfsSubClassOf().stream().map(sc -> this.diagram.findBoxByResource(sc)).filter(b -> b != null).collect(Collectors.toList());
+			superClassesBoxes.addAll(
+				box.getShNode().stream().map(sc -> this.diagram.findBoxByResource(sc)).filter(b -> b != null).collect(Collectors.toList())
+			);
 		}
 		
 		Map<String,String> collectGroupProperties = new HashMap<>();

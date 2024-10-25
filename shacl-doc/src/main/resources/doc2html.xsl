@@ -1056,7 +1056,22 @@
 	
 	
 	<xsl:template match="property">
-		<tr>
+	
+		<xsl:variable name="backgraundColor">
+			<xsl:choose>
+				<xsl:when test="./backgroundcolor">
+					<xsl:value-of select="./backgroundcolor"/>
+				</xsl:when>
+				<xsl:otherwise>
+					''
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		
+	
+		
+		<tr style="background-color:{$backgraundColor}">
+		
 			<!-- Property name -->
 			<td>
 				<xsl:apply-templates select="./label"/>
@@ -1083,7 +1098,17 @@
 	</xsl:template>
 	
 	<!-- Property name -->
-	<xsl:template match="property/label"><xsl:value-of select="." /></xsl:template>
+	<xsl:template match="property/label">
+		<xsl:variable name="PrintColor" select="../color"/>
+		<xsl:choose>
+			<xsl:when test="../color">
+				<text style="color:{$PrintColor}"><xsl:value-of select="." /></text>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="." />
+			</xsl:otherwise>			
+		</xsl:choose>
+	</xsl:template>
 	<!-- Property URI -->
 	<xsl:template match="property/propertyUri">
 		<xsl:choose>

@@ -19,6 +19,7 @@ public class PropertyShapeDocumentation {
 
 	
 	private String color;
+	private String backgroundcolor;
 	private int triples;
 	private int distinctObjects;
 	
@@ -81,6 +82,14 @@ public class PropertyShapeDocumentation {
 	public void setColor(String color) {
 		this.color = color;
 	}
+	
+	public String getBackgroundcolor() {
+		return backgroundcolor;
+	}
+
+	public void setBackgroundcolor(String backgroundcolor) {
+		this.backgroundcolor = backgroundcolor;
+	}
 
 	public int getTriples() {
 		return triples;
@@ -104,6 +113,6 @@ public class PropertyShapeDocumentation {
 
 	public void setPropertyShapeUriOrId(String propertyShapeUriOrId) {
 		this.propertyShapeUriOrId = propertyShapeUriOrId;
-	}	
+	}
 
 }

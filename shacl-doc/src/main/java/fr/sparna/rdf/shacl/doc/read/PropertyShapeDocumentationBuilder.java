@@ -38,6 +38,15 @@ public class PropertyShapeDocumentationBuilder {
 		proprieteDoc.setCardinalite(renderCardinalities(propertyShape.getShMinCount(), propertyShape.getShMaxCount()));
 		proprieteDoc.setDescription(propertyShape.getDisplayDescription(shaclGraph.union(owlGraph), lang));
 		
+		// Color
+		if (!propertyShape.getColor().isEmpty()) {
+			proprieteDoc.setColor(propertyShape.getColor().get().getString());
+		}
+		
+		if (!propertyShape.getBackgroundColor().isEmpty()) {
+			proprieteDoc.setBackgroundcolor(propertyShape.getBackgroundColor().get().getString());
+		}
+		
 		if(propertyShape.getShNode() != null) {
 			for(NodeShape aBox : allNodeShapes) {
 				// using toString instead of getURI so that it works with anonymous nodeshapes

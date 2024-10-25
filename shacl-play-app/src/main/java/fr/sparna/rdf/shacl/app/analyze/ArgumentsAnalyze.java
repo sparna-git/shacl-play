@@ -33,10 +33,11 @@ public class ArgumentsAnalyze {
 
 	@Parameter(
 			names = { "-s", "--shapes" },
-			description = "Path to the shapes file against which the input data should be analyzed, or URL of the shapes file",
+			description = "Path to the shapes file(s) against which the input data should be analyzed, or URL of the shapes file",
+			variableArity = true,
 			required = true
 	)
-	private String shapes;
+	private List<String> shapes;
 	
 	@Parameter(
 			names = { "-os", "--outputShapes" },
@@ -71,20 +72,20 @@ public class ArgumentsAnalyze {
 		this.output = output;
 	}
 
-	public String getShapes() {
-		return shapes;
-	}
-
-	public void setShapes(String shapes) {
-		this.shapes = shapes;
-	}
-
 	public File getOutputShapes() {
 		return outputShapes;
 	}
 
 	public void setOutputShapes(File outputShapes) {
 		this.outputShapes = outputShapes;
+	}
+
+	public List<String> getShapes() {
+		return shapes;
+	}
+
+	public void setShapes(List<String> shapes) {
+		this.shapes = shapes;
 	}
 	
 	

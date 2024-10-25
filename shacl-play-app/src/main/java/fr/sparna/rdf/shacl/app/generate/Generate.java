@@ -38,6 +38,8 @@ public class Generate implements CliCommandIfc {
 		ShaclGeneratorDataProviderIfc dataProvider;
 		if(a.getEndpoint() != null) {
 			dataProvider = new SamplingShaclGeneratorDataProvider(new PaginatedQuery(100), a.getEndpoint());
+			// attempt at reducing the properties
+			// ((SamplingShaclGeneratorDataProvider)dataProvider).setMakeDirectTypeQueries(true);
 			ShaclGenerator generator = new ShaclGenerator();
 			generator.getExtraVisitors().add(new AssignLabelRoleVisitor());
 			generator.getExtraVisitors().add(new AssignDatatypesAndClassesToIriOrLiteralVisitor(dataProvider, new DefaultModelProcessor()));

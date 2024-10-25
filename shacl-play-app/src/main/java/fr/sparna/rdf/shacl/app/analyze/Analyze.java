@@ -19,7 +19,6 @@ import fr.sparna.rdf.shacl.generate.visitors.ComputeStatisticsVisitor;
 import fr.sparna.rdf.shacl.generate.visitors.ComputeValueStatisticsVisitor;
 import fr.sparna.rdf.shacl.generate.visitors.CopyStatisticsToDescriptionVisitor;
 import fr.sparna.rdf.shacl.generate.visitors.ShaclVisit;
-import fr.sparna.rdf.shacl.generate.visitors.AssignValueOrInVisitor.StatisticsBasedRequiresShValueOrInPredicate;
 
 public class Analyze implements CliCommandIfc {
 

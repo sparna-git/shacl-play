@@ -34,6 +34,8 @@ public class BaseShaclGeneratorDataProvider implements ShaclGeneratorDataProvide
 	// paginates through SPARQL queries
 	protected final PaginatedQuery paginatedQuery;
 	
+	protected boolean makeDirectTypeQueries = false;
+
 	protected Consumer<String> messageListener;
 
 
@@ -335,13 +337,37 @@ public class BaseShaclGeneratorDataProvider implements ShaclGeneratorDataProvide
 
 	protected String readQuery(String resourceName) {
 		try {
-			return getResourceFileAsString(CLASSPATH_ROOT+resourceName);
+			String originalString = getResourceFileAsString(CLASSPATH_ROOT+resourceName);
+			if(this.makeDirectTypeQueries) {
+				return BaseShaclGeneratorDataProvider.makeDirectTypeQuery(originalString);
+			} else {
+				return originalString;
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
 
+	/**
+	 * Adds an extra clause to the query to make sure the type criteria matches only on types
+	 * used on instances that have not a more precise type. We are matching on only "leaf" types.
+	 * @param query
+	 * @return
+	 */
+	protected static String makeDirectTypeQuery(String query) {
+		String DIRECT_TYPE_CRITERIA = "\\$type . FILTER NOT EXISTS \\{ \\?uri a \\?childClass . \\?childClass \\<http://www.w3.org/2000/01/rdf-schema#subClassOf\\>\\* \\$type . \\}";
+		String regex = "\\$type ?\\.";
+		return query.replaceAll(regex, DIRECT_TYPE_CRITERIA);
+	}
+
+	public boolean isMakeDirectTypeQueries() {
+		return makeDirectTypeQueries;
+	}
+
+	public void setMakeDirectTypeQueries(boolean makeDirectTypeQueries) {
+		this.makeDirectTypeQueries = makeDirectTypeQueries;
+	}
 
 	/**
 	 * Reads given resource file as a string.
@@ -360,6 +386,13 @@ public class BaseShaclGeneratorDataProvider implements ShaclGeneratorDataProvide
 				return reader.lines().collect(Collectors.joining(System.lineSeparator()));
 			}
 		}
+	}
+
+	public static void main(String... args) {
+		String directTypeQuery = BaseShaclGeneratorDataProvider.makeDirectTypeQuery("select (count(?uri) as ?count) {\n" + //
+						"  ?uri a $type.\n" + //
+						"}");
+		System.out.println(directTypeQuery);
 	}
 
 }

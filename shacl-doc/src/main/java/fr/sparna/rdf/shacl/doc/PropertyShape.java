@@ -16,6 +16,7 @@ import org.topbraid.shacl.vocabulary.SH;
 import fr.sparna.rdf.jena.ModelReadingUtils;
 import fr.sparna.rdf.jena.ModelRenderingUtils;
 import fr.sparna.rdf.jena.shacl.ShOrReadingUtils;
+import fr.sparna.rdf.shacl.SHACL_PLAY;
 
 public class PropertyShape {
 
@@ -168,6 +169,15 @@ public class PropertyShape {
 
 	public Resource getShClass() {
 		return Optional.ofNullable(this.resource.getProperty(SH.class_)).map(s -> s.getResource()).orElse(null);
+	}
+	
+	// TODO: Configuration for color in text
+	public Optional<Literal> getBackgroundColor() {
+		return ModelReadingUtils.getOptionalLiteral(this.resource, this.resource.getModel().createProperty(SHACL_PLAY.BACKGROUNDCOLOR));
+	}
+	
+	public Optional<Literal> getColor() {
+		return ModelReadingUtils.getOptionalLiteral(this.resource, this.resource.getModel().createProperty(SHACL_PLAY.COLOR));
 	}
 	
 }

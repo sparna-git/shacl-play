@@ -10,6 +10,8 @@ import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.shacl.vocabulary.SHACLM;
 import org.apache.jena.vocabulary.DCTerms;
+import org.apache.jena.vocabulary.RDF;
+import org.apache.jena.vocabulary.RDFS;
 import org.apache.jena.vocabulary.VOID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,15 +48,32 @@ public class AssignValueOrInVisitor extends DatasetAwareShaclVisitorBase {
 	public void visitPropertyShape(Resource aPropertyShape, Resource aNodeShape) {
 		log.debug(this.getClass()+" visiting property shape "+aPropertyShape);
 		
-		// if it makes sense, try to find sh:valueIn
-		if(this.requiresShValueInPredicate != null && this.requiresShValueInPredicate.test(aPropertyShape)) {
-			this.setInOrHasValue(
-					aPropertyShape.getModel(),
-					aNodeShape.getRequiredProperty(SHACLM.targetClass).getResource(),
-					aPropertyShape.getRequiredProperty(SHACLM.path).getResource(),
-					aPropertyShape
-			);
+		if(
+			aNodeShape.hasProperty(SHACLM.targetClass)
+			||
+			aNodeShape.hasProperty(RDF.type, RDFS.Class)
+		) {
+			// define target
+			Resource target;
+			if(aNodeShape.hasProperty(SHACLM.targetClass)) {
+				target = aNodeShape.getRequiredProperty(SHACLM.targetClass).getResource();
+			} else {
+				target = aNodeShape;
+			}
+
+			// if it makes sense, try to find sh:valueIn
+			if(this.requiresShValueInPredicate != null && this.requiresShValueInPredicate.test(aPropertyShape)) {
+				this.setInOrHasValue(
+						aPropertyShape.getModel(),
+						target,
+						aPropertyShape.getRequiredProperty(SHACLM.path).getResource(),
+						aPropertyShape
+				);
+			}
+
 		}
+		
+
 
 	}
 

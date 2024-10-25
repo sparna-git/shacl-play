@@ -52,6 +52,11 @@ public class ShaclGenerator {
 	protected boolean skipDatatypes = false;
 
 	/**
+	 * Whether to skip sh:class assignement
+	 */
+	protected boolean skipClasses = false;
+
+	/**
 	 * Whether sh:name and rdfs:label should be generated on the generated shapes, from the URI
 	 */
 	protected boolean generateLabels = true;
@@ -89,7 +94,9 @@ public class ShaclGenerator {
 		// add base visitors
 		this.visitors = new ArrayList<ShaclVisitorIfc>();
 		this.visitors.add(new AssignNodeKindVisitor(dataProvider));
-		this.visitors.add(new AssignClassesVisitor(dataProvider, configuration.getModelProcessor()));
+		if(!skipClasses) {
+			this.visitors.add(new AssignClassesVisitor(dataProvider, configuration.getModelProcessor()));
+		}
 		if(!skipDatatypes) {
 			this.visitors.add(new AssignDatatypesVisitor(dataProvider));
 		}
@@ -357,6 +364,14 @@ public class ShaclGenerator {
 
 	public void setSkipDatatypes(boolean skipDatatypes) {
 		this.skipDatatypes = skipDatatypes;
+	}
+	
+	public boolean isSkipClasses() {
+		return skipClasses;
+	}
+
+	public void setSkipClasses(boolean skipClasses) {
+		this.skipClasses = skipClasses;
 	}
 
 	public boolean isGenerateLabels() {

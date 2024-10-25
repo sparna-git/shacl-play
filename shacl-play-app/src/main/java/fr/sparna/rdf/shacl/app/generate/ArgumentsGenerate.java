@@ -56,11 +56,26 @@ public class ArgumentsGenerate {
 
 	@Parameter(
 		names = { "-nl", "--no-labels" },
-		description = "Set this option to avoid generating sh:name and rdfs:label on the shapes. Defaults to false",
+		description = "Set this option to avoid generating sh:name and rdfs:label on the shapes.",
 		required = false
 	)
 	private boolean noLabels = false;
 	
+	@Parameter(
+		names = { "-nc", "--no-shclass" },
+		description = "Set this option to skip the computation of sh:class constraints",
+		required = false
+	)
+	private boolean noShClass = false;
+
+	@Parameter(
+		names = { "-nd", "--no-shdatatype" },
+		description = "Set this option to skip the computation of sh:datatype constraints",
+		required = false
+	)
+	private boolean noShDatatype = false;
+
+
 	public Map<String, String> getAdditionnalPrefixes() {
 		if(this.prefixes == null) {
 			return null;
@@ -119,6 +134,14 @@ public class ArgumentsGenerate {
 
 	public void setNoLabels(boolean noLabels) {
 		this.noLabels = noLabels;
+	}
+
+	public boolean isNoShClass() {
+		return noShClass;
+	}
+
+	public boolean isNoShDatatype() {
+		return noShDatatype;
 	}
 	
 }

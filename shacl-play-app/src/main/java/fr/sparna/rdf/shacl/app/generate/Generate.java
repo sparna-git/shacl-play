@@ -20,7 +20,6 @@ import fr.sparna.rdf.shacl.generate.ShaclGenerator;
 import fr.sparna.rdf.shacl.generate.ShaclGeneratorDataProviderIfc;
 import fr.sparna.rdf.shacl.generate.visitors.AssignDatatypesAndClassesToIriOrLiteralVisitor;
 import fr.sparna.rdf.shacl.generate.visitors.AssignLabelRoleVisitor;
-import fr.sparna.rdf.shacl.generate.visitors.ShaclVisit;
 
 public class Generate implements CliCommandIfc {
 
@@ -45,6 +44,12 @@ public class Generate implements CliCommandIfc {
 			if(a.isNoLabels()) {
 				generator.setGenerateLabels(false);
 			}
+			if(a.isNoShClass()) {
+				generator.setSkipClasses(true);
+			}
+			if(a.isNoShDatatype()) {
+				generator.setSkipDatatypes(true);
+			}
 			
 			shapes = generator.generateShapes(
 					config,
@@ -58,6 +63,12 @@ public class Generate implements CliCommandIfc {
 			generator.getExtraVisitors().add(new AssignDatatypesAndClassesToIriOrLiteralVisitor(dataProvider, new DefaultModelProcessor()));
 			if(a.isNoLabels()) {
 				generator.setGenerateLabels(false);
+			}
+			if(a.isNoShClass()) {
+				generator.setSkipClasses(true);
+			}
+			if(a.isNoShDatatype()) {
+				generator.setSkipDatatypes(true);
 			}
 			
 			shapes = generator.generateShapes(

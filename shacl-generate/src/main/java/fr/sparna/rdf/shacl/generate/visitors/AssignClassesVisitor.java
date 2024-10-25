@@ -2,11 +2,8 @@ package fr.sparna.rdf.shacl.generate.visitors;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Model;
@@ -33,7 +30,7 @@ public class AssignClassesVisitor extends DatasetAwareShaclVisitorBase {
 	
 	protected ModelProcessorIfc modelProcessor;
 	protected ClassCacheProvider classCache;
-	
+
 	public AssignClassesVisitor(ShaclGeneratorDataProviderIfc dataProvider, ModelProcessorIfc modelProcessor) {
 		super(dataProvider);
 		this.modelProcessor = modelProcessor;
@@ -223,7 +220,7 @@ public class AssignClassesVisitor extends DatasetAwareShaclVisitorBase {
 
 		
 	}
-	
+
 	public static void main(String... args) throws Exception {
 		final String ENDPOINT = "http://51.159.140.210/graphdb/repositories/sparnatural-demo-anf?infer=false";
 		

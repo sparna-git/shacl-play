@@ -1,5 +1,7 @@
 package fr.sparna.rdf.shacl.generate.visitors;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -183,13 +185,20 @@ public class ComputeStatisticsVisitor extends DatasetAwareShaclVisitorBase imple
 		
 		return otherPropertyShapesWithSamePath.size() > 0;
 	}
-	
+
+
 	private static String buildPartitionUri(String datasetUri, Resource shape, Model shacl) {
-		// extract local name of shape URI
-		String localName = shape.getLocalName();
-		// concat local name to datasetUri
-		String partitionUri = datasetUri+"/"+"partition"+"_"+localName;
-		return partitionUri;
+		// concat shape to partition URI
+		String partitionUri;
+		try {
+			partitionUri = datasetUri+"/"+"partition"+"_"+URLEncoder.encode(shape.getURI(), "UTF-8");
+			return partitionUri;
+		} catch (UnsupportedEncodingException e) {
+			// should never happen
+			e.printStackTrace();
+			return null;
+		}
+		
 	}
 
 

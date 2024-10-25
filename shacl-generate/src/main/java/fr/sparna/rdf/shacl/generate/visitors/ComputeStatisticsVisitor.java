@@ -84,11 +84,22 @@ public class ComputeStatisticsVisitor extends DatasetAwareShaclVisitorBase imple
 		
 		// count number of instances
 		// TODO : this requires to interpret the target of the Shape
-		if(aNodeShape.hasProperty(SHACLM.targetClass)) {
+		if(
+			aNodeShape.hasProperty(SHACLM.targetClass)
+			||
+			aNodeShape.hasProperty(RDF.type, RDFS.Class)
+		) {
+			// define target
+			Resource target;
+			if(aNodeShape.hasProperty(SHACLM.targetClass)) {
+				target = aNodeShape.getRequiredProperty(SHACLM.targetClass).getResource();
+			} else {
+				target = aNodeShape;
+			}
 			// TODO : not necessarily a void:class predicate
-			outputModel.add(outputModel.createResource(partitionUri), VOID._class, aNodeShape.getRequiredProperty(SHACLM.targetClass).getObject());
+			outputModel.add(outputModel.createResource(partitionUri), VOID._class, target);
 			
-			int count = this.dataProvider.countInstances(aNodeShape.getRequiredProperty(SHACLM.targetClass).getObject().asResource().getURI());
+			int count = this.dataProvider.countInstances(target.getURI());
 			if(count >= 0) {
 				log.debug("(count) node shape '{}' gets void:entities '{}'", aNodeShape.getURI(), count);
 				// assert number of triples
@@ -118,10 +129,22 @@ public class ComputeStatisticsVisitor extends DatasetAwareShaclVisitorBase imple
 		// false to not use prefixes in the generated query
 		String propertyPath = ModelRenderingUtils.renderSparqlPropertyPath(aPropertyShape.getRequiredProperty(SHACLM.path).getObject().asResource(), false);
 		
-		if(aNodeShape.hasProperty(SHACLM.targetClass)) {
+		if(
+			aNodeShape.hasProperty(SHACLM.targetClass)
+			||
+			aNodeShape.hasProperty(RDF.type, RDFS.Class)
+		) {
+			// define target
+			Resource target;
+			if(aNodeShape.hasProperty(SHACLM.targetClass)) {
+				target = aNodeShape.getRequiredProperty(SHACLM.targetClass).getResource();
+			} else {
+				target = aNodeShape;
+			}
+
 			// count number of triples
 			int count = this.dataProvider.countStatements(
-					aNodeShape.getRequiredProperty(SHACLM.targetClass).getObject().asResource().getURI(),
+					target.getURI(),
 					propertyPath
 			);
 			
@@ -131,7 +154,7 @@ public class ComputeStatisticsVisitor extends DatasetAwareShaclVisitorBase imple
 			
 			// count number of distinct objects
 			int countDistinctObjects = this.dataProvider.countDistinctObjects(
-					aNodeShape.getRequiredProperty(SHACLM.targetClass).getObject().asResource().getURI(),
+				target.getURI(),
 					propertyPath
 			);
 			

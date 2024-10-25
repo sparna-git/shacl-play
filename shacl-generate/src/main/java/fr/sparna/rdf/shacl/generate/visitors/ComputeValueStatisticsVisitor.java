@@ -9,6 +9,8 @@ import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.shacl.vocabulary.SHACLM;
 import org.apache.jena.vocabulary.DCTerms;
+import org.apache.jena.vocabulary.RDF;
+import org.apache.jena.vocabulary.RDFS;
 import org.apache.jena.vocabulary.VOID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,41 +38,56 @@ public class ComputeValueStatisticsVisitor extends DatasetAwareShaclVisitorBase 
 			// false to not use prefixes in the generated query
 			String propertyPath = ModelRenderingUtils.renderSparqlPropertyPath(aPropertyShape.getRequiredProperty(SHACLM.path).getObject().asResource(), false);
 			
-			Map<RDFNode, Integer> counts = this.dataProvider.countValues(
-					aNodeShape.getRequiredProperty(SHACLM.targetClass).getObject().asResource().getURI(),
+			// works only if targetClass is known
+			if(
+				aNodeShape.hasProperty(SHACLM.targetClass)
+				||
+				aNodeShape.hasProperty(RDF.type, RDFS.Class)
+			) {
+				// define target
+				Resource target;
+				if(aNodeShape.hasProperty(SHACLM.targetClass)) {
+					target = aNodeShape.getRequiredProperty(SHACLM.targetClass).getResource();
+				} else {
+					target = aNodeShape;
+				}
+
+				Map<RDFNode, Integer> counts = this.dataProvider.countValues(
+					target.getURI(),
 					propertyPath,
 					AssignValueOrInVisitor.DEFAULT_VALUES_THRESHOLD
-			);
+				);
 			
-			// get corresponding property partition
-			List<Resource> propertyPartitions = statisticsModel.listStatements(null, DCTerms.conformsTo, aPropertyShape).mapWith(t-> t.getSubject()).toList();
-			
-			if(propertyPartitions.size() == 0) {
-				log.debug("Cannot find corresponding property partition for "+aPropertyShape);
-			} else {
-				if(propertyPartitions.size() > 1) {
-					log.debug("More than one property partition found for "+aPropertyShape);
-				}
+				// get corresponding property partition
+				List<Resource> propertyPartitions = statisticsModel.listStatements(null, DCTerms.conformsTo, aPropertyShape).mapWith(t-> t.getSubject()).toList();
 				
-				Resource propertyPartition = propertyPartitions.get(0);
-				
-				for (RDFNode aValue : values) {
-					// get its count
-					Integer count = counts.get(aValue);
-					if(count != null) {
-						Resource rAnonymous = this.statisticsModel.createResource();
-						propertyPartition.addProperty(statisticsModel.createProperty(SHACL_PLAY.VALUE_PARTITION), rAnonymous);
-						
-						this.statisticsModel.add(rAnonymous, 
-												this.statisticsModel.createProperty(SHACL_PLAY.VALUE), 
-												aValue
-												);
-						this.statisticsModel.addLiteral(rAnonymous, 
-												VOID.distinctSubjects, 
-												count.intValue());
+				if(propertyPartitions.size() == 0) {
+					log.debug("Cannot find corresponding property partition for "+aPropertyShape);
+				} else {
+					if(propertyPartitions.size() > 1) {
+						log.debug("More than one property partition found for "+aPropertyShape);
 					}
+					
+					Resource propertyPartition = propertyPartitions.get(0);
+					
+					for (RDFNode aValue : values) {
+						// get its count
+						Integer count = counts.get(aValue);
+						if(count != null) {
+							Resource rAnonymous = this.statisticsModel.createResource();
+							propertyPartition.addProperty(statisticsModel.createProperty(SHACL_PLAY.VALUE_PARTITION), rAnonymous);
+							
+							this.statisticsModel.add(rAnonymous, 
+													this.statisticsModel.createProperty(SHACL_PLAY.VALUE), 
+													aValue
+													);
+							this.statisticsModel.addLiteral(rAnonymous, 
+													VOID.distinctSubjects, 
+													count.intValue());
+						}
+					}
+					
 				}
-				
 			}
 			
 

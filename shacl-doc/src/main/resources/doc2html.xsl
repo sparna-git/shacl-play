@@ -1057,10 +1057,15 @@
 	
 	<xsl:template match="property">
 	
-		<xsl:variable name="backgraundColor">
+		<xsl:variable name="guillemets">"</xsl:variable>
+	
+		<xsl:variable name="Colors">
 			<xsl:choose>
-				<xsl:when test="./backgroundcolor">
-					<xsl:value-of select="./backgroundcolor"/>
+				<xsl:when test="string-length(./backgroundcolor)> 1">
+					<xsl:value-of select="concat('background-color:',./backgroundcolor)"/>
+				</xsl:when>
+				<xsl:when test="string-length(./color) > 1">
+					<xsl:value-of select="concat('color:',./color)"/>
 				</xsl:when>
 				<xsl:otherwise>
 					''
@@ -1070,7 +1075,7 @@
 		
 	
 		
-		<tr style="background-color:{$backgraundColor}">
+		<tr style="{$Colors}">
 		
 			<!-- Property name -->
 			<td>
@@ -1099,15 +1104,7 @@
 	
 	<!-- Property name -->
 	<xsl:template match="property/label">
-		<xsl:variable name="PrintColor" select="../color"/>
-		<xsl:choose>
-			<xsl:when test="../color">
-				<text style="color:{$PrintColor}"><xsl:value-of select="." /></text>
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:value-of select="." />
-			</xsl:otherwise>			
-		</xsl:choose>
+		<xsl:value-of select="." />		
 	</xsl:template>
 	<!-- Property URI -->
 	<xsl:template match="property/propertyUri">

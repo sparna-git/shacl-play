@@ -112,6 +112,11 @@ public class ShapesDocumentationSectionBuilder {
 					.collect(Collectors.toList()));
 		}
 		
+		// foaf:depictation
+		if (nodeShape.getFoafDepiction().size() > 0) {
+			currentSection.setDepictionsImgs(nodeShape.getFoafDepiction());
+		}
+		
 		
 		// Read the property shapes from this shape and supershapes
 		List<PropertyShapesGroupDocumentation> groups = readPropertyGroupsRec(

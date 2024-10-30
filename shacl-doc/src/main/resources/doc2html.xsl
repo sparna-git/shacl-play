@@ -396,7 +396,7 @@
 						margin-bottom: 1rem;
 					}
 					
-					tr:nth-child(even) {
+					.table-striped tr:nth-child(even) {
 						background-color: #eee;
 					}
 							
@@ -981,6 +981,9 @@
 						</code>
 					</xsl:if>
 					
+					<!-- Section of add image -->
+					<xsl:apply-templates select="depictionsImgs" />
+					
 					<!-- Properties table -->
 					<xsl:apply-templates select="propertyGroups" />		
 					
@@ -999,10 +1002,36 @@
 		</h3>
 	</xsl:template>
 	
+	<xsl:template match="depictionsImgs">
+		<xsl:apply-templates select="depictionImg"/>		
+	</xsl:template>
+	
+	<xsl:template match="depictionImg">
+		<xsl:variable name="depiction_name" select="depiction"/>
+		<xsl:variable name="depiction_title" select="title"/>
+		<xsl:variable name="depiction_description" select="description"/>
+		<figure>
+			<img src="{$depiction_name}" style="width:100%;"/>
+			<figcaption><em><xsl:value-of select="$depiction_title"/></em> : <xsl:value-of select="$depiction_description"/></figcaption>
+		</figure>
+	</xsl:template>
+		
 	<!-- Property groups -->
 	<xsl:template match="propertyGroups">
 		<xsl:if test="count(propertyGroup) > 0">
-			<table class="sp_table_propertyshapes table-striped table-responsive">
+		
+			<xsl:variable name="getBgColor">
+				<xsl:choose>
+					<xsl:when test="propertyGroup/properties/property/backgroundcolor != ''">
+						''
+					</xsl:when>
+					<xsl:otherwise>
+						table-striped
+					</xsl:otherwise>
+				</xsl:choose>
+			</xsl:variable>
+			
+			<table class="sp_table_propertyshapes {$getBgColor} table-responsive">
 				<thead>
 					<tr>
 						<th>
@@ -1057,8 +1086,7 @@
 	
 	<xsl:template match="property">
 	
-		<xsl:variable name="guillemets">"</xsl:variable>
-	
+		<xsl:variable name="guillemets">"</xsl:variable>	
 		<xsl:variable name="Colors">
 			<xsl:choose>
 				<xsl:when test="string-length(./backgroundcolor)> 1">

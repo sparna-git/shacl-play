@@ -14,6 +14,8 @@ import org.apache.jena.rdf.model.RDFList;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
+import org.apache.jena.sparql.vocabulary.FOAF;
+import org.apache.jena.vocabulary.DCTerms;
 import org.apache.jena.vocabulary.OWL;
 import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.RDFS;
@@ -144,8 +146,7 @@ public class NodeShape {
 		
 		return result;
 	}
-	
-	
+		
 	public String renderModelForTargetClass(Model owlModel,List<Resource> TargetClass, Property property, String lang) {
 		
 		String result = null;
@@ -166,8 +167,7 @@ public class NodeShape {
 		return result;
 		
 	}
-	
-	
+		
 	public List<Literal> getRdfsComment(String lang) {
 		return ModelReadingUtils.readLiteralInLang(nodeShape, RDFS.comment, lang);
 	}
@@ -285,8 +285,7 @@ public class NodeShape {
 		superShapes.addAll(this.getShNode());
 		return superShapes;
 	}
-	
-	
+		
 	public Resource getShtargetSubjectsOf() {
 		return Optional.ofNullable(nodeShape.getProperty(SH.targetSubjectsOf)).map(s -> s.getResource()).orElse(null);
 	}
@@ -294,4 +293,59 @@ public class NodeShape {
 	public Resource getShtargetObjectsOf() {
 		return Optional.ofNullable(nodeShape.getProperty(SH.targetObjectsOf)).map(s -> s.getResource()).orElse(null);
 	}	
+
+	public List<ImageforNodeShape> getFoafDepiction() {
+		
+		List<Statement> depic = nodeShape.listProperties(FOAF.depiction).toList();
+		List<NodeShape> Depictation = new ArrayList<>();
+		for (Statement aDepictStatement : depic) {
+			RDFNode object = aDepictStatement.getObject();
+
+			if (object.isResource()) {
+				Resource getDepictation = object.asResource();
+				NodeShape node_depictation = new NodeShape(getDepictation);
+				Depictation.add(node_depictation);	
+			}					
+		}
+		
+		Depictation.sort((NodeShape dp1, NodeShape dp2) -> {
+			if (dp1.getShOrder() != null) {
+				if(dp2.getShOrder() != null) {
+					return (dp1.getShOrder() - dp2.getShOrder()) > 0?1:-1;
+				} else {
+					return -1;
+				}
+			} else {
+				if(dp2.getShOrder() != null) {
+					return 1;
+				} else {
+					// both sh:order are null, try with sh:name
+					return 1;
+				}
+			}
+			
+		});
+		
+		List<ImageforNodeShape> img = new ArrayList<>();
+		for (NodeShape ns : Depictation) {
+			ImageforNodeShape ins = new ImageforNodeShape();
+			ins.setDepiction(ns.getURIOrId());
+			ins.setShorder(ns.getShOrder());
+			
+			// dcterms:title
+			String dcterms_title = ns.nodeShape.getProperty(DCTerms.title).getObject().asLiteral().getString();
+			if (dcterms_title != null) {
+				ins.setTitle(dcterms_title);
+			}
+			
+			// dcterms:title
+			String dcterms_description = ns.nodeShape.getProperty(DCTerms.description).getObject().asLiteral().getString();
+			if (dcterms_description != null) {
+				ins.setDescription(dcterms_description);
+			}
+			img.add(ins);
+		}
+		
+		return img;	
+	}
 }

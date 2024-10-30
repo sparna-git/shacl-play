@@ -9,6 +9,8 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
+import fr.sparna.rdf.shacl.doc.ImageforNodeShape;
+
 /**
  * One section in the final documentation, corresponding to one NodeShape
  */
@@ -69,6 +71,10 @@ public class ShapesDocumentationSection {
 	@JacksonXmlElementWrapper(localName="messages")
 	@JacksonXmlProperty(localName = "message")
 	protected List<String> messages;
+	
+	@JacksonXmlElementWrapper(localName="depictionsImgs")
+	@JacksonXmlProperty(localName = "depictionImg")
+	private List<ImageforNodeShape> depictionsImgs;
 	
 	private int numberOfTargets;
 	
@@ -236,6 +242,15 @@ public class ShapesDocumentationSection {
 
 	public void setTargetObjectsOf(String targetObjectsOf) {
 		this.targetObjectsOf = targetObjectsOf;
-	}	
+	}
+
+	public List<ImageforNodeShape> getDepictionsImgs() {
+		return depictionsImgs;
+	}
+
+	public void setDepictionsImgs(List<ImageforNodeShape> depictionsImgs) {
+		this.depictionsImgs = depictionsImgs;
+	}
+
 	
 }

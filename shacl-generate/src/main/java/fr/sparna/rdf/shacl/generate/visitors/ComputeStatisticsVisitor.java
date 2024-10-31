@@ -78,7 +78,7 @@ public class ComputeStatisticsVisitor extends DatasetAwareShaclVisitorBase imple
 	public void visitNodeShape(Resource aNodeShape) {
 		// link it to Dataset
 		// TODO : this is not necessarily a classPartition, depending on target of shape
-		String partitionUri = buildPartitionUri(this.datasetUri,aNodeShape,this.model);
+		String partitionUri = buildNodeShapePartitionUri(this.datasetUri,aNodeShape,this.model);
 		outputModel.add(outputModel.createResource(this.datasetUri), VOID.classPartition, model.createResource(partitionUri));
 		
 		// link class partition to NodeShape
@@ -116,8 +116,8 @@ public class ComputeStatisticsVisitor extends DatasetAwareShaclVisitorBase imple
 	@Override
 	public void visitPropertyShape(Resource aPropertyShape, Resource aNodeShape) {
 		// get corresponding class + property partition
-		Resource classPartition = outputModel.createResource(buildPartitionUri(this.datasetUri,aNodeShape,this.model));
-		Resource propertyPartition = outputModel.createResource(buildPartitionUri(this.datasetUri,aPropertyShape,this.model));
+		Resource classPartition = outputModel.createResource(buildNodeShapePartitionUri(this.datasetUri,aNodeShape,this.model));
+		Resource propertyPartition = outputModel.createResource(buildPropertyShapePartitionUri(this.datasetUri,aNodeShape,aPropertyShape,this.model));
 		
 		// assert void:property on the property partition
 		outputModel.add(propertyPartition, VOID.property, aPropertyShape.getRequiredProperty(SHACLM.path).getObject());
@@ -187,18 +187,30 @@ public class ComputeStatisticsVisitor extends DatasetAwareShaclVisitorBase imple
 	}
 
 
-	private static String buildPartitionUri(String datasetUri, Resource shape, Model shacl) {
+	private static String buildPropertyShapePartitionUri(String datasetUri, Resource nodeShape, Resource propertyShape, Model shacl) {
 		// concat shape to partition URI
 		String partitionUri;
 		try {
-			partitionUri = datasetUri+"/"+"partition"+"_"+URLEncoder.encode(shape.getURI(), "UTF-8");
+			partitionUri = datasetUri+"/"+URLEncoder.encode(nodeShape.getURI(), "UTF-8")+URLEncoder.encode(propertyShape.getURI(), "UTF-8");
 			return partitionUri;
 		} catch (UnsupportedEncodingException e) {
 			// should never happen
 			e.printStackTrace();
 			return null;
-		}
-		
+		}		
+	}
+
+	private static String buildNodeShapePartitionUri(String datasetUri, Resource nodeShape, Model shacl) {
+		// concat shape to partition URI
+		String partitionUri;
+		try {
+			partitionUri = datasetUri+"/"+URLEncoder.encode(nodeShape.getURI(), "UTF-8");
+			return partitionUri;
+		} catch (UnsupportedEncodingException e) {
+			// should never happen
+			e.printStackTrace();
+			return null;
+		}		
 	}
 
 

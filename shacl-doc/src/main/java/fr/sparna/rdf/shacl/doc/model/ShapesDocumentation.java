@@ -19,6 +19,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 import fr.sparna.rdf.shacl.doc.DcatDistribution;
+import fr.sparna.rdf.shacl.doc.MarkdownRenderer;
 import fr.sparna.rdf.shacl.doc.OwlOntology;
 
 @JsonInclude(Include.NON_NULL)
@@ -75,9 +76,6 @@ public class ShapesDocumentation {
 	
 	
 	public ShapesDocumentation(OwlOntology ontology, String lang) {
-		// init markdown parser & renderer
-		Parser parser = Parser.builder().build();
-		HtmlRenderer renderer = HtmlRenderer.builder().build();
 		
 		if(ontology != null) {
 			
@@ -85,9 +83,7 @@ public class ShapesDocumentation {
 			
 			String abstractString = ontology.getAbstractOrComment(lang);
 			if(abstractString != null) {
-				Node document = parser.parse(abstractString);					
-				abstractString = renderer.render(document);	
-				this.setAbstract_(abstractString);
+				this.setAbstract_(MarkdownRenderer.getInstance().renderMarkdown(abstractString));
 			}
 			
 			this.setDatecreated(ontology.getDateCreated());
@@ -120,16 +116,12 @@ public class ShapesDocumentation {
 				.collect(Collectors.toList());
 			});
 			
-			if(ontology.getDescription(lang) != null) {	
-				Node document = parser.parse(ontology.getDescription(lang));	
-				String descriptionRendered = renderer.render(document);				
-				this.setDescriptionDocument(descriptionRendered);
+			if(ontology.getDescription(lang) != null) {				
+				this.setDescriptionDocument(MarkdownRenderer.getInstance().renderMarkdown(ontology.getDescription(lang)));
 			}
 			
-			if(ontology.getVersionNotes(lang) != null) {				
-				Node document = parser.parse(ontology.getVersionNotes(lang));	
-				String versionNodeRendered = renderer.render(document);				
-				this.setReleaseNotes(versionNodeRendered);
+			if(ontology.getVersionNotes(lang) != null) {							
+				this.setReleaseNotes(MarkdownRenderer.getInstance().renderMarkdown(ontology.getVersionNotes(lang)));
 			}
 			
 			Optional.ofNullable(ontology.getDepiction()).ifPresent(list -> {

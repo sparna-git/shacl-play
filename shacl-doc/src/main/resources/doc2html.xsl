@@ -55,6 +55,7 @@
 			<entry key="DESCRIPTION.TITLE" label="Description"/>
 			<entry key="RELEASE_NOTES.TITLE" label="Notes de version" />
 
+			<entry key="LABEL_NODESHAPE_DESCRIPTION" label="Description"/>
 			<entry key="LABEL_TARGETCLASS" label="S'applique à : " />
 			<entry key="LABEL_NODEKIND" label="Type de noeud : " />
 			<entry key="LABEL_PATTERNS" label="Structure des URIs: " />
@@ -62,6 +63,8 @@
 			<entry key="LABEL_EXAMPLE" label="Exemple : "/>
 			<entry key="LABEL_SUPERCLASSES" label="Hérite de : "/>
 			<entry key="LABEL_OR" label=" ou "/>
+			<entry key="LABEL_TARGETSUBJECTSOF" label="S'applique aux sujets de: "/>
+			<entry key="LABEL_TARGETOBJECTSOF" label="S'applique aux objets de: "/>
 			
 			<entry key="LABEL_NO_PROPERTIES" label="Aucune propriété spécifique"/>
 		</labels>
@@ -112,6 +115,7 @@
 			<entry key="DESCRIPTION.TITLE" label="Description"/>
 			<entry key="RELEASE_NOTES.TITLE" label="Release notes" />
 
+			<entry key="LABEL_NODESHAPE_DESCRIPTION" label="Description"/>
 			<entry key="LABEL_TARGETCLASS" label="Applies to: " />
 			<entry key="LABEL_NODEKIND" label="Nodes: " />
 			<entry key="LABEL_PATTERNS" label="URI pattern: " />
@@ -460,6 +464,17 @@
 					
 					.sp_serialization_badge {
 						margin-right: 0.5em;
+					}
+
+					.sp_nodeshape_description {
+						background: #efefef;
+						margin-left:25px;
+						padding-top:1px;
+						padding-bottom:1px;
+						padding-left:10px;
+						padding-right:10px;
+						border-radius: 5px;
+						margin-bottom:10px;
 					}
 					
 					<xsl:choose>
@@ -848,10 +863,11 @@
 					</div>
 					
 					<xsl:if test="description != ''">
-						<p>
+						<ul class="sp_list_description_properties"><li><xsl:value-of select="$LABELS/labels/entry[@key='LABEL_NODESHAPE_DESCRIPTION']/@label" /> :</li></ul>
+						<div class="sp_nodeshape_description">
 							<!--  disable output escaping so that HTML is preserved -->
-							<em><xsl:value-of select="description" disable-output-escaping="yes" /></em>
-						</p>
+							<xsl:value-of select="description" disable-output-escaping="yes" />
+						</div>
 					</xsl:if>
 					<xsl:if
 						test="targetClass/href or superClasses/link or nodeKind != '' or pattern != '' or closed='true' or skosExample != '' or targetSubjectsOf != '' or targetObjectsOf != ''">
@@ -1012,7 +1028,11 @@
 		<xsl:variable name="depiction_description" select="description"/>
 		<figure>
 			<img src="{$depiction_name}" style="width:100%;"/>
-			<figcaption><em><xsl:value-of select="$depiction_title"/></em> : <xsl:value-of select="$depiction_description"/></figcaption>
+			<xsl:if test="$depiction_title or $depiction_description">
+				<figcaption>
+					<xsl:if test="$depiction_title"><em><xsl:value-of select="$depiction_title"/></em> : </xsl:if><xsl:value-of select="$depiction_description"/>
+				</figcaption>
+			</xsl:if>
 		</figure>
 	</xsl:template>
 		
@@ -1022,12 +1042,8 @@
 		
 			<xsl:variable name="getBgColor">
 				<xsl:choose>
-					<xsl:when test="propertyGroup/properties/property/backgroundcolor != ''">
-						''
-					</xsl:when>
-					<xsl:otherwise>
-						table-striped
-					</xsl:otherwise>
+					<xsl:when test="propertyGroup/properties/property/backgroundcolor != ''"></xsl:when>
+					<xsl:otherwise>table-striped</xsl:otherwise>
 				</xsl:choose>
 			</xsl:variable>
 			

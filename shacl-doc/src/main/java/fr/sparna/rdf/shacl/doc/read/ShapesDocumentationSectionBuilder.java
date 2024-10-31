@@ -10,6 +10,7 @@ import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.vocabulary.RDFS;
 
 import fr.sparna.rdf.jena.ModelReadingUtils;
+import fr.sparna.rdf.shacl.doc.MarkdownRenderer;
 import fr.sparna.rdf.shacl.doc.NodeShape;
 import fr.sparna.rdf.shacl.doc.PropertyShape;
 import fr.sparna.rdf.shacl.doc.ShapesGraph;
@@ -39,7 +40,8 @@ public class ShapesDocumentationSectionBuilder {
 		currentSection.setTitle(nodeShape.getDisplayLabel(owlGraph, lang));
 		
 		// rdfs:comment
-		currentSection.setDescription(nodeShape.getDisplayDescription(owlGraph, lang));
+		String renderedMd = MarkdownRenderer.getInstance().renderMarkdown(nodeShape.getDisplayDescription(owlGraph, lang));
+		currentSection.setDescription(renderedMd);
 		
 		// sh:targetSubjectsOf or sh:targetObjectsOf
 		if (nodeShape.getShtargetSubjectsOf() != null) {

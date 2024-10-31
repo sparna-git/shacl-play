@@ -219,7 +219,11 @@ public class NodeShape {
 	}
 
 	public Double getShOrder() {
-		return Optional.ofNullable(nodeShape.getProperty(SH.order)).map(s -> s.getDouble()).orElse(null);
+		return getShOrderOf(nodeShape);
+	}
+
+	private Double getShOrderOf(Resource r) {
+		return Optional.ofNullable(r.getProperty(SH.order)).map(s -> s.getDouble()).orElse(null);
 	}
 
 	public Literal getShPattern() {
@@ -297,26 +301,34 @@ public class NodeShape {
 	public List<ImageforNodeShape> getFoafDepiction() {
 		
 		List<Statement> depic = nodeShape.listProperties(FOAF.depiction).toList();
-		List<NodeShape> Depictation = new ArrayList<>();
+		List<Resource> depictions = new ArrayList<>();
+
 		for (Statement aDepictStatement : depic) {
 			RDFNode object = aDepictStatement.getObject();
 
 			if (object.isResource()) {
-				Resource getDepictation = object.asResource();
-				NodeShape node_depictation = new NodeShape(getDepictation);
-				Depictation.add(node_depictation);	
+				if(
+					object.asResource().getURI() != null
+					&&
+					(
+						object.asResource().getURI().contains(".jpg")
+						||
+						object.asResource().getURI().contains(".png")
+					)
+				)
+				depictions.add(object.asResource());	
 			}					
 		}
 		
-		Depictation.sort((NodeShape dp1, NodeShape dp2) -> {
-			if (dp1.getShOrder() != null) {
-				if(dp2.getShOrder() != null) {
-					return (dp1.getShOrder() - dp2.getShOrder()) > 0?1:-1;
+		depictions.sort((Resource dp1, Resource dp2) -> {
+			if (getShOrderOf(dp1) != null) {
+				if(getShOrderOf(dp2) != null) {
+					return (getShOrderOf(dp1) - getShOrderOf(dp2)) > 0?1:-1;
 				} else {
 					return -1;
 				}
 			} else {
-				if(dp2.getShOrder() != null) {
+				if(getShOrderOf(dp2) != null) {
 					return 1;
 				} else {
 					// both sh:order are null, try with sh:name
@@ -327,22 +339,16 @@ public class NodeShape {
 		});
 		
 		List<ImageforNodeShape> img = new ArrayList<>();
-		for (NodeShape ns : Depictation) {
+		for (Resource r : depictions) {
 			ImageforNodeShape ins = new ImageforNodeShape();
-			ins.setDepiction(ns.getURIOrId());
-			ins.setShorder(ns.getShOrder());
+			ins.setDepiction(r.getURI());
+			ins.setShorder(getShOrderOf(r));
 			
 			// dcterms:title
-			String dcterms_title = ns.nodeShape.getProperty(DCTerms.title).getObject().asLiteral().getString();
-			if (dcterms_title != null) {
-				ins.setTitle(dcterms_title);
-			}
+			Optional.ofNullable(r.getProperty(DCTerms.title)).map(s -> s.getString()).ifPresent(title -> ins.setTitle(title));
 			
-			// dcterms:title
-			String dcterms_description = ns.nodeShape.getProperty(DCTerms.description).getObject().asLiteral().getString();
-			if (dcterms_description != null) {
-				ins.setDescription(dcterms_description);
-			}
+			// dcterms:description
+			Optional.ofNullable(r.getProperty(DCTerms.description)).map(s -> s.getString()).ifPresent(title -> ins.setDescription(title));
 			img.add(ins);
 		}
 		

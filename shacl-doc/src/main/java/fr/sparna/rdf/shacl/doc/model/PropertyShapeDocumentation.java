@@ -27,6 +27,8 @@ public class PropertyShapeDocumentation {
 
 	private String distinctObjectsSparqlQuery;
 	
+	private String labelrol;
+	
 	public String getSparqlQueryProperty() {
 		return sparqlQueryProperty;
 	}
@@ -115,4 +117,11 @@ public class PropertyShapeDocumentation {
 		this.propertyShapeUriOrId = propertyShapeUriOrId;
 	}
 
+	public String getLabelrol() {
+		return labelrol;
+	}
+
+	public void setLabelrol(String labelrol) {
+		this.labelrol = labelrol;
+	}
 }

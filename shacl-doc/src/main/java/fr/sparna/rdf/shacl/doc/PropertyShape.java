@@ -9,6 +9,7 @@ import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.RDFList;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.vocabulary.RDFS;
 import org.apache.jena.vocabulary.SKOS;
 import org.topbraid.shacl.vocabulary.SH;
@@ -16,6 +17,7 @@ import org.topbraid.shacl.vocabulary.SH;
 import fr.sparna.rdf.jena.ModelReadingUtils;
 import fr.sparna.rdf.jena.ModelRenderingUtils;
 import fr.sparna.rdf.jena.shacl.ShOrReadingUtils;
+import fr.sparna.rdf.shacl.DASH;
 import fr.sparna.rdf.shacl.SHACL_PLAY;
 
 public class PropertyShape {
@@ -55,6 +57,7 @@ public class PropertyShape {
 	}
 	
 	public String getDisplayLabel(Model owlModel, String lang) {
+		
 		String result = ModelRenderingUtils.render(this.getShName(lang), true);
 		
 		if(result == null && this.getShPath() == null) {
@@ -178,6 +181,20 @@ public class PropertyShape {
 	
 	public Optional<Literal> getColor() {
 		return ModelReadingUtils.getOptionalLiteral(this.resource, this.resource.getModel().createProperty(SHACL_PLAY.COLOR));
+	}
+	
+	public Resource getDashLabelRole() {
+		
+		Resource getLabelRole = null;
+		if (this.resource.hasProperty(DASH.propertyRole)) {
+			List<Statement> dashProperties = this.resource.listProperties(DASH.propertyRole).toList();
+			for (Statement s : dashProperties) {
+				if (s.getObject().toString().equals("http://datashapes.org/dash#LabelRole")) {
+					getLabelRole = s.getObject().asResource();
+				}
+			}
+		}		
+		return Optional.ofNullable(getLabelRole).map(s -> s).orElse(null);
 	}
 	
 }

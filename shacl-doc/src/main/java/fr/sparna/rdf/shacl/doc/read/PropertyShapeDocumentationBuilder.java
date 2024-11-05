@@ -86,6 +86,11 @@ public class PropertyShapeDocumentationBuilder {
 			}					
 		}
 		
+		// Dash:LabelRol
+		if (propertyShape.getDashLabelRole() != null) {
+			proprieteDoc.setLabelrol(propertyShape.getDashLabelRole().asResource().getURI());
+		}
+		
 		// create a String of comma-separated short forms
 		//proprieteDoc.getExpectedValue().setOr(ModelRenderingUtils.render(propertyShape.getShOr(), false));
 		proprieteDoc.getExpectedValue().setOr(propertyShape.getShOr());

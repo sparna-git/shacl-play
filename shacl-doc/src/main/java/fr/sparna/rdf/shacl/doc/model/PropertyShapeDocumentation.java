@@ -6,6 +6,11 @@ public class PropertyShapeDocumentation {
 	 * Full URI of original property shape
 	 */
 	private String propertyShapeUriOrId;
+
+	/**
+	 * ID of the documentation section, usually set by the property shape URI short name
+	 */
+	private String sectionId;
 	
 	private String label;
 	
@@ -117,6 +122,13 @@ public class PropertyShapeDocumentation {
 		this.propertyShapeUriOrId = propertyShapeUriOrId;
 	}
 
+	public String getSectionId() {
+		return sectionId;
+	}
+
+	public void setSectionId(String sectionId) {
+		this.sectionId = sectionId;
+	}
 	public String getLabelrol() {
 		return labelrol;
 	}

@@ -95,7 +95,7 @@ public class ShapesGraph {
 					return 1;
 				} else {
 					// both sh:order are null, try with their display label
-					return ns1.getDisplayLabel(owlGraph, lang).compareTo(ns2.getDisplayLabel(owlGraph, lang));
+					return ns1.getDisplayLabel(owlGraph, lang).compareToIgnoreCase(ns2.getDisplayLabel(owlGraph, lang));
 				}
 			}
 		});

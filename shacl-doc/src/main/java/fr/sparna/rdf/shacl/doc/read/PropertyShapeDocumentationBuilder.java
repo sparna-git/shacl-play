@@ -13,7 +13,6 @@ import org.apache.jena.vocabulary.XSD;
 import fr.sparna.rdf.jena.ModelRenderingUtils;
 import fr.sparna.rdf.shacl.doc.NodeShape;
 import fr.sparna.rdf.shacl.doc.PropertyShape;
-import fr.sparna.rdf.shacl.doc.model.ExpectedValue;
 import fr.sparna.rdf.shacl.doc.model.Link;
 import fr.sparna.rdf.shacl.doc.model.PropertyShapeDocumentation;
 import net.sourceforge.plantuml.board.BNode;
@@ -23,6 +22,7 @@ public class PropertyShapeDocumentationBuilder {
 
 	public static PropertyShapeDocumentation build(
 			PropertyShape propertyShape,
+			NodeShape nodeShape,
 			List<NodeShape> allNodeShapes,
 			Model shaclGraph,
 			Model owlGraph,
@@ -33,7 +33,9 @@ public class PropertyShapeDocumentationBuilder {
 		// URI in the documentation
 		proprieteDoc.setPropertyUri(buildPathLink(propertyShape));
 		// full URI
-		proprieteDoc.setPropertyShapeUriOrId(propertyShape.getURIOrId());		
+		proprieteDoc.setPropertyShapeUriOrId(propertyShape.getURIOrId());
+		// section ID from concat of node shape ID + short name of the property
+		proprieteDoc.setSectionId(nodeShape.getShortFormOrId()+"_"+propertyShape.getShPathAsString());	
 		
 		proprieteDoc.setCardinalite(renderCardinalities(propertyShape.getShMinCount(), propertyShape.getShMaxCount()));
 		proprieteDoc.setDescription(propertyShape.getDisplayDescription(shaclGraph.union(owlGraph), lang));

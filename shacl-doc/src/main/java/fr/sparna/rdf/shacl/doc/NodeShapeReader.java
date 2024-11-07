@@ -45,7 +45,7 @@ public class NodeShapeReader {
 					return 1;
 				} else {
 					// both sh:order are null, try with sh:name
-					return ps1.getDisplayLabel(owlModel, lang).compareTo(ps2.getDisplayLabel(owlModel, lang));
+					return ps1.getDisplayLabel(owlModel, lang).compareToIgnoreCase(ps2.getDisplayLabel(owlModel, lang));
 				}
 			}
 		});

@@ -1,8 +1,13 @@
 package fr.sparna.rdf.shacl.doc;
 
+import java.util.List;
+
+import org.commonmark.Extension;
 import org.commonmark.node.Node;
 import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
+import org.commonmark.ext.autolink.AutolinkExtension;
+import org.commonmark.ext.image.attributes.ImageAttributesExtension;
 
 public class MarkdownRenderer {
 	
@@ -13,8 +18,10 @@ public class MarkdownRenderer {
 	
 	private MarkdownRenderer() {
 		// init markdown parser & renderer
-		this.parser = Parser.builder().build();
-		this.renderer = HtmlRenderer.builder().build();
+		List<Extension> extensions = List.of(ImageAttributesExtension.create(), AutolinkExtension.create());
+		
+		this.parser = Parser.builder().extensions(extensions).build();
+		this.renderer = HtmlRenderer.builder().extensions(extensions).build();
 	}
 
 	public static MarkdownRenderer getInstance() {

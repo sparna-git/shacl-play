@@ -89,9 +89,18 @@
 			<artifactId>Saxon-HE</artifactId>
 		</dependency>
 
+		<!-- Markdown processing, including images -->
 		<dependency>
 		    <groupId>org.commonmark</groupId>
 		    <artifactId>commonmark</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.commonmark</groupId>
+			<artifactId>commonmark-ext-image-attributes</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.commonmark</groupId>
+			<artifactId>commonmark-ext-autolink</artifactId>
 		</dependency>
 
 

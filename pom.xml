@@ -199,10 +199,21 @@ eclipse.preferences.version=1
         <version>10.3</version>                    
       </dependency>
 
+      <!-- Markdown parsing-->
       <dependency>
           <groupId>org.commonmark</groupId>
           <artifactId>commonmark</artifactId>
-          <version>0.21.0</version>
+          <version>0.24.0</version>
+      </dependency>
+      <dependency>
+          <groupId>org.commonmark</groupId>
+          <artifactId>commonmark-ext-image-attributes</artifactId>
+          <version>0.24.0</version>
+      </dependency>
+      <dependency>
+          <groupId>org.commonmark</groupId>
+          <artifactId>commonmark-ext-autolink</artifactId>
+          <version>0.24.0</version>
       </dependency>
               
     </dependencies>

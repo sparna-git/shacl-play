@@ -58,7 +58,7 @@
 			<entry key="LABEL_NODESHAPE_DESCRIPTION" label="Description"/>
 			<entry key="LABEL_TARGETCLASS" label="S'applique à : " />
 			<entry key="LABEL_NODEKIND" label="Type de noeud : " />
-			<entry key="LABEL_PATTERNS" label="Structure des URIs: " />
+			<entry key="LABEL_PATTERNS" label="Structure d'identifiant : " />
 			<entry key="LABEL_CLOSE" label="Shape fermée" />
 			<entry key="LABEL_EXAMPLE" label="Exemple : "/>
 			<entry key="LABEL_SUPERCLASSES" label="Hérite de : "/>
@@ -254,7 +254,9 @@
 	                    icon: '#'
 	                  };
                		anchors.options.placement = 'left';
-					anchors.add();		
+					anchors.add('h2,h3');
+					// for links inside tables		
+					anchors.add('td[id]');
 				</script>
 				<xsl:apply-templates select="../ShapesDocumentation" mode="javascript_extra"/>
 			</body>
@@ -468,7 +470,6 @@
 
 					.sp_nodeshape_description {
 						background: #efefef;
-						margin-left:25px;
 						padding-top:1px;
 						padding-bottom:1px;
 						padding-left:10px;
@@ -535,7 +536,7 @@
 	<xsl:template match="ShapesDocumentation" mode="TOC">
 		<!-- Table de matieres -->
 		<div class="sp_section_title_toc toc">
-			<h2 id="Index"><xsl:value-of select="$LABELS/labels/entry[@key='TOC']/@label" /></h2>
+			<h2 id="index"><xsl:value-of select="$LABELS/labels/entry[@key='TOC']/@label" /></h2>
 			<ul role="list" class="sp_list_toc ul_type_none t-x-mode">
 				<li>
 					<!-- Prefixes -->
@@ -801,8 +802,8 @@
 	<xsl:template match="prefixes">
 		<div class="row mt-3">
 			<div class="col">
-				<section id="prefixes">
-					<h2 class="sp_section_subtitle">
+				<section>
+					<h2 id="prefixes" class="sp_section_subtitle">
 						<xsl:value-of
 							select="$LABELS/labels/entry[@key='PREFIXES.TITLE']/@label" />
 					</h2>
@@ -851,7 +852,7 @@
 	<xsl:template match="section">
 		<div class="row mt-3">
 			<div class="col">
-				<section id="{sectionId}">
+				<section>
 					<div class="sp_section_title_table_wrapper">
 					
 						<xsl:apply-templates select="title" />
@@ -863,24 +864,35 @@
 					</div>
 					
 					<xsl:if test="description != ''">
-						<ul class="sp_list_description_properties"><li><xsl:value-of select="$LABELS/labels/entry[@key='LABEL_NODESHAPE_DESCRIPTION']/@label" /> :</li></ul>
 						<div class="sp_nodeshape_description">
 							<!--  disable output escaping so that HTML is preserved -->
 							<xsl:value-of select="description" disable-output-escaping="yes" />
 						</div>
 					</xsl:if>
 					<xsl:if
-						test="targetClass/href or superClasses/link or nodeKind != '' or pattern != '' or closed='true' or skosExample != '' or targetSubjectsOf != '' or targetObjectsOf != ''">
+						test="
+							targetClass/href
+							or
+							superClasses/link
+							or
+							nodeKind != ''
+							or
+							pattern != ''
+							or
+							closed='true'
+							or
+							skosExample != ''
+							or
+							targetSubjectsOf != ''
+							or
+							targetObjectsOf != ''
+							or
+							sparqlTarget
+						"
+					>
 						<ul class="sp_list_description_properties">
 							<xsl:if test="targetClass/targetClass">
-								
-								<!--  
-								<li>
-									<a href="{targetClass/href}">
-										<xsl:value-of select="targetClass/label" />
-									</a>
-								</li>
-								-->
+
 								<li>
 									<xsl:value-of select="$LABELS/labels/entry[@key='LABEL_TARGETCLASS']/@label" />
 									<xsl:for-each select="targetClass/targetClass">
@@ -934,29 +946,6 @@
 							<xsl:if test="pattern != ''">
 								<li>
 									<xsl:value-of select="$LABELS/labels/entry[@key='LABEL_PATTERNS']/@label" />
-									<!--
-									<xsl:choose>
-										<xsl:when test="contains(pattern,',')">
-											<br></br>
-											<xsl:for-each select="tokenize(pattern,',')">
-												<code>
-													<xsl:value-of select="."/>
-												</code>
-												<xsl:choose>
-													<xsl:when test="position() = last()">
-														<xsl:text></xsl:text>
-													</xsl:when>
-													<xsl:when test="position() != last()">
-														<br></br>
-													</xsl:when>
-												</xsl:choose>
-											</xsl:for-each>
-										</xsl:when>
-										<xsl:otherwise>
-											
-										</xsl:otherwise>
-									</xsl:choose>
-									-->
 									<code><xsl:value-of select="pattern"/></code>	
 								</li>
 							</xsl:if>
@@ -965,11 +954,6 @@
 								<li>
 									<xsl:value-of select="$LABELS/labels/entry[@key='LABEL_EXAMPLE']/@label"/>
 									<code><xsl:value-of select="skosExample"/></code>
-								</li>
-							</xsl:if>
-							<xsl:if test="string-length(MessageOfValidate) &gt; 0">
-								<li>
-									<em>Message:</em><xsl:value-of select="MessageOfValidate"/>
 								</li>
 							</xsl:if>
 							<xsl:if test="targetSubjectsOf">
@@ -984,18 +968,26 @@
 									<xsl:value-of select="targetObjectsOf"/>
 								</li>
 							</xsl:if>
+							<xsl:if test="sparqlTarget">
+								<li>					
+									<xsl:value-of select="$LABELS/labels/entry[@key='LABEL_TARGETCLASS']/@label" />
+									<br/>
+									<code>
+										<pre>
+											<xsl:value-of select="sparqlTarget" />					
+										</pre>
+									</code>
+								</li>
+							</xsl:if>
+							<xsl:if test="string-length(MessageOfValidate) &gt; 0">
+								<li>
+									<em>Message:</em><xsl:value-of select="MessageOfValidate"/>
+								</li>
+							</xsl:if>
 						</ul>
 					</xsl:if>
 					
-					<xsl:if test="sparqlTarget">					
-						<xsl:value-of select="$LABELS/labels/entry[@key='LABEL_TARGETCLASS']/@label" />
-						<br/>
-						<code>
-							<pre>
-								<xsl:value-of select="sparqlTarget" />					
-							</pre>
-						</code>
-					</xsl:if>
+
 					
 					<!-- Section of add image -->
 					<xsl:apply-templates select="depictionsImgs" />
@@ -1013,7 +1005,7 @@
 	</xsl:template>
 	
 	<xsl:template match="section/title">
-		<h3 class="sp_section_title_table">
+		<h3 id="{../sectionId}" class="sp_section_title_table">
 			<xsl:value-of select="." />
 		</h3>
 	</xsl:template>
@@ -1126,7 +1118,11 @@
 				<xsl:apply-templates select="./label"/>
 			</td>
 			<!-- Property URI -->
+			<!-- Also with the ID, if provided -->
 			<td>
+				<xsl:if test="sectionId">
+					<xsl:attribute name="id"><xsl:value-of select="sectionId" /></xsl:attribute>
+				</xsl:if>
 				<xsl:apply-templates select="./propertyUri"/>				
 			</td>
 			<!-- Expected Value -->

@@ -2,6 +2,8 @@ package fr.sparna.rdf.shacl.generate;
 
 import org.apache.jena.rdf.model.Model;
 
+import fr.sparna.rdf.shacl.generate.providers.ShaclGeneratorDataProviderIfc;
+
 /**
  * Runs the SHACL generation aynschronously.
  * @author thomas.francart@sparna.fr

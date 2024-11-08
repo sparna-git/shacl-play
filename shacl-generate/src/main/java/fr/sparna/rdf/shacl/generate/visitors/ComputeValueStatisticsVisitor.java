@@ -17,16 +17,24 @@ import org.slf4j.LoggerFactory;
 
 import fr.sparna.rdf.jena.ModelRenderingUtils;
 import fr.sparna.rdf.shacl.SHACL_PLAY;
-import fr.sparna.rdf.shacl.generate.ShaclGeneratorDataProviderIfc;
+import fr.sparna.rdf.shacl.generate.providers.ShaclGeneratorDataProviderIfc;
+import fr.sparna.rdf.shacl.generate.providers.ShaclStatisticsDataProviderIfc;
 
 public class ComputeValueStatisticsVisitor extends DatasetAwareShaclVisitorBase implements ShaclVisitorIfc {
 
 	private static final Logger log = LoggerFactory.getLogger(ComputeStatisticsVisitor.class);
 	
 	private Model statisticsModel;
+
+	private ShaclStatisticsDataProviderIfc statisticsProvider;
 	
-	public ComputeValueStatisticsVisitor(ShaclGeneratorDataProviderIfc dataProvider, Model countModel) {
+	public ComputeValueStatisticsVisitor(
+		ShaclGeneratorDataProviderIfc dataProvider,
+		ShaclStatisticsDataProviderIfc statisticsProvider,
+		Model countModel
+	) {
 		super(dataProvider);
+		this.statisticsProvider = statisticsProvider;
 		this.statisticsModel = countModel;
 	}
 
@@ -52,7 +60,7 @@ public class ComputeValueStatisticsVisitor extends DatasetAwareShaclVisitorBase 
 					target = aNodeShape;
 				}
 
-				Map<RDFNode, Integer> counts = this.dataProvider.countValues(
+				Map<RDFNode, Integer> counts = this.statisticsProvider.countValues(
 					target.getURI(),
 					propertyPath,
 					AssignValueOrInVisitor.DEFAULT_VALUES_THRESHOLD

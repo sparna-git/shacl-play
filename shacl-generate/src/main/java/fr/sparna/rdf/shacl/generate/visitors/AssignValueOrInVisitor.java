@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
 
 import fr.sparna.rdf.jena.ModelRenderingUtils;
 import fr.sparna.rdf.shacl.generate.ShaclGenerator;
-import fr.sparna.rdf.shacl.generate.ShaclGeneratorDataProviderIfc;
+import fr.sparna.rdf.shacl.generate.providers.ShaclGeneratorDataProviderIfc;
 
 public class AssignValueOrInVisitor extends DatasetAwareShaclVisitorBase {
 	

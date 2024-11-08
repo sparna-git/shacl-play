@@ -22,7 +22,8 @@ import org.topbraid.shacl.vocabulary.SH;
 
 import fr.sparna.rdf.jena.ModelRenderingUtils;
 import fr.sparna.rdf.shacl.generate.ShaclGenerator;
-import fr.sparna.rdf.shacl.generate.ShaclGeneratorDataProviderIfc;
+import fr.sparna.rdf.shacl.generate.providers.ShaclGeneratorDataProviderIfc;
+import fr.sparna.rdf.shacl.generate.providers.ShaclStatisticsDataProviderIfc;
 
 public class ComputeStatisticsVisitor extends DatasetAwareShaclVisitorBase implements ShaclVisitorIfc {
 
@@ -34,13 +35,16 @@ public class ComputeStatisticsVisitor extends DatasetAwareShaclVisitorBase imple
 	// In the case of this visitor the output model can be different from the input model
 	private Model outputModel;
 
+	private ShaclStatisticsDataProviderIfc statisticsProvider;
 	
 	public ComputeStatisticsVisitor(
 			ShaclGeneratorDataProviderIfc dataProvider,
+			ShaclStatisticsDataProviderIfc statisticsProvider,
 			Model outputModel,
 			String datasetUri
 	) {
 		super(dataProvider);
+		this.statisticsProvider = statisticsProvider;
 		this.datasetUri = datasetUri;
 		this.outputModel = outputModel;
 	}
@@ -53,7 +57,7 @@ public class ComputeStatisticsVisitor extends DatasetAwareShaclVisitorBase imple
 		outputModel.add(outputModel.createResource(this.datasetUri), RDF.type, VOID.Dataset);
 		
 		// count the total number of triples
-		int count = this.dataProvider.countTriples();
+		int count = this.statisticsProvider.countTriples();
 		if(count >= 0) {
 			log.debug("(count) dataset '{}' gets void:triples '{}'", this.datasetUri, count);
 			// assert number of triples on the Dataset
@@ -101,7 +105,7 @@ public class ComputeStatisticsVisitor extends DatasetAwareShaclVisitorBase imple
 			// TODO : not necessarily a void:class predicate
 			outputModel.add(outputModel.createResource(partitionUri), VOID._class, target);
 			
-			int count = this.dataProvider.countInstances(target.getURI());
+			int count = this.statisticsProvider.countInstances(target.getURI());
 			if(count >= 0) {
 				log.debug("(count) node shape '{}' gets void:entities '{}'", aNodeShape.getURI(), count);
 				// assert number of triples
@@ -145,7 +149,7 @@ public class ComputeStatisticsVisitor extends DatasetAwareShaclVisitorBase imple
 			}
 
 			// count number of triples
-			int count = this.dataProvider.countStatements(
+			int count = this.statisticsProvider.countStatements(
 					target.getURI(),
 					propertyPath
 			);
@@ -155,7 +159,7 @@ public class ComputeStatisticsVisitor extends DatasetAwareShaclVisitorBase imple
 			outputModel.add(propertyPartition, VOID.triples, model.createTypedLiteral(count));
 			
 			// count number of distinct objects
-			int countDistinctObjects = this.dataProvider.countDistinctObjects(
+			int countDistinctObjects = this.statisticsProvider.countDistinctObjects(
 				target.getURI(),
 					propertyPath
 			);

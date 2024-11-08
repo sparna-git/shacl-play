@@ -23,6 +23,7 @@ import org.slf4j.helpers.MessageFormatter;
 
 import fr.sparna.rdf.shacl.generate.progress.NoOpProgressMonitor;
 import fr.sparna.rdf.shacl.generate.progress.ProgressMonitor;
+import fr.sparna.rdf.shacl.generate.providers.ShaclGeneratorDataProviderIfc;
 import fr.sparna.rdf.shacl.generate.visitors.AssignClassesVisitor;
 import fr.sparna.rdf.shacl.generate.visitors.AssignDatatypesVisitor;
 import fr.sparna.rdf.shacl.generate.visitors.AssignMinCountAndMaxCountVisitor;

@@ -45,7 +45,12 @@ public class Analyze implements CliCommandIfc {
 		}
 
 		ShaclGeneratorDataProviderIfc dataProvider = new BaseShaclGeneratorDataProvider(queryExecutionService);	
-		ShaclStatisticsDataProviderIfc statisticsProvider = new BaseShaclStatisticsDataProvider(queryExecutionService);	
+		BaseShaclStatisticsDataProvider statisticsProvider = new BaseShaclStatisticsDataProvider(queryExecutionService);
+		// don't use rdfs:subClassOf - SHACL was just generated according to dataset structure, it is not needed
+		statisticsProvider.setAssumeNoSubclassOf(true);
+		if(a.getSubClassOf()) {
+			statisticsProvider.setAssumeNoSubclassOf(false);
+		}
 		
 		Model countModel = ModelFactory.createDefaultModel(); 
 		

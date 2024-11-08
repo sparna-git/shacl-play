@@ -179,7 +179,9 @@ public class AnalyzeController {
 
 			SamplingShaclGeneratorDataProvider dataProvider = new SamplingShaclGeneratorDataProvider(queryExecutionService);
 			BaseShaclStatisticsDataProvider statisticsProvider = new BaseShaclStatisticsDataProvider(queryExecutionService);
-			
+			// I know we shouldn't do that theoretically, but it speeds things up
+			statisticsProvider.setAssumeNoSubclassOf(true);
+
 			// defaults to english
 			if(language == null) {
 				language ="en";

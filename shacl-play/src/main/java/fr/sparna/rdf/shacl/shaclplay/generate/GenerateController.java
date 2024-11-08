@@ -85,6 +85,8 @@ public class GenerateController {
 			
 			SamplingShaclGeneratorDataProvider dataProvider = new SamplingShaclGeneratorDataProvider(new PaginatedQuery(100), datasetModel);
 			BaseShaclStatisticsDataProvider statisticsProvider = new BaseShaclStatisticsDataProvider(new PaginatedQuery(100), datasetModel);
+			// don't use rdfs:subClassOf - SHACL was just generated according to dataset structure, it is not needed
+			statisticsProvider.setAssumeNoSubclassOf(true);
 
 			Model shapes = doGenerateShapes(
 					dataProvider,
@@ -193,7 +195,8 @@ public class GenerateController {
 
 			SamplingShaclGeneratorDataProvider dataProvider = new SamplingShaclGeneratorDataProvider(queryExecutionService);
 			BaseShaclStatisticsDataProvider statisticsProvider = new BaseShaclStatisticsDataProvider(queryExecutionService);
-			
+			// don't use rdfs:subClassOf - SHACL was just generated according to dataset structure, it is not needed
+			statisticsProvider.setAssumeNoSubclassOf(true);
 			
 			// now generate the shapes
 			Model shapes = doGenerateShapes(

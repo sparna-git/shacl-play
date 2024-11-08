@@ -11,7 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import fr.sparna.rdf.shacl.generate.ModelProcessorIfc;
-import fr.sparna.rdf.shacl.generate.ShaclGeneratorDataProviderIfc;
+import fr.sparna.rdf.shacl.generate.providers.ShaclGeneratorDataProviderIfc;
 
 public class AssignDatatypesAndClassesToIriOrLiteralVisitor extends DatasetAwareShaclVisitorBase implements ShaclVisitorIfc {
 

@@ -47,6 +47,13 @@ public class ArgumentsAnalyze {
 	)
 	private File outputShapes;
 
+	@Parameter(
+			names = { "-sub", "--subClassOf" },
+			description = "Use rdf:type/rdfs:subClassOf* (which is the correct SHACL semantic) when counting instances instead of just rdf:type",
+			required = false
+	)
+	private Boolean subClassOf=false;
+
 
 	public String getEndpoint() {
 		return endpoint;
@@ -87,6 +94,13 @@ public class ArgumentsAnalyze {
 	public void setShapes(List<String> shapes) {
 		this.shapes = shapes;
 	}
-	
+
+	public Boolean getSubClassOf() {
+		return subClassOf;
+	}
+
+	public void setSubClassOf(Boolean subClassOf) {
+		this.subClassOf = subClassOf;
+	}	
 	
 }

@@ -9,11 +9,15 @@ import org.apache.jena.util.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import fr.sparna.rdf.jena.QueryExecutionServiceImpl;
 import fr.sparna.rdf.shacl.app.CliCommandIfc;
 import fr.sparna.rdf.shacl.app.InputModelReader;
 import fr.sparna.rdf.shacl.generate.PaginatedQuery;
-import fr.sparna.rdf.shacl.generate.SamplingShaclGeneratorDataProvider;
-import fr.sparna.rdf.shacl.generate.ShaclGeneratorDataProviderIfc;
+import fr.sparna.rdf.shacl.generate.providers.BaseShaclGeneratorDataProvider;
+import fr.sparna.rdf.shacl.generate.providers.BaseShaclStatisticsDataProvider;
+import fr.sparna.rdf.shacl.generate.providers.SamplingShaclGeneratorDataProvider;
+import fr.sparna.rdf.shacl.generate.providers.ShaclGeneratorDataProviderIfc;
+import fr.sparna.rdf.shacl.generate.providers.ShaclStatisticsDataProviderIfc;
 import fr.sparna.rdf.shacl.generate.visitors.AssignValueOrInVisitor;
 import fr.sparna.rdf.shacl.generate.visitors.ComputeStatisticsVisitor;
 import fr.sparna.rdf.shacl.generate.visitors.ComputeValueStatisticsVisitor;
@@ -31,14 +35,21 @@ public class Analyze implements CliCommandIfc {
 		Model shapes = ModelFactory.createDefaultModel(); 
 		InputModelReader.populateModel(shapes, a.getShapes());
 		
-		
-		ShaclGeneratorDataProviderIfc dataProvider;
+		QueryExecutionServiceImpl queryExecutionService;
 		if(a.getEndpoint() != null) {
-			dataProvider = new SamplingShaclGeneratorDataProvider(new PaginatedQuery(100), a.getEndpoint());
+			queryExecutionService = new QueryExecutionServiceImpl(a.getEndpoint());
 		} else {
 			Model inputModel = ModelFactory.createDefaultModel(); 
 			InputModelReader.populateModelFromFile(inputModel, a.getInput());
-			dataProvider = new SamplingShaclGeneratorDataProvider(new PaginatedQuery(100), inputModel);		
+			queryExecutionService = new QueryExecutionServiceImpl(inputModel);
+		}
+
+		ShaclGeneratorDataProviderIfc dataProvider = new BaseShaclGeneratorDataProvider(queryExecutionService);	
+		BaseShaclStatisticsDataProvider statisticsProvider = new BaseShaclStatisticsDataProvider(queryExecutionService);
+		// don't use rdfs:subClassOf - SHACL was just generated according to dataset structure, it is not needed
+		statisticsProvider.setAssumeNoSubclassOf(true);
+		if(a.getSubClassOf()) {
+			statisticsProvider.setAssumeNoSubclassOf(false);
 		}
 		
 		Model countModel = ModelFactory.createDefaultModel(); 
@@ -46,6 +57,7 @@ public class Analyze implements CliCommandIfc {
 		ShaclVisit modelStructure = new ShaclVisit(shapes);
 		modelStructure.visit(new ComputeStatisticsVisitor(
 				dataProvider,
+				statisticsProvider,
 				countModel,
 				(a.getEndpoint() != null)?a.getEndpoint():"https://dummy.dataset.uri"
 		));
@@ -55,7 +67,7 @@ public class Analyze implements CliCommandIfc {
 		yetAnotherTryOnAssigningValues.setRequiresShValueInPredicate(yetAnotherTryOnAssigningValues.new StatisticsBasedRequiresShValueOrInPredicate(countModel));
 		modelStructure.visit(yetAnotherTryOnAssigningValues);
 		// then we add value statistics to the count model
-		modelStructure.visit(new ComputeValueStatisticsVisitor(dataProvider,countModel));
+		modelStructure.visit(new ComputeValueStatisticsVisitor(dataProvider,statisticsProvider,countModel));
 		// then we copy the statistics in the description of the shape
 		modelStructure.visit(new CopyStatisticsToDescriptionVisitor(countModel));
 

@@ -1,4 +1,4 @@
-package fr.sparna.rdf.shacl.generate;
+package fr.sparna.rdf.shacl.generate.providers;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -20,6 +20,7 @@ import org.slf4j.LoggerFactory;
 import fr.sparna.rdf.jena.JenaResultSetHandlers;
 import fr.sparna.rdf.jena.QueryExecutionService;
 import fr.sparna.rdf.jena.QueryExecutionServiceImpl;
+import fr.sparna.rdf.shacl.generate.PaginatedQuery;
 
 public class BaseShaclGeneratorDataProvider implements ShaclGeneratorDataProviderIfc {
 
@@ -50,17 +51,11 @@ public class BaseShaclGeneratorDataProvider implements ShaclGeneratorDataProvide
 		this.queryExecutionService = new QueryExecutionServiceImpl(inputModel);
 		this.paginatedQuery = paginatedQuery;
 	}
-	
-	
 
-	@Override
-	public int countTriples() {
-		int count = this.queryExecutionService.executeSelectQuery(
-				readQuery("count-triples.rq"),
-				JenaResultSetHandlers::convertToInt
-				
-		);
-		return count;
+	public BaseShaclGeneratorDataProvider(QueryExecutionService queryExecutionService) {
+		super();
+		this.queryExecutionService = queryExecutionService;
+		this.paginatedQuery = new PaginatedQuery(100);
 	}
 
 	@Override
@@ -231,69 +226,6 @@ public class BaseShaclGeneratorDataProvider implements ShaclGeneratorDataProvide
 		// TODO : query to read a label, or dereference URI to get its description
 		return ResourceFactory.createResource(classOrPropertyUri).getLocalName();
 	}
-	
-	@Override
-	public int countInstances(String classUri) {
-		int count = this.queryExecutionService.executeSelectQuery(
-				readQuery("count-instances.rq"),
-				QueryExecutionService.buildQuerySolution("type", ResourceFactory.createResource(classUri)),
-				JenaResultSetHandlers::convertToInt
-				
-		);
-		return count;
-	}
-
-	@Override
-	public int countStatements(String subjectClassUri, String propertyPath) {		
-		// manually replace variables to deal with property paths
-		String query = readQuery("count-statements.rq");
-		query = query.replaceAll("\\$type", "<"+subjectClassUri+">");
-		query = query.replaceAll("\\$property", propertyPath);
-		
-		int count = this.queryExecutionService.executeSelectQuery(
-				query,
-				JenaResultSetHandlers::convertToInt
-				
-		);
-		return count;
-	}
-	
-	@Override
-	public int countDistinctObjects(String subjectClassUri, String propertyPath) {
-		// manually replace variables to deal with property paths
-		String query = readQuery("count-distinct-objects.rq");
-		query = query.replaceAll("\\$type", "<"+subjectClassUri+">");
-		query = query.replaceAll("\\$property", propertyPath);
-		
-		
-		int count = this.queryExecutionService.executeSelectQuery(
-				query,
-				JenaResultSetHandlers::convertToInt
-				
-		);
-		return count;
-	}
-	
-	
-	@Override
-	public int countStatementsWithDatatypes(
-			String subjectClassUri,
-			String propertyUri,
-			List<String> datatypes
-	) {
-		// TODO Auto-generated method stub
-		return -1;
-	}
-
-	@Override
-	public int countStatementsWithObjectClasses(
-			String subjectClassUri,
-			String propertyUri,
-			List<String> objectClassUris
-	) {
-		// TODO Auto-generated method stub
-		return -1;
-	}
 
 	@Override
 	public List<RDFNode> listDistinctValues(String subjectClassUri, String propertyPath, int limit) {
@@ -308,22 +240,6 @@ public class BaseShaclGeneratorDataProvider implements ShaclGeneratorDataProvide
 				query,
 				JenaResultSetHandlers::convertToList
 				
-		);
-		return result;
-	}
-	
-	@Override
-	public Map<RDFNode, Integer> countValues(String subjectClassUri, String propertyPath, int limit) {
-		// manually replace variables to deal with property paths
-		String query = readQuery("count-values.rq");
-		query = query.replaceAll("\\$type", "<"+subjectClassUri+">");
-		query = query.replaceAll("\\$property", propertyPath);
-		query = query.replaceAll("\\$limit", Integer.toString(limit));
-
-
-		Map<RDFNode, Integer> result = this.queryExecutionService.executeSelectQuery(
-				query,
-				JenaResultSetHandlers::convertToMap				
 		);
 		return result;
 	}

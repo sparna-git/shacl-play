@@ -1,4 +1,4 @@
-package fr.sparna.rdf.shacl.generate;
+package fr.sparna.rdf.shacl.generate.providers;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,6 +19,7 @@ import fr.sparna.rdf.jena.JenaResultSetHandlers;
 import fr.sparna.rdf.jena.QueryExecutionService;
 import fr.sparna.rdf.jena.SamplingQuery;
 import fr.sparna.rdf.jena.ValuesQuery;
+import fr.sparna.rdf.shacl.generate.PaginatedQuery;
 
 public class SamplingShaclGeneratorDataProvider extends BaseShaclGeneratorDataProvider implements ShaclGeneratorDataProviderIfc {
 
@@ -32,6 +33,10 @@ public class SamplingShaclGeneratorDataProvider extends BaseShaclGeneratorDataPr
 
 	public SamplingShaclGeneratorDataProvider(PaginatedQuery paginatedQuery, Model inputModel) {
 		super(paginatedQuery, inputModel);
+	}
+
+	public SamplingShaclGeneratorDataProvider(QueryExecutionService queryExecutionService) {
+		super(queryExecutionService);
 	}
 
 	@Override

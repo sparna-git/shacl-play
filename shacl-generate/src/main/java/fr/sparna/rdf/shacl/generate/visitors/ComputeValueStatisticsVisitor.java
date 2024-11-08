@@ -9,24 +9,32 @@ import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.shacl.vocabulary.SHACLM;
 import org.apache.jena.vocabulary.DCTerms;
-import org.apache.jena.vocabulary.RDF;
-import org.apache.jena.vocabulary.RDFS;
 import org.apache.jena.vocabulary.VOID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import fr.sparna.rdf.jena.ModelRenderingUtils;
 import fr.sparna.rdf.shacl.SHACL_PLAY;
-import fr.sparna.rdf.shacl.generate.ShaclGeneratorDataProviderIfc;
+import fr.sparna.rdf.shacl.generate.providers.ResourceTargetDefinition;
+import fr.sparna.rdf.shacl.generate.providers.ShaclGeneratorDataProviderIfc;
+import fr.sparna.rdf.shacl.generate.providers.ShaclStatisticsDataProviderIfc;
+import fr.sparna.rdf.shacl.generate.providers.TargetDefinitionIfc;
 
 public class ComputeValueStatisticsVisitor extends DatasetAwareShaclVisitorBase implements ShaclVisitorIfc {
 
 	private static final Logger log = LoggerFactory.getLogger(ComputeStatisticsVisitor.class);
 	
 	private Model statisticsModel;
+
+	private ShaclStatisticsDataProviderIfc statisticsProvider;
 	
-	public ComputeValueStatisticsVisitor(ShaclGeneratorDataProviderIfc dataProvider, Model countModel) {
+	public ComputeValueStatisticsVisitor(
+		ShaclGeneratorDataProviderIfc dataProvider,
+		ShaclStatisticsDataProviderIfc statisticsProvider,
+		Model countModel
+	) {
 		super(dataProvider);
+		this.statisticsProvider = statisticsProvider;
 		this.statisticsModel = countModel;
 	}
 
@@ -38,22 +46,11 @@ public class ComputeValueStatisticsVisitor extends DatasetAwareShaclVisitorBase 
 			// false to not use prefixes in the generated query
 			String propertyPath = ModelRenderingUtils.renderSparqlPropertyPath(aPropertyShape.getRequiredProperty(SHACLM.path).getObject().asResource(), false);
 			
-			// works only if targetClass is known
-			if(
-				aNodeShape.hasProperty(SHACLM.targetClass)
-				||
-				aNodeShape.hasProperty(RDF.type, RDFS.Class)
-			) {
-				// define target
-				Resource target;
-				if(aNodeShape.hasProperty(SHACLM.targetClass)) {
-					target = aNodeShape.getRequiredProperty(SHACLM.targetClass).getResource();
-				} else {
-					target = aNodeShape;
-				}
-
-				Map<RDFNode, Integer> counts = this.dataProvider.countValues(
-					target.getURI(),
+			// works only if target  is specified
+			TargetDefinitionIfc targetDefinition = new ResourceTargetDefinition(aNodeShape);
+			if(!targetDefinition.isEmptyTarget()) {
+				Map<RDFNode, Integer> counts = this.statisticsProvider.countByValues(
+					targetDefinition,
 					propertyPath,
 					AssignValueOrInVisitor.DEFAULT_VALUES_THRESHOLD
 				);
@@ -88,8 +85,7 @@ public class ComputeValueStatisticsVisitor extends DatasetAwareShaclVisitorBase 
 					}
 					
 				}
-			}
-			
+			}		
 
 		}
 	}

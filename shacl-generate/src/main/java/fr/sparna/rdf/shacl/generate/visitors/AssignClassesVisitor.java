@@ -20,9 +20,9 @@ import org.slf4j.LoggerFactory;
 import fr.sparna.rdf.shacl.generate.DefaultModelProcessor;
 import fr.sparna.rdf.shacl.generate.ModelProcessorIfc;
 import fr.sparna.rdf.shacl.generate.PaginatedQuery;
-import fr.sparna.rdf.shacl.generate.SamplingShaclGeneratorDataProvider;
 import fr.sparna.rdf.shacl.generate.ShaclGenerator;
-import fr.sparna.rdf.shacl.generate.ShaclGeneratorDataProviderIfc;
+import fr.sparna.rdf.shacl.generate.providers.SamplingShaclGeneratorDataProvider;
+import fr.sparna.rdf.shacl.generate.providers.ShaclGeneratorDataProviderIfc;
 
 public class AssignClassesVisitor extends DatasetAwareShaclVisitorBase {
 	

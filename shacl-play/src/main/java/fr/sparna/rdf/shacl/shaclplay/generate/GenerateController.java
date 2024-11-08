@@ -25,14 +25,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import fr.sparna.rdf.jena.QueryExecutionServiceImpl;
 import fr.sparna.rdf.shacl.generate.Configuration;
 import fr.sparna.rdf.shacl.generate.DefaultModelProcessor;
 import fr.sparna.rdf.shacl.generate.PaginatedQuery;
-import fr.sparna.rdf.shacl.generate.SamplingShaclGeneratorDataProvider;
 import fr.sparna.rdf.shacl.generate.ShaclGenerator;
 import fr.sparna.rdf.shacl.generate.ShaclGeneratorAsync;
-import fr.sparna.rdf.shacl.generate.ShaclGeneratorDataProviderIfc;
 import fr.sparna.rdf.shacl.generate.progress.StringBufferProgressMonitor;
+import fr.sparna.rdf.shacl.generate.providers.BaseShaclStatisticsDataProvider;
+import fr.sparna.rdf.shacl.generate.providers.SamplingShaclGeneratorDataProvider;
+import fr.sparna.rdf.shacl.generate.providers.ShaclGeneratorDataProviderIfc;
+import fr.sparna.rdf.shacl.generate.providers.ShaclStatisticsDataProviderIfc;
 import fr.sparna.rdf.shacl.generate.visitors.AssignLabelRoleVisitor;
 import fr.sparna.rdf.shacl.generate.visitors.AssignValueOrInVisitor;
 import fr.sparna.rdf.shacl.generate.visitors.ComputeStatisticsVisitor;
@@ -81,9 +84,13 @@ public class GenerateController {
 			datasetModel = ControllerCommons.populateModel(datasetModel, actualUrl);
 			
 			SamplingShaclGeneratorDataProvider dataProvider = new SamplingShaclGeneratorDataProvider(new PaginatedQuery(100), datasetModel);
-			
+			BaseShaclStatisticsDataProvider statisticsProvider = new BaseShaclStatisticsDataProvider(new PaginatedQuery(100), datasetModel);
+			// don't use rdfs:subClassOf - SHACL was just generated according to dataset structure, it is not needed
+			statisticsProvider.setAssumeNoSubclassOf(true);
+
 			Model shapes = doGenerateShapes(
 					dataProvider,
+					statisticsProvider,
 					config,
 					url,
 					computeStatistics,
@@ -147,17 +154,19 @@ public class GenerateController {
 			// get the source type
 			ControllerModelFactory.SOURCE_TYPE source = ControllerModelFactory.SOURCE_TYPE.valueOf(sourceString.toUpperCase());
 			
-			SamplingShaclGeneratorDataProvider dataProvider;
+			
 			Configuration config = new Configuration(new DefaultModelProcessor(), "https://shacl-play.sparna.fr/shapes/", "shapes");
 			config.setShapesOntology("https://shacl-play.sparna.fr/shapes");
 			
 			String sourceName = null;
 			
+			QueryExecutionServiceImpl queryExecutionService;
+
 			// first build the data provider, either for an endpoint or by loading a Model
 			Model datasetModel = ModelFactory.createDefaultModel();
 			if(source == SOURCE_TYPE.ENDPOINT) {
 				log.debug("Generating shapes for endpoint "+endpoint);
-				dataProvider = new SamplingShaclGeneratorDataProvider(new PaginatedQuery(100),endpoint);
+				queryExecutionService = new QueryExecutionServiceImpl(endpoint);
 				sourceName = ControllerModelFactory.getSourceNameForUrl(endpoint);
 			} else {
 				// if source is a URL, redirect to the API
@@ -177,17 +186,22 @@ public class GenerateController {
 					);
 					log.debug("Done Loading dataset. Model contains "+datasetModel.size()+" triples");
 
-					dataProvider = new SamplingShaclGeneratorDataProvider(new PaginatedQuery(100),datasetModel);
+					queryExecutionService = new QueryExecutionServiceImpl(datasetModel);
 					sourceName = modelPopulator.getSourceName();
 				}
 			}
 			
 			boolean async = requiresAsyncGeneration(endpoint, datasetModel);
-			
+
+			SamplingShaclGeneratorDataProvider dataProvider = new SamplingShaclGeneratorDataProvider(queryExecutionService);
+			BaseShaclStatisticsDataProvider statisticsProvider = new BaseShaclStatisticsDataProvider(queryExecutionService);
+			// don't use rdfs:subClassOf - SHACL was just generated according to dataset structure, it is not needed
+			statisticsProvider.setAssumeNoSubclassOf(true);
 			
 			// now generate the shapes
 			Model shapes = doGenerateShapes(
 					dataProvider,
+					statisticsProvider,
 					config,
 					(source == SOURCE_TYPE.ENDPOINT)?endpoint:(source == SOURCE_TYPE.URL)?url:"https://dummy.dataset.uri",
 					computeStatistics,
@@ -232,6 +246,7 @@ public class GenerateController {
 	
 	private Model doGenerateShapes(
 			ShaclGeneratorDataProviderIfc dataProvider,
+			ShaclStatisticsDataProviderIfc statisticsProvider,
 			Configuration config,
 			String targetDatasetUri,
 			boolean withCount,
@@ -247,11 +262,11 @@ public class GenerateController {
 			// if we requested statistics, add extra visitors
 			Model countModel = ModelFactory.createDefaultModel();
 			if (withCount) {	
-				generator.getExtraVisitors().add(new ComputeStatisticsVisitor(dataProvider, countModel, targetDatasetUri));
+				generator.getExtraVisitors().add(new ComputeStatisticsVisitor(dataProvider, statisticsProvider, countModel, targetDatasetUri));
 				AssignValueOrInVisitor yetAnotherTryOnAssigningValues = new AssignValueOrInVisitor(dataProvider);
 				yetAnotherTryOnAssigningValues.setRequiresShValueInPredicate(yetAnotherTryOnAssigningValues.new StatisticsBasedRequiresShValueOrInPredicate(countModel));
 				generator.getExtraVisitors().add(yetAnotherTryOnAssigningValues);
-				generator.getExtraVisitors().add(new ComputeValueStatisticsVisitor(dataProvider,countModel));
+				generator.getExtraVisitors().add(new ComputeValueStatisticsVisitor(dataProvider,statisticsProvider, countModel));
 				generator.getExtraVisitors().add(new CopyStatisticsToDescriptionVisitor(countModel));
 			}
 			
@@ -270,11 +285,11 @@ public class GenerateController {
 			// if we requested statistics, add extra visitors
 			Model countModel = ModelFactory.createDefaultModel();
 			if (withCount) {	
-				generator.getExtraVisitors().add(new ComputeStatisticsVisitor(dataProvider, countModel, targetDatasetUri));
+				generator.getExtraVisitors().add(new ComputeStatisticsVisitor(dataProvider, statisticsProvider, countModel, targetDatasetUri));
 				AssignValueOrInVisitor yetAnotherTryOnAssigningValues = new AssignValueOrInVisitor(dataProvider);
 				yetAnotherTryOnAssigningValues.setRequiresShValueInPredicate(yetAnotherTryOnAssigningValues.new StatisticsBasedRequiresShValueOrInPredicate(countModel));
 				generator.getExtraVisitors().add(yetAnotherTryOnAssigningValues);
-				generator.getExtraVisitors().add(new ComputeValueStatisticsVisitor(dataProvider,countModel));
+				generator.getExtraVisitors().add(new ComputeValueStatisticsVisitor(dataProvider,statisticsProvider, countModel));
 				// true to also merge the statistics in shapes model
 				generator.getExtraVisitors().add(new CopyStatisticsToDescriptionVisitor(countModel, true));
 			}

@@ -5,7 +5,7 @@ import org.apache.jena.rdf.model.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import fr.sparna.rdf.shacl.generate.ShaclGeneratorDataProviderIfc;
+import fr.sparna.rdf.shacl.generate.providers.ShaclGeneratorDataProviderIfc;
 
 public class DatasetAwareShaclVisitorBase implements ShaclVisitorIfc {
 

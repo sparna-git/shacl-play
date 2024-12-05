@@ -869,6 +869,10 @@
 							<xsl:value-of select="description" disable-output-escaping="yes" />
 						</div>
 					</xsl:if>
+
+					<!-- depiction, before bullet list -->
+					<xsl:apply-templates select="depictions" />
+
 					<xsl:if
 						test="
 							targetClass/href
@@ -987,11 +991,6 @@
 						</ul>
 					</xsl:if>
 					
-
-					
-					<!-- Section of add image -->
-					<xsl:apply-templates select="depictionsImgs" />
-					
 					<!-- Properties table -->
 					<xsl:apply-templates select="propertyGroups" />		
 					
@@ -1010,19 +1009,19 @@
 		</h3>
 	</xsl:template>
 	
-	<xsl:template match="depictionsImgs">
-		<xsl:apply-templates select="depictionImg"/>		
+	<xsl:template match="depictions">
+		<xsl:apply-templates select="depiction"/>		
 	</xsl:template>
 	
-	<xsl:template match="depictionImg">
+	<xsl:template match="depiction">
 		<xsl:variable name="depiction_name" select="depiction"/>
 		<xsl:variable name="depiction_title" select="title"/>
 		<xsl:variable name="depiction_description" select="description"/>
 		<figure>
-			<img src="{$depiction_name}" style="width:100%;"/>
+			<a href="{$depiction_name}"><img src="{$depiction_name}" style="width:100%;"/></a>
 			<xsl:if test="$depiction_title or $depiction_description">
 				<figcaption>
-					<xsl:if test="$depiction_title"><em><xsl:value-of select="$depiction_title"/></em> : </xsl:if><xsl:value-of select="$depiction_description"/>
+					<xsl:if test="$depiction_title"><em><xsl:value-of select="$depiction_title"/> :</em> </xsl:if><xsl:value-of select="$depiction_description"/>
 				</figcaption>
 			</xsl:if>
 		</figure>

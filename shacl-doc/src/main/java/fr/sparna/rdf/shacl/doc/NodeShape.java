@@ -298,10 +298,10 @@ public class NodeShape {
 		return Optional.ofNullable(nodeShape.getProperty(SH.targetObjectsOf)).map(s -> s.getResource()).orElse(null);
 	}	
 
-	public List<ImageforNodeShape> getFoafDepiction() {
+	public List<Depiction> getFoafDepiction() {
 		
 		List<Statement> depic = nodeShape.listProperties(FOAF.depiction).toList();
-		List<Resource> depictions = new ArrayList<>();
+		List<Resource> depictionsResources = new ArrayList<>();
 
 		for (Statement aDepictStatement : depic) {
 			RDFNode object = aDepictStatement.getObject();
@@ -316,11 +316,11 @@ public class NodeShape {
 						object.asResource().getURI().contains(".png")
 					)
 				)
-				depictions.add(object.asResource());	
+				depictionsResources.add(object.asResource());	
 			}					
 		}
 		
-		depictions.sort((Resource dp1, Resource dp2) -> {
+		depictionsResources.sort((Resource dp1, Resource dp2) -> {
 			if (getShOrderOf(dp1) != null) {
 				if(getShOrderOf(dp2) != null) {
 					return (getShOrderOf(dp1) - getShOrderOf(dp2)) > 0?1:-1;
@@ -338,20 +338,20 @@ public class NodeShape {
 			
 		});
 		
-		List<ImageforNodeShape> img = new ArrayList<>();
-		for (Resource r : depictions) {
-			ImageforNodeShape ins = new ImageforNodeShape();
-			ins.setDepiction(r.getURI());
-			ins.setShorder(getShOrderOf(r));
+		List<Depiction> depictions = new ArrayList<>();
+		for (Resource r : depictionsResources) {
+			Depiction aDepiction = new Depiction();
+			aDepiction.setDepiction(r.getURI());
+			aDepiction.setShorder(getShOrderOf(r));
 			
 			// dcterms:title
-			Optional.ofNullable(r.getProperty(DCTerms.title)).map(s -> s.getString()).ifPresent(title -> ins.setTitle(title));
+			Optional.ofNullable(r.getProperty(DCTerms.title)).map(s -> s.getString()).ifPresent(title -> aDepiction.setTitle(title));
 			
 			// dcterms:description
-			Optional.ofNullable(r.getProperty(DCTerms.description)).map(s -> s.getString()).ifPresent(title -> ins.setDescription(title));
-			img.add(ins);
+			Optional.ofNullable(r.getProperty(DCTerms.description)).map(s -> s.getString()).ifPresent(title -> aDepiction.setDescription(title));
+			depictions.add(aDepiction);
 		}
 		
-		return img;	
+		return depictions;	
 	}
 }

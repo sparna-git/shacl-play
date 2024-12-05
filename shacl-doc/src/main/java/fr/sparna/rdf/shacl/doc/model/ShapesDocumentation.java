@@ -19,6 +19,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 import fr.sparna.rdf.shacl.doc.DcatDistribution;
+import fr.sparna.rdf.shacl.doc.Depiction;
 import fr.sparna.rdf.shacl.doc.MarkdownRenderer;
 import fr.sparna.rdf.shacl.doc.OwlOntology;
 
@@ -61,7 +62,7 @@ public class ShapesDocumentation {
 	protected List<Link> rightsHolder;
 	@JacksonXmlElementWrapper(localName="depictions")
 	@JacksonXmlProperty(localName = "depiction")
-	protected List<String> depictions;
+	protected List<Depiction> depictions;
 	@JacksonXmlElementWrapper(localName="prefixes")
 	@JacksonXmlProperty(localName = "prefixe")
 	protected List<NamespaceSection> prefixe;
@@ -127,7 +128,7 @@ public class ShapesDocumentation {
 			Optional.ofNullable(ontology.getDepiction()).ifPresent(list -> {
 				this.depictions = list
 						.stream()
-						.map(u -> u.asResource().getURI())
+						.map(u -> new Depiction(u.asResource().getURI()))
 						.collect(Collectors.toList());
 			});
 			
@@ -228,10 +229,10 @@ public class ShapesDocumentation {
 	public void setFormat(List<DcatDistribution> format) {
 		this.format = format;
 	}
-	public List<String> getDepictions() {
+	public List<Depiction> getDepictions() {
 		return depictions;
 	}
-	public void setDepictions(List<String> depictions) {
+	public void setDepictions(List<Depiction> depictions) {
 		this.depictions = depictions;
 	}
 	public String getDatecreated() {

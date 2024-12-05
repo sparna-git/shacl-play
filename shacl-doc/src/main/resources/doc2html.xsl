@@ -739,14 +739,6 @@
 			</div>
 		</div>
 	</xsl:template>
-	
-	<xsl:template match="depictions">
-		<xsl:apply-templates/>		
-	</xsl:template>
-	
-	<xsl:template match="depiction">
-		<img src="{.}" style="width:100%;"/>
-	</xsl:template>
 	 
 	<xsl:template match="diagrams">
 		<xsl:apply-templates />		
@@ -1014,11 +1006,11 @@
 	</xsl:template>
 	
 	<xsl:template match="depiction">
-		<xsl:variable name="depiction_name" select="depiction"/>
+		<xsl:variable name="depiction_src" select="src"/>
 		<xsl:variable name="depiction_title" select="title"/>
 		<xsl:variable name="depiction_description" select="description"/>
 		<figure>
-			<a href="{$depiction_name}"><img src="{$depiction_name}" style="width:100%;"/></a>
+			<a href="{$depiction_src}"><img src="{$depiction_src}" style="width:100%;"/></a>
 			<xsl:if test="$depiction_title or $depiction_description">
 				<figcaption>
 					<xsl:if test="$depiction_title"><em><xsl:value-of select="$depiction_title"/> :</em> </xsl:if><xsl:value-of select="$depiction_description"/>

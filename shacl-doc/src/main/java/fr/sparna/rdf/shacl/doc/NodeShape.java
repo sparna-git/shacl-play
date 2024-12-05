@@ -341,7 +341,7 @@ public class NodeShape {
 		List<Depiction> depictions = new ArrayList<>();
 		for (Resource r : depictionsResources) {
 			Depiction aDepiction = new Depiction();
-			aDepiction.setDepiction(r.getURI());
+			aDepiction.setSrc(r.getURI());
 			aDepiction.setShorder(getShOrderOf(r));
 			
 			// dcterms:title

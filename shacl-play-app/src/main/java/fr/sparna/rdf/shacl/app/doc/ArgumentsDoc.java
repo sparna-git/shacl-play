@@ -32,7 +32,7 @@ public class ArgumentsDoc {
 
 	@Parameter(
 			names = { "-o", "--output" },
-			description = "Path to an output file, with extension *.html or *.pdf",
+			description = "Path to an output file, with extension *.html or *.pdf or *.xml",
 			required = true
 	)
 	private File output;
@@ -66,14 +66,13 @@ public class ArgumentsDoc {
 	)
 	private String imgLogo;
 	
-	
-	@Parameter(
-			names = { "-p", "--pdf" },
-			description = "print a pdf file.",
-			required = false
-	)
-	private Boolean pdf=false;
-	
+	public Boolean isPdfOutput() {
+		return this.output.getName().endsWith("pdf");
+	}
+
+	public Boolean isXmlOutput() {
+		return this.output.getName().endsWith("xml");
+	}
 	
 	public Boolean getDiagramShacl() {
 		return diagramShacl;
@@ -81,15 +80,7 @@ public class ArgumentsDoc {
 
 	public void setDiagramShacl(Boolean diagramShacl) {
 		this.diagramShacl = diagramShacl;
-	}
-
-	public Boolean getPdf() {
-		return pdf;
-	}
-
-	public void setPdf(Boolean pdf) {
-		this.pdf = pdf;
-	}
+	}	
 
 	public String getImgLogo() {
 		return imgLogo;

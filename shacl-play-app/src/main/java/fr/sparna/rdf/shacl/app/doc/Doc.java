@@ -76,8 +76,7 @@ public class Doc implements CliCommandIfc {
 		
 		
 		FileOutputStream out = new FileOutputStream(a.getOutput());
-		if(a.getPdf()) {
-			
+		if(a.isPdfOutput()) {			
 			// 1. write Documentation structure to XML
 			ShapesDocumentationWriterIfc writerHTML = new ShapesDocumentationJacksonXsltWriter();
 			ByteArrayOutputStream htmlBytes = new ByteArrayOutputStream();
@@ -97,19 +96,17 @@ public class Doc implements CliCommandIfc {
 				_builder.testMode(false);
 				_builder.run();
 			}			
+		} else if(a.isXmlOutput()) {
+			// 2. write Documentation structure to XML
+			ShapesDocumentationWriterIfc writer = new ShapesDocumentationXmlWriter();
+			writer.writeDoc(doc, a.getLanguage(), out, MODE.XML);
 		} else {
-			
-			if(a.getOutput().getName().endsWith(".xml")) {
-				// 2. write Documentation structure to XML
-				ShapesDocumentationWriterIfc writer = new ShapesDocumentationXmlWriter();
-				writer.writeDoc(doc, a.getLanguage(), out, MODE.HTML);
-			} else {
-				// 2. write Documentation structure to HTML
-				ShapesDocumentationWriterIfc writer = new ShapesDocumentationJacksonXsltWriter();
-				writer.writeDoc(doc, a.getLanguage(), out, MODE.HTML);
-			}
-			out.close();
+			// 2. write Documentation structure to HTML
+			ShapesDocumentationWriterIfc writer = new ShapesDocumentationJacksonXsltWriter();
+			writer.writeDoc(doc, a.getLanguage(), out, MODE.HTML);
 		}	
+		out.flush();
+		out.close();
 	}
 
 }

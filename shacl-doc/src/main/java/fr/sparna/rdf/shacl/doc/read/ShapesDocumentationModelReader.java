@@ -11,7 +11,6 @@ import org.apache.jena.rdf.model.Model;
 import fr.sparna.rdf.shacl.diagram.PlantUmlDiagramOutput;
 import fr.sparna.rdf.shacl.doc.NodeShape;
 import fr.sparna.rdf.shacl.doc.NodeShapeReader;
-import fr.sparna.rdf.shacl.doc.OwlOntology;
 import fr.sparna.rdf.shacl.doc.PlantUmlSourceGenerator;
 import fr.sparna.rdf.shacl.doc.ShaclPrefixReader;
 import fr.sparna.rdf.shacl.doc.ShapesGraph;
@@ -25,13 +24,15 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 
 	protected boolean readDiagram = true;
 	protected boolean hideProperties = false;
+	protected boolean nsDiagram = false;
 	protected String imgLogo = null;
 	
-	public ShapesDocumentationModelReader(boolean readDiagram,String imgLogo, boolean hideProperties) {
+	public ShapesDocumentationModelReader(boolean readDiagram,String imgLogo, boolean hideProperties, boolean nsDiagram) {
 		super();
 		this.readDiagram = readDiagram;
 		this.imgLogo = imgLogo;
 		this.hideProperties = hideProperties;
+		this.nsDiagram = nsDiagram;
 	}
 
 	@Override
@@ -48,18 +49,22 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 		shapesDocumentation.setImgLogo(this.imgLogo);	
 		
 		// Option pour créer le diagramme		
-		if (this.readDiagram) {
-			PlantUmlSourceGenerator sourceGenerator = new PlantUmlSourceGenerator();
-			List<PlantUmlDiagramOutput> plantUmlDiagrams = sourceGenerator.generatePlantUmlDiagram(
-					shaclGraph,
-					owlGraph,
-					this.hideProperties,
-					lang
-			);
+		if (this.readDiagram && !this.nsDiagram) {
+			PlantUmlSourceGenerator sourceGenerator = new PlantUmlSourceGenerator(shaclGraph,owlGraph,this.hideProperties,lang);
+			List<PlantUmlDiagramOutput> plantUmlDiagrams = sourceGenerator.generatePlantUmlDiagram();
 			
 			// turn diagrams into output data structure
 			plantUmlDiagrams.stream().forEach(d -> shapesDocumentation.getDiagrams().add(new ShapesDocumentationDiagram(d)));			
 		}
+		
+		// Create one diagram for each section
+		List<PlantUmlDiagramOutput> plantUmlDiagrams = new ArrayList<>();
+		if (this.readDiagram && this.nsDiagram) {		
+			PlantUmlSourceGenerator sourceGenerator = new PlantUmlSourceGenerator(shaclGraph, owlGraph, false, lang);
+			plantUmlDiagrams = sourceGenerator.generatePlantUmlDiagramSection();
+		}	
+		
+		
 		
 		// Prefixes
 		List<NamespaceSection> nsSections = this.readNamespaceSections(shaclGraph, shapesModel.getAllNodeShapes(), lang);
@@ -74,7 +79,9 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 					shaclGraph, 
 					// Model
 					owlGraph, 
-					lang);
+					lang,
+					plantUmlDiagrams);
+			
 			sections.add(section);
 		}
 		shapesDocumentation.setSections(sections);

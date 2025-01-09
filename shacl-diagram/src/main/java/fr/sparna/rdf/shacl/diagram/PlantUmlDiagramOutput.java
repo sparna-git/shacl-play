@@ -1,11 +1,14 @@
 package fr.sparna.rdf.shacl.diagram;
 
+import java.util.stream.Collectors;
+
 public class PlantUmlDiagramOutput {
 
 	private String plantUmlString;
 	private String diagramUri;
 	private String diagramTitle;
 	private String diagramDescription;
+	private String diagramId;
 	private double diagramOrder;
 	
 	public PlantUmlDiagramOutput(PlantUmlDiagram d, PlantUmlRenderer renderer) {
@@ -17,6 +20,11 @@ public class PlantUmlDiagramOutput {
 		this.diagramTitle = d.getTitle();
 		this.diagramDescription = d.getDescription();
 		this.diagramOrder = d.getOrderDiagram();
+		int nShapes = d.getBoxes().stream().map(n -> n.getNodeShape().getURI()).collect(Collectors.toList()).size();
+		if (nShapes == 1) {
+			this.diagramId = d.getBoxes().stream().map(n ->  n.getNodeShape().getModel().shortForm(n.getNodeShape().getURI())).collect(Collectors.toList()).get(0).toString();
+		}
+		 
 	}
 	
 	public PlantUmlDiagramOutput(String plantUmlString) {
@@ -84,5 +92,15 @@ public class PlantUmlDiagramOutput {
 	public void setDiagramOrder(double diagramOrder) {
 		this.diagramOrder = diagramOrder;
 	}
+
+	public String getDiagramId() {
+		return diagramId;
+	}
+
+	public void setDiagramId(String diagramId) {
+		this.diagramId = diagramId;
+	}
+	
+	
 	
 }

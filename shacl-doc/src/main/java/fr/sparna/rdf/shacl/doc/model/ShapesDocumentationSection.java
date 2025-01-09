@@ -9,6 +9,8 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
+import fr.sparna.rdf.shacl.diagram.PlantUmlDiagramOutput;
+
 import fr.sparna.rdf.shacl.doc.ImageforNodeShape;
 
 /**
@@ -49,6 +51,12 @@ public class ShapesDocumentationSection {
 	 */
 	private String sparqlTarget;
 	
+	/**
+	 * Diagram inside nodeshape
+	 */
+	private PlantUmlDiagramOutput nsDiagram;
+	
+	
 	@JacksonXmlElementWrapper(localName="superClasses")
 	@JacksonXmlProperty(localName = "link")
 	private List<Link> superClasses;
@@ -77,6 +85,10 @@ public class ShapesDocumentationSection {
 	private List<ImageforNodeShape> depictionsImgs;
 	
 	private int numberOfTargets;
+	
+	@JacksonXmlElementWrapper(localName="sectionDiagrams")
+	@JacksonXmlProperty(localName = "sectionDiagram")
+	protected List<ShapesDocumentationDiagram> sectionDiagrams = new ArrayList<>();
 	
 	@JsonIgnore
 	public PropertyShapeDocumentation findPropertyShapeDocumentationSectionByUriOrId(String propertyUri) {
@@ -252,5 +264,19 @@ public class ShapesDocumentationSection {
 		this.depictionsImgs = depictionsImgs;
 	}
 
-	
+	public PlantUmlDiagramOutput getNsDiagram() {
+		return nsDiagram;
+	}
+
+	public void setNsDiagram(PlantUmlDiagramOutput nsDiagram) {
+		this.nsDiagram = nsDiagram;
+	}
+
+	public List<ShapesDocumentationDiagram> getSectionDiagrams() {
+		return sectionDiagrams;
+	}
+
+	public void setSectionDiagrams(List<ShapesDocumentationDiagram> sectionDiagrams) {
+		this.sectionDiagrams = sectionDiagrams;
+	}	
 }

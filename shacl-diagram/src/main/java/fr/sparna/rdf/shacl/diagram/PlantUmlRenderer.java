@@ -381,6 +381,13 @@ public class PlantUmlRenderer {
 		sourceuml.append("skinparam ArrowColor #Maroon\n");
 		sourceuml.append("set namespaceSeparator none \n"); // Command for not create an package uml
 		
+		//
+		int numberOfNodeShapes = diagram.getBoxes().stream().map(ns -> ns.getNodeShape().getURI()).collect(Collectors.toList()).size();
+		if (numberOfNodeShapes == 1) {
+			sourceuml.append("scale max 1000 width\n");
+		}
+		
+		
 		// retrieve all package declaration
 		for (PlantUmlBox plantUmlBox : diagram.getBoxes()) {
 			sourceuml.append(this.renderNodeShape(plantUmlBox,this.avoidArrowsToEmptyBoxes));
@@ -413,8 +420,8 @@ public class PlantUmlRenderer {
 		String declaration = "";
 
 		String colorBackGround = "";
-		if (box.getBackgroundColorString() != null) {
-			colorBackGround = "#back:"+box.getBackgroundColorString();			
+		if (box.getBackgroundColorString() != null ) {			
+			colorBackGround = "#back:"+box.getBackgroundColorString();						
 		}else {
 			colorBackGround = "";
 		}
@@ -447,7 +454,7 @@ public class PlantUmlRenderer {
 				declaration = "Class" + " " + "\"" + box.getLabel() + "\"";
 			}
 
-			declaration += (this.generateAnchorHyperlink) ? " [[#" + box.getNodeShape().getModel().shortForm(box.getNodeShape().getURI()) +"}]]" : "";
+			declaration += (this.generateAnchorHyperlink) ? " [[#" + box.getNodeShape().getModel().shortForm(box.getNodeShape().getURI()) +"]]" : "";
 			declaration += " " + colorBackGround+labelColorClass + "\n";
 			
 			if (superClassesBoxes != null) {
@@ -555,7 +562,50 @@ public class PlantUmlRenderer {
 					declarationPropertes +=  outputData;					
 				}
 			}
+			
 			declaration += declarationPropertes;
+			
+			// code plantUml pour chaque nodeShape
+			List<String> propertyConfig = new ArrayList<>();
+			for (PlantUmlProperty property : box.getProperties()) {
+				if (property.getShNode().isPresent()) {
+					String sectionPlantUml = "";
+					if (property.getBackgroundColor() != null) {
+						if (!propertyConfig.contains(property.getShNode().get().getURI())) {
+							
+							String getKey = property.getShNode().get().getModel().shortForm(property.getShNode().get().getURI());
+							
+							String colorBackGroundProperty = "";
+							if (property.getBackgroundColor() != null ) {			
+								colorBackGroundProperty = "#back:"+property.getBackgroundColor();						
+							}else {
+								colorBackGroundProperty = "";
+							}
+							
+							
+							String labelColorProperty = "";
+							if(property.getTxtColor() != null) {
+								if(!colorBackGroundProperty.equals("")) {
+									labelColorProperty += ";";
+								} else {
+									labelColorProperty += "#";
+								}
+								labelColorProperty += "text:"+property.getTxtColor();
+							}
+							
+							sectionPlantUml = "Class" + " " + "\"" + getKey + "\"";
+							
+							sectionPlantUml += (this.generateAnchorHyperlink) ? " [[#" + getKey +"]]" : "";
+							sectionPlantUml += " " + colorBackGroundProperty+labelColorProperty + "\n";
+							
+							propertyConfig.add(getKey);
+							//
+							declaration +=  sectionPlantUml;
+						}
+					}
+				}
+			}
+			
 		}
 		
 		if (collectGroupProperties.size() > 0) {

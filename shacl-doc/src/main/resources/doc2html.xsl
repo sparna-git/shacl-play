@@ -395,7 +395,15 @@
 						border-bottom: 1px solid;	
 					}
 					
-					 
+					.sp_section_nodeshape_diagram {
+						padding-bottom: 6px;
+					}
+					
+					.sp_section_nodeshape_center {
+						display: flex;
+						justify-content: center;
+					}
+					
 					table {
 						display: table;
 						border-spacing: 0px;
@@ -796,8 +804,7 @@
 			<xsl:value-of select="."  disable-output-escaping="yes"/>			
 		</div>
 	</xsl:template>
-	
-	
+		
 	<!-- Prefix -->
 	<xsl:template match="prefixes">
 		<div class="row mt-3">
@@ -988,6 +995,8 @@
 					</xsl:if>
 					
 
+					<!-- Diagram forEach section (NodeShape) -->
+					<xsl:apply-templates select="sectionDiagrams"/>
 					
 					<!-- Section of add image -->
 					<xsl:apply-templates select="depictionsImgs" />
@@ -1008,6 +1017,47 @@
 		<h3 id="{../sectionId}" class="sp_section_title_table">
 			<xsl:value-of select="." />
 		</h3>
+	</xsl:template>
+	
+	<!-- Diagramme for each section  -->
+	<xsl:template match="sectionDiagrams">
+		<xsl:apply-templates select="sectionDiagram"/>		
+	</xsl:template>
+	
+	<xsl:template match="sectionDiagram">
+		<xsl:if test="displayTitle">
+			<h3><xsl:value-of select="displayTitle" /></h3> 
+		</xsl:if>
+		<xsl:if test="diagramDescription">
+			<p><xsl:value-of select="diagramDescription" /></p> 
+		</xsl:if>
+		<xsl:choose>
+			<xsl:when test="$MODE = 'PDF'">
+				<!--  When outputting PDF, inserts the PNG image -->
+				<img src="{pngLink}" style="width:100%;" alt="a diagram representing this application profile" />
+			</xsl:when>
+			<xsl:otherwise>
+				<!-- @disable-output-escaping prints the raw XML string as XML in the 
+					document and removes XML-encoding of the characters
+				-->
+				<div class="sp_section_nodeshape_diagram">
+					<div class="sp_section_nodeshape_center">
+						<xsl:value-of select="svg" disable-output-escaping="yes" />
+					</div>
+					<small class="form-text text-muted">
+						<xsl:value-of
+								select="$LABELS/labels/entry[@key='DIAGRAM.HELP']/@label" />
+						<xsl:text> | </xsl:text>
+						<a href="{pngLink}" target="_blank">
+							<xsl:value-of select="$LABELS/labels/entry[@key='DIAGRAM.VIEW']/@label" />
+						</a>			
+					</small>
+					<xsl:comment>
+						<xsl:value-of select="plantUmlString" disable-output-escaping="yes" />
+					</xsl:comment>
+				</div>
+			</xsl:otherwise>
+		</xsl:choose>			
 	</xsl:template>
 	
 	<xsl:template match="depictionsImgs">
@@ -1090,8 +1140,7 @@
 	
 		<xsl:apply-templates select="property" />
 	</xsl:template>
-	
-	
+		
 	<xsl:template match="property">
 	
 		<xsl:variable name="guillemets">"</xsl:variable>	

@@ -27,6 +27,8 @@ public class PlantUmlProperty {
 	protected Resource propertyShape;
 	
 	protected List<String> value_inverseOf;
+	protected String BackgroundColor;
+	protected String txtColor;
 	
 	public PlantUmlProperty(Resource propertyShape) {
 		super();
@@ -260,6 +262,23 @@ public class PlantUmlProperty {
 		
 		return minString+"-"+maxString;
 	}
+
+	public String getBackgroundColor() {
+		return BackgroundColor;
+	}
+
+	public void setBackgroundColor(String backgroundColor) {
+		BackgroundColor = backgroundColor;
+	}
+
+	public String getTxtColor() {
+		return txtColor;
+	}
+
+	public void setTxtColor(String txtColor) {
+		this.txtColor = txtColor;
+	}
+	
 	
 	
 }

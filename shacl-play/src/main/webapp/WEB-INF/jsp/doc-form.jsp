@@ -111,6 +111,21 @@
 								</div>
 							</div>
 						</div>
+						<!-- Split Diagram -->
+						<div class="form-group row">
+							<div class="col-sm-12">
+								<div class="form-check">
+									<input class="form-check-input" type="checkbox" id="SplitDiagram" name="SplitDiagram"/>
+									<label class="form-check-label" for="includeDiagram">
+								    	<fmt:message key="doc.options.includeDiagram.entity" />								  		
+								  	</label>
+								  	<small class="form-text text-muted">
+										<fmt:message key="doc.options.includeDiagram.entity.help" />
+								  </small>						
+								</div>
+							</div>
+						</div>
+						
 						<!-- Hide Properties -->
 						<div class="form-group row">
 					      	<div class="col-sm-12">

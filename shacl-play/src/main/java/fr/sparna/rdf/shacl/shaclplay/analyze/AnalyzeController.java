@@ -204,7 +204,7 @@ public class AnalyzeController {
 			
 			if(!async) {
 				// generate the documentation
-				ShapesDocumentationModelReader reader = new ShapesDocumentationModelReader(false, null,false);
+				ShapesDocumentationModelReader reader = new ShapesDocumentationModelReader(false, null,false,false);
 				ShapesDocumentation sd = reader.readShapesDocumentation(
 						// shapes + statistics
 						shapes,
@@ -425,7 +425,7 @@ public class AnalyzeController {
 		String language = (String)request.getSession().getAttribute("language");
 		
 		// generate the documentation
-		ShapesDocumentationModelReader reader = new ShapesDocumentationModelReader(false, null,false);
+		ShapesDocumentationModelReader reader = new ShapesDocumentationModelReader(false, null,false,false);
 		ShapesDocumentation sd = reader.readShapesDocumentation(
 				// shapes
 				generatedShapes,

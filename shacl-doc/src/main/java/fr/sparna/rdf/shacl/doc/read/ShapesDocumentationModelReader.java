@@ -8,7 +8,6 @@ import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Model;
 
-import fr.sparna.rdf.shacl.diagram.PlantUmlDiagramGeneratorSections;
 import fr.sparna.rdf.shacl.diagram.PlantUmlDiagramOutput;
 import fr.sparna.rdf.shacl.doc.NodeShape;
 import fr.sparna.rdf.shacl.doc.NodeShapeReader;
@@ -28,7 +27,12 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 	protected boolean readSectionDiagrams = false;
 	protected String imgLogo = null;
 	
-	public ShapesDocumentationModelReader(boolean readDiagram,String imgLogo, boolean hideProperties, boolean readSectionDiagrams) {
+	public ShapesDocumentationModelReader(
+		boolean readDiagram,
+		String imgLogo,
+		boolean hideProperties,
+		boolean readSectionDiagrams
+	) {
 		super();
 		this.readDiagram = readDiagram;
 		this.imgLogo = imgLogo;
@@ -58,31 +62,26 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 			plantUmlDiagrams.stream().forEach(d -> shapesDocumentation.getDiagrams().add(new ShapesDocumentationDiagram(d)));			
 		}
 		
-		List<PlantUmlDiagramOutput> plantUmlDiagrams = new ArrayList<>();
-		if (this.readSectionDiagrams) {
-			// Create one diagram for each section
-			PlantUmlSourceGenerator sourceGenerator = new PlantUmlSourceGenerator(shaclGraph, owlGraph, this.hideProperties, lang);
-			plantUmlDiagrams = sourceGenerator.generatePlantUmlDiagramSection();
-		}	
-		
-		
-		
 		// Prefixes
 		List<NamespaceSection> nsSections = this.readNamespaceSections(shaclGraph, shapesModel.getAllNodeShapes(), lang);
 		shapesDocumentation.setPrefixe(nsSections);
 		
+		
+		ShapesDocumentationSectionBuilder sectionBuidler = new ShapesDocumentationSectionBuilder(
+			new PlantUmlSourceGenerator(shaclGraph, owlGraph, this.hideProperties, lang)
+		);
 		// For each NodeShape ...
 		List<ShapesDocumentationSection> sections = new ArrayList<>();
 		for (NodeShape nodeShape : shapesModel.getAllNodeShapes()) {
-			ShapesDocumentationSection section = ShapesDocumentationSectionBuilder.build(
+			ShapesDocumentationSection section = sectionBuidler.build(
 				nodeShape, 
 				shapesModel, 
-					// Model
+				// Model
 				shaclGraph, 
 				// Model
 				owlGraph, 
 				lang,
-				plantUmlDiagrams
+				this.readSectionDiagrams
 			);
 			
 			sections.add(section);

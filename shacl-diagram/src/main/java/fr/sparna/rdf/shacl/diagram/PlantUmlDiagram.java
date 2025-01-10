@@ -14,24 +14,24 @@ public class PlantUmlDiagram {
 	private Logger log = LoggerFactory.getLogger(this.getClass().getName());
 	
 	protected Resource resource;
-	protected List<PlantUmlBox> boxes = new ArrayList<>();
+	protected List<PlantUmlBoxIfc> boxes = new ArrayList<>();
 	protected String title;
 	protected String description;
 	protected double orderDiagram;
 	
-	public PlantUmlBox findBoxById(String id) {
+	public PlantUmlBoxIfc findBoxById(String id) {
 		return this.boxes.stream().filter(b -> b.getLabel().equals(id)).findFirst().orElse(null);
 	}
 	
-	public PlantUmlBox findBoxByResource(Resource r) {
+	public PlantUmlBoxIfc findBoxByResource(Resource r) {
 		return this.boxes.stream().filter(b -> b.getNodeShape().toString().equals(r.toString())).findFirst().orElse(null);
 	}
 	
-	public PlantUmlBox findBoxByTargetClass(Resource classUri) {
+	public PlantUmlBoxIfc findBoxByTargetClass(Resource classUri) {
 		return findBoxByTargetClass(classUri, this.boxes);
 	}
 	
-	public static PlantUmlBox findBoxByTargetClass(Resource classUri, List<PlantUmlBox> boxes) {
+	public static PlantUmlBoxIfc findBoxByTargetClass(Resource classUri, List<PlantUmlBoxIfc> boxes) {
 		return boxes.stream().filter(b -> b.isTargeting(classUri)).findFirst().orElse(null);
 	}
 	
@@ -44,7 +44,7 @@ public class PlantUmlDiagram {
 	 */
 	public String resolvePropertyShapeShNodeOrShClass(PlantUmlProperty property) {
 		if(property.getShNode().isPresent()) {
-			PlantUmlBox box = this.findBoxByResource(property.getShNode().get());
+			PlantUmlBoxIfc box = this.findBoxByResource(property.getShNode().get());
 			if(box != null) {
 				return box.getLabel();
 			} else {
@@ -64,7 +64,7 @@ public class PlantUmlDiagram {
 	
 	public String resolveShClassReference(PlantUmlProperty property) {
 		return property.getShClass().map(cl -> {
-			PlantUmlBox b = this.findBoxByTargetClass(cl);
+			PlantUmlBoxIfc b = this.findBoxByTargetClass(cl);
 			if(b != null) {
 				return b.getLabel();
 			} else {
@@ -79,9 +79,9 @@ public class PlantUmlDiagram {
 	}
 
 	/**
-	 * @return the PlantUmlBox corresponding to the sh:node reference is present, or the sh:class reference if present, or null
+	 * @return the PlantUmlBoxIfc corresponding to the sh:node reference is present, or the sh:class reference if present, or null
 	 */
-	public PlantUmlBox resolveShNodeOrShClassBox(PlantUmlProperty property) {
+	public PlantUmlBoxIfc resolveShNodeOrShClassBox(PlantUmlProperty property) {
 		if(property.getShNode().isPresent()) {
 			return this.findBoxByResource(property.getShNode().get());
 		} else if(property.getShClass().isPresent()) {			
@@ -92,23 +92,23 @@ public class PlantUmlDiagram {
 	}
 	
 	/**
-	 * @return the PlantUmlBox corresponding to the sh:class reference of the provided property, or null if sh:class is not present, or the box cannot be found
+	 * @return the PlantUmlBoxIfc corresponding to the sh:class reference of the provided property, or null if sh:class is not present, or the box cannot be found
 	 */
-	public PlantUmlBox resolveShClassBox(PlantUmlProperty property) {
+	public PlantUmlBoxIfc resolveShClassBox(PlantUmlProperty property) {
 		return property.getShClass().map(cl -> {
 			return this.findBoxByTargetClass(cl);
 		}).orElse(null);		
 	}
 
-	public boolean usesShGroup(List<PlantUmlBox> boxes) {
+	public boolean usesShGroup(List<PlantUmlBoxIfc> boxes) {
 		// tester si sh:group est utilisé au moins une fois par une sh:property		
 		return boxes.stream().map( p -> p.getProperties().stream().filter(pp -> pp.getShGroup().isPresent()).findAny().isPresent()).findAny().isPresent();
 	}
 	
-	public List<PlantUmlBox> getBoxes() {
+	public List<PlantUmlBoxIfc> getBoxes() {
 		return boxes;
 	}
-	public void setBoxes(List<PlantUmlBox> boxes) {
+	public void setBoxes(List<PlantUmlBoxIfc> boxes) {
 		this.boxes = boxes;
 	}
 	public Resource getResource() {

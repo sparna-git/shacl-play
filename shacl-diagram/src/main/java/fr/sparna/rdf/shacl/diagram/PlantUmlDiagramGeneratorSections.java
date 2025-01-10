@@ -40,7 +40,7 @@ public class PlantUmlDiagramGeneratorSections {
 	}
 	
 	
-	public List<Resource> readModel(Model shaclGraph, Model owlGraph) {
+	public List<Resource> readNodeShapes(Model shaclGraph, Model owlGraph) {
 		
 		// read everything typed as NodeShape
 		List<Resource> nodeShapes = shaclGraph.listResourcesWithProperty(RDF.type, SH.NodeShape).toList();
@@ -62,11 +62,11 @@ public class PlantUmlDiagramGeneratorSections {
 		return nodeShapes;
 	}
 	
-	public List<PlantUmlBox> buildBoxes(List<Resource> nodeShapes) {
+	public List<PlantUmlBoxIfc> buildBoxes(List<Resource> nodeShapes) {
 				
 		// 1. Lire toutes les box
 		PlantUmlBoxReader nodeShapeReader = new PlantUmlBoxReader();		
-		List<PlantUmlBox> plantUmlBoxes = nodeShapes.stream().map(res -> nodeShapeReader.read(res, nodeShapes)).sorted((b1,b2) -> {
+		List<PlantUmlBoxIfc> plantUmlBoxes = nodeShapes.stream().map(res -> nodeShapeReader.read(res, nodeShapes)).sorted((b1,b2) -> {
 			if(b1.getNodeShape().isAnon()) {
 				if(!b2.getNodeShape().isAnon()) {
 					return b1.getNodeShape().toString().compareTo(b2.getNodeShape().toString());
@@ -86,11 +86,11 @@ public class PlantUmlDiagramGeneratorSections {
 		return plantUmlBoxes;		
 	}
 	
-	public List<PlantUmlBox> buildProperties(List<PlantUmlBox> plantUmlBoxes, List<Resource> nodeShapes) {
+	public List<PlantUmlBoxIfc> buildProperties(List<PlantUmlBoxIfc> plantUmlBoxes, List<Resource> nodeShapes) {
 		
 		PlantUmlBoxReader nodeShapeReader = new PlantUmlBoxReader();
 		// 2. Une fois qu'on a toute la liste, lire les proprietes
-		for (PlantUmlBox aBox : plantUmlBoxes) {
+		for (PlantUmlBoxIfc aBox : plantUmlBoxes) {
 			aBox.setProperties(nodeShapeReader.readProperties(aBox.getNodeShape()));
 		}
 		return plantUmlBoxes;
@@ -146,35 +146,54 @@ public class PlantUmlDiagramGeneratorSections {
 		
 	}
 	
-	public List<PlantUmlDiagramOutput> generateDiagramsSection(Model shaclGraph, Model owlGraph) {
+	public List<PlantUmlDiagramOutput> generateDiagramsForSection(
+		Model shaclGraph,
+		Model owlGraph,
+		Resource nodeShape
+	) {
 		
 		// Get Boxes
-		List<Resource> readNodeShapes = this.readModel(shaclGraph, owlGraph);
-		//
-		List<PlantUmlBox> AllBoxes = this.buildBoxes(readNodeShapes);
-		// Add Color random in Box
-		//List<PlantUmlBox> Boxes = this.setColorInShape(AllBoxes);
-		// Add Color in properties
-		List<PlantUmlBox> plantUmlBoxes = this.setColorInProperties(AllBoxes);
-		
+		List<Resource> nodeShapes = this.readNodeShapes(shaclGraph, owlGraph);
+		List<PlantUmlBoxIfc> allBoxes = this.buildBoxes(nodeShapes);
+
 		// Generate Diagram
-		List<PlantUmlDiagramOutput> outputDiagrams = new ArrayList<>();
-		for (PlantUmlBox box : plantUmlBoxes) {
-			List<PlantUmlBox> keepSection = new ArrayList<>();
-			keepSection.add(box);
-			List<PlantUmlDiagramOutput> outputDiagram = this.outputDiagrams(keepSection);
-			outputDiagrams.addAll(outputDiagram); 
-		}		
-		return outputDiagrams;	
+		List<PlantUmlBoxIfc> boxesIncludedInTheDiagram = new ArrayList<>();
+
+		// find the main box
+		PlantUmlBoxIfc mainBox = allBoxes.stream().filter(
+			box -> box.getNodeShape().getURI().equals(nodeShape.getURI())
+		).findFirst().get();
+
+		// read the properties on the main box
+		PlantUmlBoxReader nodeShapeReader = new PlantUmlBoxReader();
+		List<PlantUmlProperty> properties = nodeShapeReader.readProperties(mainBox.getNodeShape());
+		mainBox.setProperties(properties);
+
+		boxesIncludedInTheDiagram.add(mainBox);
+
+		// Add Color in properties
+		List<PlantUmlBox> plantUmlBoxes = this.setColorInProperties(nodeShape, allBoxes);
+
+		List<PlantUmlDiagramOutput> outputDiagram = this.outputDiagrams(boxesIncludedInTheDiagram);
+
+		return outputDiagram;
+		
+		
+		// for (PlantUmlBox box : plantUmlBoxes) {
+		// 	List<PlantUmlBox> keepSection = new ArrayList<>();
+		// 	keepSection.add(box);
+		// 	List<PlantUmlDiagramOutput> outputDiagram = this.outputDiagrams(keepSection);
+		// 	outputDiagrams.addAll(outputDiagram); 
+		// }		
+		// return outputDiagrams;	
 	}
 
 	public List<PlantUmlDiagramOutput> generateDiagrams(Model shaclGraph, Model owlGraph) {
 
 		// Get Boxes
-		List<Resource> readNodeShapes = this.readModel(shaclGraph, owlGraph);
-		List<PlantUmlBox> Boxes = this.buildBoxes(readNodeShapes);
-		List<PlantUmlBox> plantUmlBoxes = this.buildProperties(Boxes, readNodeShapes);
-		
+		List<Resource> readNodeShapes = this.readNodeShapes(shaclGraph, owlGraph);
+		List<PlantUmlBoxIfc> Boxes = this.buildBoxes(readNodeShapes);
+		List<PlantUmlBoxIfc> plantUmlBoxes = this.buildProperties(Boxes, readNodeShapes);		
 		
 		// Generate Diagram
 		List<PlantUmlDiagramOutput> outputDiagram = this.outputDiagrams(plantUmlBoxes);
@@ -183,7 +202,7 @@ public class PlantUmlDiagramGeneratorSections {
 
 	}
 		
-	public List<PlantUmlDiagramOutput> outputDiagrams(List<PlantUmlBox> plantUmlBoxes) {
+	public List<PlantUmlDiagramOutput> outputDiagrams(List<PlantUmlBoxIfc> plantUmlBoxes) {
 		
 		// then create the PlanUmlDiagrams
 		PlantUmlDiagramReader diagramsReader = new PlantUmlDiagramReader();

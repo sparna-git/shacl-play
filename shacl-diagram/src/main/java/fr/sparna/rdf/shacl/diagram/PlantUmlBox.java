@@ -17,7 +17,7 @@ import fr.sparna.rdf.jena.ModelReadingUtils;
 import fr.sparna.rdf.jena.ModelRenderingUtils;
 import fr.sparna.rdf.shacl.SHACL_PLAY;;
 
-public class PlantUmlBox {
+public class PlantUmlBox implements PlantUmlBoxIfc {
 	
 	private Resource nodeShape;
 	

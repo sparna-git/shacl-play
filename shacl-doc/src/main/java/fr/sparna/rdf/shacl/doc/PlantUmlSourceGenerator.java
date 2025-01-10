@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.Resource;
 
 import fr.sparna.rdf.shacl.diagram.PlantUmlDiagramGenerator;
 import fr.sparna.rdf.shacl.diagram.PlantUmlDiagramGeneratorSections;
@@ -25,11 +26,9 @@ public class PlantUmlSourceGenerator {
 		this.lang = lang;
 	}	
 	
-	public PlantUmlDiagramGeneratorSections writeDraw() {
-		
+	public PlantUmlDiagramGeneratorSections buildPlantUmlDiagramGenerator() {		
 		// draw - without subclasses links
 		// set first parameter to true to draw subclassOf links
-		//PlantUmlDiagramGenerator writer = new PlantUmlDiagramGenerator(
 		PlantUmlDiagramGeneratorSections writer = new PlantUmlDiagramGeneratorSections(
 				// includes the subClassOf links
 				true,
@@ -39,35 +38,25 @@ public class PlantUmlSourceGenerator {
 				true,
 				//
 				hideProperties,
-				lang);
-		Model finalModel = ModelFactory.createDefaultModel();
-		finalModel.add(shapesModel);
-		if(owlModel != null) {
-			finalModel.add(owlModel);
-		}
+				lang
+		);
 		
 		return writer;
 		
 	}
 	
-	public List<PlantUmlDiagramOutput> generatePlantUmlDiagram(
-			
-	) {
+	public List<PlantUmlDiagramOutput> generatePlantUmlDiagram() {
 
-		PlantUmlDiagramGeneratorSections writer = this.writeDraw();
+		PlantUmlDiagramGeneratorSections writer = this.buildPlantUmlDiagramGenerator();
 		//String plantUmlString = writer.writeInPlantUml(shapesModel,owlModel);
 		List<PlantUmlDiagramOutput> output = writer.generateDiagrams(shapesModel,owlModel);
 		
 		return output;
 	}
 	
-	public List<PlantUmlDiagramOutput> generatePlantUmlDiagramSection() {
-
-		PlantUmlDiagramGeneratorSections writer = this.writeDraw();
-		
-		//String plantUmlString = writer.writeInPlantUml(shapesModel,owlModel);
-		List<PlantUmlDiagramOutput> output = writer.generateDiagramsSection(shapesModel, owlModel);
-		
+	public List<PlantUmlDiagramOutput> generatePlantUmlDiagramSection(Resource nodeShape) {
+		PlantUmlDiagramGeneratorSections writer = this.buildPlantUmlDiagramGenerator();
+		List<PlantUmlDiagramOutput> output = writer.generateDiagramsForSection(shapesModel, owlModel, nodeShape);		
 		return output;
 	}
 

@@ -23,13 +23,19 @@ import fr.sparna.rdf.shacl.doc.model.ShapesDocumentationSection;
 
 public class ShapesDocumentationSectionBuilder {
 	
-	public static ShapesDocumentationSection build(
+	private PlantUmlSourceGenerator diagramGenerator;
+
+	public ShapesDocumentationSectionBuilder(PlantUmlSourceGenerator diagramGenerator) {
+		this.diagramGenerator = diagramGenerator;
+	}
+
+	public ShapesDocumentationSection build(
 			NodeShape nodeShape,
 			ShapesGraph shapesGraph,
 			Model shaclGraph,
 			Model owlGraph,
 			String lang,
-			List<PlantUmlDiagramOutput> diagrams
+			boolean readDiagram
 	) {
 		ShapesDocumentationSection currentSection = new ShapesDocumentationSection();
 		
@@ -45,19 +51,10 @@ public class ShapesDocumentationSectionBuilder {
 		// rdfs:comment
 		String renderedMd = MarkdownRenderer.getInstance().renderMarkdown(nodeShape.getDisplayDescription(owlGraph, lang));
 		currentSection.setDescription(renderedMd);
-		
-		// Add one diagram in the section
-		boolean diagram = diagrams
-				.stream()
-				.filter(f -> f.getDiagramId().equals(nodeShape.getNodeShape().getModel().shortForm(nodeShape.getNodeShape().getURI())))
-				.findFirst()
-				.isPresent();
-		if (diagram) {
-			List<PlantUmlDiagramOutput> plantUmlDiagrams = diagrams
-					.stream()
-					.filter(f -> f.getDiagramId().equals(nodeShape.getNodeShape().getModel().shortForm(nodeShape.getNodeShape().getURI())))
-					.collect(Collectors.toList());
-			
+
+		if (readDiagram) {
+			// Create one diagram for each section
+			List<PlantUmlDiagramOutput> plantUmlDiagrams = this.diagramGenerator.generatePlantUmlDiagramSection(nodeShape.getNodeShape());
 			// turn diagrams into output data structure
 			plantUmlDiagrams.stream().forEach(d -> currentSection.getSectionDiagrams().add(new ShapesDocumentationDiagram(d)));
 		}

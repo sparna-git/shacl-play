@@ -55,7 +55,7 @@ public class PlantUmlDiagramGenerator {
 		
 		// 1. Lire toutes les box
 		PlantUmlBoxReader nodeShapeReader = new PlantUmlBoxReader();		
-		List<PlantUmlBox> plantUmlBoxes = nodeShapes.stream().map(res -> nodeShapeReader.read(res, nodeShapes)).sorted((b1,b2) -> {
+		List<PlantUmlBoxIfc> plantUmlBoxes = nodeShapes.stream().map(res -> nodeShapeReader.read(res, nodeShapes)).sorted((b1,b2) -> {
 			if(b1.getNodeShape().isAnon()) {
 				if(!b2.getNodeShape().isAnon()) {
 					return b1.getNodeShape().toString().compareTo(b2.getNodeShape().toString());
@@ -73,7 +73,7 @@ public class PlantUmlDiagramGenerator {
 		
 		
 		// 2. Une fois qu'on a toute la liste, lire les proprietes
-		for (PlantUmlBox aBox : plantUmlBoxes) {
+		for (PlantUmlBoxIfc aBox : plantUmlBoxes) {
 			aBox.setProperties(nodeShapeReader.readProperties(aBox.getNodeShape()));
 		}
 		

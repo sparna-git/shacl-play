@@ -20,12 +20,12 @@ import fr.sparna.rdf.shacl.SHACL_PLAY;
 public class PlantUmlDiagramReader {
 
 	
-	public List<PlantUmlDiagram> readDiagrams(List<PlantUmlBox> boxes, String lang) {
+	public List<PlantUmlDiagram> readDiagrams(List<PlantUmlBoxIfc> boxes, String lang) {
 		List<PlantUmlDiagram> diagrams = new ArrayList<>();
 		
 		// gather a set of all diagram references
 		Set<Resource> allDiagramReferences = new HashSet<>();
-		for (PlantUmlBox oneBox : boxes) {
+		for (PlantUmlBoxIfc oneBox : boxes) {
 			allDiagramReferences.addAll(oneBox.getDepiction());
 		}
 		
@@ -40,7 +40,7 @@ public class PlantUmlDiagramReader {
 				PlantUmlDiagram d = new PlantUmlDiagram();
 				d.setResource(aRef);
 				// store all boxes that are included in this diagram
-				for (PlantUmlBox oneBox : boxes) {
+				for (PlantUmlBoxIfc oneBox : boxes) {
 					if(oneBox.getDepiction().contains(aRef)) {
 						d.getBoxes().add(oneBox);
 					}

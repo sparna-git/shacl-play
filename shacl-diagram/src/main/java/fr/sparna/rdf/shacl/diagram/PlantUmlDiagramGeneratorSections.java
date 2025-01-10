@@ -97,6 +97,22 @@ public class PlantUmlDiagramGeneratorSections {
 		return plantUmlBoxes;
 	}
 	
+	public List<PlantUmlBox> setColorInShape(List<PlantUmlBox> plantUmlBoxes) {
+		
+		for (PlantUmlBox boxes : plantUmlBoxes) {
+			if (!boxes.getBackgroundColor().isPresent()) {
+				// Create Random Color
+				RandomColor randomColor = new RandomColor();
+				String newRandomColor = randomColor.getColor();
+				
+				//
+				boxes.setBackgroundColorRandom(newRandomColor);
+			}
+		}
+		
+		return plantUmlBoxes;
+	}
+	
 	public List<PlantUmlBox> setColorInProperties(List<PlantUmlBox> plantUmlBoxes) {
 		
 		PlantUmlBoxReader nodeShapeReader = new PlantUmlBoxReader();

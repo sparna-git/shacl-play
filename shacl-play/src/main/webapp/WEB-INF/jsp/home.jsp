@@ -66,11 +66,6 @@
 									<li style="display: list-item; text-align: -webkit-match-parent; padding: 0.3rem;">
 										<a href="<c:url value="/context" />" title="<fmt:message key="navbar.menu1.context.tooltip" />"><fmt:message key="navbar.menu1.context.label" /></a> | <small>&nbsp;<a href="<c:url value="/context#documentation" />" title="documentation"><i class="fal fa-book"></i></a></small>
 									</li>
-									<!-- http://localhost:8080/shacl-play/schema 
-									<li style="display: list-item; text-align: -webkit-match-parent; padding: 0.3rem;">
-										<a href="<c:url value="/schema" />" title="<fmt:message key="navbar.menu1.schema.tooltip" />"><fmt:message key="navbar.menu1.schema.label" /></a> | <small>&nbsp;<a href="<c:url value="/schema#documentation" />" title="documentation"><i class="fal fa-book"></i></a></small>
-									</li>
-									-->
 									<li style="display: list-item; text-align: -webkit-match-parent; padding: 0.3rem;">
 										<a href="<c:url value="/sparql" />" title="<fmt:message key="navbar.menu1.sparql.tooltip" />"><fmt:message key="navbar.menu1.sparql.label" /></a> | <small>&nbsp;<a href="<c:url value="/sparql#documentation" />" title="documentation"><i class="fal fa-book"></i></a></small>
 									</li>

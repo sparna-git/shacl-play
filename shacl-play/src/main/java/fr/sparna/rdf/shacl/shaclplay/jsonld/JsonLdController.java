@@ -79,27 +79,6 @@ public class JsonLdController {
 		return new ModelAndView("context-form", JsonLdFormData.KEY, data);	
 	}
 	
-	/*
-	@RequestMapping(
-			value="/context",
-			params={"shapesSource"},
-			method = RequestMethod.POST
-	)
-	public ModelAndView context(
-			
-			// radio box indicating type of shapes
-			@RequestParam(value="shapesSource", required=true) String shapesSourceString,
-			// reference to Shapes URL if shapeSource=sourceShape-inputShapeUrl
-			@RequestParam(value="inputShapeUrl", required=false) String shapesUrl,
-			//@RequestParam(value="inputShapeCatalog", required=false) String shapesCatalogId,
-			// uploaded shapes if shapeSource=sourceShape-inputShapeFile
-			@RequestParam(value="inputShapeFile", required=false) List<MultipartFile> shapesFiles,
-			// inline Shapes if shapeSource=sourceShape-inputShapeInline
-			@RequestParam(value="inputShapeInline", required=false) String shapesText,
-			// reference to Shapes Catalog ID if shapeSource=sourceShape-inputShapeCatalog
-	) public getNodeShapes 
-	*/
-	
 	@RequestMapping(
 			value="/context",
 			params={"shapesSource"},

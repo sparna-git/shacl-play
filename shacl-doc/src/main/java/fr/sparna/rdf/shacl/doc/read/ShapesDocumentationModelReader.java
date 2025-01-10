@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Model;
 
+import fr.sparna.rdf.shacl.diagram.PlantUmlDiagramGeneratorSections;
 import fr.sparna.rdf.shacl.diagram.PlantUmlDiagramOutput;
 import fr.sparna.rdf.shacl.doc.NodeShape;
 import fr.sparna.rdf.shacl.doc.NodeShapeReader;
@@ -50,8 +51,8 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 		
 		// Option pour créer le diagramme		
 		if (this.readDiagram && !this.nsDiagram) {
-			PlantUmlSourceGenerator sourceGenerator = new PlantUmlSourceGenerator(shaclGraph,owlGraph,this.hideProperties,lang);
-			List<PlantUmlDiagramOutput> plantUmlDiagrams = sourceGenerator.generatePlantUmlDiagram();
+			PlantUmlSourceGenerator sourceGenerator = new PlantUmlSourceGenerator();
+			List<PlantUmlDiagramOutput> plantUmlDiagrams = sourceGenerator.generatePlantUmlDiagram(shaclGraph,owlGraph,this.hideProperties,lang);
 			
 			// turn diagrams into output data structure
 			plantUmlDiagrams.stream().forEach(d -> shapesDocumentation.getDiagrams().add(new ShapesDocumentationDiagram(d)));			
@@ -60,7 +61,7 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 		// Create one diagram for each section
 		List<PlantUmlDiagramOutput> plantUmlDiagrams = new ArrayList<>();
 		if (this.readDiagram && this.nsDiagram) {		
-			PlantUmlSourceGenerator sourceGenerator = new PlantUmlSourceGenerator(shaclGraph, owlGraph, false, lang);
+			PlantUmlSourceGenerator sourceGenerator = new PlantUmlDiagramGeneratorSections();
 			plantUmlDiagrams = sourceGenerator.generatePlantUmlDiagramSection();
 		}	
 		

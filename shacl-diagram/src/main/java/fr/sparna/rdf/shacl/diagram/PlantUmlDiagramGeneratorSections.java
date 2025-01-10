@@ -12,7 +12,6 @@ import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.vocabulary.RDF;
 import org.topbraid.shacl.vocabulary.SH;
-import fr.sparna.tools.RandomColor;
 
 import fr.sparna.rdf.shacl.diagram.PlantUmlBox;
 
@@ -94,22 +93,6 @@ public class PlantUmlDiagramGeneratorSections {
 		for (PlantUmlBox aBox : plantUmlBoxes) {
 			aBox.setProperties(nodeShapeReader.readProperties(aBox.getNodeShape()));
 		}
-		return plantUmlBoxes;
-	}
-	
-	public List<PlantUmlBox> setColorInShape(List<PlantUmlBox> plantUmlBoxes) {
-		
-		for (PlantUmlBox boxes : plantUmlBoxes) {
-			if (!boxes.getBackgroundColor().isPresent()) {
-				// Create Random Color
-				RandomColor randomColor = new RandomColor();
-				String newRandomColor = randomColor.getColor();
-				
-				//
-				boxes.setBackgroundColorRandom(newRandomColor);
-			}
-		}
-		
 		return plantUmlBoxes;
 	}
 	

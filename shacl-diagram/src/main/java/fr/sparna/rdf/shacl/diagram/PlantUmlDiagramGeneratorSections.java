@@ -126,20 +126,7 @@ public class PlantUmlDiagramGeneratorSections {
 								.get(0)
 								.toString();
 						
-						if (bgc_color != "") {							
-							
-							// find element in all plantUmlBoxes
-							/*
-							String bgc_random_color = plantUmlBoxes
-									.stream()
-									.filter(f -> f.getNodeShape().getURI().equals(p.getShNode().get().getURI()))
-									.map(m -> m.getBackgroundColorRandom() )
-									.collect(Collectors.toList())
-									.get(0)
-									.toString();
-							*/
-							// Set new Color in property
-							 
+						if (bgc_color != "") { 
 							p.setBackgroundColor(bgc_color);
 						} 
 						

@@ -51,8 +51,9 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 		
 		// Option pour créer le diagramme		
 		if (this.readDiagram && !this.nsDiagram) {
-			PlantUmlSourceGenerator sourceGenerator = new PlantUmlSourceGenerator();
-			List<PlantUmlDiagramOutput> plantUmlDiagrams = sourceGenerator.generatePlantUmlDiagram(shaclGraph,owlGraph,this.hideProperties,lang);
+			
+			PlantUmlSourceGenerator sourceGenerator = new PlantUmlSourceGenerator(shaclGraph, owlGraph, this.hideProperties, lang);
+			List<PlantUmlDiagramOutput> plantUmlDiagrams = sourceGenerator.generatePlantUmlDiagram();
 			
 			// turn diagrams into output data structure
 			plantUmlDiagrams.stream().forEach(d -> shapesDocumentation.getDiagrams().add(new ShapesDocumentationDiagram(d)));			
@@ -61,7 +62,7 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 		// Create one diagram for each section
 		List<PlantUmlDiagramOutput> plantUmlDiagrams = new ArrayList<>();
 		if (this.readDiagram && this.nsDiagram) {		
-			PlantUmlSourceGenerator sourceGenerator = new PlantUmlDiagramGeneratorSections();
+			PlantUmlSourceGenerator sourceGenerator = new PlantUmlSourceGenerator(shaclGraph, owlGraph, this.hideProperties, lang);
 			plantUmlDiagrams = sourceGenerator.generatePlantUmlDiagramSection();
 		}	
 		

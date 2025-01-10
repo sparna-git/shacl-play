@@ -33,6 +33,7 @@
 		            <a class="dropdown-item" href="<c:url value="/doc" />" title="<fmt:message key="navbar.menu1.doc.tooltip" />"><fmt:message key="navbar.menu1.doc.label" /></a>
 		            <a class="dropdown-item" href="<c:url value="/draw" />" title="<fmt:message key="navbar.menu1.draw.tooltip" />"><fmt:message key="navbar.menu1.draw.label" /></a>
 		            <a class="dropdown-item" href="<c:url value="/context" />" title="<fmt:message key="navbar.menu1.context.tooltip" />"><fmt:message key="navbar.menu1.context.label"/></a>		            
+					<a class="dropdown-item" href="<c:url value="/jsonschema" />" title="<fmt:message key="navbar.menu1.jsonschema.tooltip" />"><fmt:message key="navbar.menu1.jsonschema.label"/></a>		            
 		            <a class="dropdown-item" href="<c:url value="/sparql" />" title="<fmt:message key="navbar.menu1.sparql.tooltip" />"><fmt:message key="navbar.menu1.sparql.label" /></a>
 		            <a class="dropdown-item" href="<c:url value="/shapes-catalog" />" title="<fmt:message key="navbar.menu1.shapes-catalog.tooltip" />"><fmt:message key="navbar.menu1.shapes-catalog.label" /></a>
 	            </div>

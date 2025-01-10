@@ -1,8 +1,11 @@
 package fr.sparna.rdf.shacl.shaclplay.generate;
 
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.security.InvalidParameterException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -13,7 +16,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.riot.Lang;
+import org.apache.jena.riot.RDFDataMgr;
 import org.apache.jena.riot.RDFLanguages;
+import org.apache.jena.vocabulary.RDF;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.owasp.encoder.Encode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +32,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import fr.sparna.rdf.jena.QueryExecutionServiceImpl;
+import fr.sparna.rdf.shacl.excel.DataParser;
+import fr.sparna.rdf.shacl.excel.model.Sheet;
+import fr.sparna.rdf.shacl.excel.writeXLS.WriteXLS;
 import fr.sparna.rdf.shacl.generate.Configuration;
 import fr.sparna.rdf.shacl.generate.DefaultModelProcessor;
 import fr.sparna.rdf.shacl.generate.PaginatedQuery;
@@ -45,6 +54,7 @@ import fr.sparna.rdf.shacl.shaclplay.ApplicationData;
 import fr.sparna.rdf.shacl.shaclplay.ControllerCommons;
 import fr.sparna.rdf.shacl.shaclplay.ControllerModelFactory;
 import fr.sparna.rdf.shacl.shaclplay.ControllerModelFactory.SOURCE_TYPE;
+
 
 @Controller
 public class GenerateController {
@@ -310,6 +320,41 @@ public class GenerateController {
 			String sourceName,
 			HttpServletResponse response
 	) throws Exception {
+
+		if(fileFormat.equals("Excel")) {
+			// serialize in Excel
+
+			// first read the SHACL template
+			Model shaclTemplateGraph = ModelFactory.createDefaultModel(); 
+			InputStream r = this.getClass().getResourceAsStream("/shacl-spreadsheet-template.ttl");
+
+			RDFDataMgr.read(
+				shaclTemplateGraph,
+				r,
+				RDF.getURI(),
+				RDFLanguages.TURTLE
+			);
+
+			String uniqueLang = DataParser.guessTemplateLanguage(shaclTemplateGraph);
+			if(uniqueLang == null) {
+				uniqueLang = "en";
+			}
+			DataParser parser = new DataParser(uniqueLang);
+			List<Sheet> sheets = parser.parseData(shaclTemplateGraph,dataModel);
+			
+			// Generate excel
+			WriteXLS xlsWriter = new WriteXLS();
+			XSSFWorkbook workbook = xlsWriter.generateWorkbook(dataModel.getNsPrefixMap(),sheets);
+			
+			// serialize in response
+			String dateString = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+			String filename=sourceName+"-"+"shacl"+"_"+dateString;
+			response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+			response.setHeader("Content-Disposition", "inline; filename=\""+filename+"."+"xlsx"+"\"");
+			workbook.write(response.getOutputStream());
+	        response.getOutputStream().flush();
+	        workbook.close();
+		}
 
 		Lang l = RDFLanguages.nameToLang(fileFormat);
 		if(l == null) {

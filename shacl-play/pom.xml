@@ -171,6 +171,11 @@
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
         </dependency>
+
+		<dependency>
+			<groupId>com.github.sparna-git.rdf2xls</groupId>
+			<artifactId>rdf2xls-lib</artifactId>
+		</dependency>
                 
         <!-- https://mvnrepository.com/artifact/com.openhtmltopdf/openhtmltopdf-jsoup-dom-converter -->
 		<dependency>

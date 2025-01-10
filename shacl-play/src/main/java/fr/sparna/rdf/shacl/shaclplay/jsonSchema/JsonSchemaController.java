@@ -63,7 +63,7 @@ public class JsonSchemaController {
 	public ModelAndView schema(
 			@RequestParam(value="url", required=true) String shapesUrl,
 			// URL Option
-			@RequestParam(value="IdUrl", required=false) String urlRoot,
+			@RequestParam(value="root", required=false) String root,
 			HttpServletRequest request,
 			HttpServletResponse response
 			) throws Exception {
@@ -75,7 +75,7 @@ public class JsonSchemaController {
 			modelPopulator.populateModelFromUrl(shapesModel, shapesUrl);
 			log.debug("Done Loading Shapes. Model contains "+shapesModel.size()+" triples");
 			
-			doSchemaShapes(shapesModel,urlRoot,response);
+			doSchemaShapes(shapesModel,root,response);
 			
 			return null;
 		} catch (Exception e) {

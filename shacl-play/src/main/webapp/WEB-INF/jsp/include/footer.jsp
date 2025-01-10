@@ -13,6 +13,8 @@
       	version : ${applicationScope.applicationData.buildVersion} (${applicationScope.applicationData.buildTimestamp})
       	&nbsp;|&nbsp;
       	SHACL Play! embeds <a href="https://github.com/TopQuadrant/shacl" target="_blank">TobBraid SHACL API</a> from <a href="https://www.topquadrant.com/" target="_blank">TopQuadrant</a>
-      	<br />
+      	&nbsp;|&nbsp;
+		<a href="https://github.com/sparna-git/shacl-play"><i class="fa-brands fa-github"></i></a>
+		<br />
       	<br />
 </footer>

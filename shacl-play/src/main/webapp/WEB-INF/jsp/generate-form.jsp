@@ -109,6 +109,7 @@
 						    			<option value="N3">N3</option>
 						    			<option value="TriG">TriG</option>
 						    			<option value="JSON-LD">Json-LD</option>
+										<option value="Excel">Excel</option>
 									</select>
 								</div>
 							</div>

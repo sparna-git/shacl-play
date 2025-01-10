@@ -33,10 +33,15 @@ public class FilterOnStatisticsVisitor extends AbstractFilterVisitor implements 
 	public boolean filterNodeShape(Resource aNodeShape) {
 		// read number of entities on the NodeShape	
 		Resource classPartition = findPartitionCorrespondingToShape(aNodeShape);
-		Integer entitiesCount = getCount(classPartition);
-		if(entitiesCount != null && entitiesCount == 0) {
-			return true;
+		if(classPartition != null) {
+			Integer entitiesCount = getCount(classPartition);
+			if(entitiesCount != null && entitiesCount == 0) {
+				return true;
+			} else {
+				return false;
+			}
 		} else {
+			// no partition, shape is valid
 			return false;
 		}
 	}

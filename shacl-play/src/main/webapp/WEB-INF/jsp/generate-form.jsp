@@ -214,7 +214,7 @@
 @prefix dct:   &lt;http://purl.org/dc/terms/> .
 @prefix xsd:   &lt;http://www.w3.org/2001/XMLSchema#> .
 @prefix dcat:  &lt;http://www.w3.org/ns/dcat#> .
-@prefix sh:    &lt;http://www.w3.org/ns/shacl#></http:>
+@prefix sh:    &lt;http://www.w3.org/ns/shacl#>
 
 # The dataset being analyzed
 &lt;https://xxx/sparql>

@@ -25,15 +25,15 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 
 	protected boolean readDiagram = true;
 	protected boolean hideProperties = false;
-	protected boolean nsDiagram = false;
+	protected boolean readSectionDiagrams = false;
 	protected String imgLogo = null;
 	
-	public ShapesDocumentationModelReader(boolean readDiagram,String imgLogo, boolean hideProperties, boolean nsDiagram) {
+	public ShapesDocumentationModelReader(boolean readDiagram,String imgLogo, boolean hideProperties, boolean readSectionDiagrams) {
 		super();
 		this.readDiagram = readDiagram;
 		this.imgLogo = imgLogo;
 		this.hideProperties = hideProperties;
-		this.nsDiagram = nsDiagram;
+		this.readSectionDiagrams = readSectionDiagrams;
 	}
 
 	@Override
@@ -50,8 +50,7 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 		shapesDocumentation.setImgLogo(this.imgLogo);	
 		
 		// Option pour créer le diagramme		
-		if (this.readDiagram && !this.nsDiagram) {
-			
+		if (this.readDiagram) {			
 			PlantUmlSourceGenerator sourceGenerator = new PlantUmlSourceGenerator(shaclGraph, owlGraph, this.hideProperties, lang);
 			List<PlantUmlDiagramOutput> plantUmlDiagrams = sourceGenerator.generatePlantUmlDiagram();
 			
@@ -59,9 +58,9 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 			plantUmlDiagrams.stream().forEach(d -> shapesDocumentation.getDiagrams().add(new ShapesDocumentationDiagram(d)));			
 		}
 		
-		// Create one diagram for each section
 		List<PlantUmlDiagramOutput> plantUmlDiagrams = new ArrayList<>();
-		if (this.readDiagram && this.nsDiagram) {		
+		if (this.readSectionDiagrams) {
+			// Create one diagram for each section
 			PlantUmlSourceGenerator sourceGenerator = new PlantUmlSourceGenerator(shaclGraph, owlGraph, this.hideProperties, lang);
 			plantUmlDiagrams = sourceGenerator.generatePlantUmlDiagramSection();
 		}	
@@ -75,14 +74,16 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 		// For each NodeShape ...
 		List<ShapesDocumentationSection> sections = new ArrayList<>();
 		for (NodeShape nodeShape : shapesModel.getAllNodeShapes()) {
-			ShapesDocumentationSection section = ShapesDocumentationSectionBuilder.build(nodeShape, 
-					shapesModel, 
-					 // Model
-					shaclGraph, 
+			ShapesDocumentationSection section = ShapesDocumentationSectionBuilder.build(
+				nodeShape, 
+				shapesModel, 
 					// Model
-					owlGraph, 
-					lang,
-					plantUmlDiagrams);
+				shaclGraph, 
+				// Model
+				owlGraph, 
+				lang,
+				plantUmlDiagrams
+			);
 			
 			sections.add(section);
 		}

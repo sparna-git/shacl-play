@@ -1,0 +1,257 @@
+@prefix schema: <http://schema.org/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix qb: <http://purl.org/linked-data/cube#> .
+@prefix doap: <http://usefulinc.com/ns/doap#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix euvoc: <http://publications.europa.eu/ontology/euvoc#> .
+@prefix locn: <http://www.w3.org/ns/locn#> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix adms: <http://www.w3.org/ns/adms#> .
+@prefix shacl-play: <https://shacl-play.sparna.fr/ontology#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix skosxl: <http://www.w3.org/2008/05/skos-xl#> .
+@prefix shape-auto: <https://shacl-play.sparna.fr/shapes_auto/> .
+
+
+shape-auto:classes a sh:NodeShape;
+  sh:closed true;
+  sh:nodeKind sh:IRI;
+  sh:order 1;
+  sh:property shape-auto:P_1, shape-auto:P_2, shape-auto:P_3, shape-auto:P_4, shape-auto:P_5, shape-auto:P_6, shape-auto:P_7, 
+              shape-auto:P_8, shape-auto:P_9, shape-auto:P_10, shape-auto:P_11, shape-auto:P_12, shape-auto:P_13, shape-auto:P_14,shape-auto:P_15;
+  sh:targetClass sh:NodeShape;
+  rdfs:label "Node Shapes"@en;
+  shacl-play:color "Magenta" .
+
+shape-auto:properties a sh:NodeShape;
+  sh:closed true;
+  sh:nodeKind sh:IRI;
+  sh:order 2;
+  sh:property shape-auto:P_19, shape-auto:P_20, shape-auto:P_21, shape-auto:P_22, shape-auto:P_23, shape-auto:P_25, shape-auto:P_26,
+    shape-auto:P_27, shape-auto:P_28, shape-auto:P_29, shape-auto:P_30, shape-auto:P_35,
+    shape-auto:P_36, shape-auto:P_37, shape-auto:P_38,shape-auto:P_39;
+  sh:targetObjectsOf sh:property;
+  rdfs:label "Property Shapes"@en;
+  shacl-play:color "Blue" .
+
+shape-auto:P_1 sh:description "Type of Shape (always NodeShape)"@en;
+  sh:hasValue sh:NodeShape;
+  sh:minCount 1;
+  sh:name "Type of Shape (always NodeShape) "@en;
+  sh:nodeKind sh:IRI;
+  sh:order "1";
+  sh:path rdf:type .
+
+shape-auto:P_2 sh:description "Set of entities validated by this Shape."@en;
+  sh:name "target class"@en;
+  sh:nodeKind sh:IRI;
+  sh:order "2";
+  sh:path sh:targetClass .
+
+shape-auto:P_3 sh:description "Textual description of the Shape";
+  sh:name "Comment"@en;
+  sh:nodeKind sh:Literal;
+  sh:order "3";
+  sh:languageIn ("en");
+  sh:path rdfs:comment .
+
+shape-auto:P_4  sh:description "Example URIs for the shape."@en;
+  sh:datatype xsd:string;
+  sh:maxCount 1;
+  sh:name "Example"@en ;
+  sh:nodeKind sh:Literal;
+  sh:order "4";
+  sh:path skos:example .
+
+shape-auto:P_5 sh:description "Type that the nodes controlled by this Shape must have (always sh:IRI)."@en;
+  sh:maxCount 1;
+  sh:name "node kind"@en;
+  sh:nodeKind sh:IRI;
+  sh:order "5";
+  sh:path sh:nodeKind .
+
+shape-auto:P_6 sh:description "Regular expression that the nodes controlled by this Shape must follow ."@en;
+  sh:datatype xsd:string;
+  sh:name "Pattern"@en;
+  sh:nodeKind sh:Literal;
+  sh:order "6";
+  sh:path sh:pattern .
+
+shape-auto:P_7 sh:description "Whether the shape operates in closed world"@en;
+  sh:datatype xsd:boolean;
+  sh:name "Close"@en;
+  sh:nodeKind sh:Literal;
+  sh:order "7";
+  sh:path sh:closed .
+
+shape-auto:P_8 sh:description "Properties to ignore when testing for closed world constraint (a list, always containing rdf:type)"@en;
+  sh:nodeKind sh:Literal;
+  sh:order "8";
+  sh:path sh:ignoredProperties .
+
+shape-auto:P_9 
+  sh:description "Label for the Shape (French)"@en;
+  sh:name "label"@fr;
+  sh:nodeKind sh:Literal;
+  sh:order "9";
+  sh:path rdfs:label;
+  sh:languageIn ("fr");
+  sh:uniqueLang true .
+
+shape-auto:P_10
+  sh:description "Label for the Shape (English)"@en;
+  sh:name "label"@en;
+  sh:nodeKind sh:Literal;
+  sh:order "10";
+  sh:path rdfs:label;
+  sh:languageIn ("en");
+  sh:uniqueLang true .
+
+shape-auto:P_11 sh:description "Description"@en;
+  sh:datatype xsd:string;
+  sh:name "Description"@en;
+  sh:nodeKind sh:Literal;
+  sh:order "11";
+  sh:path sh:description .
+
+shape-auto:P_12 sh:description "Order in which Shape shall be printed"@en;
+  sh:datatype xsd:integer;
+  sh:name "Description"@en;
+  sh:nodeKind sh:Literal;
+  sh:order "12";
+  sh:path sh:order .
+
+shape-auto:P_13 sh:description "Questions / Comments"@en;
+  sh:nodeKind sh:Literal;
+  sh:order "13";
+  sh:languageIn ("en");
+  sh:path skos:editorialNote .
+
+shape-auto:P_14
+  sh:nodeKind sh:Literal;
+  sh:order "14";
+  sh:path owl:versionInfo .
+
+shape-auto:P_15
+  sh:nodeKind sh:Literal;
+  sh:order "15";
+  sh:path shacl-play:color .
+
+# properties of Property Shape
+
+shape-auto:P_19 sh:description "NodeShape to which the constraint is applied (a reference to a NodeShape IRI from the first list)"@en;
+  sh:minCount 1;
+  sh:name "class / shape"@en;
+  sh:node shape-auto:classes;
+  sh:nodeKind sh:IRI;
+  sh:order "1";
+  sh:path _:node1h0i4rul4x12201 .
+
+_:node1h0i4rul4x12201 sh:inversePath sh:property .
+
+shape-auto:P_20 sh:description "Predicate or path on which the constraint applies ."@en;
+  sh:maxCount 1;
+  sh:minCount 1;
+  sh:name "property"@en;
+  sh:nodeKind sh:IRI;
+  sh:order "2";
+  sh:path sh:path .
+
+shape-auto:P_21 sh:description """Name of predicate/path within the context of that NodeShape."""@en;
+  sh:name "Label"@en;
+  sh:nodeKind sh:Literal;
+  sh:order "3";
+  sh:languageIn ("en");
+  sh:path sh:name .
+
+shape-auto:P_22 sh:description "Description of the predicate/path within the context of that NodeShape."@en;
+  sh:name "Usage Note"@en;
+  sh:nodeKind sh:Literal;
+  sh:order "4";
+  sh:languageIn ("en");
+  sh:path sh:description;
+  sh:uniqueLang true .
+
+shape-auto:P_23 
+  sh:name "Example value"@en;
+  sh:nodeKind sh:Literal;
+  sh:order "5";
+  sh:languageIn ("en");
+  sh:path skos:example;
+  sh:uniqueLang true .
+
+
+shape-auto:P_25 sh:description "Minimum cardinality that the predicate/path must have."@en;
+  sh:datatype xsd:integer;
+  sh:nodeKind sh:Literal;
+  sh:order "7";
+  sh:path sh:minCount .
+
+shape-auto:P_26 sh:description "Maximum cardinality that the predicate/path must have."@en;
+  sh:datatype xsd:integer;
+  sh:nodeKind sh:Literal;
+  sh:order "8";
+  sh:path sh:maxCount .
+
+shape-auto:P_27 sh:description """type of nodes that the values must have (sh:IRI or sh:Literal)"""@en;
+  sh:maxCount 1;
+  sh:nodeKind sh:IRI;
+  sh:order "9";
+  sh:path sh:nodeKind .
+
+shape-auto:P_28 sh:description """For literal values, the expected datatype of the values"""@en;
+  sh:maxCount 1;
+  sh:nodeKind sh:IRI;
+  sh:order "10";
+  sh:path sh:datatype .
+
+shape-auto:P_29 sh:description "Expected shape that the values of the predicate/path must follow.."@en;
+  sh:maxCount 1;
+  sh:nodeKind sh:IRI;
+  sh:order "11";
+  sh:path sh:class .
+
+shape-auto:P_30 sh:name "or"@en;
+  sh:description "Expected classes that the values of the predicate/path must have, if there are multiple. Expressed as a Turtle list."@en;
+  sh:nodeKind sh:BlankNode;
+  sh:order "12";
+  sh:path sh:or .
+
+shape-auto:P_35 sh:description "Expected possible values for the predicate/path, when the list is small and known in advance. Expressed as a Turtle list ."@en;
+  sh:name "In";
+  sh:nodeKind sh:IRI;
+  sh:order "17";
+  sh:path sh:in .
+
+shape-auto:P_36 sh:description "General URI or string pattern expected for the values of the predicate/path, expressed as a regex ."@en;
+  sh:datatype xsd:string;
+  sh:nodeKind sh:Literal;
+  sh:order "18";
+  sh:path sh:pattern .
+
+shape-auto:P_37 sh:description "If used on a NodeShape, then Sparnatural will treat this shape as a Literal and will not generate an rdf:type triple in the SPARQL query."@en;
+  sh:datatype xsd:boolean;
+  sh:maxCount 1;
+  sh:nodeKind sh:Literal;
+  sh:order "19";
+  sh:path sh:uniqueLang .
+
+shape-auto:P_38 sh:description "If used on a NodeShape, then Sparnatural will treat this shape as a Literal and will not generate an rdf:type triple in the SPARQL query."@en;
+  sh:maxCount 1;
+  sh:nodeKind sh:BlankNode;
+  sh:order "20";
+  sh:path sh:languageIn .
+
+shape-auto:P_39 
+  sh:maxCount 1;
+  sh:nodeKind sh:BlankNode;
+  sh:order "21";
+  sh:path sh:hasValue .

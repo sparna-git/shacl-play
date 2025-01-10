@@ -64,14 +64,37 @@
 						<h4 id="fill-in">Fill-in the spreadsheet</h4>
 						<p>The file has the following structure:</p>
 						<ul>
-							<li>In tab "prefix", declare the necessary prefixes</li>
-							<li>In tab "NodeShapes", declare the NodeShapes with their <code>sh:targetClass</code> and other constraints</li>
-							<li>In tab "PropertyShapes", make one "section" (blue line) per node shape, and declare the property shapes attached to each node shape.:
+							<li>In tab "prefix", declare the necessary prefixes:<br />
+								<img src="<c:url value="/resources/img/excel-prefixes.png"/>" alt="Prefixes tab of the SHACL Excel template" style="width:80%" />
+								<br />
+								<br />
+							</li>
+							<li>In tab "NodeShapes", declare the NodeShapes with their <code>sh:targetClass</code> and other constraints:<br/>
+								<img src="<c:url value="/resources/img/excel-nodeshapes.png"/>" alt="NodeShapes tab of the SHACL Excel template" style="width:80%" />
+								<br />
+								<br />
+							</li>
+							<li>In tab "PropertyShapes", make one "section" (blue line) per node shape, and declare the property shapes attached to each node shape:<br/>
+								<img src="<c:url value="/resources/img/excel-propertyshapes.png"/>" alt="PropertyShapes tab of the SHACL Excel template" style="width:80%" />
+								<br />
+								<br />
 								<ul>
 									<li>The link to the node shape is made in column <code>^sh:property</code>.</li>
-									<li>The predicate (or path) is in column <code>sh:path</code>. SHACL property paths are supported, you need to write them as in Turtle, e.g. <code>[sh:inversePath foaf:knows]</code>.</li>
+									<li>The predicate (or path) is in column <code>sh:path</code>. Property paths are supported, you can write them either the SHACL way Turtle, e.g. <code>[sh:inversePath foaf:knows]</code>,
+										or the SPARQL way, e.g. <code>^foaf:knows</code>, which will be converted automagically in SHACL.</li>
 									<li>The URI of the property shape is computed automatically in column <code>URI</code>, based on the line number.</li>
-									<li>SHACL constraints are in the corresponding columns <code>sh:minCount</code>, <code>sh:maxCount</code>, <code>sh:nodeKind</code>, <code>sh:datatype</code>, <code>sh:class</code>, <code>sh:node</code>, etc.</li>
+									<li>SHACL constraints are in the corresponding columns :
+										<ul>
+											<li><code>sh:minCount</code> : minimum cardinality that the predicate/path must have;</li>
+											<li><code>sh:maxCount</code> : maximum cardinality that the predicate/path must have;</li>
+											<li><code>sh:nodeKind</code> : type of nodes that the values must have (usually <code>sh:IRI</code> or <code>sh:Literal</code>);</li>
+											<li><code>sh:datatype</code> : for literal values, the expected datatype of the values, e.g. <code>xsd:string</code>, <code>xsd:integer</code>, etc. ;</li>
+											<li><code>sh:class</code> : expected class that the values of the predicate/path must have, if only one. If more than one, use the <code>sh:or</code> column;</li>
+											<li><code>sh:node</code> : if needed, expected shape that the values of the predicate/path must follow. This must be a reference to a URI of NodeShape from the first sheet;</li>
+											<li>etc.</li>
+										</ul>
+										
+									</li>
 									<li>You can add more columns as needed. See <a href="https://xls2rdf.sparna.fr/rest/doc.html">the detailled xls2rdf converter documentation</a> for all possible features.</li>
 								</ul>
 							</li>
@@ -91,7 +114,14 @@
 					<div style="margin-top:2em;">
 						<h4 id="test">Test in the documentation generator</h4>
 						<p>Test how your SHACL looks like by uploading it in <a href="doc">the documentation generator</a>.</p>
-					</div>					
+					</div>	
+					
+					<div style="margin-top:2em;">
+						<h4 id="sparnatural">Navigate the graph</h4>
+						<p>This kind of SHACL specification is also used to configure and fine-tune the <a href="https://sparnatural.eu">Sparnatural</a> query builder
+							Sparnatural can use plain SHACL but it has its own <a href="https://docs.google.com/spreadsheets/d/1lduSARo-zyL8qxObwPVD4Z2m8iKQpye-/edit">custom SHACL Excel template</a> with additionnal annotations.</p>
+						<p>For more information about how to configure Sparnatural in SHACL, see <a href="https://docs.sparnatural.eu/#31-shacl-configuration">Sparnatural documentation website.</a></p>
+					</div>
 				</div>			
 			</div>
 		</div>

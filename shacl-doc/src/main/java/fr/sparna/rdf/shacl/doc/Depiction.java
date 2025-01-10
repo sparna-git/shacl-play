@@ -1,14 +1,28 @@
 package fr.sparna.rdf.shacl.doc;
 
-public class ImageforNodeShape {
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+@JsonInclude(Include.NON_NULL)
+public class Depiction {
 	
-	private String depiction;
+	// image URL
+	private String src;
 	private String title;
 	private String description;
+	// order of the diagram
 	private Double shorder;
+
+	public Depiction() {
+		// default constructor
+	}
+
+	public Depiction(String src) {
+		this.src = src;
+	}
 	
-	public String getDepiction() {
-		return depiction;
+	public String getSrc() {
+		return src;
 	}
 	public String getTitle() {
 		return title;
@@ -19,8 +33,8 @@ public class ImageforNodeShape {
 	public Double getShorder() {
 		return shorder;
 	}
-	public void setDepiction(String depiction) {
-		this.depiction = depiction;
+	public void setSrc(String src) {
+		this.src = src;
 	}
 	public void setTitle(String title) {
 		this.title = title;

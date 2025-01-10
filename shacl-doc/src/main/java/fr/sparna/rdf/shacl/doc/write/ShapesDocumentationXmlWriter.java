@@ -56,7 +56,7 @@ public class ShapesDocumentationXmlWriter implements ShapesDocumentationWriterIf
 			mapper.writerFor(ShapesDocumentation.class).writeValue(xmlGenerator, documentation);
 			
 			// Write to output stream
-			//printTo(xmlDocument, output);
+			printTo(xmlDocument, output);
 			
 		} catch (ParserConfigurationException e) {
 			e.printStackTrace();

@@ -67,6 +67,14 @@ eclipse.preferences.version=1
 			-->              
     </plugins> 
   </build>
+
+  <repositories>
+    <!-- Jitpack for cross-project dependencies -->
+    <repository>
+        <id>jitpack.io</id>
+        <url>https://jitpack.io</url>
+    </repository>
+  </repositories>
       
   <dependencyManagement>            
     <dependencies>
@@ -214,6 +222,13 @@ eclipse.preferences.version=1
           <groupId>org.commonmark</groupId>
           <artifactId>commonmark-ext-autolink</artifactId>
           <version>0.24.0</version>
+      </dependency>
+
+      <!-- rdf2xls for Excel serialization -->
+      <dependency>
+          <groupId>com.github.sparna-git.rdf2xls</groupId>
+          <artifactId>rdf2xls-lib</artifactId>
+          <version>1.0.0</version>
       </dependency>
               
     </dependencies>

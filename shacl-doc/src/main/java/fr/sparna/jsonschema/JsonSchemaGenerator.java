@@ -31,7 +31,6 @@ import fr.sparna.jsonschema.model.ObjectSchema;
 import fr.sparna.jsonschema.model.ReferenceSchema;
 import fr.sparna.jsonschema.model.Schema;
 import fr.sparna.jsonschema.model.StringSchema;
-import fr.sparna.jsonschema.model.CombinedSchema.ValidationCriterion;
 import fr.sparna.rdf.jena.shacl.NodeShape;
 import fr.sparna.rdf.jena.shacl.OwlOntology;
 import fr.sparna.rdf.jena.shacl.PropertyShape;

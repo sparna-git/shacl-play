@@ -1025,12 +1025,14 @@
 	</xsl:template>
 	
 	<xsl:template match="sectionDiagram">
+		<!-- 
 		<xsl:if test="displayTitle">
 			<h3><xsl:value-of select="displayTitle" /></h3> 
 		</xsl:if>
 		<xsl:if test="diagramDescription">
 			<p><xsl:value-of select="diagramDescription" /></p> 
 		</xsl:if>
+		 -->
 		<xsl:choose>
 			<xsl:when test="$MODE = 'PDF'">
 				<!--  When outputting PDF, inserts the PNG image -->

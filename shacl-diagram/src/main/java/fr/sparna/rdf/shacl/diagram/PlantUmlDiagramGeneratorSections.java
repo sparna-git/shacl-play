@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.apache.commons.compress.harmony.unpack200.bytecode.forms.ThisFieldRefForm;
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.RDFNode;
@@ -82,6 +83,10 @@ public class PlantUmlDiagramGeneratorSections {
 			}
 		}).collect(Collectors.toList());
 		
+		// 2. Une fois qu'on a toute la liste, lire les proprietes
+		for (PlantUmlBoxIfc aBox : plantUmlBoxes) {
+			aBox.setProperties(nodeShapeReader.readProperties(aBox.getNodeShape()));
+		}
 		
 		return plantUmlBoxes;		
 	}
@@ -96,54 +101,57 @@ public class PlantUmlDiagramGeneratorSections {
 		return plantUmlBoxes;
 	}
 	
-	public List<PlantUmlBox> setColorInProperties(List<PlantUmlBox> plantUmlBoxes) {
+	public List<PlantUmlBoxIfc> getBoxes(List<Resource> nodeShapes,PlantUmlBoxIfc Box) {
 		
-		PlantUmlBoxReader nodeShapeReader = new PlantUmlBoxReader();
-		// 2. Une fois qu'on a toute la liste, lire les proprietes
-		for (PlantUmlBox aBox : plantUmlBoxes) {		
-			
-			List<PlantUmlProperty> properties = nodeShapeReader.readProperties(aBox.getNodeShape());
-			
-			for (PlantUmlProperty p : properties) {
-				if (p.getShNode().isPresent()) {					
-					if (!p.getColor().isPresent()) {
-						
-						// find elemento in all plantUmlBoxes
-						String bgc_color = plantUmlBoxes
+		
+		List<Resource> nodes = Box.getProperties()
+				.stream()
+				.filter(f -> f.getShNode().isPresent() || f.getShClass().isPresent())
+				.map( box -> {
+					if (box.getShNode().isPresent()) {
+						return nodeShapes
 								.stream()
-								.filter(f -> f.getNodeShape().getURI().equals(p.getShNode().get().getURI()))
-								.map(m -> m.getBackgroundColor().isPresent() ? m.getBackgroundColor().get().toString() : "" )
+								.filter(ns -> ns.getURI().equals(box.getShNode().get().getURI()))
 								.collect(Collectors.toList())
-								.get(0)
-								.toString();
-						
-						// find elemento in all plantUmlBoxes
-						String police_color = plantUmlBoxes
-								.stream()
-								.filter(f -> f.getNodeShape().getURI().equals(p.getShNode().get().getURI()))
-								.map(m -> m.getColor().isPresent() ? m.getColor().get().toString() : "" )
-								.collect(Collectors.toList())
-								.get(0)
-								.toString();
-						
-						if (bgc_color != "") { 
-							p.setBackgroundColor(bgc_color);
-						} 
-						
-						if (police_color != "") {
-							p.setTxtColor(police_color);
-						}
-						//else {
-						//	p.setBackgroundColor(bgc_color);
-						//}
-						
+								.get(0);
 					}
-				}
-			}
-			aBox.setProperties(properties);
-		}
-		return plantUmlBoxes;
+					
+					if (box.getShClass().isPresent()) {
+						return nodeShapes
+								.stream()
+								.filter(getResource -> getResource.getURI().equals(box.getShClass().get().getURI()))
+								.collect(Collectors.toList())
+								.get(0);
+					}					
+					return null;
+				})
+				.collect(Collectors.toList());
 		
+		
+		List<PlantUmlBoxIfc> otherBoxes = nodes
+			.stream()
+			.map( nodeShapeBox -> { 
+				//SimplePlantUmlBox s = new SimplePlantUmlBox(nodeShapeBox.getURI()); 
+				PlantUmlBoxReader nodeShapeReader = new PlantUmlBoxReader();
+				PlantUmlBoxIfc plantUmlBoxes = nodeShapeReader.read(nodeShapeBox, nodes);
+				
+				SimplePlantUmlBox newBoxSimple = new SimplePlantUmlBox(nodeShapeBox.getURI());
+				newBoxSimple.setBackgroundColorString(plantUmlBoxes.getBackgroundColorString());
+				newBoxSimple.setColorString(plantUmlBoxes.getColorString());
+				newBoxSimple.setLabel(plantUmlBoxes.getLabel());
+				
+				List<Resource> resources = new ArrayList<>();
+				newBoxSimple.setDepiction(resources);
+				
+				List<PlantUmlProperty> properties = new ArrayList<>();
+				newBoxSimple.setProperties(properties);
+				
+				return newBoxSimple;
+				
+			})
+			.collect(Collectors.toList());
+		
+		return otherBoxes;
 	}
 	
 	public List<PlantUmlDiagramOutput> generateDiagramsForSection(
@@ -155,25 +163,23 @@ public class PlantUmlDiagramGeneratorSections {
 		// Get Boxes
 		List<Resource> nodeShapes = this.readNodeShapes(shaclGraph, owlGraph);
 		List<PlantUmlBoxIfc> allBoxes = this.buildBoxes(nodeShapes);
-
+		
 		// Generate Diagram
 		List<PlantUmlBoxIfc> boxesIncludedInTheDiagram = new ArrayList<>();
-
 		// find the main box
-		PlantUmlBoxIfc mainBox = allBoxes.stream().filter(
-			box -> box.getNodeShape().getURI().equals(nodeShape.getURI())
-		).findFirst().get();
-
-		// read the properties on the main box
-		PlantUmlBoxReader nodeShapeReader = new PlantUmlBoxReader();
-		List<PlantUmlProperty> properties = nodeShapeReader.readProperties(mainBox.getNodeShape());
-		mainBox.setProperties(properties);
-
+		PlantUmlBoxIfc mainBox = allBoxes
+				.stream()
+				.filter(box -> box.getNodeShape().getURI().equals(nodeShape.getURI()))
+				.findFirst()
+				.get();	
+		
 		boxesIncludedInTheDiagram.add(mainBox);
 
-		// Add Color in properties
-		List<PlantUmlBox> plantUmlBoxes = this.setColorInProperties(nodeShape, allBoxes);
-
+		// Add others Resources
+		List<PlantUmlBoxIfc> otherResources = this.getBoxes(nodeShapes, mainBox);
+		//		
+		boxesIncludedInTheDiagram.addAll(otherResources);
+		// Generate diagram
 		List<PlantUmlDiagramOutput> outputDiagram = this.outputDiagrams(boxesIncludedInTheDiagram);
 
 		return outputDiagram;
@@ -192,8 +198,8 @@ public class PlantUmlDiagramGeneratorSections {
 
 		// Get Boxes
 		List<Resource> readNodeShapes = this.readNodeShapes(shaclGraph, owlGraph);
-		List<PlantUmlBoxIfc> Boxes = this.buildBoxes(readNodeShapes);
-		List<PlantUmlBoxIfc> plantUmlBoxes = this.buildProperties(Boxes, readNodeShapes);		
+		List<PlantUmlBoxIfc> plantUmlBoxes = this.buildBoxes(readNodeShapes);
+		//List<PlantUmlBoxIfc> plantUmlBoxes = this.buildProperties(Boxes, readNodeShapes);		
 		
 		// Generate Diagram
 		List<PlantUmlDiagramOutput> outputDiagram = this.outputDiagrams(plantUmlBoxes);
@@ -231,8 +237,6 @@ public class PlantUmlDiagramGeneratorSections {
 				}
 			}
 		}).collect(Collectors.toList());
-		
-		System.out.println("Test.....");
 				
 		return codePlantUml; //sourceuml.toString();
 	}

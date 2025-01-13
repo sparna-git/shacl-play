@@ -446,7 +446,13 @@ public class PlantUmlRenderer {
 		}
 		
 		Map<String,String> collectGroupProperties = new HashMap<>();
-		if (box.getProperties().size() > 0 || superClassesBoxes.size() > 0) {
+		if (
+				(box.getProperties().size() > 0 || superClassesBoxes.size() > 0)
+				||
+				(box.getBackgroundColorString() != null || box.getColorString() != null)				
+			)
+		
+		{
 			if (box.getNodeShape().isAnon()) {
 				// give it an empty label
 				declaration = "Class" + " " + box.getLabel() +" as " +"\""+" \"";

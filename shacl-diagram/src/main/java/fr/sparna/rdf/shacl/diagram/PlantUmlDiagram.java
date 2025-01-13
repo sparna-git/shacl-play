@@ -9,15 +9,20 @@ import org.slf4j.LoggerFactory;
 
 import fr.sparna.rdf.jena.ModelRenderingUtils;
 
+/**
+ * Represents one main diagram in the documentation, with its URI, title, description, order.
+ * Also contains the list of PlantUmlBoxIfc that will be rendered in the diagram.
+ */
 public class PlantUmlDiagram {
 	
 	private Logger log = LoggerFactory.getLogger(this.getClass().getName());
 	
 	protected Resource resource;
-	protected List<PlantUmlBoxIfc> boxes = new ArrayList<>();
 	protected String title;
 	protected String description;
 	protected double orderDiagram;
+
+	protected List<PlantUmlBoxIfc> boxes = new ArrayList<>();
 	
 	public PlantUmlBoxIfc findBoxById(String id) {
 		return this.boxes.stream().filter(b -> b.getLabel().equals(id)).findFirst().orElse(null);

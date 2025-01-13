@@ -6,16 +6,11 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.jena.rdf.model.Literal;
-import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.vocabulary.DCTerms;
-import org.apache.jena.vocabulary.RDF;
-import org.apache.jena.vocabulary.RDFS;
 import org.topbraid.shacl.vocabulary.SH;
 
 import fr.sparna.rdf.jena.ModelReadingUtils;
-import fr.sparna.rdf.shacl.SHACL_PLAY;
 
 public class PlantUmlDiagramReader {
 

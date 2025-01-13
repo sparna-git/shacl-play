@@ -1,7 +1,10 @@
 package fr.sparna.rdf.shacl.diagram;
 
-import java.util.stream.Collectors;
-
+/**
+ * The output of a PlantUML diagram generation, 
+ * containing the PlantUML source code and some metadata about the diagram.
+ * This is inserted in the final documentation data structure.
+ */
 public class PlantUmlDiagramOutput {
 
 	private String plantUmlString;

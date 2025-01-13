@@ -3,10 +3,8 @@ package fr.sparna.rdf.shacl.doc;
 import java.util.List;
 
 import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Resource;
 
-import fr.sparna.rdf.shacl.diagram.PlantUmlDiagramGenerator;
 import fr.sparna.rdf.shacl.diagram.PlantUmlDiagramGeneratorSections;
 import fr.sparna.rdf.shacl.diagram.PlantUmlDiagramOutput;
 

@@ -13,6 +13,8 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.jena.query.Dataset;
+import org.apache.jena.query.DatasetFactory;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.riot.RDFDataMgr;
 import org.apache.jena.riot.RDFLanguages;
@@ -61,13 +63,19 @@ public class InputModelReader {
 				} else {
 					if(RDFLanguages.filenameToLang(inputFile.getName()) != null) {
 						try {
+							// 1. Read as a Dataset with named graphs, to deal with JSON-LD / nq situations
+							Dataset d = DatasetFactory.create();
 							RDFDataMgr.read(
-									model,
-									new FileInputStream(inputFile),
-									// so that relative URI references are found in the same directory that the file being read
-									inputFile.toPath().toAbsolutePath().getParent().toUri().toString(),
-									RDFLanguages.filenameToLang(inputFile.getName())
+								d,
+								new FileInputStream(inputFile),
+								// so that relative URI references are found in the same directory that the file being read
+								inputFile.toPath().toAbsolutePath().getParent().toUri().toString(),
+								RDFLanguages.filenameToLang(inputFile.getName())
 							);
+							// 2. load the UNION of all graphs in our model
+							// Note : getUnionModel does not include the default model, this is why we need to add it explicitely
+							model.add(d.getUnionModel());
+							model.add(d.getDefaultModel());
 						} catch (FileNotFoundException ignore) {
 							ignore.printStackTrace();
 						}

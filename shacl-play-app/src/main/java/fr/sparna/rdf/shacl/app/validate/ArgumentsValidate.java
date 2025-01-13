@@ -62,7 +62,7 @@ public class ArgumentsValidate {
 	private boolean createDetails = false;
 	
 	@Parameter(
-			names = "-ns",
+		names = { "-ns", "--namespaces" },
 			description = "Namespace prefixes, in the form <key1>,<ns1> <key2>,<ns2> e.g. skos,http://www.w3.org/2004/02/skos/core# dct,http://purl.org/dc/terms/",
 			variableArity = true,
 			splitter = SpaceSplitter.class

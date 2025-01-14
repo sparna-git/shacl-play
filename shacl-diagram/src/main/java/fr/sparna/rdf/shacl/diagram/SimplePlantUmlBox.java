@@ -15,10 +15,10 @@ public class SimplePlantUmlBox extends BasePlantUmlBox {
     private String label;
     private List<Resource> depiction;
     protected List<PlantUmlProperty> properties = new ArrayList<>();
-    public List<Resource> RdfsSubClassOf;    
+    public List<Resource> RdfsSubClassOf;
     
     public SimplePlantUmlBox(String uri) {
-        this.nodeShape = ModelFactory.createDefaultModel().createResource(uri).asResource();
+        this.nodeShape = ModelFactory.createDefaultModel().createResource(uri).asResource();        
     }
     
     public String getBackgroundColorString() {
@@ -77,6 +77,4 @@ public class SimplePlantUmlBox extends BasePlantUmlBox {
 	public void setShNode(List<Resource> shNode) {
 		ShNode = shNode;
 	}
-	
-	
 }

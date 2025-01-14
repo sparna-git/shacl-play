@@ -387,7 +387,6 @@ public class PlantUmlRenderer {
 			sourceuml.append("scale max 1000 width\n");
 		}
 		
-		
 		// retrieve all package declaration
 		for (PlantUmlBoxIfc plantUmlBox : diagram.getBoxes()) {
 			sourceuml.append(this.renderNodeShape(plantUmlBox,this.avoidArrowsToEmptyBoxes));
@@ -449,7 +448,11 @@ public class PlantUmlRenderer {
 		if (
 				(box.getProperties().size() > 0 || superClassesBoxes.size() > 0)
 				||
-				(box.getBackgroundColorString() != null || box.getColorString() != null)				
+				(box.getBackgroundColorString() != null || box.getColorString() != null 
+					||
+					(box.getProperties().size() == 0 && box.getRdfsSubClassOf().size() == 0 && box.getDepiction().size() == 0 )
+				
+						)				
 			)
 		
 		{

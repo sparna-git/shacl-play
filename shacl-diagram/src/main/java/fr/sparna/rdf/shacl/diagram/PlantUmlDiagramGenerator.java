@@ -97,9 +97,26 @@ public class PlantUmlDiagramGenerator {
 		//d.setResource(nodeShape);
 		d.setBoxes(boxesIncludedInTheDiagram);
 		
-		// Generate diagram
-		List<PlantUmlDiagramOutput> outputDiagram = this.outputDiagrams(Collections.singletonList(d));
+		// if is a one Shape and include properties, print diagram
+		boolean createDiagram = false;
+		if (boxesIncludedInTheDiagram.size() == 1) {
+			int nBox = boxesIncludedInTheDiagram
+			.stream()
+			.filter(b -> b.getProperties().size() > 0)
+			.collect(Collectors.toList())
+			.size();
+			
+			if (nBox > 0) {
+				createDiagram = true;
+			}		
+		} else {
+			createDiagram = true;
+		}
 		
+		List<PlantUmlDiagramOutput> outputDiagram = new ArrayList<>();
+		if (createDiagram) {
+			outputDiagram = this.outputDiagrams(Collections.singletonList(d));
+		}
 		return outputDiagram;
 
 	}
@@ -211,11 +228,27 @@ public class PlantUmlDiagramGenerator {
 								.filter(getResource -> getResource.getURI().equals(box.getShClass().get().getURI()))
 								.collect(Collectors.toList())
 								.get(0);
-					}					
+					}
 					return null;
 				})
 				.collect(Collectors.toList());
 		
+		// Sh:Or
+		for (PlantUmlProperty prop : Box.getProperties()) {
+			if (prop.getShOrShClass() != null) {
+				for (Resource propertyResource : prop.getShOrShClass()) {
+					Resource getResourceShClass = getShOrProperty(nodeShapes, propertyResource.getURI());
+					nodes.add(getResourceShClass);
+				}
+			}
+			
+			if (prop.getShOrShNode() != null) {
+				for (Resource propertyResource : prop.getShOrShNode()) {
+					Resource getResourceShClass = getShOrProperty(nodeShapes, propertyResource.getURI());
+					nodes.add(getResourceShClass);
+				}
+			}
+		}
 		
 		List<PlantUmlBoxIfc> otherBoxes = nodes
 			.stream()
@@ -224,7 +257,7 @@ public class PlantUmlDiagramGenerator {
 				PlantUmlBoxReader nodeShapeReader = new PlantUmlBoxReader();
 				PlantUmlBoxIfc plantUmlBoxes = nodeShapeReader.read(nodeShapeBox, nodes);
 				
-				SimplePlantUmlBox newBoxSimple = new SimplePlantUmlBox(nodeShapeBox.getURI());
+				SimplePlantUmlBox newBoxSimple = new SimplePlantUmlBox(nodeShapeBox.getModel().shortForm(nodeShapeBox.getURI()));
 				newBoxSimple.setBackgroundColorString(plantUmlBoxes.getBackgroundColorString());
 				newBoxSimple.setColorString(plantUmlBoxes.getColorString());
 				newBoxSimple.setLabel(plantUmlBoxes.getLabel());
@@ -245,6 +278,13 @@ public class PlantUmlDiagramGenerator {
 		return otherBoxes;
 	}
 	
-
+	private Resource getShOrProperty(List<Resource> nodeShapes, String shOrNode) {
+		
+		return nodeShapes
+				.stream()
+				.filter(getResource -> getResource.getURI().equals(shOrNode))
+				.collect(Collectors.toList())
+				.get(0);
+	}
 
 }

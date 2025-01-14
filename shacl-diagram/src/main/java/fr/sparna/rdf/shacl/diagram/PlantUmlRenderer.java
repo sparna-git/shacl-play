@@ -24,6 +24,8 @@ public class PlantUmlRenderer {
 	protected boolean avoidArrowsToEmptyBoxes = true;
 	protected boolean includeSubclassLinks = true;
 	protected boolean hideProperties = false;
+	// true to indicate that the diagram is a section diagram
+	protected boolean renderSectionDiagram = false;
 	
 	protected List<String> inverseList = new ArrayList<String>();
 	
@@ -46,7 +48,9 @@ public class PlantUmlRenderer {
 			PlantUmlProperty property,
 			PlantUmlBoxIfc box,
 			boolean renderAsDatatypeProperty,
-			Map<String, String> collectRelationProperties
+			Map<String, String> collectRelationProperties,
+			// index of the property in the box
+			int index
 	) {
 		
 		//get the color for the arrow drawn
@@ -381,11 +385,10 @@ public class PlantUmlRenderer {
 		sourceuml.append("skinparam ArrowColor #Maroon\n");
 		sourceuml.append("set namespaceSeparator none \n"); // Command for not create an package uml
 		
-		//
-		int numberOfNodeShapes = diagram.getBoxes().stream().map(ns -> ns.getNodeShape().getURI()).collect(Collectors.toList()).size();
-		if (numberOfNodeShapes == 1) {
-			sourceuml.append("scale max 1000 width\n");
+		if (this.renderSectionDiagram) {
+			sourceuml.append("left to right direction\n");
 		}
+		
 		
 		// retrieve all package declaration
 		for (PlantUmlBoxIfc plantUmlBox : diagram.getBoxes()) {
@@ -445,17 +448,16 @@ public class PlantUmlRenderer {
 		}
 		
 		Map<String,String> collectGroupProperties = new HashMap<>();
+		// declare the class if it has properties or super classes or a color
 		if (
 				(box.getProperties().size() > 0 || superClassesBoxes.size() > 0)
 				||
-				(box.getBackgroundColorString() != null || box.getColorString() != null 
-					||
-					(box.getProperties().size() == 0 && box.getRdfsSubClassOf().size() == 0 && box.getDepiction().size() == 0 )
-				
-						)				
-			)
-		
-		{
+				(box.getProperties().size() == 0 && box.getRdfsSubClassOf().size() == 0 && box.getDepiction().size() == 0 )
+				||
+				box.getBackgroundColorString() != null
+				||
+				box.getColorString() != null 			
+		) {
 			if (box.getNodeShape().isAnon()) {
 				// give it an empty label
 				declaration = "Class" + " " + box.getLabel() +" as " +"\""+" \"";
@@ -475,7 +477,9 @@ public class PlantUmlRenderer {
 			
 			String declarationPropertes = "";
 			Map<String,String> collectRelationProperties = new HashMap<>();
-			for (PlantUmlProperty plantUmlproperty : box.getProperties()) {
+			for (int i=0;i<box.getProperties().size();i++) {
+				PlantUmlProperty plantUmlproperty = box.getProperties().get(i);
+
 				boolean displayAsDatatypeProperty = false;
 				
 				// if we want to avoid arrows to empty boxes...
@@ -521,13 +525,13 @@ public class PlantUmlRenderer {
 						plantUmlproperty, 
 						box,
 						displayAsDatatypeProperty,
-						collectRelationProperties
+						collectRelationProperties,
+						i
 				);
 				
 				
 				// if the property a une sh:Group, remove the contain in the property and generate a new property
-				if (plantUmlproperty.getShGroup().isPresent()) {				
-					
+				if (plantUmlproperty.getShGroup().isPresent()) {
 					
 					// read property group
 					List<PlantUmlProperty> propertiesGpo = new ArrayList<>();
@@ -548,8 +552,10 @@ public class PlantUmlRenderer {
 					String codePropertyPlantUmlGroup = this.render(
 							plantUmlproperty, 
 							box,
+							// force rendering as a datatype property
 							true,
-							collectRelationProperties
+							collectRelationProperties,
+							i
 					);
 					
 					if (collectGroupProperties.get(GroupId) == null) {
@@ -687,6 +693,14 @@ public class PlantUmlRenderer {
 
 	public void setHideProperties(boolean hideProperties) {
 		this.hideProperties = hideProperties;
+	}
+
+	public boolean isRenderSectionDiagram() {
+		return renderSectionDiagram;
+	}
+
+	public void setRenderSectionDiagram(boolean renderSectionDiagram) {
+		this.renderSectionDiagram = renderSectionDiagram;
 	}
 
 }

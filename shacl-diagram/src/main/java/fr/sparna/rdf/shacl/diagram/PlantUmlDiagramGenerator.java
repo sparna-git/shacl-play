@@ -54,7 +54,7 @@ public class PlantUmlDiagramGenerator {
 		List<PlantUmlDiagram> diagrams = diagramsReader.readDiagrams(plantUmlBoxes, lang);
 		
 		// Generate Diagram
-		List<PlantUmlDiagramOutput> outputDiagram = this.outputDiagrams(diagrams);
+		List<PlantUmlDiagramOutput> outputDiagram = this.outputDiagrams(diagrams, false);
 		
 		return outputDiagram;
 	}
@@ -94,7 +94,7 @@ public class PlantUmlDiagramGenerator {
 		// build a Diagram data structure
 		PlantUmlDiagram d = new PlantUmlDiagram();
 		// we use the NodeShape as the diagram resource
-		//d.setResource(nodeShape);
+		d.setResource(nodeShape);
 		d.setBoxes(boxesIncludedInTheDiagram);
 		
 		// if is a one Shape and include properties, print diagram
@@ -115,7 +115,7 @@ public class PlantUmlDiagramGenerator {
 		
 		List<PlantUmlDiagramOutput> outputDiagram = new ArrayList<>();
 		if (createDiagram) {
-			outputDiagram = this.outputDiagrams(Collections.singletonList(d));
+			outputDiagram = this.outputDiagrams(Collections.singletonList(d), true);
 		}
 		return outputDiagram;
 
@@ -127,7 +127,7 @@ public class PlantUmlDiagramGenerator {
 	 * @param plantUmlBoxes
 	 * @return
 	 */
-	private List<PlantUmlDiagramOutput> outputDiagrams(List<PlantUmlDiagram> diagrams) {
+	private List<PlantUmlDiagramOutput> outputDiagrams(List<PlantUmlDiagram> diagrams, boolean sectionDiagram) {
 		
 		// and then render each diagram
 		PlantUmlRenderer renderer = new PlantUmlRenderer();
@@ -135,6 +135,7 @@ public class PlantUmlDiagramGenerator {
 		renderer.setAvoidArrowsToEmptyBoxes(this.avoidArrowsToEmptyBoxes);
 		renderer.setIncludeSubclassLinks(this.includeSubclassLinks);
 		renderer.setHideProperties(this.hidePropertiesBoxes);
+		renderer.setRenderSectionDiagram(sectionDiagram);
 				
 		List<PlantUmlDiagramOutput> codePlantUml = diagrams.stream().map(d -> new PlantUmlDiagramOutput(d, renderer)).sorted((o1,o2) -> {
 			if(o1.getDiagramOrder() > 0) {

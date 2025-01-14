@@ -1,5 +1,10 @@
 package fr.sparna.rdf.shacl.diagram;
 
+/**
+ * The output of a PlantUML diagram generation, 
+ * containing the PlantUML source code and some metadata about the diagram.
+ * This is inserted in the final documentation data structure.
+ */
 public class PlantUmlDiagramOutput {
 
 	private String plantUmlString;
@@ -84,5 +89,5 @@ public class PlantUmlDiagramOutput {
 	public void setDiagramOrder(double diagramOrder) {
 		this.diagramOrder = diagramOrder;
 	}
-	
+
 }

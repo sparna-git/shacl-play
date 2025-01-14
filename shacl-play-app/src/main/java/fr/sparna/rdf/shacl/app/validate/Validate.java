@@ -33,8 +33,13 @@ public class Validate implements CliCommandIfc {
 	
 	@Override
 	public void execute(Object args) throws Exception {
-		ArgumentsValidate a = (ArgumentsValidate)args;
-		
+		ArgumentsValidate a = (ArgumentsValidate)args;		
+				
+		// read shapes file
+		OntModel shapesModel = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM);
+		log.debug("Reading shapes from "+a.getShapes());
+		InputModelReader.populateModelFromFile(shapesModel, a.getShapes(), a.getNamespaceMappings());
+
 		// read input file or URL
 		Model dataModel = ModelFactory.createDefaultModel(); 
 		InputModelReader.populateModelFromFile(dataModel, a.getInput(), a.getNamespaceMappings());
@@ -44,11 +49,6 @@ public class Validate implements CliCommandIfc {
 			log.debug("Copy input data to "+a.getCopyInput());
 			dataModel.write(new FileOutputStream(a.getCopyInput().getAbsolutePath()), "Turtle");
 		}
-		
-		// read shapes file
-		OntModel shapesModel = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM);
-		log.debug("Reading shapes from "+a.getShapes());
-		InputModelReader.populateModelFromFile(shapesModel, a.getShapes(), a.getNamespaceMappings());
 		
 		// read extra model
 		Model extraModel = null;

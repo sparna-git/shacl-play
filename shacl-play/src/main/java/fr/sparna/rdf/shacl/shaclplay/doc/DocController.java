@@ -82,6 +82,8 @@ public class DocController {
 			@RequestParam(value="inputLogo", required=false) String urlLogo,
 			// Language Option
 			@RequestParam(value="language", required=false) String language,
+			// Split Diagram
+			@RequestParam(value="nsDiagram", required=false) boolean nsDiagram,
 			HttpServletRequest request,
 			HttpServletResponse response
 	){
@@ -106,6 +108,7 @@ public class DocController {
 					urlLogo,
 					modelPopulator.getSourceName(),
 					language,
+					nsDiagram,
 					response);
 			return null;
 		} catch (Exception e) {
@@ -140,6 +143,8 @@ public class DocController {
 			@RequestParam(value="inputLogo", required=false) String urlLogo,
 			// Language Option
 			@RequestParam(value="language", required=false) String language,
+			// Split Diagram
+			@RequestParam(value="SplitDiagram", required=false) boolean nsDiagram,
 			HttpServletRequest request,
 			HttpServletResponse response
 	) {
@@ -189,6 +194,7 @@ public class DocController {
 					urlLogo,
 					modelPopulator.getSourceName(),
 					language,
+					nsDiagram,
 					response
 			);
 			return null;
@@ -208,11 +214,12 @@ public class DocController {
 			String urlLogo,
 			String filename,
 			String languageInput,
+			boolean nsDiagram,
 			HttpServletResponse response
 	) throws IOException {		
 		response.setHeader("Content-Disposition", "inline; filename=\""+filename+".html\"");
 
-		ShapesDocumentationReaderIfc reader = new ShapesDocumentationModelReader(includeDiagram, urlLogo, hideProperties);
+		ShapesDocumentationReaderIfc reader = new ShapesDocumentationModelReader(includeDiagram, urlLogo, hideProperties, nsDiagram);
 		ShapesDocumentation doc = reader.readShapesDocumentation(
 				shapesModel,
 				// OWL graph

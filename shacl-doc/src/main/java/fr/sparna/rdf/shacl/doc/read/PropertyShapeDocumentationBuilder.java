@@ -89,8 +89,8 @@ public class PropertyShapeDocumentationBuilder {
 		}
 		
 		// Dash:LabelRol
-		if (propertyShape.getDashLabelRole() != null) {
-			proprieteDoc.setLabelrol(propertyShape.getDashLabelRole().asResource().getURI());
+		if (propertyShape.isLabelRole()) {
+			proprieteDoc.setLabelRole(true);
 		}
 		
 		// create a String of comma-separated short forms

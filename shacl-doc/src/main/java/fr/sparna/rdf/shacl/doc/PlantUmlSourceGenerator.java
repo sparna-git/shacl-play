@@ -3,20 +3,28 @@ package fr.sparna.rdf.shacl.doc;
 import java.util.List;
 
 import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.Resource;
 
 import fr.sparna.rdf.shacl.diagram.PlantUmlDiagramGenerator;
 import fr.sparna.rdf.shacl.diagram.PlantUmlDiagramOutput;
 
 public class PlantUmlSourceGenerator {
 
-	public List<PlantUmlDiagramOutput> generatePlantUmlDiagram(
-			Model shapesModel,
-			Model owlModel,
-			boolean hideProperties,
-			String lang
-	) {
-
+	Model shapesModel;
+	Model owlModel;
+	boolean hideProperties;
+	String lang;
+	
+	public PlantUmlSourceGenerator(Model shapesModel,Model owlModel,boolean hideProperties,String lang) {
+		
+		super();
+		this.shapesModel = shapesModel;				
+		this.owlModel  = owlModel;
+		this.hideProperties = hideProperties; 
+		this.lang = lang;
+	}	
+	
+	public PlantUmlDiagramGenerator buildPlantUmlDiagramGenerator() {		
 		// draw - without subclasses links
 		// set first parameter to true to draw subclassOf links
 		PlantUmlDiagramGenerator writer = new PlantUmlDiagramGenerator(
@@ -28,16 +36,25 @@ public class PlantUmlSourceGenerator {
 				true,
 				//
 				hideProperties,
-				lang);
-		Model finalModel = ModelFactory.createDefaultModel();
-		finalModel.add(shapesModel);
-		if(owlModel != null) {
-			finalModel.add(owlModel);
-		}
+				lang
+		);
 		
+		return writer;
+		
+	}
+	
+	public List<PlantUmlDiagramOutput> generatePlantUmlDiagram() {
+
+		PlantUmlDiagramGenerator writer = this.buildPlantUmlDiagramGenerator();
 		//String plantUmlString = writer.writeInPlantUml(shapesModel,owlModel);
 		List<PlantUmlDiagramOutput> output = writer.generateDiagrams(shapesModel,owlModel);
 		
+		return output;
+	}
+	
+	public List<PlantUmlDiagramOutput> generatePlantUmlDiagramSection(Resource nodeShape) {
+		PlantUmlDiagramGenerator writer = this.buildPlantUmlDiagramGenerator();
+		List<PlantUmlDiagramOutput> output = writer.generateDiagramsForSection(shapesModel, owlModel, nodeShape);		
 		return output;
 	}
 

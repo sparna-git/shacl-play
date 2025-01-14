@@ -11,7 +11,6 @@ import org.apache.jena.rdf.model.Model;
 import fr.sparna.rdf.shacl.diagram.PlantUmlDiagramOutput;
 import fr.sparna.rdf.shacl.doc.NodeShape;
 import fr.sparna.rdf.shacl.doc.NodeShapeReader;
-import fr.sparna.rdf.shacl.doc.OwlOntology;
 import fr.sparna.rdf.shacl.doc.PlantUmlSourceGenerator;
 import fr.sparna.rdf.shacl.doc.ShaclPrefixReader;
 import fr.sparna.rdf.shacl.doc.ShapesGraph;
@@ -25,13 +24,20 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 
 	protected boolean readDiagram = true;
 	protected boolean hideProperties = false;
+	protected boolean readSectionDiagrams = false;
 	protected String imgLogo = null;
 	
-	public ShapesDocumentationModelReader(boolean readDiagram,String imgLogo, boolean hideProperties) {
+	public ShapesDocumentationModelReader(
+		boolean readDiagram,
+		String imgLogo,
+		boolean hideProperties,
+		boolean readSectionDiagrams
+	) {
 		super();
 		this.readDiagram = readDiagram;
 		this.imgLogo = imgLogo;
 		this.hideProperties = hideProperties;
+		this.readSectionDiagrams = readSectionDiagrams;
 	}
 
 	@Override
@@ -48,14 +54,9 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 		shapesDocumentation.setImgLogo(this.imgLogo);	
 		
 		// Option pour créer le diagramme		
-		if (this.readDiagram) {
-			PlantUmlSourceGenerator sourceGenerator = new PlantUmlSourceGenerator();
-			List<PlantUmlDiagramOutput> plantUmlDiagrams = sourceGenerator.generatePlantUmlDiagram(
-					shaclGraph,
-					owlGraph,
-					this.hideProperties,
-					lang
-			);
+		if (this.readDiagram) {			
+			PlantUmlSourceGenerator sourceGenerator = new PlantUmlSourceGenerator(shaclGraph, owlGraph, this.hideProperties, lang);
+			List<PlantUmlDiagramOutput> plantUmlDiagrams = sourceGenerator.generatePlantUmlDiagram();
 			
 			// turn diagrams into output data structure
 			plantUmlDiagrams.stream().forEach(d -> shapesDocumentation.getDiagrams().add(new ShapesDocumentationDiagram(d)));			
@@ -65,16 +66,24 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 		List<NamespaceSection> nsSections = this.readNamespaceSections(shaclGraph, shapesModel.getAllNodeShapes(), lang);
 		shapesDocumentation.setPrefixe(nsSections);
 		
+		
+		ShapesDocumentationSectionBuilder sectionBuidler = new ShapesDocumentationSectionBuilder(
+			new PlantUmlSourceGenerator(shaclGraph, owlGraph, this.hideProperties, lang)
+		);
 		// For each NodeShape ...
 		List<ShapesDocumentationSection> sections = new ArrayList<>();
 		for (NodeShape nodeShape : shapesModel.getAllNodeShapes()) {
-			ShapesDocumentationSection section = ShapesDocumentationSectionBuilder.build(nodeShape, 
-					shapesModel, 
-					 // Model
-					shaclGraph, 
-					// Model
-					owlGraph, 
-					lang);
+			ShapesDocumentationSection section = sectionBuidler.build(
+				nodeShape, 
+				shapesModel, 
+				// Model
+				shaclGraph, 
+				// Model
+				owlGraph, 
+				lang,
+				this.readSectionDiagrams
+			);
+			
 			sections.add(section);
 		}
 		shapesDocumentation.setSections(sections);

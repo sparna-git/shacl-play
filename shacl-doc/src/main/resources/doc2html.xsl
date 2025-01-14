@@ -395,7 +395,15 @@
 						border-bottom: 1px solid;	
 					}
 					
-					 
+					.sp_section_nodeshape_diagram {
+						padding-bottom: 6px;
+					}
+					
+					.sp_section_nodeshape_center {
+						display: flex;
+						justify-content: center;
+					}
+					
 					table {
 						display: table;
 						border-spacing: 0px;
@@ -788,8 +796,7 @@
 			<xsl:value-of select="."  disable-output-escaping="yes"/>			
 		</div>
 	</xsl:template>
-	
-	
+		
 	<!-- Prefix -->
 	<xsl:template match="prefixes">
 		<div class="row mt-3">
@@ -983,6 +990,13 @@
 						</ul>
 					</xsl:if>
 					
+
+					<!-- Diagram forEach section (NodeShape) -->
+					<xsl:apply-templates select="sectionDiagrams"/>
+					
+					<!-- Section of add image -->
+					<xsl:apply-templates select="depictionsImgs" />
+					
 					<!-- Properties table -->
 					<xsl:apply-templates select="propertyGroups" />		
 					
@@ -1001,6 +1015,49 @@
 		</h3>
 	</xsl:template>
 	
+	<!-- Diagramme for each section  -->
+	<xsl:template match="sectionDiagrams">
+		<xsl:apply-templates select="sectionDiagram"/>		
+	</xsl:template>
+	
+	<xsl:template match="sectionDiagram">
+		<!-- 
+		<xsl:if test="displayTitle">
+			<h3><xsl:value-of select="displayTitle" /></h3> 
+		</xsl:if>
+		<xsl:if test="diagramDescription">
+			<p><xsl:value-of select="diagramDescription" /></p> 
+		</xsl:if>
+		 -->
+		<xsl:choose>
+			<xsl:when test="$MODE = 'PDF'">
+				<!--  When outputting PDF, inserts the PNG image -->
+				<img src="{pngLink}" style="width:100%;" alt="a diagram representing this application profile" />
+			</xsl:when>
+			<xsl:otherwise>
+				<!-- @disable-output-escaping prints the raw XML string as XML in the 
+					document and removes XML-encoding of the characters
+				-->
+				<div class="sp_section_nodeshape_diagram">
+					<div class="sp_section_nodeshape_center">
+						<xsl:value-of select="svg" disable-output-escaping="yes" />
+					</div>
+					<small class="form-text text-muted">
+						<xsl:value-of
+								select="$LABELS/labels/entry[@key='DIAGRAM.HELP']/@label" />
+						<xsl:text> | </xsl:text>
+						<a href="{pngLink}" target="_blank">
+							<xsl:value-of select="$LABELS/labels/entry[@key='DIAGRAM.VIEW']/@label" />
+						</a>			
+					</small>
+					<xsl:comment>
+						<xsl:value-of select="plantUmlString" disable-output-escaping="yes" />
+					</xsl:comment>
+				</div>
+			</xsl:otherwise>
+		</xsl:choose>			
+	</xsl:template>
+		
 	<xsl:template match="depictions">
 		<xsl:apply-templates select="depiction"/>		
 	</xsl:template>
@@ -1081,8 +1138,7 @@
 	
 		<xsl:apply-templates select="property" />
 	</xsl:template>
-	
-	
+		
 	<xsl:template match="property">
 	
 		<xsl:variable name="guillemets">"</xsl:variable>	
@@ -1143,12 +1199,18 @@
 			<xsl:when test="href != ''">
 				<code>
 					<a href="{href}"><xsl:value-of select="label" /></a>							
-				</code>	
+				</code>
 			</xsl:when>
 			<xsl:otherwise>
 				<code><xsl:value-of select="label" /></code>
 			</xsl:otherwise>
 		</xsl:choose>		
+		<xsl:if test="../labelRole = 'true'">
+			&#160;
+			<span title="Main human-readable label of the entity (LabelRole)">
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" style="width:18px; vertical-align: middle;"><path class="fa-secondary" opacity=".4" fill="#af0e16" d="M16 80l0 149.5c0 12.7 5.1 24.9 14.1 33.9l176 176c18.7 18.7 49.1 18.7 67.9 0L407.4 305.9c18.7-18.7 18.7-49.1 0-67.9l-176-176c-9-9-21.2-14.1-33.9-14.1L48 48C30.3 48 16 62.3 16 80zm136 64a40 40 0 1 1 -80 0 40 40 0 1 1 80 0z"/><path class="fa-primary" fill="#af0e16" d="M16 229.5c0 12.7 5.1 24.9 14.1 33.9l176 176c18.7 18.7 49.1 18.7 67.9 0L407.4 305.9c18.7-18.7 18.7-49.1 0-67.9l-176-176c-9-9-21.2-14.1-33.9-14.1L48 48C30.3 48 16 62.3 16 80l0 149.5zm-16 0L0 80C0 53.5 21.5 32 48 32l149.5 0c17 0 33.3 6.7 45.3 18.7l176 176c25 25 25 65.5 0 90.5L285.3 450.7c-25 25-65.5 25-90.5 0l-176-176C6.7 262.7 0 246.5 0 229.5zM112 104a40 40 0 1 1 0 80 40 40 0 1 1 0-80zm24 40a24 24 0 1 0 -48 0 24 24 0 1 0 48 0z"/></svg>
+			</span>				
+		</xsl:if>
 	</xsl:template>
 	<!-- Expected Value -->
 	<xsl:template match="property/expectedValue">
@@ -1222,15 +1284,7 @@
 	<xsl:template match="property/cardinalite"><xsl:value-of select="." /></xsl:template>
 	<!-- Description properties -->
 	<xsl:template match="property/description">
-		<xsl:choose>
-			<xsl:when test="string-length(../labelrol) &gt; 0">
-				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" style="width:25">
-					<path fill="#af0e16" d="M64 80c-26.5 0-48 21.5-48 48l0 256c0 26.5 21.5 48 48 48l512 0c26.5 0 48-21.5 48-48l0-256c0-26.5-21.5-48-48-48L64 80zM0 128C0 92.7 28.7 64 64 64l512 0c35.3 0 64 28.7 64 64l0 256c0 35.3-28.7 64-64 64L64 448c-35.3 0-64-28.7-64-64L0 128zm160 32c3.2 0 6.2 2 7.4 5l72 176c1.7 4.1-.3 8.8-4.4 10.4s-8.8-.3-10.4-4.4l-14.3-35-100.5 0L95.4 347c-1.7 4.1-6.3 6-10.4 4.4s-6-6.3-4.4-10.4l72-176c1.2-3 4.2-5 7.4-5zm0 29.1L116.3 296l87.4 0L160 189.1zM272 168c0-4.4 3.6-8 8-8l52 0c28.7 0 52 23.3 52 52c0 15.7-6.9 29.7-17.9 39.2c19.8 7.4 33.9 26.4 33.9 48.8c0 28.7-23.3 52-52 52l-68 0c-4.4 0-8-3.6-8-8l0-24 0-64 0-64 0-24zm16 24l0 56 44 0c19.9 0 36-16.1 36-36s-16.1-36-36-36l-44 0 0 16zm44 72l-44 0 0 56 0 16 60 0c19.9 0 36-16.1 36-36s-16.1-36-36-36l-16 0z"/>
-				</svg>
-				<xsl:value-of select="concat(' ',.)"/>							
-			</xsl:when>
-			<xsl:otherwise><xsl:value-of select="." /></xsl:otherwise>
-		</xsl:choose>		
+		<xsl:value-of select="." />
 	</xsl:template>
 	
 	<!-- Release notes at the end  -->

@@ -24,6 +24,8 @@ public class PlantUmlRenderer {
 	protected boolean avoidArrowsToEmptyBoxes = true;
 	protected boolean includeSubclassLinks = true;
 	protected boolean hideProperties = false;
+	// true to indicate that the diagram is a section diagram
+	protected boolean renderSectionDiagram = false;
 	
 	protected List<String> inverseList = new ArrayList<String>();
 	
@@ -44,9 +46,11 @@ public class PlantUmlRenderer {
 
 	private String render(
 			PlantUmlProperty property,
-			PlantUmlBox box,
+			PlantUmlBoxIfc box,
 			boolean renderAsDatatypeProperty,
-			Map<String, String> collectRelationProperties
+			Map<String, String> collectRelationProperties,
+			// index of the property in the box
+			int index
 	) {
 		
 		//get the color for the arrow drawn
@@ -73,7 +77,7 @@ public class PlantUmlRenderer {
 
 	// uml_shape+ " --> " +"\""+uml_node+"\""+" : "+uml_path+uml_datatype+"
 	// "+uml_literal+" "+uml_pattern+" "+uml_nodekind(uml_nodekind)+"\n";
-	private String renderAsNodeReference(PlantUmlProperty property, PlantUmlBox box, Boolean renderAsDatatypeProperty, String colorArrow, Map<String, String> collectRelationProperties) {
+	private String renderAsNodeReference(PlantUmlProperty property, PlantUmlBoxIfc box, Boolean renderAsDatatypeProperty, String colorArrow, Map<String, String> collectRelationProperties) {
 
 		// find in property if has attribut
 		String output = null;
@@ -173,7 +177,7 @@ public class PlantUmlRenderer {
 	}
 
 	// value = uml_shape+" --> "+"\""+uml_or;
-	private String renderAsOr(PlantUmlProperty property, PlantUmlBox box, String colorArrow) {
+	private String renderAsOr(PlantUmlProperty property, PlantUmlBoxIfc box, String colorArrow) {
 		// use property local name to garantee unicity of diamond
 		String nodeShapeLocalName = box.getNodeShape().getLocalName();
 		String nodeshapeId = nodeShapeLocalName.contains(":")?nodeShapeLocalName.split(":")[1]:nodeShapeLocalName;
@@ -216,7 +220,7 @@ public class PlantUmlRenderer {
 
 	// value = uml_shape+ " --> " +"\""+uml_qualifiedvalueshape+"\""+" :
 	// "+uml_path+uml_datatype+" "+uml_qualifiedMinMaxCount+"\n";
-	private String renderAsQualifiedShapeReference(PlantUmlProperty property, PlantUmlBox box, String colorArrow, Map<String, String> collectRelationProperties) {
+	private String renderAsQualifiedShapeReference(PlantUmlProperty property, PlantUmlBoxIfc box, String colorArrow, Map<String, String> collectRelationProperties) {
 		String output = box.getPlantUmlQuotedBoxName() + " -"+colorArrow+"-> \"" + property.getShQualifiedValueShapeLabel() + "\" : "
 				+ property.getPathAsSparql();
 
@@ -242,7 +246,7 @@ public class PlantUmlRenderer {
 
 	// value = uml_shape+" --> "+"\""+uml_class_property+"\""+" :
 	// "+uml_path+uml_literal+" "+uml_pattern+" "+uml_nodekind+"\n";
-	private String renderAsClassReference(PlantUmlProperty property, PlantUmlBox box, boolean renderAsDatatypeProperty, Map<String,String> collectRelationProperties) {
+	private String renderAsClassReference(PlantUmlProperty property, PlantUmlBoxIfc box, boolean renderAsDatatypeProperty, Map<String,String> collectRelationProperties) {
 
 		String output = "";
 		
@@ -300,7 +304,7 @@ public class PlantUmlRenderer {
 		return output;
 	}
 
-	private String renderDefault(PlantUmlProperty property, PlantUmlBox box) {
+	private String renderDefault(PlantUmlProperty property, PlantUmlBoxIfc box) {
 		
 		String labelColor = "";
 		String labelColorClose = "";
@@ -381,8 +385,13 @@ public class PlantUmlRenderer {
 		sourceuml.append("skinparam ArrowColor #Maroon\n");
 		sourceuml.append("set namespaceSeparator none \n"); // Command for not create an package uml
 		
+		if (this.renderSectionDiagram) {
+			sourceuml.append("left to right direction\n");
+		}
+		
+		
 		// retrieve all package declaration
-		for (PlantUmlBox plantUmlBox : diagram.getBoxes()) {
+		for (PlantUmlBoxIfc plantUmlBox : diagram.getBoxes()) {
 			sourceuml.append(this.renderNodeShape(plantUmlBox,this.avoidArrowsToEmptyBoxes));
 		}
 		
@@ -406,15 +415,15 @@ public class PlantUmlRenderer {
 		return sourceuml.toString();
 	}
 
-	public String renderNodeShape(PlantUmlBox box, boolean avoidArrowsToEmptyBoxes) {
+	public String renderNodeShape(PlantUmlBoxIfc box, boolean avoidArrowsToEmptyBoxes) {
 		// String declaration = "Class"+"
 		// "+"\""+box.getNameshape()+"\""+((box.getNametargetclass() != null)?"
 		// "+"<"+box.getNametargetclass()+">":"");
 		String declaration = "";
 
 		String colorBackGround = "";
-		if (box.getBackgroundColorString() != null) {
-			colorBackGround = "#back:"+box.getBackgroundColorString();			
+		if (box.getBackgroundColorString() != null ) {			
+			colorBackGround = "#back:"+box.getBackgroundColorString();						
 		}else {
 			colorBackGround = "";
 		}
@@ -430,7 +439,7 @@ public class PlantUmlRenderer {
 		}
 		
 		// resolve subclasses only if we were asked for it
-		List<PlantUmlBox> superClassesBoxes = new ArrayList<>();
+		List<PlantUmlBoxIfc> superClassesBoxes = new ArrayList<>();
 		if(this.includeSubclassLinks) {
 			superClassesBoxes = box.getRdfsSubClassOf().stream().map(sc -> this.diagram.findBoxByResource(sc)).filter(b -> b != null).collect(Collectors.toList());
 			superClassesBoxes.addAll(
@@ -439,7 +448,16 @@ public class PlantUmlRenderer {
 		}
 		
 		Map<String,String> collectGroupProperties = new HashMap<>();
-		if (box.getProperties().size() > 0 || superClassesBoxes.size() > 0) {
+		// declare the class if it has properties or super classes or a color
+		if (
+				(box.getProperties().size() > 0 || superClassesBoxes.size() > 0)
+				||
+				(box.getProperties().size() == 0 && box.getRdfsSubClassOf().size() == 0 && box.getDepiction().size() == 0 )
+				||
+				box.getBackgroundColorString() != null
+				||
+				box.getColorString() != null 			
+		) {
 			if (box.getNodeShape().isAnon()) {
 				// give it an empty label
 				declaration = "Class" + " " + box.getLabel() +" as " +"\""+" \"";
@@ -447,11 +465,11 @@ public class PlantUmlRenderer {
 				declaration = "Class" + " " + "\"" + box.getLabel() + "\"";
 			}
 
-			declaration += (this.generateAnchorHyperlink) ? " [[#" + box.getNodeShape().getModel().shortForm(box.getNodeShape().getURI()) +"}]]" : "";
+			declaration += (this.generateAnchorHyperlink) ? " [[#" + box.getNodeShape().getModel().shortForm(box.getNodeShape().getURI()) +"]]" : "";
 			declaration += " " + colorBackGround+labelColorClass + "\n";
 			
 			if (superClassesBoxes != null) {
-				for (PlantUmlBox aSuperClass : superClassesBoxes) {
+				for (PlantUmlBoxIfc aSuperClass : superClassesBoxes) {
 					// generate an "up" arrow - bolder and gray to distinguish it from other arrows
 					declaration += "\""+box.getLabel()+"\"" + " -up[#gray,bold]-|> " + "\""+aSuperClass.getLabel()+"\"" + "\n";
 				}
@@ -459,7 +477,9 @@ public class PlantUmlRenderer {
 			
 			String declarationPropertes = "";
 			Map<String,String> collectRelationProperties = new HashMap<>();
-			for (PlantUmlProperty plantUmlproperty : box.getProperties()) {
+			for (int i=0;i<box.getProperties().size();i++) {
+				PlantUmlProperty plantUmlproperty = box.getProperties().get(i);
+
 				boolean displayAsDatatypeProperty = false;
 				
 				// if we want to avoid arrows to empty boxes...
@@ -467,7 +487,7 @@ public class PlantUmlRenderer {
 				if (avoidArrowsToEmptyBoxes && diagram.getBoxes().size() > 8) {
 					// then see if there is a reference to a box
 					String arrowReference = diagram.resolvePropertyShapeShNodeOrShClass(plantUmlproperty);
-					PlantUmlBox boxReference = diagram.findBoxById(arrowReference);
+					PlantUmlBoxIfc boxReference = diagram.findBoxById(arrowReference);
 					
 					// if the box is empty...
 					if (
@@ -489,7 +509,7 @@ public class PlantUmlRenderer {
 					) {
 						// count number of times it is used
 						int nCount = 0;
-						for (PlantUmlBox plantumlbox : diagram.getBoxes()) {
+						for (PlantUmlBoxIfc plantumlbox : diagram.getBoxes()) {
 							nCount += plantumlbox.countShNodeOrShClassReferencesTo(arrowReference, diagram);
 						}
 						
@@ -505,13 +525,13 @@ public class PlantUmlRenderer {
 						plantUmlproperty, 
 						box,
 						displayAsDatatypeProperty,
-						collectRelationProperties
+						collectRelationProperties,
+						i
 				);
 				
 				
 				// if the property a une sh:Group, remove the contain in the property and generate a new property
-				if (plantUmlproperty.getShGroup().isPresent()) {				
-					
+				if (plantUmlproperty.getShGroup().isPresent()) {
 					
 					// read property group
 					List<PlantUmlProperty> propertiesGpo = new ArrayList<>();
@@ -532,8 +552,10 @@ public class PlantUmlRenderer {
 					String codePropertyPlantUmlGroup = this.render(
 							plantUmlproperty, 
 							box,
+							// force rendering as a datatype property
 							true,
-							collectRelationProperties
+							collectRelationProperties,
+							i
 					);
 					
 					if (collectGroupProperties.get(GroupId) == null) {
@@ -555,7 +577,8 @@ public class PlantUmlRenderer {
 					declarationPropertes +=  outputData;					
 				}
 			}
-			declaration += declarationPropertes;
+			
+			declaration += declarationPropertes;			
 		}
 		
 		if (collectGroupProperties.size() > 0) {
@@ -568,7 +591,7 @@ public class PlantUmlRenderer {
 	}
 	
 	public String resolveShClassReference(Resource shClassReference) {
-		PlantUmlBox b = this.diagram.findBoxByTargetClass(shClassReference);
+		PlantUmlBoxIfc b = this.diagram.findBoxByTargetClass(shClassReference);
 		if(b != null) {
 			return b.getLabel();
 		} else {
@@ -582,7 +605,7 @@ public class PlantUmlRenderer {
 	}
 	
 	public String resolveShNodeReference(Resource shNodeReference) {
-		PlantUmlBox b = this.diagram.findBoxByResource(shNodeReference);
+		PlantUmlBoxIfc b = this.diagram.findBoxByResource(shNodeReference);
 		if(b != null) {
 			return b.getLabel();
 		} else {
@@ -670,6 +693,14 @@ public class PlantUmlRenderer {
 
 	public void setHideProperties(boolean hideProperties) {
 		this.hideProperties = hideProperties;
+	}
+
+	public boolean isRenderSectionDiagram() {
+		return renderSectionDiagram;
+	}
+
+	public void setRenderSectionDiagram(boolean renderSectionDiagram) {
+		this.renderSectionDiagram = renderSectionDiagram;
 	}
 
 }

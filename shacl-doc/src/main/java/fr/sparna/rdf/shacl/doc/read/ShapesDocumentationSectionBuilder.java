@@ -1,7 +1,6 @@
 package fr.sparna.rdf.shacl.doc.read;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -10,23 +9,33 @@ import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.vocabulary.RDFS;
 
 import fr.sparna.rdf.jena.ModelReadingUtils;
+import fr.sparna.rdf.shacl.diagram.PlantUmlDiagramOutput;
 import fr.sparna.rdf.shacl.doc.MarkdownRenderer;
 import fr.sparna.rdf.shacl.doc.NodeShape;
+import fr.sparna.rdf.shacl.doc.PlantUmlSourceGenerator;
 import fr.sparna.rdf.shacl.doc.PropertyShape;
 import fr.sparna.rdf.shacl.doc.ShapesGraph;
 import fr.sparna.rdf.shacl.doc.model.Link;
 import fr.sparna.rdf.shacl.doc.model.PropertyShapeDocumentation;
 import fr.sparna.rdf.shacl.doc.model.PropertyShapesGroupDocumentation;
+import fr.sparna.rdf.shacl.doc.model.ShapesDocumentationDiagram;
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentationSection;
 
 public class ShapesDocumentationSectionBuilder {
+	
+	private PlantUmlSourceGenerator diagramGenerator;
 
-	public static ShapesDocumentationSection build(
+	public ShapesDocumentationSectionBuilder(PlantUmlSourceGenerator diagramGenerator) {
+		this.diagramGenerator = diagramGenerator;
+	}
+
+	public ShapesDocumentationSection build(
 			NodeShape nodeShape,
 			ShapesGraph shapesGraph,
 			Model shaclGraph,
 			Model owlGraph,
-			String lang
+			String lang,
+			boolean readDiagram
 	) {
 		ShapesDocumentationSection currentSection = new ShapesDocumentationSection();
 		
@@ -42,6 +51,14 @@ public class ShapesDocumentationSectionBuilder {
 		// rdfs:comment
 		String renderedMd = MarkdownRenderer.getInstance().renderMarkdown(nodeShape.getDisplayDescription(owlGraph, lang));
 		currentSection.setDescription(renderedMd);
+
+		if (readDiagram) {
+			// Create one diagram for each section
+			List<PlantUmlDiagramOutput> plantUmlDiagrams = this.diagramGenerator.generatePlantUmlDiagramSection(nodeShape.getNodeShape());
+			// turn diagrams into output data structure
+			plantUmlDiagrams.stream().forEach(d -> currentSection.getSectionDiagrams().add(new ShapesDocumentationDiagram(d)));
+		}
+			
 		
 		// sh:targetSubjectsOf or sh:targetObjectsOf
 		if (nodeShape.getShtargetSubjectsOf() != null) {
@@ -129,6 +146,8 @@ public class ShapesDocumentationSectionBuilder {
 				lang
 		);			
 		
+		
+		
 		currentSection.setPropertyGroups(groups);
 
 		return currentSection;
@@ -196,5 +215,5 @@ public class ShapesDocumentationSectionBuilder {
 			);
 		}
 	 }
-	
+
 }

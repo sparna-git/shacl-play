@@ -88,7 +88,7 @@ public class PlantUmlDiagramGenerator {
 		boxesIncludedInTheDiagram.add(mainBox);
 
 		// Add others Resources
-		List<PlantUmlBoxIfc> otherResources = this.buildAdditionnalBoxes(nodeShapes, mainBox);
+		List<PlantUmlBoxIfc> otherResources = this.buildAdditionnalBoxes(plantUmlBoxes, mainBox);
 		boxesIncludedInTheDiagram.addAll(otherResources);
 
 		// build a Diagram data structure
@@ -208,60 +208,48 @@ public class PlantUmlDiagramGenerator {
 		return plantUmlBoxes;		
 	}
 	
-	private List<PlantUmlBoxIfc> buildAdditionnalBoxes(List<Resource> nodeShapes, PlantUmlBoxIfc Box) {
+	private List<PlantUmlBoxIfc> buildAdditionnalBoxes(List<PlantUmlBoxIfc> allBoxes, PlantUmlBoxIfc box) {
 		
 		
-		List<Resource> nodes = Box.getProperties()
+		List<PlantUmlBoxIfc> interestingBoxes = box.getProperties()
 				.stream()
 				.filter(f -> f.getShNode().isPresent() || f.getShClass().isPresent())
-				.map( box -> {
-					if (box.getShNode().isPresent()) {
-						return nodeShapes
-								.stream()
-								.filter(ns -> ns.getURI().equals(box.getShNode().get().getURI()))
-								.collect(Collectors.toList())
-								.get(0);
+				.map( p -> {
+					if (p.getShNode().isPresent()) {
+						return PlantUmlDiagram.findBoxByResource(p.getShNode().get(), allBoxes);
 					}
 					
-					if (box.getShClass().isPresent()) {
-						return nodeShapes
-								.stream()
-								.filter(getResource -> getResource.getURI().equals(box.getShClass().get().getURI()))
-								.collect(Collectors.toList())
-								.get(0);
+					if (p.getShClass().isPresent()) {
+						return PlantUmlDiagram.findBoxByTargetClass(p.getShClass().get(), allBoxes);
 					}
+
 					return null;
 				})
 				.collect(Collectors.toList());
 		
 		// Sh:Or
-		for (PlantUmlProperty prop : Box.getProperties()) {
+		for (PlantUmlProperty prop : box.getProperties()) {
 			if (prop.getShOrShClass() != null) {
-				for (Resource propertyResource : prop.getShOrShClass()) {
-					Resource getResourceShClass = getShOrProperty(nodeShapes, propertyResource.getURI());
-					nodes.add(getResourceShClass);
+				for (Resource aShClass : prop.getShOrShClass()) {
+					interestingBoxes.add(PlantUmlDiagram.findBoxByTargetClass(aShClass, allBoxes));
 				}
 			}
 			
 			if (prop.getShOrShNode() != null) {
-				for (Resource propertyResource : prop.getShOrShNode()) {
-					Resource getResourceShClass = getShOrProperty(nodeShapes, propertyResource.getURI());
-					nodes.add(getResourceShClass);
+				for (Resource aShNode : prop.getShOrShNode()) {
+					interestingBoxes.add(PlantUmlDiagram.findBoxByResource(aShNode, allBoxes));
 				}
 			}
 		}
 		
-		List<PlantUmlBoxIfc> otherBoxes = nodes
+		List<PlantUmlBoxIfc> otherBoxes = interestingBoxes
 			.stream()
-			.map( nodeShapeBox -> { 
-				//SimplePlantUmlBox s = new SimplePlantUmlBox(nodeShapeBox.getURI()); 
-				PlantUmlBoxReader nodeShapeReader = new PlantUmlBoxReader();
-				PlantUmlBoxIfc plantUmlBoxes = nodeShapeReader.read(nodeShapeBox, nodes);
-				
-				SimplePlantUmlBox newBoxSimple = new SimplePlantUmlBox(nodeShapeBox.getModel().shortForm(nodeShapeBox.getURI()));
-				newBoxSimple.setBackgroundColorString(plantUmlBoxes.getBackgroundColorString());
-				newBoxSimple.setColorString(plantUmlBoxes.getColorString());
-				newBoxSimple.setLabel(plantUmlBoxes.getLabel());
+			.filter(b -> b != null)
+			.map( b -> { 				
+				SimplePlantUmlBox newBoxSimple = new SimplePlantUmlBox(b.getNodeShape().getModel().shortForm(b.getNodeShape().getURI()));
+				newBoxSimple.setBackgroundColorString(b.getBackgroundColorString());
+				newBoxSimple.setColorString(b.getColorString());
+				newBoxSimple.setLabel(b.getLabel());
 				
 				List<Resource> resources = new ArrayList<>();
 				newBoxSimple.setDepiction(resources);
@@ -277,15 +265,6 @@ public class PlantUmlDiagramGenerator {
 			.collect(Collectors.toList());
 		
 		return otherBoxes;
-	}
-	
-	private Resource getShOrProperty(List<Resource> nodeShapes, String shOrNode) {
-		
-		return nodeShapes
-				.stream()
-				.filter(getResource -> getResource.getURI().equals(shOrNode))
-				.collect(Collectors.toList())
-				.get(0);
 	}
 
 }

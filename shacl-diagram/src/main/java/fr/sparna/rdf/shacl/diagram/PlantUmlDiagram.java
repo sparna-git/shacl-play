@@ -29,7 +29,7 @@ public class PlantUmlDiagram {
 	}
 	
 	public PlantUmlBoxIfc findBoxByResource(Resource r) {
-		return this.boxes.stream().filter(b -> b.getNodeShape().toString().equals(r.toString())).findFirst().orElse(null);
+		return findBoxByResource(r, this.boxes);
 	}
 	
 	public PlantUmlBoxIfc findBoxByTargetClass(Resource classUri) {
@@ -38,6 +38,10 @@ public class PlantUmlDiagram {
 	
 	public static PlantUmlBoxIfc findBoxByTargetClass(Resource classUri, List<PlantUmlBoxIfc> boxes) {
 		return boxes.stream().filter(b -> b.isTargeting(classUri)).findFirst().orElse(null);
+	}
+
+	public static PlantUmlBoxIfc findBoxByResource(Resource r, List<PlantUmlBoxIfc> boxes) {
+		return boxes.stream().filter(b -> b.getNodeShape().toString().equals(r.toString())).findFirst().orElse(null);
 	}
 	
 	/**

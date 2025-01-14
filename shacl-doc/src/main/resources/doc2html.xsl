@@ -396,7 +396,7 @@
 					}
 					
 					.sp_section_nodeshape_diagram {
-						padding-bottom: 6px;
+						padding-bottom: 16px;
 					}
 					
 					.sp_section_nodeshape_center {

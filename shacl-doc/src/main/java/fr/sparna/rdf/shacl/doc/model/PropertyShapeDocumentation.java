@@ -32,7 +32,7 @@ public class PropertyShapeDocumentation {
 
 	private String distinctObjectsSparqlQuery;
 	
-	private String labelrol;
+	private boolean isLabelRole;
 	
 	public String getSparqlQueryProperty() {
 		return sparqlQueryProperty;
@@ -129,11 +129,13 @@ public class PropertyShapeDocumentation {
 	public void setSectionId(String sectionId) {
 		this.sectionId = sectionId;
 	}
-	public String getLabelrol() {
-		return labelrol;
+
+	public boolean isLabelRole() {
+		return isLabelRole;
 	}
 
-	public void setLabelrol(String labelrol) {
-		this.labelrol = labelrol;
+	public void setLabelRole(boolean isLabelRole) {
+		this.isLabelRole = isLabelRole;
 	}
+
 }

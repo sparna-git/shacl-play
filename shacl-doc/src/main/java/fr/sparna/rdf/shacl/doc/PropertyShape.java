@@ -1,5 +1,6 @@
 package fr.sparna.rdf.shacl.doc;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -174,7 +175,6 @@ public class PropertyShape {
 		return Optional.ofNullable(this.resource.getProperty(SH.class_)).map(s -> s.getResource()).orElse(null);
 	}
 	
-	// TODO: Configuration for color in text
 	public Optional<Literal> getBackgroundColor() {
 		return ModelReadingUtils.getOptionalLiteral(this.resource, this.resource.getModel().createProperty(SHACL_PLAY.BACKGROUNDCOLOR));
 	}
@@ -182,19 +182,18 @@ public class PropertyShape {
 	public Optional<Literal> getColor() {
 		return ModelReadingUtils.getOptionalLiteral(this.resource, this.resource.getModel().createProperty(SHACL_PLAY.COLOR));
 	}
-	
-	public Resource getDashLabelRole() {
-		
-		Resource getLabelRole = null;
+
+	public List<Resource> getPropertyRoles() {
 		if (this.resource.hasProperty(DASH.propertyRole)) {
-			List<Statement> dashProperties = this.resource.listProperties(DASH.propertyRole).toList();
-			for (Statement s : dashProperties) {
-				if (s.getObject().toString().equals("http://datashapes.org/dash#LabelRole")) {
-					getLabelRole = s.getObject().asResource();
-				}
-			}
-		}		
-		return Optional.ofNullable(getLabelRole).map(s -> s).orElse(null);
+			List<Statement> propertyRoles = this.resource.listProperties(DASH.propertyRole).toList();
+			return propertyRoles.stream().map(s -> s.getObject().asResource()).collect(Collectors.toList());
+		} else {
+			return Collections.emptyList();
+		}
+	}
+
+	public boolean isLabelRole() {
+		return this.getPropertyRoles().stream().anyMatch(r -> r.getURI().equals(DASH.LabelRole.getURI()));
 	}
 	
 }

@@ -5,7 +5,7 @@ import java.util.List;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.Resource;
 
-import fr.sparna.rdf.shacl.diagram.PlantUmlDiagramGeneratorSections;
+import fr.sparna.rdf.shacl.diagram.PlantUmlDiagramGenerator;
 import fr.sparna.rdf.shacl.diagram.PlantUmlDiagramOutput;
 
 public class PlantUmlSourceGenerator {
@@ -24,10 +24,10 @@ public class PlantUmlSourceGenerator {
 		this.lang = lang;
 	}	
 	
-	public PlantUmlDiagramGeneratorSections buildPlantUmlDiagramGenerator() {		
+	public PlantUmlDiagramGenerator buildPlantUmlDiagramGenerator() {		
 		// draw - without subclasses links
 		// set first parameter to true to draw subclassOf links
-		PlantUmlDiagramGeneratorSections writer = new PlantUmlDiagramGeneratorSections(
+		PlantUmlDiagramGenerator writer = new PlantUmlDiagramGenerator(
 				// includes the subClassOf links
 				true,
 				// include anchors
@@ -45,7 +45,7 @@ public class PlantUmlSourceGenerator {
 	
 	public List<PlantUmlDiagramOutput> generatePlantUmlDiagram() {
 
-		PlantUmlDiagramGeneratorSections writer = this.buildPlantUmlDiagramGenerator();
+		PlantUmlDiagramGenerator writer = this.buildPlantUmlDiagramGenerator();
 		//String plantUmlString = writer.writeInPlantUml(shapesModel,owlModel);
 		List<PlantUmlDiagramOutput> output = writer.generateDiagrams(shapesModel,owlModel);
 		
@@ -53,7 +53,7 @@ public class PlantUmlSourceGenerator {
 	}
 	
 	public List<PlantUmlDiagramOutput> generatePlantUmlDiagramSection(Resource nodeShape) {
-		PlantUmlDiagramGeneratorSections writer = this.buildPlantUmlDiagramGenerator();
+		PlantUmlDiagramGenerator writer = this.buildPlantUmlDiagramGenerator();
 		List<PlantUmlDiagramOutput> output = writer.generateDiagramsForSection(shapesModel, owlModel, nodeShape);		
 		return output;
 	}

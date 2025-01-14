@@ -94,11 +94,12 @@ public class PlantUmlDiagramGenerator {
 		// build a Diagram data structure
 		PlantUmlDiagram d = new PlantUmlDiagram();
 		// we use the NodeShape as the diagram resource
-		d.setResource(nodeShape);
-
+		//d.setResource(nodeShape);
+		d.setBoxes(boxesIncludedInTheDiagram);
+		
 		// Generate diagram
 		List<PlantUmlDiagramOutput> outputDiagram = this.outputDiagrams(Collections.singletonList(d));
-
+		
 		return outputDiagram;
 
 	}
@@ -230,6 +231,8 @@ public class PlantUmlDiagramGenerator {
 				
 				List<Resource> resources = new ArrayList<>();
 				newBoxSimple.setDepiction(resources);
+				newBoxSimple.setRdfsSubClassOf(resources);
+				newBoxSimple.setShNode(resources);
 				
 				List<PlantUmlProperty> properties = new ArrayList<>();
 				newBoxSimple.setProperties(properties);

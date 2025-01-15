@@ -74,6 +74,8 @@ public class DocController {
 			@RequestParam(value="url", required=true) String shapesUrl,
 			// includeDiagram option
 			@RequestParam(value="includeDiagram", required=false) boolean includeDiagram,
+			// includeDiagram option
+			@RequestParam(value="includeSectionDiagram", required=false) boolean includeSectionDiagram,
 			// hide Properties
 			@RequestParam(value="hideProperties", required=false) boolean hideProperties,
 			// List Option
@@ -82,8 +84,6 @@ public class DocController {
 			@RequestParam(value="inputLogo", required=false) String urlLogo,
 			// Language Option
 			@RequestParam(value="language", required=false) String language,
-			// Split Diagram
-			@RequestParam(value="nsDiagram", required=false) boolean nsDiagram,
 			HttpServletRequest request,
 			HttpServletResponse response
 	){
@@ -108,7 +108,7 @@ public class DocController {
 					urlLogo,
 					modelPopulator.getSourceName(),
 					language,
-					nsDiagram,
+					includeSectionDiagram,
 					response);
 			return null;
 		} catch (Exception e) {
@@ -144,7 +144,7 @@ public class DocController {
 			// Language Option
 			@RequestParam(value="language", required=false) String language,
 			// Split Diagram
-			@RequestParam(value="SplitDiagram", required=false) boolean nsDiagram,
+			@RequestParam(value="SplitDiagram", required=false) boolean includeSectionDiagram,
 			HttpServletRequest request,
 			HttpServletResponse response
 	) {
@@ -159,7 +159,16 @@ public class DocController {
 			
 			// if source is a ULR, redirect to the API
 			if(shapesSource == SOURCE_TYPE.URL) {
-				return new ModelAndView("redirect:/doc?format="+format.toLowerCase()+"&url="+URLEncoder.encode(shapesUrl, "UTF-8")+"&includeDiagram="+includeDiagram+"&hideProperties="+hideProperties+((printPDF)?"&printPDF=true":"")+((!language.equals("en"))?"&language="+language:"")+((urlLogo != null)?"&inputLogo="+URLEncoder.encode(urlLogo, "UTF-8"):""));
+				return new ModelAndView("redirect:/doc?"
+					+"format="+format.toLowerCase()
+					+"&url="+URLEncoder.encode(shapesUrl, "UTF-8")
+					+"&includeDiagram="+includeDiagram
+					+((includeSectionDiagram)?"&includeSectionDiagram=true":"")
+					+((hideProperties)?"&hideProperties=true":"")
+					+((printPDF)?"&printPDF=true":"")
+					+((!language.equals("en"))?"&language="+language:"")
+					+((urlLogo != null)?"&inputLogo="+URLEncoder.encode(urlLogo, "UTF-8"):"")
+				);
 			} else if (shapesSource == SOURCE_TYPE.CATALOG) {
 				AbstractCatalogEntry entry = this.catalogService.getShapesCatalog().getCatalogEntryById(shapesCatalogId);
 				return new ModelAndView("redirect:/doc?format="+format.toLowerCase()+"&url="+URLEncoder.encode(entry.getTurtleDownloadUrl().toString(), "UTF-8")+"&includeDiagram="+includeDiagram+"&hideProperties="+hideProperties+((printPDF)?"&printPDF=true":"")+((!language.equals("en"))?"&language="+language:"")+((urlLogo != null)?"&inputLogo="+URLEncoder.encode(urlLogo, "UTF-8"):""));				
@@ -194,7 +203,7 @@ public class DocController {
 					urlLogo,
 					modelPopulator.getSourceName(),
 					language,
-					nsDiagram,
+					includeSectionDiagram,
 					response
 			);
 			return null;
@@ -214,12 +223,12 @@ public class DocController {
 			String urlLogo,
 			String filename,
 			String languageInput,
-			boolean nsDiagram,
+			boolean includeSectionDiagram,
 			HttpServletResponse response
 	) throws IOException {		
 		response.setHeader("Content-Disposition", "inline; filename=\""+filename+".html\"");
 
-		ShapesDocumentationReaderIfc reader = new ShapesDocumentationModelReader(includeDiagram, urlLogo, hideProperties, nsDiagram);
+		ShapesDocumentationReaderIfc reader = new ShapesDocumentationModelReader(includeDiagram, urlLogo, hideProperties, includeSectionDiagram);
 		ShapesDocumentation doc = reader.readShapesDocumentation(
 				shapesModel,
 				// OWL graph

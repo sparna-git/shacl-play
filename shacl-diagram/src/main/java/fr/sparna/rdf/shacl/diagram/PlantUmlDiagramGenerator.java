@@ -210,7 +210,6 @@ public class PlantUmlDiagramGenerator {
 	
 	private List<PlantUmlBoxIfc> buildAdditionnalBoxes(List<PlantUmlBoxIfc> allBoxes, PlantUmlBoxIfc box) {
 		
-		
 		List<PlantUmlBoxIfc> interestingBoxes = box.getProperties()
 				.stream()
 				.filter(f -> f.getShNode().isPresent() || f.getShClass().isPresent())
@@ -222,11 +221,9 @@ public class PlantUmlDiagramGenerator {
 					if (p.getShClass().isPresent()) {
 						return PlantUmlDiagram.findBoxByTargetClass(p.getShClass().get(), allBoxes);
 					}
-
 					return null;
 				})
 				.collect(Collectors.toList());
-		
 		// Sh:Or
 		for (PlantUmlProperty prop : box.getProperties()) {
 			if (prop.getShOrShClass() != null) {
@@ -245,6 +242,7 @@ public class PlantUmlDiagramGenerator {
 		List<PlantUmlBoxIfc> otherBoxes = interestingBoxes
 			.stream()
 			.filter(b -> b != null)
+			.distinct()
 			.map( b -> { 				
 				SimplePlantUmlBox newBoxSimple = new SimplePlantUmlBox(b.getNodeShape().getModel().shortForm(b.getNodeShape().getURI()));
 				newBoxSimple.setBackgroundColorString(b.getBackgroundColorString());

@@ -1,6 +1,7 @@
 package fr.sparna.rdf.shacl.diagram;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +29,8 @@ public class PlantUmlRenderer {
 	protected boolean renderSectionDiagram = false;
 	
 	protected List<String> inverseList = new ArrayList<String>();
+	// 
+	protected Map<String,Integer> StarDiagramDirectoin = new HashMap<>();
 	
 	protected transient PlantUmlDiagram diagram;
 	
@@ -86,6 +89,12 @@ public class PlantUmlRenderer {
 		
 		String nodeReference = this.resolveShNodeReference(property.getShNode().get());
 
+		String arrowDirectionDiagram = ""; 
+		if (this.renderSectionDiagram && this.diagram.getBoxes().size() == 5) {
+			arrowDirectionDiagram = getDirectionStarDiagram(nodeReference);
+		}
+		
+		
 		if (renderAsDatatypeProperty) {				
 			output = box.getPlantUmlQuotedBoxName() + " : +" + property.getPathAsSparql() + " : " + nodeReference;	
 
@@ -154,7 +163,7 @@ public class PlantUmlRenderer {
 			if (!property.getShGroup().isPresent()) {
 				collectData(
 					// key
-					box.getPlantUmlQuotedBoxName() + " -"+colorArrow+"-> \"" + nodeReference + "\" : ",
+					box.getPlantUmlQuotedBoxName() + " -"+arrowDirectionDiagram+colorArrow+"-> \"" + nodeReference + "\" : ",
 					// Values
 					property.getPathAsSparql()+option,
 					// Record
@@ -252,6 +261,11 @@ public class PlantUmlRenderer {
 		
 		String classReference = this.resolveShClassReference(property.getShClass().get());
 		
+		String arrowDirectionDiagram = ""; 
+		if (this.renderSectionDiagram && this.diagram.getBoxes().size() == 5) {
+			arrowDirectionDiagram = getDirectionStarDiagram(classReference);
+		}
+		
 		if (renderAsDatatypeProperty) {
 			
 			output = box.getPlantUmlQuotedBoxName() + " : +" + property.getPathAsSparql() + " : " + classReference;	
@@ -274,7 +288,7 @@ public class PlantUmlRenderer {
 				labelColorClose = "</color>";
 			}
 
-			output = box.getPlantUmlQuotedBoxName() + " --> \""+""+labelColor+ classReference + "\" : " + property.getPathAsSparql()+" ";
+			output = box.getPlantUmlQuotedBoxName() + " -"+arrowDirectionDiagram+"-> \""+""+labelColor+ classReference + "\" : " + property.getPathAsSparql()+" ";
 					
 			String option = "";
 			if (property.getPlantUmlCardinalityString() != null) {
@@ -289,7 +303,7 @@ public class PlantUmlRenderer {
 			if (!property.getShGroup().isPresent()) {
 				collectData(
 					// Key
-					box.getPlantUmlQuotedBoxName() + " --> \""+""+labelColor+ classReference + "\" : ",
+					box.getPlantUmlQuotedBoxName() + " -"+arrowDirectionDiagram+"-> \""+""+labelColor+ classReference + "\" : ",
 					// data Value
 					property.getPathAsSparql() + option,
 					collectRelationProperties
@@ -386,7 +400,9 @@ public class PlantUmlRenderer {
 		sourceuml.append("set namespaceSeparator none \n"); // Command for not create an package uml
 		
 		if (this.renderSectionDiagram) {
-			sourceuml.append("left to right direction\n");
+			if (this.diagram.getBoxes().size() != 5) {
+				sourceuml.append("left to right direction\n");
+			}
 		}
 		
 		
@@ -652,6 +668,44 @@ public class PlantUmlRenderer {
 		
 		String recordInMap = collectRelationProperties.entrySet().stream().filter(f -> f.getKey().equals(codeKey)).findFirst().get().getValue();
 		collectRelationProperties.computeIfPresent(codeKey, (k,v) -> v = recordInMap+" \\l"+newValue);
+	}
+	
+	public String getDirectionStarDiagram(String propertyLabel) {
+		
+		int nDirection = 0;
+		if (this.StarDiagramDirectoin.isEmpty() || this.StarDiagramDirectoin.size() == 0 ) {
+			nDirection = 1;
+			this.StarDiagramDirectoin.put(propertyLabel, nDirection);
+		} else {
+			
+			if (this.StarDiagramDirectoin.containsKey(propertyLabel)) {				
+				nDirection = this.StarDiagramDirectoin.get(propertyLabel);
+			} else {
+				int nDir = Collections.max(this.StarDiagramDirectoin.values());
+				nDirection = nDir + 1; 
+				this.StarDiagramDirectoin.put(propertyLabel, nDirection);
+			}
+		}		
+		
+		String direction = "";
+		switch (nDirection) {
+		case 1:
+			direction = "u";
+			break;
+		case 2:
+			direction = "d";
+			break;
+		case 3:
+			direction = "l";
+			break;
+		case 4:
+			direction = "r";
+			break;
+		default:
+			break;
+		}
+		
+		return direction;
 	}
 	
 	

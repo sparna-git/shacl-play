@@ -115,7 +115,7 @@
 						<div class="form-group row">
 							<div class="col-sm-12">
 								<div class="form-check">
-									<input class="form-check-input" type="checkbox" id="SplitDiagram" name="SplitDiagram"/>
+									<input class="form-check-input" type="checkbox" id="SplitDiagram" name="SplitDiagram" checked/>
 									<label class="form-check-label" for="includeDiagram">
 								    	<fmt:message key="doc.options.includeDiagram.entity" />								  		
 								  	</label>

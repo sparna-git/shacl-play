@@ -66,13 +66,13 @@ public class Doc implements CliCommandIfc {
 			}
 		}
 		
-		// generate doc
 		ShapesDocumentationReaderIfc reader = new ShapesDocumentationModelReader(
 			a.getDiagramShacl(),
 			name_img,
 			a.getHidePropertiesShacl(),
-			false
+			a.getDiagramSection()
 		);
+		
 		ShapesDocumentation doc = reader.readShapesDocumentation(
 				shapesModel,
 				owlModel,

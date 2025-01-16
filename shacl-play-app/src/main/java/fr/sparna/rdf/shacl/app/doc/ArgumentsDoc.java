@@ -52,6 +52,13 @@ public class ArgumentsDoc {
 	private Boolean diagramShacl=false;
 	
 	@Parameter(
+			names = { "-s", "--section" },
+			description = "Include diagram per section in the generated documentation.",
+			required = false
+	)
+	private Boolean diagramSection=false;
+	
+	@Parameter(
 			names = { "-h", "--hide" },
 			description = "hide datatype properties.",
 			required = false
@@ -129,4 +136,14 @@ public class ArgumentsDoc {
 	public void setHidePropertiesShacl(Boolean hidePropertiesShacl) {
 		this.hidePropertiesShacl = hidePropertiesShacl;
 	}
+
+	public Boolean getDiagramSection() {
+		return diagramSection;
+	}
+
+	public void setDiagramSection(Boolean diagramSection) {
+		this.diagramSection = diagramSection;
+	}
+	
+	
 }

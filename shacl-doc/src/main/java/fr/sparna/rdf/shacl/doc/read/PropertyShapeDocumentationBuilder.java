@@ -20,13 +20,29 @@ import net.sourceforge.plantuml.board.BNode;
 
 public class PropertyShapeDocumentationBuilder {
 
-	public static PropertyShapeDocumentation build(
+	private List<NodeShape> allNodeShapes;
+	private Model shaclGraph;
+	private Model owlGraph;
+	private String lang;
+
+	
+
+	public PropertyShapeDocumentationBuilder(
+		List<NodeShape> allNodeShapes,
+		Model shaclGraph,
+		Model owlGraph,
+		String lang
+	) {
+		this.allNodeShapes = allNodeShapes;
+		this.shaclGraph = shaclGraph;
+		this.owlGraph = owlGraph;
+		this.lang = lang;
+	}
+
+
+	public PropertyShapeDocumentation build(
 			PropertyShape propertyShape,
-			NodeShape nodeShape,
-			List<NodeShape> allNodeShapes,
-			Model shaclGraph,
-			Model owlGraph,
-			String lang) {
+			NodeShape nodeShape) {
 		// Start building final structure
 		PropertyShapeDocumentation proprieteDoc = new PropertyShapeDocumentation();
 		proprieteDoc.setLabel(propertyShape.getDisplayLabel(shaclGraph.union(owlGraph), lang));
@@ -49,16 +65,6 @@ public class PropertyShapeDocumentationBuilder {
 			proprieteDoc.setBackgroundcolor(propertyShape.getBackgroundColor().get().getString());
 		}
 		
-		if(propertyShape.getShNode() != null) {
-			for(NodeShape aBox : allNodeShapes) {
-				// using toString instead of getURI so that it works with anonymous nodeshapes
-				if(aBox.getNodeShape().toString().equals(propertyShape.getShNode().toString())) {
-					Link l = new Link(aBox.getShortFormOrId(), aBox.getDisplayLabel(owlGraph, lang));
-					proprieteDoc.getExpectedValue().setLinkNodeShape(l);	
-				}
-			}
-		}
-		
 		proprieteDoc.getExpectedValue().setExpectedValue(selectExpectedValueAsLink(
 				propertyShape.getShClass(),
 				propertyShape.getShNode(),
@@ -70,22 +76,6 @@ public class PropertyShapeDocumentationBuilder {
 		if(propertyShape.getShIn() != null) {
 			List<Link> links = propertyShape.getShIn().stream().map(i -> buildLink(i)).collect(Collectors.toList());
 			proprieteDoc.getExpectedValue().setInValues(links);
-		}
-
-		if(propertyShape.getShClass() != null) {
-			for(NodeShape aNodeShape : allNodeShapes) {
-				if(aNodeShape.getShTargetClass() != null && findShClassInShTargetClass(aNodeShape.getShTargetClass(),propertyShape.getShClass().getURI())) {
-					Link l = new Link(aNodeShape.getShortFormOrId(), aNodeShape.getDisplayLabel(owlGraph, lang));
-					proprieteDoc.getExpectedValue().setLinkNodeShape(l);
-					break;
-					// checks that the URI of the NodeShape is itself equal to the sh:class
-					// add a check to work only with named URI node shapes
-				} else if (aNodeShape.getNodeShape().isURIResource() && aNodeShape.getNodeShape().getURI().equals(propertyShape.getShClass().getURI())) {
-					Link l = new Link(aNodeShape.getShortFormOrId(), aNodeShape.getDisplayLabel(owlGraph, lang));
-					proprieteDoc.getExpectedValue().setLinkNodeShape(l);
-					break;
-				}
-			}					
 		}
 		
 		// Dash:LabelRol
@@ -141,7 +131,7 @@ public class PropertyShapeDocumentationBuilder {
 		return minCount + ".." + maxCount;
 	}
 
-	public static Link selectExpectedValueAsLink(
+	public Link selectExpectedValueAsLink(
 			Resource shClass,
 			Resource shNode,
 			Resource shDatatype,
@@ -153,9 +143,34 @@ public class PropertyShapeDocumentationBuilder {
 		if (shHasValue != null) {
 			l = buildLink(shHasValue);
 		} else if (shClass != null) {
-			l = buildLink(shClass);
+			for(NodeShape aNodeShape : allNodeShapes) {
+				if(aNodeShape.getShTargetClass() != null && findShClassInShTargetClass(aNodeShape.getShTargetClass(),shClass.getURI())) {
+					l = new Link(aNodeShape.getShortFormOrId(), aNodeShape.getDisplayLabel(owlGraph, lang));
+					break;
+					// checks that the URI of the NodeShape is itself equal to the sh:class
+					// add a check to work only with named URI node shapes
+				} else if (aNodeShape.getNodeShape().isURIResource() && aNodeShape.getNodeShape().getURI().equals(shClass.getURI())) {
+					l = new Link(aNodeShape.getShortFormOrId(), aNodeShape.getDisplayLabel(owlGraph, lang));
+					break;
+				}
+			}
+
+			// default link if class not found
+			if(l == null) {
+				l = buildLink(shClass);
+			}
 		} else if (shNode != null) {
-			l = buildLink(shNode);
+			for(NodeShape aBox : allNodeShapes) {
+				// using toString instead of getURI so that it works with anonymous nodeshapes
+				if(aBox.getNodeShape().toString().equals(shNode.toString())) {
+					l = new Link(aBox.getShortFormOrId(), aBox.getDisplayLabel(owlGraph, lang));
+					break;
+				}
+			}
+			// default link if shape not found
+			if(l == null) {
+				l = buildLink(shNode);
+			}
 		} else if (shDatatype != null) {
 			if(
 				!shDatatype.asResource().getURI().startsWith(XSD.NS)
@@ -188,9 +203,7 @@ public class PropertyShapeDocumentationBuilder {
 		}
 	}
 
-	public static Link buildLink(
-			RDFNode node
-	) {
+	public static Link buildLink(RDFNode node) {
 		Link l = new Link();
 
 		if (node instanceof Literal) {

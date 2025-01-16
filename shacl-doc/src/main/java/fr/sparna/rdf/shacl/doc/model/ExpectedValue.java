@@ -7,10 +7,9 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 public class ExpectedValue {
 
-	// either linkNodeShape is populated and this is a link to a NodeShape indicated by linkNodeShapeUri...
-	private Link linkNodeShape;
-
-	// ... or expectedValueLabel is populated and this is rendered as a code
+	// the expected value link, can be either a local link to a NodeShape in the same document
+	// or an external link to a class URI
+	// it is possible that only the label is populated, without the href
 	private Link expectedValue;
 	// ... or the or is populated
 	private List<String> or;
@@ -26,14 +25,6 @@ public class ExpectedValue {
 
 	public void setOr(List<String> shOr) {
 		this.or = shOr;
-	}
-
-	public Link getLinkNodeShape() {
-		return linkNodeShape;
-	}
-
-	public void setLinkNodeShape(Link linkNodeShape) {
-		this.linkNodeShape = linkNodeShape;
 	}
 
 	public Link getExpectedValue() {

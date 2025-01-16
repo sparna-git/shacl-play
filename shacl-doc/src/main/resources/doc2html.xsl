@@ -1215,13 +1215,6 @@
 	<!-- Expected Value -->
 	<xsl:template match="property/expectedValue">
 		<xsl:choose>
-			<xsl:when test="linkNodeShape[node()]">
-				<code>
-					<a href="{concat('#',linkNodeShape/href)}">
-						<xsl:value-of select="linkNodeShape/label" />
-					</a>
-				</code>
-			</xsl:when>
 			<xsl:when test="expectedValue[href/text()]">
 				<code>
 					<a href="{expectedValue/href}"><xsl:value-of select="expectedValue/label" /></a>

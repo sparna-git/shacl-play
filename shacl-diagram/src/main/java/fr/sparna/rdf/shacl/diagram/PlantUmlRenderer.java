@@ -28,13 +28,45 @@ public class PlantUmlRenderer {
 	protected boolean hideProperties = false;
 	// true to indicate that the diagram is a section diagram
 	protected boolean renderSectionDiagram = false;
-	
-	protected List<String> inverseList = new ArrayList<String>();
-	// 
-	protected Map<String,Integer> StarDiagramDirectoin = new HashMap<>();
-	protected List<String> StarDiagramLabel = new ArrayList<>();
-		
+
+	// the current diagram being rendered	
 	protected transient PlantUmlDiagram diagram;
+
+	// map to "merge" all properties that point to the same class into a single arrow
+	protected transient Map<NodeShapeArrowKey, String> nodeShapeArrows = new HashMap<>();
+
+	// current temporary arrow direction index to determine the u,d,r,l directions of the arrows
+	protected transient int currentArrowDirectionIndex = 0;
+
+	/**
+	 * A key to be used in the map that gathers arrows inside one node shape
+	 */
+	class NodeShapeArrowKey {
+		String box;
+		String color;
+		String reference;
+
+		public NodeShapeArrowKey(String box, String color, String reference) {
+			this.box = box;
+			this.color = color;
+			this.reference = reference;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (obj instanceof NodeShapeArrowKey) {
+				NodeShapeArrowKey other = (NodeShapeArrowKey) obj;
+				return this.box.equals(other.box) && this.color.equals(other.color) && this.reference.equals(other.reference);
+			}
+			return false;
+		}
+
+		@Override
+		public int hashCode() {
+			return this.box.hashCode() + this.color.hashCode() + this.reference.hashCode();
+		}
+		
+	}
 	
 	public PlantUmlRenderer() {
 		super();
@@ -49,30 +81,25 @@ public class PlantUmlRenderer {
 		this.hideProperties = hideProperties;
 	}
 
-	private String render(
+	private String renderProperty(
 			PlantUmlProperty property,
 			PlantUmlBoxIfc box,
-			boolean renderAsDatatypeProperty,
-			Map<String, String> collectRelationProperties,
-			// index of the property in the box
-			int index
+			boolean renderAsDatatypeProperty
+			
 	) {
 		
-		//get the color for the arrow drawn
+		// get the color for the arrow drawn
 		String colorArrowProperty = "";
 		if(property.getColorString() != null) {
 			colorArrowProperty = "[bold,#"+property.getColorString()+"]";
 		}
 				
 		if (property.getShNode().isPresent()) {
-			String getCodeUML = renderAsNodeReference(property, box, renderAsDatatypeProperty, colorArrowProperty, collectRelationProperties);
-			return (getCodeUML.contains("->")) ? "" : getCodeUML;
+			return renderAsNodeReference(property, box, renderAsDatatypeProperty, colorArrowProperty);
 		} else if (property.getShClass().isPresent()) {
-			String getCodeUML = renderAsClassReference(property, box, renderAsDatatypeProperty, collectRelationProperties); 
-			return (getCodeUML.contains("->")) ? "" : getCodeUML;
+			return renderAsClassReference(property, box, renderAsDatatypeProperty); 
 		} else if (property.getShQualifiedValueShape().isPresent()) {
-			String getCodeUML = renderAsQualifiedShapeReference(property, box,colorArrowProperty,collectRelationProperties); 
-			return (getCodeUML.contains("->")) ? "" : getCodeUML;
+			return renderAsQualifiedShapeReference(property, box,colorArrowProperty); 
 		} else if (property.hasShOrShClassOrShNode()) {
 			return renderAsOr(property, box,colorArrowProperty);
 		} else {
@@ -82,23 +109,11 @@ public class PlantUmlRenderer {
 
 	// uml_shape+ " --> " +"\""+uml_node+"\""+" : "+uml_path+uml_datatype+"
 	// "+uml_literal+" "+uml_pattern+" "+uml_nodekind(uml_nodekind)+"\n";
-	private String renderAsNodeReference(PlantUmlProperty property, PlantUmlBoxIfc box, Boolean renderAsDatatypeProperty, String colorArrow, Map<String, String> collectRelationProperties) {
-
-		// find in property if has attribut
-		String output = null;
-		String ctrlnodeOrigen = null;
-		String ctrlnodeDest = null;
+	private String renderAsNodeReference(PlantUmlProperty property, PlantUmlBoxIfc box, Boolean renderAsDatatypeProperty, String colorArrow) {
+		String nodeReference = this.resolveShNodeReference(property.getShNode().get());		
 		
-		String nodeReference = this.resolveShNodeReference(property.getShNode().get());
-
-		// id direction of arrow in Star Diagram
-		String arrowDirectionDiagram = ""; 
-		if (this.renderSectionDiagram) {
-			arrowDirectionDiagram = getDirectionStarDiagram(nodeReference);
-		}
-		
-		
-		if (renderAsDatatypeProperty) {				
+		if (renderAsDatatypeProperty) {	
+			String output = null;			
 			output = box.getPlantUmlQuotedBoxName() + " : +" + property.getPathAsSparql() + " : " + nodeReference;	
 
 			if (property.getPlantUmlCardinalityString() != null) {
@@ -109,24 +124,16 @@ public class PlantUmlRenderer {
 			}
 			if (property.getShNodeKind().isPresent() && !property.getShNodeKind().get().equals(SHACLM.IRI)) {
 				output += ModelRenderingUtils.render(property.getShNodeKind().get()) + " " ;
-			}				
+			}
+			output += "\n";
+			return output;			
 		} else if(
 			property.getShNode().isPresent()
 			&&
 			diagram.findBoxByResource(property.getShNode().get()) != null
 			&&
 			diagram.findBoxByResource(property.getShNode().get()).getProperties().size() > 0
-		) {
-
-			output = box.getPlantUmlQuotedBoxName() + " -"+colorArrow+"-> \"" + nodeReference + "\" : " + property.getPathAsSparql();
-			
-			if (property.getPlantUmlCardinalityString() != null) {
-				output += " " + property.getPlantUmlCardinalityString() + " ";
-			}
-			if (property.getShPattern().isPresent() && this.displayPatterns) {
-				output += "(" + ModelRenderingUtils.render(property.getShPattern().get()) + ")" + " ";
-			}
-			
+		) {			
 			// merge the arrow
 			String option = "";
 			if (property.getPlantUmlCardinalityString() != null) {
@@ -140,25 +147,20 @@ public class PlantUmlRenderer {
 			if (!property.getShGroup().isPresent()) {
 				collectData(
 						// key
-						box.getPlantUmlQuotedBoxName() + " -"+colorArrow+"-> \"" + nodeReference+ "\" : ",
+						// box.getPlantUmlQuotedBoxName() + " -"+colorArrow+"-> \"" + nodeReference+ "\" : ",
+						box.getPlantUmlQuotedBoxName(), colorArrow, nodeReference,
 						// Values
-						property.getPathAsSparql() + option,
-						// Record
-						collectRelationProperties
-						);
+						property.getPathAsSparql() + option
+				);
 			}
+
+			return null;
 		} else {
-			
-			//output = boxName + " -[bold]-> \"" + property.getValue_node().getLabel() + "\" : " + property.getValue_path();
-			output = box.getPlantUmlQuotedBoxName() + " -"+arrowDirectionDiagram+colorArrow+"-> \"" + property.getShNodeLabel() + "\" : " + property.getPathAsSparql();
-			
 			String option = "";
 			if (property.getPlantUmlCardinalityString() != null) {
-				output += " " + property.getPlantUmlCardinalityString() + " ";
 				option += "<U+00A0>" + property.getPlantUmlCardinalityString() + " ";
 			}
 			if (property.getShPattern().isPresent() && this.displayPatterns) {
-				output += "(" + ModelRenderingUtils.render(property.getShPattern().get()) + ")" + " ";
 				option += "(" + ModelRenderingUtils.render(property.getShPattern().get()) + ")" + " ";
 			}
 			
@@ -166,26 +168,15 @@ public class PlantUmlRenderer {
 			if (!property.getShGroup().isPresent()) {
 				collectData(
 					// key
-					box.getPlantUmlQuotedBoxName() + " -"+arrowDirectionDiagram+colorArrow+"-> \"" + nodeReference + "\" : ",
+					// box.getPlantUmlQuotedBoxName() + " -"+colorArrow+"-> \"" + nodeReference + "\" : ",
+					box.getPlantUmlQuotedBoxName(), colorArrow, nodeReference,
 					// Values
-					property.getPathAsSparql()+option,
-					// Record
-					collectRelationProperties
-					);
+					property.getPathAsSparql()+option
+				);
 			}
 			
+			return null;
 		}
-
-		if (ctrlnodeOrigen != null & ctrlnodeDest != null) {
-			if (inverseList.contains("node" + '-' + ctrlnodeOrigen + '-' + ctrlnodeDest)
-					|| inverseList.contains("node" + '-' + ctrlnodeDest + '-' + ctrlnodeOrigen)) {
-				output = "";
-			}
-			inverseList.add("node" + '-' + ctrlnodeOrigen + '-' + ctrlnodeDest);
-		}
-
-		output += "\n";
-		return output;
 	}
 
 	// value = uml_shape+" --> "+"\""+uml_or;
@@ -201,18 +192,12 @@ public class PlantUmlRenderer {
 		
 		String sNameDiamond = "diamond_" + nodeshapeId.replace("-", "_") + "_" + localName.replace("-", "_");
 		
-		// id direction of arrow in Star Diagram
-		String arrowDirectionDiagram = ""; 
-		if (this.renderSectionDiagram) {
-			arrowDirectionDiagram = getDirectionStarDiagram(sNameDiamond);
-		}
-		
 		// diamond declaration
 		String output = "<> " + sNameDiamond + "\n";
 
 		// link between box and diamond
 		//output += boxName + " -[bold]-> \"" + sNameDiamond + "\" : " + property.getValue_path();
-		output += box.getPlantUmlQuotedBoxName() + " -"+ arrowDirectionDiagram +colorArrow+"-> \"" + sNameDiamond + "\" : " + property.getPathAsSparql();
+		output += box.getPlantUmlQuotedBoxName() + " -"+ getDirectionStarDiagram()+colorArrow+"-> \"" + sNameDiamond + "\" : " + property.getPathAsSparql();
 
 		// added information on link
 		if (property.getPlantUmlCardinalityString() != null) {
@@ -241,46 +226,33 @@ public class PlantUmlRenderer {
 
 	// value = uml_shape+ " --> " +"\""+uml_qualifiedvalueshape+"\""+" :
 	// "+uml_path+uml_datatype+" "+uml_qualifiedMinMaxCount+"\n";
-	private String renderAsQualifiedShapeReference(PlantUmlProperty property, PlantUmlBoxIfc box, String colorArrow, Map<String, String> collectRelationProperties) {
-		String output = box.getPlantUmlQuotedBoxName() + " -"+colorArrow+"-> \"" + property.getShQualifiedValueShapeLabel() + "\" : "
-				+ property.getPathAsSparql();
+	private String renderAsQualifiedShapeReference(PlantUmlProperty property, PlantUmlBoxIfc box, String colorArrow) {
 
 		String option="";
 		if (property.getPlantUmlQualifiedCardinalityString() != null) {
-			output += " " + property.getPlantUmlQualifiedCardinalityString() + " ";
 			option = " " + property.getPlantUmlQualifiedCardinalityString() + " ";
 		}
 		
 		if (!property.getShGroup().isPresent()) {
 			collectData(
 					//codeKey
-					box.getPlantUmlQuotedBoxName() + " -"+colorArrow+"-> \"" + property.getShQualifiedValueShapeLabel() + "\" : ",
+					// box.getPlantUmlQuotedBoxName() + " -"+colorArrow+"-> \"" + property.getShQualifiedValueShapeLabel() + "\" : ",
+					box.getPlantUmlQuotedBoxName(), colorArrow, property.getShQualifiedValueShapeLabel(),
 					//data value
-					property.getPathAsSparql()+option, 
-					collectRelationProperties);
+					property.getPathAsSparql()+option
+			);
 		}
-
-		output += "\n";
-
-		return output;
+		return null;
 	}
 
 	// value = uml_shape+" --> "+"\""+uml_class_property+"\""+" :
 	// "+uml_path+uml_literal+" "+uml_pattern+" "+uml_nodekind+"\n";
-	private String renderAsClassReference(PlantUmlProperty property, PlantUmlBoxIfc box, boolean renderAsDatatypeProperty, Map<String,String> collectRelationProperties) {
-
-		String output = "";
-		
+	private String renderAsClassReference(PlantUmlProperty property, PlantUmlBoxIfc box, boolean renderAsDatatypeProperty) {
 		String classReference = this.resolveShClassReference(property.getShClass().get());
 		
-		// id direction of arrow in Star Diagram
-		String arrowDirectionDiagram = ""; 
-		if (this.renderSectionDiagram) {
-			arrowDirectionDiagram = getDirectionStarDiagram(classReference);
-		}
-		
 		if (renderAsDatatypeProperty) {
-			
+			String output = "";
+
 			output = box.getPlantUmlQuotedBoxName() + " : +" + property.getPathAsSparql() + " : " + classReference;	
 			
 			if (property.getPlantUmlCardinalityString() != null) {
@@ -292,47 +264,43 @@ public class PlantUmlRenderer {
 			if (property.getShNodeKind().isPresent() && !property.getShNodeKind().equals(SHACLM.IRI)) {
 				output += ModelRenderingUtils.render(property.getShNodeKind().get()) + " " ;
 			}
-			
+
+			output += " \n";		
+			return output;			
 		} else {
+			// TODO : why is this computed here diferently than in renderAsNode ???
 			String labelColor = "";
 			String labelColorClose = "";
 			if(property.getColorString() != null) {
 				labelColor = "<color:"+property.getColorString()+">"+" ";
 				labelColorClose = "</color>";
 			}
-
-			output = box.getPlantUmlQuotedBoxName() + " -"+arrowDirectionDiagram+"-> \""+""+labelColor+ classReference + "\" : " + property.getPathAsSparql()+" ";
-					
+	
 			String option = "";
 			if (property.getPlantUmlCardinalityString() != null) {
-				output += " " + property.getPlantUmlCardinalityString() + " ";
 				option += "<U+00A0>" + property.getPlantUmlCardinalityString() + " ";
 			}
 			if (property.getShPattern().isPresent() && this.displayPatterns) {
-				output += "(" + ModelRenderingUtils.render(property.getShPattern().get()) + ")" + " ";
 				option += "(" + ModelRenderingUtils.render(property.getShPattern().get()) + ")" + " ";
 			}
 
 			if (!property.getShGroup().isPresent()) {
 				collectData(
 					// Key
-					box.getPlantUmlQuotedBoxName() + " -"+arrowDirectionDiagram+"-> \""+""+labelColor+ classReference + "\" : ",
+					// box.getPlantUmlQuotedBoxName() + " -"+"-> \""+""+labelColor+ classReference + "\" : ",
+					box.getPlantUmlQuotedBoxName(), labelColor, classReference,
 					// data Value
-					property.getPathAsSparql() + option,
-					collectRelationProperties
+					property.getPathAsSparql() + option
 				);
 			}
 			
-			output += labelColorClose;
+			return null;
 		}
-		
-		output += " \n";
-		
-		return output;
 	}
 
 	private String renderDefault(PlantUmlProperty property, PlantUmlBoxIfc box) {
 		
+		// TODO : why is this computed here diferently than in renderAsNode ???
 		String labelColor = "";
 		String labelColorClose = "";
 		if(property.getColorString() != null) {
@@ -502,8 +470,7 @@ public class PlantUmlRenderer {
 				}
 			}
 			
-			String declarationPropertes = "";
-			Map<String,String> collectRelationProperties = new HashMap<>();
+			String propertiesDeclaration = "";
 			for (int i=0;i<box.getProperties().size();i++) {
 				PlantUmlProperty plantUmlproperty = box.getProperties().get(i);
 
@@ -547,13 +514,10 @@ public class PlantUmlRenderer {
 					}
 				}
 				
-				
-				String codePropertyPlantUml = this.render(
+				String codePropertyPlantUml = this.renderProperty(
 						plantUmlproperty, 
 						box,
-						displayAsDatatypeProperty,
-						collectRelationProperties,
-						i
+						displayAsDatatypeProperty
 				);
 				
 				
@@ -564,55 +528,59 @@ public class PlantUmlRenderer {
 					List<PlantUmlProperty> propertiesGpo = new ArrayList<>();
 					String notationName = "";
 					
+					// label of the group, to be used as the label of the separator line
 					for (Statement r : plantUmlproperty.getShGroup().get().listProperties().toList()) {
 						Resource pr = r.getPredicate();						
 						if (pr.equals(RDFS.label)) {
 							String ob = r.getObject().asLiteral().getLexicalForm();
 							notationName = ob;
-						}						
+						}
 					}
 					
 					String GroupId = box.getPlantUmlQuotedBoxName() + " : "+ "__"+notationName+"__\n";
-					// Declaration for add separator in the box
-					//String codeGroup = this.renderDefault(plantUmlproperty, box);
 					
-					String codePropertyPlantUmlGroup = this.render(
+					String codePropertyPlantUmlGroup = this.renderProperty(
 							plantUmlproperty, 
 							box,
 							// force rendering as a datatype property
-							true,
-							collectRelationProperties,
-							i
+							true
 					);
 					
+					// store the property inside the property group
 					if (collectGroupProperties.get(GroupId) == null) {
 						collectGroupProperties.put(GroupId,codePropertyPlantUmlGroup);
 					} else {
 						collectGroupProperties.computeIfPresent(GroupId, (k,v) -> v.concat(codePropertyPlantUmlGroup));
 					}					
 					
-				} else {
-					if (codePropertyPlantUml!="") {
-						declarationPropertes += codePropertyPlantUml; 
-					}					
+				} else if (codePropertyPlantUml != null) {
+					propertiesDeclaration += codePropertyPlantUml; 					
 				}
 			}
 			
-			if (collectRelationProperties.size() > 0) {
-				for (Map.Entry<String, String> entry : collectRelationProperties.entrySet()) {
-					String outputData = entry.getKey() + entry.getValue()+" \n";;
-					declarationPropertes +=  outputData;					
+			// now print all the arrows that were gathered during the processing
+			// with a different direction each time
+			if (nodeShapeArrows.size() > 0) {
+				for (Map.Entry<NodeShapeArrowKey, String> entry : nodeShapeArrows.entrySet()) {
+					String output = entry.getKey().box + " -"+getDirectionStarDiagram()+"-> \""+entry.getKey().color+ entry.getKey().reference + "\" : "+entry.getValue()+" \n";
+					propertiesDeclaration +=  output;					
 				}
 			}
 			
-			declaration += declarationPropertes;			
+			declaration += propertiesDeclaration;			
 		}
 		
+		// print all property groups that were gathered
 		if (collectGroupProperties.size() > 0) {
 			for (Map.Entry<String, String> entry : collectGroupProperties.entrySet()) {				
 				declaration += entry.getKey() + entry.getValue()+"\n";				
 			}
 		}
+
+		// node shape done, reset the arrow direction counter
+		this.currentArrowDirectionIndex = 0;
+		// also reset grouped arrows
+		this.nodeShapeArrows = new HashMap<>();
 		
 		return declaration;
 	}
@@ -646,85 +614,49 @@ public class PlantUmlRenderer {
 	 * dataValue - data values or additional values
 	 * collectRelationProperties - save all properties and if the property is included in the map, generate a list of values.
 	 */
-	public void collectData(String codeKey,String dataValue ,Map<String,String> collectRelationProperties) {
+	public void collectData(String box, String color, String reference,String dataValue) {
 		
-		if (!linkPropertyExist(codeKey, collectRelationProperties)) {
-			// 
-			collectRelationProperties.put(
+		NodeShapeArrowKey key = new NodeShapeArrowKey(box, color, reference);
+		if (!this.nodeShapeArrows.containsKey(key)) {
+			this.nodeShapeArrows.put(
 					// key
-					codeKey,
+					key,
 					// Values
-					dataValue);
-			
+					dataValue
+			);
 		} else {
-			//update record
-			updatePropertyRelacionValue(
-					// key
-					codeKey,
-					//data values
-					dataValue ,
-					//Map
-					collectRelationProperties
-					);
+			/* Merge for each input data values in the same property */
+			this.nodeShapeArrows.computeIfPresent(key, (k,v) -> v+" \\l"+dataValue);
 		}
 		
 	}	
-	
-	public boolean linkPropertyExist(String codeKey, Map<String,String> collectRelationProperties) {
-		return collectRelationProperties.entrySet().stream().filter(f -> f.getKey().equals(codeKey)).findAny().isPresent();
-	}
-	
-	/* Merge for each input data values in the same property */
-	public void updatePropertyRelacionValue(String codeKey,String newValue ,Map<String,String> collectRelationProperties) {
-		
-		String recordInMap = collectRelationProperties.entrySet().stream().filter(f -> f.getKey().equals(codeKey)).findFirst().get().getValue();
-		collectRelationProperties.computeIfPresent(codeKey, (k,v) -> v = recordInMap+" \\l"+newValue);
-	}
-	
-	public String getDirectionStarDiagram(String propertyLabel) {
-		
-		int nDirection = 0;
-		if (this.StarDiagramDirectoin.isEmpty() || this.StarDiagramDirectoin.size() == 0 ) {
-			nDirection = 1;
-			this.StarDiagramDirectoin.put(propertyLabel, nDirection);
-			this.StarDiagramLabel.add(propertyLabel);
-		} else {			
-			if (this.StarDiagramDirectoin.containsKey(propertyLabel)) {				
-				nDirection = this.StarDiagramDirectoin.get(propertyLabel);
-			} else {
-				
-				int nMaxIndex = this.StarDiagramLabel.size()-1;
-				String label = this.StarDiagramLabel.get(nMaxIndex);
-				int nDirectionLocal = this.StarDiagramDirectoin.entrySet().stream().filter(f -> f.getKey()== label).findFirst().get().getValue();
-				
-				if (nDirectionLocal == 4) {
-					nDirection = 1;
-				} else {
-					nDirection = nDirectionLocal + 1;			
-				}
-				
-				this.StarDiagramDirectoin.put(propertyLabel, nDirection);
-				this.StarDiagramLabel.add(propertyLabel);
-			}
-		}		
-		
+
+	public String getDirectionStarDiagram() {
+		// not a section diagram, no direction at all
+		if(!this.renderSectionDiagram) {
+			return "";
+		}
+
 		String direction = "";
-		switch (nDirection) {
-		case 1:
+		switch (this.currentArrowDirectionIndex%4) {
+		case 0:
 			direction = "u";
 			break;
-		case 2:
+		case 1:
 			direction = "d";
 			break;
-		case 3:
+		case 2:
 			direction = "l";
 			break;
-		case 4:
+		case 3:
 			direction = "r";
 			break;
 		default:
 			break;
 		}
+
+		// increment direction counter so that next time we get a different direction
+		this.currentArrowDirectionIndex++;
 		
 		return direction;
 	}

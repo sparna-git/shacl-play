@@ -170,14 +170,11 @@ public class ShapesDocumentationSectionBuilder {
 					nodeShape.getDisplayLabel(owlGraph, lang)
 		));
 		List<PropertyShapeDocumentation> properties = new ArrayList<>();
+		PropertyShapeDocumentationBuilder pBuidler = new PropertyShapeDocumentationBuilder(shapesGraph.getAllNodeShapes(), shaclGraph, owlGraph, lang);	
 		for (PropertyShape aPropertyShape : nodeShape.getProperties()) {
-			PropertyShapeDocumentation psd = PropertyShapeDocumentationBuilder.build(
+			PropertyShapeDocumentation psd = pBuidler.build(
 				aPropertyShape,
-				nodeShape,
-				shapesGraph.getAllNodeShapes(),
-				shaclGraph,
-				owlGraph,
-				lang);				
+				nodeShape);				
 			properties.add(psd);
 		}
 		thisGroup.setProperties(properties);

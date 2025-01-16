@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.vocabulary.RDFS;
+import org.topbraid.shacl.vocabulary.SH;
 
 import fr.sparna.rdf.jena.ModelReadingUtils;
 import fr.sparna.rdf.shacl.diagram.PlantUmlDiagramOutput;
@@ -113,6 +114,9 @@ public class ShapesDocumentationSectionBuilder {
 			currentSection.setClosed(nodeShape.getShClosed());
 		}
 		
+		// SH.hasValue
+		//currentSection.set
+		
 		// skos:example
 		currentSection.setSkosExample((nodeShape.getSkosExample() != null)?nodeShape.getSkosExample().toString():null);
 		
@@ -144,9 +148,7 @@ public class ShapesDocumentationSectionBuilder {
 				shaclGraph,
 				owlGraph,
 				lang
-		);			
-		
-		
+		);		
 		
 		currentSection.setPropertyGroups(groups);
 

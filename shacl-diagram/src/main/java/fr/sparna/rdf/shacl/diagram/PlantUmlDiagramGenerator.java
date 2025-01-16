@@ -113,6 +113,8 @@ public class PlantUmlDiagramGenerator {
 			createDiagram = true;
 		}
 		
+		this.avoidArrowsToEmptyBoxes = false;
+		
 		List<PlantUmlDiagramOutput> outputDiagram = new ArrayList<>();
 		if (createDiagram) {
 			outputDiagram = this.outputDiagrams(Collections.singletonList(d), true);

@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Resource;
@@ -31,7 +32,8 @@ public class PlantUmlRenderer {
 	protected List<String> inverseList = new ArrayList<String>();
 	// 
 	protected Map<String,Integer> StarDiagramDirectoin = new HashMap<>();
-	
+	protected List<String> StarDiagramLabel = new ArrayList<>();
+		
 	protected transient PlantUmlDiagram diagram;
 	
 	public PlantUmlRenderer() {
@@ -89,8 +91,9 @@ public class PlantUmlRenderer {
 		
 		String nodeReference = this.resolveShNodeReference(property.getShNode().get());
 
+		// id direction of arrow in Star Diagram
 		String arrowDirectionDiagram = ""; 
-		if (this.renderSectionDiagram && this.diagram.getBoxes().size() == 5) {
+		if (this.renderSectionDiagram) {
 			arrowDirectionDiagram = getDirectionStarDiagram(nodeReference);
 		}
 		
@@ -147,7 +150,7 @@ public class PlantUmlRenderer {
 		} else {
 			
 			//output = boxName + " -[bold]-> \"" + property.getValue_node().getLabel() + "\" : " + property.getValue_path();
-			output = box.getPlantUmlQuotedBoxName() + " -"+colorArrow+"-> \"" + property.getShNodeLabel() + "\" : " + property.getPathAsSparql();
+			output = box.getPlantUmlQuotedBoxName() + " -"+arrowDirectionDiagram+colorArrow+"-> \"" + property.getShNodeLabel() + "\" : " + property.getPathAsSparql();
 			
 			String option = "";
 			if (property.getPlantUmlCardinalityString() != null) {
@@ -194,13 +197,22 @@ public class PlantUmlRenderer {
 		if (localName == null) {
 		    localName = property.getPropertyShape().getId().getLabelString();
 		}
+		
+		
 		String sNameDiamond = "diamond_" + nodeshapeId.replace("-", "_") + "_" + localName.replace("-", "_");
+		
+		// id direction of arrow in Star Diagram
+		String arrowDirectionDiagram = ""; 
+		if (this.renderSectionDiagram) {
+			arrowDirectionDiagram = getDirectionStarDiagram(sNameDiamond);
+		}
+		
 		// diamond declaration
 		String output = "<> " + sNameDiamond + "\n";
 
 		// link between box and diamond
 		//output += boxName + " -[bold]-> \"" + sNameDiamond + "\" : " + property.getValue_path();
-		output += box.getPlantUmlQuotedBoxName() + " -"+colorArrow+"-> \"" + sNameDiamond + "\" : " + property.getPathAsSparql();
+		output += box.getPlantUmlQuotedBoxName() + " -"+ arrowDirectionDiagram +colorArrow+"-> \"" + sNameDiamond + "\" : " + property.getPathAsSparql();
 
 		// added information on link
 		if (property.getPlantUmlCardinalityString() != null) {
@@ -261,8 +273,9 @@ public class PlantUmlRenderer {
 		
 		String classReference = this.resolveShClassReference(property.getShClass().get());
 		
+		// id direction of arrow in Star Diagram
 		String arrowDirectionDiagram = ""; 
-		if (this.renderSectionDiagram && this.diagram.getBoxes().size() == 5) {
+		if (this.renderSectionDiagram) {
 			arrowDirectionDiagram = getDirectionStarDiagram(classReference);
 		}
 		
@@ -399,12 +412,10 @@ public class PlantUmlRenderer {
 		sourceuml.append("skinparam ArrowColor #Maroon\n");
 		sourceuml.append("set namespaceSeparator none \n"); // Command for not create an package uml
 		
-		if (this.renderSectionDiagram) {
-			if (this.diagram.getBoxes().size() != 5) {
-				sourceuml.append("left to right direction\n");
-			}
-		}
 		
+		if (this.renderSectionDiagram) {
+			sourceuml.append("left to right direction\n");
+		}
 		
 		// retrieve all package declaration
 		for (PlantUmlBoxIfc plantUmlBox : diagram.getBoxes()) {
@@ -676,14 +687,24 @@ public class PlantUmlRenderer {
 		if (this.StarDiagramDirectoin.isEmpty() || this.StarDiagramDirectoin.size() == 0 ) {
 			nDirection = 1;
 			this.StarDiagramDirectoin.put(propertyLabel, nDirection);
-		} else {
-			
+			this.StarDiagramLabel.add(propertyLabel);
+		} else {			
 			if (this.StarDiagramDirectoin.containsKey(propertyLabel)) {				
 				nDirection = this.StarDiagramDirectoin.get(propertyLabel);
 			} else {
-				int nDir = Collections.max(this.StarDiagramDirectoin.values());
-				nDirection = nDir + 1; 
+				
+				int nMaxIndex = this.StarDiagramLabel.size()-1;
+				String label = this.StarDiagramLabel.get(nMaxIndex);
+				int nDirectionLocal = this.StarDiagramDirectoin.entrySet().stream().filter(f -> f.getKey()== label).findFirst().get().getValue();
+				
+				if (nDirectionLocal == 4) {
+					nDirection = 1;
+				} else {
+					nDirection = nDirectionLocal + 1;			
+				}
+				
 				this.StarDiagramDirectoin.put(propertyLabel, nDirection);
+				this.StarDiagramLabel.add(propertyLabel);
 			}
 		}		
 		

@@ -46,6 +46,8 @@ public class ShapesDocumentationSection {
 	private String targetSubjectsOf;
 	private String targetObjectsOf;
 	
+	private String hasValue;
+	
 	/**
 	 * The target of the shape when it is expressed using a SPARQL query
 	 */
@@ -278,5 +280,13 @@ public class ShapesDocumentationSection {
 
 	public void setSectionDiagrams(List<ShapesDocumentationDiagram> sectionDiagrams) {
 		this.sectionDiagrams = sectionDiagrams;
+	}
+
+	public String getHasValue() {
+		return hasValue;
+	}
+
+	public void setHasValue(String hasValue) {
+		this.hasValue = hasValue;
 	}	
 }

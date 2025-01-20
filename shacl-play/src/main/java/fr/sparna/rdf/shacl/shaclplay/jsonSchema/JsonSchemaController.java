@@ -1,29 +1,36 @@
 package fr.sparna.rdf.shacl.shaclplay.jsonSchema;
 
 import java.net.URLEncoder;
-import java.nio.charset.Charset;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.owasp.encoder.Encode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import fr.sparna.jsonschema.JsonSchemaGenerator;
 import fr.sparna.jsonschema.model.Schema;
+import fr.sparna.rdf.jena.shacl.NodeShape;
+import fr.sparna.rdf.jena.shacl.ShapesGraph;
 import fr.sparna.rdf.shacl.shaclplay.ApplicationData;
+import fr.sparna.rdf.shacl.shaclplay.ControllerModelException;
 import fr.sparna.rdf.shacl.shaclplay.ControllerModelFactory;
 import fr.sparna.rdf.shacl.shaclplay.ControllerModelFactory.SOURCE_TYPE;
 import fr.sparna.rdf.shacl.shaclplay.catalog.shapes.ShapesCatalogService;
@@ -82,8 +89,52 @@ public class JsonSchemaController {
 			e.printStackTrace();
 			throw e;
 		}
-			
-			
+	}
+	
+	
+	@RequestMapping(
+			value="jsonschemaRootShapes",
+			params={"shapesSource"},
+			method = {RequestMethod.GET, RequestMethod.POST }
+	)
+	public String getRootUris(
+		// radio box indicating type of shapes
+		@RequestParam(value="shapesSource", required=true) String shapesSourceString,
+		// reference to Shapes URL if shapeSource=sourceShape-inputShapeUrl
+		@RequestParam(value="inputShapeUrl", required=false) String shapesUrl,
+		// reference to Shapes Catalog ID if shapeSource=sourceShape-inputShapeCatalog
+		@RequestParam(value="inputShapeCatalog", required=false) String shapesCatalogId,
+		// uploaded shapes if shapeSource=sourceShape-inputShapeFile
+		@RequestParam(value="inputShapeFile", required=false) List<MultipartFile> shapesFiles,
+		// inline Shapes if shapeSource=sourceShape-inputShapeInline
+		@RequestParam(value="inputShapeInline", required=false) String shapesText,
+		HttpServletRequest request,
+		HttpServletResponse response
+	) throws Exception {
+		
+		
+		//get the source type
+		ControllerModelFactory.SOURCE_TYPE shapesSource = ControllerModelFactory.SOURCE_TYPE.valueOf(shapesSourceString.toUpperCase());
+		Model shapesModel = ModelFactory.createDefaultModel();
+		ControllerModelFactory modelPopulator = new ControllerModelFactory(this.catalogService.getShapesCatalog());
+		modelPopulator.populateModel(
+				shapesModel,
+				shapesSource,
+				null, //shapesUrl,
+				null,//shapesText,
+				shapesFiles,
+				null //shapesCatalogId
+		);
+		
+		//
+		ShapesGraph spGraph = new ShapesGraph(shapesModel, shapesModel);
+		List<NodeShape> ns = spGraph.getAllNodeShapes();	
+		List<String> listOfUrisRoot = ns.stream().map(nodeShape -> nodeShape.getNodeShape().getURI()).collect(Collectors.toList());
+		
+		//JSON Output
+		JSONArray outputJSon = new JSONArray(listOfUrisRoot);
+		
+		return outputJSon.toString();
 	}
 	
 	@RequestMapping(
@@ -103,11 +154,14 @@ public class JsonSchemaController {
 		// inline Shapes if shapeSource=sourceShape-inputShapeInline
 		@RequestParam(value="inputShapeInline", required=false) String shapesText,
 		// URL Option
-		@RequestParam(value="IdUrl", required=false) String urlRoot,								
+		@RequestParam(value="IdUrl", required=false) String urlRoot,
 		HttpServletRequest request,
 		HttpServletResponse response
 	) throws Exception {
 		try {
+			
+			
+			String methodMapping = new Object(){}.getClass().getEnclosingMethod().getAnnotation(RequestMapping.class).value()[0];
 			
 			// get the source type
 			ControllerModelFactory.SOURCE_TYPE shapesSource = ControllerModelFactory.SOURCE_TYPE.valueOf(shapesSourceString.toUpperCase());

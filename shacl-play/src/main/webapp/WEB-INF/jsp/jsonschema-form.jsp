@@ -61,6 +61,7 @@
 					  	
 					  	<h2><i class="fal fa-tools"></i>&nbsp;&nbsp;<fmt:message key="blockquote.options.title" /></h2>
 					  	
+					  	<!--  
 					  	<blockquote class="blockquote bq-warning">
 					      	<label for="format" class="col-sm-3 col-form-label">
 								<fmt:message key="schema.options.url" />					    
@@ -80,10 +81,42 @@
 							    </small>
 							</div>
 						</blockquote>
-					  	
 						
-						<button type="submit" id="validate-button" class="btn btn-info btn-lg"><fmt:message key="schema.submit" /></button>
-					</form>	
+					  	<blockquote class="blockquote bq-warning">
+					  		<label for="format" class="col-sm-3 col-form-label">
+					  			Uris
+					  		</label>
+					  		<select name="idUris" id="idUris">
+					  		</select>					  		
+					  							  		
+					  	</blockquote>
+					  	-->
+					  	<button onclick="getListURIS()" id="getRootURI" class="btn btn-info btn-lg"><fmt:message key="schema.loadURIS" /></button>
+					  	<button type="submit" id="validate-button" class="btn btn-info btn-lg"><fmt:message key="schema.submit" /></button>
+					</form>
+					
+					<!--  
+					<form id="upload_form" action="/jsonschema/getRootURI" method="POST" enctype="multipart/form-data" class="form-horizontal">
+						
+						<h2><i class="fal fa-shapes"></i>&nbsp;&nbsp;<fmt:message key="schema.shapes.title" /></h2>
+						
+						<!- - Include shapes blockquote - - >
+					  	< % @ include file="include/shapes-blockquote.jsp" % >
+					  	
+					  	<h2><i class="fal fa-tools"></i>&nbsp;&nbsp;<fmt:message key="blockquote.options.title" /></h2>
+						
+						<blockquote class="blockquote bq-warning">
+					  		<label for="format" class="col-sm-3 col-form-label">
+					  			Uris
+					  		</label>
+					  		
+					  		<select name="idUris" id="idUris">
+					  		</select>
+					  		
+					  		<button onclick="getListURIS()" id="loadNodeShapes" class="btn btn-info btn-lg"><fmt:message key="schema.loadURIS" /></button>					  		
+					  	</blockquote>
+					</form>
+					-->
 					
 					<!-- Documentation -->	
 					<div style="margin-top:3em;">
@@ -204,6 +237,29 @@
 				};
 			anchors.options.placement = 'left';
 			anchors.add();		
+		</script>
+		
+		<script>
+			function getListURIS(){
+				
+				var formData = new FormData(document.getElementById('upload_form'));
+				formData.append("inputShapeFile", inputShapeFile.files[0]);
+				
+				$.ajax({
+					"url" : "jsonschemaRootShapes",
+		            "type": "POST",
+		            "dataType" : "json",
+		            "data": formData,
+		            "success": function(data) {
+		            	$('select[name="idUris"]').empty();
+                        $('select[name="idUris"]').append('<option value=""></option>');
+                        $.each(data, function(key, value) {
+                            $('select[name="idUris"]').append($('<option>').text(value).attr('value', value)).trigger("chosen:updated");            
+                        });
+		            }
+				})
+			}
+			
 		</script>
 
 	</body>

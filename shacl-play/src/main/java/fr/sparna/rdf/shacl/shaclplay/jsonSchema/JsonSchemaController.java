@@ -93,11 +93,11 @@ public class JsonSchemaController {
 	
 	
 	@RequestMapping(
-			value="jsonschemaRootShapes",
+			value="rootShapes",
 			params={"shapesSource"},
-			method = {RequestMethod.GET, RequestMethod.POST }
+			method = RequestMethod.POST
 	)
-	public String getRootUris(
+	public void rootShapes(
 		// radio box indicating type of shapes
 		@RequestParam(value="shapesSource", required=true) String shapesSourceString,
 		// reference to Shapes URL if shapeSource=sourceShape-inputShapeUrl
@@ -133,8 +133,10 @@ public class JsonSchemaController {
 		
 		//JSON Output
 		JSONArray outputJSon = new JSONArray(listOfUrisRoot);
-		
-		return outputJSon.toString();
+
+		response.setContentType("application/schema+json");
+		response.setCharacterEncoding("UTF-8");
+		response.getOutputStream().write(outputJSon.toString(2).getBytes());
 	}
 	
 	@RequestMapping(

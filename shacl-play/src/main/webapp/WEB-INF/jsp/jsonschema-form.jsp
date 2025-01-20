@@ -91,7 +91,7 @@
 					  							  		
 					  	</blockquote>
 					  	-->
-					  	<button onclick="getListURIS()" id="getRootURI" class="btn btn-info btn-lg"><fmt:message key="schema.loadURIS" /></button>
+					  	<button type="button" onclick="getListURIS()" id="getRootURI" class="btn btn-info btn-lg"><fmt:message key="schema.loadURIS" /></button>
 					  	<button type="submit" id="validate-button" class="btn btn-info btn-lg"><fmt:message key="schema.submit" /></button>
 					</form>
 					
@@ -230,21 +230,34 @@
 			});
 		</script>
 
-		<!-- API Anchor -->
 	    <script>
+			// anchors placement
 			anchors.options = {
 				  icon: '#'
 				};
 			anchors.options.placement = 'left';
 			anchors.add();		
-		</script>
-		
-		<script>
+
 			function getListURIS(){
 				
 				var formData = new FormData(document.getElementById('upload_form'));
-				formData.append("inputShapeFile", inputShapeFile.files[0]);
+				// formData.append("inputShapeFile", inputShapeFile.files[0]);
 				
+				const request = new XMLHttpRequest();
+				request.open("POST", "rootShapes", true);
+				request.onreadystatechange = () => {
+					if (request.readyState === 4 && request.status === 200) {
+						console.log(request.responseText);
+						$('select[name="idUris"]').empty();
+						$('select[name="idUris"]').append('<option value=""></option>');
+						$.each(JSON.parse(request.responseText), function(key, value) {
+							$('select[name="idUris"]').append($('<option>').text(value).attr('value', value)).trigger("chosen:updated");            
+						});
+					}
+				};
+				request.send(formData);
+
+				/*
 				$.ajax({
 					"url" : "jsonschemaRootShapes",
 		            "type": "POST",
@@ -258,6 +271,7 @@
                         });
 		            }
 				})
+				*/
 			}
 			
 		</script>

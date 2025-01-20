@@ -208,7 +208,7 @@
 						</div>
 
 						<div style="margin-top:2em;">
-							<h4 id="algorithm">Modelling of datasets statistics</h4>
+							<h4 id="statistics">Modelling of datasets statistics</h4>
 							<p>Here is an example of how statistics are expressed:</p>
 							<pre>
 @prefix void:  &lt;http://rdfs.org/ns/void#> .

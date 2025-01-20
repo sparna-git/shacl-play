@@ -1,16 +1,9 @@
 package fr.sparna.rdf.shacl.app.doc;
 
-import java.awt.Image;
 import java.io.File;
-import java.nio.file.Path;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.Parameters;
-
-import fr.sparna.cli.SpaceSplitter;
 
 @Parameters(commandDescription = "Generates a documentation page from a SHACL input file, in HTML or PDF, in a given language.")
 public class ArgumentsDoc {
@@ -46,17 +39,17 @@ public class ArgumentsDoc {
 	
 	@Parameter(
 			names = { "-d", "--diagram" },
-			description = "Include diagram in the generated documentation.",
+			description = "Include main diagram at the top of the generated documentation.",
 			required = false
 	)
 	private Boolean diagramShacl=false;
 	
 	@Parameter(
-			names = { "-s", "--section" },
-			description = "Include diagram per section in the generated documentation.",
+			names = { "-ds", "--diagramSection" },
+			description = "Include an entity diagram for each section in the generated documentation. True by default.",
 			required = false
 	)
-	private Boolean diagramSection=false;
+	private Boolean diagramSection=true;
 	
 	@Parameter(
 			names = { "-h", "--hide" },

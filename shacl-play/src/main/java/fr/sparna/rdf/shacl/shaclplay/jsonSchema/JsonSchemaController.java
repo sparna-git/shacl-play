@@ -163,8 +163,6 @@ public class JsonSchemaController {
 		try {
 			
 			
-			String methodMapping = new Object(){}.getClass().getEnclosingMethod().getAnnotation(RequestMapping.class).value()[0];
-			
 			// get the source type
 			ControllerModelFactory.SOURCE_TYPE shapesSource = ControllerModelFactory.SOURCE_TYPE.valueOf(shapesSourceString.toUpperCase());
 			

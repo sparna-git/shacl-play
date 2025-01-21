@@ -61,62 +61,20 @@
 					  	
 					  	<h2><i class="fal fa-tools"></i>&nbsp;&nbsp;<fmt:message key="blockquote.options.title" /></h2>
 					  	
-					  	<!--  
 					  	<blockquote class="blockquote bq-warning">
-					      	<label for="format" class="col-sm-3 col-form-label">
+					  		<label for="format" class="col-sm-3 col-form-label">
 								<fmt:message key="schema.options.url" />					    
 							</label>
-							<div class="col-sm-9">
-							      <input 
-							      	type="text"
-							      	class="form-control"
-							      	id="IdUrl"
-							      	name="IdUrl"
-							      	placeholder="<fmt:message key="schema.options.urlRoot.placeholder" />"
-							      	onkeypress="enabledShapeInput('IdUrl');"
-							      	onchange="enabledShapeInput('IdUrl')"
-							      >
-							      <small class="form-text text-muted">
-									  <fmt:message key="schema.options.url.help" />
-							    </small>
-							</div>
-						</blockquote>
-						
-					  	<blockquote class="blockquote bq-warning">
-					  		<label for="format" class="col-sm-3 col-form-label">
-					  			Uris
-					  		</label>
-					  		<select name="idUris" id="idUris">
-					  		</select>					  		
-					  							  		
+					  		<select name="IdUrl" id="IdUrl" onchange="onchangeSelect(value)">
+					  			<option value=""><fmt:message key="schema.options.urlRoot.placeholder" /></option>
+					  		</select>
+					  		<small class="form-text text-muted">
+								<fmt:message key="schema.options.url.help" />
+							</small>
 					  	</blockquote>
-					  	-->
-					  	<button type="button" onclick="getListURIS()" id="getRootURI" class="btn btn-info btn-lg"><fmt:message key="schema.loadURIS" /></button>
+					  	
 					  	<button type="submit" id="validate-button" class="btn btn-info btn-lg"><fmt:message key="schema.submit" /></button>
 					</form>
-					
-					<!--  
-					<form id="upload_form" action="/jsonschema/getRootURI" method="POST" enctype="multipart/form-data" class="form-horizontal">
-						
-						<h2><i class="fal fa-shapes"></i>&nbsp;&nbsp;<fmt:message key="schema.shapes.title" /></h2>
-						
-						<!- - Include shapes blockquote - - >
-					  	< % @ include file="include/shapes-blockquote.jsp" % >
-					  	
-					  	<h2><i class="fal fa-tools"></i>&nbsp;&nbsp;<fmt:message key="blockquote.options.title" /></h2>
-						
-						<blockquote class="blockquote bq-warning">
-					  		<label for="format" class="col-sm-3 col-form-label">
-					  			Uris
-					  		</label>
-					  		
-					  		<select name="idUris" id="idUris">
-					  		</select>
-					  		
-					  		<button onclick="getListURIS()" id="loadNodeShapes" class="btn btn-info btn-lg"><fmt:message key="schema.loadURIS" /></button>					  		
-					  	</blockquote>
-					</form>
-					-->
 					
 					<!-- Documentation -->	
 					<div style="margin-top:3em;">
@@ -231,7 +189,10 @@
 		</script>
 
 	    <script>
-			// anchors placement
+			
+	    	// 
+	    	document.getElementById("validate-button").disabled = true
+	    	// anchors placement
 			anchors.options = {
 				  icon: '#'
 				};
@@ -248,32 +209,35 @@
 				request.onreadystatechange = () => {
 					if (request.readyState === 4 && request.status === 200) {
 						console.log(request.responseText);
-						$('select[name="idUris"]').empty();
-						$('select[name="idUris"]').append('<option value=""></option>');
+						$('select[name="IdUrl"]').empty();
+						$('select[name="IdUrl"]').append('<option value=""></option>');
 						$.each(JSON.parse(request.responseText), function(key, value) {
-							$('select[name="idUris"]').append($('<option>').text(value).attr('value', value)).trigger("chosen:updated");            
+							$('select[name="IdUrl"]').append($('<option>').text(value).attr('value', value)).trigger("chosen:updated");            
 						});
 					}
 				};
-				request.send(formData);
-
-				/*
-				$.ajax({
-					"url" : "jsonschemaRootShapes",
-		            "type": "POST",
-		            "dataType" : "json",
-		            "data": formData,
-		            "success": function(data) {
-		            	$('select[name="idUris"]').empty();
-                        $('select[name="idUris"]').append('<option value=""></option>');
-                        $.each(data, function(key, value) {
-                            $('select[name="idUris"]').append($('<option>').text(value).attr('value', value)).trigger("chosen:updated");            
-                        });
-		            }
-				})
-				*/
+				request.send(formData);				
 			}
 			
+		</script>
+		
+		<script type="text/javascript">
+			
+			const selectOption = document.querySelector("Select")
+			selectOption.addEventListener("click",function(){
+				getListURIS();
+			});
+		
+			function onchangeSelect(value) {
+				if (value !="") {
+					document.getElementById('IdUrl').style.display = 'block';
+					// 
+			    	document.getElementById("validate-button").disabled = false
+				} else {
+					document.getElementById('IdUrl').style.display = 'none';
+				}
+			}
+		
 		</script>
 
 	</body>

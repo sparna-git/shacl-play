@@ -62,15 +62,19 @@
 					  	<h2><i class="fal fa-tools"></i>&nbsp;&nbsp;<fmt:message key="blockquote.options.title" /></h2>
 					  	
 					  	<blockquote class="blockquote bq-warning">
-					  		<label for="format" class="col-sm-3 col-form-label">
-								<fmt:message key="schema.options.url" />					    
-							</label>
-					  		<select name="IdUrl" id="IdUrl" onchange="onchangeSelect(value)">
-					  			<option value=""><fmt:message key="schema.options.urlRoot.placeholder" /></option>
-					  		</select>
-					  		<small class="form-text text-muted">
-								<fmt:message key="schema.options.url.help" />
-							</small>
+					  		<div class="form-group row">
+						  		<label for="format" class="col-sm-3 col-form-label">
+									<fmt:message key="schema.options.url" />					    
+								</label>
+								<div class="col-sm-9">
+							  		<select class="form-control" name="IdUrl" id="IdUrl" onfocus="setInitial(this);" onclick="onchangeSelect(value)">
+							  			<option value=""><fmt:message key="schema.options.urlRoot.placeholder" /></option>
+							  		</select>
+						  			<small class="form-text text-muted">
+										<fmt:message key="schema.options.url.help" />
+									</small>
+						  		</div>						  		
+							</div>
 					  	</blockquote>
 					  	
 					  	<button type="submit" id="validate-button" class="btn btn-info btn-lg"><fmt:message key="schema.submit" /></button>
@@ -197,10 +201,12 @@
 				  icon: '#'
 				};
 			anchors.options.placement = 'left';
-			anchors.add();		
-
-			function getListURIS(){
-				
+			anchors.add();			
+		</script>
+		
+		<script type="text/javascript">
+			
+			function setInitial(){
 				var formData = new FormData(document.getElementById('upload_form'));
 				// formData.append("inputShapeFile", inputShapeFile.files[0]);
 				
@@ -216,22 +222,16 @@
 						});
 					}
 				};
-				request.send(formData);				
-			}
+				request.send(formData);
+			 }
 			
-		</script>
-		
-		<script type="text/javascript">
-			
-			const selectOption = document.querySelector("Select")
-			selectOption.addEventListener("click",function(){
-				getListURIS();
-			});
-		
-			function onchangeSelect(value) {
-				if (value !="") {
+			function onchangeSelect(obj) {
+				//if you want to verify a change took place...
+			    if(obj._initValue == obj.value){
+				
+					//if (value !="") {
 					document.getElementById('IdUrl').style.display = 'block';
-					// 
+					// Enable button
 			    	document.getElementById("validate-button").disabled = false
 				} else {
 					document.getElementById('IdUrl').style.display = 'none';

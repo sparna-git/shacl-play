@@ -1,24 +1,34 @@
 package fr.sparna.rdf.shacl.shaclplay.generate;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.security.InvalidParameterException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
+import java.util.zip.ZipOutputStream;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
 import org.apache.jena.riot.RDFLanguages;
 import org.apache.jena.vocabulary.RDF;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.owasp.encoder.Encode;
 import org.slf4j.Logger;
@@ -323,37 +333,56 @@ public class GenerateController {
 
 		if(fileFormat.equals("Excel")) {
 			// serialize in Excel
-
-			// first read the SHACL template
-			Model shaclTemplateGraph = ModelFactory.createDefaultModel(); 
-			InputStream r = this.getClass().getResourceAsStream("/shacl-spreadsheet-template.ttl");
-
-			RDFDataMgr.read(
-				shaclTemplateGraph,
-				r,
-				RDF.getURI(),
-				RDFLanguages.TURTLE
-			);
-
-			String uniqueLang = DataParser.guessTemplateLanguage(shaclTemplateGraph);
-			if(uniqueLang == null) {
-				uniqueLang = "en";
-			}
-			DataParser parser = new DataParser(uniqueLang);
-			List<Sheet> sheets = parser.parseData(shaclTemplateGraph,dataModel);
-			
-			// Generate excel
-			WriteXLS xlsWriter = new WriteXLS();
-			XSSFWorkbook workbook = xlsWriter.generateWorkbook(dataModel.getNsPrefixMap(),sheets);
+			XSSFWorkbook workbook = serializeInExcel(dataModel);
 			
 			// serialize in response
 			String dateString = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 			String filename=sourceName+"-"+"shacl"+"_"+dateString;
+			
 			response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
 			response.setHeader("Content-Disposition", "inline; filename=\""+filename+"."+"xlsx"+"\"");
 			workbook.write(response.getOutputStream());
 	        response.getOutputStream().flush();
 	        workbook.close();
+		}
+		
+		if(fileFormat.equals("Turtle+Excel")) {
+			
+			// Date 
+			String dateString = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+			// Zip name file 
+			String filename = sourceName+"-"+"shacl"+"_"+dateString;
+			
+			// Create Zip File
+			ZipOutputStream zipOutput = new ZipOutputStream(response.getOutputStream());
+			
+			// serialize in Excel
+			XSSFWorkbook workbook = serializeInExcel(dataModel);
+			// Save content xslt file in memory
+			ByteArrayOutputStream baosExcel = new ByteArrayOutputStream();
+			workbook.write(baosExcel);
+			workbook.close();			
+			
+			zipOutput.putNextEntry(new ZipEntry(filename+".xlsx"));
+			zipOutput.write(baosExcel.toByteArray());
+			zipOutput.closeEntry();	
+			
+			//Save ttl file in zip
+			Lang l = RDFLanguages.nameToLang("Turtle");
+			ByteArrayOutputStream baosTurtle = new ByteArrayOutputStream();
+			RDFDataMgr.write(baosTurtle, dataModel, l);
+			
+			zipOutput.putNextEntry(new ZipEntry(filename+"."+l.getFileExtensions().get(0)));
+			zipOutput.write(baosTurtle.toByteArray());
+			zipOutput.closeEntry();
+			//
+			zipOutput.finish();
+			
+			// Output
+			response.setContentType("application/zip");
+			response.setHeader("Content-Disposition", "inline; filename=\""+filename+"."+"zip"+"\"");
+			response.getOutputStream().flush();
+		    zipOutput.close();
 		}
 
 		Lang l = RDFLanguages.nameToLang(fileFormat);
@@ -442,6 +471,34 @@ public class GenerateController {
 			e.printStackTrace();
 		}
 		return new ModelAndView("generate-form", GenerateFormData.KEY, data);
+	}
+	
+	
+	private XSSFWorkbook serializeInExcel(Model dataModel) throws InvalidFormatException, IOException {
+		
+		// first read the SHACL template
+		Model shaclTemplateGraph = ModelFactory.createDefaultModel(); 
+		InputStream r = this.getClass().getResourceAsStream("/shacl-spreadsheet-template.ttl");
+
+		RDFDataMgr.read(
+			shaclTemplateGraph,
+			r,
+			RDF.getURI(),
+			RDFLanguages.TURTLE
+		);
+
+		String uniqueLang = DataParser.guessTemplateLanguage(shaclTemplateGraph);
+		if(uniqueLang == null) {
+			uniqueLang = "en";
+		}
+		DataParser parser = new DataParser(uniqueLang);
+		List<Sheet> sheets = parser.parseData(shaclTemplateGraph,dataModel);
+		
+		// Generate excel
+		WriteXLS xlsWriter = new WriteXLS();
+		XSSFWorkbook workbook = xlsWriter.generateWorkbook(dataModel.getNsPrefixMap(),sheets);
+		
+		return workbook;
 	}
 	
 }

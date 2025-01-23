@@ -62,28 +62,23 @@
 					  	<h2><i class="fal fa-tools"></i>&nbsp;&nbsp;<fmt:message key="blockquote.options.title" /></h2>
 					  	
 					  	<blockquote class="blockquote bq-warning">
-					      	<label for="format" class="col-sm-3 col-form-label">
-								<fmt:message key="schema.options.url" />					    
-							</label>
-							<div class="col-sm-9">
-							      <input 
-							      	type="text"
-							      	class="form-control"
-							      	id="IdUrl"
-							      	name="IdUrl"
-							      	placeholder="<fmt:message key="schema.options.urlRoot.placeholder" />"
-							      	onkeypress="enabledShapeInput('IdUrl');"
-							      	onchange="enabledShapeInput('IdUrl')"
-							      >
-							      <small class="form-text text-muted">
-									  <fmt:message key="schema.options.url.help" />
-							    </small>
+					  		<div class="form-group row">
+						  		<label for="format" class="col-sm-3 col-form-label">
+									<fmt:message key="schema.options.url" />					    
+								</label>
+								<div class="col-sm-9">
+							  		<select class="form-control" name="IdUrl" id="IdUrl" onfocus="setInitial(this);" onclick="onchangeSelect(value)">
+							  			<option value=""><fmt:message key="schema.options.urlRoot.placeholder" /></option>
+							  		</select>
+						  			<small class="form-text text-muted">
+										<fmt:message key="schema.options.url.help" />
+									</small>
+						  		</div>						  		
 							</div>
-						</blockquote>
+					  	</blockquote>
 					  	
-						
-						<button type="submit" id="validate-button" class="btn btn-info btn-lg"><fmt:message key="schema.submit" /></button>
-					</form>	
+					  	<button type="submit" id="validate-button" class="btn btn-info btn-lg"><fmt:message key="schema.submit" /></button>
+					</form>
 					
 					<!-- Documentation -->	
 					<div style="margin-top:3em;">
@@ -197,13 +192,50 @@
 			});
 		</script>
 
-		<!-- API Anchor -->
 	    <script>
+			
+	    	// 
+	    	document.getElementById("validate-button").disabled = true
+	    	// anchors placement
 			anchors.options = {
 				  icon: '#'
 				};
 			anchors.options.placement = 'left';
-			anchors.add();		
+			anchors.add();			
+		</script>
+		
+		<script type="text/javascript">
+			
+			function setInitial(){
+				var formData = new FormData(document.getElementById('upload_form'));
+				
+				const request = new XMLHttpRequest();
+				request.open("POST", "rootShapes", true);
+				request.onreadystatechange = () => {
+					if (request.readyState === 4 && request.status === 200) {
+						// $('select[name="IdUrl"]').prop( "disabled", false );
+						$('select[name="IdUrl"]').empty();
+						$('select[name="IdUrl"]').append('<option value=""></option>');
+						$.each(JSON.parse(request.responseText), function(key, value) {
+							$('select[name="IdUrl"]').append($('<option>').text(value).attr('value', value)).trigger("chosen:updated");            
+						});
+					}
+				};
+				request.send(formData);
+			 }
+			
+			function onchangeSelect(obj) {
+				// check that the selected value is not the first empty option
+			    if(
+					obj != ""
+				){
+					// Enable button
+			    	document.getElementById("validate-button").disabled = false
+				} else {
+					document.getElementById("validate-button").disabled = true
+				}
+			}
+		
 		</script>
 
 	</body>

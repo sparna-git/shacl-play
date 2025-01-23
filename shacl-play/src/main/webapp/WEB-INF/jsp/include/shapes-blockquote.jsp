@@ -11,7 +11,9 @@
 	function enabledShapeInput(selected) {
 		document.getElementById('sourceShape-' + selected).checked = true;
 		document.getElementById('inputShapeUrl').disabled = selected != 'inputShapeUrl';
-		document.getElementById('inputShapeCatalog').disabled = selected != 'inputShapeCatalog';
+		if(document.getElementById('inputShapeCatalog') != null) {
+			document.getElementById('inputShapeCatalog').disabled = selected != 'inputShapeCatalog';
+		}
 		document.getElementById('inputShapeFile').disabled = selected != 'inputShapeFile';
 		document.getElementById('inputShapeInline').disabled = selected != 'inputShapeInline';
 	}

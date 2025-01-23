@@ -149,62 +149,7 @@ public class ShapesDisplayData {
 
 	public void setPermalinkGenerator(PermalinkGenerator permalinkGenerator) {
 		this.permalinkGenerator = permalinkGenerator;
-	}
-
-	public SeverityDisplayLevel getDisplayLevel(SHShape shape) {
-		SeverityDisplayLevel result = SeverityDisplayLevel.VIOLATION;
-		
-		if(shape.getSeverity() == SH.Info) {
-			result = SeverityDisplayLevel.INFO;
-		} else if(shape.getSeverity() == SH.Warning) {
-			result = SeverityDisplayLevel.WARNING;
-		} else if(shape.getSeverity() == SH.Violation) {
-			result = SeverityDisplayLevel.VIOLATION;
-		} else {
-			result = SeverityDisplayLevel.VIOLATION;
-		}
-		
-//		if(this.displayValidationResults) {
-//			// if the constraint is a property constraint and the shape did not matched any target, then consider the severity is unchecked
-//			if(
-//					(constraint instanceof NodeShape && !((NodeShape)constraint).hasMatchedTargets())
-//					||
-//					(constraint instanceof PropertyShape && !((PropertyShape)constraint).getParent().hasMatchedTargets())
-//			) {
-//				result = SeverityDisplayLevel.UNCHECKED;
-//			} else if(constraint.getValidationResults() == null || constraint.getValidationResults().size() == 0) {
-//				// if displaying violations, overwrite the CSS to success if there are no validation results on the constraint
-//				result = SeverityDisplayLevel.SUCCESS;
-//			}
-//		}
-		
-		return result;	
 	}	
-	
-	public SeverityDisplayLevel getGlobalSeverity() {
-		// by default this is unchecked
-		SeverityDisplayLevel result = SeverityDisplayLevel.UNCHECKED;
-		
-//		// if at least one Shape was successfully checked, result is success by default
-//		for (NodeShape s : shapes.getShapes()) {
-//			if(s.hasMatchedTargets()) {
-//				result = SeverityDisplayLevel.SUCCESS;
-//			}
-//		}
-		
-		// first look for info
-		if(this.displayModel.contains(null, SH.resultSeverity, SH.Info)) {
-			result = SeverityDisplayLevel.INFO;
-		}
-		if(this.displayModel.contains(null, SH.resultSeverity, SH.Warning)) {
-			result = SeverityDisplayLevel.WARNING;
-		}
-		if(this.displayModel.contains(null, SH.resultSeverity, SH.Violation)) {
-			result = SeverityDisplayLevel.VIOLATION;
-		}
-		
-		return result;		
-	}
 	
 	public ValidationReport getValidationReport() {
 		return validationReport;

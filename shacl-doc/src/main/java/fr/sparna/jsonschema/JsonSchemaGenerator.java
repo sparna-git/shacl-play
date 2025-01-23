@@ -500,6 +500,9 @@ public class JsonSchemaGenerator {
                             ||
                             propertyShape.getShClass().filter(r -> {
                                 return 
+								// just in case to prevent NullPointer
+								(r.getURI() != null)
+								&&
                                 r.getURI().equals(ns.getNodeShape().getURI())
                                 ||
                                 (ns.getTargetClass() != null && r.getURI().equals(ns.getTargetClass().getURI()))

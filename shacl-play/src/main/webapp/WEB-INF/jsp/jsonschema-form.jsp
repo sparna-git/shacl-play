@@ -208,13 +208,12 @@
 			
 			function setInitial(){
 				var formData = new FormData(document.getElementById('upload_form'));
-				// formData.append("inputShapeFile", inputShapeFile.files[0]);
 				
 				const request = new XMLHttpRequest();
 				request.open("POST", "rootShapes", true);
 				request.onreadystatechange = () => {
 					if (request.readyState === 4 && request.status === 200) {
-						console.log(request.responseText);
+						// $('select[name="IdUrl"]').prop( "disabled", false );
 						$('select[name="IdUrl"]').empty();
 						$('select[name="IdUrl"]').append('<option value=""></option>');
 						$.each(JSON.parse(request.responseText), function(key, value) {
@@ -226,15 +225,14 @@
 			 }
 			
 			function onchangeSelect(obj) {
-				//if you want to verify a change took place...
-			    if(obj._initValue == obj.value){
-				
-					//if (value !="") {
-					document.getElementById('IdUrl').style.display = 'block';
+				// check that the selected value is not the first empty option
+			    if(
+					obj != ""
+				){
 					// Enable button
 			    	document.getElementById("validate-button").disabled = false
 				} else {
-					document.getElementById('IdUrl').style.display = 'none';
+					document.getElementById("validate-button").disabled = true
 				}
 			}
 		

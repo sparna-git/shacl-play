@@ -353,7 +353,10 @@ public class GenerateController {
 			// Zip name file 
 			String filename = sourceName+"-"+"shacl"+"_"+dateString;
 			
-			// Create Zip File
+			response.setContentType("application/zip");
+			response.setHeader("Content-Disposition", "inline; filename=\""+filename+"."+"zip"+"\"");
+
+			// Create Zip OutputStream
 			ZipOutputStream zipOutput = new ZipOutputStream(response.getOutputStream());
 			
 			// serialize in Excel
@@ -372,15 +375,13 @@ public class GenerateController {
 			ByteArrayOutputStream baosTurtle = new ByteArrayOutputStream();
 			RDFDataMgr.write(baosTurtle, dataModel, l);
 			
-			zipOutput.putNextEntry(new ZipEntry(filename+"."+l.getFileExtensions().get(0)));
+			zipOutput.putNextEntry(new ZipEntry(filename+".ttl"));
 			zipOutput.write(baosTurtle.toByteArray());
 			zipOutput.closeEntry();
 			//
 			zipOutput.finish();
 			
 			// Output
-			response.setContentType("application/zip");
-			response.setHeader("Content-Disposition", "inline; filename=\""+filename+"."+"zip"+"\"");
 			response.getOutputStream().flush();
 		    zipOutput.close();
 		}

@@ -142,6 +142,19 @@ public class PropertyShapeDocumentationBuilder {
 
 		if (shHasValue != null) {
 			l = buildLink(shHasValue);
+		// sh:node has precedence over sh:class
+		} else if (shNode != null) {
+			for(NodeShape aBox : allNodeShapes) {
+				// using toString instead of getURI so that it works with anonymous nodeshapes
+				if(aBox.getNodeShape().toString().equals(shNode.toString())) {
+					l = new Link(aBox.getShortFormOrId(), aBox.getDisplayLabel(owlGraph, lang));
+					break;
+				}
+			}
+			// default link if shape not found
+			if(l == null) {
+				l = buildLink(shNode);
+			}
 		} else if (shClass != null) {
 			for(NodeShape aNodeShape : allNodeShapes) {
 				if(aNodeShape.getShTargetClass() != null && findShClassInShTargetClass(aNodeShape.getShTargetClass(),shClass.getURI())) {
@@ -158,18 +171,6 @@ public class PropertyShapeDocumentationBuilder {
 			// default link if class not found
 			if(l == null) {
 				l = buildLink(shClass);
-			}
-		} else if (shNode != null) {
-			for(NodeShape aBox : allNodeShapes) {
-				// using toString instead of getURI so that it works with anonymous nodeshapes
-				if(aBox.getNodeShape().toString().equals(shNode.toString())) {
-					l = new Link(aBox.getShortFormOrId(), aBox.getDisplayLabel(owlGraph, lang));
-					break;
-				}
-			}
-			// default link if shape not found
-			if(l == null) {
-				l = buildLink(shNode);
 			}
 		} else if (shDatatype != null) {
 			if(

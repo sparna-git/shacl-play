@@ -1217,7 +1217,7 @@
 		<xsl:choose>
 			<xsl:when test="expectedValue[href/text()]">
 				<code>
-					<a href="{expectedValue/href}"><xsl:value-of select="expectedValue/label" /></a>
+					<a href="#{expectedValue/href}"><xsl:value-of select="expectedValue/label" /></a>
 				</code>
 			</xsl:when>
 			<xsl:when test="./or/or">

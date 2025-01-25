@@ -75,7 +75,7 @@ public class DocController {
 			// includeDiagram option
 			@RequestParam(value="includeDiagram", required=false) boolean includeDiagram,
 			// includeDiagram option
-			@RequestParam(value="includeSectionDiagram", required=false) boolean includeSectionDiagram,
+			@RequestParam(value="includeSectionDiagram", required=false, defaultValue = "true") boolean includeSectionDiagram,
 			// hide Properties
 			@RequestParam(value="hideProperties", required=false) boolean hideProperties,
 			// List Option

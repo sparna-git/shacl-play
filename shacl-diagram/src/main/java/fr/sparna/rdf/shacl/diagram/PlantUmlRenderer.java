@@ -196,8 +196,8 @@ public class PlantUmlRenderer {
 		String output = "<> " + sNameDiamond + "\n";
 
 		// link between box and diamond
-		//output += boxName + " -[bold]-> \"" + sNameDiamond + "\" : " + property.getValue_path();
-		output += box.getPlantUmlQuotedBoxName() + " -"+ getDirectionStarDiagram()+colorArrow+"-> \"" + sNameDiamond + "\" : " + property.getPathAsSparql();
+		// Thomas : empirical : OR arrows look much better when they don't have direction (they will be pointing downwards)
+		output += box.getPlantUmlQuotedBoxName() + " -"+colorArrow+"-> \"" + sNameDiamond + "\" : " + property.getPathAsSparql();
 
 		// added information on link
 		if (property.getPlantUmlCardinalityString() != null) {
@@ -382,7 +382,7 @@ public class PlantUmlRenderer {
 		
 		
 		if (this.renderSectionDiagram) {
-			sourceuml.append("left to right direction\n");
+			// sourceuml.append("left to right direction\n");
 		}
 		
 		// retrieve all package declaration
@@ -594,7 +594,7 @@ public class PlantUmlRenderer {
 				return shClassReference.getModel().shortForm(shClassReference.getURI());
 			} else {
 				log.warn("Found a blank sh:class reference on a shape with sh:path "+shClassReference+", cannot handle it");
-				return null;
+				return shClassReference.toString();
 			}
 		}
 	}
@@ -638,18 +638,18 @@ public class PlantUmlRenderer {
 		}
 
 		String direction = "";
-		switch (this.currentArrowDirectionIndex%4) {
+		switch (this.currentArrowDirectionIndex%3) {
+		// case 0:
+		// 	direction = "u";
+		// 	break;
 		case 0:
 			direction = "u";
 			break;
 		case 1:
-			direction = "d";
+			direction = "r";
 			break;
 		case 2:
-			direction = "l";
-			break;
-		case 3:
-			direction = "r";
+			direction = "d";
 			break;
 		default:
 			break;

@@ -36,6 +36,7 @@
 					<a class="dropdown-item" href="<c:url value="/jsonschema" />" title="<fmt:message key="navbar.menu1.jsonschema.tooltip" />"><fmt:message key="navbar.menu1.jsonschema.label"/></a>		            
 		            <a class="dropdown-item" href="<c:url value="/sparql" />" title="<fmt:message key="navbar.menu1.sparql.tooltip" />"><fmt:message key="navbar.menu1.sparql.label" /></a>
 		            <a class="dropdown-item" href="<c:url value="/shapes-catalog" />" title="<fmt:message key="navbar.menu1.shapes-catalog.tooltip" />"><fmt:message key="navbar.menu1.shapes-catalog.label" /></a>
+		            <a class="dropdown-item" href="<c:url value="/excel" />" title="<fmt:message key="navbar.menu1.excel.tooltip" />"><fmt:message key="navbar.menu1.excel.label" /></a>
 	            </div>
 	        </li>
 	        <li class="nav-item dropdown">

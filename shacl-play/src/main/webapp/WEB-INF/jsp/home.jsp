@@ -75,6 +75,9 @@
 									<li style="display: list-item; text-align: -webkit-match-parent; padding: 0.3rem;">
 										<a href="<c:url value="/shapes-catalog" />" title="<fmt:message key="navbar.menu1.shapes-catalog.tooltip" />"><fmt:message key="navbar.menu1.shapes-catalog.label" /></a>
 									</li>
+									<li style="display: list-item; text-align: -webkit-match-parent; padding: 0.3rem;">
+										<a href="<c:url value="/excel" />" title="<fmt:message key="navbar.menu1.excel.tooltip" />"><fmt:message key="navbar.menu1.excel.label" /></a>
+									</li>
 								</ul>
 							</div>
 						</div>

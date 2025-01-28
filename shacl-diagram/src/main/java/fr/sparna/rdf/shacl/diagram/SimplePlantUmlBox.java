@@ -17,8 +17,8 @@ public class SimplePlantUmlBox extends BasePlantUmlBox {
     protected List<PlantUmlProperty> properties = new ArrayList<>();
     public List<Resource> rdfsSubClassOf = new ArrayList<>();
     
-    public SimplePlantUmlBox(String uri) {
-        this.nodeShape = ModelFactory.createDefaultModel().createResource(uri).asResource();        
+    public SimplePlantUmlBox(Resource r) {
+        this.nodeShape = r;        
     }
     
     public String getBackgroundColorString() {

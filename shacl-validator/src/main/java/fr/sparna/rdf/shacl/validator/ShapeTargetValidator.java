@@ -44,8 +44,8 @@ public class ShapeTargetValidator {
 		.andThen(shapeModel.listResourcesWithProperty(SH.targetClass))
 		.andThen(shapeModel.listResourcesWithProperty(SH.targetSubjectsOf))
 		.andThen(shapeModel.listResourcesWithProperty(SH.targetObjectsOf))
-		.andThen(shapeModel.listResourcesWithProperty(RDF.type, RDFS.Class))
-		.andThen(shapeModel.listResourcesWithProperty(RDF.type, OWL.Class))
+		.andThen(shapeModel.listResourcesWithProperty(RDF.type, RDFS.Class).filterKeep(r -> r.hasProperty(RDF.type, SH.NodeShape)))
+		.andThen(shapeModel.listResourcesWithProperty(RDF.type, OWL.Class).filterKeep(r -> r.hasProperty(RDF.type, SH.NodeShape)))
 		// generic SPARQL-based targets
 		.andThen(shapeModel.listResourcesWithProperty(SH.target)).toList();
 		

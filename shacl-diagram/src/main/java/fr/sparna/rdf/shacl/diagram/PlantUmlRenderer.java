@@ -646,10 +646,10 @@ public class PlantUmlRenderer {
 			direction = "u";
 			break;
 		case 1:
-			direction = "r";
+			direction = "d";
 			break;
 		case 2:
-			direction = "d";
+			direction = "r";
 			break;
 		default:
 			break;

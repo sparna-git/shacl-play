@@ -14,6 +14,7 @@ import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFLanguages;
 import org.apache.jena.riot.RiotException;
+import org.apache.jena.util.FileManager;
 import org.owasp.encoder.Encode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,6 +34,7 @@ import fr.sparna.rdf.shacl.shaclplay.ApplicationData;
 import fr.sparna.rdf.shacl.shaclplay.ControllerCommons;
 import fr.sparna.rdf.shacl.shaclplay.ControllerModelException;
 import fr.sparna.rdf.shacl.shaclplay.ControllerModelFactory;
+import fr.sparna.rdf.shacl.shaclplay.PreventLoadingIfPresentFileManager;
 import fr.sparna.rdf.shacl.shaclplay.SessionData;
 import fr.sparna.rdf.shacl.shaclplay.catalog.shapes.ShapesCatalog;
 import fr.sparna.rdf.shacl.shaclplay.catalog.shapes.ShapesCatalogEntry;
@@ -358,9 +360,19 @@ public class ValidateController {
 			// initialize shapes first
 			log.debug("Determining Shapes source...");
 			
-			Model shapesModel = ModelFactory.createDefaultModel();
-			// OntModel shapesModel = ModelFactory.createOntologyModel();
-			// shapesModel.setDynamicImports(true);
+			// Model shapesModel = ModelFactory.createDefaultModel();
+			
+
+			OntModel shapesModel = ModelFactory.createOntologyModel();
+			shapesModel.getDocumentManager().setFileManager(new PreventLoadingIfPresentFileManager(shapesModel));
+       		// docManager.setFileManager(fileManager);
+
+			// Create a custom FileManager
+        	// FileManager fileManager = new FileManager();
+        	// fileManager.addLocatorFile("path/to/local/ontologies"); // Add the directory where your local ontologies are stored
+			// shapesModel.getDocumentManager().setFileManager(fileManager);
+			
+			
 			ControllerModelFactory modelPopulator = new ControllerModelFactory(this.catalogService.getShapesCatalog());
 			modelPopulator.populateModel(
 					shapesModel,

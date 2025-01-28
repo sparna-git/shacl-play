@@ -115,12 +115,12 @@
 						<div class="form-group row">
 							<div class="col-sm-12">
 								<div class="form-check">
-									<input class="form-check-input" type="checkbox" id="SplitDiagram" name="SplitDiagram" checked/>
-									<label class="form-check-label" for="includeDiagram">
-								    	<fmt:message key="doc.options.includeDiagram.entity" />								  		
+									<input class="form-check-input" type="checkbox" id="sectionDiagram" name="sectionDiagram" checked/>
+									<label class="form-check-label" for="sectionDiagram">
+								    	<fmt:message key="doc.options.sectionDiagram" />								  		
 								  	</label>
 								  	<small class="form-text text-muted">
-										<fmt:message key="doc.options.includeDiagram.entity.help" />
+										<fmt:message key="doc.options.sectionDiagram.help" />
 								  </small>						
 								</div>
 							</div>

@@ -75,7 +75,7 @@ public class DocController {
 			// includeDiagram option
 			@RequestParam(value="includeDiagram", required=false) boolean includeDiagram,
 			// includeDiagram option
-			@RequestParam(value="includeSectionDiagram", required=false, defaultValue = "true") boolean includeSectionDiagram,
+			@RequestParam(value="sectionDiagram", required=false, defaultValue = "true") boolean sectionDiagram,
 			// hide Properties
 			@RequestParam(value="hideProperties", required=false) boolean hideProperties,
 			// List Option
@@ -108,7 +108,7 @@ public class DocController {
 					urlLogo,
 					modelPopulator.getSourceName(),
 					language,
-					includeSectionDiagram,
+					sectionDiagram,
 					response);
 			return null;
 		} catch (Exception e) {
@@ -144,7 +144,7 @@ public class DocController {
 			// Language Option
 			@RequestParam(value="language", required=false) String language,
 			// Split Diagram
-			@RequestParam(value="SplitDiagram", required=false) boolean includeSectionDiagram,
+			@RequestParam(value="sectionDiagram", required=false) boolean sectionDiagram,
 			HttpServletRequest request,
 			HttpServletResponse response
 	) {
@@ -163,7 +163,7 @@ public class DocController {
 					+"format="+format.toLowerCase()
 					+"&url="+URLEncoder.encode(shapesUrl, "UTF-8")
 					+"&includeDiagram="+includeDiagram
-					+((includeSectionDiagram)?"&includeSectionDiagram=true":"")
+					+("&sectionDiagram="+sectionDiagram)
 					+((hideProperties)?"&hideProperties=true":"")
 					+((printPDF)?"&printPDF=true":"")
 					+((!language.equals("en"))?"&language="+language:"")
@@ -203,7 +203,7 @@ public class DocController {
 					urlLogo,
 					modelPopulator.getSourceName(),
 					language,
-					includeSectionDiagram,
+					sectionDiagram,
 					response
 			);
 			return null;

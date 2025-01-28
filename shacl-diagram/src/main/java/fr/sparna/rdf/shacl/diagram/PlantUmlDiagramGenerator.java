@@ -212,10 +212,12 @@ public class PlantUmlDiagramGenerator {
 	
 	private List<PlantUmlBoxIfc> buildAdditionnalBoxes(List<PlantUmlBoxIfc> allBoxes, PlantUmlBoxIfc box) {
 		
+		// read all sh:nodes and sh:class...
 		List<PlantUmlBoxIfc> interestingBoxes = box.getProperties()
 				.stream()
 				.filter(f -> f.getShNode().isPresent() || f.getShClass().isPresent())
 				.map( p -> {
+					// return the box corresponding to the value of sh:node or sh:class
 					if (p.getShNode().isPresent()) {
 						return PlantUmlDiagram.findBoxByResource(p.getShNode().get(), allBoxes);
 					}
@@ -226,7 +228,8 @@ public class PlantUmlDiagramGenerator {
 					return null;
 				})
 				.collect(Collectors.toList());
-		// Sh:Or
+		
+		// read all sh:or...
 		for (PlantUmlProperty prop : box.getProperties()) {
 			if (prop.getShOrShClass() != null) {
 				for (Resource aShClass : prop.getShOrShClass()) {
@@ -241,23 +244,17 @@ public class PlantUmlDiagramGenerator {
 			}
 		}
 		
+		// recreate the boxes inside the diagram
 		List<PlantUmlBoxIfc> otherBoxes = interestingBoxes
 			.stream()
 			.filter(b -> b != null)
 			.distinct()
-			.map( b -> { 				
-				SimplePlantUmlBox newBoxSimple = new SimplePlantUmlBox(b.getNodeShape().getModel().shortForm(b.getNodeShape().getURI()));
+			.map( b -> {
+				// create box with a label and colors
+				SimplePlantUmlBox newBoxSimple = new SimplePlantUmlBox(b.getNodeShape().getURI());
 				newBoxSimple.setBackgroundColorString(b.getBackgroundColorString());
 				newBoxSimple.setColorString(b.getColorString());
 				newBoxSimple.setLabel(b.getLabel());
-				
-				List<Resource> resources = new ArrayList<>();
-				newBoxSimple.setDepiction(resources);
-				newBoxSimple.setRdfsSubClassOf(resources);
-				newBoxSimple.setShNode(resources);
-				
-				List<PlantUmlProperty> properties = new ArrayList<>();
-				newBoxSimple.setProperties(properties);
 				
 				return newBoxSimple;
 				

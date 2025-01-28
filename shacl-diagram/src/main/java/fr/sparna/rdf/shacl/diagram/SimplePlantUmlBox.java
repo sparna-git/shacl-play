@@ -11,11 +11,11 @@ public class SimplePlantUmlBox extends BasePlantUmlBox {
     private String backgroundColorString;
     private String colorString;
     private Resource nodeShape;
-    private List<Resource> ShNode;
+    private List<Resource> shNode = new ArrayList<>();;
     private String label;
-    private List<Resource> depiction;
+    private List<Resource> depiction = new ArrayList<>();
     protected List<PlantUmlProperty> properties = new ArrayList<>();
-    public List<Resource> RdfsSubClassOf;
+    public List<Resource> rdfsSubClassOf = new ArrayList<>();
     
     public SimplePlantUmlBox(String uri) {
         this.nodeShape = ModelFactory.createDefaultModel().createResource(uri).asResource();        
@@ -24,15 +24,19 @@ public class SimplePlantUmlBox extends BasePlantUmlBox {
     public String getBackgroundColorString() {
         return backgroundColorString;
     }
+
     public void setBackgroundColorString(String backgroundColorString) {
         this.backgroundColorString = backgroundColorString;        
     }
+
     public String getColorString() {
         return colorString;
     }
+
     public void setColorString(String colorString) {
         this.colorString = colorString;
     }
+
     public Resource getNodeShape() {
         return nodeShape;
     }
@@ -42,8 +46,7 @@ public class SimplePlantUmlBox extends BasePlantUmlBox {
 	}
 
 	public List<Resource> getDepiction() {
-		List<Resource> s = new ArrayList<>();
-		return s;
+		return this.depiction;
 	}
 
 	public List<PlantUmlProperty> getProperties() {
@@ -63,18 +66,18 @@ public class SimplePlantUmlBox extends BasePlantUmlBox {
 	}
 
 	public List<Resource> getRdfsSubClassOf() {
-		return RdfsSubClassOf;
+		return rdfsSubClassOf;
 	}
 
 	public void setRdfsSubClassOf(List<Resource> rdfsSubClassOf) {
-		RdfsSubClassOf = rdfsSubClassOf;
+		this.rdfsSubClassOf = rdfsSubClassOf;
 	}
 
 	public List<Resource> getShNode() {
-		return ShNode;
+		return shNode;
 	}
 
 	public void setShNode(List<Resource> shNode) {
-		ShNode = shNode;
+		this.shNode = shNode;
 	}
 }

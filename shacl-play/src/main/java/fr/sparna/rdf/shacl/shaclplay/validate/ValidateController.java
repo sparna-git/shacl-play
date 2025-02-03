@@ -361,16 +361,10 @@ public class ValidateController {
 			log.debug("Determining Shapes source...");
 			
 			// Model shapesModel = ModelFactory.createDefaultModel();
-			
-
+			// load shapes in an OntModel to honor owl:imports
 			OntModel shapesModel = ModelFactory.createOntologyModel();
+			// this will prevent the attempt to fetch the import if is already in the model
 			shapesModel.getDocumentManager().setFileManager(new PreventLoadingIfPresentFileManager(shapesModel));
-       		// docManager.setFileManager(fileManager);
-
-			// Create a custom FileManager
-        	// FileManager fileManager = new FileManager();
-        	// fileManager.addLocatorFile("path/to/local/ontologies"); // Add the directory where your local ontologies are stored
-			// shapesModel.getDocumentManager().setFileManager(fileManager);
 			
 			
 			ControllerModelFactory modelPopulator = new ControllerModelFactory(this.catalogService.getShapesCatalog());

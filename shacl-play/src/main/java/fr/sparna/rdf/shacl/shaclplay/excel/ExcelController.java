@@ -1,4 +1,4 @@
-package fr.sparna.rdf.shacl.shaclplay.shacl_rdf2xls;
+package fr.sparna.rdf.shacl.shaclplay.excel;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -47,7 +47,7 @@ import fr.sparna.rdf.shacl.shaclplay.catalog.shapes.ShapesCatalogService;
 
 
 @Controller
-public class ExcelRdf2xlsController {
+public class ExcelController {
 
 	private Logger log = LoggerFactory.getLogger(this.getClass().getName());
 
@@ -62,13 +62,13 @@ public class ExcelRdf2xlsController {
 			value = {"excel"},
 			method=RequestMethod.GET
 	)	
-	public ModelAndView schema(
+	public ModelAndView excel(
 			HttpServletRequest request,
 			HttpServletResponse response
 	){
-		ExcelRdf2xlsFormData data = new ExcelRdf2xlsFormData();
+		ExcelFormData data = new ExcelFormData();
 		
-		return new ModelAndView("excelRdf2xls-form", ExcelRdf2xlsFormData.KEY, data);	
+		return new ModelAndView("excel-form", ExcelFormData.KEY, data);	
 	}
 		
 	@RequestMapping(
@@ -76,7 +76,7 @@ public class ExcelRdf2xlsController {
 			params={"url"},
 			method=RequestMethod.GET
 	)
-	public ModelAndView schema(
+	public ModelAndView excel(
 			@RequestParam(value="url", required=true) String url,
 			HttpServletRequest request,
 			HttpServletResponse response
@@ -113,7 +113,7 @@ public class ExcelRdf2xlsController {
 			params={"shapesSource"},
 			method = RequestMethod.POST
 	)
-	public ModelAndView schema(
+	public ModelAndView excel(
 		// radio box indicating type of shapes
 		@RequestParam(value="shapesSource", required=true) String shapesSourceString,
 		// reference to Shapes URL if shapeSource=sourceShape-inputShapeUrl
@@ -234,13 +234,13 @@ public class ExcelRdf2xlsController {
 			String message,
 			Exception e
 	) {
-		ExcelRdf2xlsFormData data = new ExcelRdf2xlsFormData();
+		ExcelFormData data = new ExcelFormData();
 		data.setErrorMessage(Encode.forHtml(message));
 
 		if(e != null) {
 			e.printStackTrace();
 		}
-		return new ModelAndView("excelRdf2xls-form", ExcelRdf2xlsFormData.KEY, data);
+		return new ModelAndView("excel-form", ExcelFormData.KEY, data);
 	}
 	
 }

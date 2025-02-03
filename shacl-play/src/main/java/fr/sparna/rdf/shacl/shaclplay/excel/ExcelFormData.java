@@ -1,10 +1,10 @@
-package fr.sparna.rdf.shacl.shaclplay.shacl_rdf2xls;
+package fr.sparna.rdf.shacl.shaclplay.excel;
 
 import fr.sparna.rdf.shacl.shaclplay.catalog.shapes.ShapesCatalog;
 
-public class ExcelRdf2xlsFormData {
+public class ExcelFormData {
 
-	public static final String KEY = ExcelRdf2xlsFormData.class.getSimpleName();
+	public static final String KEY = ExcelFormData.class.getSimpleName();
 	
 	protected String errorMessage;
 	
@@ -15,8 +15,8 @@ public class ExcelRdf2xlsFormData {
 	 * @param message
 	 * @return
 	 */
-	public static ExcelRdf2xlsFormData error(String message) {
-		ExcelRdf2xlsFormData data = new ExcelRdf2xlsFormData();
+	public static ExcelFormData error(String message) {
+		ExcelFormData data = new ExcelFormData();
 		data.setErrorMessage(message);
 		return data;
 	}	

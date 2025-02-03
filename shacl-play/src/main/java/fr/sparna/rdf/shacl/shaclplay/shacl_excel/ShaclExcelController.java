@@ -1,4 +1,4 @@
-package fr.sparna.rdf.shacl.shaclplay.shalc_excel;
+package fr.sparna.rdf.shacl.shaclplay.shacl_excel;
 
 import java.io.IOException;
 import java.net.URLEncoder;

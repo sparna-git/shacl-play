@@ -1,4 +1,4 @@
-package fr.sparna.rdf.shacl.shaclplay.shalc_excel;
+package fr.sparna.rdf.shacl.shaclplay.shacl_excel;
 
 import fr.sparna.rdf.shacl.shaclplay.catalog.shapes.ShapesCatalog;
 

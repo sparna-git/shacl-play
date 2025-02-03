@@ -73,10 +73,10 @@
 										<a href="<c:url value="/sparql" />" title="<fmt:message key="navbar.menu1.sparql.tooltip" />"><fmt:message key="navbar.menu1.sparql.label" /></a> | <small>&nbsp;<a href="<c:url value="/sparql#documentation" />" title="documentation"><i class="fal fa-book"></i></a></small>
 									</li>
 									<li style="display: list-item; text-align: -webkit-match-parent; padding: 0.3rem;">
-										<a href="<c:url value="/shapes-catalog" />" title="<fmt:message key="navbar.menu1.shapes-catalog.tooltip" />"><fmt:message key="navbar.menu1.shapes-catalog.label" /></a>
+										<a href="<c:url value="/excel" />" title="<fmt:message key="navbar.menu1.excel.tooltip" />"><fmt:message key="navbar.menu1.excel.label" /></a> | <small>&nbsp;<a href="<c:url value="/excel#documentation" />" title="documentation"><i class="fal fa-book"></i></a></small>
 									</li>
 									<li style="display: list-item; text-align: -webkit-match-parent; padding: 0.3rem;">
-										<a href="<c:url value="/excel" />" title="<fmt:message key="navbar.menu1.excel.tooltip" />"><fmt:message key="navbar.menu1.excel.label" /></a>
+										<a href="<c:url value="/shapes-catalog" />" title="<fmt:message key="navbar.menu1.shapes-catalog.tooltip" />"><fmt:message key="navbar.menu1.shapes-catalog.label" /></a>
 									</li>
 								</ul>
 							</div>

@@ -81,6 +81,7 @@ public class PlantUmlDiagramGenerator {
 		// find the main box
 		PlantUmlBoxIfc mainBox = plantUmlBoxes
 				.stream()
+				.filter(s -> s.getNodeShape().isURIResource())
 				.filter(box -> box.getNodeShape().getURI().equals(nodeShape.getURI()))
 				.findFirst()
 				.get();	

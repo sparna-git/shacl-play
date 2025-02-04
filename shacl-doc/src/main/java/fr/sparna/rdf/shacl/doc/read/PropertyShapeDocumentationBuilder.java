@@ -5,12 +5,14 @@ import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.RDFList;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.XSD;
 
 import fr.sparna.rdf.jena.ModelRenderingUtils;
+import fr.sparna.rdf.jena.shacl.ShOrReadingUtils;
 import fr.sparna.rdf.shacl.doc.NodeShape;
 import fr.sparna.rdf.shacl.doc.PropertyShape;
 import fr.sparna.rdf.shacl.doc.model.Link;
@@ -74,18 +76,28 @@ public class PropertyShapeDocumentationBuilder {
 		));
 
 		if(propertyShape.getShIn() != null) {
-			List<Link> links = propertyShape.getShIn().stream().map(i -> buildLink(i)).collect(Collectors.toList());
+			List<Link> links = propertyShape.getShIn().stream().map(i -> buildDefaultLink(i)).collect(Collectors.toList());
 			proprieteDoc.getExpectedValue().setInValues(links);
 		}
 		
-		// Dash:LabelRol
+		// dash:LabelRole
 		if (propertyShape.isLabelRole()) {
 			proprieteDoc.setLabelRole(true);
 		}
 		
-		// create a String of comma-separated short forms
-		//proprieteDoc.getExpectedValue().setOr(ModelRenderingUtils.render(propertyShape.getShOr(), false));
-		proprieteDoc.getExpectedValue().setOr(propertyShape.getShOr());
+		// read values in sh:or
+		RDFList shOrList = propertyShape.getShOr();
+		if(shOrList != null) {
+			if(ShOrReadingUtils.readShNodeInShOr(shOrList).size() > 0) {
+				proprieteDoc.getExpectedValue().setOr(ShOrReadingUtils.readShNodeInShOr(shOrList).stream().map(i -> buildShNodeLink(i)).collect(Collectors.toList()));
+			} else if(ShOrReadingUtils.readShClassInShOr(shOrList).size() > 0) {
+				proprieteDoc.getExpectedValue().setOr(ShOrReadingUtils.readShClassInShOr(shOrList).stream().map(i -> buildShClassLink(i)).collect(Collectors.toList()));
+			} else if(ShOrReadingUtils.readShDatatypeInShOr(shOrList).size() > 0) {
+				proprieteDoc.getExpectedValue().setOr(ShOrReadingUtils.readShDatatypeInShOr(shOrList).stream().map(i -> buildShDatatypeLink(i)).collect(Collectors.toList()));
+			} else if(ShOrReadingUtils.readShNodeKindInShOr(shOrList).size() > 0) {
+				proprieteDoc.getExpectedValue().setOr(ShOrReadingUtils.readShNodeKindInShOr(shOrList).stream().map(i -> buildShNodeKindLink(i)).collect(Collectors.toList()));
+			}
+		}
 		
 		return proprieteDoc;
 	}
@@ -141,51 +153,16 @@ public class PropertyShapeDocumentationBuilder {
 		Link l = null;
 
 		if (shHasValue != null) {
-			l = buildLink(shHasValue);
+			l = buildDefaultLink(shHasValue);		
 		// sh:node has precedence over sh:class
 		} else if (shNode != null) {
-			for(NodeShape aBox : allNodeShapes) {
-				// using toString instead of getURI so that it works with anonymous nodeshapes
-				if(aBox.getNodeShape().toString().equals(shNode.toString())) {
-					l = new Link(aBox.getShortFormOrId(), aBox.getDisplayLabel(owlGraph, lang));
-					break;
-				}
-			}
-			// default link if shape not found
-			if(l == null) {
-				l = buildLink(shNode);
-			}
+			return this.buildShNodeLink(shNode);
 		} else if (shClass != null) {
-			for(NodeShape aNodeShape : allNodeShapes) {
-				if(aNodeShape.getShTargetClass() != null && findShClassInShTargetClass(aNodeShape.getShTargetClass(),shClass.getURI())) {
-					l = new Link(aNodeShape.getShortFormOrId(), aNodeShape.getDisplayLabel(owlGraph, lang));
-					break;
-					// checks that the URI of the NodeShape is itself equal to the sh:class
-					// add a check to work only with named URI node shapes
-				} else if (aNodeShape.getNodeShape().isURIResource() && aNodeShape.getNodeShape().getURI().equals(shClass.getURI())) {
-					l = new Link(aNodeShape.getShortFormOrId(), aNodeShape.getDisplayLabel(owlGraph, lang));
-					break;
-				}
-			}
-
-			// default link if class not found
-			if(l == null) {
-				l = buildLink(shClass);
-			}
+			return this.buildShClassLink(shClass);
 		} else if (shDatatype != null) {
-			if(
-				!shDatatype.asResource().getURI().startsWith(XSD.NS)
-				&&
-				!shDatatype.asResource().getURI().startsWith(RDF.uri)
-			) {
-				l = buildLink(shDatatype);
-			} else {
-				// avoid putting a link to well-known datatypes
-				l = new Link(null, ModelRenderingUtils.render(shDatatype, true));
-			}
+			return this.buildShDatatypeLink(shDatatype);
 		} else if (shNodeKind != null) {
-			// avoid putting a link to node kinds
-			l = new Link(null, renderNodeKind(shNodeKind));
+			return this.buildShNodeKindLink(shNodeKind);
 		}
 		
 		return l;
@@ -204,7 +181,52 @@ public class PropertyShapeDocumentationBuilder {
 		}
 	}
 
-	public static Link buildLink(RDFNode node) {
+	public Link buildShNodeLink(Resource shNode) {
+		for(NodeShape aBox : allNodeShapes) {
+			// using toString instead of getURI so that it works with anonymous nodeshapes
+			if(aBox.getNodeShape().toString().equals(shNode.toString())) {
+				return new Link("#"+aBox.getShortFormOrId(), aBox.getDisplayLabel(owlGraph, lang));
+			}
+		}
+
+		// default link if shape not found
+		return buildDefaultLink(shNode);
+	}
+
+	public Link buildShClassLink(Resource shClass) {
+		for(NodeShape aNodeShape : allNodeShapes) {
+			if(aNodeShape.getShTargetClass() != null && findShClassInShTargetClass(aNodeShape.getShTargetClass(),shClass.getURI())) {
+				return new Link("#"+aNodeShape.getShortFormOrId(), aNodeShape.getDisplayLabel(owlGraph, lang));
+				// checks that the URI of the NodeShape is itself equal to the sh:class
+				// add a check to work only with named URI node shapes
+			} else if (aNodeShape.getNodeShape().isURIResource() && aNodeShape.getNodeShape().getURI().equals(shClass.getURI())) {
+				return new Link("#"+aNodeShape.getShortFormOrId(), aNodeShape.getDisplayLabel(owlGraph, lang));
+			}
+		}
+
+		// default link if class not found
+		return buildDefaultLink(shClass);
+	}
+
+	public Link buildShDatatypeLink(Resource shDatatype) {
+		if(
+				!shDatatype.asResource().getURI().startsWith(XSD.NS)
+				&&
+				!shDatatype.asResource().getURI().startsWith(RDF.uri)
+			) {
+				return buildDefaultLink(shDatatype);
+			} else {
+				// avoid putting a link to well-known datatypes
+				return new Link(null, ModelRenderingUtils.render(shDatatype, true));
+			}
+	}
+
+	public Link buildShNodeKindLink(Resource shNodeKind) {
+		// avoid putting a link to node kinds
+		return new Link(null, renderNodeKind(shNodeKind));
+	}
+
+	public Link buildDefaultLink(RDFNode node) {
 		Link l = new Link();
 
 		if (node instanceof Literal) {

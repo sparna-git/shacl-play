@@ -1217,25 +1217,14 @@
 		<xsl:choose>
 			<xsl:when test="expectedValue[href/text()]">
 				<code>
-					<a href="#{expectedValue/href}"><xsl:value-of select="expectedValue/label" /></a>
+					<a href="{expectedValue/href}"><xsl:value-of select="expectedValue/label" /></a>
 				</code>
 			</xsl:when>
-			<xsl:when test="./or/or">
-				<xsl:for-each select="./or/or">
-					<xsl:variable name="current" select="normalize-space(.)" />
-					<xsl:choose>
-						<xsl:when test="starts-with($current,'xsd:') or starts-with($current,'sh:') or starts-with($current,'rdf:')">
-							<code><xsl:value-of select="$current" /></code>												
-						</xsl:when>
-						<xsl:otherwise>
-							<code>
-								<a href="{concat('#',$current)}">
-									<xsl:value-of select="$current" />
-								</a>
-							</code>
-						</xsl:otherwise>
-					</xsl:choose>
-					<!--  -->				
+			<xsl:when test="./ors/or">
+				<xsl:for-each select="./ors/or">
+					<code>
+						<a href="{href}"><xsl:value-of select="label" /></a>
+					</code>			
 					<xsl:choose>
 						<xsl:when test="position() &lt; last()">
 							<code> <xsl:value-of select="$LABELS/labels/entry[@key='LABEL_OR']/@label" /> </code>

@@ -105,13 +105,9 @@ public class PropertyShape {
 		return result;
 	}
 
-	public List<String> getShOr() {
-		if (this.resource.hasProperty(SH.or)) {
-			
-			List<Resource> values = ShOrReadingUtils.readShClassAndShNodeAndShDatatypeAndShNodeKindInShOr(this.resource.getProperty(SH.or).getList());
-			if(values.size() > 0) {
-				return values.stream().map(r -> { return (r.isURIResource())?r.getModel().shortForm(r.getURI()):r.toString();}).collect(Collectors.toList());
-			}			
+	public RDFList getShOr() {
+		if (this.resource.hasProperty(SH.or)) {			
+			return this.resource.getProperty(SH.or).getList();
 		}
 		
 		return null;

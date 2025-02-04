@@ -11,19 +11,22 @@ public class ExpectedValue {
 	// or an external link to a class URI
 	// it is possible that only the label is populated, without the href
 	private Link expectedValue;
+
 	// ... or the or is populated
-	private List<String> or;
+	@JacksonXmlElementWrapper(localName="ors")
+	@JacksonXmlProperty(localName = "or")
+	private List<Link> or;
 
 	@JacksonXmlElementWrapper(localName="inValues")
 	@JacksonXmlProperty(localName = "inValue")
 	private List<Link> inValues;
 	
 	
-	public List<String> getOr() {
+	public List<Link> getOr() {
 		return or;
 	}
 
-	public void setOr(List<String> shOr) {
+	public void setOr(List<Link> shOr) {
 		this.or = shOr;
 	}
 

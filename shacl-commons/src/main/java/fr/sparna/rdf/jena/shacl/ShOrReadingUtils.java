@@ -10,6 +10,11 @@ import org.topbraid.shacl.vocabulary.SH;
 
 public class ShOrReadingUtils {
 
+	/**
+	 * Reads the sh:node values in a sh:or list
+	 * @param shOrList
+	 * @return
+	 */
 	public static List<Resource> readShNodeInShOr(RDFList shOrList){
 		
 		List<Resource> result = new ArrayList<>();
@@ -30,6 +35,11 @@ public class ShOrReadingUtils {
 		return result;
 	}
 	
+	/**
+	 * Reads the sh:class values in a sh:or list
+	 * @param shOrList
+	 * @return
+	 */
 	public static List<Resource> readShClassInShOr(RDFList shOrList) {		
 		List<Resource> result = new ArrayList<>();
 		List<RDFNode> rdflist = shOrList.asJavaList();
@@ -49,6 +59,11 @@ public class ShOrReadingUtils {
 		return result;
 	}
 	
+	/**
+	 * Reads the sh:datatype values in a sh:or list
+	 * @param shOrList
+	 * @return
+	 */
 	public static List<Resource> readShDatatypeInShOr(RDFList shOrList){
 		
 		List<Resource> result = new ArrayList<>();
@@ -69,6 +84,11 @@ public class ShOrReadingUtils {
 		return result;
 	}
 	
+	/**
+	 * reads the sh:nodeKind values in a sh:or list
+	 * @param shOrList
+	 * @return
+	 */
 	public static List<Resource> readShNodeKindInShOr(RDFList shOrList){
 		
 		List<Resource> result = new ArrayList<>();
@@ -89,6 +109,11 @@ public class ShOrReadingUtils {
 		return result;
 	}
 	
+	/**
+	 * Reads the sh:class, sh:node, sh:datatype and sh:nodeKind values in a sh:or list
+	 * @param shOrList
+	 * @return
+	 */
 	public static List<Resource> readShClassAndShNodeAndShDatatypeAndShNodeKindInShOr(RDFList shOrList){
 		
 		List<Resource> result = new ArrayList<>();

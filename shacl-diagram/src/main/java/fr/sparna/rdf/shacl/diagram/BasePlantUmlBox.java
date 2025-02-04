@@ -85,6 +85,10 @@ public class BasePlantUmlBox implements PlantUmlBoxIfc {
         
     }
     
-    
+    @Override
+    public String getLink() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
 }

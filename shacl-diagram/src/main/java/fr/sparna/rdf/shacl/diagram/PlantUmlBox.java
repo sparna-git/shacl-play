@@ -23,8 +23,12 @@ public class PlantUmlBox implements PlantUmlBoxIfc {
 	
 	protected List<PlantUmlProperty> properties = new ArrayList<>();
 
+	protected String link;
+
 	public PlantUmlBox(Resource nodeShape) {  
 	    this.nodeShape = nodeShape;		
+		// init the link
+		this.link = "#" + this.nodeShape.getModel().shortForm(this.nodeShape.getURI());
 	}
 	
 	public Resource getNodeShape() {
@@ -109,6 +113,14 @@ public class PlantUmlBox implements PlantUmlBoxIfc {
 	
 	public void setProperties(List<PlantUmlProperty> properties) {
 		this.properties = properties;
+	}
+
+	public String getLink() {
+		return link;
+	}
+
+	public void setLink(String link) {
+		this.link = link;
 	}
 	
 

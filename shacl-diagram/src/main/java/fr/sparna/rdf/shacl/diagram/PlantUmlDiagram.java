@@ -48,7 +48,6 @@ public class PlantUmlDiagram {
 	 * Returns the identifier of the arrow reference (a shortForm), either through an sh:node to an existing NodeShape,
 	 * an sh:class to an existing NodeShape, or an sh:class to a class that is not a NodeShape or targeted by a NodeShape
 	 * 
-	 * @param allBoxes
 	 * @return
 	 */
 	public String resolvePropertyShapeShNodeOrShClass(PlantUmlProperty property) {

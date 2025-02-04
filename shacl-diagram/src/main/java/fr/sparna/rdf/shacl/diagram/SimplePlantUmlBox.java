@@ -10,14 +10,17 @@ public class SimplePlantUmlBox extends BasePlantUmlBox {
     private String backgroundColorString;
     private String colorString;
     private Resource nodeShape;
-    private List<Resource> shNode = new ArrayList<>();;
+    private List<Resource> shNode = new ArrayList<>();
     private String label;
     private List<Resource> depiction = new ArrayList<>();
     protected List<PlantUmlProperty> properties = new ArrayList<>();
-    public List<Resource> rdfsSubClassOf = new ArrayList<>();
+    private List<Resource> rdfsSubClassOf = new ArrayList<>();
+	private String link;
     
     public SimplePlantUmlBox(Resource r) {
-        this.nodeShape = r;        
+        this.nodeShape = r;
+		// init the link
+		this.link = "#" + this.nodeShape.getModel().shortForm(this.nodeShape.getURI());    
     }
     
     public String getBackgroundColorString() {
@@ -78,5 +81,13 @@ public class SimplePlantUmlBox extends BasePlantUmlBox {
 
 	public void setShNode(List<Resource> shNode) {
 		this.shNode = shNode;
+	}
+
+	public String getLink() {
+		return link;
+	}
+
+	public void setLink(String link) {
+		this.link = link;
 	}
 }

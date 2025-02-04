@@ -34,5 +34,5 @@ public interface PlantUmlBoxIfc {
 
 	public void setProperties(List<PlantUmlProperty> properties);
 	
-
+	public String getLink();
 }

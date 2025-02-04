@@ -460,7 +460,7 @@ public class PlantUmlRenderer {
 				declaration = "Class" + " " + "\"" + box.getLabel() + "\"";
 			}
 
-			declaration += (this.generateAnchorHyperlink) ? " [[#" + box.getNodeShape().getModel().shortForm(box.getNodeShape().getURI()) +"]]" : "";
+			declaration += (this.generateAnchorHyperlink) ? " [["+box.getLink()+"]]" : "";
 			declaration += " " + colorBackGround+labelColorClass + "\n";
 			
 			if (superClassesBoxes != null) {

@@ -115,8 +115,12 @@
 					
 					<div style="margin-top:2em;">
 						<h4 id="simplification">Limiting the number of arrows/boxes</h4>
-						<p>If a property shape refer to a node shape that does not have any property, and only one reference is made to that node shape, then the arrow will
-						not be printed and will be replaced by a property inside the node shape box.</p>	
+						<p>When the diagram contains strictly more than 8 boxes, then the number of arrows is reduced with this algorithm: if a property shape refer to a node shape
+						that does not have any property, and only one reference is made to that node shape, then that arrow will
+						not be printed and will be replaced by a property inside the node shape box, with a green circle next to it.
+						<br />
+						This simplification is applied only to the large global diagram, not to the individual diagrams in each section of the documentation, when they are present.
+						</p>	
 					</div>
 
 					<div style="margin-top:2em;">

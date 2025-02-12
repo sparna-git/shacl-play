@@ -51,7 +51,6 @@
 				}
 
 			.sp_badge {
-				vertical-align: super;
 				font-size: 80%;
 				background-color: #36a2eb;
 				color: white;
@@ -59,7 +58,7 @@
 				padding: 0px 4px;
 				text-align: center;
 				border-radius: 7px;
-				}
+			}
 
 			/* chart sections */
 	
@@ -119,7 +118,7 @@
 			</xsl:if>
 		</xsl:variable>
 		
-		<h3 class="sp_section_title_table" style="{$style}">
+		<h3 id="{../sectionId}" class="sp_section_title_table" style="{$style}">
 			<xsl:value-of select="."/>
 			<xsl:apply-templates select="../numberOfTargets" />
 		</h3>

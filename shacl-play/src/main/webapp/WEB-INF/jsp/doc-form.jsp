@@ -51,6 +51,7 @@
 					<p>This documentation generation utility prints an <em>application profile specified in SHACL</em>. It supports a subset of SHACL constraints. The generated documentation describes all the properties allowed on each class/shape of the application profile, and includes a diagram, namespace table, introduction, 
 					   and some metadata at the top of the document. Detailed documentation is available <a href="#documentation">below</a>.</p>
 					<p>Good examples of how the generated documentation looks like are the <a href="https://europarl.github.io/org-ep/">European Parliament application profiles</a> or the <a href="https://rdafr.fr/profil-application/">RDA-FR profile</a>.</p>
+					<p>This documentation generation utility also supports <a href="#documentation-dataset">SHACL-based dataset statistics documentation generation</a></p>
 				</div>
 	 
 			  	<form id="upload_form" action="doc" method="POST" enctype="multipart/form-data" class="form-horizontal">
@@ -581,7 +582,46 @@
 						
 					</div>
 					
-				</div>			
+				</div>	<!-- end div documentation -->		
+
+				<div style="margin-top:3em;">
+					<h3 id="documentation-dataset">Dataset statistics documentation</h3>
+					<h4 id="dataset-statistics-intro">Introduction</h4>
+					<p>A variant of this documentation generation utility generates a documentation of a <em>dataset statistics information, based on a certain SHACL
+						profile.</em> This documentation is useful to provide information about the distribution of the data in the dataset. The following displayed are printed:
+					</p>
+					<ul>
+						<li>Total number of triples in the dataset</li>
+						<li>Number of instances of each shape/class</li>
+						<li>Number of occurrences of each property shape</li>
+						<li>Number of distinct values of each property shape</li>
+						<li>For properties with a small number of values, the number of occurrences of each value, in a pie-chart diagram</li>
+					</ul>
+					<p>These counts are produced by the <a href="generate">SHACL generation algorithm</a>, following <a href="generate#statistics-documentation">this structure</a>,
+						which is an extension of the VOID vocabulary.</p>
+					<h4 id="how-to-use">How to use it</h4>
+					<p>To trigger this feature, you need to upload a file that encodes a SHACL specification, PLUS some statistics information. Precisely it needs to contain :</p>
+					<ul>
+						<li>"node shape partitions" : resources (optionaly of type <code>void:Dataset</code>), with a <code>dcterms:conformsTo</code> predicate pointing a NodeShape, and with a <code>void:entities</code> predicate,
+						holding an integer value, which expresses the <strong>number of targets of the node shape</strong>.</li>
+						<li>"property shape partitions" : resources (optional of type <code>void:Dataset</code>), that is itself the object of a <code>void:propertyPartition</code> from 
+						a "node shape partition" entity, and that is the subject of :
+						<ul>
+							<li>a <code>dcterms:conformsTo</code> pointing to a property shape.</li>
+							<li>a <code>void:triples</code> predicate holding an integer value, and representing the <strong>number of occurrences</strong> of the property shape path.</li>
+							<li>a <code>void:distinctObjects</code> predicate holding an integer value, and representing the <strong>number of distinct values</strong> of the property shape path.</li>
+						</ul>
+					</ul>
+					<h4 id="sample-file">Sample file</h4>
+					<p>To test this feature, you can use this <a href="">provided sample file</a>.</p>
+					<h4 id="results">What it does</h4>
+					<h5>Documentation header</h5>
+					<p>...</p>
+					<h5>Documentation section</h5>
+					<p>...</p>
+					<h5>Properties table</h5>
+					<p>...</p>
+				</div>
 			</div>
 		</div>
 

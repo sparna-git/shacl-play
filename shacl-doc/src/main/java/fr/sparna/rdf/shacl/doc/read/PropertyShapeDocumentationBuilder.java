@@ -1,5 +1,6 @@
 package fr.sparna.rdf.shacl.doc.read;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -8,8 +9,10 @@ import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.RDFList;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.XSD;
+import org.topbraid.shacl.vocabulary.SH;
 
 import fr.sparna.rdf.jena.ModelRenderingUtils;
 import fr.sparna.rdf.jena.shacl.ShOrReadingUtils;
@@ -55,7 +58,13 @@ public class PropertyShapeDocumentationBuilder {
 		// section ID from concat of node shape ID + short name of the property
 		proprieteDoc.setSectionId(nodeShape.getShortFormOrId()+"_"+propertyShape.getShPathAsString());	
 		
-		proprieteDoc.setCardinalite(renderCardinalities(propertyShape.getShMinCount(), propertyShape.getShMaxCount()));
+		// if sh:qualifiedValueShape found in then property else print cardinality
+		if (propertyShape.getQualifiedValueShape() != null) {
+			proprieteDoc.setCardinalite(renderCardinalities(propertyShape.getShQualifiedMinCount(), propertyShape.getShQualifiedMaxCount()));
+		} else {
+			proprieteDoc.setCardinalite(renderCardinalities(propertyShape.getShMinCount(), propertyShape.getShMaxCount()));
+		}		
+		
 		proprieteDoc.setDescription(propertyShape.getDisplayDescription(shaclGraph.union(owlGraph), lang));
 		
 		// Color
@@ -72,7 +81,8 @@ public class PropertyShapeDocumentationBuilder {
 				propertyShape.getShNode(),
 				propertyShape.getShDatatype(),
 				propertyShape.getShNodeKind(),
-				propertyShape.getShHasValue()
+				propertyShape.getShHasValue(),
+				propertyShape.getQualifiedValueShape()
 		));
 
 		if(propertyShape.getShIn() != null) {
@@ -80,9 +90,20 @@ public class PropertyShapeDocumentationBuilder {
 			proprieteDoc.getExpectedValue().setInValues(links);
 		}
 		
+		// sh:Pattern on property
+		if(propertyShape.getShPattern() != null) {
+			Link links = buildDefaultLink(propertyShape.getShPattern());
+			proprieteDoc.getExpectedValue().setpPatterns(links);
+		}
+		
 		// dash:LabelRole
 		if (propertyShape.isLabelRole()) {
 			proprieteDoc.setLabelRole(true);
+		}
+		
+		// sh:Deactivated
+		if (propertyShape.isDeactivated()) {
+			proprieteDoc.setDeactivated(true);
 		}
 		
 		// read values in sh:or
@@ -148,21 +169,28 @@ public class PropertyShapeDocumentationBuilder {
 			Resource shNode,
 			Resource shDatatype,
 			Resource shNodeKind,
-			RDFNode shHasValue
+			RDFNode shHasValue,
+			Resource shQualifiedValueShape
 	) {
 		Link l = null;
 
-		if (shHasValue != null) {
-			l = buildDefaultLink(shHasValue);		
+		if (shHasValue != null && shNode == null && shClass == null) {
+			l = buildDefaultLink(shHasValue);
 		// sh:node has precedence over sh:class
 		} else if (shNode != null) {
-			return this.buildShNodeLink(shNode);
+			//return this.buildShNodeLink(shNode);
+			l = this.buildShNodeLink(shNode);
 		} else if (shClass != null) {
-			return this.buildShClassLink(shClass);
+			//return this.buildShClassLink(shClass);
+			l = this.buildShClassLink(shClass);
 		} else if (shDatatype != null) {
-			return this.buildShDatatypeLink(shDatatype);
-		} else if (shNodeKind != null) {
-			return this.buildShNodeKindLink(shNodeKind);
+			//return this.buildShDatatypeLink(shDatatype);
+			l = this.buildShDatatypeLink(shDatatype);
+		} else if (shNodeKind != null && shQualifiedValueShape == null ) {
+			//return this.buildShNodeKindLink(shNodeKind);
+			l = this.buildShNodeKindLink(shNodeKind);
+		} else if (shQualifiedValueShape != null) {
+			l = this.buildShQualifiedValueShape(shQualifiedValueShape);			
 		}
 		
 		return l;
@@ -243,4 +271,16 @@ public class PropertyShapeDocumentationBuilder {
 		return l;
 	}
 	
+	public Link buildShQualifiedValueShape(Resource shQualifiedValueShape) {
+		
+		Link r = null;
+		
+		for (Statement qvs : shQualifiedValueShape.asResource().listProperties().toList()) {
+			
+			Resource e = qvs.getObject().asResource();
+			r = this.buildDefaultLink(e);
+		}
+		
+		return r;
+	}
 }

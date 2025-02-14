@@ -187,9 +187,25 @@ public class PropertyShape {
 			return Collections.emptyList();
 		}
 	}
-
+	
 	public boolean isLabelRole() {
 		return this.getPropertyRoles().stream().anyMatch(r -> r.getURI().equals(DASH.LabelRole.getURI()));
+	}
+	
+	public Resource getQualifiedValueShape() {
+		return Optional.ofNullable(this.resource.getProperty(SH.qualifiedValueShape)).map(s -> s.getResource()).orElse(null);
+	}
+	
+	public Integer getShQualifiedMinCount() {
+		return Optional.ofNullable(this.resource.getProperty(SH.qualifiedMinCount)).map(s -> Integer.parseInt(s.getString())).orElse(null);
+	}
+	
+	public Integer getShQualifiedMaxCount() {
+		return Optional.ofNullable(this.resource.getProperty(SH.qualifiedMaxCount)).map(s -> Integer.parseInt(s.getString())).orElse(null);
+	}
+	
+	public boolean isDeactivated () {
+		return Optional.ofNullable(this.resource.getProperty(SH.deactivated)).map(s -> s.getLiteral().getBoolean()).orElse(false);
 	}
 	
 }

@@ -1087,34 +1087,36 @@
 				</xsl:choose>
 			</xsl:variable>
 			
-			<table class="sp_table_propertyshapes {$getBgColor} table-responsive">
-				<thead>
-					<tr>
-						<th>
-							<xsl:value-of
-								select="$LABELS/labels/entry[@key='COLUMN_PROPERTY']/@label" />
-						</th>
-						<th >
-							<xsl:value-of
-								select="$LABELS/labels/entry[@key='COLUMN_URI']/@label" />
-						</th>
-						<th>
-							<xsl:value-of
-								select="$LABELS/labels/entry[@key='COLUMN_EXPECTED_VALUE']/@label" />
-						</th>
-						<th>
-							<xsl:value-of
-								select="$LABELS/labels/entry[@key='COLUMN_CARD']/@label" />
-						</th>
-						<th class="sp_description_column">
-							<xsl:value-of select="$LABELS/labels/entry[@key='COLUMN_DESCRIPTION']/@label" />
-						</th>		
-					</tr>
-				</thead>
-				<tbody>
-					<xsl:apply-templates select="propertyGroup" />
-				</tbody>
-			</table><!-- end properties table -->
+			<xsl:if test="count(propertyGroup/properties/property) &gt; 0">
+				<table class="sp_table_propertyshapes {$getBgColor} table-responsive">
+					<thead>
+						<tr>
+							<th>
+								<xsl:value-of
+									select="$LABELS/labels/entry[@key='COLUMN_PROPERTY']/@label" />
+							</th>
+							<th >
+								<xsl:value-of
+									select="$LABELS/labels/entry[@key='COLUMN_URI']/@label" />
+							</th>
+							<th>
+								<xsl:value-of
+									select="$LABELS/labels/entry[@key='COLUMN_EXPECTED_VALUE']/@label" />
+							</th>
+							<th>
+								<xsl:value-of
+									select="$LABELS/labels/entry[@key='COLUMN_CARD']/@label" />
+							</th>
+							<th class="sp_description_column">
+								<xsl:value-of select="$LABELS/labels/entry[@key='COLUMN_DESCRIPTION']/@label" />
+							</th>		
+						</tr>
+					</thead>
+					<tbody>
+						<xsl:apply-templates select="propertyGroup" />
+					</tbody>
+				</table><!-- end properties table -->
+			</xsl:if>
 		</xsl:if>
 	</xsl:template>
 	
@@ -1125,7 +1127,7 @@
 		</xsl:if>
 		
 		<!-- Properties table -->
-		<xsl:apply-templates select="properties" />	
+		<xsl:apply-templates select="properties" />
 	</xsl:template>
 	
 	<!-- Properties -->
@@ -1211,6 +1213,12 @@
 				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" style="width:18px; vertical-align: middle;"><path class="fa-secondary" opacity=".4" fill="#af0e16" d="M16 80l0 149.5c0 12.7 5.1 24.9 14.1 33.9l176 176c18.7 18.7 49.1 18.7 67.9 0L407.4 305.9c18.7-18.7 18.7-49.1 0-67.9l-176-176c-9-9-21.2-14.1-33.9-14.1L48 48C30.3 48 16 62.3 16 80zm136 64a40 40 0 1 1 -80 0 40 40 0 1 1 80 0z"/><path class="fa-primary" fill="#af0e16" d="M16 229.5c0 12.7 5.1 24.9 14.1 33.9l176 176c18.7 18.7 49.1 18.7 67.9 0L407.4 305.9c18.7-18.7 18.7-49.1 0-67.9l-176-176c-9-9-21.2-14.1-33.9-14.1L48 48C30.3 48 16 62.3 16 80l0 149.5zm-16 0L0 80C0 53.5 21.5 32 48 32l149.5 0c17 0 33.3 6.7 45.3 18.7l176 176c25 25 25 65.5 0 90.5L285.3 450.7c-25 25-65.5 25-90.5 0l-176-176C6.7 262.7 0 246.5 0 229.5zM112 104a40 40 0 1 1 0 80 40 40 0 1 1 0-80zm24 40a24 24 0 1 0 -48 0 24 24 0 1 0 48 0z"/></svg>
 			</span>				
 		</xsl:if>
+		<xsl:if test="../deactivated = 'true'">
+			&#160;
+			<span title="">
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" style="width:18px; vertical-align: middle;"><path class="fa-secondary" opacity=".4" fill="#808080" d="M48 256c0 114.9 93.1 208 208 208c48.8 0 93.7-16.8 129.1-44.9L92.9 126.9C64.8 162.3 48 207.2 48 256zM126.9 92.9L419.1 385.1C447.2 349.7 464 304.8 464 256c0-114.9-93.1-208-208-208c-48.8 0-93.7 16.8-129.1 44.9z"/><path class="fa-primary" fill="#808080" d="M385.1 419.1L92.9 126.9C64.8 162.3 48 207.2 48 256c0 114.9 93.1 208 208 208c48.8 0 93.7-16.8 129.1-44.9zm33.9-33.9C447.2 349.7 464 304.8 464 256c0-114.9-93.1-208-208-208c-48.8 0-93.7 16.8-129.1 44.9L419.1 385.1zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256z"/></svg>
+			</span>				
+		</xsl:if>
 	</xsl:template>
 	<!-- Expected Value -->
 	<xsl:template match="property/expectedValue">
@@ -1259,6 +1267,19 @@
 					</xsl:for-each>
 				</small>
 			</p>
+		</xsl:if>
+		<xsl:if test="pattern/label">
+			
+			<small>
+			<xsl:choose>
+				<xsl:when test="pattern/label">
+					<a href="{href}"><xsl:value-of select="pattern/label" /></a>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="label" />
+				</xsl:otherwise>
+			</xsl:choose>					
+			</small>			
 		</xsl:if>
 	</xsl:template>
 	

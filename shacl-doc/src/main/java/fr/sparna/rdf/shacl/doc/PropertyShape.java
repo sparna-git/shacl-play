@@ -76,12 +76,33 @@ public class PropertyShape {
 			result = ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(owlModel.getResource(this.getShPath().getURI()), RDFS.label, lang), true);
 		}
 		
-		// otherwise return empty string, never null (for sorting)
+		// otherwise return empty string (could be null now that we use another method for sorting)
 		if(result == null) {
 			result = "";
 		}
 		
 		return result;
+	}
+
+	/**
+	 * Returns the key to be used for sorting in the properties table
+	 * 
+	 * @param owlModel
+	 * @param lang
+	 * @return
+	 */
+	public String getSortOrderKey(Model owlModel, String lang) {
+		if(this.getShOrder() != null) {
+			return this.getShOrder().toString();
+		} else if(!this.getDisplayLabel(owlModel, lang).equals("")) {
+			return this.getDisplayLabel(owlModel, lang);
+		} else if(this.getShPath().isURIResource()) {
+			// otherwise use the property URI for sorting
+			return ModelRenderingUtils.render(this.getShPath(), true);
+		} else {
+			// otherwise use the path
+			return this.getShPath().toString();
+		}
 	}
 	
 	public String getDisplayDescription(Model owlModel, String lang) {

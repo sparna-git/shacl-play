@@ -45,11 +45,11 @@ public class ArgumentsDoc {
 	private Boolean diagramShacl=false;
 	
 	@Parameter(
-			names = { "-nsd", "--noSectionDiagram" },
+			names = { "-nsd", "--noSectionDiagrams" },
 			description = "Set this parameter to remove entity diagrams for each section in the generated documentation.",
 			required = false
 	)
-	private Boolean noSectionDiagram=false;
+	private Boolean noSectionDiagrams=false;
 	
 	@Parameter(
 			names = { "-h", "--hide" },
@@ -130,12 +130,12 @@ public class ArgumentsDoc {
 		this.hidePropertiesShacl = hidePropertiesShacl;
 	}
 
-	public Boolean getNoSectionDiagram() {
-		return noSectionDiagram;
+	public Boolean getNoSectionDiagrams() {
+		return noSectionDiagrams;
 	}
 
-	public void setNoSectionDiagram(Boolean noSectionDiagram) {
-		this.noSectionDiagram = noSectionDiagram;
+	public void setNoSectionDiagrams(Boolean noSectionDiagrams) {
+		this.noSectionDiagrams = noSectionDiagrams;
 	}
 	
 }

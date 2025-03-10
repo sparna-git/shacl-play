@@ -74,10 +74,9 @@
 								</label>
 								<div class="col-sm-9">
 							  		<!--  -->
-							  		<select class="js-example-basic-multiple js-states form-control" 
+							  		<select class="select2-select-multiple js-states form-control" 
 							  				id="IdUrl" 
 							  				onfocus="setInitial(this);" 
-							  				onclick="onchangeSelect(value)"
 							  				multiple="multiple"
 							  				name="IdUrl"
 							  				style="height: 40%;">
@@ -219,8 +218,7 @@
 		</script>
 		
 		<script type="text/javascript">
-			var $exampleMulti = $('.js-example-basic-multiple').select2();
-		
+	
 			function setInitial(){
 				var formData = new FormData(document.getElementById('upload_form'));
 				
@@ -239,23 +237,23 @@
 				request.send(formData);
 				// populate Select2
 		    	$(document).ready(function() {
-			    	$('.js-example-basic-multiple').select2();
+			    	$('.select2-select-multiple').select2();
 			    	// Enable button
-			    	document.getElementById("validate-button").disabled = false
+			    	// document.getElementById("validate-button").disabled = false
 				});				
 			 }
-			
-			function onchangeSelect(obj) {
+
+			 $('.select2-select-multiple').on('change', function (e) {
+				var data = $(this).select2('data');
 				// check that the selected value is not the first empty option
-			    if(
-					obj != ""
-				){
+			    if(data.length > 0){
 			    	// Enable button
 			    	document.getElementById("validate-button").disabled = false
 				} else {
 					document.getElementById("validate-button").disabled = true
 				}
-			}
+			});
+			
 		</script>
 	</body>
 </html>

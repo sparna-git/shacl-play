@@ -59,7 +59,7 @@ public class PropertyShapeDocumentationBuilder {
 		proprieteDoc.setSectionId(nodeShape.getShortFormOrId()+"_"+propertyShape.getShPathAsString());	
 		
 		// if sh:qualifiedValueShape found in then property else print cardinality
-		if (propertyShape.getQualifiedValueShape() != null) {
+		if (propertyShape.getQualifiedValueShape().size() > 0) {
 			proprieteDoc.setCardinalite(renderCardinalities(propertyShape.getShQualifiedMinCount(), propertyShape.getShQualifiedMaxCount()));
 		} else {
 			proprieteDoc.setCardinalite(renderCardinalities(propertyShape.getShMinCount(), propertyShape.getShMaxCount()));
@@ -170,27 +170,27 @@ public class PropertyShapeDocumentationBuilder {
 			Resource shDatatype,
 			Resource shNodeKind,
 			RDFNode shHasValue,
-			Resource shQualifiedValueShape
+			List<Resource> shQualifiedValueShape
 	) {
 		Link l = null;
 
-		if (shHasValue != null && shNode == null && shClass == null) {
-			l = buildDefaultLink(shHasValue);
+		if (shQualifiedValueShape.size() > 0) {
+			l = this.buildShQualifiedValueShape(shQualifiedValueShape);			
+		} else if (shHasValue != null && shNode == null && shClass == null) {
+			return buildDefaultLink(shHasValue);
 		// sh:node has precedence over sh:class
 		} else if (shNode != null) {
-			//return this.buildShNodeLink(shNode);
-			l = this.buildShNodeLink(shNode);
+			return this.buildShNodeLink(shNode);
+			//l = this.buildShNodeLink(shNode);
 		} else if (shClass != null) {
-			//return this.buildShClassLink(shClass);
-			l = this.buildShClassLink(shClass);
+			return this.buildShClassLink(shClass);
+			//l = this.buildShClassLink(shClass);
 		} else if (shDatatype != null) {
-			//return this.buildShDatatypeLink(shDatatype);
-			l = this.buildShDatatypeLink(shDatatype);
-		} else if (shNodeKind != null && shQualifiedValueShape == null ) {
-			//return this.buildShNodeKindLink(shNodeKind);
-			l = this.buildShNodeKindLink(shNodeKind);
-		} else if (shQualifiedValueShape != null) {
-			l = this.buildShQualifiedValueShape(shQualifiedValueShape);			
+			return this.buildShDatatypeLink(shDatatype);
+			//l = this.buildShDatatypeLink(shDatatype);
+		} else if (shNodeKind != null) {
+			return this.buildShNodeKindLink(shNodeKind);
+			//l = this.buildShNodeKindLink(shNodeKind);
 		}
 		
 		return l;
@@ -271,14 +271,17 @@ public class PropertyShapeDocumentationBuilder {
 		return l;
 	}
 	
-	public Link buildShQualifiedValueShape(Resource shQualifiedValueShape) {
+	public Link buildShQualifiedValueShape(List<Resource> shQualifiedValueShape) {
 		
 		Link r = null;
 		
-		for (Statement qvs : shQualifiedValueShape.asResource().listProperties().toList()) {
-			
-			Resource e = qvs.getObject().asResource();
-			r = this.buildDefaultLink(e);
+		for (Resource qvs : shQualifiedValueShape) {
+				
+			r = this.buildShNodeLink(qvs);
+			r = this.buildShClassLink(qvs);
+			r = this.buildShDatatypeLink(qvs);
+			r = this.buildShNodeKindLink(qvs);
+			r = this.buildDefaultLink(qvs);
 		}
 		
 		return r;

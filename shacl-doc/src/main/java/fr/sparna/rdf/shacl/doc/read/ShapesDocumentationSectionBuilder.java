@@ -135,7 +135,7 @@ public class ShapesDocumentationSectionBuilder {
 					.collect(Collectors.toList()));
 		}
 		
-		// foaf:depictation
+		// foaf:depiction
 		if (nodeShape.getFoafDepiction().size() > 0) {
 			currentSection.setDepictions(nodeShape.getFoafDepiction());
 		}

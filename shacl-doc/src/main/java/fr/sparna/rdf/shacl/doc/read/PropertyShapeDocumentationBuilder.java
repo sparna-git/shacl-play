@@ -92,8 +92,7 @@ public class PropertyShapeDocumentationBuilder {
 		
 		// sh:Pattern on property
 		if(propertyShape.getShPattern() != null) {
-			Link links = buildDefaultLink(propertyShape.getShPattern());
-			proprieteDoc.getExpectedValue().setpPatterns(links);
+			proprieteDoc.getExpectedValue().setPattern(propertyShape.getShPattern().getLexicalForm());
 		}
 		
 		// dash:LabelRole

@@ -21,10 +21,7 @@ public class ExpectedValue {
 	@JacksonXmlProperty(localName = "inValue")
 	private List<Link> inValues;
 	
-	
-	@JacksonXmlElementWrapper(localName="pPatterns")
-	@JacksonXmlProperty(localName = "pattern")
-	private Link pPatterns;
+	private String pattern;
 	
 	
 	public List<Link> getOr() {
@@ -51,12 +48,12 @@ public class ExpectedValue {
 		this.inValues = inValues;
 	}
 
-	public Link getpPatterns() {
-		return pPatterns;
+	public String getPattern() {
+		return pattern;
 	}
 
-	public void setpPatterns(Link pPatterns) {
-		this.pPatterns = pPatterns;
+	public void setPattern(String pattern) {
+		this.pattern = pattern;
 	}
 	
 }

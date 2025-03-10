@@ -1268,18 +1268,8 @@
 				</small>
 			</p>
 		</xsl:if>
-		<xsl:if test="pattern/label">
-			
-			<small>
-			<xsl:choose>
-				<xsl:when test="pattern/label">
-					<a href="{href}"><xsl:value-of select="pattern/label" /></a>
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:value-of select="label" />
-				</xsl:otherwise>
-			</xsl:choose>					
-			</small>			
+		<xsl:if test="pattern">			
+			<small><code><xsl:value-of select="pattern" /></code></small>
 		</xsl:if>
 	</xsl:template>
 	

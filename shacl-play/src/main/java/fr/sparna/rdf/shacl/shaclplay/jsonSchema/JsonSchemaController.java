@@ -70,7 +70,7 @@ public class JsonSchemaController {
 	public ModelAndView schema(
 			@RequestParam(value="url", required=true) String shapesUrl,
 			// URL Option
-			@RequestParam(value="root", required=false) String root,
+			@RequestParam(value="root", required=false) List<String> root,
 			HttpServletRequest request,
 			HttpServletResponse response
 			) throws Exception {
@@ -156,7 +156,7 @@ public class JsonSchemaController {
 		// inline Shapes if shapeSource=sourceShape-inputShapeInline
 		@RequestParam(value="inputShapeInline", required=false) String shapesText,
 		// URL Option
-		@RequestParam(value="IdUrl", required=false) String urlRoot,
+		@RequestParam(value="IdUrl", required=false) List<String> urlRoot,
 		HttpServletRequest request,
 		HttpServletResponse response
 	) throws Exception {
@@ -196,10 +196,9 @@ public class JsonSchemaController {
 	
 	private Model doSchemaShapes(
 			Model shapesModel,
-			String rootUri,
+			List<String> rootUri,
 			HttpServletResponse response
 	) throws Exception {
-		
 		
 		JsonSchemaGenerator generator = new JsonSchemaGenerator("en", rootUri);
 		

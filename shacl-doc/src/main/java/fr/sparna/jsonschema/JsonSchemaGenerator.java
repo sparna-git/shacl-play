@@ -61,8 +61,9 @@ public class JsonSchemaGenerator {
         this.uriMapper = new LocalNameUriToJsonMapper();
     }
 
-    public JsonSchemaGenerator(String lang, String rootShape) {
-        this(lang, null, Collections.singletonList(rootShape));
+    public JsonSchemaGenerator(String lang, List<String> rootShape) {
+        //this(lang, null, Collections.singletonList(rootShape));
+    	this(lang, null, rootShape);
     }
 
     public Schema convertToJsonSchema(Model shaclGraph) throws Exception {

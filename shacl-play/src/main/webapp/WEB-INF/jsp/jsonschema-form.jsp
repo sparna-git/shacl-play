@@ -23,6 +23,12 @@
 		<link rel="stylesheet" href="<c:url value="/resources/MDB-Free/css/mdb.min.css" />">
 		<link rel="stylesheet" href="<c:url value="/resources/jasny-bootstrap/jasny-bootstrap.min.css" />" />
 		<link rel="stylesheet" href="<c:url value="/resources/css/shacl-play.css" />" />
+		
+		<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js" defer></script>
+		
 
 	</head>
 	<body>
@@ -67,13 +73,21 @@
 									<fmt:message key="schema.options.url" />					    
 								</label>
 								<div class="col-sm-9">
-							  		<select class="form-control" name="IdUrl" id="IdUrl" onfocus="setInitial(this);" onclick="onchangeSelect(value)">
-							  			<option value=""><fmt:message key="schema.options.urlRoot.placeholder" /></option>
+							  		<!--  -->
+							  		<select class="js-example-basic-multiple js-states form-control" 
+							  				id="IdUrl" 
+							  				onfocus="setInitial(this);" 
+							  				onclick="onchangeSelect(value)"
+							  				multiple="multiple"
+							  				name="IdUrl"
+							  				style="height: 40%;">
+							  				<option value=""><fmt:message key="schema.options.urlRoot.placeholder"/></option>
 							  		</select>
+							  		
 						  			<small class="form-text text-muted">
 										<fmt:message key="schema.options.url.help" />
 									</small>
-						  		</div>						  		
+						  		</div>						  							  		
 							</div>
 					  	</blockquote>
 					  	
@@ -205,7 +219,8 @@
 		</script>
 		
 		<script type="text/javascript">
-			
+			var $exampleMulti = $('.js-example-basic-multiple').select2();
+		
 			function setInitial(){
 				var formData = new FormData(document.getElementById('upload_form'));
 				
@@ -214,14 +229,20 @@
 				request.onreadystatechange = () => {
 					if (request.readyState === 4 && request.status === 200) {
 						// $('select[name="IdUrl"]').prop( "disabled", false );
-						$('select[name="IdUrl"]').empty();
-						$('select[name="IdUrl"]').append('<option value=""></option>');
+						$('select[id="IdUrl"]').empty();
+						$('select[id="IdUrl"]').append('<option value=""></option>');
 						$.each(JSON.parse(request.responseText), function(key, value) {
-							$('select[name="IdUrl"]').append($('<option>').text(value).attr('value', value)).trigger("chosen:updated");            
+							$('select[id="IdUrl"]').append($('<option>').text(value).attr('value', value)).trigger("chosen:updated");            
 						});
 					}
 				};
 				request.send(formData);
+				// populate Select2
+		    	$(document).ready(function() {
+			    	$('.js-example-basic-multiple').select2();
+			    	// Enable button
+			    	document.getElementById("validate-button").disabled = false
+				});				
 			 }
 			
 			function onchangeSelect(obj) {
@@ -229,14 +250,12 @@
 			    if(
 					obj != ""
 				){
-					// Enable button
+			    	// Enable button
 			    	document.getElementById("validate-button").disabled = false
 				} else {
 					document.getElementById("validate-button").disabled = true
 				}
 			}
-		
 		</script>
-
 	</body>
 </html>

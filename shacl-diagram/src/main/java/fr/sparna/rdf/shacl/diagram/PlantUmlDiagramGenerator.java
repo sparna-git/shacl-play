@@ -263,6 +263,8 @@ public class PlantUmlDiagramGenerator {
 				newBoxSimple.setBackgroundColorString(b.getBackgroundColorString());
 				newBoxSimple.setColorString(b.getColorString());
 				newBoxSimple.setLabel(b.getLabel());
+				// note : this is necessary so that the renderer can resolve class references to the correct boxes
+				newBoxSimple.setTargetClass(b.getTargetClass());
 				
 				return newBoxSimple;
 				

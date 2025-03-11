@@ -2,8 +2,12 @@ package fr.sparna.rdf.shacl.diagram;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.vocabulary.RDF;
+import org.apache.jena.vocabulary.RDFS;
+import org.topbraid.shacl.vocabulary.SH;
 
 public class SimplePlantUmlBox extends BasePlantUmlBox {
     
@@ -16,6 +20,8 @@ public class SimplePlantUmlBox extends BasePlantUmlBox {
     protected List<PlantUmlProperty> properties = new ArrayList<>();
     private List<Resource> rdfsSubClassOf = new ArrayList<>();
 	private String link;
+
+	private Optional<Resource> targetClass;
     
     public SimplePlantUmlBox(Resource r) {
         this.nodeShape = r;
@@ -90,4 +96,27 @@ public class SimplePlantUmlBox extends BasePlantUmlBox {
 	public void setLink(String link) {
 		this.link = link;
 	}
+
+	@Override
+    public Optional<Resource> getTargetClass() {
+        return this.targetClass;
+    }
+
+	public void setTargetClass(Optional<Resource> targetClass) {
+		this.targetClass = targetClass;
+	}
+
+	@Override
+    public boolean isTargeting(Resource classUri) {
+		boolean hasShTargetClass = this.getTargetClass().filter(c -> c.equals(classUri)).isPresent();		
+		boolean isItselfTheClass = 
+		this.nodeShape.hasProperty(RDF.type, RDFS.Class)
+		&&
+		this.nodeShape.hasProperty(RDF.type, SH.NodeShape)
+		&&
+		this.nodeShape.equals(classUri);
+		
+		return hasShTargetClass || isItselfTheClass;
+    }
+
 }

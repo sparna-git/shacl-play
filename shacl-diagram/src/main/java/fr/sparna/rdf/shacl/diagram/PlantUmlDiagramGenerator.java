@@ -89,7 +89,7 @@ public class PlantUmlDiagramGenerator {
 		boxesIncludedInTheDiagram.add(mainBox);
 
 		// Add others Resources
-		List<PlantUmlBoxIfc> otherResources = this.buildAdditionnalBoxes(plantUmlBoxes, mainBox);
+		List<PlantUmlBoxIfc> otherResources = PlantUmlDiagramGenerator.addAdditionnalBoxes(Collections.singletonList(mainBox), plantUmlBoxes);
 		boxesIncludedInTheDiagram.addAll(otherResources);
 
 		// build a Diagram data structure
@@ -211,10 +211,15 @@ public class PlantUmlDiagramGenerator {
 		return plantUmlBoxes;		
 	}
 	
-	private List<PlantUmlBoxIfc> buildAdditionnalBoxes(List<PlantUmlBoxIfc> allBoxes, PlantUmlBoxIfc box) {
+	public static List<PlantUmlBoxIfc> addAdditionnalBoxes(List<PlantUmlBoxIfc> initialBoxes, List<PlantUmlBoxIfc> allBoxes) {
 		
 		// read all sh:nodes and sh:class...
-		List<PlantUmlBoxIfc> interestingBoxes = box.getProperties()
+		List<PlantUmlBoxIfc> interestingBoxes = new ArrayList<>();
+		
+		// iterate on all initial boxes
+		for (PlantUmlBoxIfc box : initialBoxes) {
+			interestingBoxes.addAll(
+				box.getProperties()
 				.stream()
 				.filter(f -> f.getShNode().isPresent() || f.getShClass().isPresent())
 				.map( p -> {
@@ -228,24 +233,26 @@ public class PlantUmlDiagramGenerator {
 					}
 					return null;
 				})
-				.collect(Collectors.toList());
-		
-		// read all sh:or...
-		for (PlantUmlProperty prop : box.getProperties()) {
-			if (prop.getShOrShClass() != null) {
-				for (Resource aShClass : prop.getShOrShClass()) {
-					interestingBoxes.add(PlantUmlDiagram.findBoxByTargetClass(aShClass, allBoxes));
+				.collect(Collectors.toList())
+			);
+	
+			// read all sh:or...
+			for (PlantUmlProperty prop : box.getProperties()) {
+				if (prop.getShOrShClass() != null) {
+					for (Resource aShClass : prop.getShOrShClass()) {
+						interestingBoxes.add(PlantUmlDiagram.findBoxByTargetClass(aShClass, allBoxes));
+					}
 				}
-			}
-			
-			if (prop.getShOrShNode() != null) {
-				for (Resource aShNode : prop.getShOrShNode()) {
-					interestingBoxes.add(PlantUmlDiagram.findBoxByResource(aShNode, allBoxes));
+				
+				if (prop.getShOrShNode() != null) {
+					for (Resource aShNode : prop.getShOrShNode()) {
+						interestingBoxes.add(PlantUmlDiagram.findBoxByResource(aShNode, allBoxes));
+					}
 				}
 			}
 		}
 		
-		// recreate the boxes inside the diagram
+		// recreate the boxes inside the diagram with their colors
 		List<PlantUmlBoxIfc> otherBoxes = interestingBoxes
 			.stream()
 			.filter(b -> b != null)

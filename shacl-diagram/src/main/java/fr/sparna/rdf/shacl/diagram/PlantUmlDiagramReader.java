@@ -1,6 +1,7 @@
 package fr.sparna.rdf.shacl.diagram;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -49,44 +50,10 @@ public class PlantUmlDiagramReader {
 				
 				// and an order
 				d.setOrderDiagram(this.readShOrder(aRef));
-				
-				/*
-				 * Attempt to add a box with color to the splitted diagram
-				// if there is a reference in this diagram to a shape that have some color information,
-				// also include it in the diagram
-				List<PlantUmlBox> coloredBoxesToAdd = new ArrayList<>();
-				for (PlantUmlBox oneBox : d.getBoxes()) {
-					for (PlantUmlProperty oneProp : oneBox.getProperties()) {
-						if(oneProp.getShClass().isPresent()) {
-							PlantUmlBox targetNodeShape = PlantUmlDiagram.findBoxByTargetClass(oneProp.getShClass().get(), boxes);
-							// the target node shape has a color
-							// but it is not included in the diagram
-							if(
-									targetNodeShape != null
-									&&
-									(targetNodeShape.getColor().isPresent() || targetNodeShape.getBackgroundColor().isPresent())
-									&&
-									d.findBoxByTargetClass(oneProp.getShClass().get()) == null
-									&&
-									// make sure it is not added twice
-									PlantUmlDiagram.findBoxByTargetClass(oneProp.getShClass().get(), coloredBoxesToAdd) == null
-							) {
-								// then include it with minimal information
-								Model m = ModelFactory.createDefaultModel();
-								Resource coloredNodeShape = m.createResource(oneProp.getShClass().get().getURI());
-								coloredNodeShape.addProperty(RDF.type, SH.NodeShape);
-								coloredNodeShape.addProperty(RDF.type, RDFS.Class);
-								targetNodeShape.getColor().ifPresent(c -> coloredNodeShape.addProperty(m.createProperty(SHACL_PLAY.COLOR), c));
-								targetNodeShape.getBackgroundColor().ifPresent(c -> coloredNodeShape.addProperty(m.createProperty(SHACL_PLAY.BACKGROUNDCOLOR), c));
-								
-								PlantUmlBox b = new PlantUmlBox(coloredNodeShape);
-								coloredBoxesToAdd.add(b);
-							}
-						}
-					}
-				}
-				d.getBoxes().addAll(coloredBoxesToAdd);
-				*/
+
+				// Add others boxes so that their color is apparent in the splitted diagram
+				List<PlantUmlBoxIfc> otherResources = PlantUmlDiagramGenerator.addAdditionnalBoxes(d.getBoxes(), boxes);
+				d.getBoxes().addAll(otherResources);
 				
 				diagrams.add(d);
 			}

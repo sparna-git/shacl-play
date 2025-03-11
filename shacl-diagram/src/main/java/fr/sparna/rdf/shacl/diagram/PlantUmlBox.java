@@ -28,7 +28,12 @@ public class PlantUmlBox implements PlantUmlBoxIfc {
 	public PlantUmlBox(Resource nodeShape) {  
 	    this.nodeShape = nodeShape;		
 		// init the link
-		this.link = "#" + this.nodeShape.getModel().shortForm(this.nodeShape.getURI());
+		if(this.nodeShape.isURIResource()) {
+			this.link = "#" + this.nodeShape.getModel().shortForm(this.nodeShape.getURI());
+		} else {
+			// to deal with blank node shapes
+			this.link = "#" + this.nodeShape.asResource().toString();
+		}
 	}
 	
 	public Resource getNodeShape() {

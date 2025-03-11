@@ -6,7 +6,7 @@ import java.util.List;
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.Parameters;
 
-@Parameters(commandDescription = "Generate a JSON schema from a SHACL specification")
+@Parameters(commandDescription = "Generates a JSON schema from a SHACL specification")
 public class ArgumentsJsonSchema {
 
 	@Parameter(
@@ -19,14 +19,14 @@ public class ArgumentsJsonSchema {
 	
 	@Parameter(
 			names = { "-u", "--uris" },
-			description = "Node Shape or list of node shape URIs",
+			description = "Node Shape URI that should be included at the root level of the generated JSON schema. This parameter can be repeated.",
 			required = true
 	)
 	private List<String> nodeShapes;
 
 	@Parameter(
 			names = { "-o", "--output" },
-			description = "Path to an output file, with extension *.json",
+			description = "Path to the output JSON schema file, with extension *.json",
 			required = true
 	)
 	private File output;

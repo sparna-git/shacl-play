@@ -59,7 +59,7 @@ public class PropertyShapeDocumentationBuilder {
 		proprieteDoc.setSectionId(nodeShape.getShortFormOrId()+"_"+propertyShape.getShPathAsString());	
 		
 		// if sh:qualifiedValueShape found in then property else print cardinality
-		if (propertyShape.getQualifiedValueShape().size() > 0) {
+		if (propertyShape.getQualifiedValueShape() != null) {
 			proprieteDoc.setCardinalite(renderCardinalities(propertyShape.getShQualifiedMinCount(), propertyShape.getShQualifiedMaxCount()));
 		} else {
 			proprieteDoc.setCardinalite(renderCardinalities(propertyShape.getShMinCount(), propertyShape.getShMaxCount()));
@@ -169,11 +169,11 @@ public class PropertyShapeDocumentationBuilder {
 			Resource shDatatype,
 			Resource shNodeKind,
 			RDFNode shHasValue,
-			List<Resource> shQualifiedValueShape
+			Resource shQualifiedValueShape
 	) {
 		Link l = null;
 
-		if (shQualifiedValueShape.size() > 0) {
+		if (shQualifiedValueShape != null) {
 			l = this.buildShQualifiedValueShape(shQualifiedValueShape);			
 		} else if (shHasValue != null && shNode == null && shClass == null) {
 			return buildDefaultLink(shHasValue);
@@ -270,18 +270,15 @@ public class PropertyShapeDocumentationBuilder {
 		return l;
 	}
 	
-	public Link buildShQualifiedValueShape(List<Resource> shQualifiedValueShape) {
+	public Link buildShQualifiedValueShape(Resource shQualifiedValueShape) {
 		
-		Link r = null;
-		
-		for (Resource qvs : shQualifiedValueShape) {
+		Link r = null;		
 				
-			r = this.buildShNodeLink(qvs);
-			r = this.buildShClassLink(qvs);
-			r = this.buildShDatatypeLink(qvs);
-			r = this.buildShNodeKindLink(qvs);
-			r = this.buildDefaultLink(qvs);
-		}
+		r = this.buildShNodeLink(shQualifiedValueShape);
+		r = this.buildShClassLink(shQualifiedValueShape);
+		r = this.buildShDatatypeLink(shQualifiedValueShape);
+		r = this.buildShNodeKindLink(shQualifiedValueShape);
+		r = this.buildDefaultLink(shQualifiedValueShape);
 		
 		return r;
 	}

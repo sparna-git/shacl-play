@@ -69,8 +69,6 @@ public class PlantUmlBox implements PlantUmlBoxIfc {
 	
 	
 	public boolean isTargeting(Resource classUri) {	
-		
-		
 		boolean hasShTargetClass = this.getTargetClass().filter(c -> c.equals(classUri)).isPresent();		
 		boolean isItselfTheClass = 
 		this.nodeShape.hasProperty(RDF.type, RDFS.Class)

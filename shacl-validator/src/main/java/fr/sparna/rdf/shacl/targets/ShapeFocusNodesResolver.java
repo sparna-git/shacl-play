@@ -19,66 +19,102 @@ import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.RDFS;
 import org.topbraid.shacl.vocabulary.SH;
 
-public class ShapeTargetResolver {
+/**
+ * Resolves the target definitions of shapes to find their focus nodes, and notify the listeners of the results.
+ */
+public class ShapeFocusNodesResolver {
 	
 	protected Model shapeModel;
 	protected Model data;
 
+	protected List<FocusNodeListener> listeners = new ArrayList<FocusNodeListener>();
+
 	
-	public ShapeTargetResolver(Model shapeModel, Model data) {
+	public ShapeFocusNodesResolver(Model shapeModel, Model data) {
 		super();
 		this.shapeModel = shapeModel;
 		this.data = data;
 	}
 	
-	public void resolveFocusNodes(FocusNodeProcessor p) {
+	public void resolveFocusNodes() {
 		
 		// for each subject of a target predicate...
 		List<Resource> shapes = shapeModel.listResourcesWithProperty(SH.targetNode)
 		.andThen(shapeModel.listResourcesWithProperty(SH.targetClass))
 		.andThen(shapeModel.listResourcesWithProperty(SH.targetSubjectsOf))
 		.andThen(shapeModel.listResourcesWithProperty(SH.targetObjectsOf))
-		.andThen(shapeModel.listResourcesWithProperty(RDF.type, RDFS.Class))
-		.andThen(shapeModel.listResourcesWithProperty(RDF.type, OWL.Class))
+		.andThen(shapeModel.listResourcesWithProperty(RDF.type, RDFS.Class).filterKeep(r -> r.hasProperty(RDF.type, SH.NodeShape)))
+		.andThen(shapeModel.listResourcesWithProperty(RDF.type, OWL.Class).filterKeep(r -> r.hasProperty(RDF.type, SH.NodeShape)))
 		// generic SPARQL-based targets
 		.andThen(shapeModel.listResourcesWithProperty(SH.target)).toList();
 		
-		for (Resource r : shapes) {
-			List<RDFNode> focusNodes = resolveFocusNodes(r, data);
-			// TODO
+		for (Resource shape : shapes) {
+			resolveFocusNodes(shape, data);
+		}
+
+		// notify of end
+		for(FocusNodeListener listener : listeners) {
+			listener.notifyEnd();
 		}
 	}
 
-	private List<RDFNode> resolveFocusNodes(Resource shape, Model data) {
-		List<RDFNode> focusNodes = new ArrayList<RDFNode>();
-		
+	public void setListeners(List<FocusNodeListener> listeners) {
+		this.listeners = listeners;
+	}
+
+	public List<FocusNodeListener> getListeners() {
+		return this.listeners;
+	}
+
+	private void resolveFocusNodes(Resource shape, Model data) {
+
 		// * sh:targetNode
 		StmtIterator it = shape.listProperties(SH.targetNode);
 		while(it.hasNext()) {
-			focusNodes.addAll(resolveTargetNode(it.next().getObject().asResource(), data));
+			notifyListeners(
+				shape,
+				data,
+				resolveTargetNode(it.next().getObject().asResource(), data)
+			);
 		}
 		
 		// * sh:targetClass
 		it = shape.listProperties(SH.targetClass);
 		while(it.hasNext()) {
-			focusNodes.addAll(resolveTargetClass(it.next().getObject().asResource(), data));
+			notifyListeners(
+				shape,
+				data,
+				resolveTargetClass(it.next().getObject().asResource(), data)
+			);
 		}
 		
 		// * implicit targetClass if the shape is also a class
 		if(shape.hasProperty(RDF.type, RDFS.Class)) {
-			focusNodes.addAll(resolveTargetClass(shape, data));
+			notifyListeners(
+				shape,
+				data,
+				resolveTargetClass(shape, data)
+			);
 		}
 		
 		// * sh:targetSubjectsOf
 		it = shape.listProperties(SH.targetSubjectsOf);
 		while(it.hasNext()) {
-			focusNodes.addAll(resolveTargetSubjectsOf(it.next().getObject().asResource(), data));
+			notifyListeners(
+				shape,
+				data,
+				resolveTargetSubjectsOf(it.next().getObject().asResource(), data)
+			);
 		}
 		
 		// * sh:targetObjectsOf	
 		it = shape.listProperties(SH.targetObjectsOf);
 		while(it.hasNext()) {
-			focusNodes.addAll(resolveTargetObjectsOf(it.next().getObject().asResource(), data));
+			notifyListeners(
+				shape,
+				data,
+				resolveTargetObjectsOf(it.next().getObject().asResource(), data)
+			);
 		}
 		
 		// * sh:target
@@ -86,11 +122,24 @@ public class ShapeTargetResolver {
 		while(it.hasNext()) {
 			Resource shTargetValue = it.next().getObject().asResource();
 			if(shTargetValue.hasProperty(SH.select)) {
-				focusNodes.addAll(resolveTargetSparql(shTargetValue.getProperty(SH.select).getObject().asLiteral().getLexicalForm(), data));
+				notifyListeners(
+					shape,
+					data,
+					resolveTargetSparql(shTargetValue.getProperty(SH.select).getObject().asLiteral().getLexicalForm(), data)
+				);
 			}
 		}
-		
-		return focusNodes;
+
+		// notify of end shape
+		for(FocusNodeListener listener : listeners) {
+			listener.notifyEndShape(shape, data);
+		}
+	}
+
+	private void notifyListeners(Resource shape, Model data, List<RDFNode> focusNodes) {
+		for(FocusNodeListener listener : listeners) {
+			listener.notifyFocusNodes(shape, data, focusNodes);
+		}
 	}
 
 	private List<RDFNode> resolveTargetNode(Resource targetNode, Model data) {
@@ -118,10 +167,11 @@ public class ShapeTargetResolver {
 		}
 	}
 	
-	private List<Resource> resolveTargetSubjectsOf(Resource targetSubjectsOf, Model data) {
-		return data.listSubjectsWithProperty(data.createProperty(targetSubjectsOf.getURI())).toList();
+	private List<RDFNode> resolveTargetSubjectsOf(Resource targetSubjectsOf, Model data) {
+		List<Resource> resources = data.listSubjectsWithProperty(data.createProperty(targetSubjectsOf.getURI())).toList();
+		// cast to a List<RDFNode> to match the return type
+		return new ArrayList<RDFNode>(resources);
 	}
-	
 	private List<RDFNode> resolveTargetObjectsOf(Resource targetObjectsOf, Model data) {
 		return data.listObjectsOfProperty(data.createProperty(targetObjectsOf.getURI())).toList();
 	}

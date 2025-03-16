@@ -491,7 +491,7 @@ public class ValidateController {
 					null
 			);
 			validator.setProgressMonitor(new StringBufferProgressMonitor("SHACL validator"));
-			validator.setValidateShapesTargets(true);
+			validator.setResolveFocusNodes(true);
 			validator.setCreateDetails(createDetails);
 			
 			Model results = validator.validate(dataModel);
@@ -507,7 +507,7 @@ public class ValidateController {
 					null
 			);
 			validator.setProgressMonitor(new StringBufferProgressMonitor("SHACL validator"));
-			validator.setValidateShapesTargets(true);
+			validator.setResolveFocusNodes(true);
 			validator.setCreateDetails(createDetails);
 			
 			Thread thread = new Thread(validator);

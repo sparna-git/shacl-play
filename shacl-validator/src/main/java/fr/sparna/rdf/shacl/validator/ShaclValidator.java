@@ -33,12 +33,12 @@ import org.topbraid.shacl.engine.filters.ExcludeMetaShapesFilter;
 import org.topbraid.shacl.validation.ValidationEngine;
 import org.topbraid.shacl.validation.ValidationEngineConfiguration;
 import org.topbraid.shacl.validation.ValidationEngineFactory;
-import org.topbraid.shacl.validation.ValidationUtil;
-import org.topbraid.shacl.validation.sparql.AbstractSPARQLExecutor;
-import org.topbraid.shacl.vocabulary.SH;
 import org.topbraid.shacl.vocabulary.TOSH;
 
-import fr.sparna.rdf.shacl.SHP;
+import fr.sparna.rdf.shacl.targets.AddHasTargetListener;
+import fr.sparna.rdf.shacl.targets.AddNotTargetOfAnyShapeListener;
+import fr.sparna.rdf.shacl.targets.ShapeFocusNodesResolver;
+import fr.sparna.rdf.shacl.targets.StoreHasFocusNodeListener;
 
 /**
  * A wrapper around the Shapes API
@@ -72,7 +72,7 @@ public class ShaclValidator {
 	/**
 	 * Whether to add a step to validate that each shapes actually matched some focus nodes
 	 */
-	protected boolean validateShapesTargets = false;
+	protected boolean resolveFocusNodes = false;
 	
 	/**
 	 * Create more details for OrComponent and AndComponent ?
@@ -171,8 +171,8 @@ public class ShaclValidator {
 			// Number of validation results : results.listSubjectsWithProperty(RDF.type, SH.ValidationResult).toList().size()
 			log.info("Done validating data with "+dataModel.size()+" triples. Validation results contains "+results.size()+" triples.");
 			
-			if(this.validateShapesTargets) {
-				validateShapesTargets(dataModel, results);
+			if(this.resolveFocusNodes) {
+				resolveFocusNodes(dataModel, results);
 			}
 			
 			return results;			
@@ -182,7 +182,7 @@ public class ShaclValidator {
 		}
 	}
 	
-	public void validateShapesTargets(Model dataModel, Model existingValidationReport) throws ShaclValidatorException {
+	public void resolveFocusNodes(Model dataModel, Model existingValidationReport) throws ShaclValidatorException {
 		
 		// recreate complete model by adding complimentary Model
 		Model validatedModel;
@@ -195,25 +195,11 @@ public class ShaclValidator {
 			validatedModel = dataModel;
 		}
 		
-		ShapeTargetValidator targetValidator = new ShapeTargetValidator(this.shapesModel, validatedModel);
-		targetValidator.validate();
-		List<Resource> shapesWithoutTarget = targetValidator.getShapesWithEmptyTarget();
-		
-		shapesWithoutTarget.forEach(aShapeWithoutTarget -> { 
-			log.debug("Shape "+aShapeWithoutTarget+" did not match any focus node");
-			existingValidationReport.add(existingValidationReport.createLiteralStatement(
-					aShapeWithoutTarget,
-					existingValidationReport.createProperty(SHP.TARGET_MATCHED),
-					false
-			));
-		});
-		
-		existingValidationReport.add(existingValidationReport.createLiteralStatement(
-				existingValidationReport.listResourcesWithProperty(RDF.type, SH.ValidationReport).next(),
-				existingValidationReport.createProperty(SHP.HAS_MATCHED),
-				targetValidator.isHasMatched()
-		));
-		
+		ShapeFocusNodesResolver targetResolver = new ShapeFocusNodesResolver(this.shapesModel, validatedModel);
+		targetResolver.getListeners().add(new AddHasTargetListener(existingValidationReport));
+		targetResolver.getListeners().add(new StoreHasFocusNodeListener(existingValidationReport));
+		targetResolver.getListeners().add(new AddNotTargetOfAnyShapeListener(dataModel, existingValidationReport));
+		targetResolver.resolveFocusNodes();
 	}
 
 	public ProgressMonitor getProgressMonitor() {
@@ -236,12 +222,12 @@ public class ShaclValidator {
 		this.createDetails = createDetails;
 	}
 
-	public boolean isValidateShapesTargets() {
-		return validateShapesTargets;
+	public boolean isResolveFocusNodes() {
+		return resolveFocusNodes;
 	}
 
-	public void setValidateShapesTargets(boolean validateShapesTargets) {
-		this.validateShapesTargets = validateShapesTargets;
+	public void setResolveFocusNodes(boolean resolveFocusNodes) {
+		this.resolveFocusNodes = resolveFocusNodes;
 	}
 
 	public static void main(String...strings) throws Exception {

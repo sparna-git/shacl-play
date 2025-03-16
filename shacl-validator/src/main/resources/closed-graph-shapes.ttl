@@ -1,0 +1,20 @@
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh:   <http://www.w3.org/ns/shacl#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix shpshapes: <https://shacl-play.sparna.fr/shapes#> .
+@prefix shp:  <https://shacl-play.sparna.fr/ontology#> .
+
+shpshapes:ClosedGraphShape a sh:NodeShape ;
+	# applies to every subject in the input graph
+	sh:target [
+		sh:select "SELECT $this WHERE { $this ?p ?o FILTER(?p != <https://shacl-play.sparna.fr/ontology#hasFocusNode>) }";
+	] ;
+	# every triple subject must be matched by at least one shape
+	sh:property [
+		sh:path [ sh:inversePath shp:hasFocusNode ] ;
+		sh:minCount 1 ;
+		sh:message "Node was not matched by any shape" ;
+		sh:severity sh:Warning ;
+	] ;
+.

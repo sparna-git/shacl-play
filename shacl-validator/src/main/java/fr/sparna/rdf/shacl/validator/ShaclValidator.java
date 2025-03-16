@@ -2,17 +2,13 @@ package fr.sparna.rdf.shacl.validator;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.InputStream;
 import java.net.URI;
-import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import org.apache.commons.compress.archivers.dump.DumpArchiveEntry.TYPE;
 import org.apache.jena.graph.Graph;
 import org.apache.jena.graph.compose.MultiUnion;
-import org.apache.jena.ontology.OntDocumentManager;
-import org.apache.jena.ontology.OntModel;
-import org.apache.jena.ontology.OntModelSpec;
 import org.apache.jena.query.Dataset;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -33,10 +29,9 @@ import org.topbraid.shacl.engine.filters.ExcludeMetaShapesFilter;
 import org.topbraid.shacl.validation.ValidationEngine;
 import org.topbraid.shacl.validation.ValidationEngineConfiguration;
 import org.topbraid.shacl.validation.ValidationEngineFactory;
+import org.topbraid.shacl.vocabulary.SH;
 import org.topbraid.shacl.vocabulary.TOSH;
 
-import fr.sparna.rdf.shacl.targets.AddHasTargetListener;
-import fr.sparna.rdf.shacl.targets.AddNotTargetOfAnyShapeListener;
 import fr.sparna.rdf.shacl.targets.ShapeFocusNodesResolver;
 import fr.sparna.rdf.shacl.targets.StoreHasFocusNodeListener;
 
@@ -173,6 +168,8 @@ public class ShaclValidator {
 			
 			if(this.resolveFocusNodes) {
 				resolveFocusNodes(dataModel, results);
+				secondPassValidation(dataModel, results);
+				thirdPassValidation(dataModel, results);
 			}
 			
 			return results;			
@@ -196,10 +193,78 @@ public class ShaclValidator {
 		}
 		
 		ShapeFocusNodesResolver targetResolver = new ShapeFocusNodesResolver(this.shapesModel, validatedModel);
-		targetResolver.getListeners().add(new AddHasTargetListener(existingValidationReport));
 		targetResolver.getListeners().add(new StoreHasFocusNodeListener(existingValidationReport));
-		targetResolver.getListeners().add(new AddNotTargetOfAnyShapeListener(dataModel, existingValidationReport));
+		targetResolver.getListeners().add(new StoreHasFocusNodeListener(dataModel));
+
+		// targetResolver.getListeners().add(new AddHasTargetListener(existingValidationReport));		
+		// targetResolver.getListeners().add(new AddNotTargetOfAnyShapeListener(dataModel, existingValidationReport));
+
 		targetResolver.resolveFocusNodes();
+	}
+
+	public void secondPassValidation(Model dataModel, Model existingValidationReport) throws ShaclValidatorException {
+		// debug data model before escond phase validation
+		dataModel.write(System.out, "Turtle");
+
+		// read hardcoded closed graphs shapes
+		InputStream cgis = getClass().getClassLoader().getResourceAsStream("closed-graph-shapes.ttl");
+		// then load as a Jena model
+		Model secondPhaseShapesModel = ModelFactory.createDefaultModel();
+		RDFDataMgr.read(secondPhaseShapesModel, cgis, Lang.TURTLE);
+
+		ShaclValidator closedgraphValidator = new ShaclValidator(secondPhaseShapesModel);
+		closedgraphValidator.setProgressMonitor(this.progressMonitor);
+		closedgraphValidator.setCreateDetails(this.createDetails);
+		closedgraphValidator.setResolveFocusNodes(false);
+
+		// then validate
+		Model secondPhaseResults = closedgraphValidator.validate(dataModel);
+		// and merge validation results with original validation results
+		mergeValidationReports(existingValidationReport, secondPhaseResults);
+	}
+
+	public void thirdPassValidation(Model dataModel, Model existingValidationReport) throws ShaclValidatorException {
+		// now validate a merge of the data graph and the shapes graph
+		// this is to validate that all shapes have at least one focus node
+		InputStream scis = getClass().getClassLoader().getResourceAsStream("shapes-coverage-shapes.ttl");
+		// then load as a Jena model
+		Model thirdPhaseShapesModel = ModelFactory.createDefaultModel();
+		RDFDataMgr.read(thirdPhaseShapesModel, scis, Lang.TURTLE);
+
+		ShaclValidator shapesCoverageValidator = new ShaclValidator(thirdPhaseShapesModel);
+		shapesCoverageValidator.setProgressMonitor(this.progressMonitor);
+		shapesCoverageValidator.setCreateDetails(this.createDetails);
+		shapesCoverageValidator.setResolveFocusNodes(false);
+
+		// then prepare a union of the data graph and the shapes graph
+		Model shapesCoverageDataModel = ModelFactory.createDefaultModel();
+		shapesCoverageDataModel.add(dataModel);
+		shapesCoverageDataModel.add(this.shapesModel);
+
+		Model shapesCoverageResults = shapesCoverageValidator.validate(shapesCoverageDataModel);
+
+		// and merge validation results with original validation results
+		mergeValidationReports(existingValidationReport, shapesCoverageResults);
+	}
+
+	private static void mergeValidationReports(Model existingValidationReport, Model otherValidationReport) {
+		// add all sh:ValidationResult from secondPhaseResults to existingValidationReport
+		otherValidationReport.listResourcesWithProperty(RDF.type, SH.ValidationResult).forEachRemaining(vr -> {
+			existingValidationReport.add(vr.listProperties().toList());
+			// and link them from the report with SH.result
+			existingValidationReport.listResourcesWithProperty(RDF.type, SH.ValidationReport).forEachRemaining(report -> {
+				report.addProperty(SH.result, vr);
+			});
+		});
+		
+		// adjust the sh:conforms property on the existing report
+		// if it was true but we added some results, it should be false
+		if(existingValidationReport.listResourcesWithProperty(SH.result).hasNext()) {
+			existingValidationReport.listResourcesWithProperty(RDF.type, SH.ValidationReport).forEachRemaining(report -> {
+				report.removeAll(SH.conforms);
+				report.addProperty(SH.conforms, existingValidationReport.createTypedLiteral(false));
+			});
+		}
 	}
 
 	public ProgressMonitor getProgressMonitor() {

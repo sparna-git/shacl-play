@@ -5,19 +5,6 @@
 @prefix shpshapes: <https://shacl-play.sparna.fr/shapes#> .
 @prefix shp:  <https://shacl-play.sparna.fr/ontology#> .
 
-shpshapes:ClosedGraphShape a sh:NodeShape ;
-	# applies to every subject in the input graph
-	sh:target [
-		sh:select "SELECT $this WHERE { $this ?p ?o }";
-	] ;
-	# every triple subject must be matched by at least one shape
-	sh:property [
-		sh:path [ sh:inversePath shp:hasFocusNode ] ;
-		sh:minCount 1 ;
-		sh:message "Node was not matched by any shape" ;
-	] ;
-.
-
 shpshapes:AtLeastOneFocusNodeShape a sh:NodeShape ;
 	# applies to every shape that has a target definition
 	sh:targetSubjectsOf sh:targetNode, sh:targetClass, sh:targetSubjectsOf, sh:targetObjectsOf;
@@ -32,4 +19,6 @@ shpshapes:AtLeastOneFocusNodeShape a sh:NodeShape ;
 		sh:path shp:hasFocusNode ;
 		sh:minCount 1 ;
 		sh:message "Shape did not match any node in the data" ;
+		sh:severity sh:Warning ;
 	]
+.

@@ -25,9 +25,9 @@ public class ShaclXsdBoxReader {
 	
 	public Boolean readReference(Resource nodeShape) {
 		Boolean value = false;
-		if(nodeShape.hasProperty(nodeShape.getModel().createProperty("http://shacl-play.sparna.fr/ontology#xsdUseReferences"))) {
+		if(nodeShape.hasProperty(nodeShape.getModel().createProperty("https://shacl-play.sparna.fr/ontology#xsdUseReferences"))) {
 			try {
-				value = nodeShape.getProperty(nodeShape.getModel().createProperty("http://shacl-play.sparna.fr/ontology#xsdUseReferences")).getBoolean();				
+				value = nodeShape.getProperty(nodeShape.getModel().createProperty("https://shacl-play.sparna.fr/ontology#xsdUseReferences")).getBoolean();				
 			} catch (Exception e) {
 				value = false;
 			}

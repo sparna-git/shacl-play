@@ -6,8 +6,8 @@
 @prefix foaf: <http://xmlns.com/foaf/0.1/>.
 @prefix dcat: <http://www.w3.org/ns/dcat#> .
 @prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
-@prefix :     <http://shacl-play.sparna.fr/catalog#> .
-@prefix catshapes:     <http://shacl-play.sparna.fr/catalog-shapes#> .
+@prefix :     <https://shacl-play.sparna.fr/catalog#> .
+@prefix catshapes:     <https://shacl-play.sparna.fr/catalog-shapes#> .
 
 
 catshapes:ShapeEntry a sh:NodeShape;

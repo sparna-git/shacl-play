@@ -31,8 +31,8 @@ public class OntologyBoxRead {
 		String value = null;
 		List<Resource> owlResource = owl.listResourcesWithProperty(RDF.type, OWL.Ontology).toList();
 		for(Resource owlOntology : owlResource) {			
-			if(owlOntology.hasProperty(owlOntology.getModel().createProperty("http://shacl-play.sparna.fr/ontology#xsdRootElement"))) {
-				value = owlOntology.getProperty(owlOntology.getModel().createProperty("http://shacl-play.sparna.fr/ontology#xsdRootElement")).getObject().toString();			
+			if(owlOntology.hasProperty(owlOntology.getModel().createProperty("https://shacl-play.sparna.fr/ontology#xsdRootElement"))) {
+				value = owlOntology.getProperty(owlOntology.getModel().createProperty("https://shacl-play.sparna.fr/ontology#xsdRootElement")).getObject().toString();			
 				
 			}			
 		}			

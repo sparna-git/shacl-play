@@ -264,7 +264,7 @@ public class DocController {
 			PdfRendererBuilder _builder = new PdfRendererBuilder();			 
 			_builder.useFastMode();
 			
-			_builder.withHtmlContent(htmlCode,"http://shacl-play.sparna.fr/play");			
+			_builder.withHtmlContent(htmlCode,"https://shacl-play.sparna.fr/play");			
 			
 			_builder.toStream(response.getOutputStream());
 			_builder.testMode(false);

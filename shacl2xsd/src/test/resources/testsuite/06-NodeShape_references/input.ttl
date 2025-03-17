@@ -7,7 +7,7 @@
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix esco:   <http://data.europa.eu/esco/model#>.
 @prefix elm:    <https://data.europa.eu/snb/model#>.
-@prefix shacl-play:    <http://shacl-play.sparna.fr/ontology#>.
+@prefix shacl-play:    <https://shacl-play.sparna.fr/ontology#>.
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://data.europa.eu/snb/model/edci-constraints>

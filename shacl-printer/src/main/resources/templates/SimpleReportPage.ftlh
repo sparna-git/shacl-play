@@ -9,12 +9,14 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 	<!-- Datatable style with bootstrap -->
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
-	  
-	  <!-- JQuery -->
-	  <script
-				  src="http://code.jquery.com/jquery-3.4.1.slim.min.js"
-				  integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8="
-				  crossorigin="anonymous"></script>
+	<!-- Material Design Bootstrap -->  
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.12.0/css/mdb.min.css">
+
+	<!-- JQuery -->
+	<script
+		src="http://code.jquery.com/jquery-3.4.1.slim.min.js"
+		integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8="
+		crossorigin="anonymous"></script>
 	  
 	<!-- Datatables -->
 	<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>

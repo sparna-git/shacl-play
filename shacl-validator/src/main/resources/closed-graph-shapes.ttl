@@ -11,10 +11,14 @@ shpshapes:ClosedGraphShape a sh:NodeShape ;
 		sh:select "SELECT $this WHERE { $this ?p ?o FILTER(?p != <https://shacl-play.sparna.fr/ontology#hasFocusNode>) }";
 	] ;
 	# every triple subject must be matched by at least one shape
-	sh:property [
-		sh:path [ sh:inversePath shp:hasFocusNode ] ;
-		sh:minCount 1 ;
-		sh:message "Node was not matched by any shape" ;
-		sh:severity sh:Warning ;
-	] ;
+	sh:property shpshapes:hasInverseFocusNodeMandatory ;
+.
+
+shpshapes:hasInverseFocusNodeMandatory 
+	sh:path [ sh:inversePath shp:hasFocusNode ] ;
+	sh:minCount 1 ;
+	sh:message "Subject of a triple was not validated by any shape"@en ;
+	# comment otherwise we get 2 messages in the output
+	# sh:message "Le sujet d'un triplet n'a été validé par aucune shape"@fr ;
+	sh:severity sh:Warning ;
 .

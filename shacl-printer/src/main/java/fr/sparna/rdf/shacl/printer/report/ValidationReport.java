@@ -134,10 +134,11 @@ public class ValidationReport {
 	
 	/**
 	 * We don't refer to constants in order not to introduce a dependency to the validation module
-	 * @return
+	 * @return list of shapes flagged with shp:targetMatched false
+	 * @deprecated this is not used anymore since now the validation report contains this as true validation results
 	 */
 	public List<Resource> getShapesWithNoMatch() {
-		List<Statement> targetMatchedFalseStatements = this.fullModel.listStatements(null, this.fullModel.createProperty("http://shacl-play.sparna.fr/ontology#targetMatched"), this.fullModel.createTypedLiteral(false)).toList();
+		List<Statement> targetMatchedFalseStatements = this.fullModel.listStatements(null, this.fullModel.createProperty("https://shacl-play.sparna.fr/ontology#targetMatched"), this.fullModel.createTypedLiteral(false)).toList();
 		return targetMatchedFalseStatements.stream().map(s -> s.getSubject()).collect(Collectors.toList());
 	}
 	
@@ -151,7 +152,7 @@ public class ValidationReport {
 	 */
 	public boolean hasMatched() {
 		// if not explicitely false, consider it true
-		return !this.fullModel.containsLiteral(null, this.fullModel.createProperty("http://shacl-play.sparna.fr/ontology#hasMatched"), false);
+		return !this.fullModel.containsLiteral(null, this.fullModel.createProperty("https://shacl-play.sparna.fr/ontology#hasMatched"), false);
 	}
 
 	public Model getResultsModel() {

@@ -14,11 +14,15 @@ shpshapes:AtLeastOneFocusNodeShape a sh:NodeShape ;
 	sh:target [
 		sh:select "SELECT $this WHERE { $this a <http://www.w3.org/ns/shacl#NodeShape> ; a <http://www.w3.org/2002/07/owl#Class> }"
 	] ;
-	# every shape that has a target definition must have matched at least one focus node
-	sh:property [
-		sh:path shp:hasFocusNode ;
-		sh:minCount 1 ;
-		sh:message "Shape did not match any node in the data" ;
-		sh:severity sh:Warning ;
-	]
+	sh:property shpshapes:hasFocusNodeMandatory
+.
+
+# every shape that has a target definition must have matched at least one focus node
+shpshapes:hasFocusNodeMandatory
+	sh:path shp:hasFocusNode ;
+	sh:minCount 1 ;
+	sh:message "Shape did not validate any node in the data"@en ;
+	# comment otherwise we get 2 messages in the output
+	# sh:message "La shape n'a validé aucune ressource dans les données"@fr ;
+	sh:severity sh:Warning ;
 .

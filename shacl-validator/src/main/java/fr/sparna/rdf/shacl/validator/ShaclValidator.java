@@ -32,6 +32,7 @@ import org.topbraid.shacl.validation.ValidationEngineFactory;
 import org.topbraid.shacl.vocabulary.SH;
 import org.topbraid.shacl.vocabulary.TOSH;
 
+import fr.sparna.rdf.shacl.targets.AddHasTargetListener;
 import fr.sparna.rdf.shacl.targets.ShapeFocusNodesResolver;
 import fr.sparna.rdf.shacl.targets.StoreHasFocusNodeListener;
 
@@ -196,7 +197,7 @@ public class ShaclValidator {
 		targetResolver.getListeners().add(new StoreHasFocusNodeListener(existingValidationReport));
 		targetResolver.getListeners().add(new StoreHasFocusNodeListener(dataModel));
 
-		// targetResolver.getListeners().add(new AddHasTargetListener(existingValidationReport));		
+		targetResolver.getListeners().add(new AddHasTargetListener(existingValidationReport));		
 		// targetResolver.getListeners().add(new AddNotTargetOfAnyShapeListener(dataModel, existingValidationReport));
 
 		targetResolver.resolveFocusNodes();

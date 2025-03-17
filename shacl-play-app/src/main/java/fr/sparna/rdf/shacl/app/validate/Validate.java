@@ -61,6 +61,11 @@ public class Validate implements CliCommandIfc {
 		ShaclValidator validator = new ShaclValidator(shapesModel, extraModel);
 		validator.setCreateDetails(a.isCreateDetails());
 		validator.setProgressMonitor(new Slf4jProgressMonitor("SHACL validator", log));
+
+		// we are asking for the extra gathering of focus nodes and the validation of
+		// whether shapes matched focus nodes and whether all nodes were targeted by at least a shape
+		validator.setResolveFocusNodes(true);
+
 		Model validationResults = validator.validate(dataModel);
 		
 		// union results and shapes

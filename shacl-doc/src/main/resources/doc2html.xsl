@@ -857,7 +857,14 @@
 						<xsl:apply-templates select="title" />
 						
 						<xsl:if test="subtitleUri">
-							<code class="sp_section_uri"><xsl:value-of select="subtitleUri" /></code>
+							<xsl:choose>
+								<xsl:when test="subtitleUri/href">
+									<code class="sp_section_uri"><a href="{subtitleUri/href}"><xsl:value-of select="subtitleUri/label" /></a></code>
+								</xsl:when>
+								<xsl:otherwise>
+									<code class="sp_section_uri"><xsl:value-of select="subtitleUri/label" /></code>
+								</xsl:otherwise>
+							</xsl:choose>
 						</xsl:if>
 					
 					</div>

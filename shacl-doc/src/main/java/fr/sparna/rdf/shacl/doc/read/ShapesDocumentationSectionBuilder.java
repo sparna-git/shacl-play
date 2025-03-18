@@ -44,7 +44,11 @@ public class ShapesDocumentationSectionBuilder {
 		currentSection.setNodeShapeUriOrId(nodeShape.getURIOrId());
 		currentSection.setSectionId(nodeShape.getShortFormOrId());
 		// if the node shape is itself a class, set its subtitle to the URI
-		currentSection.setSubtitleUri(nodeShape.getNodeShape().getURI());
+		if(nodeShape.isAClass()) {
+			currentSection.setSubtitleUri(new Link(nodeShape.getNodeShape().getURI(), nodeShape.getNodeShape().getURI()));
+		} else {
+			currentSection.setSubtitleUri(new Link(null, nodeShape.getNodeShape().getURI()));
+		}
 		
 		// title : either skos:prefLabel or rdfs:label or the URI short form
 		currentSection.setTitle(nodeShape.getDisplayLabel(owlGraph, lang));

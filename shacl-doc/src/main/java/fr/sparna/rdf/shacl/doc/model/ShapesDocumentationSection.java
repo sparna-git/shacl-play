@@ -29,10 +29,11 @@ public class ShapesDocumentationSection {
 	 */
 	private String sectionId;
 	private String title;
+
 	/**
-	 * The subtitle to display, set to the full URI. Can be null
+	 * The subtitle to display, set to the full URI. Can be null, or can point to an empty URL
 	 */
-	private String subtitleUri;	
+	private Link subtitleUri;
 	private String description;
 	
 	private List<Link> targetClass;
@@ -136,14 +137,6 @@ public class ShapesDocumentationSection {
 	
 	public void setTitle(String title) {
 		this.title = title;
-	}
-	
-	public String getSubtitleUri() {
-		return subtitleUri;
-	}
-
-	public void setSubtitleUri(String subtitleUri) {
-		this.subtitleUri = subtitleUri;
 	}
 	
 	public String getDescription() {
@@ -288,5 +281,13 @@ public class ShapesDocumentationSection {
 
 	public void setHasValue(String hasValue) {
 		this.hasValue = hasValue;
+	}
+
+	public Link getSubtitleUri() {
+		return subtitleUri;
+	}
+
+	public void setSubtitleUri(Link subtitleUri) {
+		this.subtitleUri = subtitleUri;
 	}	
 }

@@ -12,7 +12,7 @@ import fr.sparna.rdf.shacl.SHP;
 /**
  * Stores the target nodes as shp:hasFocusNode triples in a target model.
  */
-public class StoreHasFocusNodeListener implements FocusNodeListener {
+public class StoreHasFocusNodeListener implements ShapesTargetListener {
 
 	private Model targetModel;
 
@@ -22,7 +22,7 @@ public class StoreHasFocusNodeListener implements FocusNodeListener {
 	}
 
 	@Override
-	public void notifyFocusNodes(Resource shape, Model data, List<RDFNode> focusNodes) {
+	public void notifyTargets(Resource shape, Model data, List<RDFNode> focusNodes) {
 		// add an sh:targetNode triple to the output model for each focus node
 		for(RDFNode focusNode : focusNodes) {
 			targetModel.add(shape, targetModel.createProperty(SHP.HAS_FOCUS_NODE), focusNode);

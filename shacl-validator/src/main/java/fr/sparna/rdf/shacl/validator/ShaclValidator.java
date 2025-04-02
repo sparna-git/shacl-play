@@ -33,7 +33,7 @@ import org.topbraid.shacl.vocabulary.SH;
 import org.topbraid.shacl.vocabulary.TOSH;
 
 import fr.sparna.rdf.shacl.targets.AddHasTargetListener;
-import fr.sparna.rdf.shacl.targets.ShapeFocusNodesResolver;
+import fr.sparna.rdf.shacl.targets.ShapesTargetResolver;
 import fr.sparna.rdf.shacl.targets.StoreHasFocusNodeListener;
 
 /**
@@ -68,7 +68,7 @@ public class ShaclValidator {
 	/**
 	 * Whether to add a step to validate that each shapes actually matched some focus nodes
 	 */
-	protected boolean resolveFocusNodes = false;
+	protected boolean resolveTargets = false;
 	
 	/**
 	 * Create more details for OrComponent and AndComponent ?
@@ -167,7 +167,7 @@ public class ShaclValidator {
 			// Number of validation results : results.listSubjectsWithProperty(RDF.type, SH.ValidationResult).toList().size()
 			log.info("Done validating data with "+dataModel.size()+" triples. Validation results contains "+results.size()+" triples.");
 			
-			if(this.resolveFocusNodes) {
+			if(this.resolveTargets) {
 				resolveFocusNodes(dataModel, results);
 				secondPassValidation(dataModel, results);
 				thirdPassValidation(dataModel, results);
@@ -193,20 +193,24 @@ public class ShaclValidator {
 			validatedModel = dataModel;
 		}
 		
-		ShapeFocusNodesResolver targetResolver = new ShapeFocusNodesResolver(this.shapesModel, validatedModel);
+		ShapesTargetResolver targetResolver = new ShapesTargetResolver(this.shapesModel, validatedModel);
+		// stores the focus nodes both in the original data graph and in the validation report for review
+		// in the data graph, this will be used for second pass and third pass validation
 		targetResolver.getListeners().add(new StoreHasFocusNodeListener(existingValidationReport));
 		targetResolver.getListeners().add(new StoreHasFocusNodeListener(dataModel));
+		// we keep that so that the validation report can print the purple color when no shapes matched anything
+		targetResolver.getListeners().add(new AddHasTargetListener(existingValidationReport));
 
-		targetResolver.getListeners().add(new AddHasTargetListener(existingValidationReport));		
-		// targetResolver.getListeners().add(new AddNotTargetOfAnyShapeListener(dataModel, existingValidationReport));
-
-		targetResolver.resolveFocusNodes();
+		targetResolver.resolveTargets();
 	}
 
+	/**
+	 * Checks that no resource exists in the data graph that is not the target of any shape
+	 * @param dataModel
+	 * @param existingValidationReport
+	 * @throws ShaclValidatorException
+	 */
 	public void secondPassValidation(Model dataModel, Model existingValidationReport) throws ShaclValidatorException {
-		// debug data model before escond phase validation
-		dataModel.write(System.out, "Turtle");
-
 		// read hardcoded closed graphs shapes
 		InputStream cgis = getClass().getClassLoader().getResourceAsStream("closed-graph-shapes.ttl");
 		// then load as a Jena model
@@ -216,14 +220,21 @@ public class ShaclValidator {
 		ShaclValidator closedgraphValidator = new ShaclValidator(secondPhaseShapesModel);
 		closedgraphValidator.setProgressMonitor(this.progressMonitor);
 		closedgraphValidator.setCreateDetails(this.createDetails);
-		closedgraphValidator.setResolveFocusNodes(false);
+		// don't recurse infinitely !
+		closedgraphValidator.setResolveTargets(false);
 
-		// then validate
+		// then validate the original data model that was enhanced with links to the shapes
 		Model secondPhaseResults = closedgraphValidator.validate(dataModel);
 		// and merge validation results with original validation results
 		mergeValidationReports(existingValidationReport, secondPhaseResults);
 	}
 
+	/**
+	 * Checks that all shapes have at least one focus node
+	 * @param dataModel
+	 * @param existingValidationReport
+	 * @throws ShaclValidatorException
+	 */
 	public void thirdPassValidation(Model dataModel, Model existingValidationReport) throws ShaclValidatorException {
 		// now validate a merge of the data graph and the shapes graph
 		// this is to validate that all shapes have at least one focus node
@@ -235,9 +246,11 @@ public class ShaclValidator {
 		ShaclValidator shapesCoverageValidator = new ShaclValidator(thirdPhaseShapesModel);
 		shapesCoverageValidator.setProgressMonitor(this.progressMonitor);
 		shapesCoverageValidator.setCreateDetails(this.createDetails);
-		shapesCoverageValidator.setResolveFocusNodes(false);
+		// don't recurse infinitely !
+		shapesCoverageValidator.setResolveTargets(false);
 
 		// then prepare a union of the data graph and the shapes graph
+		// because we are targeting all shapes that have targets
 		Model shapesCoverageDataModel = ModelFactory.createDefaultModel();
 		shapesCoverageDataModel.add(dataModel);
 		shapesCoverageDataModel.add(this.shapesModel);
@@ -248,6 +261,11 @@ public class ShaclValidator {
 		mergeValidationReports(existingValidationReport, shapesCoverageResults);
 	}
 
+	/**
+	 * Merges another validation report into the existing one
+	 * @param existingValidationReport
+	 * @param otherValidationReport
+	 */
 	private static void mergeValidationReports(Model existingValidationReport, Model otherValidationReport) {
 		// add all sh:ValidationResult from secondPhaseResults to existingValidationReport
 		otherValidationReport.listResourcesWithProperty(RDF.type, SH.ValidationResult).forEachRemaining(vr -> {
@@ -288,12 +306,12 @@ public class ShaclValidator {
 		this.createDetails = createDetails;
 	}
 
-	public boolean isResolveFocusNodes() {
-		return resolveFocusNodes;
+	public boolean isResolveTargets() {
+		return resolveTargets;
 	}
 
-	public void setResolveFocusNodes(boolean resolveFocusNodes) {
-		this.resolveFocusNodes = resolveFocusNodes;
+	public void setResolveTargets(boolean resolveTargets) {
+		this.resolveTargets = resolveTargets;
 	}
 
 	public static void main(String...strings) throws Exception {

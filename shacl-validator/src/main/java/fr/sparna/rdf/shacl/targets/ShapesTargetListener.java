@@ -8,11 +8,11 @@ import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 
 /**
- * A listener interface for the shape focus nodes resolver. Implementations of this interface will be notified of the focus nodes.
+ * A listener interface for the shapes taret resolver. Implementations of this interface will be notified of the targets.
  */
-public interface FocusNodeListener {
+public interface ShapesTargetListener {
 
-	public void notifyFocusNodes(Resource shape, Model data, List<RDFNode> focusNodes);
+	public void notifyTargets(Resource shape, Model data, List<RDFNode> focusNodes);
 
 	public void notifyEndShape(Resource shape, Model data);
 

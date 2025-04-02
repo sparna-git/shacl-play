@@ -69,7 +69,7 @@ public class ValidateController {
 			HttpServletRequest request,
 			HttpServletResponse response
 	){
-		return this.validateFromFromShapesId(url, shapesCatalogId, "badge", closeShapes, request, response);
+		return this.validateFromShapesId(url, shapesCatalogId, "badge", closeShapes, true, request, response);
 	}
 	
 	
@@ -85,7 +85,7 @@ public class ValidateController {
 			HttpServletRequest request,
 			HttpServletResponse response
 	){
-		return this.validateFromFromShapesId(url, shapesCatalogId, null, closeShapes, request, response);
+		return this.validateFromShapesId(url, shapesCatalogId, null, closeShapes, true, request, response);
 	}	
 
 	@RequestMapping(
@@ -113,7 +113,7 @@ public class ValidateController {
 			HttpServletRequest request,
 			HttpServletResponse response
 	){
-		return this.validateFromFromShapesUrl(url, shapesUrl, "badge", closeShapes, request, response);
+		return this.validateFromFromShapesUrl(url, shapesUrl, "badge", closeShapes, true, request, response);
 	}
 	
 	
@@ -125,11 +125,12 @@ public class ValidateController {
 			params={"url", "shapes"},
 			method=RequestMethod.GET
 	)
-	public ModelAndView validateFromFromShapesId(
+	public ModelAndView validateFromShapesId(
 			@RequestParam(value="url", required=true) String url,
 			@RequestParam(value="shapes", required=true) String shapesCatalogId,
 			@RequestParam(value="format", required=false) String format,
 			@RequestParam(value="closeShapes", required=false) boolean closeShapes,
+			@RequestParam(value="avoidResolveTargets", required=false) boolean avoidResolveTargets,
 			HttpServletRequest request,
 			HttpServletResponse response
 	){
@@ -159,6 +160,8 @@ public class ValidateController {
 					closeShapes,
 					// createDetails
 					false,
+					// avoidResolveTargets
+					avoidResolveTargets,
 					request
 			);		
 			
@@ -206,6 +209,7 @@ public class ValidateController {
 			@RequestParam(value="shapesUrl", required=true) String shapesUrl,
 			@RequestParam(value="format", required=false) String format,
 			@RequestParam(value="closeShapes", required=false) boolean closeShapes,
+			@RequestParam(value="avoidResolveTargets", required=false) boolean avoidResolveTargets,
 			HttpServletRequest request,
 			HttpServletResponse response
 	){
@@ -234,6 +238,8 @@ public class ValidateController {
 					closeShapes,
 					// createDetails
 					false,
+					// avoidResolveTargets,
+					avoidResolveTargets,
 					request
 			);		
 			
@@ -345,7 +351,9 @@ public class ValidateController {
 			// createDetails option
 			@RequestParam(value="createDetails", required=false) boolean createDetails,
 			// infer option
-			@RequestParam(value="infer", required=false) Boolean infer,
+			@RequestParam(value="infer", required=false) boolean infer,
+			// avoid resolve targets option
+			@RequestParam(value="avoidResolveTargets", required=false) boolean avoidResolveTargets,
 			HttpServletRequest request
 	) {
 		try {
@@ -380,7 +388,7 @@ public class ValidateController {
 			
 			log.debug("Determining Data source...");
 			Model dataModel;
-			if(infer != null && infer) {
+			if(infer) {
 				log.debug("Asked for inference, will use an ontology Model...");
 				OntModel tempModel = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM_MICRO_RULE_INF);
 				modelPopulator.populateModel(
@@ -431,7 +439,7 @@ public class ValidateController {
 			
 			// trigger validation
 			if(dataModel.size() < applicationData.getLargeInputThreshold()) {
-				Model results = doValidate(shapesModel, dataModel, false, closeShapes, createDetails, request);		
+				Model results = doValidate(shapesModel, dataModel, false, closeShapes, createDetails, avoidResolveTargets, request);		
 				
 				// stores results in the session to access them further when downloading, etc.
 				SessionData sd = new SessionData();
@@ -451,7 +459,7 @@ public class ValidateController {
 	
 				return new ModelAndView("validation-report", ShapesDisplayData.KEY, sdd);
 			} else {
-				doValidate(shapesModel, dataModel, true, closeShapes, createDetails, request);
+				doValidate(shapesModel, dataModel, true, closeShapes, createDetails, avoidResolveTargets, request);
 				return new ModelAndView("redirect:/validate/wait");
 			}
 			
@@ -467,6 +475,7 @@ public class ValidateController {
 			boolean async,
 			boolean autoCloseShapes,
 			boolean createDetails,
+			boolean avoidResolveTargets,
 			HttpServletRequest request
 	) throws Exception {
 		
@@ -491,7 +500,7 @@ public class ValidateController {
 					null
 			);
 			validator.setProgressMonitor(new StringBufferProgressMonitor("SHACL validator"));
-			validator.setResolveFocusNodes(true);
+			validator.setResolveTargets(!avoidResolveTargets);
 			validator.setCreateDetails(createDetails);
 			
 			Model results = validator.validate(dataModel);
@@ -507,7 +516,7 @@ public class ValidateController {
 					null
 			);
 			validator.setProgressMonitor(new StringBufferProgressMonitor("SHACL validator"));
-			validator.setResolveFocusNodes(true);
+			validator.setResolveTargets(!avoidResolveTargets);
 			validator.setCreateDetails(createDetails);
 			
 			Thread thread = new Thread(validator);

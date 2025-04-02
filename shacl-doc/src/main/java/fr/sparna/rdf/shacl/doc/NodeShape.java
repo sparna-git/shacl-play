@@ -24,6 +24,7 @@ import org.topbraid.shacl.vocabulary.SH;
 
 import fr.sparna.rdf.jena.ModelReadingUtils;
 import fr.sparna.rdf.jena.ModelRenderingUtils;
+import fr.sparna.rdf.shacl.DCT;
 import net.sf.saxon.expr.instruct.ForEach;
 
 public class NodeShape {
@@ -199,6 +200,12 @@ public class NodeShape {
 	public Literal getShTargetShSelect() {
 		return Optional.ofNullable(nodeShape.getPropertyResourceValue(SH.target)).map(
 				r -> Optional.ofNullable(r.getProperty(SH.select)).map(l -> l.getLiteral()).orElse(null)
+		).orElse(null);
+	}
+	
+	public Literal getShSparqlDCTDescription() {
+		return Optional.ofNullable(nodeShape.getPropertyResourceValue(SH.sparql)).map(
+				r -> Optional.ofNullable(r.getProperty(DCT.Description)).map(l -> l.getLiteral()).orElse(null)
 		).orElse(null);
 	}
 

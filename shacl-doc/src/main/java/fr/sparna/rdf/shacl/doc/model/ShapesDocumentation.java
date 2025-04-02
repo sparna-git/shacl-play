@@ -70,6 +70,10 @@ public class ShapesDocumentation {
 	@JacksonXmlProperty(localName = "section")
 	protected List<ShapesDocumentationSection> sections;
 	
+	@JacksonXmlElementWrapper(localName="OWLimports")
+	@JacksonXmlProperty(localName = "OWLimport")
+	protected List<Link> OWLimport;
+	
 	@JacksonXmlElementWrapper(localName="feedbacks")
 	@JacksonXmlProperty(localName = "feedback")
 	protected List<Link> feedback;
@@ -130,6 +134,12 @@ public class ShapesDocumentation {
 						.stream()
 						.map(u -> new Depiction(u.asResource().getURI()))
 						.collect(Collectors.toList());
+			});
+			
+			Optional.ofNullable(ontology.getOwlImports()).ifPresent(list -> {
+				this.OWLimport = list.stream()
+				.map(new RDFNodeToLinkMapper(lang))
+				.collect(Collectors.toList());
 			});
 			
 			this.setFormat(ontology.getDistributions());

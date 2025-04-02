@@ -41,9 +41,8 @@
 			<entry key="METADATA.PUBLISHER" label="Editeur : " />
 			<entry key="METADATA.RIGHTHOLDER" label="Titulaire des droits : " />
 			<entry key="METADATA.FEEDBACK" label="Contact : " />
-			
-			
 			<entry key="METADATA.FORMATS" label="Télécharger les données : " />
+			<entry key="METADATA.IMPORTS" label="Imports : " />
 
 			<entry key="DIAGRAM.TITLE" label="Diagrammes" />
 
@@ -67,6 +66,8 @@
 			<entry key="LABEL_TARGETOBJECTSOF" label="S'applique aux objets de: "/>
 			
 			<entry key="LABEL_NO_PROPERTIES" label="Aucune propriété spécifique"/>
+			
+			<entry key="LABEL_CONSTRAINTS" label="Règles additionnelles"/>			
 		</labels>
 	</xsl:variable>
 	<!-- In this stylesheet we just copy the base labels -->
@@ -103,6 +104,7 @@
 			<entry key="METADATA.RIGHTHOLDER" label="Rightsholder: " />
 			<entry key="METADATA.FEEDBACK" label="Feedback: " />
 			<entry key="METADATA.VERSIONNOTES" label="Version notes: " />
+			<entry key="METADATA.IMPORTS" label="Imports : " />
 			
 			<entry key="METADATA.FORMATS" label="Download serialization: " />
 			
@@ -127,6 +129,8 @@
 			<entry key="LABEL_TARGETOBJECTSOF" label="Applies to objects of: "/>
 			
 			<entry key="LABEL_NO_PROPERTIES" label="No specific properties"/>
+			
+			<entry key="LABEL_CONSTRAINTS" label="Additionnal constraints"/>
 			
 		</labels>
 	</xsl:variable>
@@ -214,6 +218,7 @@
 						<xsl:apply-templates select="publishers" />
 						<xsl:apply-templates select="rightsHolders" />
 						<xsl:apply-templates select="feedbacks" />
+						<xsl:apply-templates select="OWLimports" />
 						<!-- section for the formats -->
 						<xsl:if test="string-length(formats) &gt; 0">
 							<xsl:apply-templates select="formats" />
@@ -689,8 +694,17 @@
 		<br />
 	</xsl:template>
 	
+	<xsl:template match="OWLimports[OWLimport]">
+		<b>
+			<xsl:value-of
+				select="$LABELS/labels/entry[@key='METADATA.IMPORTS']/@label" />
+		</b>
+		<xsl:apply-templates />
+		<br />	
+	</xsl:template>
+	
 	<!--  shared template for all values -->
-	<xsl:template match="creator | publisher | rightsHolder | license | feedback">
+	<xsl:template match="creator | publisher | rightsHolder | license | feedback | OWLimport">
 		<xsl:choose>
 			<xsl:when test="href">
 				<a href="{href}" target="_blank"><xsl:value-of select="label" /></a>
@@ -1008,8 +1022,18 @@
 					<xsl:apply-templates select="propertyGroups" />		
 					
 					<!-- Section for Pie Chart -->
-					<xsl:apply-templates select="charts" />				
-										
+					<xsl:apply-templates select="charts" />	
+					
+					<!-- Section for Contraints descriptions -->
+					<xsl:if test="string-length(descriptionSparql) &gt; 0">
+						<h4 class="sp_section_title_table">
+							<xsl:value-of select="$LABELS/labels/entry[@key='LABEL_CONSTRAINTS']/@label" />
+						</h4>
+						<ul>
+							<li><xsl:apply-templates select="descriptionSparql"/></li>
+						</ul>
+					</xsl:if>
+						
 				</section>
 			</div>
 		</div>
@@ -1124,6 +1148,8 @@
 					</tbody>
 				</table><!-- end properties table -->
 			</xsl:if>
+			
+			
 		</xsl:if>
 	</xsl:template>
 	
@@ -1295,6 +1321,10 @@
 	<!-- Description properties -->
 	<xsl:template match="property/description">
 		<xsl:value-of select="." />
+	</xsl:template>
+	
+	<xsl:template match="descriptionSparql">
+		<xsl:value-of select="."/>
 	</xsl:template>
 	
 	<!-- Release notes at the end  -->

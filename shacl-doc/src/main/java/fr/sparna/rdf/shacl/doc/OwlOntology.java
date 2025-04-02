@@ -114,6 +114,10 @@ public class OwlOntology {
 	public String getOwlVersionInfo() {
 		return ModelReadingUtils.readLiteralAsString(this.resource,OWL.versionInfo);
 	}
+	
+	public List<Resource> getOwlImports() {
+		return ModelReadingUtils.readObjectAsResource(this.resource, OWL.imports);		
+	}
 
 	public String getDescription(String lang) {
 		return ModelReadingUtils.readLiteralInLangAsString(this.resource,DCTerms.description, lang);
@@ -126,7 +130,7 @@ public class OwlOntology {
 	public String getDateCreated() {
 		return ModelReadingUtils.readLiteralAsString(this.resource,DCTerms.created);
 	}
-
+	
 	public String getDateIssued() {
 		return ModelReadingUtils.readLiteralAsString(this.resource,DCTerms.issued);
 	}

@@ -17,9 +17,10 @@ import fr.sparna.rdf.shacl.SHP;
 
 
 /**
- * Listens for the focus nodes of shapes and adds a validation result for each subject in the data model that is not the target of any shape.
+ * Listens for the targets of shapes and adds a validation result for each subject in the data model that is not the target of any shape.
+ * @deprecated This is now deprecated in favor of second pass and third pass SHACL validations rules.
  */
-public class AddNotTargetOfAnyShapeListener implements FocusNodeListener {
+public class AddNotTargetOfAnyShapeListener implements ShapesTargetListener {
 
 	private Logger log = LoggerFactory.getLogger(this.getClass().getName());
 
@@ -35,7 +36,7 @@ public class AddNotTargetOfAnyShapeListener implements FocusNodeListener {
 	}
 
 	@Override
-	public void notifyFocusNodes(Resource shape, Model data, List<RDFNode> focusNodes) {
+	public void notifyTargets(Resource shape, Model data, List<RDFNode> focusNodes) {
 		targetedResources.addAll(focusNodes);
 	}
 

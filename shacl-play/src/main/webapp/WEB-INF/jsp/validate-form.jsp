@@ -120,6 +120,19 @@
 								</div>
 							</div>
 						  </div>
+						  <div class="form-group row">
+							<div class="col-sm-12">
+								<div class="form-check">
+								<input class="form-check-input" type="checkbox" id="avoidResolveTargets" name="avoidResolveTargets" />
+								<label class="form-check-label" for="avoidResolveTargets">
+								  <fmt:message key="validate.options.avoidResolveTargets" />
+								</label>
+								<small class="form-text text-muted">
+								  <fmt:message key="validate.options.avoidResolveTargets.help" />
+								</small>
+							  </div>
+						  </div>
+						</div>
 					  </blockquote>
 					  
 				    <button type="submit" id="validate-button" class="btn btn-info btn-lg"><fmt:message key="validate.submit" /></button>			  	
@@ -145,6 +158,34 @@
 						<p>For example : <code><a href="https://shacl-play.sparna.fr/play/shaclplay-catalog/badge?url=https://raw.githubusercontent.com/sparna-git/SHACL-Catalog/master/shacl-catalog.ttl">https://shacl-play.sparna.fr/play/shaclplay-catalog/badge?url=https://raw.githubusercontent.com/sparna-git/SHACL-Catalog/master/shacl-catalog.ttl</a></code></p>
 						<p>The full badge URL is then <code><a href="https://img.shields.io/endpoint?url=https%3a%2f%2fshacl-play.sparna.fr%2fplay%2fshaclplay-catalog%2fbadge%3furl%3dhttps%3a%2f%2fraw.githubusercontent.com%2fsparna-git%2fSHACL-Catalog%2fmaster%2fshacl-catalog.ttl">https://img.shields.io/endpoint?url=https%3a%2f%2fshacl-play.sparna.fr%2fplay%2fshaclplay-catalog%2fbadge%3furl%3dhttps%3a%2f%2fraw.githubusercontent.com%2fsparna-git%2fSHACL-Catalog%2fmaster%2fshacl-catalog.ttl</a></code></p>
 						<p>When you insert the badge on your Github repository, you can use it to link to the "/report" URL (see <a href="#direct-links">above</a>). See the <a href="https://github.com/sparna-git/SHACL-Catalog/blob/master/README.md?plain=1">Shapes catalog repository README</a> for an example</p>
+					</div>
+
+					<div style="margin-top:2em;">
+						<h4 id="targetsResolution">Extra target resolutions</h4>
+						<p>
+							By default, SHACL Play! will resolve the targets of the shapes in the SHACL file. This means that all targets specifications found in the shapes graph
+							are explicitely resolved, and an extra triple is generated for each target found : <code>https://shacl-play.sparna.fr/ontology#hasFocusNode</code>, with
+							the node shape as subject and the target resource as object. Based on this extra target resolution triple, 2 extra checks are applied:
+						</p>
+						<ul>
+							<li>
+								<strong>"Data coverage"</strong>: SHACL Play! will check that every resource in the input data graph has been targeted by at least one shape.
+								Resources not targeted by any shape will be returned as Warnings in the validation report. This is useful to check that the input data graph does not contain
+								resources that should not be present. It is similar to "unit tests coverage" in software testing, where you want to make sure that all your code is covered by tests.
+							</li>
+							<li>
+								<strong>"Shapes coverage"</strong>: SHACL Play! will check that every shape in the shapes graph has at least one target. 
+								Shapes without any target will be returned as Warnings in the validation report. This is useful to make sure that the target specifications of each shape resolved correctly,
+								and to avoid situations where no violations are returned, not because the data is valid, but because the initial target specification was wrong (like a typo in a <code>sh:targetClass</code> URI).
+								<br/>
+								In particular if no shapes at all matched a target, the validation report will contain a specific title and status : <em>"Shapes did not match anything !"</em>
+							</li>
+						</ul>
+						<p>
+							You can disable this extra target resolution by checking the <strong>"Avoid resolving targets"</strong> checkbox in the options above. 
+							When this option is checked, SHACL Play! will not resolve the targets of the shapes in the SHACL file, will not generate the extra triples, and will not apply the extra checks.
+						</p>
+						
 					</div>
 				</div>
  		

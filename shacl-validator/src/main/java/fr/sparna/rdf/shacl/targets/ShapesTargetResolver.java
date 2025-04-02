@@ -20,23 +20,23 @@ import org.apache.jena.vocabulary.RDFS;
 import org.topbraid.shacl.vocabulary.SH;
 
 /**
- * Resolves the target definitions of shapes to find their focus nodes, and notify the listeners of the results.
+ * Resolves the target definitions of shapes to find their (initial) focus nodes, and notify the listeners of the results.
  */
-public class ShapeFocusNodesResolver {
+public class ShapesTargetResolver {
 	
 	protected Model shapeModel;
 	protected Model data;
 
-	protected List<FocusNodeListener> listeners = new ArrayList<FocusNodeListener>();
+	protected List<ShapesTargetListener> listeners = new ArrayList<ShapesTargetListener>();
 
 	
-	public ShapeFocusNodesResolver(Model shapeModel, Model data) {
+	public ShapesTargetResolver(Model shapeModel, Model data) {
 		super();
 		this.shapeModel = shapeModel;
 		this.data = data;
 	}
 	
-	public void resolveFocusNodes() {
+	public void resolveTargets() {
 		
 		// for each subject of a target predicate...
 		List<Resource> shapes = shapeModel.listResourcesWithProperty(SH.targetNode)
@@ -49,24 +49,24 @@ public class ShapeFocusNodesResolver {
 		.andThen(shapeModel.listResourcesWithProperty(SH.target)).toList();
 		
 		for (Resource shape : shapes) {
-			resolveFocusNodes(shape, data);
+			resolveTargets(shape, data);
 		}
 
 		// notify of end
-		for(FocusNodeListener listener : listeners) {
+		for(ShapesTargetListener listener : listeners) {
 			listener.notifyEnd();
 		}
 	}
 
-	public void setListeners(List<FocusNodeListener> listeners) {
+	public void setListeners(List<ShapesTargetListener> listeners) {
 		this.listeners = listeners;
 	}
 
-	public List<FocusNodeListener> getListeners() {
+	public List<ShapesTargetListener> getListeners() {
 		return this.listeners;
 	}
 
-	private void resolveFocusNodes(Resource shape, Model data) {
+	private void resolveTargets(Resource shape, Model data) {
 
 		// * sh:targetNode
 		StmtIterator it = shape.listProperties(SH.targetNode);
@@ -131,14 +131,14 @@ public class ShapeFocusNodesResolver {
 		}
 
 		// notify of end shape
-		for(FocusNodeListener listener : listeners) {
+		for(ShapesTargetListener listener : listeners) {
 			listener.notifyEndShape(shape, data);
 		}
 	}
 
 	private void notifyListeners(Resource shape, Model data, List<RDFNode> focusNodes) {
-		for(FocusNodeListener listener : listeners) {
-			listener.notifyFocusNodes(shape, data, focusNodes);
+		for(ShapesTargetListener listener : listeners) {
+			listener.notifyTargets(shape, data, focusNodes);
 		}
 	}
 

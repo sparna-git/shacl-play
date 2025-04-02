@@ -165,7 +165,9 @@
 				<style>	
 					<xsl:apply-templates select="../ShapesDocumentation" mode="style_css_doc"/>
 					<xsl:apply-templates select="../ShapesDocumentation" mode="style_css_extra"/>
-				</style>		
+				</style>
+				<!-- we insert a comment that can be overwritten to be replaced with extra CSS rules -->
+				<xsl:comment>EXTRA CSS</xsl:comment>
 				
 				<meta charset="UTF-8"/>
 				<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>

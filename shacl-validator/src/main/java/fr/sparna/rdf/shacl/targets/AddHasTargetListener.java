@@ -17,9 +17,9 @@ import fr.sparna.rdf.shacl.SHP;
 
 /**
  * A listener that adds a "shacl-play:targetMatched false" triple to the target model for each shape that did not match any focus node, 
- * and also adds a sh:hasMatched global triple to the validation report.
+ * and also adds a global sh:hasMatched triple to the validation report.
  */
-public class AddHasTargetListener implements FocusNodeListener {
+public class AddHasTargetListener implements ShapesTargetListener {
 
 	private Logger log = LoggerFactory.getLogger(this.getClass().getName());
 
@@ -33,7 +33,7 @@ public class AddHasTargetListener implements FocusNodeListener {
 	}
 
 	@Override
-	public void notifyFocusNodes(Resource shape, Model data, List<RDFNode> focusNodes) {
+	public void notifyTargets(Resource shape, Model data, List<RDFNode> focusNodes) {
 		if(!focusNodes.isEmpty()) {
 			if(!shapesWithTargets.contains(shape)) {
 				shapesWithTargets.add(shape);

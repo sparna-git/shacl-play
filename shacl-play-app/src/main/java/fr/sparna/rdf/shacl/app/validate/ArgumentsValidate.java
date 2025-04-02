@@ -60,6 +60,12 @@ public class ArgumentsValidate {
 			description = "Asks the SHACL validator to create details for OrComponent and AndComponents. Defaults to false."
 	)
 	private boolean createDetails = false;
+
+	@Parameter(
+			names = { "-art", "--avoidResolvingTargets" },
+			description = "Asks the SHACL validator to not compute explicitely the targets of each shapes. When set, no validation message will be generated for resources not targeted, or for shapes not targeting anything. Defaults to false."
+	)
+	private boolean avoidResolvingTargets = false;
 	
 	@Parameter(
 		names = { "-ns", "--namespaces" },
@@ -115,6 +121,14 @@ public class ArgumentsValidate {
 
 	public void setCreateDetails(boolean createDetails) {
 		this.createDetails = createDetails;
+	}
+
+	public boolean isAvoidResolvingTargets() {
+		return avoidResolvingTargets;
+	}
+	
+	public void setAvoidResolvingTargets(boolean avoidResolvingTargets) {
+		this.avoidResolvingTargets = avoidResolvingTargets;
 	}
 	
 	public Map<String, String> getNamespaceMappings() {

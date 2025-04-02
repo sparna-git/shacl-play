@@ -64,7 +64,7 @@ public class Validate implements CliCommandIfc {
 
 		// we are asking for the extra gathering of focus nodes and the validation of
 		// whether shapes matched focus nodes and whether all nodes were targeted by at least a shape
-		validator.setResolveFocusNodes(true);
+		validator.setResolveTargets(!a.isAvoidResolvingTargets());
 
 		Model validationResults = validator.validate(dataModel);
 		

@@ -368,7 +368,6 @@ public class ValidateController {
 			// initialize shapes first
 			log.debug("Determining Shapes source...");
 			
-			// Model shapesModel = ModelFactory.createDefaultModel();
 			// load shapes in an OntModel to honor owl:imports
 			OntModel shapesModel = ModelFactory.createOntologyModel();
 			// this will prevent the attempt to fetch the import if is already in the model

@@ -17,3 +17,9 @@ shacl-doc/src/main/resources/dataset2html-backup.xsl
 .vscode/
 
 shacl-play-app.log
+
+output-raw.html
+
+output-summary.html
+
+output.html

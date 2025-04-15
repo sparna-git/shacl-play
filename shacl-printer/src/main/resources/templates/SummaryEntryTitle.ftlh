@@ -6,6 +6,8 @@
 	<span class="badge badge-pill badge-warning">Warning</span>
 <#elseif summaryEntry.resultSeverityLabel == "Info">
 	<span class="badge badge-pill badge-info">Info</span>
+<#elseif summaryEntry.resultSeverityLabel == "Failure">
+	<span class="badge badge-pill badge-dark">Failure</span>
 <#else>
 	<span class="badge badge-pill badge-secondary">Other</span>
 </#if>

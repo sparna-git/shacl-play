@@ -5,6 +5,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.jena.vocabulary.RDF;
+import org.topbraid.shacl.vocabulary.DASH;
+
 import fr.sparna.rdf.shacl.SH;
 
 public class PrintableValidationReport {
@@ -15,6 +18,7 @@ public class PrintableValidationReport {
 		INFO("constraint-info", "bg-info", "glyphicon-ok"),
 		WARNING("constraint-warning", "bg-warning", "fa-exclamation-triangle"),
 		VIOLATION("constraint-violation", "bg-danger", "fa-engine-warning"),
+		FAILURE("constraint-failue", "bg-light", "fa-exclamation"),
 		OTHER("constraint-other", "bg-danger", "fa-exclamation")
 		;
 		
@@ -111,6 +115,10 @@ public class PrintableValidationReport {
 			// then violation
 			if(this.validationReport.resultsModel.contains(null, SH.resultSeverity, SH.Violation)) {
 				result = SeverityDisplayLevel.VIOLATION;
+			}
+			// then failures
+			if(this.validationReport.resultsModel.contains(null, RDF.type, DASH.FailureResult)) {
+				result = SeverityDisplayLevel.FAILURE;
 			}					
 		}	
 		

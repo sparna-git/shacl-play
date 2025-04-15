@@ -18,5 +18,7 @@ public class DASH {
 	/** <p>The annotation property that shall be set.</p> */
     public static final Resource LabelRole = M_MODEL.createProperty( NS + "LabelRole" );
 	
+    /** <p>The annotation property that shall be set.</p> */
+    public static final Resource FailureResult = M_MODEL.createResource( NS + "FailureResult" );
 	
 }

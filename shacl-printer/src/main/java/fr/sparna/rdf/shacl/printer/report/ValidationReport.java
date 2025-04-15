@@ -16,9 +16,11 @@ import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
+import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.XSD;
 
 import fr.sparna.rdf.jena.JenaUtil;
+import fr.sparna.rdf.shacl.DASH;
 import fr.sparna.rdf.shacl.SH;
 
 public class ValidationReport {
@@ -45,7 +47,9 @@ public class ValidationReport {
 		if(results == null) {
 			// Collect all results			
 			Set<Resource> results = JenaUtil.getAllInstances(resultsModel.getResource(SH.ValidationResult.getURI()));
-			
+			// add all failure results
+			results.addAll(JenaUtil.getAllTransitiveSubjects(resultsModel.getResource(DASH.FailureResult.getURI()), RDF.type));
+
 			// Turn the results Resource objects into SHResult instances
 			this.results = new LinkedList<SHResult>();
 			for(Resource candidate : results) {
@@ -62,13 +66,25 @@ public class ValidationReport {
 		QueryExecution execution = null;
 		try {
 			execution = QueryExecutionFactory.create(
-					IOUtils.toString(this.getClass().getResource(this.getClass().getSimpleName()+".rq"), "UTF-8"),
-					this.getFullModel()
+				// this is reading "fr/sparna/rdf/shacl/printer/report/ValidationReport.rq" from the classpath
+				IOUtils.toString(this.getClass().getResource(this.getClass().getSimpleName()+".rq"), "UTF-8"),
+				this.getFullModel()
 			);
 			ResultSet resultSet = execution.execSelect();
 			resultSet.forEachRemaining(solution -> {
-				entries.add(SHResultSummaryEntry.fromQuerySolution(solution));
+				entries.add(SHResultSummaryEntry.fromValidationReportQuerySolution(solution));
 			});
+
+			// now read the FailureResults
+			execution = QueryExecutionFactory.create(
+				IOUtils.toString(this.getClass().getResource("FailureResult"+".rq"), "UTF-8"),
+				this.getFullModel()
+			);
+			resultSet = execution.execSelect();
+			resultSet.forEachRemaining(solution -> {
+				entries.add(SHResultSummaryEntry.fromValidationReportQuerySolution(solution));
+			});
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
@@ -116,8 +132,14 @@ public class ValidationReport {
 		return results;
 	}	
 	
+	public long getNumberOfFailures() {
+		// this is special : the sh:severity is Violation, but the type is special
+		return getResults().stream().filter(vr -> vr.getType().equals(DASH.FailureResult)).count();
+	}
+
 	public long getNumberOfViolations() {
-		return getResults().stream().filter(vr -> vr.getSeverity().equals(SH.Violation)).count();
+		// exlclude failures
+		return getResults().stream().filter(vr -> vr.getSeverity().equals(SH.Violation) && !vr.getType().equals(DASH.FailureResult)).count();
 	}
 	
 	public long getNumberOfWarnings() {
@@ -129,7 +151,15 @@ public class ValidationReport {
 	}
 	
 	public long getNumberOfOthers() {
-		return getResults().stream().filter(vr -> !vr.getSeverity().equals(SH.Violation) && !vr.getSeverity().equals(SH.Warning) && !vr.getSeverity().equals(SH.Info)).count();
+		return getResults().stream().filter(vr -> 
+			!vr.getSeverity().equals(SH.Violation)
+			&&
+			!vr.getSeverity().equals(SH.Warning)
+			&&
+			!vr.getSeverity().equals(SH.Info)
+			&&
+			!vr.getSeverity().equals(DASH.FailureResult)
+		).count();
 	}
 	
 	/**

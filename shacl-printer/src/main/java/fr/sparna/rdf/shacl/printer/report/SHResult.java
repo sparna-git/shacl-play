@@ -5,6 +5,7 @@ import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.rdf.model.StmtIterator;
+import org.apache.jena.vocabulary.RDF;
 
 import fr.sparna.rdf.shacl.SH;
 
@@ -43,6 +44,10 @@ public class SHResult {
 
 	Resource getSourceShape() {
 		return getPropertyResourceValue(SH.sourceShape);
+	}
+
+	Resource getType() {
+		return getPropertyResourceValue(RDF.type);
 	}
 
 	RDFNode getValue() {

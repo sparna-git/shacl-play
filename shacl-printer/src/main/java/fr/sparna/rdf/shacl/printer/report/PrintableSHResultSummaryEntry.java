@@ -1,5 +1,7 @@
 package fr.sparna.rdf.shacl.printer.report;
 
+import org.topbraid.shacl.vocabulary.DASH;
+
 import fr.sparna.rdf.shacl.SH;
 
 public class PrintableSHResultSummaryEntry {
@@ -48,6 +50,13 @@ public class PrintableSHResultSummaryEntry {
 	}
 	
 	public String getResultSeverityLabel() {
+		// special : in case of SPARQL result failure
+		if(
+				shResultSummaryEntry.getResultSeverity().getLocalName().equals(DASH.FailureResult.getLocalName())
+		) {
+			return "Failure";
+		}
+
 		if(
 				!shResultSummaryEntry.getResultSeverity().getLocalName().equals(SH.Violation.getLocalName())
 				&&

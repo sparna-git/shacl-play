@@ -1,0 +1,25 @@
+PREFIX sh:   <http://www.w3.org/ns/shacl#>
+PREFIX dash: <http://datashapes.org/dash#>
+
+SELECT ?sourceShape ?sourceConstraintComponent ?resultSeverity ?resultPath ?message (COUNT(?nodeUri) AS ?count) (SAMPLE(?focusNode) AS ?sampleFocusNode) (SAMPLE(?value) AS ?sampleValue)
+WHERE {
+	?s a dash:FailureResult ;
+		# this will be the node shape itself
+		sh:focusNode ?nodeUri;
+		# this is sh:Violation
+		# sh:resultSeverity ?resultSeverity;
+		# this is sh:SPARQLConstraintComponent
+		sh:sourceConstraintComponent ?sourceConstraintComponent;
+		# this will be the node shape itself
+		sh:sourceShape ?sourceShape .	
+	
+	BIND(dash:FailureResult AS ?resultSeverity)
+
+	# this is the full stacktrace
+	OPTIONAL { ?s sh:resultMessage ?message; }
+	
+	# this will be the node shape itself
+	?s sh:focusNode ?focusNode .	
+}
+GROUP BY ?sourceShape ?sourceConstraintComponent ?resultSeverity ?resultPath ?message
+ORDER BY DESC(?count)

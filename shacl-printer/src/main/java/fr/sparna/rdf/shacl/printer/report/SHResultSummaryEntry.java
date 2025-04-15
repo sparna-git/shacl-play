@@ -18,7 +18,7 @@ public class SHResultSummaryEntry {
 	protected RDFNode sampleFocusNode;
 	protected RDFNode sampleValue;
 	
-	public static SHResultSummaryEntry fromQuerySolution(QuerySolution solution) {
+	public static SHResultSummaryEntry fromValidationReportQuerySolution(QuerySolution solution) {
 		SHResultSummaryEntry result = new SHResultSummaryEntry();
 		
 		// pretty source shape

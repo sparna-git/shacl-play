@@ -25,6 +25,7 @@
 	      	<h3>
 	      	<@title.reportTitle 
 	      		hasMatched=report.validationReport.hasMatched()
+            failures=report.validationReport.numberOfFailures
 	      		violations=report.validationReport.numberOfViolations
 	      		warnings=report.validationReport.numberOfWarnings
 	      		infos=report.validationReport.numberOfInfos

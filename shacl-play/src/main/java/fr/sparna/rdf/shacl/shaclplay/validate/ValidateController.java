@@ -135,12 +135,12 @@ public class ValidateController {
 			HttpServletResponse response
 	){
 		try {
-			// load shapes
-			Model shapesModel = ModelFactory.createDefaultModel();
+			// load shapes in an OntModel to honor owl:imports
+			OntModel shapesModel = ModelFactory.createOntologyModel();
 			ShapesCatalogEntry entry = this.catalogService.getShapesCatalog().getCatalogEntryById(shapesCatalogId);
 
 			try {
-				shapesModel = ControllerCommons.populateModel(shapesModel, entry.getTurtleDownloadUrl());
+				ControllerCommons.populateModel(shapesModel, entry.getTurtleDownloadUrl());
 			} catch (RiotException e) {
 				// TODO : return an API error
 				return handleValidateFormError(request, e.getMessage(), e);
@@ -214,11 +214,11 @@ public class ValidateController {
 			HttpServletResponse response
 	){
 		try {
-			// load shapes
-			Model shapesModel = ModelFactory.createDefaultModel();
+			// load shapes in an OntModel to honor owl:imports
+			OntModel shapesModel = ModelFactory.createOntologyModel();
 			
 			try {
-				shapesModel = ControllerCommons.populateModel(shapesModel, new URL(shapesUrl));
+				ControllerCommons.populateModel(shapesModel, new URL(shapesUrl));
 			} catch (RiotException e) {
 				// TODO : return an API error
 				return handleValidateFormError(request, e.getMessage(), e);

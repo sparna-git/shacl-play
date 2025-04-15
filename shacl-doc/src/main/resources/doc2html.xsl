@@ -311,6 +311,16 @@
 					h3 {
 						font-size: 1.4em;
 					}
+
+					h4 {
+						font-size: 1.1em;
+						font-weight: bold;
+					}
+
+					.constraint_list li {
+						list-style:"> ";
+						font-style: italic;
+					}
 					
 					@media only print {
 					}
@@ -1028,10 +1038,10 @@
 					
 					<!-- Section for Contraints descriptions -->
 					<xsl:if test="string-length(descriptionSparql) &gt; 0">
-						<h4 class="sp_section_title_table">
+						<h4>
 							<xsl:value-of select="$LABELS/labels/entry[@key='LABEL_CONSTRAINTS']/@label" />
 						</h4>
-						<ul>
+						<ul class="constraint_list">
 							<li><xsl:apply-templates select="descriptionSparql"/></li>
 						</ul>
 					</xsl:if>

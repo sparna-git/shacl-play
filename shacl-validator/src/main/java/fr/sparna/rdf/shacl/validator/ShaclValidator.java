@@ -269,7 +269,9 @@ public class ShaclValidator {
 	private static void mergeValidationReports(Model existingValidationReport, Model otherValidationReport) {
 		// add all sh:ValidationResult from secondPhaseResults to existingValidationReport
 		otherValidationReport.listResourcesWithProperty(RDF.type, SH.ValidationResult).forEachRemaining(vr -> {
-			existingValidationReport.add(vr.listProperties().toList());
+			// if the validation result contains a property that refers to a blank node, add the blank node to the existing validation report, recursively
+			// this is for sh:resultPath pointing to blank node property paths
+			addResourceToModel(existingValidationReport, vr);
 			// and link them from the report with SH.result
 			existingValidationReport.listResourcesWithProperty(RDF.type, SH.ValidationReport).forEachRemaining(report -> {
 				report.addProperty(SH.result, vr);
@@ -285,6 +287,18 @@ public class ShaclValidator {
 			});
 		}
 	}
+
+	private static void addResourceToModel(Model model, Resource resource) {
+		model.add(resource.listProperties().toList());
+		if(resource.isAnon()) {			
+			resource.listProperties().forEachRemaining(p -> {
+				if(p.getObject().isResource()) {
+					addResourceToModel(model, p.getObject().asResource());
+				}
+			});
+		}
+	}
+
 
 	public ProgressMonitor getProgressMonitor() {
 		return progressMonitor;

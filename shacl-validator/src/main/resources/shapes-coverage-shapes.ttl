@@ -7,7 +7,7 @@
 
 shpshapes:AtLeastOneFocusNodeShape a sh:NodeShape ;
 	# applies to every shape that has a target definition
-	sh:targetSubjectsOf sh:targetNode, sh:targetClass, sh:targetSubjectsOf, sh:targetObjectsOf;
+	sh:targetSubjectsOf sh:targetNode, sh:targetClass, sh:targetSubjectsOf, sh:targetObjectsOf, sh:target;
 	sh:target [
 		sh:select "SELECT $this WHERE { $this a <http://www.w3.org/ns/shacl#NodeShape> ; a <http://www.w3.org/2000/01/rdf-schema#Class> }"
 	] ;

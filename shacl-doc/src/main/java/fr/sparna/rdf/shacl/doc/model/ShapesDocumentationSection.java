@@ -59,6 +59,7 @@ public class ShapesDocumentationSection {
 	 */
 	private PlantUmlDiagramOutput nsDiagram;
 	
+	private String DescriptionSparql;
 	
 	@JacksonXmlElementWrapper(localName="superClasses")
 	@JacksonXmlProperty(localName = "link")
@@ -289,5 +290,13 @@ public class ShapesDocumentationSection {
 
 	public void setSubtitleUri(Link subtitleUri) {
 		this.subtitleUri = subtitleUri;
-	}	
+	}
+
+	public String getDescriptionSparql() {
+		return DescriptionSparql;
+	}
+
+	public void setDescriptionSparql(String descriptionSparl) {
+		DescriptionSparql = descriptionSparl;
+	}
 }

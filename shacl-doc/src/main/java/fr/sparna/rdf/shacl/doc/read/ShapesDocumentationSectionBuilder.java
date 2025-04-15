@@ -107,6 +107,11 @@ public class ShapesDocumentationSectionBuilder {
 			currentSection.setSparqlTarget(nodeShape.getShTargetShSelect().getString());
 		}
 		
+		// sparql Constraint
+		if(nodeShape.getShSparqlDCTDescription() != null) {
+			currentSection.setDescriptionSparql(nodeShape.getShSparqlDCTDescription().getString());
+		}
+		
 		// sh:pattern
 		currentSection.setPattern(nodeShape.getShPattern() != null?nodeShape.getShPattern().getString():null);
 		

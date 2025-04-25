@@ -272,14 +272,16 @@ public class PropertyShapeDocumentationBuilder {
 	
 	public Link buildShQualifiedValueShape(Resource shQualifiedValueShape) {
 		
-		Link r = null;		
-				
-		r = this.buildShNodeLink(shQualifiedValueShape);
-		r = this.buildShClassLink(shQualifiedValueShape);
-		r = this.buildShDatatypeLink(shQualifiedValueShape);
-		r = this.buildShNodeKindLink(shQualifiedValueShape);
-		r = this.buildDefaultLink(shQualifiedValueShape);
-		
-		return r;
+		PropertyShape qualifiedvaludShapeObject = new PropertyShape(shQualifiedValueShape);
+
+		return selectExpectedValueAsLink(
+			qualifiedvaludShapeObject.getShClass(),
+			qualifiedvaludShapeObject.getShNode(),
+			qualifiedvaludShapeObject.getShDatatype(),
+			qualifiedvaludShapeObject.getShNodeKind(),
+			qualifiedvaludShapeObject.getShHasValue(),
+			// null for qualifiedValueShape
+			null
+		);
 	}
 }

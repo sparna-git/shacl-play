@@ -49,7 +49,20 @@ public class PlantUmlBox implements PlantUmlBoxIfc {
 	}
 	
 	public List<Resource> getDepiction() {
-		return ModelReadingUtils.readObjectAsResource(nodeShape, FOAF.depiction);
+		List<Resource> depictionInput = ModelReadingUtils.readObjectAsResource(nodeShape, FOAF.depiction).stream()
+											.filter(f -> { 
+												if (f.getURI().contains(".png")) {
+													return false;
+												}
+												if (f.getURI().contains(".jpg")) {
+													return false;
+												}
+												return true;												
+											} )
+											.collect(Collectors.toList());
+		
+		
+		return depictionInput;
 	}
 	
 	public Optional<Resource> getTargetClass() {

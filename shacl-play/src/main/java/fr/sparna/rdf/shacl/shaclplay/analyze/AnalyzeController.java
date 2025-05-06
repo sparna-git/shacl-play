@@ -9,6 +9,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.jena.ontology.OntModel;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.owasp.encoder.Encode;
@@ -46,9 +47,11 @@ import fr.sparna.rdf.shacl.generate.visitors.AssignValueOrInVisitor;
 import fr.sparna.rdf.shacl.generate.visitors.ComputeStatisticsVisitor;
 import fr.sparna.rdf.shacl.generate.visitors.ComputeValueStatisticsVisitor;
 import fr.sparna.rdf.shacl.generate.visitors.CopyStatisticsToDescriptionVisitor;
+import fr.sparna.rdf.shacl.generate.visitors.ShaclVisit;
 import fr.sparna.rdf.shacl.shaclplay.ApplicationData;
 import fr.sparna.rdf.shacl.shaclplay.ControllerModelFactory;
 import fr.sparna.rdf.shacl.shaclplay.ControllerModelFactory.SOURCE_TYPE;
+import fr.sparna.rdf.shacl.shaclplay.catalog.shapes.ShapesCatalogService;
 
 @Controller
 public class AnalyzeController {
@@ -57,6 +60,9 @@ public class AnalyzeController {
 
 	@Autowired
 	protected ApplicationData applicationData;
+
+	@Autowired
+	protected ShapesCatalogService catalogService;
 	
 	public static final int LARGE_DATASET_THRESHOLD = 10000;
 	
@@ -127,6 +133,16 @@ public class AnalyzeController {
 			@RequestParam(value="inputInline", required=false) String text,
 			// reference to a SPARQL endpoint URL if source=source-inputUrlEndpoint
 			@RequestParam(value="inputUrlEndpoint", required=false) String endpoint,
+			// shapes source /!\ WARNING : THE SHAPES ARE OPTIONAL
+			@RequestParam(value="shapesSource", required=true) String shapesSourceString,
+			// reference to Shapes URL if shapeSource=sourceShape-inputShapeUrl
+			@RequestParam(value="inputShapeUrl", required=false) String shapesUrl,
+			// reference to Shapes Catalog ID if shapeSource=sourceShape-inputShapeCatalog
+			@RequestParam(value="inputShapeCatalog", required=false) String shapesCatalogId,
+			// uploaded shapes if shapeSource=sourceShape-inputShapeFile
+			@RequestParam(value="inputShapeFile", required=false) List<MultipartFile> shapesFiles,
+			// inline Shapes if shapeSource=sourceShape-inputShapeInline
+			@RequestParam(value="inputShapeInline", required=false) String shapesText,
 			// Format of the output
 			@RequestParam(value="format", required=false, defaultValue = "HTML") String format,
 			// Language Option
@@ -139,7 +155,8 @@ public class AnalyzeController {
 
 			// get the source type
 			ControllerModelFactory.SOURCE_TYPE source = ControllerModelFactory.SOURCE_TYPE.valueOf(sourceString.toUpperCase());
-			
+			// get the shapes source type
+			ControllerModelFactory.SOURCE_TYPE shapesSource = ControllerModelFactory.SOURCE_TYPE.valueOf(shapesSourceString.toUpperCase());
 			
 			Configuration config = new Configuration(new DefaultModelProcessor(), "https://shacl-play.sparna.fr/shapes/", "shapes");
 			config.setShapesOntology("https://shacl-play.sparna.fr/shapes");
@@ -177,60 +194,128 @@ public class AnalyzeController {
 				}
 			}
 
+			Model shapesModel = ModelFactory.createDefaultModel();
+			
+			try {
+				ControllerModelFactory modelPopulator = new ControllerModelFactory(this.catalogService.getShapesCatalog());
+				modelPopulator.populateModel(
+						shapesModel,
+						shapesSource,
+						shapesUrl,
+						shapesText,
+						shapesFiles,
+						shapesCatalogId
+				);
+				log.debug("Done Loading Shapes. Model contains "+shapesModel.size()+" triples");
+			} catch (Exception e) {
+				log.debug("Wasn't able to load shapes ("+e.getMessage()+"), will autogenerate shapes");
+			}
+
+
 			SamplingShaclGeneratorDataProvider dataProvider = new SamplingShaclGeneratorDataProvider(queryExecutionService);
 			BaseShaclStatisticsDataProvider statisticsProvider = new BaseShaclStatisticsDataProvider(queryExecutionService);
 			// I know we shouldn't do that theoretically, but it speeds things up
 			statisticsProvider.setAssumeNoSubclassOf(true);
 
-			// defaults to english
-			if(language == null) {
-				language ="en";
-			}
-			
-			boolean async = requiresAsyncGeneration(endpoint, datasetModel);
-			
-			
-			// now generate the shapes
-			Model shapes = doGenerateShapes(
-					dataProvider,
-					statisticsProvider,
-					config,
-					(source == SOURCE_TYPE.ENDPOINT)?endpoint:(source == SOURCE_TYPE.URL)?url:"https://dummy.dataset.uri",
-					true,
-					// async ?
-					async,
-					request
-			);
-			
-			if(!async) {
+			if(shapesModel.size() > 0) {
+				log.debug("Using the provided shapes to compute statistics");
+				// compute statistics
+				Model countModel = ModelFactory.createDefaultModel(); 
+		
+				ShaclVisit modelStructure = new ShaclVisit(shapesModel);
+				modelStructure.visit(new ComputeStatisticsVisitor(
+						dataProvider,
+						statisticsProvider,
+						countModel,
+						(source == SOURCE_TYPE.ENDPOINT)?endpoint:"https://dummy.dataset.uri"
+				));
+
+				// we are going to assign sh:in to the property shapes based on the statistics gathered
+				AssignValueOrInVisitor yetAnotherTryOnAssigningValues = new AssignValueOrInVisitor(dataProvider);
+				yetAnotherTryOnAssigningValues.setRequiresShValueInPredicate(yetAnotherTryOnAssigningValues.new StatisticsBasedRequiresShValueOrInPredicate(countModel));
+				modelStructure.visit(yetAnotherTryOnAssigningValues);
+				// then we add value statistics to the count model
+				modelStructure.visit(new ComputeValueStatisticsVisitor(dataProvider,statisticsProvider,countModel));
+				// then we copy the statistics in the description of the shape
+				modelStructure.visit(new CopyStatisticsToDescriptionVisitor(countModel));
+
+				// merge shapes with statistics
+				shapesModel.add(countModel);
+
 				// generate the documentation
 				ShapesDocumentationModelReader reader = new ShapesDocumentationModelReader(false, null,false,false);
 				ShapesDocumentation sd = reader.readShapesDocumentation(
 						// shapes + statistics
-						shapes,
+						shapesModel,
 						// owl ontology
 						ModelFactory.createDefaultModel(),
 						// language
 						language						
 				);
-				
+
 				// then serialize				
 				serialize(
-						sd,
-						format,
-						language,
-						sourceName,
-						response						
+					sd,
+					format,
+					language,
+					sourceName,
+					response						
 				);
 				return null;
+
 			} else {
-				// stores format and source name and language to fetch them later on 'show'
-				request.getSession().setAttribute("format", format);
-				request.getSession().setAttribute("sourceName", sourceName);
-				request.getSession().setAttribute("language", language);
-				return new ModelAndView("redirect:/analyze/wait");
-			}		
-			
+				log.debug("No shapes were provided, will autogenerate shapes");
+
+	
+				// defaults to english
+				if(language == null) {
+					language ="en";
+				}
+
+				boolean async = requiresAsyncGeneration(endpoint, datasetModel);
+				
+				// now generate the shapes
+				shapesModel = doGenerateShapes(
+						dataProvider,
+						statisticsProvider,
+						config,
+						(source == SOURCE_TYPE.ENDPOINT)?endpoint:(source == SOURCE_TYPE.URL)?url:"https://dummy.dataset.uri",
+						true,
+						// async ?
+						async,
+						request
+				);
+
+				if(!async) {
+					// generate the documentation
+					ShapesDocumentationModelReader reader = new ShapesDocumentationModelReader(false, null,false,false);
+					ShapesDocumentation sd = reader.readShapesDocumentation(
+							// shapes + statistics
+							shapesModel,
+							// owl ontology
+							ModelFactory.createDefaultModel(),
+							// language
+							language						
+					);
+					
+					// then serialize				
+					serialize(
+							sd,
+							format,
+							language,
+							sourceName,
+							response						
+					);
+					return null;
+				} else {
+					// stores format and source name and language to fetch them later on 'show'
+					request.getSession().setAttribute("format", format);
+					request.getSession().setAttribute("sourceName", sourceName);
+					request.getSession().setAttribute("language", language);
+					return new ModelAndView("redirect:/analyze/wait");
+				}
+
+			} 			
 		} catch (Exception e) {
 			e.printStackTrace();
 			return handleAnalyzeFormError(request, e.getClass().getName() +" : "+e.getMessage(), e);

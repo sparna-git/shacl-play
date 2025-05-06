@@ -56,7 +56,7 @@ public class ControllerModelFactory {
 			String text,
 			List<MultipartFile> files,
 			String catalogId
-			) throws ControllerModelException {
+	) throws ControllerModelException {
 
 		switch(source) {
 		case FILE: {

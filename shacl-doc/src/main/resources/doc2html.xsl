@@ -142,6 +142,8 @@
 
 	<!-- Select labels based on language param -->
 	<xsl:variable name="LABELS" select="if($LANG = 'fr') then $LABELS_FR else $LABELS_EN" />
+
+	<xsl:param name="COLSPAN" select="5" />
 	
 	<!-- Principal -->
 	<xsl:template match="/">
@@ -1168,7 +1170,7 @@
 	<xsl:template match="propertyGroup">
 		<!-- only display groups if there are more than 1 !! -->
 		<xsl:if test="count(../propertyGroup) > 1">
-			<tr class="sp_propertyGroup"><td colspan="5">Properties from <a href="{targetClass/href}"><xsl:value-of select="targetClass/label" /></a></td></tr>
+			<tr class="sp_propertyGroup"><td colspan="{$COLSPAN}">Properties from <a href="{targetClass/href}"><xsl:value-of select="targetClass/label" /></a></td></tr>
 		</xsl:if>
 		
 		<!-- Properties table -->
@@ -1179,7 +1181,7 @@
 	<xsl:template match="properties">
 		<xsl:if test="count(property) = 0">
 			<tr>
-				<td colspan="5"><em><xsl:value-of select="$LABELS/labels/entry[@key='LABEL_NO_PROPERTIES']/@label" /></em></td>
+				<td colspan="{$COLSPAN}"><em><xsl:value-of select="$LABELS/labels/entry[@key='LABEL_NO_PROPERTIES']/@label" /></em></td>
 			</tr>
 		</xsl:if>
 	

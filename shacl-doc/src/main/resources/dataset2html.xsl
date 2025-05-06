@@ -23,6 +23,8 @@
 
 	<!-- Select labels based on language param -->
 	<xsl:variable name="LABELS" select="if($LANG = 'fr') then $LABELS_FR else $LABELS_EN" />
+
+	<xsl:param name="COLSPAN" select="6" />
 	
 	
 	<xsl:template match="ShapesDocumentation" mode="style_css_extra">		
@@ -100,8 +102,12 @@
 			// Instance 
 			tippy(".sparqlPopup",{
 				content(reference) {
-					return reference.parentElement.querySelector('.sparqlQuery').innerHTML;
-					// return reference.children.getElementsByTagName('span').innerHTML;
+					if(reference.parentElement.querySelector('.sparqlQuery') != null) {
+						return reference.parentElement.querySelector('.sparqlQuery').innerHTML;
+						// return reference.children.getElementsByTagName('span').innerHTML;
+					} else {
+						return "No SPARQL query available";
+					}
 				},
 				allowHTML: true,
 				trigger: 'click',
@@ -125,11 +131,9 @@
 	</xsl:template>
 
 	<xsl:template match="numberOfTargets">
-		<xsl:if test="number(.) &gt; 0">
-			<span class="sp_badge">
-				<xsl:value-of select="." />
-			</span>
-		</xsl:if>
+		<span class="sp_badge">
+			<xsl:value-of select="." />
+		</span>
 	</xsl:template>
 
 	<xsl:template match="section" mode="TOC">
@@ -212,6 +216,16 @@
 				</tbody>
 			</table><!-- end properties table -->
 		</xsl:if>
+	</xsl:template>
+
+	<xsl:template match="propertyGroup">
+		<!-- only display groups if there are more than 1 !! -->
+		<xsl:if test="count(../propertyGroup) > 1">
+			<tr class="sp_propertyGroup"><td colspan="6">Properties from <a href="{targetClass/href}"><xsl:value-of select="targetClass/label" /></a></td></tr>
+		</xsl:if>
+		
+		<!-- Properties table -->
+		<xsl:apply-templates select="properties" />
 	</xsl:template>
 
 	<xsl:template match="property">

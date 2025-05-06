@@ -105,6 +105,9 @@
 										<a href="<c:url value="/generate" />" title="<fmt:message key="navbar.menu2.generate.tooltip" />"><fmt:message key="navbar.menu2.generate.label" /></a> | <small>&nbsp;<a href="<c:url value="/generate#documentation" />" title="documentation"><i class="fal fa-book"></i></a></small>										
 									</li>
 									<li style="display: list-item; text-align: -webkit-match-parent; padding: 0.3rem;">
+										<a href="<c:url value="/analyze" />" title="<fmt:message key="navbar.menu2.analyze.tooltip" />"><fmt:message key="navbar.menu2.analyze.label" /></a>
+									</li>
+									<li style="display: list-item; text-align: -webkit-match-parent; padding: 0.3rem;">
 										<a href="<c:url value="/validate#badges" />" title="<fmt:message key="navbar.menu2.badge.tooltip" />"><fmt:message key="navbar.menu2.badge.label" /></a>										
 									</li>			
 								</ul>

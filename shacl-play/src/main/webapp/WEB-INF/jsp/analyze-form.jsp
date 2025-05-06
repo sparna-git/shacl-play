@@ -61,6 +61,12 @@
 						<!-- Include endpoint blockquote -->
 						<%@ include file="include/endpoint-blockquote.jsp" %>
 						
+						<p><em>Optionaly, to analyze the dataset, you can provide a SHACL file through which the analysis will be done. If not provided, the SHACL profile of the dataset will be generated automatically.</em></p>
+
+						<h2><i class="fal fa-shapes"></i>&nbsp;&nbsp;<fmt:message key="analyze.shapes.title" /></h2>
+						<!-- Include shapes blockquote -->
+					  	<%@ include file="include/shapes-blockquote.jsp" %>
+
 						<h2><i class="fal fa-tools"></i>&nbsp;&nbsp;<fmt:message key="blockquote.options.title" /></h2>
 				      	<blockquote class="blockquote bq-warning">
 							<!-- Language -->

@@ -532,7 +532,7 @@
 						<xsl:otherwise>
 							.container {
 							    width: calc(100% - 40px);
-							    max-width: 1000px;
+							    max-width: 1100px;
 							    margin-left: 300px;
 							    margin-right: auto;
 							}
@@ -788,7 +788,7 @@
 		<xsl:choose>
 			<xsl:when test="$MODE = 'PDF'">
 				<!--  When outputting PDF, inserts the PNG image -->
-				<img src="{pngLink}" style="width:100%;" alt="a diagram representing this application profile" />
+				<img src="{pngLink}" style="width:80%;" alt="a diagram representing this application profile" />
 			</xsl:when>
 			<xsl:otherwise>
 				<!-- @disable-output-escaping prints the raw XML string as XML in the 
@@ -1075,7 +1075,7 @@
 		<xsl:choose>
 			<xsl:when test="$MODE = 'PDF'">
 				<!--  When outputting PDF, inserts the PNG image -->
-				<img src="{pngLink}" style="width:100%;" alt="a diagram representing this application profile" />
+				<img src="{pngLink}" style="width:45%;" alt="a diagram representing this application profile" />
 			</xsl:when>
 			<xsl:otherwise>
 				<!-- @disable-output-escaping prints the raw XML string as XML in the 

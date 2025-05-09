@@ -230,6 +230,12 @@ eclipse.preferences.version=1
           <artifactId>rdf2xls-lib</artifactId>
           <version>1.0.0</version>
       </dependency>
+
+      <dependency>
+          <groupId>com.github.sparna-git.xls2rdf</groupId>
+          <artifactId>xls2rdf-lib</artifactId>
+          <version>master-SNAPSHOT</version>
+      </dependency>
               
     </dependencies>
         

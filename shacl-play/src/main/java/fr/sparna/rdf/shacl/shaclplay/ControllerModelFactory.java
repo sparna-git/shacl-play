@@ -1,14 +1,9 @@
 package fr.sparna.rdf.shacl.shaclplay;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.net.URLConnection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -72,7 +67,11 @@ public class ControllerModelFactory {
 					if(f.getOriginalFilename().endsWith("zip")) {
 						log.debug("Detected a zip extension");
 						ControllerCommons.populateModelFromZip(model, f.getInputStream());
-					} else {
+					} else if(f.getOriginalFilename().endsWith("xls") || f.getOriginalFilename().endsWith("xlsx")) {
+						log.debug("Detected a xls/xlsx extension");
+						ControllerCommons.populateModelFromExcel(model, f.getInputStream());
+					}
+					else {
 						String lang = RDFLanguages.filenameToLang(f.getOriginalFilename(), Lang.RDFXML).getName();
 						log.debug("Detected RDF format "+lang+" from file name "+f.getOriginalFilename());
 						ControllerCommons.populateModel(model, f.getInputStream(), lang);
@@ -93,13 +92,43 @@ public class ControllerModelFactory {
 			try {
 				
 				URL actualUrl = new URL(url);	
+				URLConnection connection = actualUrl.openConnection();
+				connection.connect();
+				
+				// Get the MIME type
+				String mimeType = connection.getContentType();
+				log.debug("MIME type of the response: " + mimeType);
 				
 				if(actualUrl.getFile().endsWith("zip")) {
 					log.debug("Detected a zip extension");					
 					// read zip file
-					InputStream FileZip = actualUrl.openStream();
-					
+					InputStream FileZip = actualUrl.openStream();					
 					ControllerCommons.populateModelFromZip(model, FileZip);
+				} else if (
+					"application/vnd.ms-excel".equals(mimeType)
+					|| 
+					"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet".equals(mimeType))
+				{
+					log.debug("Detected an Excel file from the MIME type "+mimeType);
+					InputStream FileZip = actualUrl.openStream();
+					ControllerCommons.populateModelFromExcel(model, FileZip);
+				} else if (actualUrl.getHost().contains("docs.google.com") && actualUrl.getPath().contains("/spreadsheets/")) {
+					log.debug("The provided URL is a Google Spreadsheet URL.");
+				
+					// Ensure "/export?format=xlsx" is placed correctly
+					String exportUrl;
+					if (actualUrl.getPath().contains("/edit")) {
+						// Replace "/edit" and everything after with "/export?format=xlsx"
+						exportUrl = url.replaceAll("/edit.*", "/export?format=xlsx");
+					} else {
+						// Append "/export?format=xlsx" if "/edit" is not present
+						exportUrl = url.endsWith("/") ? url + "export?format=xlsx" : url + "/export?format=xlsx";
+					}
+				
+					log.debug("Transformed Google Spreadsheet URL for export: " + exportUrl);
+				
+					URL excelExportUrl = new URL(exportUrl);
+					ControllerCommons.populateModelFromExcel(model, excelExportUrl.openStream());
 				} else {
 					ControllerCommons.populateModel(model, actualUrl);						
 					this.sourceName = getSourceNameForUrl(url);
@@ -174,8 +203,7 @@ public class ControllerModelFactory {
 			e.printStackTrace();
 			return "url";
 		}
-	}
-	
+	}	
 	
 	public String getSourceName() {
 		return sourceName;

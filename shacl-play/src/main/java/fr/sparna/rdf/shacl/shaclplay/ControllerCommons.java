@@ -25,6 +25,12 @@ import org.apache.jena.riot.RDFLanguages;
 import org.apache.jena.riot.RiotException;
 import org.apache.jena.util.FileUtils;
 import org.apache.jena.vocabulary.RDF;
+import org.eclipse.rdf4j.model.Statement;
+import org.eclipse.rdf4j.repository.Repository;
+import org.eclipse.rdf4j.repository.sail.SailRepository;
+import org.eclipse.rdf4j.rio.RDFHandlerException;
+import org.eclipse.rdf4j.rio.helpers.AbstractRDFHandler;
+import org.eclipse.rdf4j.sail.memory.MemoryStore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,6 +39,9 @@ import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+
+import fr.sparna.rdf.xls2rdf.Xls2RdfConverter;
+import fr.sparna.rdf.xls2rdf.Xls2RdfConverterFactory;
 
 
 public class ControllerCommons {
@@ -161,7 +170,65 @@ public class ControllerCommons {
     	
     	return model;
     }
-	
+
+	public static final void populateModelFromExcel(Model model, InputStream inputStream) throws ControllerModelException {
+		Xls2RdfConverterFactory converterFactory = new Xls2RdfConverterFactory(
+			// applyPostProcessings
+			false,
+			// XL
+			false,
+			// XL definitions
+			false,
+			// broader transitive
+			false,
+			// no fail on reconcile
+			false,
+			// skip hidden rows and columns
+			true						
+		);
+
+		AbstractRDFHandler jenaModelWriter = new AbstractRDFHandler() {
+			@Override
+			public void handleNamespace(String prefix, String uri) throws RDFHandlerException {
+				model.setNsPrefix(prefix, uri);
+			};
+
+			@Override
+			public void handleStatement(Statement statement) {
+				// Convert RDF4J statement to Jena statement and add to the Jena model
+				org.apache.jena.rdf.model.Resource subject = model.createResource(statement.getSubject().stringValue());
+				org.apache.jena.rdf.model.Property predicate = model.createProperty(statement.getPredicate().stringValue());
+				org.apache.jena.rdf.model.RDFNode object;
+				if (statement.getObject() instanceof org.eclipse.rdf4j.model.Literal) {
+					org.eclipse.rdf4j.model.Literal literal = (org.eclipse.rdf4j.model.Literal) statement.getObject();
+					if (literal.getLanguage().isPresent()) {
+						object = model.createLiteral(literal.getLabel(), literal.getLanguage().get());
+					} else if (literal.getDatatype() != null) {
+						object = model.createTypedLiteral(literal.getLabel(), literal.getDatatype().stringValue());
+					} else {
+						object = model.createLiteral(literal.getLabel());
+					}
+				} else if (statement.getObject() instanceof org.eclipse.rdf4j.model.IRI) {
+					object = model.createResource(statement.getObject().stringValue());
+				} else if (statement.getObject() instanceof org.eclipse.rdf4j.model.BNode) {
+					object = model.createResource(statement.getObject().stringValue());
+				} else {
+					throw new IllegalArgumentException("Unsupported RDF4J object type: " + statement.getObject().getClass().getName());
+				}
+				model.add(subject, predicate, object);
+			}							
+		};
+
+		// create an in-memory RDF4J repository
+		Repository outputRepository = new SailRepository(new MemoryStore());
+		// convert Excel
+		Xls2RdfConverter converter = converterFactory.newConverter(outputRepository, null);
+		converter.processInputStream(inputStream);
+		// export to Jena model
+		outputRepository.getConnection().export(jenaModelWriter);
+		
+	}
+
 	/**
 	 * Serialize the RDF Model in the given Lang in the response
 	 * @param m

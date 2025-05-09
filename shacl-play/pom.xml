@@ -176,6 +176,12 @@
 			<groupId>com.github.sparna-git.rdf2xls</groupId>
 			<artifactId>rdf2xls-lib</artifactId>
 		</dependency>
+
+        <dependency>
+            <groupId>com.github.sparna-git.xls2rdf</groupId>
+            <artifactId>xls2rdf-lib</artifactId>
+            <!-- from jitpack -->
+        </dependency>
                 
         <!-- https://mvnrepository.com/artifact/com.openhtmltopdf/openhtmltopdf-jsoup-dom-converter -->
 		<dependency>

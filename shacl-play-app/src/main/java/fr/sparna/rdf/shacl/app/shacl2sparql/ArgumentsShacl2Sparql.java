@@ -13,7 +13,7 @@ public class ArgumentsShacl2Sparql {
 	
 	@Parameter(
 			names = { "-i", "--input" },
-			description = "Path to the input SHACL file",
+			description = "Path to the input SHACL file. Excel files are also supported using xsls2rdf.",
 			required = true			
 	)
 	private List<File> input;

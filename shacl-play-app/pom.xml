@@ -134,6 +134,12 @@
     	<artifactId>shacl-generate</artifactId>
     	<version>0.10.1</version>
     </dependency>
+
+    <dependency>
+        <groupId>com.github.sparna-git.xls2rdf</groupId>
+        <artifactId>xls2rdf-lib</artifactId>
+        <!-- from jitpack -->
+    </dependency>
     
 	</dependencies>
 </project>

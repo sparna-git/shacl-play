@@ -16,7 +16,7 @@ public class ArgumentsValidate {
 
 	@Parameter(
 			names = { "-i", "--input" },
-			description = "Path to a local RDF file, or directory containing multiple RDF files. This can be repeated to read multiple input files (e.g. data files + ontology file + vocabulary file)",
+			description = "Path to a local RDF file, or directory containing multiple RDF files. This can be repeated to read multiple input files (e.g. data files + ontology file + vocabulary file). Excel files are also supported using xsls2rdf.",
 			required = true,
 			variableArity = true
 	)
@@ -24,7 +24,7 @@ public class ArgumentsValidate {
 	
 	@Parameter(
 			names = { "-s", "--shapes" },
-			description = "Path to an RDF file or directory containing the shapes definitions to use, this can be repeated to merge multiple SHACL files.",
+			description = "Path to an RDF file or directory containing the shapes definitions to use, this can be repeated to merge multiple SHACL files. Excel files are also supported using xsls2rdf.",
 			required = true,
 			variableArity = true
 	)

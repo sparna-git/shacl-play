@@ -18,7 +18,7 @@ public class ArgumentsAnalyze {
 	
 	@Parameter(
 			names = { "-i", "--input" },
-			description = "Input data file to analyse. This can be repeated for multiple input files, and can point to a directory. Either endpoint or input needs to be specified.",
+			description = "Input data file to analyse. This can be repeated for multiple input files, and can point to a directory. Either endpoint or input needs to be specified. Excel files are also supported using xsls2rdf.",
 			variableArity = true
 	)
 	private List<File> input;
@@ -33,7 +33,7 @@ public class ArgumentsAnalyze {
 
 	@Parameter(
 			names = { "-s", "--shapes" },
-			description = "Path to the shapes file(s) against which the input data should be analyzed, or URL of the shapes file",
+			description = "Path to the shapes file(s) against which the input data should be analyzed, or URL of the shapes file. Excel files are also supported using xsls2rdf.",
 			variableArity = true,
 			required = true
 	)

@@ -19,7 +19,7 @@ public class ArgumentsFilter {
 
 	@Parameter(
 			names = { "-s", "--shapes" },
-			description = "Path to the shapes file against which the input data should be analyzed",
+			description = "Path to the shapes file against which the input data should be analyzed. Excel files are also supported using xsls2rdf.",
 			required = true
 	)
 	private File shapes;

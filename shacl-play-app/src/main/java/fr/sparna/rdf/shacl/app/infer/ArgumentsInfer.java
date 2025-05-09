@@ -19,7 +19,7 @@ public class ArgumentsInfer {
 	
 	@Parameter(
 			names = { "-s", "--shapes" },
-			description = "Path to an RDF file or directory containing the shapes definitions to use, this can be repeated to merge multiple SHACL files.",
+			description = "Path to an RDF file or directory containing the shapes definitions to use, this can be repeated to merge multiple SHACL files. Excel files are also supported using xsls2rdf.",
 			required = true,
 			variableArity = true
 	)

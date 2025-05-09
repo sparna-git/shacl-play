@@ -11,7 +11,7 @@ public class ArgumentsJsonSchema {
 
 	@Parameter(
 			names = { "-i", "--input" },
-			description = "Path to a input Shapes file, or directory containing multiple files.",
+			description = "Path to a input Shapes file, or directory containing multiple files. Excel files are also supported using xsls2rdf.",
 			required = true,
 			variableArity = true
 	)

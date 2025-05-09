@@ -48,12 +48,13 @@
 				<h1 class="display-3"><fmt:message key="shaclexcel.title" /></h1>	
 				
 				<div class="form-shortdesc">
-					<p>You would like to edit SHACL, but you are wondering how to get started ? Start from Excel.</p>
+					<p>You would like to edit SHACL, but you are wondering how to get started ? Start from a spreadsheet.
+						All SHACL Play utilities support the direct upload of Excel files that follow the provided template, in addition to RDF in any format.					</p>
 				</div>
  				
  				<!-- Documentation -->	
 				<div style="margin-top:3em;">
-					<h3 id="documentation">How-to edit SHACL specifications from Excel files</h3>					
+					<h3 id="documentation">How-to edit SHACL specifications in a spreadsheet</h3>					
 					
 					<div style="margin-top:2em;">
 						<h4 id="download">Download the template file</h4>
@@ -102,8 +103,14 @@
 					</div>
 
 					<div style="margin-top:2em;">
-						<h4 id="convert">Convert the Excel using xls2rdf</h4>
-						<p>Once you have filled in the Excel file, you can convert it to SHACL using the <a href="https://xls2rdf.sparna.fr">xsl2rdf converter</a>. The converter is available in different packagings : online API, command-line app, Java lib, and also an <a href="https://skos-play.sparna.fr/play/convert">online Excel conversion form</a> which is the most practical solution to start with :</p>
+						<h4 id="convert">Use the Excel in SHACL Play! directly...</h4>
+						<p><strong>All SHACL Play utilities directly support the direct upload of Excel files that follow the provided template</strong> (in addition to RDF in any format), so you can just
+							send your Excel file directly.</p>
+					</div>
+
+					<div style="margin-top:2em;">
+						<h4 id="convert">... or convert the Excel using xls2rdf</h4>
+						<p>Alternatively, you can convert the spreadsheet to SHACL using the <a href="https://xls2rdf.sparna.fr">xsl2rdf converter</a>. The converter is available in different packagings : online API, command-line app, Java lib, and also an <a href="https://skos-play.sparna.fr/play/convert">online Excel conversion form</a> which is the most practical solution to start with :</p>
 						<ol>
 							<li>Upload your Excel file</li>
 							<li>Check the box at the bottom "Ignore SKOS post-processings"</li>

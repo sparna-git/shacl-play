@@ -70,7 +70,7 @@ public class JsonSchemaController {
 	public ModelAndView schema(
 			@RequestParam(value="url", required=true) String shapesUrl,
 			// URL Option
-			@RequestParam(value="root", required=false) List<String> root,
+			@RequestParam(value="IdUrl", required=false) List<String> urlRoot,
 			HttpServletRequest request,
 			HttpServletResponse response
 			) throws Exception {
@@ -82,7 +82,7 @@ public class JsonSchemaController {
 			modelPopulator.populateModelFromUrl(shapesModel, shapesUrl);
 			log.debug("Done Loading Shapes. Model contains "+shapesModel.size()+" triples");
 			
-			doSchemaShapes(shapesModel,root,response);
+			doSchemaShapes(shapesModel,urlRoot,response);
 			
 			return null;
 		} catch (Exception e) {
@@ -120,8 +120,8 @@ public class JsonSchemaController {
 		modelPopulator.populateModel(
 				shapesModel,
 				shapesSource,
-				null, //shapesUrl,
-				null,//shapesText,
+				shapesUrl,
+				shapesText,
 				shapesFiles,
 				null //shapesCatalogId
 		);
@@ -168,7 +168,7 @@ public class JsonSchemaController {
 			
 			// if source is a ULR, redirect to the API
 			if(shapesSource == SOURCE_TYPE.URL) {
-				return new ModelAndView("redirect:/schema?url="+URLEncoder.encode(shapesUrl, "UTF-8"));
+				return new ModelAndView("redirect:/jsonschema?"+"url="+URLEncoder.encode(shapesUrl, "UTF-8")+"&IdUrl="+URLEncoder.encode(String.join("",urlRoot), "UTF-8"));
 			} else {
 				Model shapesModel = ModelFactory.createDefaultModel();
 				ControllerModelFactory modelPopulator = new ControllerModelFactory(this.catalogService.getShapesCatalog());
@@ -176,7 +176,7 @@ public class JsonSchemaController {
 						shapesModel,
 						shapesSource,
 						null, //shapesUrl,
-						null,//shapesText,
+						shapesText,
 						shapesFiles,
 						null //shapesCatalogId
 				);

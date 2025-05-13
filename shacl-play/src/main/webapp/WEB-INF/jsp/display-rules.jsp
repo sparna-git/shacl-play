@@ -12,69 +12,69 @@
 <c:set var="data" value="${requestScope['BoxRules']}" />
 
 <html>
-<head>
-<title>Display rules !</title>
-<title><fmt:message key="window.app" /></title>
-
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
-	integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
-	crossorigin="anonymous" />
+	<head>
+	<title><fmt:message key="window.app" /></title>
 	
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0-rc2/css/bootstrap-glyphicons.css">	
-	
-<!-- Font Awesome -->
-<link rel="stylesheet"
-	href="<c:url value="/resources/fa/css/all.min.css" />">
-<link rel="stylesheet"
-	href="<c:url value="/resources/MDB-Free/css/bootstrap.min.css" />">
-<link rel="stylesheet"
-	href="<c:url value="/resources/MDB-Free/css/mdb.min.css" />">
-<link rel="stylesheet"
-	href="<c:url value="/resources/jasny-bootstrap/jasny-bootstrap.min.css" />" />
-<link rel="stylesheet"
-	href="<c:url value="/resources/css/shacl-play.css" />" />
 
-<link rel="stylesheet"
-	href="<c:url value="/resources/rules/lib/codemirror.css" />">
-<script type="text/javascript"
-	src="<c:url value="/resources/rules/lib/codemirror.js" />"></script>
-<script type="text/javascript"
-	src="<c:url value="/resources/rules/mode/sparql/sparql.js" />"></script>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 
-<style>
-.CodeMirror {
-	height: auto;
-}
+	<link rel="stylesheet"
+		href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+		integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
+		crossorigin="anonymous" />
+		
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0-rc2/css/bootstrap-glyphicons.css">	
+		
+	<!-- Font Awesome -->
+	<link rel="stylesheet"
+		href="<c:url value="/resources/fa/css/all.min.css" />">
+	<link rel="stylesheet"
+		href="<c:url value="/resources/MDB-Free/css/bootstrap.min.css" />">
+	<link rel="stylesheet"
+		href="<c:url value="/resources/MDB-Free/css/mdb.min.css" />">
+	<link rel="stylesheet"
+		href="<c:url value="/resources/jasny-bootstrap/jasny-bootstrap.min.css" />" />
+	<link rel="stylesheet"
+		href="<c:url value="/resources/css/shacl-play.css" />" />
 
-.banner {
-	align-content: center;
-}
+	<link rel="stylesheet"
+		href="<c:url value="/resources/rules/lib/codemirror.css" />">
+	<script type="text/javascript"
+		src="<c:url value="/resources/rules/lib/codemirror.js" />"></script>
+	<script type="text/javascript"
+		src="<c:url value="/resources/rules/mode/sparql/sparql.js" />"></script>
 
-.list-group {
-	max-height: 300px;
-	margin-bottom: 10px;
-	overflow: scroll;
-	-webkit-overflow-scrolling: touch;
-}
+	<style>
+	.CodeMirror {
+		height: auto;
+	}
 
-.anchor {
-	float: left;
-	padding-right: 4px;
-	margin-left: -20px;
-	line-height: 1;
-	padding-top: 12px;
-}
+	.banner {
+		align-content: center;
+	}
 
-.monospace {
-	font-family: SFMono-Regular, Menlo, Monaco, Consolas," Liberation Mono "," Courier New ",
-		monospace;
-	font-size: 87.5%;
-}
-</style>
+	.list-group {
+		max-height: 300px;
+		margin-bottom: 10px;
+		overflow: scroll;
+		-webkit-overflow-scrolling: touch;
+	}
+
+	.anchor {
+		float: left;
+		padding-right: 4px;
+		margin-left: -20px;
+		line-height: 1;
+		padding-top: 12px;
+	}
+
+	.monospace {
+		font-family: SFMono-Regular, Menlo, Monaco, Consolas," Liberation Mono "," Courier New ",
+			monospace;
+		font-size: 87.5%;
+	}
+	</style>
 </head>
 <body>
 	<br>
@@ -210,4 +210,5 @@ function myFunction() {
   document.getElementById("demo").innerHTML = x;
 }
 </script>
-</body></html>
+</body>
+</html>

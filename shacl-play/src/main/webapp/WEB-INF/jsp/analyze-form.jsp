@@ -13,6 +13,7 @@
 <html>
 	<head>
 		<title><fmt:message key="window.app" /></title>
+		<link rel="canonical" href="https://shacl-play.sparna.fr/play/analyze" />
 
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 		

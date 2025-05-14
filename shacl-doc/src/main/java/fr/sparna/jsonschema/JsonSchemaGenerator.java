@@ -1,11 +1,7 @@
 package fr.sparna.jsonschema;
 
-import static java.util.stream.Collectors.toList;
-
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -13,10 +9,8 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.RDFList;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
-import org.apache.jena.vocabulary.OWL;
 import org.apache.jena.vocabulary.RDF;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -405,8 +399,9 @@ public class JsonSchemaGenerator {
 	
 			Schema.Builder builder;
 
-			if(ps.isEmbedNever()) {
-				// no embedding, this is a URI reference
+			ShapesGraph shapesGraph = new ShapesGraph(model, null);
+			if(ps.isEmbedNever() || shapesGraph.findNodeShapeByResource(ps.getShNode().get()) == null) {
+				// no embedding, or reference to sh:node not found, this is a URI reference
 				builder = StringSchema
 				.builder()
 				.format("iri-reference");

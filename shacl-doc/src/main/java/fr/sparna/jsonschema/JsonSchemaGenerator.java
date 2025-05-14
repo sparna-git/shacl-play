@@ -5,6 +5,7 @@ import static java.util.stream.Collectors.toList;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -13,6 +14,7 @@ import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.RDFList;
+import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.vocabulary.OWL;
 import org.apache.jena.vocabulary.RDF;
@@ -262,11 +264,44 @@ public class JsonSchemaGenerator {
 			objectSchema.description(nodeShape.getRdfsComment(lang).stream().map(l -> l.getString()).collect(Collectors.joining(" ")));
 		}
 		
-				
-		// always set an id property, always required
-		objectSchema.addPropertySchema("id", StringSchema.builder().format("iri-reference").build() );
-		objectSchema.addRequiredProperty("id");
+		List<String> examplesId = nodeShape.getExamples().stream().map(e -> e.asLiteral().getString()).collect(Collectors.toList());
 		
+		if (nodeShape.getPattern().isPresent() && !examplesId.isEmpty() ) {
+			//shPattern = nodeShape.getPattern().get().getString();
+			// always set an id property, always required
+			objectSchema.addPropertySchema("id", 
+								StringSchema
+								.builder()
+								.pattern(nodeShape.getPattern().get().getString())
+								.format("iri-reference")
+								.examples(examplesId)
+								.build());
+		}else if (nodeShape.getPattern().isPresent() && examplesId.isEmpty()) {
+			//always set an id property, always required
+			objectSchema.addPropertySchema("id", 
+					StringSchema
+					.builder()
+					.pattern(nodeShape.getPattern().get().getString())
+					.format("iri-reference")
+					.build());
+		} else if (!nodeShape.getPattern().isPresent() && !examplesId.isEmpty()) {
+			// always set an id property, always required
+			objectSchema.addPropertySchema("id", 
+					StringSchema
+					.builder()
+					.format("iri-reference")
+					.examples(examplesId)
+					.build());
+		} else {
+			// always set an id property, always required
+			objectSchema.addPropertySchema("id", 
+					StringSchema
+					.builder()
+					.format("iri-reference")
+					.build());
+		}
+		
+		objectSchema.addRequiredProperty("id");		
 		for (PropertyShape ps : nodeShape.getProperties()) {
 			
 			// skip the property shape if it is deactivated
@@ -294,8 +329,7 @@ public class JsonSchemaGenerator {
 				if (ps.getShMinCount().get().getInt() > 0) {
 					objectSchema.addRequiredProperty(term);
 				}
-			}
-			
+			}			
 		}		
 		
 		// set additionnal properties to false if the NodeShape is sh:closed
@@ -336,20 +370,28 @@ public class JsonSchemaGenerator {
 
 		// sh:hasValue	
 		if (!ps.getShHasValue().isEmpty()) {
+			
 			return ConstSchema
 				.builder()
-				.permittedValue(this.uriMapper.mapToJson(ps.getShHasValue().get().asResource()))
+				//.permittedValue(this.uriMapper.mapToJson(ps.getShHasValue().get().asResource()))
+				.permittedValue(this.uriMapper.mapToPrefix(ps.getShHasValue().get().asResource()))
 				.build();
 		}
 
 		// sh:in
 		if (ps.getShIn() != null) {
-	
+			
+			List<String> uris = new ArrayList<>();
+			for (RDFNode i : ps.getShIn()) {				
+				uris.add(this.uriMapper.mapToPrefix(i.asResource()));				
+			}
+			
 			// Get all items in Object
-			Object[] shInValues = ps.getShIn().toArray();
+			//Object[] shInValues = ps.getShIn().toArray();
+			Object[] shInValues = uris.toArray();
 			// Create  
-			List<Object> list = Arrays.asList(shInValues);				
-
+			List<Object> list = Arrays.asList(shInValues);
+			
 			return EnumSchema
 					.builder()
 					.title_custom(titleProperty)
@@ -477,6 +519,15 @@ public class JsonSchemaGenerator {
 	
 	public String getTargetContextUrl() {
 		return targetContextUrl;
+	}
+	
+	public List<String> getUrisWithPrefix(List<Resource> inputUris) {
+		
+		List<String> uris = new ArrayList<>();
+		for (Resource u : inputUris) {
+			uris.add(this.uriMapper.mapToPrefix(u.asResource()));
+		}
+		return uris;
 	}
 
 	public void setTargetContextUrl(String targetContextUrl) {

@@ -4,6 +4,7 @@ import static java.util.Collections.unmodifiableMap;
 
 import java.io.StringWriter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -34,9 +35,11 @@ public abstract class Schema {
         private String schemaVersion;
         
         private String comment;
-
+        
         private String description;
-
+        
+        private List<String> examples;
+        
         private String id;
         
         private String version;
@@ -56,7 +59,7 @@ public abstract class Schema {
         public Map<String, Object> unprocessedProperties = new HashMap<>(0);
 
         public Map<String, Schema> embeddedSchemas = new HashMap<>(0);
-        
+                
         
         public Builder<S> title(String title) {
             this.title = title;
@@ -77,7 +80,12 @@ public abstract class Schema {
             this.description = description;
             return this;
         }
-
+        
+        public Builder<S> examples(List<String> examples) {
+            this.examples = examples;
+            return this;
+        }
+        
         public Builder<S> id(String id) {
             this.id = id;
             return this;
@@ -153,7 +161,9 @@ public abstract class Schema {
     private final String comment;
 
     private final String description;
-
+    
+    private final List<String> examples;
+    
     private final String id;
     
     private final String version;
@@ -191,6 +201,7 @@ public abstract class Schema {
         this.title = builder.title;
         this.comment = builder.comment;
         this.description = builder.description;
+        this.examples = builder.examples;
         this.id = builder.id;
         this.version = builder.version;
         this.format = builder.format;
@@ -236,6 +247,7 @@ public abstract class Schema {
                     Objects.equals(comment, schema.comment) &&                  
                     Objects.equals(defaultValue, schema.defaultValue) &&
                     Objects.equals(description, schema.description) &&
+                    Objects.equals(examples, schema.examples) &&
                     Objects.equals(id, schema.id) &&
                     Objects.equals(version, schema.version) &&
                     Objects.equals(nullable, schema.nullable) &&
@@ -249,7 +261,7 @@ public abstract class Schema {
 
     @Override
     public int hashCode() {
-        return Objects.hash(title, comment,description, id, version ,defaultValue, nullable, readOnly, writeOnly, unprocessedProperties);
+        return Objects.hash(title, comment,description, examples ,id, version ,defaultValue, nullable, readOnly, writeOnly, unprocessedProperties);
     }
 
     public String getTitle() {
@@ -264,8 +276,12 @@ public abstract class Schema {
 	public String getDescription() {
         return description;
     }
+	
+	public List<String> getExamples() {
+		return examples;
+	}
 
-    public String getId() {
+	public String getId() {
         return id;
     }
     

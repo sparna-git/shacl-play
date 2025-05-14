@@ -81,6 +81,15 @@ public class NodeShape {
 				.filter(r -> { return r.isURIResource() && !r.getURI().equals(OWL.Thing.getURI()); })
 				.collect(Collectors.toList());
 	}
+	
+	public List<Literal> getExamples() {
+		return ModelReadingUtils.readLiteral(nodeShape, SKOS.example);
+	}
+	
+	public Optional<Literal> getPattern() {
+		return ModelReadingUtils.getOptionalLiteral(nodeShape, SH.pattern);
+	}
+	
 
 	/**
 	 * @return The sh:order Literal value, or null if not present

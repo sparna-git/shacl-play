@@ -9,4 +9,6 @@ public interface UriToJsonMapper {
     
     public String mapToJson(Resource uri);
 
+	public String mapToPrefix(Resource uri);
+
 }

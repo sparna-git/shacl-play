@@ -41,6 +41,7 @@ class ToStringVisitor extends Visitor {
         writer.ifPresent("readOnly", schema.isReadOnly());
         writer.ifPresent("writeOnly", schema.isWriteOnly());
         writer.ifPresent("format", schema.getFormat());
+        writer.ifPresent("examples", schema.getExamples());
         super.visitSchema(schema);
         schema.getUnprocessedProperties().forEach((key, val) -> writer.key(key).value(val));
         schema.describePropertiesTo(writer);

@@ -9,4 +9,9 @@ public class LocalNameUriToJsonMapper implements UriToJsonMapper {
         return uri.getLocalName();
     }
     
+    @Override
+    public String mapToPrefix(Resource uri) {
+    	return uri.getModel().shortForm(uri.getURI());
+    }
+    
 } 

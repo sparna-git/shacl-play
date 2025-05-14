@@ -205,12 +205,12 @@ public class JsonSchemaGenerator {
 		StringSchema.Builder stringSchema = StringSchema.builder();
 		
 		String title = null;
-		if (nodeShape.getRdfsLabel(lang) != null) {
+		if (nodeShape.getRdfsLabel(lang).size() > 0) {
 			title = nodeShape.getRdfsLabel(lang).stream().map(label -> label.getString()).collect(Collectors.joining(" "));
 		}
 		
 		String description = null;
-		if (nodeShape.getRdfsComment(lang) != null) {
+		if (nodeShape.getRdfsComment(lang).size() > 0) {
 			description = nodeShape.getRdfsComment(lang).stream().map(l -> l.getString()).collect(Collectors.joining(" "));
 		}
 
@@ -250,11 +250,11 @@ public class JsonSchemaGenerator {
 		ObjectSchema.Builder objectSchema = ObjectSchema.builder();	
 		
 		
-		if (nodeShape.getRdfsLabel(lang) != null) {
+		if (nodeShape.getRdfsLabel(lang).size() > 0) {
 			objectSchema.title(nodeShape.getRdfsLabel(lang).stream().map(s -> s.getString()).collect(Collectors.joining(" ")));
 		}
 		
-		if (nodeShape.getRdfsComment(lang) != null) {
+		if (nodeShape.getRdfsComment(lang).size() > 0) {
 			objectSchema.description(nodeShape.getRdfsComment(lang).stream().map(l -> l.getString()).collect(Collectors.joining(" ")));
 		}
 		

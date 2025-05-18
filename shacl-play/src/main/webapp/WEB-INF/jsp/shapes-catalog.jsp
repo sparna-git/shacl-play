@@ -14,6 +14,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title><fmt:message key="window.app" /></title>
+	<link rel="canonical" href="https://shacl-play.sparna.fr/play/shapes-catalog" />
 	
     <!-- Font Awesome -->
     <link rel="stylesheet" href="<c:url value="/resources/fa/css/all.min.css" />">

@@ -230,7 +230,7 @@ public class ShaclValidator {
 	}
 
 	/**
-	 * Checks that all shapes have at least one focus node
+	 * Checks that all shapes with a target have at least one focus node
 	 * @param dataModel
 	 * @param existingValidationReport
 	 * @throws ShaclValidatorException

@@ -7,22 +7,81 @@
 
 shpshapes:AtLeastOneFocusNodeShape a sh:NodeShape ;
 	# applies to every shape that has a target definition
-	sh:targetSubjectsOf sh:targetNode, sh:targetClass, sh:targetSubjectsOf, sh:targetObjectsOf, sh:target;
+	# and it not used in an sh:node reference inside a sh:or
 	sh:target [
-		sh:select "SELECT $this WHERE { $this a <http://www.w3.org/ns/shacl#NodeShape> ; a <http://www.w3.org/2000/01/rdf-schema#Class> }"
-	] ;
-	sh:target [
-		sh:select "SELECT $this WHERE { $this a <http://www.w3.org/ns/shacl#NodeShape> ; a <http://www.w3.org/2002/07/owl#Class> }"
+		sh:select """
+			PREFIX sh: <http://www.w3.org/ns/shacl#>
+			PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+			SELECT $this WHERE {
+				{
+					{ $this sh:targetNode|sh:targetClass|sh:targetSubjectsOf|sh:targetObjectsOf|sh:target ?x }
+					UNION
+					{ $this a sh:NodeShape ; a <http://www.w3.org/2000/01/rdf-schema#Class> }
+					UNION
+					{ $this a sh:NodeShape ; a <http://www.w3.org/2002/07/owl#Class> }
+				}
+				# Exclude shapes that may have a target definition but that are referenced from an sh:node in an sh:or
+				# Because since there is an sh:or we don't know whether either of the alternative will actually be present in the data
+				FILTER NOT EXISTS {
+					?pShape sh:or/rdf:rest*/rdf:first/sh:node $this .
+				}
+			}
+		"""
 	] ;
 	sh:property shpshapes:hasFocusNodeMandatory
 .
 
-# every shape that has a target definition must have matched at least one focus node
+# every shape that has a target definition and is not referenced through sh:or/sh:node SHOULD have matched at least one focus node
 shpshapes:hasFocusNodeMandatory
 	sh:path shp:hasFocusNode ;
 	sh:minCount 1 ;
 	sh:message "Shape did not validate any node in the data"@en ;
 	# comment otherwise we get 2 messages in the output
 	# sh:message "La shape n'a validé aucune ressource dans les données"@fr ;
+	sh:severity sh:Warning ;
+.
+
+
+shpshapes:AtLeastOneFocusNodeShapeInShOr a sh:NodeShape ;
+	# applies to every shape that has a target definition
+	# and is used in an sh:node reference inside a sh:or
+	sh:target [
+		sh:select """
+			PREFIX sh: <http://www.w3.org/ns/shacl#>
+			PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+			SELECT $this WHERE {
+				{
+					{ $this sh:targetNode|sh:targetClass|sh:targetSubjectsOf|sh:targetObjectsOf|sh:target ?x }
+					UNION
+					{ $this a sh:NodeShape ; a <http://www.w3.org/2000/01/rdf-schema#Class> }
+					UNION
+					{ $this a sh:NodeShape ; a <http://www.w3.org/2002/07/owl#Class> }
+				}
+				?pShape sh:or/rdf:rest*/rdf:first/sh:node $this .
+			}
+		"""
+	] ;
+	sh:sparql [
+		sh:select """
+			# there must by at least one focus node for any of the shape used in the sh:or
+			PREFIX sh: <http://www.w3.org/ns/shacl#>
+			PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+			PREFIX shp: <https://shacl-play.sparna.fr/ontology#>
+			SELECT DISTINCT $this ?path ?value WHERE {
+				# move back up to the property shape ...
+				?pShape sh:or/rdf:rest*/rdf:first/sh:node $this .
+				# ... then move down the property shape to all node shapes inside the sh:or
+				?pShape sh:or/rdf:rest*/rdf:first/sh:node ?anyNodeShapesInOr .
+				# and check that at least one focus node exists for a shape used in the sh:or
+				FILTER NOT EXISTS {
+					?anyNodeShapesInOr shp:hasFocusNode ?anything .
+				}
+				BIND(?pShape AS ?value)
+				BIND(sh:or AS ?path)
+			}
+		""" ;
+		sh:message "No focus node found for this shape or any other shape in the sh:or.";
+	] ;
+	# Warning, just as the shape above
 	sh:severity sh:Warning ;
 .

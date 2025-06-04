@@ -41,7 +41,7 @@ public class PlantUmlDiagram {
 	}
 
 	public static PlantUmlBoxIfc findBoxByResource(Resource r, List<PlantUmlBoxIfc> boxes) {
-		return boxes.stream().filter(b -> b.getNodeShape().toString().equals(r.toString())).findFirst().orElse(null);
+		return boxes.stream().filter(b -> b.getNodeShape().equals(r)).findFirst().orElse(null);
 	}
 	
 	/**

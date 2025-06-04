@@ -26,7 +26,7 @@ public class SimplePlantUmlBox extends BasePlantUmlBox {
     public SimplePlantUmlBox(Resource r) {
         this.nodeShape = r;
 		// init the link
-		this.link = "#" + this.nodeShape.getModel().shortForm(this.nodeShape.getURI());    
+		this.link = "#" + ((r.isURIResource())?this.nodeShape.getModel().shortForm(this.nodeShape.getURI()):r.getId().getLabelString());    
     }
     
     public String getBackgroundColorString() {

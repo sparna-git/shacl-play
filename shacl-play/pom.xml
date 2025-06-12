@@ -149,6 +149,12 @@
           <artifactId>shacl-doc</artifactId>
           <version>0.10.2</version>
         </dependency>
+
+        <dependency>
+	      <groupId>fr.sparna.rdf.shacl</groupId>
+	      <artifactId>shacl-jsonschema</artifactId>
+	      <version>0.10.2</version>
+	    </dependency>
         
         <dependency>
           <groupId>fr.sparna.rdf.shacl</groupId>

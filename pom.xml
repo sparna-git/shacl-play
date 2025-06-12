@@ -22,7 +22,8 @@
   <modules>
     <module>shacl-commons</module> 
     <module>shacl-diagram</module>            
-    <module>shacl-doc</module>            
+    <module>shacl-doc</module>
+    <module>shacl-jsonschema</module>         
     <module>shacl-validator</module>            
     <module>shacl-printer</module>            
     <module>shacl-sparql-query-gen</module>            

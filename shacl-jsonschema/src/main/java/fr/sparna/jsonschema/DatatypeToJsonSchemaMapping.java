@@ -18,7 +18,8 @@ import java.util.Optional;
 		
 		public String getTypeString() {
 			return typeString;
-		}		
+		}	
+		
 	}
 
 	

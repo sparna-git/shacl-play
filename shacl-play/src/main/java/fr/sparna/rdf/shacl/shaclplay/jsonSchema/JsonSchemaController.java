@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.jena.ontology.OntModel;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.json.JSONArray;
@@ -156,17 +157,21 @@ public class JsonSchemaController {
 		HttpServletRequest request,
 		HttpServletResponse response
 	) throws Exception {
+		log.debug("jsonschema generation (shapesSource='"+shapesSourceString+"')");
 		try {
 			
 			
 			// get the source type
 			ControllerModelFactory.SOURCE_TYPE shapesSource = ControllerModelFactory.SOURCE_TYPE.valueOf(shapesSourceString.toUpperCase());
 			
-			// if source is a ULR, redirect to the API
+			// if source is a URL, redirect to the API
 			if(shapesSource == SOURCE_TYPE.URL) {
 				return new ModelAndView("redirect:/jsonschema?"+"url="+URLEncoder.encode(shapesUrl, "UTF-8")+"&IdUrl="+URLEncoder.encode(String.join("",urlRoot), "UTF-8"));
 			} else {
-				Model shapesModel = ModelFactory.createDefaultModel();
+				// Model shapesModel = ModelFactory.createDefaultModel();
+				// use an OntModel so that import can be resolved
+				log.debug("Using an OntModel to load shapes and resolve imports");
+				OntModel shapesModel = ModelFactory.createOntologyModel();
 				ControllerModelFactory modelPopulator = new ControllerModelFactory(this.catalogService.getShapesCatalog());
 				modelPopulator.populateModel(
 						shapesModel,
@@ -176,7 +181,6 @@ public class JsonSchemaController {
 						shapesFiles,
 						null //shapesCatalogId
 				);
-					//modelPopulator.populateModelFromUrl(shapesModel, shapesUrl);
 				log.debug("Done Loading Shapes. Model contains "+shapesModel.size()+" triples");
 				doSchemaShapes(shapesModel,urlRoot,response);
 			}

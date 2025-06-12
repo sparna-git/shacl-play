@@ -222,9 +222,7 @@ public class JsonSchemaGenerator {
 		return stringSchema.build();
 	}
 
-	private Predicate<NodeShape> buildHasNoActivePropertyShapePredicate(
-
-	) {
+	private Predicate<NodeShape> buildHasNoActivePropertyShapePredicate() {
 		return new Predicate<NodeShape>() {
 
 			@Override
@@ -246,9 +244,9 @@ public class JsonSchemaGenerator {
 		Model model
 	) throws Exception {
 		
-		
+		log.debug("Converting NodeShape "+nodeShape.getNodeShape().getURI()+" to JSON Schema, with "+nodeShape.getProperties().size()+" properties");
+
 		ObjectSchema.Builder objectSchema = ObjectSchema.builder();	
-		
 		
 		if (nodeShape.getRdfsLabel(lang).size() > 0) {
 			objectSchema.title(nodeShape.getRdfsLabel(lang).stream().map(s -> s.getString()).collect(Collectors.joining(" ")));
@@ -260,47 +258,24 @@ public class JsonSchemaGenerator {
 		
 		List<String> examplesId = nodeShape.getExamples().stream().map(e -> e.asLiteral().getString()).collect(Collectors.toList());
 		
-		if (nodeShape.getPattern().isPresent() && !examplesId.isEmpty() ) {
-			//shPattern = nodeShape.getPattern().get().getString();
-			// always set an id property, always required
-			objectSchema.addPropertySchema("id", 
-								StringSchema
-								.builder()
-								.pattern(nodeShape.getPattern().get().getString())
-								.format("iri-reference")
-								.examples(examplesId)
-								.build());
-		}else if (nodeShape.getPattern().isPresent() && examplesId.isEmpty()) {
-			//always set an id property, always required
-			objectSchema.addPropertySchema("id", 
-					StringSchema
-					.builder()
-					.pattern(nodeShape.getPattern().get().getString())
-					.format("iri-reference")
-					.build());
-		} else if (!nodeShape.getPattern().isPresent() && !examplesId.isEmpty()) {
-			// always set an id property, always required
-			objectSchema.addPropertySchema("id", 
-					StringSchema
-					.builder()
-					.format("iri-reference")
-					.examples(examplesId)
-					.build());
-		} else {
-			// always set an id property, always required
-			objectSchema.addPropertySchema("id", 
-					StringSchema
-					.builder()
-					.format("iri-reference")
-					.build());
+		StringSchema.Builder stringSchemaBuilder = StringSchema.builder();
+		if (nodeShape.getPattern().isPresent()) {
+			stringSchemaBuilder.pattern(nodeShape.getPattern().get().getString());
 		}
-		
-		objectSchema.addRequiredProperty("id");		
+		if( !examplesId.isEmpty()) {
+			stringSchemaBuilder.examples(examplesId);
+		}
+		stringSchemaBuilder.format("iri-reference");
+
+		// always set an id property, always required
+		objectSchema.addPropertySchema("id", stringSchemaBuilder.build());		
+		objectSchema.addRequiredProperty("id");
+
 		for (PropertyShape ps : nodeShape.getProperties()) {
-			
+
 			// skip the property shape if it is deactivated
 			if (ps.isDeactivated()) {
-				break;
+				continue;
 			}
 
 			// Name of Property
@@ -340,6 +315,8 @@ public class JsonSchemaGenerator {
 		PropertyShape ps,
 		Model model
 	) throws Exception {
+
+		log.trace("Converting PropertyShape "+ps.getPropertyShape().getURI()+" to JSON Schema");
 
 		// schema title
 		String titleProperty = null;		
@@ -466,20 +443,20 @@ public class JsonSchemaGenerator {
 					Optional<DatatypeToJsonSchemaMapping> typefound = DatatypeToJsonSchemaMapping.findByDatatypeUri(datatype);
 					
 					if (typefound.isPresent()) {							
-						if (typefound.get().getJsonSchemaType().toString().toLowerCase().equals("string")) {								
+						if (typefound.get().getJsonSchemaType().equals(JsonSchemaType.STRING)) {								
 							return StringSchema
 								.builder()
 								.title(titleProperty)
 								.description(descriptionProperty)
 								.format(typefound.get().getJsonSchemaFormat())
 								.build();
-						} else if (typefound.get().getJsonSchemaType().equals("boolean")) {
+						} else if (typefound.get().getJsonSchemaType().equals(JsonSchemaType.BOOLEAN)) {
 							return BooleanSchema
 										.builder()
 										.title_custom(titleProperty)
 										.description_custom(descriptionProperty)
 										.build();
-						} else if (typefound.get().getJsonSchemaType().equals("number") || typefound.get().getJsonSchemaType().equals("integer")) {
+						} else if (typefound.get().getJsonSchemaType().equals(JsonSchemaType.NUMBER) || typefound.get().getJsonSchemaType().equals(JsonSchemaType.INTEGER)) {
 							return NumberSchema
 								.builder()
 								.title(titleProperty)
@@ -570,7 +547,6 @@ public class JsonSchemaGenerator {
 
                 // 2. be explicitely specified as an input
                 boolean isExplicitelyRootShape = rootShapes.contains(ns.getNodeShape().getURI());
-                log.debug(ns.getNodeShape().getURI() + " "+isExplicitelyRootShape);
 
                 return  isExplicitelyRootShape || !isEmbedded;
             }

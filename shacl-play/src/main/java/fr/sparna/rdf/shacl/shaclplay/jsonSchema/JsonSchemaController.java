@@ -23,8 +23,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import fr.sparna.jsonschema.JsonSchemaGenerator;
-import fr.sparna.jsonschema.model.Schema;
+import fr.sparna.rdf.shacl.jsonschema.JsonSchemaGenerator;
+import fr.sparna.rdf.shacl.jsonschema.model.Schema;
 import fr.sparna.rdf.jena.shacl.NodeShape;
 import fr.sparna.rdf.jena.shacl.ShapesGraph;
 import fr.sparna.rdf.shacl.shaclplay.ApplicationData;

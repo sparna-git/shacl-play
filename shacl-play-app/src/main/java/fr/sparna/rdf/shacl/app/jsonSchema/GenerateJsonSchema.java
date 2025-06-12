@@ -8,8 +8,8 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import fr.sparna.jsonschema.JsonSchemaGenerator;
-import fr.sparna.jsonschema.model.Schema;
+import fr.sparna.rdf.shacl.jsonschema.JsonSchemaGenerator;
+import fr.sparna.rdf.shacl.jsonschema.model.Schema;
 import fr.sparna.rdf.shacl.app.CliCommandIfc;
 import fr.sparna.rdf.shacl.app.InputModelReader;
 import fr.sparna.rdf.shacl.jsonld.JsonLdContextGenerator;

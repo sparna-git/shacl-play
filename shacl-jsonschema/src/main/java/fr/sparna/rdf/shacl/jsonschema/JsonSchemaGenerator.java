@@ -16,6 +16,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.topbraid.shacl.vocabulary.SH;
 
+import fr.sparna.rdf.shacl.jsonschema.jsonld.LocalNameUriToJsonMapper;
+import fr.sparna.rdf.shacl.jsonschema.jsonld.UriToJsonMapper;
 import fr.sparna.rdf.shacl.jsonschema.model.ArraySchema;
 import fr.sparna.rdf.shacl.jsonschema.model.BooleanSchema;
 import fr.sparna.rdf.shacl.jsonschema.model.CombinedSchema;
@@ -282,7 +284,7 @@ public class JsonSchemaGenerator {
 			Resource path = ps.getShPath().get().asResource();
 			Set<String> shortnames = ShaclReadingUtils.findShortNamesOfPath(path,model);
 			if(shortnames.isEmpty()) {
-				shortnames.add(uriMapper.mapToJson(path));
+				shortnames.add(uriMapper.mapPropertyURI(path));
 			} 
 
 			// Get name of property 
@@ -345,7 +347,7 @@ public class JsonSchemaGenerator {
 			return ConstSchema
 				.builder()
 				//.permittedValue(this.uriMapper.mapToJson(ps.getShHasValue().get().asResource()))
-				.permittedValue(this.uriMapper.mapToPrefix(ps.getShHasValue().get().asResource()))
+				.permittedValue(this.uriMapper.mapValueURI(ps.getShHasValue().get().asResource()))
 				.build();
 		}
 
@@ -354,7 +356,7 @@ public class JsonSchemaGenerator {
 			
 			List<String> uris = new ArrayList<>();
 			for (RDFNode i : ps.getShIn()) {				
-				uris.add(this.uriMapper.mapToPrefix(i.asResource()));				
+				uris.add(this.uriMapper.mapValueURI(i.asResource()));				
 			}
 			
 			// Get all items in Object
@@ -491,15 +493,6 @@ public class JsonSchemaGenerator {
 	
 	public String getTargetContextUrl() {
 		return targetContextUrl;
-	}
-	
-	public List<String> getUrisWithPrefix(List<Resource> inputUris) {
-		
-		List<String> uris = new ArrayList<>();
-		for (Resource u : inputUris) {
-			uris.add(this.uriMapper.mapToPrefix(u.asResource()));
-		}
-		return uris;
 	}
 
 	public void setTargetContextUrl(String targetContextUrl) {

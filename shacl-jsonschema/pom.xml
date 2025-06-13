@@ -66,5 +66,11 @@
 		    <version>20240303</version>
 		</dependency>
 
+		<dependency>
+			<groupId>com.apicatalog</groupId>
+			<artifactId>titanium-json-ld</artifactId>
+			<version>1.6.0</version>
+		</dependency>
+
 	</dependencies>
 </project>

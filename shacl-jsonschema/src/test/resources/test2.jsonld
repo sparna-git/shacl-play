@@ -1,0 +1,10 @@
+{
+  "@context": [
+    {
+      "data": "@graph",
+      "@base": "https://data.europarl.europa.eu/"
+    },
+    "https://data.europarl.europa.eu/api/v2/context.jsonld"
+  ],
+  "http://www.w3.org/ns/org#linkedTo": { "@id" : "http://www.foo.bar" }
+}

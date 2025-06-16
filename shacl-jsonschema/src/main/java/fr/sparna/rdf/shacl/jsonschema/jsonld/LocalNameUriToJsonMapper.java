@@ -5,8 +5,13 @@ import org.apache.jena.rdf.model.Resource;
 public class LocalNameUriToJsonMapper implements UriToJsonMapper {
 
     @Override
-    public String mapPropertyURI(Resource uri) {
-        return uri.getLocalName();
+    public String mapPropertyURI(
+        Resource property,
+        boolean isIriProperty,
+        String datatype,
+        String language
+    ) {
+        return property.getLocalName();
     }
     
     @Override

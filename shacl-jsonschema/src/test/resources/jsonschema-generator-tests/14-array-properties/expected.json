@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "@context": {
+      "$ref": "#/$defs/@context"
+    },
+    "data": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/MainNodeShape"
+      }
+    }
+  },
+  "required": [
+    "@context",
+    "data"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "@context": {
+      "comment": "The JSON-LD @context"
+    },
+    "container_language": {
+      "type": "object",
+      "patternProperties": {
+        "^[A-Za-z]{2,3}$": {
+          "type": "string",
+          "comment": "Overly simplified version of the regex. See https://github.com/w3c/wot-thing-description/blob/main/validation/td-json-schema-validation.json for a complete regex"
+        }
+      },
+      "additionalProperties": false
+    },
+    "MainNodeShape": {
+      "type": "object",
+      "title": "Main Node Shape",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "iri-reference"
+        },
+        "multiValuedProperty": {
+          "type": "array",
+          "description": "Multi-valued Property",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "limitedMultiValuedProperty": {
+          "type": "array",
+          "description": "Limited Multi-valued Property",
+          "minItems": 1,
+          "maxItems": 2,
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "multiValuedProperty",
+        "limitedMultiValuedProperty"
+      ]
+    }
+  }
+}

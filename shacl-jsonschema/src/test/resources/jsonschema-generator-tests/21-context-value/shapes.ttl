@@ -1,0 +1,13 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ex: <http://example.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix eli-dl: <http://data.europa.eu/eli/eli-draft-legislation-ontology#>
+
+ex:MainNodeShape a sh:NodeShape ;
+    sh:property [
+        sh:path ex:property ;
+        sh:nodeKind sh:IRI ;
+        sh:maxCount 1 ;
+        sh:in ( eli-dl:Vote )
+    ];
+.

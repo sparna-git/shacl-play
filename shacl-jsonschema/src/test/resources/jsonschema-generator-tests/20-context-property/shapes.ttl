@@ -1,0 +1,15 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ex: <http://example.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ex:MainNodeShape a sh:NodeShape ;
+    sh:property [
+        sh:path ex:propertyIri ;
+        sh:nodeKind sh:IRI ;
+        sh:maxCount 1 ;
+    ];
+    sh:property [
+        sh:path ex:propertyLiteral ;
+        sh:datatype xsd:string ;
+        sh:maxCount 1 ;
+    ]

@@ -1,13 +1,18 @@
 package fr.sparna.rdf.shacl.jsonschema;
 
-import static org.junit.Assert.assertEquals;
-
 import java.io.FileInputStream;
+import java.io.StringReader;
+import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Stream;
+
+import jakarta.json.Json;
+import jakarta.json.JsonReader;
+import jakarta.json.JsonValue;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -23,90 +28,73 @@ public class JsonSchemaGeneratorTest {
     private static final String TEST_RESOURCES_DIR = "src/test/resources/jsonschema-generator-tests/";
 
     @Test
-    public void testSimpleNodeShape() throws Exception {
-        runTest("1-simple-node-shape/shapes.ttl", "1-simple-node-shape/expected.json");
-    }
-
-    @Test
-    public void testNodeShapeWithProperties() throws Exception {
-        runTest("2-node-shape-with-properties/shapes.ttl", "2-node-shape-with-properties/expected.json");
-    }
-
-    @Test
-    public void testNodeShapeWithEnum() throws Exception {
-        runTest("3-node-shape-with-enum/shapes.ttl", "3-node-shape-with-enum/expected.json");
-    }
-
-    @Test
-    public void testNodeShapeWithPattern() throws Exception {
-        runTest("4-node-shape-with-pattern/shapes.ttl", "4-node-shape-with-pattern/expected.json");
-    }
-
-    @Test
-    public void testDeactivatedPropertyShape() throws Exception {
-        runTest("5-deactivated-property-shape/shapes.ttl", "5-deactivated-property-shape/expected.json");
-    }
-
-    @Test
-    public void testClosedNodeShape() throws Exception {
-        runTest("6-closed-node-shape/shapes.ttl", "6-closed-node-shape/expected.json");
-    }
-
-    @Test
-    public void testHasValueConstSchema() throws Exception {
-        runTest("7-has-value-const-schema/shapes.ttl", "7-has-value-const-schema/expected.json");
-    }
-
-    @Test
-    public void testBooleanSchema() throws Exception {
-        runTest("8-boolean-schema/shapes.ttl", "8-boolean-schema/expected.json");
-    }
-
-    @Test
-    public void testNodeKindStringSchema() throws Exception {
-        runTest("9-node-kind-string-schema/shapes.ttl", "9-node-kind-string-schema/expected.json");
-    }
-
-    @Test
-    public void testDescriptionAndTitle() throws Exception {
-        runTest("10-description-and-title/shapes.ttl", "10-description-and-title/expected.json");
-    }
-
-    @Test
-    public void testShortnameAnnotation() throws Exception {
-        runTest("11-shortname-annotation/shapes.ttl", "11-shortname-annotation/expected.json");
-    }
-
-    @Test
-    public void testNodeLabelAndComment() throws Exception {
-        runTest("12-node-label-comment/shapes.ttl", "12-node-label-comment/expected.json");
-    }
-
-    @Test
-    public void testNoActivePropertyShape() throws Exception {
-        runTest("13-no-active-property-shape/shapes.ttl", "13-no-active-property-shape/expected.json");
+    public void testAllTestCases() throws Exception {
+        // List all directories in the test resources folder
+        try (Stream<Path> paths = Files.list(Path.of(TEST_RESOURCES_DIR))) {
+            paths.filter(Files::isDirectory)
+                .map(path -> path.getFileName().toString())
+                .sorted()
+                .forEach(directory -> {
+                    try {
+                        runTest(directory);
+                    } catch (Exception e) {
+                        throw new RuntimeException("Test failed for directory: " + directory, e);
+                    }
+                });
+        }
     }
 
 
 
-    private void runTest(String inputShaclFile, String expectedJsonFile) throws Exception {
+    private void runTest(String directory) throws Exception {
+        Path testDir = Path.of(TEST_RESOURCES_DIR, directory);
+        if (!Files.isDirectory(testDir)) {
+            throw new IllegalArgumentException("Test directory does not exist: " + testDir);
+        }
+
+        Path inputShaclFile = testDir.resolve("shapes.ttl");
+        Path expectedJsonFile = testDir.resolve("expected.json");
+        Path contextPath = testDir.resolve("context.jsonld");
+
+        if (!Files.exists(inputShaclFile)) {
+            throw new IllegalArgumentException("shapes.ttl not found in " + directory);
+        }
+        if (!Files.exists(expectedJsonFile)) {
+            throw new IllegalArgumentException("expected.json not found in " + directory);
+        }
+
         // Load the SHACL file
         Model shaclGraph = ModelFactory.createDefaultModel();
-        shaclGraph.read(new FileInputStream(TEST_RESOURCES_DIR + inputShaclFile), RDF.uri, FileUtils.guessLang(inputShaclFile, "TURTLE"));
+        shaclGraph.read(new FileInputStream(inputShaclFile.toFile()), RDF.uri, "TURTLE");
+
+        // Check if there's a context file in the same directory        
+        JsonValue context = null;
+        if (Files.exists(contextPath)) {
+            String contextJson = Files.readString(contextPath);
+            try (JsonReader reader = Json.createReader(new StringReader(contextJson))) {
+                context = reader.readValue();
+            }
+        }
 
         // Generate the JSON schema
-        JsonSchemaGenerator generator = new JsonSchemaGenerator("en", Collections.singletonList("http://example.org/MainNodeShape"));
-        Schema outputSchema = generator.convertToJsonSchema(shaclGraph);
+        JsonSchemaGenerator generator = new JsonSchemaGenerator("en", context);
+        Schema outputSchema = generator.convertToJsonSchema(shaclGraph, Collections.singletonList("http://example.org/MainNodeShape"));
 
         // Load the expected JSON schema
-        String expectedJson = Files.readString(Path.of(TEST_RESOURCES_DIR + expectedJsonFile));
+        String expectedJson = Files.readString(expectedJsonFile);
         JSONObject expectedJsonObject = new JSONObject(expectedJson);
 
         // Compare the generated schema with the expected schema
         JSONObject generatedJsonObject = new JSONObject(outputSchema.toString());
         // Recursively compare JSONObjects, ignoring "container_language" and "@context" in "$defs"
-        assertJsonEquals(expectedJsonObject, generatedJsonObject);
-
+        try {
+            assertJsonEquals(expectedJsonObject, generatedJsonObject);
+        } catch (AssertionError e) {
+            System.err.println("Test failed for directory: " + directory);
+            System.err.println("Expected JSON:\n" + expectedJsonObject.toString(2));
+            System.err.println("Generated JSON:\n" + generatedJsonObject.toString(2));
+            throw e; // Re-throw to fail the test
+        }
     }
 
     private void assertJsonEquals(JSONObject expected, JSONObject actual) {

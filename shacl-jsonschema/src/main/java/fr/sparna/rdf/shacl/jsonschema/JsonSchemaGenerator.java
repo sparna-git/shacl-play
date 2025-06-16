@@ -16,7 +16,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.topbraid.shacl.vocabulary.SH;
 
+import fr.sparna.rdf.shacl.jsonschema.jsonld.ContextUriMapper;
 import fr.sparna.rdf.shacl.jsonschema.jsonld.LocalNameUriToJsonMapper;
+import fr.sparna.rdf.shacl.jsonschema.jsonld.ProbingJsonLdContextWrapper;
 import fr.sparna.rdf.shacl.jsonschema.jsonld.UriToJsonMapper;
 import fr.sparna.rdf.shacl.jsonschema.model.ArraySchema;
 import fr.sparna.rdf.shacl.jsonschema.model.BooleanSchema;
@@ -29,6 +31,8 @@ import fr.sparna.rdf.shacl.jsonschema.model.ObjectSchema;
 import fr.sparna.rdf.shacl.jsonschema.model.ReferenceSchema;
 import fr.sparna.rdf.shacl.jsonschema.model.Schema;
 import fr.sparna.rdf.shacl.jsonschema.model.StringSchema;
+import jakarta.json.Json;
+import jakarta.json.JsonValue;
 import fr.sparna.rdf.jena.shacl.NodeShape;
 import fr.sparna.rdf.jena.shacl.OwlOntology;
 import fr.sparna.rdf.jena.shacl.PropertyShape;
@@ -42,29 +46,38 @@ public class JsonSchemaGenerator {
     public static final String CONTEXT = "@context";
     public static final String CONTAINER_LANGUAGE = "container_language";
 
-    // indicates the URI of which NodeShapes should be considered roots
-    private List<String> rootShapes;
     // maps URI to JSON terms
     private UriToJsonMapper uriMapper;
-    // the string value to put in final @context
-    private String targetContextUrl;
 	// the language in which to read the labels and description
 	private String lang;
 
+	private JsonValue context;
+	private ProbingJsonLdContextWrapper contextWrapper;
 
-    public JsonSchemaGenerator(String lang, String targetContextUrl, List<String> rootShapes) {
+
+    public JsonSchemaGenerator(String lang) {
+		this(lang, null);
+    }
+
+	public JsonSchemaGenerator(String lang, JsonValue context) {
+		this.context = context;
+		if(context != null) {
+			this.contextWrapper = new ProbingJsonLdContextWrapper(context);
+			this.uriMapper = new ContextUriMapper(context);
+		} else {
+			this.contextWrapper = null;
+			this.uriMapper = new LocalNameUriToJsonMapper();
+		}
+
+		// set the language for labels and descriptions
 		this.lang = lang;
-        this.targetContextUrl = targetContextUrl;
-        this.rootShapes = rootShapes;
-        this.uriMapper = new LocalNameUriToJsonMapper();
     }
 
-    public JsonSchemaGenerator(String lang, List<String> rootShape) {
-        //this(lang, null, Collections.singletonList(rootShape));
-    	this(lang, null, rootShape);
-    }
+	public Schema convertToJsonSchema(Model shaclGraph) throws Exception {
+		return convertToJsonSchema(shaclGraph, Arrays.asList());
+	}
 
-    public Schema convertToJsonSchema(Model shaclGraph) throws Exception {
+    public Schema convertToJsonSchema(Model shaclGraph, List<String> rootShapes) throws Exception {
         log.info("Generating JSON schema...");
 		ShapesGraph shapesGraph = new ShapesGraph(shaclGraph, null);
 		    
@@ -107,7 +120,7 @@ public class JsonSchemaGenerator {
 		}
 		
 		// find the root node shapes
-		List<NodeShape> rootNodeShapes = findRootNodeShapes(shapesGraph.getAllNodeShapes());
+		List<NodeShape> rootNodeShapes = findRootNodeShapes(shapesGraph.getAllNodeShapes(), rootShapes);
 
 		// now create the "data" schema
 
@@ -166,21 +179,7 @@ public class JsonSchemaGenerator {
 	}
 	
 	private Schema getContextSchema() {
-		// if we know the target context URL, use it, otherwise use a simple string schema
-		if(this.targetContextUrl != null) {
-			return ConstSchema
-	    		.builder()
-	    		.permittedValue(this.targetContextUrl)
-	    		.comment("The fixed @context JSON-LD URL")
-	    		.build();
-		} else {
-			return StringSchema
-	    		.builder()
-	    		.format("iri-reference")
-	    		.comment("The URL of the JSON-LD @context")
-	    		.build();
-		}
-		
+		return EmptySchema.builder().comment("The JSON-LD @context").build();
 	}
 	
 	private Schema getContainerLanguage() {
@@ -282,9 +281,15 @@ public class JsonSchemaGenerator {
 
 			// Name of Property
 			Resource path = ps.getShPath().get().asResource();
-			Set<String> shortnames = ShaclReadingUtils.findShortNamesOfPath(path,model);
+			Set<String> shortnames = ShaclReadingUtils.findShortNamesOfPath(path);
 			if(shortnames.isEmpty()) {
-				shortnames.add(uriMapper.mapPropertyURI(path));
+				shortnames.add(uriMapper.mapPropertyURI(
+					path,
+					ps.couldBeIriProperty(),
+					ps.getShDatatype().map(d -> d.getURI()).orElse(null),
+					// TODO : we don't handle language for now
+					null
+				));
 			} 
 
 			// Get name of property 
@@ -393,7 +398,7 @@ public class JsonSchemaGenerator {
 		// Datatype
 		if (singleValueBuilder == null && ps.getShDatatype().isPresent()) {				
 
-			Set<Resource> datatypes = ShaclReadingUtils.findDatatypesOfPath(ps.getShPath().get().asResource(), model);
+			Set<Resource> datatypes = ShaclReadingUtils.findDatatypesOfPath(ps.getShPath().get().asResource());
 			if(datatypes.size() > 1) {
 				log.warn("Found different datatypes declared for path "+ps.getShPath().get().asResource()+", will declare only one");
 			}
@@ -450,18 +455,43 @@ public class JsonSchemaGenerator {
 			.builder();
 		}
 
-		Schema.Builder builder = singleValueBuilder;
+		Schema.Builder finalBuilder = null;
 
 		// if the property shape has a maxCount > 1 or no maxCount specified, then we need to wrap the single value schema into an ArraySchema
 		if (singleValueBuilder != null && !ps.getShMaxCount().isPresent() || ps.getShMaxCount().get().asLiteral().getInt() > 1 ) {
 			// this is an ArraySchema that will contain the inner Schema built previously
 			Schema innerSchema = singleValueBuilder.build();
 
-			builder = ArraySchema
+			Integer maxItems = null;
+			if(ps.getShMaxCount().isPresent() && ps.getShMaxCount().get().asLiteral().getInt() > 1) {
+				maxItems = ps.getShMaxCount().get().asLiteral().getInt();
+			}
+
+			finalBuilder = ArraySchema
 			.builder()
 			.minItems(1)
+			.maxItems(maxItems)
 			.allItemSchema(innerSchema);
+
 		} 
+
+		if(finalBuilder == null && this.contextWrapper != null && this.contextWrapper.requiresArray(
+			ps.getShPath().get().asResource().getURI(),
+			ps.couldBeIriProperty(),
+			ps.getShDatatype().map(d -> d.getURI()).orElse(null),
+			null
+		)) {
+   			// if the context requires an array for this property, we need to wrap the single value schema into an ArraySchema
+			finalBuilder = ArraySchema
+			.builder()
+			.minItems(1)
+			.allItemSchema(singleValueBuilder.build());
+  		}	
+
+		if(finalBuilder == null) {
+   			// this is a single value schema, not wrapped into an ArraySchema
+   			finalBuilder = singleValueBuilder;
+  		}	
 
 		// add title and description 
 		// schema title
@@ -477,22 +507,14 @@ public class JsonSchemaGenerator {
 		}
 
 		// set title and description on the final outer builder, ArraySchema or the single value schema
-		builder.title(titleProperty).description(descriptionProperty);
+		finalBuilder.title(titleProperty).description(descriptionProperty);
 
 		// nothing, return an EmptySchema
-		return builder.build();
+		return finalBuilder.build();
 
 	}
-	
-	public String getTargetContextUrl() {
-		return targetContextUrl;
-	}
 
-	public void setTargetContextUrl(String targetContextUrl) {
-		this.targetContextUrl = targetContextUrl;
-	}
-
-    private List<NodeShape> findRootNodeShapes(List<NodeShape> nodeShapes) {
+    private List<NodeShape> findRootNodeShapes(List<NodeShape> nodeShapes, List<String> rootShapes) {
 
         Predicate<NodeShape> predicate = new Predicate<NodeShape>() {
 
@@ -531,7 +553,7 @@ public class JsonSchemaGenerator {
                     }
                 }
 
-                // 2. be explicitely specified as an input
+                // 2. or be explicitely specified as an input
                 boolean isExplicitelyRootShape = rootShapes.contains(ns.getNodeShape().getURI());
 
                 return  isExplicitelyRootShape || !isEmbedded;

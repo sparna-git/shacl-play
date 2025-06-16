@@ -16,10 +16,7 @@
   "additionalProperties": false,
   "required": ["@context", "data"],
   "$defs": {
-    "@context": {
-      "type": "string",
-      "format": "iri-reference"
-    },
+    "@context": {},
     "MainNodeShape": {
         "type": "object",
         "title": "Node Title",

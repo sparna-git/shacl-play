@@ -24,9 +24,11 @@
                 "type": "string",
                 "format": "iri-reference"
             },
-            "descriptiveProperty": {
-                "description": "This is a description.",
-                "title": "Descriptive Property"
+            "property": {
+                "type": "string",
+                "enum": [
+                    "Vote"
+                ]
             }
         },
         "required": ["id"]

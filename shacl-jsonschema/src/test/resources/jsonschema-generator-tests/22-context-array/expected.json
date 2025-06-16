@@ -24,9 +24,13 @@
                 "type": "string",
                 "format": "iri-reference"
             },
-            "descriptiveProperty": {
-                "description": "This is a description.",
-                "title": "Descriptive Property"
+            "linkedTo": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "format": "iri-reference"
+              }
             }
         },
         "required": ["id"]

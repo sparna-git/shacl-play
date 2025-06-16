@@ -16,11 +16,7 @@
   "additionalProperties": false,
   "required": ["@context", "data"],
   "$defs": {
-    "@context": {
-      "type": "string",
-      "format": "iri-reference",
-      "comment": "The URL of the JSON-LD @context"
-    },
+    "@context": {},
     "MainNodeShape": {
       "type": "object",
       "properties": {

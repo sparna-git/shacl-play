@@ -67,7 +67,8 @@ public class ProbingJsonLdContextWrapper implements JsonLdContextWrapper {
             Entry<String, JsonValue> firstEntry = getFirstNonContextEntry(compactedDocument);
             if (firstEntry != null) {
                 if(firstEntry.getValue().getValueType() == JsonValue.ValueType.STRING) {
-                    return firstEntry.getValue().toString(); // Return the value as a string
+                    // returns the string value
+                    return firstEntry.getValue().toString().replaceAll("^\"|\"$", ""); // Remove quotes
                 } else {
                     return uri;
                 } 
@@ -115,21 +116,23 @@ public class ProbingJsonLdContextWrapper implements JsonLdContextWrapper {
         JsonValue value = JsonValue.NULL; // Default value is null
         if(isIriProperty) {
             value = Json.createObjectBuilder()
-                .add("@id", propertyUri) // Use @id for IRI properties
+                .add("@id", "https://probe.org/test") // Use @id for IRI properties
                 .build();
         } else if (language != null) {
             value = Json.createObjectBuilder()
                 .add("@language", language) // Use @language for language-tagged properties
+                .add("@value", "probe")
                 .build();
         } else if (datatype != null) {
             value = Json.createObjectBuilder()
                 .add("@type", datatype) // Use @type for datatype properties
+                .add("@value", "probe")
                 .build();
         } 
 
         // create an empty JSON object
         JsonObject probeDocument = Json.createObjectBuilder()
-            .add(propertyUri, value) // Add the property URI with a null value
+            .add(propertyUri, value) // Add the property URI to the document
             // and the context
             .add("@context", context)
             .build();

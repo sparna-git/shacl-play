@@ -1,0 +1,6 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ex: <http://example.org/> .
+
+ex:MainNodeShape
+    a sh:NodeShape ;
+    sh:targetClass ex:SimpleClass .

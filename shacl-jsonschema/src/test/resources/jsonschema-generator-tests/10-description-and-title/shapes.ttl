@@ -1,0 +1,11 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ex: <http://example.org/> .
+
+ex:MainNodeShape
+    a sh:NodeShape ;
+    sh:property [
+        sh:path ex:descriptiveProperty ;
+        sh:description "This is a description." ;
+        sh:name "Descriptive Property" ;
+        sh:maxCount 1 ;
+    ] .

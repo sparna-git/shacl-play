@@ -40,6 +40,8 @@ public class EnumSchema extends Schema {
 
         private List<Object> possibleValues = new ArrayList<>();
 
+        private boolean requiresString = true;
+
         @Override
         public EnumSchema build() {
             return new EnumSchema(this);
@@ -59,6 +61,11 @@ public class EnumSchema extends Schema {
             this.possibleValues = possibleValues.stream().collect(toList());
             return this;
         }
+
+        public Builder requiresString(final boolean requiresString) {
+            this.requiresString = requiresString;
+            return this;
+        }
     }
 
     public static Builder builder() {
@@ -67,9 +74,12 @@ public class EnumSchema extends Schema {
 
     private final List<Object> possibleValues;
 
+    private final boolean requiresString;
+
     public EnumSchema(Builder builder) {
         super(builder);
-        possibleValues = Collections.unmodifiableList(toJavaValues(builder.possibleValues));
+        this.possibleValues = Collections.unmodifiableList(toJavaValues(builder.possibleValues));
+        this.requiresString = builder.requiresString;   
     }
 
     public Set<Object> getPossibleValues() {
@@ -108,6 +118,10 @@ public class EnumSchema extends Schema {
     @Override
     protected boolean canEqual(Object other) {
         return other instanceof EnumSchema;
+    }
+
+    public boolean requireString() {
+        return requiresString;
     }
 
 }

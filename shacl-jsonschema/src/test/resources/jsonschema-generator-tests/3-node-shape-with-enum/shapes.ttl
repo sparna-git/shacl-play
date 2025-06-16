@@ -1,0 +1,11 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ex: <http://example.org/> .
+
+ex:MainNodeShape
+    a sh:NodeShape ;
+    sh:targetClass ex:ClassWithEnum ;
+    sh:property [
+        sh:path ex:enumProperty ;
+        sh:maxCount 1;
+        sh:in ( "Value1" "Value2" "Value3" ) ;
+    ] .

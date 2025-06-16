@@ -1,0 +1,11 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ex: <http://example.org/> .
+
+ex:MainNodeShape
+    a sh:NodeShape ;
+    sh:closed true ;
+    sh:property [
+        sh:path ex:property ;
+        sh:datatype <http://www.w3.org/2001/XMLSchema#string> ;
+        sh:maxCount 1 ;
+    ] .

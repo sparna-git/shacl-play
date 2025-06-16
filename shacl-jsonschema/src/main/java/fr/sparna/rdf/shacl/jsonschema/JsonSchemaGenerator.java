@@ -74,7 +74,7 @@ public class JsonSchemaGenerator {
 		// always set the schema version to the latest one
         rootSchema.schemaVersion(JSON_SCHEMA_VERSION);
 		// always set a @context $def
-		rootSchema.embeddedSchema(CONTEXT, getContextSchema());
+        rootSchema.embeddedSchema(CONTEXT, getContextSchema());
 		// always set a "container_language" $def
 		rootSchema.embeddedSchema(CONTAINER_LANGUAGE, getContainerLanguage());
 
@@ -329,35 +329,37 @@ public class JsonSchemaGenerator {
 		// 6. sh:nodeKing == IRI ==> StringSchema with format = iri-reference
 		// otherwise return EmptySchema
 
+		Schema.Builder singleValueBuilder = null;
+
 		// sh:hasValue	
 		if (!ps.getShHasValue().isEmpty()) {
-			
-			return ConstSchema
+			// TODO : handle constant literal values			
+			singleValueBuilder = ConstSchema
 				.builder()
-				//.permittedValue(this.uriMapper.mapToJson(ps.getShHasValue().get().asResource()))
-				.permittedValue(this.uriMapper.mapValueURI(ps.getShHasValue().get().asResource()))
-				.build();
+				.permittedValue(this.uriMapper.mapValueURI(ps.getShHasValue().get().asResource()));
 		}
-
-		Schema.Builder singleValueBuilder = null;
 
 		// sh:in
 		if (singleValueBuilder == null && ps.getShIn() != null) {
 			
-			List<String> uris = new ArrayList<>();
+			List<Object> values = new ArrayList<>();
 			for (RDFNode i : ps.getShIn()) {				
-				uris.add(this.uriMapper.mapValueURI(i.asResource()));				
+				if (i.isURIResource()) {
+					values.add(this.uriMapper.mapValueURI(i.asResource()));
+				} else if (i.isLiteral()) {
+					values.add(i.asLiteral().getValue());
+				} else {
+					log.warn("Found a sh:in value that is neither a URI nor a Literal, ignoring it: "+i);
+				}
 			}
 			
-			// Get all items in Object
-			//Object[] shInValues = ps.getShIn().toArray();
-			Object[] shInValues = uris.toArray();
-			// Create  
-			List<Object> list = Arrays.asList(shInValues);
-			
-			singleValueBuilder = EnumSchema
-					.builder()
-					.possibleValues(list);			
+			if(values.size() > 0) {
+				singleValueBuilder = EnumSchema
+						.builder()
+						// TODO : we are always requiring string values for enums, but they could be e.g. numbers or even of different types
+						.requiresString(true)
+						.possibleValues(values);	
+			}
 		}
 
 		//sh:node
@@ -420,21 +422,26 @@ public class JsonSchemaGenerator {
 							singleValueBuilder = NumberSchema
 								.builder();
 						}
+					} else {
+						// default to StringSchema
+						singleValueBuilder = StringSchema
+							.builder();
 					}
-
-					// default to StringSchema
-					singleValueBuilder = StringSchema
-						.builder();
-					
 				}
 			}		
 		}
 
-		// NodeKind
+		// NodeKind IRI
 		if (singleValueBuilder == null && ps.getShNodeKind().filter(nodeKind -> nodeKind.getURI().equals(SH.IRI.getURI())).isPresent()) {	
 			singleValueBuilder = StringSchema
 			.builder()
 			.format("iri-reference");
+		}
+
+		// NodeKind Literal
+		if (singleValueBuilder == null && ps.getShNodeKind().filter(nodeKind -> nodeKind.getURI().equals(SH.Literal.getURI())).isPresent()) {	
+			singleValueBuilder = StringSchema
+			.builder();
 		}
 
 		// default

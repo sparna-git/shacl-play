@@ -1,0 +1,15 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ex: <http://example.org/> .
+
+ex:MainNodeShape
+    a sh:NodeShape ;
+    sh:property [
+        sh:path ex:deactivatedProperty ;
+        sh:deactivated true ;
+    ] ;
+    sh:property [
+        sh:path ex:otherProperty ;
+        sh:nodeKind sh:Literal ;
+        sh:maxCount 1 ;
+    ] ;
+    .

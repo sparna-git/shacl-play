@@ -1,0 +1,11 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ex: <http://example.org/> .
+
+ex:MainNodeShape
+    a sh:NodeShape ;
+    sh:targetClass ex:ClassWithPattern ;
+    sh:property [
+        sh:path ex:patternProperty ;
+        sh:maxCount 1;
+        sh:pattern "^[A-Za-z0-9]+$" ;
+    ] .

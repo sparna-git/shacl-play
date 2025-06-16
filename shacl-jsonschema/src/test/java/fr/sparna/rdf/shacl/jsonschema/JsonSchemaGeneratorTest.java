@@ -72,6 +72,21 @@ public class JsonSchemaGeneratorTest {
         runTest("10-description-and-title/shapes.ttl", "10-description-and-title/expected.json");
     }
 
+    @Test
+    public void testShortnameAnnotation() throws Exception {
+        runTest("11-shortname-annotation/shapes.ttl", "11-shortname-annotation/expected.json");
+    }
+
+    @Test
+    public void testNodeLabelAndComment() throws Exception {
+        runTest("12-node-label-comment/shapes.ttl", "12-node-label-comment/expected.json");
+    }
+
+    @Test
+    public void testNoActivePropertyShape() throws Exception {
+        runTest("13-no-active-property-shape/shapes.ttl", "13-no-active-property-shape/expected.json");
+    }
+
 
 
     private void runTest(String inputShaclFile, String expectedJsonFile) throws Exception {

@@ -1,0 +1,11 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ex: <http://example.org/> .
+@prefix play: <https://shacl-play.sparna.fr/ontology#> .
+
+ex:MainNodeShape a sh:NodeShape ;
+    sh:property [
+        sh:path ex:property ;
+        play:shortname "customName" ;
+        sh:maxCount 1;
+        sh:nodeKind sh:Literal ;
+    ] .

@@ -326,7 +326,7 @@ public class JsonSchemaGenerator {
 		// 3. sh:node ==> iri-reference if no embed, or ReferenceSchema if embed, wrapped into ArraySchema if maxCount > 1
 		// 4. sh:pattern ==> StringSchema with pattern
 		// 5. sh:datatype ==> StringSchema or ReferenceSchema to ContainerLanguage or BooleanSchema or NumberSchema
-		// 6. sh:nodeKing == IRI ==> StringSchema with format = iri-reference
+		// 6. sh:nodeKind == IRI ==> StringSchema with format = iri-reference
 		// otherwise return EmptySchema
 
 		Schema.Builder singleValueBuilder = null;
@@ -453,7 +453,7 @@ public class JsonSchemaGenerator {
 		Schema.Builder builder = singleValueBuilder;
 
 		// if the property shape has a maxCount > 1 or no maxCount specified, then we need to wrap the single value schema into an ArraySchema
-		if (!ps.getShMaxCount().isPresent() || ps.getShMaxCount().get().asLiteral().getInt() > 1 ) {
+		if (singleValueBuilder != null && !ps.getShMaxCount().isPresent() || ps.getShMaxCount().get().asLiteral().getInt() > 1 ) {
 			// this is an ArraySchema that will contain the inner Schema built previously
 			Schema innerSchema = singleValueBuilder.build();
 

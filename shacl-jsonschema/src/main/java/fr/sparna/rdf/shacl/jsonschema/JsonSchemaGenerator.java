@@ -320,18 +320,6 @@ public class JsonSchemaGenerator {
 
 		log.trace("Converting PropertyShape "+ps.getPropertyShape().getURI()+" to JSON Schema");
 
-		// schema title
-		String titleProperty = null;		
-		if (ps.getShName().isPresent()) {
-			titleProperty = ps.getShName().get().asLiteral().getString(); //ps.getShName().stream().map(s -> s.getString()).collect(Collectors.joining(" "));
-		}
-			
-		// schema description
-		String descriptionProperty = null;
-		if (ps.getShDescription().isPresent()) {
-			descriptionProperty = ps.getShDescription().get().asLiteral().getString(); //ps.getShDescription(lang).stream().map(s -> s.getString()).collect(Collectors.joining(" "));
-		}
-
 		// precedence order
 		// 1. sh:hasValue ==> ConstSchema
 		// 2. sh:in ==> EnumSchema
@@ -351,8 +339,10 @@ public class JsonSchemaGenerator {
 				.build();
 		}
 
+		Schema.Builder singleValueBuilder = null;
+
 		// sh:in
-		if (ps.getShIn() != null) {
+		if (singleValueBuilder == null && ps.getShIn() != null) {
 			
 			List<String> uris = new ArrayList<>();
 			for (RDFNode i : ps.getShIn()) {				
@@ -365,64 +355,41 @@ public class JsonSchemaGenerator {
 			// Create  
 			List<Object> list = Arrays.asList(shInValues);
 			
-			return EnumSchema
+			singleValueBuilder = EnumSchema
 					.builder()
-					.title_custom(titleProperty)
-					.description_custom(descriptionProperty)
-					.possibleValues(list)
-					.build();			
+					.possibleValues(list);			
 		}
 
 		//sh:node
-		if (!ps.getShNode().isEmpty()) {				
-	
-			Schema.Builder builder;
+		if (singleValueBuilder == null && !ps.getShNode().isEmpty()) {				
 
 			ShapesGraph shapesGraph = new ShapesGraph(model, null);
 			if(ps.isEmbedNever() || shapesGraph.findNodeShapeByResource(ps.getShNode().get()) == null) {
 				// no embedding, or reference to sh:node not found, this is a URI reference
-				builder = StringSchema
+				singleValueBuilder = StringSchema
 				.builder()
 				.format("iri-reference");
 			} else {
 				// this is a reference to another Schema coming from the NodeShape
 				// TODO : make sure the NodeShape exists, otherwise the schema is inconsistent
-				builder = ReferenceSchema
+				singleValueBuilder = ReferenceSchema
 					.builder()
 					// note : the builder-specific method needs to be called **before** the generic method
 					.refValue(JsonSchemaGenerator
 								.buildSchemaReference(ps.getShNode().get().asResource()));
 			}
-			
-			if (!ps.getShMaxCount().isPresent() || ps.getShMaxCount().get().asLiteral().getInt() > 1 ) {
-				// this is an ArraySchema that will contain the inner Schema built previously
-				Schema innerSchema = builder.build();
-
-				builder = ArraySchema
-				.builder()
-				.minItems(1)
-				.allItemSchema(innerSchema);
-			} 
-
-			// set title and description on the final outer builder, ArraySchema or StringSchema or RereferenceSchema
-			builder.title(titleProperty).description(descriptionProperty);
-			return builder.build();
 		}
 
 		// sh:pattern
-		if (!ps.getShPattern().isEmpty()) {
-			return StringSchema
+		if (singleValueBuilder == null && !ps.getShPattern().isEmpty()) {
+			singleValueBuilder = StringSchema
 					.builder()
 					// note : the builder-specific method needs to be called **before** the generic method
-					.pattern(ps.getShPattern().get().getString())
-					.title(titleProperty)
-					.description(descriptionProperty)						
-					.build();
-			
+					.pattern(ps.getShPattern().get().getString());			
 		}
 
 		// Datatype
-		if (ps.getShDatatype().isPresent()) {				
+		if (singleValueBuilder == null && ps.getShDatatype().isPresent()) {				
 
 			Set<Resource> datatypes = ShaclReadingUtils.findDatatypesOfPath(ps.getShPath().get().asResource(), model);
 			if(datatypes.size() > 1) {
@@ -433,61 +400,80 @@ public class JsonSchemaGenerator {
 				Resource theDatatype = datatypes.iterator().next();
 				String datatype = theDatatype.getURI();
 				if (datatype.equals(RDF.langString.getURI())) {						
-					return ReferenceSchema
+					singleValueBuilder = ReferenceSchema
 							.builder()	
 							// note : the builder-specific method needs to be called **before** the generic method
-							.refValue("#/$defs/"+CONTAINER_LANGUAGE)							
-							.title(titleProperty)
-							.description(descriptionProperty)								
-							.build();
+							.refValue("#/$defs/"+CONTAINER_LANGUAGE);
 					
 				} else {
 					Optional<DatatypeToJsonSchemaMapping> typefound = DatatypeToJsonSchemaMapping.findByDatatypeUri(datatype);
 					
 					if (typefound.isPresent()) {							
 						if (typefound.get().getJsonSchemaType().equals(JsonSchemaType.STRING)) {								
-							return StringSchema
+							singleValueBuilder = StringSchema
 								.builder()
-								.title(titleProperty)
-								.description(descriptionProperty)
-								.format(typefound.get().getJsonSchemaFormat())
-								.build();
+								.format(typefound.get().getJsonSchemaFormat());
 						} else if (typefound.get().getJsonSchemaType().equals(JsonSchemaType.BOOLEAN)) {
-							return BooleanSchema
-										.builder()
-										.title_custom(titleProperty)
-										.description_custom(descriptionProperty)
-										.build();
+							singleValueBuilder = BooleanSchema
+										.builder();
 						} else if (typefound.get().getJsonSchemaType().equals(JsonSchemaType.NUMBER) || typefound.get().getJsonSchemaType().equals(JsonSchemaType.INTEGER)) {
-							return NumberSchema
-								.builder()
-								.title(titleProperty)
-								.description(descriptionProperty)
-								.build();
+							singleValueBuilder = NumberSchema
+								.builder();
 						}
 					}
 
 					// default to StringSchema
-					return StringSchema
-						.builder()
-						.title(titleProperty)
-						.description(descriptionProperty)
-						.build();
+					singleValueBuilder = StringSchema
+						.builder();
 					
 				}
 			}		
 		}
 
 		// NodeKind
-		if (ps.getShNodeKind().filter(nodeKind -> nodeKind.getURI().equals(SH.IRI.getURI())).isPresent()) {	
-			return StringSchema
+		if (singleValueBuilder == null && ps.getShNodeKind().filter(nodeKind -> nodeKind.getURI().equals(SH.IRI.getURI())).isPresent()) {	
+			singleValueBuilder = StringSchema
 			.builder()
-			.format("iri-reference")
-			.build();
+			.format("iri-reference");
 		}
 
+		// default
+		if(singleValueBuilder == null) {
+			singleValueBuilder = EmptySchema
+			.builder();
+		}
+
+		Schema.Builder builder = singleValueBuilder;
+
+		// if the property shape has a maxCount > 1 or no maxCount specified, then we need to wrap the single value schema into an ArraySchema
+		if (!ps.getShMaxCount().isPresent() || ps.getShMaxCount().get().asLiteral().getInt() > 1 ) {
+			// this is an ArraySchema that will contain the inner Schema built previously
+			Schema innerSchema = singleValueBuilder.build();
+
+			builder = ArraySchema
+			.builder()
+			.minItems(1)
+			.allItemSchema(innerSchema);
+		} 
+
+		// add title and description 
+		// schema title
+		String titleProperty = null;		
+		if (ps.getShName().isPresent()) {
+			titleProperty = ps.getShName().get().asLiteral().getString();
+		}
+			
+		// schema description
+		String descriptionProperty = null;
+		if (ps.getShDescription().isPresent()) {
+			descriptionProperty = ps.getShDescription().get().asLiteral().getString();
+		}
+
+		// set title and description on the final outer builder, ArraySchema or the single value schema
+		builder.title(titleProperty).description(descriptionProperty);
+
 		// nothing, return an EmptySchema
-		return EmptySchema.builder().title(titleProperty).description(descriptionProperty).build();
+		return builder.build();
 
 	}
 	

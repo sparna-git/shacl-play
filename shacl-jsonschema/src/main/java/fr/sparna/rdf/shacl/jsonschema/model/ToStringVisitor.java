@@ -91,12 +91,12 @@ class ToStringVisitor extends Visitor {
             super.visitBooleanSchema(schema);
             writer.key("type").value("boolean");
             
-            if (schema.getTitle_custom() != null) {
-            	writer.ifPresent("title", schema.getTitle_custom());
+            if (schema.getTitle() != null) {
+            	writer.ifPresent("title", schema.getTitle());
             }
             
-            if (schema.getDescription_custom() != null) {
-            	writer.ifPresent("description", schema.getDescription_custom());
+            if (schema.getDescription() != null) {
+            	writer.ifPresent("description", schema.getDescription());
             }
         });
     }
@@ -377,12 +377,12 @@ class ToStringVisitor extends Visitor {
             writer.endArray();
             super.visitEnumSchema(schema);
             
-            if (schema.getTitle_custom() != null) {
-            	writer.ifPresent("title", schema.getTitle_custom());
+            if (schema.getTitle() != null) {
+            	writer.ifPresent("title", schema.getTitle());
             }
             
-            if (schema.getDescription_custom() != null) {
-            	writer.ifPresent("description", schema.getDescription_custom());
+            if (schema.getDescription() != null) {
+            	writer.ifPresent("description", schema.getDescription());
             }
             
         });

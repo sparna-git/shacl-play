@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.apache.jena.atlas.logging.Log;
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
@@ -221,9 +222,8 @@ public class NodeShape {
 			RDFNode object = aPropertyStatement.getObject();
 			
 			if(object.isResource()) {
-				Resource propertyShape = object.asResource();			
-				PropertyShape plantvalueproperty = new PropertyShape(propertyShape);
-				properties.add(plantvalueproperty);					
+				Resource propertyShape = object.asResource();
+				properties.add(new PropertyShape(propertyShape));					
 			}
 		
 		}		

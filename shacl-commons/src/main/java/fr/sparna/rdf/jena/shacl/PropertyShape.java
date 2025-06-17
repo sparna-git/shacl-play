@@ -59,7 +59,55 @@ public class PropertyShape {
 		}
 	}
 
-	
+	/**
+	 * Returns true if the property shape could be a literal property.
+  	 * This is the case if it has a datatype, or if it has a nodeKind of Literal,
+  	 * or if it has a languageIn, or if it has minLength, maxLength, minInclusive,
+  	 * maxInclusive, minExclusive, or maxExclusive.
+	 * @return
+	 */
+	public boolean couldBeLiteralProperty() {
+		  return 
+		  propertyShape.hasProperty(SH.datatype)
+		  ||
+		  ( 
+			propertyShape.hasProperty(SH.nodeKind)
+			&& 
+	  		propertyShape.getProperty(SH.nodeKind).getObject().asResource().equals(SH.Literal) 
+		  )
+		  ||
+		  propertyShape.hasProperty(SH.languageIn)
+	  	  ||
+		  propertyShape.hasProperty(SH.minLength)
+		  ||
+		  propertyShape.hasProperty(SH.maxLength)
+	  	  ||
+		  propertyShape.hasProperty(SH.minInclusive)
+		  ||
+		  propertyShape.hasProperty(SH.maxInclusive)
+	  	  ||
+		  propertyShape.hasProperty(SH.minExclusive)
+		  ||
+		  propertyShape.hasProperty(SH.maxExclusive);
+	}
+
+	/**
+	 * Returns true if the property shape could be an IRI property.
+  	 * This is the case if it has a nodeKind of IRI, or if it has a class.
+	 * @return
+	 */
+	public boolean couldBeIriProperty() {
+		return
+		(
+			propertyShape.hasProperty(SH.nodeKind)
+			&&
+			propertyShape.getProperty(SH.nodeKind).getObject().asResource().equals(SH.IRI)
+		)
+		||
+		propertyShape.hasProperty(SH.class_);
+ 	}
+  	
+ 	
 	
 	public Optional<Resource> getShClass() {
 		return ModelReadingUtils.getOptionalResource(propertyShape, SH.class_);

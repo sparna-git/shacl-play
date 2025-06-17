@@ -22,6 +22,7 @@
 			<entry key="COLUMN_URI" label="URI" />
 			<entry key="COLUMN_EXPECTED_VALUE" label="Valeur attendue" />
 			<entry key="COLUMN_CARD" label="Card." />
+			<entry key="COLUMN_EXAMPLE" label="Exemple"/>
 			<entry key="COLUMN_DESCRIPTION" label="Description" />
 			<entry key="COLUMN_NUMBEROCCURRENCES" label="Triplets" />
 			<entry key="COLUMN_VALUESDISTINCTS" label="Valeurs" />
@@ -84,6 +85,7 @@
 			<entry key="COLUMN_URI" label="URI" />
 			<entry key="COLUMN_EXPECTED_VALUE" label="Expected value" />
 			<entry key="COLUMN_CARD" label="Card." />
+			<entry key="COLUMN_EXAMPLE" label="Example"/>
 			<entry key="COLUMN_DESCRIPTION" label="Description" />
 			<entry key="COLUMN_NUMBEROCCURRENCES" label="Triples" />
 			<entry key="COLUMN_VALUESDISTINCTS" label="Values" />
@@ -1132,6 +1134,13 @@
 				</xsl:choose>
 			</xsl:variable>
 			
+			<xsl:variable name="exampleProperties">
+				<xsl:value-of select="count(propertyGroup/properties/property/examples)"/>
+			</xsl:variable>
+			
+			Column Name: <xsl:value-of select="$LABELS/labels/entry[@key='COLUMN_EXAMPLE']/@label"/>
+			Test: <xsl:value-of select="$exampleProperties"/>
+			
 			<xsl:if test="count(propertyGroup/properties/property) &gt; 0">
 				<table class="sp_table_propertyshapes {$getBgColor} table-responsive">
 					<thead>
@@ -1154,7 +1163,12 @@
 							</th>
 							<th class="sp_description_column">
 								<xsl:value-of select="$LABELS/labels/entry[@key='COLUMN_DESCRIPTION']/@label" />
-							</th>		
+							</th>
+							<xsl:if test="$exampleProperties &gt; 0">
+								<th>
+									<xsl:value-of select="$LABELS/labels/entry[@key='COLUMN_EXAMPLE']/@label"/>
+								</th>
+							</xsl:if>		
 						</tr>
 					</thead>
 					<tbody>
@@ -1162,8 +1176,6 @@
 					</tbody>
 				</table><!-- end properties table -->
 			</xsl:if>
-			
-			
 		</xsl:if>
 	</xsl:template>
 	
@@ -1204,9 +1216,7 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
-		
 	
-		
 		<tr style="{$Colors}">
 		
 			<!-- Property name -->
@@ -1235,6 +1245,12 @@
 			<td class="sp_table_propertyshapes_col_description">
 				<xsl:apply-templates select="./description"/>
 			</td>
+			<!-- Skos:Examples -->
+			<xsl:if test="count(..//../../examples) &gt; 0">
+				<td>
+					<xsl:apply-templates select="./examples"/>
+				</td>
+			</xsl:if>
 		</tr>
 	</xsl:template>
 	
@@ -1319,9 +1335,12 @@
 			<small><xsl:value-of select="pattern" /></small>			
 		</xsl:if>
 	</xsl:template>
-	
 	<!-- Cardinality -->
 	<xsl:template match="property/cardinalite"><xsl:value-of select="." /></xsl:template>
+	<!-- Skos:Example properties -->
+	<xsl:template match="property/examples">
+		<xsl:value-of select="."/>			
+	</xsl:template>
 	<!-- Description properties -->
 	<xsl:template match="property/description">
 		<xsl:value-of select="." />

@@ -39,6 +39,8 @@ public class PropertyShapeDocumentation {
 	private boolean isLabelRole;
 	private boolean isDeactivated;
 	
+	private String examples;
+	
 	public String getSparqlQueryProperty() {
 		return sparqlQueryProperty;
 	}
@@ -149,6 +151,14 @@ public class PropertyShapeDocumentation {
 
 	public void setDeactivated(boolean isDeactivated) {
 		this.isDeactivated = isDeactivated;
+	}
+
+	public String getExamples() {
+		return examples;
+	}
+
+	public void setExamples(String examples) {
+		this.examples = examples;
 	}
 
 }

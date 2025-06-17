@@ -1,6 +1,5 @@
 package fr.sparna.rdf.shacl.doc.read;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -9,10 +8,8 @@ import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.RDFList;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
-import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.XSD;
-import org.topbraid.shacl.vocabulary.SH;
 
 import fr.sparna.rdf.jena.ModelRenderingUtils;
 import fr.sparna.rdf.jena.shacl.ShOrReadingUtils;
@@ -103,6 +100,10 @@ public class PropertyShapeDocumentationBuilder {
 		// sh:Deactivated
 		if (propertyShape.isDeactivated()) {
 			proprieteDoc.setDeactivated(true);
+		}
+		
+		if (propertyShape.getSkosExample() != null) {
+			proprieteDoc.setExamples(propertyShape.getSkosExample().asLiteral().getString());
 		}
 		
 		// read values in sh:or

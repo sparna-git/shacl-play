@@ -17,7 +17,6 @@ import org.topbraid.shacl.vocabulary.SH;
 
 import fr.sparna.rdf.jena.ModelReadingUtils;
 import fr.sparna.rdf.jena.ModelRenderingUtils;
-import fr.sparna.rdf.jena.shacl.ShOrReadingUtils;
 import fr.sparna.rdf.shacl.DASH;
 import fr.sparna.rdf.shacl.SHACL_PLAY;
 
@@ -227,6 +226,10 @@ public class PropertyShape {
 	
 	public boolean isDeactivated () {
 		return Optional.ofNullable(this.resource.getProperty(SH.deactivated)).map(s -> s.getLiteral().getBoolean()).orElse(false);
+	}
+	
+	public Literal getSkosExample () {
+		return Optional.ofNullable(this.resource.getProperty(SKOS.example)).map(s -> s.getLiteral()).orElse(null);
 	}
 	
 }

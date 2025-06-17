@@ -257,15 +257,12 @@ public class DocController {
 			
 			//read file html
 			String htmlCode = new String(htmlBytes.toByteArray(),"UTF-8");
-			// htmlCode.replace("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">", "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />");
 			
 			// Convert
 			response.setContentType("application/pdf");
-			PdfRendererBuilder _builder = new PdfRendererBuilder();			 
+			PdfRendererBuilder _builder = new PdfRendererBuilder();
 			_builder.useFastMode();
-			
 			_builder.withHtmlContent(htmlCode,"https://shacl-play.sparna.fr/play");			
-			
 			_builder.toStream(response.getOutputStream());
 			_builder.testMode(false);
 			_builder.run();			

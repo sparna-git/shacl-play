@@ -6,9 +6,6 @@ import org.slf4j.LoggerFactory;
 
 import com.apicatalog.jsonld.JsonLdError;
 import com.apicatalog.jsonld.document.JsonDocument;
-import com.apicatalog.jsonld.loader.DocumentLoader;
-import com.apicatalog.jsonld.loader.HttpLoader;
-import com.apicatalog.jsonld.loader.LRUDocumentCache;
 
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
@@ -18,12 +15,6 @@ import jakarta.json.JsonValue;
 public class ProbingJsonLdContextWrapper implements JsonLdContextWrapper {
 
     private Logger log = LoggerFactory.getLogger(this.getClass().getName());
-
-
-    // Register the custom JSON-LD document loader
-    static DocumentLoader LOADER = HttpLoader.defaultInstance();
-    static DocumentLoader CACHE_LOADER = new LRUDocumentCache(LOADER, 100);
-
 
     private final JsonValue context;
 
@@ -193,12 +184,12 @@ public class ProbingJsonLdContextWrapper implements JsonLdContextWrapper {
         // Use the JSON-LD library to compact the probe document with the context
         if(theContext.getValueType() == JsonValue.ValueType.STRING) {
             return com.apicatalog.jsonld.JsonLd.compact(JsonDocument.of(probeDocument), theContext.toString())
-                .loader(ProbingJsonLdContextWrapper.CACHE_LOADER)
+                .loader(JsonLdDocumentLoader.getInstance().getLoader())
                 .compactToRelative(false)
                 .get();
         } else {
             return com.apicatalog.jsonld.JsonLd.compact(JsonDocument.of(probeDocument), JsonDocument.of((JsonStructure)theContext))
-                .loader(ProbingJsonLdContextWrapper.CACHE_LOADER)
+                .loader(JsonLdDocumentLoader.getInstance().getLoader())
                 .compactToRelative(false)
                 .get();
         }

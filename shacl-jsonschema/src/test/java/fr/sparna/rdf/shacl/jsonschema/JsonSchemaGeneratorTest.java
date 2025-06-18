@@ -37,6 +37,7 @@ public class JsonSchemaGeneratorTest {
                 .forEach(directory -> {
                     try {
                         runTest(directory);
+                        System.out.println("Test passed for directory: " + directory);
                     } catch (Exception e) {
                         throw new RuntimeException("Test failed for directory: " + directory, e);
                     }

@@ -103,7 +103,14 @@ eclipse.preferences.version=1
       <dependency>                        
         <groupId>org.apache.jena</groupId>                        
         <artifactId>jena-arq</artifactId>                        
-        <version>${jena.version}</version>                    
+        <version>${jena.version}</version>  
+        <!-- Exclude titanium since we need version > 1.4.0 to have cached document loader-->
+        <exclusions>                              
+          <exclusion>                                    
+            <groupId>com.apicatalog</groupId>
+			      <artifactId>titanium-json-ld</artifactId>                  
+          </exclusion>                          
+        </exclusions>                    
       </dependency>
                   
       <dependency>                        

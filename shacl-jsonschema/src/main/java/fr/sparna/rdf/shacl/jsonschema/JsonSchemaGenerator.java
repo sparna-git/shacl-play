@@ -261,7 +261,7 @@ public class JsonSchemaGenerator {
 		
 		StringSchema.Builder stringSchemaBuilder = StringSchema.builder();
 		if (nodeShape.getPattern().isPresent()) {
-			stringSchemaBuilder.pattern(nodeShape.getPattern().get().getString());
+			stringSchemaBuilder.pattern(this.uriMapper.mapUriPatternToJsonPattern(nodeShape.getPattern().get().getString()));
 		}
 		if( !examplesId.isEmpty()) {
 			stringSchemaBuilder.examples(examplesId);
@@ -389,10 +389,13 @@ public class JsonSchemaGenerator {
 
 		// sh:pattern
 		if (singleValueBuilder == null && !ps.getShPattern().isEmpty()) {
+			String pattern = ps.getShPattern().get().getString();
+			String patternAsInJson = this.uriMapper.mapUriPatternToJsonPattern(pattern);
+
 			singleValueBuilder = StringSchema
 					.builder()
 					// note : the builder-specific method needs to be called **before** the generic method
-					.pattern(ps.getShPattern().get().getString());			
+					.pattern(patternAsInJson);			
 		}
 
 		// Datatype

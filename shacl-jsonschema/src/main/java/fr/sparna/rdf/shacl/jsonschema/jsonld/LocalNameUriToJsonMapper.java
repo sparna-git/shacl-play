@@ -18,5 +18,10 @@ public class LocalNameUriToJsonMapper implements UriToJsonMapper {
     public String mapValueURI(Resource uri) {
     	return uri.getModel().shortForm(uri.getURI());
     }
+
+    @Override
+    public String mapUriPatternToJsonPattern(String uriPattern) {
+        return uriPattern;
+    }
     
 } 

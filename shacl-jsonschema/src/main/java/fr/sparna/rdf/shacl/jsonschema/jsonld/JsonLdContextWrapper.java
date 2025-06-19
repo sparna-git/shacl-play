@@ -24,4 +24,6 @@ public interface JsonLdContextWrapper {
      */
     public boolean requiresArray(String propertyUri, boolean isIriProperty, String datatype, String language)  throws JsonLdException;
 
+    public String simplifyPattern(String regexPattern) throws JsonLdException;
+
 }

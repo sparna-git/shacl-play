@@ -1,12 +1,17 @@
 package fr.sparna.rdf.shacl.jsonschema.jsonld;
 import java.util.Map.Entry;
 
+import org.apache.jena.vocabulary.RDF;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.apicatalog.jsonld.JsonLdError;
 import com.apicatalog.jsonld.document.JsonDocument;
 
+import dk.brics.automaton.Automaton;
+import dk.brics.automaton.RegExp;
+import dk.brics.automaton.State;
+import dk.brics.automaton.Transition;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonStructure;
@@ -34,6 +39,7 @@ public class ProbingJsonLdContextWrapper implements JsonLdContextWrapper {
             JsonObject probeDocument = prepareProbePropertyDocument(propertyUri, isIriProperty, datatype, language);
             //debug the input and output            
             log.trace("Probe document: {}", probeDocument);
+            System.out.println(probeDocument.toString());
             JsonObject compactedDocument = doCompact(probeDocument, this.context);
             Entry<String, JsonValue> firstEntry = getFirstNonContextEntry(compactedDocument);
             if (firstEntry != null) {
@@ -52,7 +58,6 @@ public class ProbingJsonLdContextWrapper implements JsonLdContextWrapper {
         try {
             JsonObject probeDocument = prepareProbeValueDocument(uri);
             //debug the input and output            
-            System.out.println(probeDocument.toString());
             log.trace("Probe document: {}", probeDocument);
             JsonObject compactedDocument = doCompact(probeDocument, probeDocument.get("@context"));
             Entry<String, JsonValue> firstEntry = getFirstNonContextEntry(compactedDocument);
@@ -70,6 +75,46 @@ public class ProbingJsonLdContextWrapper implements JsonLdContextWrapper {
             throw new JsonLdException("Error compacting JSON-LD document for value URI: " + uri, e);
         }
     }
+
+    @Override
+    public String simplifyPattern(String regexPattern) throws JsonLdException {
+        log.trace("Probing JSON-LD context for regex: {}", regexPattern);
+        try {
+            String testValue = generateMatchingString(regexPattern);
+            JsonObject probeDocument = prepareProbeRegex(testValue);
+            //debug the input and output            
+            System.out.println(probeDocument.toString());
+            log.trace("Probe document: {}", probeDocument);
+            JsonObject compactedDocument = doCompact(probeDocument, probeDocument.get("@context"));
+            Entry<String, JsonValue> firstEntry = getFirstNonContextEntry(compactedDocument);
+            if (firstEntry != null) {
+                // read the @id of the JsonValue, which should be a string
+                if(firstEntry.getValue().getValueType() == JsonValue.ValueType.OBJECT) {
+                    JsonObject valueObject = firstEntry.getValue().asJsonObject();
+                    if(valueObject.containsKey("@id")) {
+                        String returnedValue = valueObject.getString("@id");
+                        System.out.println("Returned value: " + returnedValue);
+                        if(returnedValue.length() < testValue.length() && testValue.endsWith(returnedValue)) {
+                            // now we now that some simplification was applied in the context
+                            // most probably due to @base
+
+                            // determine the piece of the string that was removed
+                            String removed = testValue.substring(0, testValue.length() - returnedValue.length());
+                            // and return the simplified regex pattern
+                            String simplifiedPattern = regexPattern.replaceAll(removed, "");
+
+                            return simplifiedPattern;
+                        }
+                    }
+                }
+            }
+        } catch (JsonLdError e) {
+            throw new JsonLdException("Error compacting JSON-LD document for probing regex: " + regexPattern, e);
+        }
+        return regexPattern;
+    }
+
+
 
     @Override
     public boolean requiresArray(
@@ -104,6 +149,14 @@ public class ProbingJsonLdContextWrapper implements JsonLdContextWrapper {
         // Prepare a JSON-LD document that probes the context for the given property URI
         // This method should create a document that includes the property URI and is ready for compaction
         
+        if(propertyUri.equals(RDF.type.getURI())) {
+            return Json.createObjectBuilder()
+            .add("@type", "https://probe.org/test") // Add the property URI to the document
+            // and the context
+            .add("@context", context)
+            .build();
+        }
+
         JsonValue value = JsonValue.NULL; // Default value is null
         if(isIriProperty) {
             value = Json.createObjectBuilder()
@@ -120,7 +173,6 @@ public class ProbingJsonLdContextWrapper implements JsonLdContextWrapper {
                 .add("@value", "probe")
                 .build();
         } 
-
         // create an empty JSON object
         JsonObject probeDocument = Json.createObjectBuilder()
             .add(propertyUri, value) // Add the property URI to the document
@@ -178,6 +230,51 @@ public class ProbingJsonLdContextWrapper implements JsonLdContextWrapper {
             .build();
 
         return probeDocument;
+    }
+
+    private JsonObject prepareProbeRegex(
+        String testValue
+    ) {
+        // 2. Use this matching String as a value of an @id property in the JSON-LD document
+        JsonValue value = Json.createObjectBuilder()
+            .add("@id", testValue) // Use @id for IRI properties
+            .build();
+
+        // 3. create an empty JSON object with the value and the context
+        String propertyUri = "https://shacl-play.sparna.fr/regex";
+
+        // create an empty JSON object
+        JsonObject probeDocument = Json.createObjectBuilder()
+            .add(propertyUri, value) // Add the property URI to the document
+            // and the context
+            .add("@context", context)
+            .build();
+
+        return probeDocument;
+    }
+
+    public static String generateMatchingString(String regex) {
+        // removel eading ^ if any and ending $ if any
+        if (regex.startsWith("^")) {
+            regex = regex.substring(1);
+        }
+        if (regex.endsWith("$")) {
+            regex = regex.substring(0, regex.length() - 1);
+        }   
+
+        RegExp regExp = new RegExp(regex);
+        Automaton automaton = regExp.toAutomaton();
+        StringBuilder result = new StringBuilder();
+        State state = automaton.getInitialState();
+        
+        while (!state.isAccept()) {
+            Transition t = state.getSortedTransitions(false).get(0);
+            result.append((char) t.getMin());
+            state = t.getDest();
+        }
+        
+        String output = result.toString();
+        return output.replaceAll("\\u0000", ".");
     }
 
     private JsonObject doCompact(JsonObject probeDocument, JsonValue theContext) throws JsonLdError {

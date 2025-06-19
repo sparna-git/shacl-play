@@ -20,4 +20,6 @@ public interface UriToJsonMapper {
      */
     public String mapValueURI(Resource uri);
 
+    public String mapUriPatternToJsonPattern(String uriPattern);
+
 }

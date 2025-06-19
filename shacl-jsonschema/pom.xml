@@ -72,5 +72,11 @@
 			<version>1.6.0</version>
 		</dependency>
 
+		<dependency>
+			<groupId>dk.brics</groupId>
+			<artifactId>automaton</artifactId>
+			<version>1.12-4</version>
+		</dependency>
+
 	</dependencies>
 </project>

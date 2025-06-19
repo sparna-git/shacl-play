@@ -86,13 +86,16 @@ public class ProbingJsonLdContextWrapper implements JsonLdContextWrapper {
             System.out.println(probeDocument.toString());
             log.trace("Probe document: {}", probeDocument);
             JsonObject compactedDocument = doCompact(probeDocument, probeDocument.get("@context"));
+            System.out.println(compactedDocument.toString());
             Entry<String, JsonValue> firstEntry = getFirstNonContextEntry(compactedDocument);
             if (firstEntry != null) {
                 // read the @id of the JsonValue, which should be a string
                 if(firstEntry.getValue().getValueType() == JsonValue.ValueType.OBJECT) {
                     JsonObject valueObject = firstEntry.getValue().asJsonObject();
-                    if(valueObject.containsKey("@id")) {
-                        String returnedValue = valueObject.getString("@id");
+                    // read the first entry of the object, which should be the @id
+                    JsonValue firstValue = valueObject.entrySet().iterator().next().getValue();
+                    String returnedValue = firstValue.getValueType() == JsonValue.ValueType.STRING ? firstValue.toString().replaceAll("^\"|\"$", "") : null;
+                    if(returnedValue != null) {
                         System.out.println("Returned value: " + returnedValue);
                         if(returnedValue.length() < testValue.length() && testValue.endsWith(returnedValue)) {
                             // now we now that some simplification was applied in the context

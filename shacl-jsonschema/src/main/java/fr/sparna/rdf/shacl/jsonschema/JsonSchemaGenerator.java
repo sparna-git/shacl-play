@@ -79,7 +79,19 @@ public class JsonSchemaGenerator {
 		return convertToJsonSchema(shaclGraph, Arrays.asList(),ignoreProperties,addProperties);
 	}
 
-    public Schema convertToJsonSchema(Model shaclGraph, List<String> rootShapes,boolean ignoreProperties, boolean addProperties) throws Exception {
+	public Schema convertToJsonSchema(
+		Model shaclGraph,
+		List<String> rootShapes
+	) throws Exception {
+		return this.convertToJsonSchema(shaclGraph, rootShapes, false, false);
+	}		
+
+    public Schema convertToJsonSchema(
+		Model shaclGraph,
+		List<String> rootShapes,
+		boolean doNotIncludeValues,
+		boolean addProperties
+	) throws Exception {
         log.info("Generating JSON schema...");
 		ShapesGraph shapesGraph = new ShapesGraph(shaclGraph, null);
 		    
@@ -119,7 +131,7 @@ public class JsonSchemaGenerator {
 					// create the object schema from the node shape
 					hasNoActivePropertyShape.test(ns)
 					?convertNodeShapeToStringSchema(ns)
-					:convertNodeShapeToObjectSchema(ns, shaclGraph,ignoreProperties,addProperties)
+					:convertNodeShapeToObjectSchema(ns, shaclGraph,!doNotIncludeValues,addProperties)
 			);
 		}
 		
@@ -246,7 +258,7 @@ public class JsonSchemaGenerator {
 	private Schema convertNodeShapeToObjectSchema(
 		NodeShape nodeShape,
 		Model model,
-		boolean ignoreProperties,
+		boolean includeValues,
 		boolean addProperties
 	) throws Exception {
 		
@@ -303,7 +315,7 @@ public class JsonSchemaGenerator {
 				log.warn("Found multiple shortnames for path "+path+", will use only one : '"+term+"'");
 			}
 
-			objectSchema.addPropertySchema(term, this.convertPropertyShapeSchema(nodeShape, ps, model,ignoreProperties));
+			objectSchema.addPropertySchema(term, this.convertPropertyShapeSchema(nodeShape, ps, model,includeValues));
 
 			// add to required properties if necessary
 			if (ps.getShMinCount().isPresent()) {
@@ -330,7 +342,7 @@ public class JsonSchemaGenerator {
 		NodeShape nodeShape,
 		PropertyShape ps,
 		Model model,
-		boolean ignoreProperties
+		boolean includeValues
 	) throws Exception {
 
 		log.trace("Converting PropertyShape "+ps.getPropertyShape().getURI()+" to JSON Schema");
@@ -346,7 +358,7 @@ public class JsonSchemaGenerator {
 
 		Schema.Builder singleValueBuilder = null;
 		
-		if (!ignoreProperties) {
+		if (includeValues) {
 			// sh:hasValue	
 			if (!ps.getShHasValue().isEmpty()) {
 				// TODO : handle constant literal values			
@@ -402,8 +414,11 @@ public class JsonSchemaGenerator {
 		// sh:pattern
 		if (singleValueBuilder == null && !ps.getShPattern().isEmpty()) {
 			String pattern = ps.getShPattern().get().getString();
-			String patternAsInJson = this.uriMapper.mapUriPatternToJsonPattern(pattern);
-
+			String patternAsInJson = pattern;
+			if(!ps.couldBeLiteralProperty()) {
+				patternAsInJson = this.uriMapper.mapUriPatternToJsonPattern(pattern);
+			}
+			
 			singleValueBuilder = StringSchema
 					.builder()
 					// note : the builder-specific method needs to be called **before** the generic method

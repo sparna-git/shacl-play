@@ -79,7 +79,10 @@ public class JsonSchemaGeneratorTest {
 
         // Generate the JSON schema
         JsonSchemaGenerator generator = new JsonSchemaGenerator("en", context);
-        Schema outputSchema = generator.convertToJsonSchema(shaclGraph, Collections.singletonList("http://example.org/MainNodeShape"));
+        Schema outputSchema = generator.convertToJsonSchema(
+            shaclGraph,
+            Collections.singletonList("http://example.org/MainNodeShape")
+        );
 
         // Load the expected JSON schema
         String expectedJson = Files.readString(expectedJsonFile);

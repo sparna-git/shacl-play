@@ -38,6 +38,7 @@ import fr.sparna.rdf.jena.shacl.OwlOntology;
 import fr.sparna.rdf.jena.shacl.PropertyShape;
 import fr.sparna.rdf.jena.shacl.ShapesGraph;
 
+
 public class JsonSchemaGenerator {
     
     private Logger log = LoggerFactory.getLogger(this.getClass().getName());
@@ -45,7 +46,7 @@ public class JsonSchemaGenerator {
 	public static final String JSON_SCHEMA_VERSION = "https://json-schema.org/draft/2020-12/schema";
     public static final String CONTEXT = "@context";
     public static final String CONTAINER_LANGUAGE = "container_language";
-
+    
     // maps URI to JSON terms
     private UriToJsonMapper uriMapper;
 	// the language in which to read the labels and description
@@ -56,13 +57,14 @@ public class JsonSchemaGenerator {
 
 
     public JsonSchemaGenerator(String lang) {
-		this(lang, null);
+		this(lang,null);
     }
 
 	public JsonSchemaGenerator(String lang, JsonValue context) {
 		this.context = context;
 		if(context != null) {
-			this.contextWrapper = new ProbingJsonLdContextWrapper(context);
+			ProbingJsonLdContextWrapper test = new ProbingJsonLdContextWrapper(context);
+			this.contextWrapper = test; //new ProbingJsonLdContextWrapper(context);
 			this.uriMapper = new ContextUriMapper(context);
 		} else {
 			this.contextWrapper = null;
@@ -73,11 +75,11 @@ public class JsonSchemaGenerator {
 		this.lang = lang;
     }
 
-	public Schema convertToJsonSchema(Model shaclGraph) throws Exception {
-		return convertToJsonSchema(shaclGraph, Arrays.asList());
+	public Schema convertToJsonSchema(Model shaclGraph,boolean ignoreProperties, boolean addProperties) throws Exception {
+		return convertToJsonSchema(shaclGraph, Arrays.asList(),ignoreProperties,addProperties);
 	}
 
-    public Schema convertToJsonSchema(Model shaclGraph, List<String> rootShapes) throws Exception {
+    public Schema convertToJsonSchema(Model shaclGraph, List<String> rootShapes,boolean ignoreProperties, boolean addProperties) throws Exception {
         log.info("Generating JSON schema...");
 		ShapesGraph shapesGraph = new ShapesGraph(shaclGraph, null);
 		    
@@ -86,11 +88,13 @@ public class JsonSchemaGenerator {
 		ObjectSchema.Builder rootSchema = ObjectSchema.builder();		
 		// always set the schema version to the latest one
         rootSchema.schemaVersion(JSON_SCHEMA_VERSION);
+		
 		// always set a @context $def
         rootSchema.embeddedSchema(CONTEXT, getContextSchema());
+		
 		// always set a "container_language" $def
 		rootSchema.embeddedSchema(CONTAINER_LANGUAGE, getContainerLanguage());
-
+		
 		// always set a @context pointing to the $def
 		rootSchema.addPropertySchema(CONTEXT, 
 		ReferenceSchema
@@ -115,7 +119,7 @@ public class JsonSchemaGenerator {
 					// create the object schema from the node shape
 					hasNoActivePropertyShape.test(ns)
 					?convertNodeShapeToStringSchema(ns)
-					:convertNodeShapeToObjectSchema(ns, shaclGraph)
+					:convertNodeShapeToObjectSchema(ns, shaclGraph,ignoreProperties,addProperties)
 			);
 		}
 		
@@ -129,7 +133,7 @@ public class JsonSchemaGenerator {
             // if there are more than 1, use an OneOf schema
             List<Schema> oneOfList = new ArrayList<>();
             for (NodeShape nsroot : rootNodeShapes) {
-                oneOfList.add(ReferenceSchema.builder().refValue(JsonSchemaGenerator.buildSchemaReference(nsroot.getNodeShape())).build());
+				oneOfList.add(ReferenceSchema.builder().refValue(JsonSchemaGenerator.buildSchemaReference(nsroot.getNodeShape())).build());
             }
 			dataSchema = ArraySchema.builder().minItems(1).allItemSchema(CombinedSchema.anyOf(oneOfList).build()).build();
         } else if(rootNodeShapes.size() == 1) {
@@ -142,7 +146,6 @@ public class JsonSchemaGenerator {
 
 		rootSchema.addPropertySchema("data", dataSchema);
 		rootSchema.addRequiredProperty("data");
-		
 		log.info("Done generating JSON schema...");
 		return rootSchema.build();
     }
@@ -242,7 +245,9 @@ public class JsonSchemaGenerator {
 
 	private Schema convertNodeShapeToObjectSchema(
 		NodeShape nodeShape,
-		Model model
+		Model model,
+		boolean ignoreProperties,
+		boolean addProperties
 	) throws Exception {
 		
 		log.debug("Converting NodeShape "+nodeShape.getNodeShape().getURI()+" to JSON Schema, with "+nodeShape.getProperties().size()+" properties");
@@ -298,7 +303,7 @@ public class JsonSchemaGenerator {
 				log.warn("Found multiple shortnames for path "+path+", will use only one : '"+term+"'");
 			}
 
-			objectSchema.addPropertySchema(term, this.convertPropertyShapeSchema(nodeShape, ps, model));
+			objectSchema.addPropertySchema(term, this.convertPropertyShapeSchema(nodeShape, ps, model,ignoreProperties));
 
 			// add to required properties if necessary
 			if (ps.getShMinCount().isPresent()) {
@@ -310,7 +315,11 @@ public class JsonSchemaGenerator {
 		
 		// set additionnal properties to false if the NodeShape is sh:closed
 		if (nodeShape.isClosed()) {
-			objectSchema.additionalProperties(false);
+			if (addProperties) {
+				objectSchema.additionalProperties(true);
+			} else {
+				objectSchema.additionalProperties(false);
+			}
 		}
 		
         return objectSchema.build();
@@ -320,7 +329,8 @@ public class JsonSchemaGenerator {
 	private Schema convertPropertyShapeSchema(
 		NodeShape nodeShape,
 		PropertyShape ps,
-		Model model
+		Model model,
+		boolean ignoreProperties
 	) throws Exception {
 
 		log.trace("Converting PropertyShape "+ps.getPropertyShape().getURI()+" to JSON Schema");
@@ -335,37 +345,39 @@ public class JsonSchemaGenerator {
 		// otherwise return EmptySchema
 
 		Schema.Builder singleValueBuilder = null;
-
-		// sh:hasValue	
-		if (!ps.getShHasValue().isEmpty()) {
-			// TODO : handle constant literal values			
-			singleValueBuilder = ConstSchema
-				.builder()
-				.permittedValue(this.uriMapper.mapValueURI(ps.getShHasValue().get().asResource()));
-		}
-
-		// sh:in
-		if (singleValueBuilder == null && ps.getShIn() != null) {
-			
-			List<Object> values = new ArrayList<>();
-			for (RDFNode i : ps.getShIn()) {				
-				if (i.isURIResource()) {
-					values.add(this.uriMapper.mapValueURI(i.asResource()));
-				} else if (i.isLiteral()) {
-					values.add(i.asLiteral().getValue());
-				} else {
-					log.warn("Found a sh:in value that is neither a URI nor a Literal, ignoring it: "+i);
+		
+		if (!ignoreProperties) {
+			// sh:hasValue	
+			if (!ps.getShHasValue().isEmpty()) {
+				// TODO : handle constant literal values			
+				singleValueBuilder = ConstSchema
+					.builder()
+					.permittedValue(this.uriMapper.mapValueURI(ps.getShHasValue().get().asResource()));
+			}
+	
+			// sh:in
+			if (singleValueBuilder == null && ps.getShIn() != null) {
+				
+				List<Object> values = new ArrayList<>();
+				for (RDFNode i : ps.getShIn()) {				
+					if (i.isURIResource()) {
+						values.add(this.uriMapper.mapValueURI(i.asResource()));
+					} else if (i.isLiteral()) {
+						values.add(i.asLiteral().getValue());
+					} else {
+						log.warn("Found a sh:in value that is neither a URI nor a Literal, ignoring it: "+i);
+					}
+				}
+				
+				if(values.size() > 0) {
+					singleValueBuilder = EnumSchema
+							.builder()
+							// TODO : we are always requiring string values for enums, but they could be e.g. numbers or even of different types
+							.requiresString(true)
+							.possibleValues(values);	
 				}
 			}
-			
-			if(values.size() > 0) {
-				singleValueBuilder = EnumSchema
-						.builder()
-						// TODO : we are always requiring string values for enums, but they could be e.g. numbers or even of different types
-						.requiresString(true)
-						.possibleValues(values);	
-			}
-		}
+		} // end checkbox for ignore if is a sh:hasValueOf or sh:in
 
 		//sh:node
 		if (singleValueBuilder == null && !ps.getShNode().isEmpty()) {				
@@ -478,6 +490,7 @@ public class JsonSchemaGenerator {
 		if(finalBuilder == null && this.contextWrapper != null && this.contextWrapper.requiresArray(
 			ps.getShPath().get().asResource().getURI(),
 			ps.couldBeIriProperty(),
+			
 			ps.getShDatatype().map(d -> d.getURI()).orElse(null),
 			null
 		)) {

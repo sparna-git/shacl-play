@@ -351,7 +351,8 @@ public class JsonSchemaGenerator {
 		// 3. sh:node ==> iri-reference if no embed, or ReferenceSchema if embed, wrapped into ArraySchema if maxCount > 1
 		// 4. sh:pattern ==> StringSchema with pattern
 		// 5. sh:datatype ==> StringSchema or ReferenceSchema to ContainerLanguage or BooleanSchema or NumberSchema
-		// 6. sh:nodeKind == IRI ==> StringSchema with format = iri-reference
+		// 6. sh:or with sh:node
+		// 7. sh:nodeKind == IRI ==> StringSchema with format = iri-reference
 		// otherwise return EmptySchema
 
 		Schema.Builder singleValueBuilder = null;
@@ -464,6 +465,8 @@ public class JsonSchemaGenerator {
 				}
 			}		
 		}
+
+		// sh:or with sh:node : TODO
 
 		// NodeKind IRI
 		if (singleValueBuilder == null && ps.getShNodeKind().filter(nodeKind -> nodeKind.getURI().equals(SH.IRI.getURI())).isPresent()) {	

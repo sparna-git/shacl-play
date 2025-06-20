@@ -38,6 +38,12 @@
       "required": ["id"],
       "properties": {
         "property": {
+          "anyOf": [
+            {"$ref": "#/$defs/ValueA"},
+            {"$ref": "#/$defs/ValueB"}
+          ]
+        },
+        "otherProperty": {
           "minItems": 1,
           "type": "array",
           "items": {

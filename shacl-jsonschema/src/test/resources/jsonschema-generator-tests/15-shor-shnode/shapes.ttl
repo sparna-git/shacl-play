@@ -12,7 +12,15 @@ ex:MainNodeShape
         sh:or (
             [ sh:node ex:ValueA ]
             [ sh:node ex:ValueB ]
-        )
+        );
+        sh:maxCount 1;
+    ] ;
+    sh:otherProperty [
+        sh:path ex:property ;
+        sh:or (
+            [ sh:node ex:ValueA ]
+            [ sh:node ex:ValueB ]
+        );
     ] ;
 .
 

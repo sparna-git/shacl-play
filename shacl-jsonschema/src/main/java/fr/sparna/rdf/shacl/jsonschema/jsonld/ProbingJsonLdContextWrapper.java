@@ -56,21 +56,41 @@ public class ProbingJsonLdContextWrapper implements JsonLdContextWrapper {
     public String readTermFromValue(String uri) throws JsonLdException {
         log.trace("Probing JSON-LD context for value URI: {}", uri);
         try {
-            JsonObject probeDocument = prepareProbeValueDocument(uri);
+            JsonObject probeDocument = prepareProbeValueDocument(uri, true);
             //debug the input and output            
             log.trace("Probe document: {}", probeDocument);
             JsonObject compactedDocument = doCompact(probeDocument, probeDocument.get("@context"));
             Entry<String, JsonValue> firstEntry = getFirstNonContextEntry(compactedDocument);
+
+            String finalResult = uri;
+
             if (firstEntry != null) {
                 if(firstEntry.getValue().getValueType() == JsonValue.ValueType.STRING) {
                     // returns the string value
-                    return firstEntry.getValue().toString().replaceAll("^\"|\"$", ""); // Remove quotes
-                } else {
-                    return uri;
-                } 
-            } else {
-                return uri;
+                    finalResult = firstEntry.getValue().toString().replaceAll("^\"|\"$", ""); // Remove quotes
+                }  
             }
+
+            if(finalResult.equals(uri)) {
+                // second try with an "@id" to test if the URI can be simplified with a @base declaration
+
+                JsonObject probeDocument2 = prepareProbeValueDocument(uri, false);
+                //debug the input and output            
+                log.trace("Probe document 2: {}", probeDocument2);
+                JsonObject compactedDocument2 = doCompact(probeDocument2, probeDocument2.get("@context"));
+                Entry<String, JsonValue> firstEntry2 = getFirstNonContextEntry(compactedDocument2);
+
+                if (firstEntry2 != null) {
+                    if(firstEntry2.getValue().getValueType() == JsonValue.ValueType.STRING) {
+                        // returns the string value
+                        finalResult = firstEntry2.getValue().toString().replaceAll("^\"|\"$", ""); // Remove quotes
+                    }  
+                }
+            }
+
+            return finalResult;
+
+
         } catch (JsonLdError e) {
             throw new JsonLdException("Error compacting JSON-LD document for value URI: " + uri, e);
         }
@@ -187,7 +207,8 @@ public class ProbingJsonLdContextWrapper implements JsonLdContextWrapper {
     }
 
     private JsonObject prepareProbeValueDocument(
-        String valueUri
+        String valueUri,
+        boolean vocabTest
     ) {
         // Prepare a JSON-LD document that probes the context for the given values
 
@@ -202,7 +223,7 @@ public class ProbingJsonLdContextWrapper implements JsonLdContextWrapper {
          */
         JsonObject additionnalContext = Json.createObjectBuilder()
             .add("shaclplay", Json.createObjectBuilder()
-                .add("@type", "@vocab")
+                .add("@type", (vocabTest)?"@vocab":"@id")
                 .add("@id", "https://shacl-play.sparna.fr/contextProbing"))
             .build();
 

@@ -9,6 +9,7 @@ public class ProbingJsonLdContextWrapperTest {
 
     public static void main(String[] args) throws Exception {
         
+        /*
         InputStream test = TestCompact.class.getResourceAsStream("test1-context.jsonld");
         // Parse as a JSON value using a JSON parser
         JsonValue context = Json.createReader(test).readValue();
@@ -34,6 +35,16 @@ public class ProbingJsonLdContextWrapperTest {
         String VALUE_SCHEMA_ORG = "https://schema.org/Person";
         String valueSDO = simplerWrapper.readTermFromValue(VALUE_SCHEMA_ORG);
         System.out.println(VALUE_SCHEMA_ORG + " --> " + valueSDO);
+        */
+
+
+        InputStream baseTest = TestCompact.class.getResourceAsStream("jsonschema-generator-tests/25-base-uri-const-context/context.jsonld");
+        // Parse as a JSON value using a JSON parser
+        JsonValue baseContext = Json.createReader(baseTest).readValue();
+        ProbingJsonLdContextWrapper baseWrapper = new ProbingJsonLdContextWrapper(baseContext);
+        String VALUE_BASE = "https://data.europarl.europa.eu/def/document-types/TA";
+        String valueBase = baseWrapper.readTermFromValue(VALUE_BASE);
+        System.out.println(VALUE_BASE + " --> " + valueBase);
     }
 
 }

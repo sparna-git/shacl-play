@@ -69,12 +69,50 @@
 					  	<h2><i class="fal fa-tools"></i>&nbsp;&nbsp;<fmt:message key="blockquote.options.title" /></h2>
 					  	
 					  	<blockquote class="blockquote bq-warning">
+					  		<!-- Load Context -->
+					  		<div class="form-group row">
+					  			<label for="format" class="col-sm-3 col-form-label">
+									<fmt:message key="schema.options.context" />
+								</label>
+								<div class="col-sm-9">
+									<!--  
+						    		<div class="fileinput fileinput-new input-group" data-provides="fileinput">
+									  <div class="form-control" data-trigger="fileinput" id="inputFileContext">
+									    <i class="fal fa-upload"></i><span class="fileinput-filename with-icon"></span>
+									  </div>
+									  <span class="input-group-append">
+									    <span class="input-group-text fileinput-exists" data-dismiss="fileinput">
+									      <fmt:message key="blockquote.rules.upload.remove" />
+									    </span>
+									
+									    <span class="input-group-text btn-file">
+									      <span class="fileinput-new"><fmt:message key="blockquote.rules.upload.select" /></span>
+									      <span class="fileinput-exists"><fmt:message key="blockquote.rules.upload.change" /></span>
+									      <input type="file" name="inputFileContext" multiple onchange="enabledShapeInput('inputFileContext')">
+									    </span>
+									  </span>
+									</div>
+									-->
+									<textarea 
+								      	class="form-control"
+								      	id="inputContextInline"
+								      	name="inputContextInline"
+								      	rows="5"
+								      	onkeypress="enabledShapeInput('inputContextInline');"
+								      	onpaste="enabledShapeInput('inputContextInline');"
+								      ></textarea>
+									<small class="form-text text-muted">
+									  <fmt:message key="schema.options.context.help" />
+								  	</small>
+						   	 	</div>
+								
+					  		</div>
+					  		<!-- Load URI -->
 					  		<div class="form-group row">
 						  		<label for="format" class="col-sm-3 col-form-label">
 									<fmt:message key="schema.options.url" />					    
 								</label>
 								<div class="col-sm-9">
-							  		<!--  -->
 							  		<select class="select2-select-multiple js-states form-control" 
 							  				id="IdUrl" 
 							  				onfocus="setInitial(this);" 
@@ -88,6 +126,35 @@
 										<fmt:message key="schema.options.url.help" />
 									</small>
 						  		</div>						  							  		
+							</div>
+							<!-- Ignore Properties Sh:In and sh:hasValues -->
+							<div class="form-group row">
+						      	<div class="col-sm-12">
+							      	<div class="form-check">
+									  <input class="form-check-input" type="checkbox" id="ignoreProperties" name="ignoreProperties" />
+									  <label class="form-check-label" for="ignoreProperties">
+									    <fmt:message key="schema.options.ignoreProperties" />
+									  </label>
+									  <small class="form-text text-muted">
+										<fmt:message key="schema.options.ignoreProperties.help" />
+									  </small>
+									</div>
+								</div>
+							</div>
+							
+							<!-- Ignore Properties Sh:In and sh:hasValues -->
+							<div class="form-group row">
+						      	<div class="col-sm-12">
+							      	<div class="form-check">
+									  <input class="form-check-input" type="checkbox" id="optAddProperties" name="optAddProperties" />
+									  <label class="form-check-label" for="optAddProperties">
+									    <fmt:message key="schema.options.optAddProperties" />
+									  </label>
+									  <small class="form-text text-muted">
+										<fmt:message key="schema.options.optAddProperties.help" />
+									  </small>
+									</div>
+								</div>
 							</div>
 					  	</blockquote>
 					  	

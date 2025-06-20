@@ -327,9 +327,7 @@ public class JsonSchemaGenerator {
 		
 		// set additionnal properties to false if the NodeShape is sh:closed
 		if (nodeShape.isClosed()) {
-			if (addProperties) {
-				objectSchema.additionalProperties(true);
-			} else {
+			if (!addProperties) {
 				objectSchema.additionalProperties(false);
 			}
 		}

@@ -1,5 +1,6 @@
 package fr.sparna.rdf.shacl.shaclplay.jsonSchema;
 
+import java.io.StringReader;
 import java.net.URLEncoder;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,14 +24,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import fr.sparna.rdf.shacl.jsonschema.JsonSchemaGenerator;
-import fr.sparna.rdf.shacl.jsonschema.model.Schema;
 import fr.sparna.rdf.jena.shacl.NodeShape;
 import fr.sparna.rdf.jena.shacl.ShapesGraph;
+import fr.sparna.rdf.shacl.jsonschema.JsonSchemaGenerator;
+import fr.sparna.rdf.shacl.jsonschema.model.Schema;
 import fr.sparna.rdf.shacl.shaclplay.ApplicationData;
 import fr.sparna.rdf.shacl.shaclplay.ControllerModelFactory;
 import fr.sparna.rdf.shacl.shaclplay.ControllerModelFactory.SOURCE_TYPE;
 import fr.sparna.rdf.shacl.shaclplay.catalog.shapes.ShapesCatalogService;
+
+import jakarta.json.Json;
+import jakarta.json.JsonReader;
+import jakarta.json.JsonValue;
 
 
 @Controller
@@ -68,6 +73,12 @@ public class JsonSchemaController {
 			@RequestParam(value="url", required=true) String shapesUrl,
 			// URL Option
 			@RequestParam(value="IdUrl", required=false) List<String> urlRoot,
+			// inline Context, this option is optional
+			@RequestParam(value="inputContextInline", required=false) String contextText,
+			// Checkbox Ignore the sh:hasValue and sh:in 
+			@RequestParam(value="ignoreProperties", required=false) boolean ignoreProperties,
+			// Checkbox AdditionalProperties 
+			@RequestParam(value="optAddProperties", required=false) boolean AddProperties,
 			HttpServletRequest request,
 			HttpServletResponse response
 			) throws Exception {
@@ -79,7 +90,7 @@ public class JsonSchemaController {
 			modelPopulator.populateModelFromUrl(shapesModel, shapesUrl);
 			log.debug("Done Loading Shapes. Model contains "+shapesModel.size()+" triples");
 			
-			doSchemaShapes(shapesModel,urlRoot,response);
+			doSchemaShapes(shapesModel,urlRoot,contextText,ignoreProperties,AddProperties,response);
 			
 			return null;
 		} catch (Exception e) {
@@ -154,6 +165,12 @@ public class JsonSchemaController {
 		@RequestParam(value="inputShapeInline", required=false) String shapesText,
 		// URL Option
 		@RequestParam(value="IdUrl", required=false) List<String> urlRoot,
+		// inline Context, this option is optional
+		@RequestParam(value="inputContextInline", required=false) String contextText,
+		// Checkbox Ignore the sh:hasValue and sh:in 
+		@RequestParam(value="ignoreProperties", required=false) boolean ignoreProperties,
+		// Checkbox AdditionalProperties 
+		@RequestParam(value="optAddProperties", required=false) boolean AddProperties,		
 		HttpServletRequest request,
 		HttpServletResponse response
 	) throws Exception {
@@ -181,8 +198,9 @@ public class JsonSchemaController {
 						shapesFiles,
 						null //shapesCatalogId
 				);
+				
 				log.debug("Done Loading Shapes. Model contains "+shapesModel.size()+" triples");
-				doSchemaShapes(shapesModel,urlRoot,response);
+				doSchemaShapes(shapesModel,urlRoot,contextText,ignoreProperties,AddProperties,response);
 			}
 			
 			return null;
@@ -197,13 +215,27 @@ public class JsonSchemaController {
 	private Model doSchemaShapes(
 			Model shapesModel,
 			List<String> rootUri,
+			String contextInput,
+			boolean ignoreProperties,
+			boolean addProperties,
 			HttpServletResponse response
 	) throws Exception {
 		
-		JsonSchemaGenerator generator = new JsonSchemaGenerator("en", rootUri);
-		
+		// Convert to JsonValue
+		JsonValue context = convertContex(contextInput);
+		/*
+		if (contextInput != null) {
+			String contextJson = contextInput;
+            try (JsonReader reader = Json.createReader(new StringReader(contextJson))) {
+                context = reader.readValue();
+            }
+		} 
+		*/
+        	
+		JsonSchemaGenerator generator = new JsonSchemaGenerator("en",context);		
 		// convert the shacl shapes to json schema
-		Schema output = generator.convertToJsonSchema(shapesModel);
+		Schema output = generator.convertToJsonSchema(shapesModel,rootUri,ignoreProperties, addProperties);
+		
 		JSONObject jsonSchemaOutput = new JSONObject(output.toString());
 
 		response.setContentType("application/schema+json");
@@ -212,6 +244,19 @@ public class JsonSchemaController {
 		return null;
 	}
 	
+	
+	public JsonValue convertContex(String contextInline) {
+		JsonValue context = null;
+		
+		if (contextInline.length() > 0) {
+			try (JsonReader reader = Json.createReader(new StringReader(contextInline))) {
+	            context = reader.readValue();
+	        }
+		}
+        
+        return context;
+	}
+
 	/**
 	 * Handles an error (stores the message in the Model, then forward to the view).
 	 * 

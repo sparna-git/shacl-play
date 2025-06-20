@@ -41,6 +41,7 @@ public class ProbingJsonLdContextWrapper implements JsonLdContextWrapper {
             log.trace("Probe document: {}", probeDocument);
             System.out.println(probeDocument.toString());
             JsonObject compactedDocument = doCompact(probeDocument, this.context);
+            System.out.println(compactedDocument.toString());
             Entry<String, JsonValue> firstEntry = getFirstNonContextEntry(compactedDocument);
             if (firstEntry != null) {
                 return firstEntry.getKey(); // Return the first non-context entry key
@@ -191,10 +192,18 @@ public class ProbingJsonLdContextWrapper implements JsonLdContextWrapper {
                 .add("@value", "probe")
                 .build();
         } else if (datatype != null) {
-            value = Json.createObjectBuilder()
+            if (RDF.dtLangString.getURI().equals(datatype)) {
+                value = Json.createObjectBuilder()
+                .add("@language", "fr") // Use @language for language-tagged properties
+                .add("@value", "probe")
+                .build();
+
+            } else {
+                value = Json.createObjectBuilder()
                 .add("@type", datatype) // Use @type for datatype properties
                 .add("@value", "probe")
                 .build();
+            }
         } 
         // create an empty JSON object
         JsonObject probeDocument = Json.createObjectBuilder()

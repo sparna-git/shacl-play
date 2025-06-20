@@ -434,6 +434,7 @@ public class JsonSchemaGenerator {
 			if(!datatypes.isEmpty()) {
 				Resource theDatatype = datatypes.iterator().next();
 				String datatype = theDatatype.getURI();
+				// TODO : theoretically we should check the schema to make sure the property is really a @container: @language
 				if (datatype.equals(RDF.langString.getURI())) {						
 					singleValueBuilder = ReferenceSchema
 							.builder()	
@@ -486,7 +487,14 @@ public class JsonSchemaGenerator {
 		Schema.Builder finalBuilder = null;
 
 		// if the property shape has a maxCount > 1 or no maxCount specified, then we need to wrap the single value schema into an ArraySchema
-		if (singleValueBuilder != null && !ps.getShMaxCount().isPresent() || ps.getShMaxCount().get().asLiteral().getInt() > 1 ) {
+		if (
+			singleValueBuilder != null
+			&&
+			(!ps.getShMaxCount().isPresent() || ps.getShMaxCount().get().asLiteral().getInt() > 1)
+			&&
+			// prevent array wrapping if the context requires a language container
+			(contextWrapper == null || !contextWrapper.requiresContainerLanguage(ps.getShPath().get().asResource().getURI()))
+		) {
 			// this is an ArraySchema that will contain the inner Schema built previously
 			Schema innerSchema = singleValueBuilder.build();
 
@@ -503,14 +511,20 @@ public class JsonSchemaGenerator {
 
 		} 
 
-		if(finalBuilder == null && this.contextWrapper != null && this.contextWrapper.requiresArray(
-			ps.getShPath().get().asResource().getURI(),
-			ps.couldBeIriProperty(),
-			
-			ps.getShDatatype().map(d -> d.getURI()).orElse(null),
-			null
-		)) {
-   			// if the context requires an array for this property, we need to wrap the single value schema into an ArraySchema
+		// no wrapping in array due to cardinality in SHACL, let's check if the context requires an array for this property
+		if(
+			finalBuilder == null
+			&&
+			(this.contextWrapper != null && this.contextWrapper.requiresArray(
+				ps.getShPath().get().asResource().getURI(),
+				ps.couldBeIriProperty(),
+				ps.getShDatatype().map(d -> d.getURI()).orElse(null),
+				null
+			))
+			&&
+			// prevent array wrapping if the context requires a language container
+			(contextWrapper == null || !contextWrapper.requiresContainerLanguage(ps.getShPath().get().asResource().getURI()))
+		) {
 			finalBuilder = ArraySchema
 			.builder()
 			.minItems(1)

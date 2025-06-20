@@ -24,6 +24,14 @@ public interface JsonLdContextWrapper {
      */
     public boolean requiresArray(String propertyUri, boolean isIriProperty, String datatype, String language)  throws JsonLdException;
 
+    /**
+     * Returns true if the property is set as @container: @language in the context.
+     * @param propertyUri
+     * @return
+     * @throws JsonLdException
+     */
+    public boolean requiresContainerLanguage(String propertyUri)  throws JsonLdException;
+
     public String simplifyPattern(String regexPattern) throws JsonLdException;
 
 }

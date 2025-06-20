@@ -164,6 +164,36 @@ public class ProbingJsonLdContextWrapper implements JsonLdContextWrapper {
         }
     }
 
+    @Override
+    public boolean requiresContainerLanguage(
+        String propertyUri
+    ) throws JsonLdException {
+        log.trace("Checking if property URI requires a language container: {}", propertyUri);
+        try {
+            JsonObject probeDocument = prepareProbePropertyDocument(propertyUri, false, RDF.langString.getURI(), null);
+
+            log.trace("Probe document: {}", probeDocument);
+            JsonObject compactedDocument = doCompact(probeDocument, this.context);
+            Entry<String, JsonValue> firstEntry = getFirstNonContextEntry(compactedDocument);
+            if (firstEntry != null) {
+                // if the first entry is an object, and if it contains a single key that has 2 letters, then it is a language container
+                if(firstEntry.getValue().getValueType() == JsonValue.ValueType.OBJECT) {
+                    JsonObject valueObject = firstEntry.getValue().asJsonObject();
+                    if(valueObject.size() == 1) {
+                        String key = valueObject.keySet().iterator().next();
+                        if(key.length() == 2 && key.matches("[a-zA-Z]{2}")) {
+                            return true; // It is a language container
+                        }   
+                    }
+                }
+            }
+
+            return false;
+        } catch (JsonLdError e) {
+            throw new JsonLdException("Error compacting JSON-LD document for property URI: " + propertyUri, e);
+        }
+    }
+
     private JsonObject prepareProbePropertyDocument(
         String propertyUri,
         boolean isIriProperty,

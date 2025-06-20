@@ -12,7 +12,6 @@ import fr.sparna.rdf.shacl.jsonschema.JsonSchemaGenerator;
 import fr.sparna.rdf.shacl.jsonschema.model.Schema;
 import fr.sparna.rdf.shacl.app.CliCommandIfc;
 import fr.sparna.rdf.shacl.app.InputModelReader;
-import fr.sparna.rdf.shacl.jsonld.JsonLdContextGenerator;
 
 public class GenerateJsonSchema implements CliCommandIfc {
 
@@ -24,13 +23,12 @@ public class GenerateJsonSchema implements CliCommandIfc {
 		
 		// read input file or URL
 		Model shapesModel = ModelFactory.createDefaultModel(); 
-		InputModelReader.populateModelFromFile(shapesModel, a.getInput(), null);
+		InputModelReader.populateModelFromFile(shapesModel, a.getInput(), null);		
 		
-		
-		JsonSchemaGenerator generator = new JsonSchemaGenerator("en", a.getNodeShapes());
+		JsonSchemaGenerator generator = new JsonSchemaGenerator("en");
 		
 		// convert the shacl shapes to json schema
-		Schema output = generator.convertToJsonSchema(shapesModel);
+		Schema output = generator.convertToJsonSchema(shapesModel, a.getNodeShapes());
 		JSONObject jsonSchemaOutput = new JSONObject(output.toString());
 		
 		Files.write(a.getOutput().toPath(), jsonSchemaOutput.toString(2).getBytes());

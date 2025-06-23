@@ -1138,9 +1138,6 @@
 				<xsl:value-of select="count(propertyGroup/properties/property/examples)"/>
 			</xsl:variable>
 			
-			Column Name: <xsl:value-of select="$LABELS/labels/entry[@key='COLUMN_EXAMPLE']/@label"/>
-			Test: <xsl:value-of select="$exampleProperties"/>
-			
 			<xsl:if test="count(propertyGroup/properties/property) &gt; 0">
 				<table class="sp_table_propertyshapes {$getBgColor} table-responsive">
 					<thead>

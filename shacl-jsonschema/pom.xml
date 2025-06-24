@@ -73,9 +73,9 @@
 		</dependency>
 
 		<dependency>
-			<groupId>dk.brics</groupId>
-			<artifactId>automaton</artifactId>
-			<version>1.12-4</version>
+			<groupId>com.github.curious-odd-man</groupId>
+			<artifactId>rgxgen</artifactId>
+			<version>3.0</version>
 		</dependency>
 
 	</dependencies>

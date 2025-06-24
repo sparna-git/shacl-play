@@ -1,5 +1,6 @@
 package fr.sparna.rdf.shacl.jsonschema.jsonld;
 import java.util.Map.Entry;
+import java.util.Random;
 
 import org.apache.jena.vocabulary.RDF;
 import org.slf4j.Logger;
@@ -7,11 +8,11 @@ import org.slf4j.LoggerFactory;
 
 import com.apicatalog.jsonld.JsonLdError;
 import com.apicatalog.jsonld.document.JsonDocument;
+import com.github.curiousoddman.rgxgen.RgxGen;
+import com.github.curiousoddman.rgxgen.config.RgxGenOption;
+import com.github.curiousoddman.rgxgen.config.RgxGenProperties;
+import com.github.curiousoddman.rgxgen.model.RgxGenCharsDefinition;
 
-import dk.brics.automaton.Automaton;
-import dk.brics.automaton.RegExp;
-import dk.brics.automaton.State;
-import dk.brics.automaton.Transition;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonStructure;
@@ -100,6 +101,7 @@ public class ProbingJsonLdContextWrapper implements JsonLdContextWrapper {
     @Override
     public String simplifyPattern(String regexPattern) throws JsonLdException {
         log.trace("Probing JSON-LD context for regex: {}", regexPattern);
+        System.out.println("Probing JSON-LD context for regex: "+regexPattern);
         try {
             String testValue = generateMatchingString(regexPattern);
             JsonObject probeDocument = prepareProbeRegex(testValue);
@@ -317,27 +319,19 @@ public class ProbingJsonLdContextWrapper implements JsonLdContextWrapper {
     }
 
     public static String generateMatchingString(String regex) {
-        // removel eading ^ if any and ending $ if any
-        if (regex.startsWith("^")) {
-            regex = regex.substring(1);
-        }
-        if (regex.endsWith("$")) {
-            regex = regex.substring(0, regex.length() - 1);
-        }   
+        RgxGenProperties properties = new RgxGenProperties();
+        // when matching a dot, always use the special \u0000 character for replacement
+        // this is because EP uses regexes like "^https://data.europarl.europa.eu/eli/dl/doc/[A-Za-z0-9\-_]+/[a-z][a-z]$"
+        // that directly contains a dot
+        RgxGenOption.DOT_MATCHES_ONLY.setInProperties(properties, RgxGenCharsDefinition.of("\u0000"));
+        // when generating any number of values, generate 3 characters
+        RgxGenOption.INFINITE_PATTERN_REPETITION.setInProperties(properties, 3);
 
-        RegExp regExp = new RegExp(regex);
-        Automaton automaton = regExp.toAutomaton();
-        StringBuilder result = new StringBuilder();
-        State state = automaton.getInitialState();
-        
-        while (!state.isAccept()) {
-            Transition t = state.getSortedTransitions(false).get(0);
-            result.append((char) t.getMin());
-            state = t.getDest();
-        }
-        
-        String output = result.toString();
-        return output.replaceAll("\\u0000", ".");
+        RgxGen rgxGen = RgxGen.parse(properties, regex);
+        String output = rgxGen.generate();
+
+        // replace the value inserted for dots back with a dot
+        return output.replaceAll("\u0000", ".");
     }
 
     private JsonObject doCompact(JsonObject probeDocument, JsonValue theContext) throws JsonLdError {

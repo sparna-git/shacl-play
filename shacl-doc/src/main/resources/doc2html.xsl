@@ -285,6 +285,25 @@
 							"Noto Color Emoji";
 						background-color: #fff;
 					}
+		
+		/* Pour la colonne Description */
+		td,
+		th {
+		white-space: normal;
+		word-break: break-word;
+		}
+		/* Limite la largeur de la colonne Description */
+		td.description,
+		th.description {
+		max-width: 300px;
+		}
+		/* Pour éviter le scroll horizontal du tableau */
+		table {
+		/*width: 100%;*/
+		max-width: 1100px;
+		table-layout: fixed;
+		}
+			  
 					
 					.anchor {
 						float: left;
@@ -526,7 +545,14 @@
 								width: calc(100% - 40px);
 								max-width: 1000px;
 								margin-left: auto;
-								margin-right: auto;
+								margin-right: 20px;
+								
+								/*
+								width: auto;
+								max-width: 1100px;
+								margin-left: 300px;
+								margin-right: 120px;
+								*/
 							}
 							
 							.pt-4 {
@@ -534,6 +560,7 @@
 							}
 						</xsl:when>
 						<xsl:otherwise>
+							/*
 							.container {
 							    width: calc(100% - 40px);
 							    max-width: 1100px;
@@ -541,6 +568,13 @@
 							    margin-right: auto;
 							}
 							.container {width: calc(100% - 500px);}
+							*/
+							.container {
+								width: auto;
+								max-width: 1100px;
+								margin-left: 300px;
+								margin-right: 120px;
+							}
 							.toc {
 								position: fixed;
 								top: 0;

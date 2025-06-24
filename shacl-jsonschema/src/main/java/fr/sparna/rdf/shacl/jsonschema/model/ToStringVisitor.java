@@ -90,14 +90,6 @@ class ToStringVisitor extends Visitor {
         printInJsonObject(() -> {
             super.visitBooleanSchema(schema);
             writer.key("type").value("boolean");
-            
-            if (schema.getTitle() != null) {
-            	writer.ifPresent("title", schema.getTitle());
-            }
-            
-            if (schema.getDescription() != null) {
-            	writer.ifPresent("description", schema.getDescription());
-            }
         });
     }
 
@@ -379,14 +371,6 @@ class ToStringVisitor extends Visitor {
             schema.getPossibleValues().forEach(writer::value);
             writer.endArray();
             super.visitEnumSchema(schema);
-            
-            if (schema.getTitle() != null) {
-            	writer.ifPresent("title", schema.getTitle());
-            }
-            
-            if (schema.getDescription() != null) {
-            	writer.ifPresent("description", schema.getDescription());
-            }
             
         });
     }

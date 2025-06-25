@@ -16,6 +16,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.topbraid.shacl.vocabulary.SH;
 
+import fr.sparna.rdf.jena.shacl.NodeShape;
+import fr.sparna.rdf.jena.shacl.OwlOntology;
+import fr.sparna.rdf.jena.shacl.PropertyShape;
+import fr.sparna.rdf.jena.shacl.ShOrReadingUtils;
+import fr.sparna.rdf.jena.shacl.ShapesGraph;
 import fr.sparna.rdf.shacl.jsonschema.jsonld.ContextUriMapper;
 import fr.sparna.rdf.shacl.jsonschema.jsonld.LocalNameUriToJsonMapper;
 import fr.sparna.rdf.shacl.jsonschema.jsonld.ProbingJsonLdContextWrapper;
@@ -31,12 +36,9 @@ import fr.sparna.rdf.shacl.jsonschema.model.ObjectSchema;
 import fr.sparna.rdf.shacl.jsonschema.model.ReferenceSchema;
 import fr.sparna.rdf.shacl.jsonschema.model.Schema;
 import fr.sparna.rdf.shacl.jsonschema.model.StringSchema;
-import jakarta.json.Json;
 import jakarta.json.JsonValue;
-import fr.sparna.rdf.jena.shacl.NodeShape;
-import fr.sparna.rdf.jena.shacl.OwlOntology;
-import fr.sparna.rdf.jena.shacl.PropertyShape;
-import fr.sparna.rdf.jena.shacl.ShapesGraph;
+
+import fr.sparna.rdf.jena.shacl.ShOrReadingUtils;
 
 
 public class JsonSchemaGenerator {
@@ -97,7 +99,7 @@ public class JsonSchemaGenerator {
 		    
 		// Create JSON Schema 
         // root schema
-		ObjectSchema.Builder rootSchema = ObjectSchema.builder();		
+		ObjectSchema.Builder rootSchema = ObjectSchema.builder();
 		// always set the schema version to the latest one
         rootSchema.schemaVersion(JSON_SCHEMA_VERSION);
 		
@@ -467,6 +469,30 @@ public class JsonSchemaGenerator {
 		}
 
 		// sh:or with sh:node : TODO
+		if (singleValueBuilder == null && ps.getShOr() != null){
+			//Schema dataSchema;
+			// if there are more than 1, use an OneOf schema
+            List<Schema> oneOfList = new ArrayList<>();
+            
+            // Read SH:or and get all result possibles
+            if(ShOrReadingUtils.readShNodeInShOr(ps.getShOr()).size() > 0) {
+            	List<Resource> shNode = ShOrReadingUtils.readShNodeInShOr(ps.getShOr()).stream().map(r -> r.asResource()).collect(Collectors.toList());
+            	for (Resource n : shNode) {
+            		oneOfList.add(ReferenceSchema.builder().refValue(JsonSchemaGenerator.buildSchemaReference(n)).build());
+				}
+            } else if(ShOrReadingUtils.readShClassInShOr(ps.getShOr()).size() > 0) {
+            	//List<Resource> shClass = ShOrReadingUtils.readShClassInShOr(ps.getShOr()).stream().map(i -> i).collect(Collectors.toList());
+            	System.out.println("SH Or: Class");
+			} else if(ShOrReadingUtils.readShDatatypeInShOr(ps.getShOr()).size() > 0) {
+				System.out.println("SH Or: Datatype");
+			} else if(ShOrReadingUtils.readShNodeKindInShOr(ps.getShOr()).size() > 0) {
+				List<Resource> shNodeKind = ShOrReadingUtils.readShNodeKindInShOr(ps.getShOr()).stream().map(i -> i.asResource()).collect(Collectors.toList());
+				for (Resource nk : shNodeKind) {
+					oneOfList.add(ReferenceSchema.builder().refValue(JsonSchemaGenerator.buildSchemaReference(nk)).build());
+				}
+			}
+            singleValueBuilder = CombinedSchema.anyOf(oneOfList);            
+		}
 
 		// NodeKind IRI
 		if (singleValueBuilder == null && ps.getShNodeKind().filter(nodeKind -> nodeKind.getURI().equals(SH.IRI.getURI())).isPresent()) {	

@@ -58,6 +58,14 @@ public class PropertyShape {
 			return null;
 		}
 	}
+	
+	public RDFList getShOr() {
+		if (propertyShape.hasProperty(SH.or)) {
+			return propertyShape.getProperty(SH.or).getList(); 
+		} else {
+			return null;
+		}		
+	}
 
 	/**
 	 * Returns true if the property shape could be a literal property.
@@ -237,7 +245,7 @@ public class PropertyShape {
 	public String getColorString() {
 		return this.getColor().map(node -> node.asLiteral().toString()).orElse(null);
 	}
-	
+
 	public List<Resource> getShOrShDatatype() {
 		if (this.propertyShape.hasProperty(SH.or)) {			
 			List<Resource> values = ShOrReadingUtils.readShDatatypeInShOr(this.propertyShape.getProperty(SH.or).getList());

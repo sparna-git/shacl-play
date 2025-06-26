@@ -15,8 +15,8 @@ ex:MainNodeShape
         );
         sh:maxCount 1;
     ] ;
-    sh:otherProperty [
-        sh:path ex:property ;
+    sh:property [
+        sh:path ex:otherProperty ;
         sh:or (
             [ sh:node ex:ValueA ]
             [ sh:node ex:ValueB ]

@@ -300,29 +300,20 @@ public class JsonSchemaGenerator {
 
 			// Name of Property
 			Resource path = ps.getShPath().get().asResource();
-			Set<String> shortnames = ShaclReadingUtils.findShortNamesOfPath(path);
-			if(shortnames.isEmpty()) {
-				shortnames.add(uriMapper.mapPropertyURI(
-					path,
-					ps.couldBeIriProperty(),
-					ps.getShDatatype().map(d -> d.getURI()).orElse(null),
-					// TODO : we don't handle language for now
-					null
-				));
-			} 
+			String shortname = uriMapper.mapPropertyURI(
+				path,
+				ps.couldBeIriProperty(),
+				ps.getShDatatype().map(d -> d.getURI()).orElse(null),
+				// TODO : we don't handle language for now
+				null
+			);
 
-			// Get name of property 
-			String term = shortnames.iterator().next();
-			if(shortnames.size() > 1) {
-				log.warn("Found multiple shortnames for path "+path+", will use only one : '"+term+"'");
-			}
-
-			objectSchema.addPropertySchema(term, this.convertPropertyShapeSchema(nodeShape, ps, model,includeValues));
+			objectSchema.addPropertySchema(shortname, this.convertPropertyShapeSchema(nodeShape, ps, model,includeValues));
 
 			// add to required properties if necessary
 			if (ps.getShMinCount().isPresent()) {
 				if (ps.getShMinCount().get().getInt() > 0) {
-					objectSchema.addRequiredProperty(term);
+					objectSchema.addRequiredProperty(shortname);
 				}
 			}			
 		}		

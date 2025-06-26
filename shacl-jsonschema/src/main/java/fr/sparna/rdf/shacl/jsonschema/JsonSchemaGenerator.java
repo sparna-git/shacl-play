@@ -276,8 +276,14 @@ public class JsonSchemaGenerator {
 			objectSchema.description(nodeShape.getRdfsComment(lang).stream().map(l -> l.getString()).collect(Collectors.joining(" ")));
 		}
 		
-		List<String> examplesId = nodeShape.getExamples().stream().map(e -> e.asLiteral().getString()).collect(Collectors.toList());
+		List<String> examplesIdRaw = nodeShape.getExamples().stream().map(e -> e.asLiteral().getString()).collect(Collectors.toList());
 		
+		// shorten all examples according to context
+		List<String> examplesId = examplesIdRaw.stream()
+			.map(ex -> model.createResource(ex))
+			.map(res -> this.uriMapper.mapValueURI(res))
+			.collect(Collectors.toList());
+
 		StringSchema.Builder stringSchemaBuilder = StringSchema.builder();
 		if (nodeShape.getPattern().isPresent()) {
 			stringSchemaBuilder.pattern(this.uriMapper.mapUriPatternToJsonPattern(nodeShape.getPattern().get().getString()));

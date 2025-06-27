@@ -319,11 +319,12 @@ public class JsonSchemaGenerator {
 
 			objectSchema.addPropertySchema(shortname, this.convertPropertyShapeSchema(nodeShape, ps, model,includeValues));
 
+			Optional<Literal> qualifiedMinCount = ps.getShQualifiedMinCount();
+			Literal theMinCount = ps.getShMinCount().orElseGet(() -> qualifiedMinCount.orElse(null));
+
 			// add to required properties if necessary
-			if (ps.getShMinCount().isPresent()) {
-				if (ps.getShMinCount().get().getInt() > 0) {
-					objectSchema.addRequiredProperty(shortname);
-				}
+			if (theMinCount != null && theMinCount.getInt() > 0) {
+				objectSchema.addRequiredProperty(shortname);
 			}			
 		}		
 		
@@ -485,29 +486,22 @@ public class JsonSchemaGenerator {
 		}
 
 		// sh:or with sh:node : TODO
-		if (singleValueBuilder == null && ps.getShOr() != null){
-			//Schema dataSchema;
-			// if there are more than 1, use an OneOf schema
-            List<Schema> oneOfList = new ArrayList<>();
+		if (singleValueBuilder == null && ps.getShOr() != null) {			
             
             // Read SH:or and get all result possibles
             if(ShOrReadingUtils.readShNodeInShOr(ps.getShOr()).size() > 0) {
+				// if there are more than 1, use an OneOf schema
+            	List<Schema> oneOfList = new ArrayList<>();
             	List<Resource> shNode = ShOrReadingUtils.readShNodeInShOr(ps.getShOr()).stream().map(r -> r.asResource()).collect(Collectors.toList());
             	for (Resource n : shNode) {
             		oneOfList.add(ReferenceSchema.builder().refValue(JsonSchemaGenerator.buildSchemaReference(n)).build());
 				}
+				singleValueBuilder = CombinedSchema.anyOf(oneOfList); 
             } else if(ShOrReadingUtils.readShClassInShOr(ps.getShOr()).size() > 0) {
-            	//List<Resource> shClass = ShOrReadingUtils.readShClassInShOr(ps.getShOr()).stream().map(i -> i).collect(Collectors.toList());
-            	System.out.println("SH Or: Class");
+				// TODO
 			} else if(ShOrReadingUtils.readShDatatypeInShOr(ps.getShOr()).size() > 0) {
-				System.out.println("SH Or: Datatype");
-			} else if(ShOrReadingUtils.readShNodeKindInShOr(ps.getShOr()).size() > 0) {
-				List<Resource> shNodeKind = ShOrReadingUtils.readShNodeKindInShOr(ps.getShOr()).stream().map(i -> i.asResource()).collect(Collectors.toList());
-				for (Resource nk : shNodeKind) {
-					oneOfList.add(ReferenceSchema.builder().refValue(JsonSchemaGenerator.buildSchemaReference(nk)).build());
-				}
-			}
-            singleValueBuilder = CombinedSchema.anyOf(oneOfList);            
+				// TODO
+			}                       
 		}
 
 		// NodeKind IRI

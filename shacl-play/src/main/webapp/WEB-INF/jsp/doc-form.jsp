@@ -580,7 +580,10 @@
 						<br/>
 						<br/>
 						<img src="<c:url value="/resources/img/shacl_doc_properties_2.png"/>" width="100%"/>
-						
+						<br/>
+						<br/>
+						<p>Additionally, if <code>skos:example</code> is present, one new example column show in the properties table.</p>
+						<img src="<c:url value="/resources/img/shacl_doc_properties_3.png"/>" width="100%"/>
 					</div>
 					
 				</div>	<!-- end div documentation -->		

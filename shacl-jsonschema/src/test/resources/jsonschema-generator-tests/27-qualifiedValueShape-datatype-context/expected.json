@@ -13,7 +13,7 @@
     "MainNodeShape": {
       "type": "object",
       "title": "Main Node Shape",
-      "required": ["id"],
+      "required": ["id", "thisIsDateTimeInContext", "thisIsStringInContext"],
       "properties": {
         "thisIsDateTimeInContext": {
           "format": "date-time",

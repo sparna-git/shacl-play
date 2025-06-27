@@ -8,6 +8,7 @@ import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
@@ -285,8 +286,8 @@ public class JsonSchemaGenerator {
 			.collect(Collectors.toList());
 
 		StringSchema.Builder stringSchemaBuilder = StringSchema.builder();
-		if (nodeShape.getPattern().isPresent()) {
-			stringSchemaBuilder.pattern(this.uriMapper.mapUriPatternToJsonPattern(nodeShape.getPattern().get().getString()));
+		if (nodeShape.getShPattern().isPresent()) {
+			stringSchemaBuilder.pattern(this.uriMapper.mapUriPatternToJsonPattern(nodeShape.getShPattern().get().getString()));
 		}
 		if( !examplesId.isEmpty()) {
 			stringSchemaBuilder.examples(examplesId);
@@ -305,11 +306,13 @@ public class JsonSchemaGenerator {
 			}
 
 			// Name of Property
-			Resource path = ps.getShPath().get().asResource();
-			String shortname = uriMapper.mapPropertyURI(
-				path,
+			Optional<Resource> qualifiedValueShapeDatatype = ps.getShQualifiedValueShape().map(r -> new NodeShape(r)).flatMap(ns -> ns.getShDatatype());
+			Resource theDatatype = ps.getShDatatype().orElseGet(() -> qualifiedValueShapeDatatype.orElse(null));
+
+			String shortname = uriMapper.mapPath(
+				ps.getShPath().get().asResource(),
 				ps.couldBeIriProperty(),
-				ps.getShDatatype().map(d -> d.getURI()).orElse(null),
+				theDatatype,
 				// TODO : we don't handle language for now
 				null
 			);
@@ -390,10 +393,20 @@ public class JsonSchemaGenerator {
 		} // end checkbox for ignore if is a sh:hasValueOf or sh:in
 
 		//sh:node
-		if (singleValueBuilder == null && !ps.getShNode().isEmpty()) {				
+		Optional<Resource> qualifiedValueShapeNode = ps.getShQualifiedValueShape().map(r -> new NodeShape(r)).flatMap(ns -> ns.getShNode());
+		if (
+			singleValueBuilder == null
+			&& 
+			(
+				ps.getShNode().isPresent()
+				||
+				qualifiedValueShapeNode.isPresent()
+			)
+		) {				
+			Resource theShNode = ps.getShNode().orElseGet(() -> qualifiedValueShapeNode.orElse(null));
 
 			ShapesGraph shapesGraph = new ShapesGraph(model, null);
-			if(ps.isEmbedNever() || shapesGraph.findNodeShapeByResource(ps.getShNode().get()) == null) {
+			if(ps.isEmbedNever() || shapesGraph.findNodeShapeByResource(theShNode) == null) {
 				// no embedding, or reference to sh:node not found, this is a URI reference
 				singleValueBuilder = StringSchema
 				.builder()
@@ -405,7 +418,7 @@ public class JsonSchemaGenerator {
 					.builder()
 					// note : the builder-specific method needs to be called **before** the generic method
 					.refValue(JsonSchemaGenerator
-								.buildSchemaReference(ps.getShNode().get().asResource()));
+								.buildSchemaReference(theShNode));
 			}
 		}
 
@@ -424,15 +437,21 @@ public class JsonSchemaGenerator {
 		}
 
 		// Datatype
-		if (singleValueBuilder == null && ps.getShDatatype().isPresent()) {				
+		Optional<Resource> qualifiedValueShapeDatatype = ps.getShQualifiedValueShape().map(r -> new NodeShape(r)).flatMap(ns -> ns.getShDatatype());
 
-			Set<Resource> datatypes = ShaclReadingUtils.findDatatypesOfPath(ps.getShPath().get().asResource());
-			if(datatypes.size() > 1) {
-				log.warn("Found different datatypes declared for path "+ps.getShPath().get().asResource()+", will declare only one");
-			}
-			
-			if(!datatypes.isEmpty()) {
-				Resource theDatatype = datatypes.iterator().next();
+		if (
+			singleValueBuilder == null
+			&&
+			(
+				ps.getShDatatype().isPresent()
+				||
+				qualifiedValueShapeDatatype.isPresent()
+			)
+		) {
+
+			Resource theDatatype = ps.getShDatatype().orElseGet(() -> qualifiedValueShapeDatatype.orElse(null));
+
+			if(theDatatype != null) {
 				String datatype = theDatatype.getURI();
 				// TODO : theoretically we should check the schema to make sure the property is really a @container: @language
 				if (datatype.equals(RDF.langString.getURI())) {						
@@ -513,10 +532,12 @@ public class JsonSchemaGenerator {
 		Schema.Builder finalBuilder = null;
 
 		// if the property shape has a maxCount > 1 or no maxCount specified, then we need to wrap the single value schema into an ArraySchema
+		Optional<Literal> qualifiedMaxCount = ps.getShQualifiedMaxCount();
+		Literal theMaxCount = ps.getShMaxCount().orElseGet(() -> qualifiedMaxCount.orElse(null));
 		if (
 			singleValueBuilder != null
 			&&
-			(!ps.getShMaxCount().isPresent() || ps.getShMaxCount().get().asLiteral().getInt() > 1)
+			(theMaxCount == null || theMaxCount.getInt() > 1)
 			&&
 			// prevent array wrapping if the context requires a language container
 			(contextWrapper == null || !contextWrapper.requiresContainerLanguage(ps.getShPath().get().asResource().getURI()))
@@ -525,8 +546,8 @@ public class JsonSchemaGenerator {
 			Schema innerSchema = singleValueBuilder.build();
 
 			Integer maxItems = null;
-			if(ps.getShMaxCount().isPresent() && ps.getShMaxCount().get().asLiteral().getInt() > 1) {
-				maxItems = ps.getShMaxCount().get().asLiteral().getInt();
+			if(theMaxCount != null && theMaxCount.getInt() > 1) {
+				maxItems = theMaxCount.getInt();
 			}
 
 			finalBuilder = ArraySchema

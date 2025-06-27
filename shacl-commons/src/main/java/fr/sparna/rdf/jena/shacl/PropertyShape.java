@@ -17,54 +17,32 @@ import fr.sparna.rdf.jena.ModelReadingUtils;
 import fr.sparna.rdf.jena.ModelRenderingUtils;
 import fr.sparna.rdf.shacl.SHACL_PLAY;
 
-public class PropertyShape {
+public class PropertyShape extends Shape {
 
 	private Logger log = LoggerFactory.getLogger(this.getClass().getName());
 	
-	protected Resource propertyShape;
-	
-	protected List<String> value_inverseOf;
-	
 	public PropertyShape(Resource propertyShape) {
-		super();
-		this.propertyShape = propertyShape;
+		super(propertyShape);
 	}
 	
 	public Resource getPropertyShape() {
-		return propertyShape;
-	}
-
-	
-	public Optional<Literal> getColor() {
-		return ModelReadingUtils.getOptionalLiteral(propertyShape, propertyShape.getModel().createProperty(SHACL_PLAY.COLOR));
+		return this.getShape();
 	}
 	
 	/**
 	 * Could be either an IRI or a boolean set to false
 	 */
 	public Optional<RDFNode> getEmbed() {
-		return ModelReadingUtils.getOptionalRdfNode(propertyShape, propertyShape.getModel().createProperty(SHACL_PLAY.EMBED));
-	}
-	
-	public Optional<Resource> getShNode() {
-		return ModelReadingUtils.getOptionalResource(propertyShape, SH.node);
+		return ModelReadingUtils.getOptionalRdfNode(shape, shape.getModel().createProperty(SHACL_PLAY.EMBED));
 	}
 	
 	public List<RDFNode> getShIn() {
-		if (propertyShape.hasProperty(SH.in)) {
-			Resource list = propertyShape.getProperty(SH.in).getList().asResource();
+		if (shape.hasProperty(SH.in)) {
+			Resource list = shape.getProperty(SH.in).getList().asResource();
 			return list.as(RDFList.class).asJavaList();
 		} else {
 			return null;
 		}
-	}
-	
-	public RDFList getShOr() {
-		if (propertyShape.hasProperty(SH.or)) {
-			return propertyShape.getProperty(SH.or).getList(); 
-		} else {
-			return null;
-		}		
 	}
 
 	/**
@@ -76,27 +54,27 @@ public class PropertyShape {
 	 */
 	public boolean couldBeLiteralProperty() {
 		  return 
-		  propertyShape.hasProperty(SH.datatype)
+		  shape.hasProperty(SH.datatype)
 		  ||
 		  ( 
-			propertyShape.hasProperty(SH.nodeKind)
+			shape.hasProperty(SH.nodeKind)
 			&& 
-	  		propertyShape.getProperty(SH.nodeKind).getObject().asResource().equals(SH.Literal) 
+	  		shape.getProperty(SH.nodeKind).getObject().asResource().equals(SH.Literal) 
 		  )
 		  ||
-		  propertyShape.hasProperty(SH.languageIn)
+		  shape.hasProperty(SH.languageIn)
 	  	  ||
-		  propertyShape.hasProperty(SH.minLength)
+		  shape.hasProperty(SH.minLength)
 		  ||
-		  propertyShape.hasProperty(SH.maxLength)
+		  shape.hasProperty(SH.maxLength)
 	  	  ||
-		  propertyShape.hasProperty(SH.minInclusive)
+		  shape.hasProperty(SH.minInclusive)
 		  ||
-		  propertyShape.hasProperty(SH.maxInclusive)
+		  shape.hasProperty(SH.maxInclusive)
 	  	  ||
-		  propertyShape.hasProperty(SH.minExclusive)
+		  shape.hasProperty(SH.minExclusive)
 		  ||
-		  propertyShape.hasProperty(SH.maxExclusive);
+		  shape.hasProperty(SH.maxExclusive);
 	}
 
 	/**
@@ -107,130 +85,77 @@ public class PropertyShape {
 	public boolean couldBeIriProperty() {
 		return
 		(
-			propertyShape.hasProperty(SH.nodeKind)
+			shape.hasProperty(SH.nodeKind)
 			&&
-			propertyShape.getProperty(SH.nodeKind).getObject().asResource().equals(SH.IRI)
+			shape.getProperty(SH.nodeKind).getObject().asResource().equals(SH.IRI)
 		)
 		||
-		propertyShape.hasProperty(SH.class_);
+		shape.hasProperty(SH.class_);
  	}
-  	
- 	
-	
-	public Optional<Resource> getShClass() {
-		return ModelReadingUtils.getOptionalResource(propertyShape, SH.class_);
-	}
+
 	
 	public Optional<Resource> getShQualifiedValueShape() {
-		return ModelReadingUtils.getOptionalResource(propertyShape, SH.qualifiedValueShape);
+		return ModelReadingUtils.getOptionalResource(shape, SH.qualifiedValueShape);
 	}
 	
 	public Optional<Resource> getShPath() {
-		return ModelReadingUtils.getOptionalResource(propertyShape, SH.path);
-	}
-	
-	public Optional<Resource> getShDatatype() {
-		return ModelReadingUtils.getOptionalResource(this.propertyShape, SH.datatype);
-	}
-	
-	public Optional<Resource> getShNodeKind() {
-		return ModelReadingUtils.getOptionalResource(this.propertyShape, SH.nodeKind);
-	}
-	
-	public Optional<Literal> getShPattern() {
-		return ModelReadingUtils.getOptionalLiteral(this.propertyShape, SH.pattern);
+		return ModelReadingUtils.getOptionalResource(shape, SH.path);
 	}
 	
 	public Optional<Literal> getShName() {
-		return ModelReadingUtils.getOptionalLiteral(this.propertyShape, SH.name);
+		return ModelReadingUtils.getOptionalLiteral(this.shape, SH.name);
 	}
 
 	/**
 	 * @return The sh:name list in the provided language, or an empty list if none is present
 	 */
 	public List<Literal> getShName(String lang) {
-		return ModelReadingUtils.readLiteralInLang(propertyShape, SH.name, lang);
+		return ModelReadingUtils.readLiteralInLang(shape, SH.name, lang);
 	}
 	
 	public Optional<Literal> getShDescription() {
-		return ModelReadingUtils.getOptionalLiteral(this.propertyShape, SH.description);
+		return ModelReadingUtils.getOptionalLiteral(this.shape, SH.description);
 	}
 
 	/**
 	 * @return The sh:name list in the provided language, or an empty list if none is present
 	 */
 	public List<Literal> getShDescription(String lang) {
-		return ModelReadingUtils.readLiteralInLang(propertyShape, SH.description, lang);
+		return ModelReadingUtils.readLiteralInLang(shape, SH.description, lang);
 	}
 	
 	public Optional<RDFNode> getShHasValue() {
-		return ModelReadingUtils.getOptionalRdfNode(this.propertyShape, SH.hasValue);
-	}
-	
-	public Optional<Literal> getShOrder() {
-		return ModelReadingUtils.getOptionalLiteral(this.propertyShape, SH.order);
+		return ModelReadingUtils.getOptionalRdfNode(this.shape, SH.hasValue);
 	}
 	
 	public Optional<Literal> getShUniqueLang() {
-		return ModelReadingUtils.getOptionalLiteral(this.propertyShape, SH.uniqueLang);
+		return ModelReadingUtils.getOptionalLiteral(this.shape, SH.uniqueLang);
 	}
 	
 	public Optional<Literal> getShMinCount() {
-		return ModelReadingUtils.getOptionalLiteral(this.propertyShape, SH.minCount);
+		return ModelReadingUtils.getOptionalLiteral(this.shape, SH.minCount);
 	}
 	
 	public Optional<Literal> getShMaxCount() {
-		return ModelReadingUtils.getOptionalLiteral(this.propertyShape, SH.maxCount);
+		return ModelReadingUtils.getOptionalLiteral(this.shape, SH.maxCount);
 	}
 	
 	public Optional<Literal> getShQualifiedMinCount() {
-		return ModelReadingUtils.getOptionalLiteral(this.propertyShape, SH.qualifiedMinCount);
+		return ModelReadingUtils.getOptionalLiteral(this.shape, SH.qualifiedMinCount);
 	}
 	
 	public Optional<Literal> getShQualifiedMaxCount() {
-		return ModelReadingUtils.getOptionalLiteral(this.propertyShape, SH.qualifiedMaxCount);
-	}
-	
-	public Optional<Literal> getShMinLength() {
-		return ModelReadingUtils.getOptionalLiteral(this.propertyShape, SH.minLength);
-	}
-	
-	public Optional<Literal> getShMaxLength() {
-		return ModelReadingUtils.getOptionalLiteral(this.propertyShape, SH.maxLength);
-	}
-	
-	public Optional<Literal> getShMinInclusive() {
-		return ModelReadingUtils.getOptionalLiteral(this.propertyShape, SH.minInclusive);
-	}
-	
-	public Optional<Literal> getShMaxInclusive() {
-		return ModelReadingUtils.getOptionalLiteral(this.propertyShape, SH.maxInclusive);
-	}
-	
-	public Optional<Literal> getShMinExclusive() {
-		return ModelReadingUtils.getOptionalLiteral(this.propertyShape, SH.minExclusive);
-	}
-	
-	public Optional<Literal> getShMaxExclusive() {
-		return ModelReadingUtils.getOptionalLiteral(this.propertyShape, SH.maxExclusive);
+		return ModelReadingUtils.getOptionalLiteral(this.shape, SH.qualifiedMaxCount);
 	}
 	
 	public List<Literal> getShLanguageIn() {
-		Optional<Resource> list = ModelReadingUtils.getOptionalResource(this.propertyShape, SH.languageIn);
+		Optional<Resource> list = ModelReadingUtils.getOptionalResource(this.shape, SH.languageIn);
 		if(list.isPresent()) {
 			List<RDFNode> languages = ModelReadingUtils.asJavaList(list.get());
 			return languages.stream().filter(n -> n.isLiteral()).map(n -> n.asLiteral()).collect(Collectors.toList());
 		} else {
 			return new ArrayList<Literal>();
 		}
-	}
-	
-	public boolean hasShOrShClassOrShNode() {
-		return 
-				(this.getShOrShClass() != null && this.getShOrShClass().size() > 0)
-				|| 
-				(this.getShOrShNode() != null && this.getShOrShNode().size() > 0)
-		;
 	}
 	
 	
@@ -242,60 +167,17 @@ public class PropertyShape {
 		return this.getShQualifiedValueShape().map(r -> ModelRenderingUtils.render(r, true)).orElse(null);
 	}
 	
+	
 	public String getColorString() {
 		return this.getColor().map(node -> node.asLiteral().toString()).orElse(null);
 	}
 
-	public List<Resource> getShOrShDatatype() {
-		if (this.propertyShape.hasProperty(SH.or)) {			
-			List<Resource> values = ShOrReadingUtils.readShDatatypeInShOr(this.propertyShape.getProperty(SH.or).getList());
-			if(values.size() > 0) {
-				return values;
-			}
-		}		
-		return null;
-	}
-	
-	public Optional<Literal> getShDeactivated() {
-		return ModelReadingUtils.getOptionalLiteral(this.propertyShape,SH.deactivated);
-	}
-	
-	public List<Resource> getShOrShNodeKind() {
-		if (this.propertyShape.hasProperty(SH.or)) {			
-			List<Resource> values = ShOrReadingUtils.readShNodeKindInShOr(this.propertyShape.getProperty(SH.or).getList());
-			if(values.size() > 0) {
-				return values;
-			}
-		}		
-		return null;
-	}
-	
-	public List<Resource> getShOrShClass() {
-		if (this.propertyShape.hasProperty(SH.or)) {			
-			List<Resource> values = ShOrReadingUtils.readShClassInShOr(this.propertyShape.getProperty(SH.or).getList());
-			if(values.size() > 0) {
-				return values;
-			}
-		}
-		
-		return null;
-	}
-	
-	public List<Resource> getShOrShNode() {
-		if (this.propertyShape.hasProperty(SH.or)) {			
-			List<Resource> values = ShOrReadingUtils.readShNodeInShOr(this.propertyShape.getProperty(SH.or).getList());
-			if(values.size() > 0) {
-				return values;
-			}
-		}
-		
-		return null;
-	}
+
 	
 	public String getPathAsSparql() {
 		// render the property path using prefixes
 		// TODO : this default behavior should be elsewhere probably
-		return this.getShPath().map(path -> ModelRenderingUtils.renderSparqlPropertyPath(path, true)).orElse(this.propertyShape.getURI());
+		return this.getShPath().map(path -> ModelRenderingUtils.renderSparqlPropertyPath(path, true)).orElse(this.shape.getURI());
 	}	
 
 	public String getShLanguageInString() {
@@ -304,10 +186,6 @@ public class PropertyShape {
 	
 	public boolean isUniqueLang() {
 		return this.getShUniqueLang().isPresent() && this.getShUniqueLang().get().getBoolean();
-	}
-
-	public boolean isDeactivated() {
-		return this.getShDeactivated().isPresent() && this.getShDeactivated().get().getBoolean();
 	}
 
 	/**

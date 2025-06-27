@@ -1,0 +1,14 @@
+{
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "ex": "http://example.org/",
+
+    "thisIsStringInContext": {
+        "@id": "ex:property",
+        "@type" : "xsd:string"
+    },
+    "thisIsDateTimeInContext": {
+        "@id": "ex:property",
+        "@type" : "xsd:dateTime"
+    }
+}
+

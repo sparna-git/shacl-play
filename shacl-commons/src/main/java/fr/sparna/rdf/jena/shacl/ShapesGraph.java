@@ -92,14 +92,14 @@ public class ShapesGraph {
 
 		@Override
 		public int compare(NodeShape ns1, NodeShape ns2) {
-			if (ns1.getOrder() != null) {
-				if (ns2.getOrder() != null) {
+			if (ns1.getShOrder().orElse(null) != null) {
+				if (ns2.getShOrder().orElse(null) != null) {
 					return ((ns1.getOrderFloat() - ns2.getOrderFloat()) > 0)?1:-1;
 				} else {
 					return -1;
 				}
 			} else {
-				if (ns2.getOrder() != null) {
+				if (ns2.getShOrder().orElse(null) != null) {
 					return 1;
 				} else {
 					// both sh:order are null, try with their display label

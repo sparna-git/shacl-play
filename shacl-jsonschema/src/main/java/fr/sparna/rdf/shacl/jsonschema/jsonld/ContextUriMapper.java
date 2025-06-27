@@ -22,10 +22,10 @@ public class ContextUriMapper implements UriToJsonMapper {
     }
 
     @Override
-    public String mapPropertyURI(
+    public String mapPath(
         Resource property,
         boolean isIriProperty,
-        String datatype,
+        Resource datatype,
         String language
     ) {
 
@@ -34,7 +34,7 @@ public class ContextUriMapper implements UriToJsonMapper {
             contextMapping = contextWrapper.readTermForProperty(
                 property.getURI(),
                 isIriProperty,
-                datatype,
+                (datatype != null)?datatype.getURI():null,
                 language
             );
         } catch (JsonLdException e) {

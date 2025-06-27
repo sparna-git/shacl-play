@@ -13,25 +13,25 @@ public class LocalNameUriToJsonMapper implements UriToJsonMapper {
     private Logger log = LoggerFactory.getLogger(this.getClass().getName());
 
     @Override
-    public String mapPropertyURI(
-        Resource property,
+    public String mapPath(
+        Resource path,
         boolean isIriProperty,
-        String datatype,
+        Resource datatype,
         String language
     ) {
         // If the context mapping is the same as the URI, reads the shortname annotation from the property shape
-        Set<String> shortnames = ShaclReadingUtils.findShortNamesOfPath(property);
+        Set<String> shortnames = ShaclReadingUtils.findShortNamesOfPath(path);
         if (shortnames.size() == 1) {
             // If there is a single shortname, returns it
             return shortnames.iterator().next();
         } else if( shortnames.size() > 1) {
             String term = shortnames.iterator().next();
             // If there are multiple shortnames, returns the first one
-            log.warn("Found multiple shortnames for path "+property+", will use only one : '"+term+"'");
+            log.warn("Found multiple shortnames for path "+path+", will use only one : '"+term+"'");
             return term;
         }
         // If there are no shortnames, returns the local name of the property
-        return property.getLocalName();
+        return path.getLocalName();
     }
     
     @Override

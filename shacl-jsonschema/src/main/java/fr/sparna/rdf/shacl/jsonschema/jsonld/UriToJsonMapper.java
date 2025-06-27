@@ -8,10 +8,10 @@ public interface UriToJsonMapper {
     /**
      * Maps a property URI to a JSON key - this can typically be by taking the localName of the URI
      */
-    public String mapPropertyURI(
+    public String mapPath(
         Resource property,
         boolean isIriProperty,
-        String datatype,
+        Resource datatype,
         String language
     );
 

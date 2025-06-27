@@ -21,22 +21,20 @@ import fr.sparna.rdf.jena.ModelRenderingUtils;
 import fr.sparna.rdf.shacl.*;
 import org.topbraid.shacl.vocabulary.SH;
 
-public class NodeShape {
-	
-	private Resource nodeShape;
+public class NodeShape extends Shape  {
 	
 	// cache of property shapes
 	protected List<PropertyShape> properties = null;
 
 	public NodeShape(Resource nodeShape) {  
-	    this.nodeShape = nodeShape;		
+	    super(nodeShape);
 	}
 	
 	/**
 	 * @return the underlying node shape Resource
 	 */
 	public Resource getNodeShape() {
-		return nodeShape;
+		return this.shape;
 	}
 
 	/**
@@ -44,18 +42,8 @@ public class NodeShape {
 	 */
 	public Literal getBackgroundColor() {
 		return ModelReadingUtils.getOptionalLiteral(
-				nodeShape,
-				nodeShape.getModel().createProperty(SHACL_PLAY.BACKGROUNDCOLOR)
-			).orElse(null);
-	}
-
-	/**
-	 * @return The shacl-play:color Literal value, or null if not present
-	 */
-	public Literal getColor() {
-		return ModelReadingUtils.getOptionalLiteral(
-				nodeShape,
-				nodeShape.getModel().createProperty(SHACL_PLAY.COLOR)
+				shape,
+				shape.getModel().createProperty(SHACL_PLAY.BACKGROUNDCOLOR)
 			).orElse(null);
 	}
 
@@ -63,78 +51,59 @@ public class NodeShape {
 	 * @return The list of foaf:depiction values, if present, or an empty list if not present
 	 */
 	public List<Resource> getDepiction() {
-		return ModelReadingUtils.readObjectAsResource(nodeShape, FOAF.depiction);
+		return ModelReadingUtils.readObjectAsResource(shape, FOAF.depiction);
 	}
 
 	/**
 	 * @return The sh:targetClass resource value if present, or null if not present
 	 */
 	public Resource getTargetClass() {
-		return Optional.ofNullable(nodeShape.getProperty(SH.targetClass)).map(s -> s.getResource()).orElse(null);
+		return Optional.ofNullable(shape.getProperty(SH.targetClass)).map(s -> s.getResource()).orElse(null);
 	}
 
 	/**
 	 * @return The list of rdfs:subClassOf of this node shape exclugind owl:Thing, if present, or an empty list if none
 	 */
 	public List<Resource> getSubClassOf() {
-		return nodeShape.listProperties(RDFS.subClassOf).toList().stream()
+		return shape.listProperties(RDFS.subClassOf).toList().stream()
 				.map(s -> s.getResource())
 				.filter(r -> { return r.isURIResource() && !r.getURI().equals(OWL.Thing.getURI()); })
 				.collect(Collectors.toList());
 	}
-	
-	public List<Literal> getExamples() {
-		return ModelReadingUtils.readLiteral(nodeShape, SKOS.example);
-	}
-	
-	public Optional<Literal> getPattern() {
-		return ModelReadingUtils.getOptionalLiteral(nodeShape, SH.pattern);
-	}
-	
 
 	/**
-	 * @return The sh:order Literal value, or null if not present
+	 * @return The sh:closed Literal value
 	 */
-	public Literal getOrder() {
-		return ModelReadingUtils.getOptionalLiteral(
-				nodeShape,
-				SH.order
-			).orElse(null);
-	}
-
-	/**
-	 * @return The sh:closed Literal value, or null if not present
-	 */
-	public Literal getClosed() {
-		return ModelReadingUtils.getOptionalLiteral(nodeShape,SH.closed).orElse(null);
+	public Optional<Literal> getShClosed() {
+		return ModelReadingUtils.getOptionalLiteral(shape,SH.closed);
 	}
 
 	/**
 	 * @return The rdfs:comment list in the provided language, or an empty list if none is present
 	 */
 	public List<Literal> getRdfsComment(String lang) {
-		return ModelReadingUtils.readLiteralInLang(nodeShape, RDFS.comment, lang);
+		return ModelReadingUtils.readLiteralInLang(shape, RDFS.comment, lang);
 	}
 	
 	/**
 	 * @return The rdfs:label list in the provided language, or an empty list if none is present
 	 */
 	public List<Literal> getRdfsLabel(String lang) {
-		return ModelReadingUtils.readLiteralInLang(nodeShape, RDFS.label, lang);
+		return ModelReadingUtils.readLiteralInLang(shape, RDFS.label, lang);
 	}
 	
 	/**
 	 * @return The skos:prefLabel list in the provided language, or an empty list if none is present
 	 */
 	public List<Literal> getSkosPrefLabel(String lang) {
-		return ModelReadingUtils.readLiteralInLang(nodeShape, SKOS.prefLabel, lang);
+		return ModelReadingUtils.readLiteralInLang(shape, SKOS.prefLabel, lang);
 	}
 	
 	/**
 	 * @return The skos:definition list in the provided language, or an empty list if none is present
 	 */
 	public List<Literal> getSkosDefinition(String lang) {
-		return ModelReadingUtils.readLiteralInLang(nodeShape, SKOS.definition, lang);
+		return ModelReadingUtils.readLiteralInLang(shape, SKOS.definition, lang);
 	}
 
 
@@ -143,37 +112,33 @@ public class NodeShape {
 	}
 
 	public String getColorString() {
-		return Optional.ofNullable(this.getColor()).map(node -> node.asLiteral().toString()).orElse(null);
+		return this.getColor().map(node -> node.asLiteral().toString()).orElse(null);
 	}	
 
-	public Float getOrderFloat() {
-		return Optional.ofNullable(this.getOrder()).map(node -> node.asLiteral().getFloat()).orElse(null);
-	}
-
 	public Boolean isClosed() {
-		return getClosed() != null && getClosed().getBoolean() == true;
+		return getShClosed().map(l -> l.getBoolean()).orElse(false);
 	}	
 	
 	public boolean isTargeting(Resource classUri) {
 		boolean hasShTargetClass = Optional.ofNullable(this.getTargetClass()).filter(c -> c.equals(classUri)).isPresent();
-		boolean isItselfTheClass = this.nodeShape.hasProperty(RDF.type, RDFS.Class) && this.nodeShape.hasProperty(RDF.type, SH.NodeShape);
+		boolean isItselfTheClass = this.shape.hasProperty(RDF.type, RDFS.Class) && this.shape.hasProperty(RDF.type, SH.NodeShape);
 		
 		return hasShTargetClass || isItselfTheClass;
 	}	
 
 	public String getShortFormOrId() {
-		if(this.nodeShape.isURIResource()) {
+		if(this.shape.isURIResource()) {
 			return this.getNodeShape().getModel().shortForm(this.getNodeShape().getURI());
 		} else {
 			// returns the blank node ID in that case
-			return this.nodeShape.asResource().getId().getLabelString();
+			return this.shape.asResource().getId().getLabelString();
 		}
 	}
 
 	public String getDiagramLabel() {
 		// use the sh:targetClass if present, otherwise use the URI of the NodeShape
 		return 
-		ModelRenderingUtils.render(this.nodeShape, true)
+		ModelRenderingUtils.render(this.shape, true)
 		+
 		Optional.ofNullable(this.getTargetClass()).map(targetClass -> " ("+ModelRenderingUtils.render(targetClass, true)+")")
 		.orElse("");
@@ -188,12 +153,12 @@ public class NodeShape {
 		
 		if(result == null && this.getTargetClass() != null) {
 			// otherwise if we have skos:prefLabel on the class, take it
-			result = ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(this.nodeShape.getModel().getResource(this.getTargetClass().getURI()), SKOS.prefLabel, lang), true);
+			result = ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(this.shape.getModel().getResource(this.getTargetClass().getURI()), SKOS.prefLabel, lang), true);
 		}
 		
 		if(result == null && this.getTargetClass() != null) {
 			// otherwise if we have rdfs:label on the class, take it
-			result = ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(this.nodeShape.getModel().getResource(this.getTargetClass().getURI()), RDFS.label, lang), true);
+			result = ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(this.shape.getModel().getResource(this.getTargetClass().getURI()), RDFS.label, lang), true);
 		}
 		
 		if(result == null) {
@@ -215,7 +180,7 @@ public class NodeShape {
 
 	private List<PropertyShape> readProperties() {
 		
-		List<Statement> propertyStatements = this.nodeShape.listProperties(SH.property).toList();
+		List<Statement> propertyStatements = this.shape.listProperties(SH.property).toList();
 		List<PropertyShape> properties = new ArrayList<>();		
 		
 		for (Statement aPropertyStatement : propertyStatements) {

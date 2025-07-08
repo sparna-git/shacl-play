@@ -31,7 +31,11 @@ public class LocalNameUriToJsonMapper implements UriToJsonMapper {
             return term;
         }
         // If there are no shortnames, returns the local name of the property
-        return path.getLocalName();
+        if(path.isURIResource()) {
+            return path.getLocalName();
+        } else {
+            return null;
+        }
     }
     
     @Override

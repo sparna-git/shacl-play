@@ -137,7 +137,6 @@ public class ExcelController {
 			config.setShapesOntology("https://shacl-play.sparna.fr/shapes");
 			
 			String sourceName = null;
-			QueryExecutionServiceImpl queryExecutionService;
 			
 			// if source is a ULR, redirect to the API
 			if(shapesSource == SOURCE_TYPE.URL) {
@@ -154,17 +153,11 @@ public class ExcelController {
 						null //shapesCatalogId
 				);
 				
-				queryExecutionService = new QueryExecutionServiceImpl(shapesModel);
 				sourceName = modelPopulator.getSourceName(); 
-				
-				SamplingShaclGeneratorDataProvider dataProvider = new SamplingShaclGeneratorDataProvider(queryExecutionService);
-				
-				ShaclGenerator generator = new ShaclGenerator();
-				Model shapes = generator.generateShapes(config,dataProvider);
 				
 				//modelPopulator.populateModelFromUrl(shapesModel, shapesUrl);
 				log.debug("Done Loading Shapes. Model contains "+shapesModel.size()+" triples");
-				outputRdf2Excel(shapes, sourceName,response);
+				outputRdf2Excel(shapesModel, sourceName,response);
 			}
 			
 			return null;
@@ -185,7 +178,7 @@ public class ExcelController {
 		XSSFWorkbook workbook = serializeInExcel(shapesModel); 
 		
 		String dateString = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-		String filename=sourceName+"-"+"shacl"+"_"+dateString;
+		String filename=sourceName+"-"+"_"+dateString;
 		
 		response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
 		response.setHeader("Content-Disposition", "inline; filename=\""+filename+"."+"xlsx"+"\"");

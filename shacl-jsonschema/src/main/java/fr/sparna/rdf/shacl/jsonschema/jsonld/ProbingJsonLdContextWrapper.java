@@ -1,6 +1,5 @@
 package fr.sparna.rdf.shacl.jsonschema.jsonld;
 import java.util.Map.Entry;
-import java.util.Random;
 
 import org.apache.jena.vocabulary.RDF;
 import org.slf4j.Logger;
@@ -32,17 +31,18 @@ public class ProbingJsonLdContextWrapper implements JsonLdContextWrapper {
     public String readTermForProperty(
         String propertyUri,
         boolean isIriProperty,
+        boolean isInverse,
         String datatype,
         String language
     ) throws JsonLdException {
         log.trace("Probing JSON-LD context for property URI: {}", propertyUri);
         try {
-            JsonObject probeDocument = prepareProbePropertyDocument(propertyUri, isIriProperty, datatype, language);
+            JsonObject probeDocument = prepareProbePropertyDocument(propertyUri, isIriProperty, isInverse, datatype, language);
             //debug the input and output            
             log.trace("Probe document: {}", probeDocument);
-            System.out.println(probeDocument.toString());
+            System.out.println("  "+probeDocument.toString());
             JsonObject compactedDocument = doCompact(probeDocument, this.context);
-            System.out.println(compactedDocument.toString());
+            System.out.println("  "+compactedDocument.toString());
             Entry<String, JsonValue> firstEntry = getFirstNonContextEntry(compactedDocument);
             if (firstEntry != null) {
                 return firstEntry.getKey(); // Return the first non-context entry key
@@ -101,15 +101,15 @@ public class ProbingJsonLdContextWrapper implements JsonLdContextWrapper {
     @Override
     public String simplifyPattern(String regexPattern) throws JsonLdException {
         log.trace("Probing JSON-LD context for regex: {}", regexPattern);
-        System.out.println("Probing JSON-LD context for regex: "+regexPattern);
+        // System.out.println("Probing JSON-LD context for regex: "+regexPattern);
         try {
             String testValue = generateMatchingString(regexPattern);
             JsonObject probeDocument = prepareProbeRegex(testValue);
             //debug the input and output            
-            System.out.println(probeDocument.toString());
+            // System.out.println(probeDocument.toString());
             log.trace("Probe document: {}", probeDocument);
             JsonObject compactedDocument = doCompact(probeDocument, probeDocument.get("@context"));
-            System.out.println(compactedDocument.toString());
+            // System.out.println(compactedDocument.toString());
             Entry<String, JsonValue> firstEntry = getFirstNonContextEntry(compactedDocument);
             if (firstEntry != null) {
                 // read the @id of the JsonValue, which should be a string
@@ -149,9 +149,14 @@ public class ProbingJsonLdContextWrapper implements JsonLdContextWrapper {
         String datatype,
         String language
     ) throws JsonLdException {
+        // preventing call with getURI() on a blank node
+        if(propertyUri == null) {
+            return false;
+        }
+
         log.trace("Checking if property URI requires an array: {}", propertyUri);
         try {
-            JsonObject probeDocument = prepareProbePropertyDocument(propertyUri, isIriProperty, datatype, language);
+            JsonObject probeDocument = prepareProbePropertyDocument(propertyUri, isIriProperty, false, datatype, language);
             //debug the input and output            
             log.trace("Probe document: {}", probeDocument);
             JsonObject compactedDocument = doCompact(probeDocument, this.context);
@@ -172,7 +177,7 @@ public class ProbingJsonLdContextWrapper implements JsonLdContextWrapper {
     ) throws JsonLdException {
         log.trace("Checking if property URI requires a language container: {}", propertyUri);
         try {
-            JsonObject probeDocument = prepareProbePropertyDocument(propertyUri, false, RDF.langString.getURI(), null);
+            JsonObject probeDocument = prepareProbePropertyDocument(propertyUri, false, false, RDF.langString.getURI(), null);
 
             log.trace("Probe document: {}", probeDocument);
             JsonObject compactedDocument = doCompact(probeDocument, this.context);
@@ -199,6 +204,7 @@ public class ProbingJsonLdContextWrapper implements JsonLdContextWrapper {
     private JsonObject prepareProbePropertyDocument(
         String propertyUri,
         boolean isIriProperty,
+        boolean isInverse,
         String datatype,
         String language
     ) {
@@ -237,12 +243,24 @@ public class ProbingJsonLdContextWrapper implements JsonLdContextWrapper {
                 .build();
             }
         } 
-        // create an empty JSON object
-        JsonObject probeDocument = Json.createObjectBuilder()
-            .add(propertyUri, value) // Add the property URI to the document
-            // and the context
-            .add("@context", context)
-            .build();
+
+        JsonObject probeDocument;
+
+        if(isInverse) {
+            // create an empty JSON object
+            probeDocument = Json.createObjectBuilder()
+                .add("@reverse", Json.createObjectBuilder().add(propertyUri, value).build())
+                // and the context
+                .add("@context", context)
+                .build();
+        } else {
+            // create an empty JSON object
+            probeDocument = Json.createObjectBuilder()            
+                .add(propertyUri, value) // Add the property URI to the document
+                // and the context
+                .add("@context", context)
+                .build();
+        }
 
         return probeDocument;
     }
@@ -331,7 +349,7 @@ public class ProbingJsonLdContextWrapper implements JsonLdContextWrapper {
         String output = rgxGen.generate();
 
         // replace the value inserted for dots back with a dot
-        return output.replaceAll("\u0000", ".");
+        return output.replaceAll("\u0000", ".").replaceAll(" ", "_");
     }
 
     private JsonObject doCompact(JsonObject probeDocument, JsonValue theContext) throws JsonLdError {

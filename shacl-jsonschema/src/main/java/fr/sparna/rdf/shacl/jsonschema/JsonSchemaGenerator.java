@@ -317,15 +317,19 @@ public class JsonSchemaGenerator {
 				null
 			);
 
-			objectSchema.addPropertySchema(shortname, this.convertPropertyShapeSchema(nodeShape, ps, model,includeValues));
+			// we are preventing cases where the path is a blank node and was not mapped
+			// in the context
+			if(shortname != null) {
+				objectSchema.addPropertySchema(shortname, this.convertPropertyShapeSchema(nodeShape, ps, model,includeValues));
 
-			Optional<Literal> qualifiedMinCount = ps.getShQualifiedMinCount();
-			Literal theMinCount = ps.getShMinCount().orElseGet(() -> qualifiedMinCount.orElse(null));
+				Optional<Literal> qualifiedMinCount = ps.getShQualifiedMinCount();
+				Literal theMinCount = ps.getShMinCount().orElseGet(() -> qualifiedMinCount.orElse(null));
 
-			// add to required properties if necessary
-			if (theMinCount != null && theMinCount.getInt() > 0) {
-				objectSchema.addRequiredProperty(shortname);
-			}			
+				// add to required properties if necessary
+				if (theMinCount != null && theMinCount.getInt() > 0) {
+					objectSchema.addRequiredProperty(shortname);
+				}	
+			}		
 		}		
 		
 		// set additionnal properties to false if the NodeShape is sh:closed

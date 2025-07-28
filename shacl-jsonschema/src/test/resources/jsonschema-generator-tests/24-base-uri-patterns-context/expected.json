@@ -29,7 +29,7 @@
               "type": "string",
               "pattern": "^org/ep-[0-9]{1,2}$"
             },
-            "otherProperty": {
+            "http://example.org/otherProperty": {
               "type": "string",
               "pattern": "^https://foo.org/org/ep-[0-9]{1,2}$"
             }

@@ -14,11 +14,10 @@ public class ContextUriMapper implements UriToJsonMapper {
 
     private Logger log = LoggerFactory.getLogger(this.getClass().getName());
 
-    private JsonValue context;
+
 	private ProbingJsonLdContextWrapper contextWrapper;
 
     public ContextUriMapper(JsonValue context) {
-        this.context = context;
         this.contextWrapper = new ProbingJsonLdContextWrapper(context);
     }
 
@@ -29,9 +28,6 @@ public class ContextUriMapper implements UriToJsonMapper {
         Resource datatype,
         String language
     ) {
-
-       
-
         String contextMapping = null;
         
         try {
@@ -55,7 +51,6 @@ public class ContextUriMapper implements UriToJsonMapper {
             } 
         } catch (JsonLdException e) {
             e.printStackTrace();
-            return path.getLocalName();
         }
         
 
@@ -74,12 +69,14 @@ public class ContextUriMapper implements UriToJsonMapper {
                 log.warn("Found multiple shortnames for path "+path+", will use only one : '"+term+"'");
                 return term;
             }
-            // If there are no shortnames, returns the local name of the property
-            if(path.isURIResource()) {
-                return path.getLocalName();
-            } else {
-                return null;
-            }
+        }
+
+        // If there are : exception in context mapping, or no context mapping, or no shortname, returns the URI
+        if(path.isURIResource()) {
+            return path.getURI();
+        } else {
+            // the path is not a URI resource (it is a property path), we don't know what to return
+            return null;
         }
     }
     
@@ -97,8 +94,9 @@ public class ContextUriMapper implements UriToJsonMapper {
             // Otherwise, returns the context mapping
             return contextMapping;
         } else {
-            // If the context mapping is the same as the URI, returns the short form of the URI
-            return uri.getModel().shortForm(uri.getURI());
+            // If the context mapping is the same as the URI, returns the full URI
+            // do NOT use the local name from the SHACL specification, as we should rely only on the context
+            return uri.getURI();
         }
     }
 

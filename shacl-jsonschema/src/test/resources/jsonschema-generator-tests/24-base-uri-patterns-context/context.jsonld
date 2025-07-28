@@ -1,5 +1,6 @@
 {
     "@base": "https://data.europarl.europa.eu/",
-    "id": "@id"
+    "id": "@id",
+    "property": "http://example.org/property"
 }
 

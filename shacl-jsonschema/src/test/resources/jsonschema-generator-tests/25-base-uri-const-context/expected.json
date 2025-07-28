@@ -24,7 +24,7 @@
               "type": "string",
               "format": "iri-reference"
             },
-            "property": {
+            "http://example.org/property": {
               "type": "string",
               "const": "def/document-types/TA"
             }

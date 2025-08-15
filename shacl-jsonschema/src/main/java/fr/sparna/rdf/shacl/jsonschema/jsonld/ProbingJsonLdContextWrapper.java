@@ -337,6 +337,11 @@ public class ProbingJsonLdContextWrapper implements JsonLdContextWrapper {
     }
 
     public static String generateMatchingString(String regex) {
+        // EP uses named capturing group, with syntax (?<xxxx> ...)
+        // e.g. "^https://data.europarl.europa.eu/eli/dl/doc/PV-(?<parliamentaryTerm>[0-9]{1,2})-(?<date>(19[5-9][0-9]|20[0-9][0-9])-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01]))$"
+        // but this is not supported by RgxGen, so we need to remove the named capturing groups
+        regex = regex.replaceAll("\\(\\?<[^>]+>\\s*", "("); // Remove named capturing groups
+
         RgxGenProperties properties = new RgxGenProperties();
         // when matching a dot, always use the special \u0000 character for replacement
         // this is because EP uses regexes like "^https://data.europarl.europa.eu/eli/dl/doc/[A-Za-z0-9\-_]+/[a-z][a-z]$"

@@ -64,6 +64,12 @@
         <appender-ref ref="SHACLPLAY_ROLLING_FILE" />
         <appender-ref ref="STDOUT" />
     </logger>
+
+	<logger name="fr.sparna.rdf.xls2rdf" additivity="false">
+		<level value="INFO" />
+		<appender-ref ref="SHACLPLAY_ROLLING_FILE" />
+		<appender-ref ref="STDOUT" />
+	</logger>
          
     <!-- ** -->
      

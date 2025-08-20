@@ -94,11 +94,11 @@ public class PlantUmlBox implements PlantUmlBoxIfc {
 	}
 	
 	public String getBackgroundColorString() {
-		return this.getBackgroundColor().map(node -> node.asLiteral().toString()).orElse(null);
+		return this.getBackgroundColor().map(node -> node.asLiteral().getLexicalForm()).orElse(null);
 	}
 	
 	public String getColorString() {
-		return this.getColor().map(node -> node.asLiteral().toString()).orElse(null);
+		return this.getColor().map(node -> node.asLiteral().getLexicalForm()).orElse(null);
 	}
 	
 	

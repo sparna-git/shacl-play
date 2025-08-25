@@ -6,6 +6,7 @@
 4. Compile
 5. Adjust version in deploy.sh
 5. Deploy with deploy.sh
+6. Delete deployment in Visual Studio
 6. Lists latest issues: https://github.com/sparna-git/shacl-play/issues?q=is%3Aissue+is%3Aclosed+sort%3Aupdated-desc
 7. Create release on Github, template:
 

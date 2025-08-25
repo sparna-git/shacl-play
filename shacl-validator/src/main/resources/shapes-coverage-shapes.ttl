@@ -25,6 +25,10 @@ shpshapes:AtLeastOneFocusNodeShape a sh:NodeShape ;
 				FILTER NOT EXISTS {
 					?pShape sh:or/rdf:rest*/rdf:first/sh:node $this .
 				}
+				# Exclude shapes for which it was explicitely indicated that the minimum can be 0
+				FILTER NOT EXISTS {
+					$this sh:minCount 0 ;
+				}
 			}
 		"""
 	] ;
@@ -58,6 +62,10 @@ shpshapes:AtLeastOneFocusNodeShapeInShOr a sh:NodeShape ;
 					{ $this a sh:NodeShape ; a <http://www.w3.org/2002/07/owl#Class> }
 				}
 				?pShape sh:or/rdf:rest*/rdf:first/sh:node $this .
+				# Exclude shapes for which it was explicitely indicated that the minimum can be 0
+				FILTER NOT EXISTS {
+					$this sh:minCount 0 ;
+				}
 			}
 		"""
 	] ;

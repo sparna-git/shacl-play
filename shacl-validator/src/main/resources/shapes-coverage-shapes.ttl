@@ -70,10 +70,10 @@ shpshapes:AtLeastOneFocusNodeShapeInShOr a sh:NodeShape ;
 			SELECT DISTINCT $this ?path ?value WHERE {
 				# move back up to the property shape ...
 				?pShape sh:or/rdf:rest*/rdf:first/sh:node $this .
-				# ... then move down the property shape to all node shapes inside the sh:or
-				?pShape sh:or/rdf:rest*/rdf:first/sh:node ?anyNodeShapesInOr .
-				# and check that at least one focus node exists for a shape used in the sh:or
 				FILTER NOT EXISTS {
+					# ... then move down the property shape to all node shapes inside the sh:or
+					?pShape sh:or/rdf:rest*/rdf:first/sh:node ?anyNodeShapesInOr .
+					# and check that at least one focus node exists for a shape used in the sh:or				
 					?anyNodeShapesInOr shp:hasFocusNode ?anything .
 				}
 				BIND(?pShape AS ?value)

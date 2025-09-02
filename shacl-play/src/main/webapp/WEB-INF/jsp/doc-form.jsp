@@ -197,7 +197,7 @@
 							<thead>
 								<tr align="center">
 									<th scope="col">Property</th>
-								    <th scope="col">Type</th>
+								    <th scope="col">Expected value</th>
 								    <th scope="col" width="auto">Required</th>
 								    <th scope="col">Description</th>
 								</tr>
@@ -260,7 +260,7 @@
 							<thead>
 								<tr align="center">
 									<th scope="col">Property</th>
-								    <th scope="col">Type</th>
+								    <th scope="col">Expected value</th>
 								    <th scope="col" width="auto">Required</th>
 								    <th scope="col">Description</th>
 								</tr>
@@ -371,7 +371,7 @@
 							<thead>
 								<tr align="center">
 									<th scope="col">Property</th>
-								    <th scope="col">Type</th>
+								    <th scope="col">Expected value</th>
 								    <th scope="col" width="auto">Required</th>
 								    <th scope="col">Description</th>
 								</tr>
@@ -379,39 +379,39 @@
 							<tbody>
 								<tr>
 									<th scope="row" width="30%"><code>rdfs:label</code> (or <code>skos:prefLabel</code> or <code>rdfs:label</code> on class)</th>
-									<td>xsd:string</td>
+									<td>rdf:langString</td>
 									<td>Yes</td>
 									<td class="text-break">Label of the NodeShape used as the title of the section in the documentation. If not provided, and if sh:targetClass points to a URI, then a <code>skos:prefLabel</code> or <code>rdfs:label</code>
 							  		are searched on the target class.</td>
 								</tr>
 								<tr>
 									<th scope="row"><code>rdf:type rdfs:Class</code></th>
-									<td>sh:IRI</td>
+									<td>IRI</td>
 									<td>No</td>
 									<td class="text-break">If the NodeShape is also an instance of <code>rdfs:Class</code>, then its URI will be displayed under the section title.</td>
 							  	</tr>
 								<tr>
 									<th scope="row" width="30%"><code>rdfs:comment</code> (or <code>skos:definition</code> or <code>rdfs:comment</code> on class)</th>
-									<td>xsd:string</td>
+									<td>rdf:langString</td>
 									<td>No</td>
 									<td class="text-break">Small descriptive paragraph under the section title. If not provided, and if sh:targetClass points to a URI, then a <code>skos:definition</code> or <code>rdfs:comment</code>
 							  		are searched on the target class.</td>
 								</tr>
 								<tr>
 									<th scope="row"><code>sh:targetClass</code> (can be repeated)</th>
-									<td>sh:IRI</td>
+									<td>IRI</td>
 									<td>No</td>
 									<td class="text-break">The class to which the NodeShape applies. This can be repeated multiple times</td>
 							  	</tr>
 								  <tr>
 									<th scope="row"><code>sh:targetSubjectsOf</code> or <code>sh:targetObjectsOf</code></th>
-									<td>sh:IRI</td>
+									<td>IRI</td>
 									<td>No</td>
 									<td class="text-break">The property for which this shape will target the subjects or the objects.</td>
 							  	</tr>
 							  	<tr>
 									<th scope="row"><code>sh:target/sh:select</code></th>
-									<td>sh:Literal</td>
+									<td>xsd:string</td>
 									<td>No</td>
 									<td class="text-break">If the target of the Shape is provided as a SPARQL query, it will be included in the section header.</td>
 							  	</tr>
@@ -441,7 +441,7 @@
 							  	</tr>
 							  	<tr>
 							  		<th scope="row"><code>rdfs:subClassOf</code> or <code>sh:targetClass/rdfs:subClassOf</code></th>
-							  		<td>sh:IRI</td>
+							  		<td>IRI</td>
 							  		<td>No</td>
 							  		<td class="text-break">
 							  			If the NodeShape itself or its target class are subclasses of another class, then this is indicated in the header.
@@ -449,7 +449,13 @@
 							  			Also note that the properties table will be populated with property shapes from the super classes, in different sections "� la"
 							  			 schema.org.							  		
 							  		</td>
-							  	</tr>				  	
+							  	</tr>
+								<tr>
+									<th scope="row"><code>sh:sparql/dct:description</code></th>
+									<td>rdf:langString</td>
+									<td>No</td>
+									<td class="text-break">The description of a business rule associated to the node shape. This will be displayed below the properties table.</td>
+							  	</tr>			  	
 							</tbody>
 						</table>
 
@@ -494,14 +500,14 @@
 								</tr>
 								<tr>
 									<th scope="row"><code>sh:name</code> (or <code>skos:prefLabel</code> or <code>rdfs:label</code>)</th>
-									<td>xsd:string</td>
+									<td>rdf:langString</td>
 									<td>No</td>
 									<td class="text-break">Used to display the name of the property. If not provided, and if sh:path points to a URI, then a <code>skos:prefLabel</code> or <code>rdfs:label</code>
 							  		are searched on the property URI indicated in the sh:path. This implies the SHACL file also contains the OWL definition. Otherwise, the column will be empty.</td>
 							  	</tr>
 							  	<tr>
 							  		<th scope="row"><code>sh:description</code> (or <code>skos:definition</code> or <code>rdfs:comment</code>)</th>
-							  		<td>xsd:string</td>
+							  		<td>rdf:langString</td>
 							  		<td>No</td>
 							  		<td class="text-break">Populates the <b>Description</b> column of the table. If not provided, and if sh:path points to a URI, then a <code>skos:definition</code> or <code>rdfs:comment</code>
 							  		is searched on the property URI indicated in the sh:path. This implies the SHACL file also contains the OWL definition. Otherwise the column will be empty.</td>
@@ -514,31 +520,31 @@
 							  	</tr>
 							  	<tr>
 							  		<th scope="row"><code>sh:node</code></th>
-							  		<td>IRI of a NodeShape</td>
+							  		<td>IRI (of a NodeShape)</td>
 							  		<td>One of sh:node, sh:class, sh:nodeKind, sh:datatype, sh:or, sh:hasValue must be provided</td>
 							  		<td class="text-break">Used to populate the <b>Expected value</b> column, see below.</td>
 							  	</tr>
 							  	<tr>
 							  		<th scope="row"><code>sh:class</code></th>
-							  		<td>IRI of a class</td>
+							  		<td>IRI (of a class)</td>
 							  		<td>One of sh:node, sh:class, sh:nodeKind, sh:datatype, sh:or, sh:hasValue must be provided.</td>
 							  		<td class="text-break">Used to populate the <b>Expected value</b> column, see below.</td>
 							  	</tr>
 							  	<tr>
 							  		<th scope="row"><code>sh:nodeKind</code></th>
-							  		<td>Value can be either sh:IRI or sh:Literal</td>
+							  		<td>either `sh:IRI` or `sh:Literal`</td>
 							  		<td>One of sh:node, sh:class, sh:nodeKind, sh:datatype, sh:or, sh:hasValue must be provided.</td>
 							  		<td class="text-break">Used to populate the <b>Expected value</b> column, see below.</td>
 							  	</tr>
 							  	<tr>
 							  		<th scope="row"><code>sh:datatype</code></th>
-							  		<td>IRI of a datatype</td>
+							  		<td>IRI (of a datatype)</td>
 							  		<td>One of sh:node, sh:class, sh:nodeKind, sh:datatype, sh:or, sh:hasValue must be provided.</td>
 							  		<td class="text-break">Used to populate the <b>Expected value</b> column, see below.</td>
 							  	</tr>
 							  	<tr>
 							  		<th scope="row"><code>sh:hasValue</code></th>
-							  		<td>RDF List of values</td>
+							  		<td>any literal or IRI</td>
 							  		<td>One of sh:node, sh:class, sh:nodeKind, sh:datatype, sh:or, sh:hasValue must be provided.</td>
 							  		<td class="text-break">Used to populate the <b>Expected value</b> column, see below.</td>
 							  	</tr>

@@ -2,6 +2,7 @@ package fr.sparna.rdf.shacl.jsonschema.jsonld;
 
 import java.util.Set;
 
+import org.apache.commons.lang3.tuple.Triple;
 import org.apache.jena.rdf.model.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,17 +23,17 @@ public class ContextUriMapper implements UriToJsonMapper {
     }
 
     @Override
-    public String mapPath(
+    public Triple<String,Boolean,Boolean> mapPath(
         Resource path,
         boolean isIriProperty,
         Resource datatype,
         String language
     ) {
-        String contextMapping = null;
+        Triple<String,Boolean,Boolean> contextMapping = null;
         
         try {
             if(path.hasProperty(SH.inversePath)) {
-                contextMapping = contextWrapper.readTermForProperty(
+                contextMapping = contextWrapper.testProperty(
                     path.getRequiredProperty(SH.inversePath).getResource().getURI(),
                     isIriProperty,
                     // true for inverse
@@ -41,7 +42,7 @@ public class ContextUriMapper implements UriToJsonMapper {
                     language
                 );
             } else if(path.isURIResource()) {
-                contextMapping = contextWrapper.readTermForProperty(
+                contextMapping = contextWrapper.testProperty(
                     path.getURI(),
                     isIriProperty,
                     false,
@@ -54,7 +55,7 @@ public class ContextUriMapper implements UriToJsonMapper {
         }
         
 
-        if(contextMapping != null && !contextMapping.equals(path.getURI())) {
+        if(contextMapping != null && !contextMapping.getLeft().equals(path.getURI())) {
             // Otherwise, returns the context mapping
             return contextMapping;
         } else {
@@ -62,18 +63,18 @@ public class ContextUriMapper implements UriToJsonMapper {
 			Set<String> shortnames = ShaclReadingUtils.findShortNamesOfPath(path);
             if (shortnames.size() == 1) {
                 // If there is a single shortname, returns it
-                return shortnames.iterator().next();
+                return Triple.of(shortnames.iterator().next(),false,false);
             } else if( shortnames.size() > 1) {
                 String term = shortnames.iterator().next();
                 // If there are multiple shortnames, returns the first one
                 log.warn("Found multiple shortnames for path "+path+", will use only one : '"+term+"'");
-                return term;
+                return Triple.of(term,false,false);
             }
         }
 
         // If there are : exception in context mapping, or no context mapping, or no shortname, returns the URI
         if(path.isURIResource()) {
-            return path.getURI();
+            return Triple.of(path.getURI(),false,false);
         } else {
             // the path is not a URI resource (it is a property path), we don't know what to return
             return null;

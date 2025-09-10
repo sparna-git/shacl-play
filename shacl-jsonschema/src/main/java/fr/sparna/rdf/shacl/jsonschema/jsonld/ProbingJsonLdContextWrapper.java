@@ -1,6 +1,7 @@
 package fr.sparna.rdf.shacl.jsonschema.jsonld;
 import java.util.Map.Entry;
 
+import org.apache.commons.lang3.tuple.Triple;
 import org.apache.jena.vocabulary.RDF;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,6 +50,50 @@ public class ProbingJsonLdContextWrapper implements JsonLdContextWrapper {
             } else {
                 return propertyUri; // If no such entry exists, return the full URI
             }
+        } catch (JsonLdError e) {
+            throw new JsonLdException("Error compacting JSON-LD document for property URI: " + propertyUri, e);
+        }
+    }
+
+    @Override
+    public Triple<String,Boolean,Boolean> testProperty(
+        String propertyUri,
+        boolean isIriProperty,
+        boolean isInverse,
+        String datatype,
+        String language
+    ) throws JsonLdException {
+        log.trace("Probing JSON-LD context for property URI: {}", propertyUri);
+        try {
+            JsonObject probeDocument = prepareProbePropertyDocument(propertyUri, isIriProperty, isInverse, datatype, language);
+            //debug the input and output            
+            log.trace("Probe document: {}", probeDocument);
+            System.out.println("  "+probeDocument.toString());
+            JsonObject compactedDocument = doCompact(probeDocument, this.context);
+            System.out.println("  "+compactedDocument.toString());
+            Entry<String, JsonValue> firstEntry = getFirstNonContextEntry(compactedDocument);
+
+            // If no such entry exists, default to the full URI
+            String term = propertyUri;
+            Boolean requiresArray = false;
+            Boolean requiresContainerLanguage = false;
+            if (firstEntry != null) {
+                term = firstEntry.getKey(); // Return the first non-context entry key
+                requiresArray = firstEntry.getValue().getValueType() == JsonValue.ValueType.ARRAY; // Check if the value is an array
+                // if the first entry is an object, and if it contains a single key that has 2 letters, then it is a language container
+                if(firstEntry.getValue().getValueType() == JsonValue.ValueType.OBJECT) {
+                    JsonObject valueObject = firstEntry.getValue().asJsonObject();
+                    if(valueObject.size() == 1) {
+                        String key = valueObject.keySet().iterator().next();
+                        if(key.length() == 2 && key.matches("[a-zA-Z]{2}")) {
+                            requiresContainerLanguage = true; // It is a language container
+                        }   
+                    }
+                }
+            }
+
+            return Triple.of(term, requiresArray, requiresContainerLanguage);
+
         } catch (JsonLdError e) {
             throw new JsonLdException("Error compacting JSON-LD document for property URI: " + propertyUri, e);
         }
@@ -138,67 +183,6 @@ public class ProbingJsonLdContextWrapper implements JsonLdContextWrapper {
             throw new JsonLdException("Error compacting JSON-LD document for probing regex: " + regexPattern, e);
         }
         return regexPattern;
-    }
-
-
-
-    @Override
-    public boolean requiresArray(
-        String propertyUri,
-        boolean isIriProperty,
-        String datatype,
-        String language
-    ) throws JsonLdException {
-        // preventing call with getURI() on a blank node
-        if(propertyUri == null) {
-            return false;
-        }
-
-        log.trace("Checking if property URI requires an array: {}", propertyUri);
-        try {
-            JsonObject probeDocument = prepareProbePropertyDocument(propertyUri, isIriProperty, false, datatype, language);
-            //debug the input and output            
-            log.trace("Probe document: {}", probeDocument);
-            JsonObject compactedDocument = doCompact(probeDocument, this.context);
-            Entry<String, JsonValue> firstEntry = getFirstNonContextEntry(compactedDocument);
-            if (firstEntry != null) {
-                return firstEntry.getValue().getValueType() == JsonValue.ValueType.ARRAY; // Check if the value is an array
-            } else {
-                return false;
-            }
-        } catch (JsonLdError e) {
-            throw new JsonLdException("Error compacting JSON-LD document for property URI: " + propertyUri, e);
-        }
-    }
-
-    @Override
-    public boolean requiresContainerLanguage(
-        String propertyUri
-    ) throws JsonLdException {
-        log.trace("Checking if property URI requires a language container: {}", propertyUri);
-        try {
-            JsonObject probeDocument = prepareProbePropertyDocument(propertyUri, false, false, RDF.langString.getURI(), null);
-
-            log.trace("Probe document: {}", probeDocument);
-            JsonObject compactedDocument = doCompact(probeDocument, this.context);
-            Entry<String, JsonValue> firstEntry = getFirstNonContextEntry(compactedDocument);
-            if (firstEntry != null) {
-                // if the first entry is an object, and if it contains a single key that has 2 letters, then it is a language container
-                if(firstEntry.getValue().getValueType() == JsonValue.ValueType.OBJECT) {
-                    JsonObject valueObject = firstEntry.getValue().asJsonObject();
-                    if(valueObject.size() == 1) {
-                        String key = valueObject.keySet().iterator().next();
-                        if(key.length() == 2 && key.matches("[a-zA-Z]{2}")) {
-                            return true; // It is a language container
-                        }   
-                    }
-                }
-            }
-
-            return false;
-        } catch (JsonLdError e) {
-            throw new JsonLdException("Error compacting JSON-LD document for property URI: " + propertyUri, e);
-        }
     }
 
     private JsonObject prepareProbePropertyDocument(

@@ -8,6 +8,7 @@ import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.tuple.Triple;
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.RDFNode;
@@ -309,18 +310,27 @@ public class JsonSchemaGenerator {
 			Optional<Resource> qualifiedValueShapeDatatype = ps.getShQualifiedValueShape().map(r -> new NodeShape(r)).flatMap(ns -> ns.getShDatatype());
 			Resource theDatatype = ps.getShDatatype().orElseGet(() -> qualifiedValueShapeDatatype.orElse(null));
 
-			String shortname = uriMapper.mapPath(
+			Triple<String,Boolean,Boolean> contextTest = uriMapper.mapPath(
 				ps.getShPath().get().asResource(),
 				ps.couldBeIriProperty(),
 				theDatatype,
 				// TODO : we don't handle language for now
 				null
 			);
+			
 
 			// we are preventing cases where the path is a blank node and was not mapped
 			// in the context
-			if(shortname != null) {
-				objectSchema.addPropertySchema(shortname, this.convertPropertyShapeSchema(nodeShape, ps, model,includeValues));
+			if(contextTest != null) {
+				String shortname = contextTest.getLeft();
+				objectSchema.addPropertySchema(shortname, this.convertPropertyShapeSchema(
+					nodeShape, 
+					ps, 
+					contextTest.getMiddle(),
+					contextTest.getRight(),
+					model,
+					includeValues)
+				);
 
 				Optional<Literal> qualifiedMinCount = ps.getShQualifiedMinCount();
 				Literal theMinCount = ps.getShMinCount().orElseGet(() -> qualifiedMinCount.orElse(null));
@@ -346,6 +356,8 @@ public class JsonSchemaGenerator {
 	private Schema convertPropertyShapeSchema(
 		NodeShape nodeShape,
 		PropertyShape ps,
+		boolean requiresArray,
+		boolean requiresContainerLanguage,
 		Model model,
 		boolean includeValues
 	) throws Exception {
@@ -538,7 +550,7 @@ public class JsonSchemaGenerator {
 			(theMaxCount == null || theMaxCount.getInt() > 1)
 			&&
 			// prevent array wrapping if the context requires a language container
-			(contextWrapper == null || !contextWrapper.requiresContainerLanguage(ps.getShPath().get().asResource().getURI()))
+			!requiresContainerLanguage
 		) {
 			// this is an ArraySchema that will contain the inner Schema built previously
 			Schema innerSchema = singleValueBuilder.build();
@@ -560,15 +572,10 @@ public class JsonSchemaGenerator {
 		if(
 			finalBuilder == null
 			&&
-			(this.contextWrapper != null && this.contextWrapper.requiresArray(
-				ps.getShPath().get().asResource().getURI(),
-				ps.couldBeIriProperty(),
-				ps.getShDatatype().map(d -> d.getURI()).orElse(null),
-				null
-			))
+			requiresArray
 			&&
 			// prevent array wrapping if the context requires a language container
-			(contextWrapper == null || !contextWrapper.requiresContainerLanguage(ps.getShPath().get().asResource().getURI()))
+			!requiresContainerLanguage
 		) {
 			finalBuilder = ArraySchema
 			.builder()

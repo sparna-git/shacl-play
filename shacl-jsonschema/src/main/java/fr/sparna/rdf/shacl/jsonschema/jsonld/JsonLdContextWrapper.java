@@ -1,5 +1,6 @@
 package fr.sparna.rdf.shacl.jsonschema.jsonld;
 
+import org.apache.commons.lang3.tuple.Triple;
 
 public interface JsonLdContextWrapper {
     
@@ -18,19 +19,12 @@ public interface JsonLdContextWrapper {
     public String readTermFromValue(String uri)  throws JsonLdException;
 
     /**
-     * Tests whether the property URI requires an array, that is if is using a "@container": "@set" in the context.
+     * Maps a property URI to a JSON key by reading the context, and also returns whether the property requires an array and whether it requires a language container
      * @param propertyUri
-     * @return true if the property URI requires an array in the JSON-LD context, false otherwise.
+     * @return How the property URI should be represented in JSON by interpreting the context (either a JSON term of the full URI if it is not mapped in the context)
      */
-    public boolean requiresArray(String propertyUri, boolean isIriProperty, String datatype, String language)  throws JsonLdException;
+    public Triple<String,Boolean,Boolean> testProperty(String propertyUri, boolean isIriProperty, boolean isInverse, String datatype, String language)  throws JsonLdException;
 
-    /**
-     * Returns true if the property is set as @container: @language in the context.
-     * @param propertyUri
-     * @return
-     * @throws JsonLdException
-     */
-    public boolean requiresContainerLanguage(String propertyUri)  throws JsonLdException;
 
     public String simplifyPattern(String regexPattern) throws JsonLdException;
 

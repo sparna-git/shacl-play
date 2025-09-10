@@ -2,6 +2,7 @@ package fr.sparna.rdf.shacl.jsonschema.jsonld;
 
 import java.util.Set;
 
+import org.apache.commons.lang3.tuple.Triple;
 import org.apache.jena.rdf.model.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +14,7 @@ public class LocalNameUriToJsonMapper implements UriToJsonMapper {
     private Logger log = LoggerFactory.getLogger(this.getClass().getName());
 
     @Override
-    public String mapPath(
+    public Triple<String,Boolean,Boolean> mapPath(
         Resource path,
         boolean isIriProperty,
         Resource datatype,
@@ -23,16 +24,16 @@ public class LocalNameUriToJsonMapper implements UriToJsonMapper {
         Set<String> shortnames = ShaclReadingUtils.findShortNamesOfPath(path);
         if (shortnames.size() == 1) {
             // If there is a single shortname, returns it
-            return shortnames.iterator().next();
+            return Triple.of(shortnames.iterator().next(),false,false);
         } else if( shortnames.size() > 1) {
             String term = shortnames.iterator().next();
             // If there are multiple shortnames, returns the first one
             log.warn("Found multiple shortnames for path "+path+", will use only one : '"+term+"'");
-            return term;
+            return Triple.of(term,false,false);
         }
         // If there are no shortnames, returns the local name of the property
         if(path.isURIResource()) {
-            return path.getLocalName();
+            return Triple.of(path.getLocalName(),false,false);
         } else {
             return null;
         }

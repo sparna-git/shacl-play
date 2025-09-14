@@ -525,7 +525,6 @@ public class PlantUmlRenderer {
 				if (plantUmlproperty.getShGroup().isPresent()) {
 					
 					// read property group
-					List<PlantUmlProperty> propertiesGpo = new ArrayList<>();
 					String notationName = "";
 					
 					// label of the group, to be used as the label of the separator line

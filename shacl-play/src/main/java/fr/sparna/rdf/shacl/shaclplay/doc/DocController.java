@@ -231,7 +231,7 @@ public class DocController {
 		ShapesDocumentationReaderIfc reader = new ShapesDocumentationModelReader(includeDiagram, urlLogo, hideProperties, includeSectionDiagram);
 		ShapesDocumentation doc = reader.readShapesDocumentation(
 				shapesModel,
-				// OWL graph
+				// OWL graph : empty
 				ModelFactory.createDefaultModel(),
 				languageInput
 		);

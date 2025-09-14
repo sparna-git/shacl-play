@@ -9,8 +9,6 @@ import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.Property;
-import org.apache.jena.rdf.model.RDFList;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
@@ -25,7 +23,6 @@ import org.topbraid.shacl.vocabulary.SH;
 import fr.sparna.rdf.jena.ModelReadingUtils;
 import fr.sparna.rdf.jena.ModelRenderingUtils;
 import fr.sparna.rdf.shacl.DCT;
-import net.sf.saxon.expr.instruct.ForEach;
 
 public class NodeShape {
 
@@ -67,29 +64,12 @@ public class NodeShape {
 			result = ModelRenderingUtils.render(this.getRdfsLabel(lang), true);
 		}				
 		
-		if((result == null) && (this.getShTargetClass().size() > 0)) {
-			
+		if((result == null) && (this.getShTargetClass().size() > 0)) {			
 			// otherwise if we have skos:prefLabel on the class, take it
-			//result = ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(owlModel.getResource(this.getShTargetClass().getURI()), SKOS.prefLabel, lang), true);
-			
-			/*
-			result = this.getShTargetClass()
-						.stream()
-						.map(s ->
-							ModelRenderingUtils.render(
-									ModelReadingUtils.readLiteralInLang(
-											owlModel.getResource(
-													s.getURI()
-											),
-											SKOS.prefLabel, lang),
-									true)			
-						 )
-						.collect(Collectors.joining(","));
-			*/
 			for (Resource t : this.getShTargetClass()) {
 				String res = ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(owlModel.getResource(t.getURI()), SKOS.prefLabel, lang), true);
 			    if (res != null) {
-			    	result.join(",",res);
+			    	result = res;
 			    }
 			}
 			
@@ -97,17 +77,16 @@ public class NodeShape {
 		
 		if((result == null) && (this.getShTargetClass().size() > 0)) {
 			// otherwise if we have rdfs:label on the class, take it
-			//result = ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(owlModel.getResource(this.getShTargetClass().getURI()), RDFS.label, lang), true);
-			
 			for (Resource t : this.getShTargetClass()) {
 				String res = ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(owlModel.getResource(t.getURI()), RDFS.label, lang), true);
 			    if (res != null) {
-			    	result.join(",",res);
+			    	result = res;
 			    }
 			}
 		
 		}
 		
+		// default to short form or id
 		if(result == null) {
 			result = this.getShortFormOrId();
 		}
@@ -146,27 +125,6 @@ public class NodeShape {
 		}
 		
 		return result;
-	}
-		
-	public String renderModelForTargetClass(Model owlModel,List<Resource> TargetClass, Property property, String lang) {
-		
-		String result = null;
-		
-		for (Resource resource : TargetClass) {
-			
-			String uri = resource.getURI(); 
-			
-			Resource getModel = owlModel.getResource(uri);
-			List<Literal> LiteralInLang = ModelReadingUtils.readLiteralInLang(getModel,property,lang);
-			String render = ModelRenderingUtils.render(LiteralInLang,true);
-			
-			if (render != null) {
-				result.join(",", render);
-			}
-		}
-		
-		return result;
-		
 	}
 		
 	public List<Literal> getRdfsComment(String lang) {

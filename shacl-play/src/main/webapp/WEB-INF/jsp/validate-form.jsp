@@ -161,7 +161,7 @@
 					</div>
 
 					<div style="margin-top:2em;">
-						<h4 id="targetsResolution">Extra target resolutions</h4>
+						<h4 id="targetsResolution">Extra target resolutions (support of sh:minCount and sh:maxCount on Node Shapes)</h4>
 						<p>
 							By default, SHACL Play! will resolve the targets of the shapes in the SHACL file. This means that all targets specifications found in the shapes graph
 							are explicitely resolved, and an extra triple is generated for each target found : <code>https://shacl-play.sparna.fr/ontology#hasFocusNode</code>, with
@@ -174,8 +174,10 @@
 								resources that should not be present. It is similar to "unit tests coverage" in software testing, where you want to make sure that all your code is covered by tests.
 							</li>
 							<li>
-								<strong>"Shapes coverage"</strong>: SHACL Play! will check that every shape in the shapes graph has at least one target. 
-								Shapes without any target will be returned as Warnings in the validation report. This is useful to make sure that the target specifications of each shape resolved correctly,
+								<strong>"Shapes coverage"</strong>: SHACL Play! supports <code>sh:minCount</code> and <code>sh:maxCount</code> on Node Shapes. 
+								If <code>sh:minCount 1</code> is set on a Node Shape, and no target was found for it, a Violation will be returned in the validation report.
+								Conversely, If <code>sh:maxCount X</code> is set on a Node Shape, and more than X targets were found for it, a Violation will be returned.
+								This is useful to make sure that the target specifications of each shape resolved correctly,
 								and to avoid situations where no violations are returned, not because the data is valid, but because the initial target specification was wrong (like a typo in a <code>sh:targetClass</code> URI).
 								<br/>
 								In particular if no shapes at all matched a target, the validation report will contain a specific title and status : <em>"Shapes did not match anything !"</em>

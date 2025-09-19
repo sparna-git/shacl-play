@@ -15,6 +15,7 @@ import com.github.curiousoddman.rgxgen.model.RgxGenCharsDefinition;
 
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
+import jakarta.json.JsonObjectBuilder;
 import jakarta.json.JsonStructure;
 import jakarta.json.JsonValue;
 
@@ -100,12 +101,12 @@ public class ProbingJsonLdContextWrapper implements JsonLdContextWrapper {
     }
 
     @Override
-    public String readTermFromValue(String uri) throws JsonLdException {
+    public String readTermFromValue(String uri, String propertyUri) throws JsonLdException {
         log.trace("Probing JSON-LD context for value URI: {}", uri);
         try {
-            JsonObject probeDocument = prepareProbeValueDocument(uri, true);
+            JsonObject probeDocument = prepareProbeValueDocument(uri, propertyUri, true);
             //debug the input and output            
-            log.trace("Probe document: {}", probeDocument);
+            log.trace("Probe document 1: {}", probeDocument);
             JsonObject compactedDocument = doCompact(probeDocument, probeDocument.get("@context"));
             Entry<String, JsonValue> firstEntry = getFirstNonContextEntry(compactedDocument);
 
@@ -115,23 +116,35 @@ public class ProbingJsonLdContextWrapper implements JsonLdContextWrapper {
                 if(firstEntry.getValue().getValueType() == JsonValue.ValueType.STRING) {
                     // returns the string value
                     finalResult = firstEntry.getValue().toString().replaceAll("^\"|\"$", ""); // Remove quotes
+                } else if(firstEntry.getValue().getValueType() == JsonValue.ValueType.OBJECT) {
+                    JsonObject valueObject = firstEntry.getValue().asJsonObject();
+                    // read the first entry of the object, which should be the @id
+                    JsonValue firstValue = valueObject.entrySet().iterator().next().getValue();
+                    finalResult = firstValue.getValueType() == JsonValue.ValueType.STRING ? firstValue.toString().replaceAll("^\"|\"$", "") : null;                    
                 }  
             }
 
             if(finalResult.equals(uri)) {
                 // second try with an "@id" to test if the URI can be simplified with a @base declaration
 
-                JsonObject probeDocument2 = prepareProbeValueDocument(uri, false);
+                JsonObject probeDocument2 = prepareProbeValueDocument(uri, propertyUri, false);
                 //debug the input and output            
+                System.out.println("  "+probeDocument2.toString());
                 log.trace("Probe document 2: {}", probeDocument2);
                 JsonObject compactedDocument2 = doCompact(probeDocument2, probeDocument2.get("@context"));
+                System.out.println("  "+compactedDocument2.toString());
                 Entry<String, JsonValue> firstEntry2 = getFirstNonContextEntry(compactedDocument2);
 
                 if (firstEntry2 != null) {
                     if(firstEntry2.getValue().getValueType() == JsonValue.ValueType.STRING) {
                         // returns the string value
                         finalResult = firstEntry2.getValue().toString().replaceAll("^\"|\"$", ""); // Remove quotes
-                    }  
+                    } else if(firstEntry.getValue().getValueType() == JsonValue.ValueType.OBJECT) {
+                        JsonObject valueObject = firstEntry.getValue().asJsonObject();
+                        // read the first entry of the object, which should be the @id
+                        JsonValue firstValue = valueObject.entrySet().iterator().next().getValue();
+                        finalResult = firstValue.getValueType() == JsonValue.ValueType.STRING ? firstValue.toString().replaceAll("^\"|\"$", "") : null;                    
+                    } 
                 }
             }
 
@@ -144,38 +157,43 @@ public class ProbingJsonLdContextWrapper implements JsonLdContextWrapper {
     }
 
     @Override
-    public String simplifyPattern(String regexPattern) throws JsonLdException {
+    public String simplifyPattern(String regexPattern, String propertyUri) throws JsonLdException {
         log.trace("Probing JSON-LD context for regex: {}", regexPattern);
         // System.out.println("Probing JSON-LD context for regex: "+regexPattern);
         try {
             String testValue = generateMatchingString(regexPattern);
-            JsonObject probeDocument = prepareProbeRegex(testValue);
+            JsonObject probeDocument = prepareProbeRegex(testValue, propertyUri);
+            System.out.println("probeDocument regex: " + probeDocument);
             //debug the input and output            
             // System.out.println(probeDocument.toString());
-            log.trace("Probe document: {}", probeDocument);
             JsonObject compactedDocument = doCompact(probeDocument, probeDocument.get("@context"));
-            // System.out.println(compactedDocument.toString());
+            System.out.println(compactedDocument.toString());
             Entry<String, JsonValue> firstEntry = getFirstNonContextEntry(compactedDocument);
             if (firstEntry != null) {
+                String returnedValue = null;
                 // read the @id of the JsonValue, which should be a string
                 if(firstEntry.getValue().getValueType() == JsonValue.ValueType.OBJECT) {
                     JsonObject valueObject = firstEntry.getValue().asJsonObject();
                     // read the first entry of the object, which should be the @id
                     JsonValue firstValue = valueObject.entrySet().iterator().next().getValue();
-                    String returnedValue = firstValue.getValueType() == JsonValue.ValueType.STRING ? firstValue.toString().replaceAll("^\"|\"$", "") : null;
-                    if(returnedValue != null) {
-                        System.out.println("Returned value: " + returnedValue);
-                        if(returnedValue.length() < testValue.length() && testValue.endsWith(returnedValue)) {
-                            // now we now that some simplification was applied in the context
-                            // most probably due to @base
+                    returnedValue = firstValue.getValueType() == JsonValue.ValueType.STRING ? firstValue.toString().replaceAll("^\"|\"$", "") : null;                    
+                } else if (firstEntry.getValue().getValueType() == JsonValue.ValueType.STRING) {
+                    // if the property in the context has @type:@id, we will have only a string
+                    returnedValue = firstEntry.getValue().toString().replaceAll("^\"|\"$", "");
+                }
 
-                            // determine the piece of the string that was removed
-                            String removed = testValue.substring(0, testValue.length() - returnedValue.length());
-                            // and return the simplified regex pattern
-                            String simplifiedPattern = regexPattern.replaceAll(removed, "");
+                if(returnedValue != null) {
+                    System.out.println("Returned value: " + returnedValue);
+                    if(returnedValue.length() < testValue.length() && testValue.endsWith(returnedValue)) {
+                        // now we now that some simplification was applied in the context
+                        // most probably due to @base
 
-                            return simplifiedPattern;
-                        }
+                        // determine the piece of the string that was removed
+                        String removed = testValue.substring(0, testValue.length() - returnedValue.length());
+                        // and return the simplified regex pattern
+                        String simplifiedPattern = regexPattern.replaceAll(removed, "");
+
+                        return simplifiedPattern;
                     }
                 }
             }
@@ -251,6 +269,7 @@ public class ProbingJsonLdContextWrapper implements JsonLdContextWrapper {
 
     private JsonObject prepareProbeValueDocument(
         String valueUri,
+        String propertyUri,
         boolean vocabTest
     ) {
         // Prepare a JSON-LD document that probes the context for the given values
@@ -290,17 +309,24 @@ public class ProbingJsonLdContextWrapper implements JsonLdContextWrapper {
                 .build();
 
         // create our complete JSON object
-        JsonObject probeDocument = Json.createObjectBuilder()
-            .add("shaclplay", value) // Add the property URI with a null value
-            // and the context
-            .add("@context", completeContext)
-            .build();
+        JsonObjectBuilder probeDocumentBuilder = Json.createObjectBuilder();
+        if(propertyUri == null) {
+            probeDocumentBuilder.add("shaclplay", value); // Add the property URI to the document
+        } else {
+            probeDocumentBuilder.add(propertyUri, value); // Add the property URI to the document
+        }
+            
+        // and the context
+        probeDocumentBuilder.add("@context", completeContext);
+        
+        JsonObject probeDocument = probeDocumentBuilder.build();
 
         return probeDocument;
     }
 
     private JsonObject prepareProbeRegex(
-        String testValue
+        String testValue,
+        String propertyUri
     ) {
         // 2. Use this matching String as a value of an @id property in the JSON-LD document
         JsonValue value = Json.createObjectBuilder()
@@ -308,7 +334,9 @@ public class ProbingJsonLdContextWrapper implements JsonLdContextWrapper {
             .build();
 
         // 3. create an empty JSON object with the value and the context
-        String propertyUri = "https://shacl-play.sparna.fr/regex";
+        if(propertyUri == null) {
+            propertyUri = "https://shacl-play.sparna.fr/regex";
+        }
 
         // create an empty JSON object
         JsonObject probeDocument = Json.createObjectBuilder()

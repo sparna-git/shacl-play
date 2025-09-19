@@ -283,20 +283,21 @@ public class JsonSchemaGenerator {
 		// shorten all examples according to context
 		List<String> examplesId = examplesIdRaw.stream()
 			.map(ex -> model.createResource(ex))
-			.map(res -> this.uriMapper.mapValueURI(res))
+			.map(res -> this.uriMapper.mapValueURI(res, null))
 			.collect(Collectors.toList());
 
-		StringSchema.Builder stringSchemaBuilder = StringSchema.builder();
+		StringSchema.Builder idSchemaBuilder = StringSchema.builder();
 		if (nodeShape.getShPattern().isPresent()) {
-			stringSchemaBuilder.pattern(this.uriMapper.mapUriPatternToJsonPattern(nodeShape.getShPattern().get().getString()));
+			// no property URi in this case
+			idSchemaBuilder.pattern(this.uriMapper.mapUriPatternToJsonPattern(nodeShape.getShPattern().get().getString(), null));
 		}
 		if( !examplesId.isEmpty()) {
-			stringSchemaBuilder.examples(examplesId);
+			idSchemaBuilder.examples(examplesId);
 		}
-		stringSchemaBuilder.format("iri-reference");
+		idSchemaBuilder.format("iri-reference");
 
 		// always set an id property, always required
-		objectSchema.addPropertySchema("id", stringSchemaBuilder.build());		
+		objectSchema.addPropertySchema("id", idSchemaBuilder.build());		
 		objectSchema.addRequiredProperty("id");
 
 		for (PropertyShape ps : nodeShape.getProperties()) {
@@ -326,7 +327,9 @@ public class JsonSchemaGenerator {
 				objectSchema.addPropertySchema(shortname, this.convertPropertyShapeSchema(
 					nodeShape, 
 					ps, 
+					// requires array
 					contextTest.getMiddle(),
+					// requires container language
 					contextTest.getRight(),
 					model,
 					includeValues)
@@ -382,7 +385,7 @@ public class JsonSchemaGenerator {
 				// TODO : handle constant literal values			
 				singleValueBuilder = ConstSchema
 					.builder()
-					.permittedValue(this.uriMapper.mapValueURI(ps.getShHasValue().get().asResource()));
+					.permittedValue(this.uriMapper.mapValueURI(ps.getShHasValue().get().asResource(), (ps.getShPath().get().asResource().isURIResource())?ps.getShPath().get().asResource().getURI():null));
 			}
 	
 			// sh:in
@@ -391,7 +394,7 @@ public class JsonSchemaGenerator {
 				List<Object> values = new ArrayList<>();
 				for (RDFNode i : ps.getShIn()) {				
 					if (i.isURIResource()) {
-						values.add(this.uriMapper.mapValueURI(i.asResource()));
+						values.add(this.uriMapper.mapValueURI(i.asResource(), (ps.getShPath().get().asResource().isURIResource())?ps.getShPath().get().asResource().getURI():null));
 					} else if (i.isLiteral()) {
 						values.add(i.asLiteral().getValue());
 					} else {
@@ -444,7 +447,11 @@ public class JsonSchemaGenerator {
 			String pattern = ps.getShPattern().get().getString();
 			String patternAsInJson = pattern;
 			if(!ps.couldBeLiteralProperty()) {
-				patternAsInJson = this.uriMapper.mapUriPatternToJsonPattern(pattern);
+				if(ps.getShPath().get().asResource().isURIResource()) {
+					patternAsInJson = this.uriMapper.mapUriPatternToJsonPattern(pattern, ps.getShPath().get().asResource().getURI());
+				} else {
+					patternAsInJson = this.uriMapper.mapUriPatternToJsonPattern(pattern, null);
+				}
 			}
 			
 			singleValueBuilder = StringSchema

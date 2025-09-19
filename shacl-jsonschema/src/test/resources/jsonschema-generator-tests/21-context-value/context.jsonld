@@ -13,7 +13,7 @@
       },
       "property" : {
         "@id" : "ex:property",
-        "@type" : "@id"
+        "@type" : "@vocab"
       },
       "Vote" : "eli-dl:Vote",
       "eli" : "http://data.europa.eu/eli/ontology#",

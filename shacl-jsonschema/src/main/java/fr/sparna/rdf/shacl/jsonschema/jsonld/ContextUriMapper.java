@@ -82,10 +82,10 @@ public class ContextUriMapper implements UriToJsonMapper {
     }
     
     @Override
-    public String mapValueURI(Resource uri) {
+    public String mapValueURI(Resource uri, String propertyUri) {
     	String contextMapping;
         try {
-            contextMapping = contextWrapper.readTermFromValue(uri.getURI());
+            contextMapping = contextWrapper.readTermFromValue(uri.getURI(), propertyUri);
         } catch (JsonLdException e) {
             e.printStackTrace();
             return uri.getModel().shortForm(uri.getURI());
@@ -102,9 +102,9 @@ public class ContextUriMapper implements UriToJsonMapper {
     }
 
     @Override
-    public String mapUriPatternToJsonPattern(String uriPattern) {
+    public String mapUriPatternToJsonPattern(String uriPattern, String propertyUri) {
         try {
-            return contextWrapper.simplifyPattern(uriPattern);
+            return contextWrapper.simplifyPattern(uriPattern, propertyUri);
         } catch (JsonLdException e) {
             e.printStackTrace();
             return uriPattern;

@@ -13,10 +13,10 @@ public interface JsonLdContextWrapper {
 
     /**
      * Maps a value URI to a JSON key by reading the context
-     * @param propertyUri
+     * @param propertyUri an optional property URI, which can be used when the context contains a local context for a given property
      * @return How the value URI should be represented in JSON by interpreting the context (either a JSON term of the full URI if it is not mapped in the context)
      */
-    public String readTermFromValue(String uri)  throws JsonLdException;
+    public String readTermFromValue(String uri, String propertyUri)  throws JsonLdException;
 
     /**
      * Maps a property URI to a JSON key by reading the context, and also returns whether the property requires an array and whether it requires a language container
@@ -25,7 +25,21 @@ public interface JsonLdContextWrapper {
      */
     public Triple<String,Boolean,Boolean> testProperty(String propertyUri, boolean isIriProperty, boolean isInverse, String datatype, String language)  throws JsonLdException;
 
-
-    public String simplifyPattern(String regexPattern) throws JsonLdException;
+    /**
+     * Simplifies a regex pattern in the context of a given property by removing the context base from it, if any.
+     * propertyUri is optional
+     * This is useful when the JSON-LD context contains a local context for a given property:
+     * e.g.
+     * {
+     *   "@context": {
+     *     "@base": "https://data.europarl.europa.eu/",
+     *     "property": {
+     *       "@id": "http://example.org/property",  
+     *      "@type": "@id",
+     *      "@context" : { "@base": "https://data.europarl.europa.eu/org/" }
+     *   }
+     *  }    
+     */
+    public String simplifyPattern(String regexPattern, String propertyUri) throws JsonLdException;
 
 }

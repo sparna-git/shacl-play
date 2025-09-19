@@ -1,0 +1,10 @@
+{
+    "@base": "https://data.europarl.europa.eu/",
+    "id": "@id",
+    "property": {
+        "@id": "http://example.org/property",
+        "@type": "@id",
+        "@context" : { "@base": "https://data.europarl.europa.eu/def/document-types/" }
+    }
+}
+

@@ -18,9 +18,14 @@ public interface UriToJsonMapper {
 
     /**
      * Maps a value URI to a JSON key - this can typically be by taking the localName of the URI
+     * propertyUri is optional, but can be used when the context contains a local context for a given property
      */
-    public String mapValueURI(Resource uri);
+    public String mapValueURI(Resource uri, String propertyUri);
 
-    public String mapUriPatternToJsonPattern(String uriPattern);
+    /**
+     * Maps a URI pattern to a JSON pattern, typically by removing the context base from it, if any
+     * propertyUri is optional, but can be used when the context contains a local context for a given property
+     */
+    public String mapUriPatternToJsonPattern(String uriPattern, String propertyUri);
 
 }

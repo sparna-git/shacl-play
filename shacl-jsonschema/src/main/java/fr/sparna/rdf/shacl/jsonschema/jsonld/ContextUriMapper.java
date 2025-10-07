@@ -51,7 +51,7 @@ public class ContextUriMapper implements UriToJsonMapper {
                 );
             } 
         } catch (JsonLdException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
         
 
@@ -87,18 +87,15 @@ public class ContextUriMapper implements UriToJsonMapper {
         try {
             contextMapping = contextWrapper.readTermFromValue(uri.getURI(), propertyUri);
         } catch (JsonLdException e) {
-            e.printStackTrace();
-            return uri.getModel().shortForm(uri.getURI());
+            throw new RuntimeException(e);
         }
 
-        if(!contextMapping.equals(uri.getURI())) {
-            // Otherwise, returns the context mapping
-            return contextMapping;
-        } else {
-            // If the context mapping is the same as the URI, returns the full URI
-            // do NOT use the local name from the SHACL specification, as we should rely only on the context
-            return uri.getURI();
-        }
+        // here : either something happened with the context mapping, and we return it,
+        // or if the context mapping is the same as the URI, returns the full URI
+        // do NOT use the local name from the SHACL specification, as we should rely only on the context
+        log.debug("Mapped value URI "+uri+" in property "+propertyUri+" to "+contextMapping);
+        return contextMapping;
+
     }
 
     @Override
@@ -107,7 +104,7 @@ public class ContextUriMapper implements UriToJsonMapper {
             return contextWrapper.simplifyPattern(uriPattern, propertyUri);
         } catch (JsonLdException e) {
             e.printStackTrace();
-            return uriPattern;
+            throw new RuntimeException(e);
         }
     }
     

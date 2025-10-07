@@ -1,0 +1,22 @@
+[
+  {
+    "data": "@graph",
+    "@base": "https://data.europarl.europa.eu/"
+  },
+  {
+      "id" : "@id",
+      "type" : "@type",
+      "linkedTo" : {
+        "@id" : "org:linkedTo",
+        "@type" : "@id",
+        "@container" : "@set"
+      },
+      "Vote" : "eli-dl:Vote",
+      "eli" : "http://data.europa.eu/eli/ontology#",
+      "org" : "http://www.w3.org/ns/org#",
+      "eli-dl" : "http://data.europa.eu/eli/eli-draft-legislation-ontology#",
+      "ex" : "http://example.org/",
+      "xsd" : "http://www.w3.org/2001/XMLSchema#",
+      "@base" : "https://data.europarl.europa.eu/"
+  }
+]

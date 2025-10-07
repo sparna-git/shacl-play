@@ -99,11 +99,10 @@ public class JsonLdContextGenerator {
 			} else if(!datatypes.isEmpty()) {
 				Resource theDatatype = datatypes.iterator().next();
 				String datatype = theDatatype.getURI();
+				
 				if(datatype.startsWith(XSD.NS)) {
 					mapping.setType("xsd:"+theDatatype.getLocalName());
-				}		
-				
-				if (datatype.equals(RDF.langString.getURI())) {
+				} else if (datatype.equals(RDF.langString.getURI())) {
 					mapping.setContainer("@language");
 				} else {
 					mapping.setType(datatype);

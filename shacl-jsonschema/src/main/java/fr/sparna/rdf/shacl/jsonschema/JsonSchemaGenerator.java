@@ -40,8 +40,6 @@ import fr.sparna.rdf.shacl.jsonschema.model.Schema;
 import fr.sparna.rdf.shacl.jsonschema.model.StringSchema;
 import jakarta.json.JsonValue;
 
-import fr.sparna.rdf.jena.shacl.ShOrReadingUtils;
-
 
 public class JsonSchemaGenerator {
     

@@ -42,9 +42,7 @@ public class ProbingJsonLdContextWrapper implements JsonLdContextWrapper {
             JsonObject probeDocument = prepareProbePropertyDocument(propertyUri, isIriProperty, isInverse, datatype, language);
             //debug the input and output            
             log.trace("Probe document: {}", probeDocument);
-            System.out.println("  "+probeDocument.toString());
             JsonObject compactedDocument = doCompact(probeDocument, this.context);
-            System.out.println("  "+compactedDocument.toString());
             Entry<String, JsonValue> firstEntry = getFirstNonContextEntry(compactedDocument);
             if (firstEntry != null) {
                 return firstEntry.getKey(); // Return the first non-context entry key
@@ -69,9 +67,7 @@ public class ProbingJsonLdContextWrapper implements JsonLdContextWrapper {
             JsonObject probeDocument = prepareProbePropertyDocument(propertyUri, isIriProperty, isInverse, datatype, language);
             //debug the input and output            
             log.trace("Probe document: {}", probeDocument);
-            System.out.println("  "+probeDocument.toString());
             JsonObject compactedDocument = doCompact(probeDocument, this.context);
-            System.out.println("  "+compactedDocument.toString());
             Entry<String, JsonValue> firstEntry = getFirstNonContextEntry(compactedDocument);
 
             // If no such entry exists, default to the full URI
@@ -104,10 +100,11 @@ public class ProbingJsonLdContextWrapper implements JsonLdContextWrapper {
     public String readTermFromValue(String uri, String propertyUri) throws JsonLdException {
         log.trace("Probing JSON-LD context for value URI: {}", uri);
         try {
+            // first try with an @vocab to see if the value can be simplified based on the terms declared in the context
             JsonObject probeDocument = prepareProbeValueDocument(uri, propertyUri, true);
-            //debug the input and output            
-            log.trace("Probe document 1: {}", probeDocument);
+            log.debug("Probe document 1: {}", probeDocument);
             JsonObject compactedDocument = doCompact(probeDocument, probeDocument.get("@context"));
+            log.debug("Probe document 1: {}", compactedDocument);
             Entry<String, JsonValue> firstEntry = getFirstNonContextEntry(compactedDocument);
 
             String finalResult = uri;
@@ -127,12 +124,9 @@ public class ProbingJsonLdContextWrapper implements JsonLdContextWrapper {
             if(finalResult.equals(uri)) {
                 // second try with an "@id" to test if the URI can be simplified with a @base declaration
 
-                JsonObject probeDocument2 = prepareProbeValueDocument(uri, propertyUri, false);
-                //debug the input and output            
-                System.out.println("  "+probeDocument2.toString());
+                JsonObject probeDocument2 = prepareProbeValueDocument(uri, propertyUri, false);      
                 log.trace("Probe document 2: {}", probeDocument2);
                 JsonObject compactedDocument2 = doCompact(probeDocument2, probeDocument2.get("@context"));
-                System.out.println("  "+compactedDocument2.toString());
                 Entry<String, JsonValue> firstEntry2 = getFirstNonContextEntry(compactedDocument2);
 
                 if (firstEntry2 != null) {
@@ -312,6 +306,8 @@ public class ProbingJsonLdContextWrapper implements JsonLdContextWrapper {
         JsonObjectBuilder probeDocumentBuilder = Json.createObjectBuilder();
         if(propertyUri == null) {
             probeDocumentBuilder.add("shaclplay", value); // Add the property URI to the document
+        } else if(propertyUri.equals(RDF.type.getURI())) {
+            probeDocumentBuilder.add("@type", valueUri); // Add the property URI to the document, not with an @id
         } else {
             probeDocumentBuilder.add(propertyUri, value); // Add the property URI to the document
         }

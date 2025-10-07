@@ -43,7 +43,7 @@ public class ProbingJsonLdContextWrapperTest {
         JsonValue baseContext = Json.createReader(baseTest).readValue();
         ProbingJsonLdContextWrapper baseWrapper = new ProbingJsonLdContextWrapper(baseContext);
         String VALUE_BASE = "https://data.europarl.europa.eu/def/document-types/TA";
-        String valueBase = baseWrapper.readTermFromValue(VALUE_BASE);
+        String valueBase = baseWrapper.readTermFromValue(VALUE_BASE, null);
         System.out.println(VALUE_BASE + " --> " + valueBase);
     }
 

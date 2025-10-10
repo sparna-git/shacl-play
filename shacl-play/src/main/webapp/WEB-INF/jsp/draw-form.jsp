@@ -155,8 +155,8 @@
 									<th scope="row" width="30%"><code>rdfs:subClassOf</code></th>
 									<td>IRI</td>
 									<td class="text-break">
-									<code>rdfs:subClassOf</code> links are displayed in bold grey. It implies the NodeShapes are also classes, and it of course implies that the submitted
-									file contains the <code>rdfs:subClassOf</code> links.
+									This is displaying the rdfs:subClassOf links between NodeShapes that are themselves classes. <code>rdfs:subClassOf</code> links are displayed in bold grey. It implies the NodeShapes are also typed as <code>rdfs:Class</code>, 
+									and it of course implies that the submitted file contains the <code>rdfs:subClassOf</code> links.
 									</td>
 								</tr>
 								<tr>

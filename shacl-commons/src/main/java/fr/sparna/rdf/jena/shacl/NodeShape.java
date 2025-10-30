@@ -62,6 +62,15 @@ public class NodeShape extends Shape  {
 	}
 
 	/**
+	 * @return The sh:targetClass resources value if present, or an empty list if none
+	 */
+	public List<Resource> getTargetClasses() {
+		return shape.listProperties(SH.targetClass).toList().stream()
+				.map(s -> s.getResource())
+				.collect(Collectors.toList());
+	}
+
+	/**
 	 * @return The list of rdfs:subClassOf of this node shape exclugind owl:Thing, if present, or an empty list if none
 	 */
 	public List<Resource> getSubClassOf() {
@@ -112,7 +121,7 @@ public class NodeShape extends Shape  {
 	}
 
 	public String getColorString() {
-		return this.getColor().map(node -> node.asLiteral().toString()).orElse(null);
+		return this.getShaclPlayColor().map(node -> node.asLiteral().toString()).orElse(null);
 	}	
 
 	public Boolean isClosed() {
@@ -196,7 +205,7 @@ public class NodeShape extends Shape  {
 		properties.sort((PropertyShape ps1, PropertyShape ps2) -> {
 			if(ps1.getShOrder().isPresent()) {
 				if(ps2.getShOrder().isPresent()) {
-					return ((ps1.getShOrder().map(o -> o.getDouble()).get() - ps2.getShOrder().map(o -> o.getDouble()).get()) > 0)?1:-1;
+					return ((ps1.getShOrder().get() - ps2.getShOrder().get()) > 0)?1:-1;
 				} else {
 					return -1;
 				}

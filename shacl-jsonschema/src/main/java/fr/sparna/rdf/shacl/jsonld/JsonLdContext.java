@@ -32,22 +32,28 @@ public class JsonLdContext {
 		}
 		
 		buffer.append("{\n");
-		buffer.append("  \"@context\": {"+"\n");
+		this.writeInner(buffer, indent, '\n');
+		buffer.append("}");
+	}
+
+	public void writeInner(StringBuffer buffer, String indent, char newLineChar) {
+		
+		buffer.append("  \"@context\": {"+newLineChar);
 		
 		for (List<JsonLdMapping> section : sections) {
 			for (JsonLdMapping m : section) {
 				buffer.append(indent);
 				m.write(buffer);
-				buffer.append(",\n");
+				buffer.append(","+newLineChar);
 			}
-			buffer.append("\n");
-			buffer.append("\n");
+			buffer.append(newLineChar);
+			buffer.append(newLineChar);
 		}
 		// remove last , and line breaks
 		buffer.delete(buffer.length()-3-1, buffer.length());
-		buffer.append("\n");
-		buffer.append("  }\n");
-		buffer.append("}");
+		buffer.append(newLineChar);
+		buffer.append("  }"+newLineChar);
 	}
-	
+
+
 }

@@ -98,8 +98,8 @@ public class PropertyShape extends Shape {
 		return ModelReadingUtils.getOptionalResource(shape, SH.qualifiedValueShape);
 	}
 	
-	public Optional<Resource> getShPath() {
-		return ModelReadingUtils.getOptionalResource(shape, SH.path);
+	public Resource getShPath() {
+		return shape.getRequiredProperty(SH.path).getResource();
 	}
 	
 	public Optional<Literal> getShName() {
@@ -132,20 +132,20 @@ public class PropertyShape extends Shape {
 		return ModelReadingUtils.getOptionalLiteral(this.shape, SH.uniqueLang);
 	}
 	
-	public Optional<Literal> getShMinCount() {
-		return ModelReadingUtils.getOptionalLiteral(this.shape, SH.minCount);
+	public Optional<Integer> getShMinCount() {
+		return ModelReadingUtils.getOptionalLiteral(this.shape, SH.minCount).map(l -> l.getInt());
 	}
 	
-	public Optional<Literal> getShMaxCount() {
-		return ModelReadingUtils.getOptionalLiteral(this.shape, SH.maxCount);
+	public Optional<Integer> getShMaxCount() {
+		return ModelReadingUtils.getOptionalLiteral(this.shape, SH.maxCount).map(l -> l.getInt());
 	}
 	
-	public Optional<Literal> getShQualifiedMinCount() {
-		return ModelReadingUtils.getOptionalLiteral(this.shape, SH.qualifiedMinCount);
+	public Optional<Integer> getShQualifiedMinCount() {
+		return ModelReadingUtils.getOptionalLiteral(this.shape, SH.qualifiedMinCount).map(l -> l.getInt());
 	}
 	
-	public Optional<Literal> getShQualifiedMaxCount() {
-		return ModelReadingUtils.getOptionalLiteral(this.shape, SH.qualifiedMaxCount);
+	public Optional<Integer> getShQualifiedMaxCount() {
+		return ModelReadingUtils.getOptionalLiteral(this.shape, SH.qualifiedMaxCount).map(l -> l.getInt());
 	}
 	
 	public List<Literal> getShLanguageIn() {
@@ -169,15 +169,13 @@ public class PropertyShape extends Shape {
 	
 	
 	public String getColorString() {
-		return this.getColor().map(node -> node.asLiteral().toString()).orElse(null);
+		return this.getShaclPlayColor().map(node -> node.asLiteral().toString()).orElse(null);
 	}
-
-
 	
 	public String getPathAsSparql() {
 		// render the property path using prefixes
 		// TODO : this default behavior should be elsewhere probably
-		return this.getShPath().map(path -> ModelRenderingUtils.renderSparqlPropertyPath(path, true)).orElse(this.shape.getURI());
+		return ModelRenderingUtils.renderSparqlPropertyPath(this.getShPath(), true);
 	}	
 
 	public String getShLanguageInString() {
@@ -208,7 +206,7 @@ public class PropertyShape extends Shape {
 			return null;
 		}
 		
-		return "[" + this.getShMinCount().map(l-> ModelRenderingUtils.render(l)).orElse("0") + ".." + this.getShMaxCount().map(l-> ModelRenderingUtils.render(l)).orElse("*") + "]" ;
+		return "[" + this.getShMinCount().map(l-> Integer.toString(l)).orElse("0") + ".." + this.getShMaxCount().map(l-> Integer.toString(l)).orElse("*") + "]" ;
 	}
 
 	public String getPlantUmlQualifiedCardinalityString() {
@@ -216,7 +214,7 @@ public class PropertyShape extends Shape {
 			return null;
 		}
 		
-		return "[" + this.getShQualifiedMinCount().map(l-> ModelRenderingUtils.render(l)).orElse("0") + ".." + this.getShQualifiedMaxCount().map(l-> ModelRenderingUtils.render(l)).orElse("*") + "]" ;
+		return "[" + this.getShQualifiedMinCount().map(l-> Integer.toString(l)).orElse("0") + ".." + this.getShQualifiedMaxCount().map(l-> Integer.toString(l)).orElse("*") + "]" ;
 	}
 	
 	public String getPlantUmlLengthString() {
@@ -224,7 +222,7 @@ public class PropertyShape extends Shape {
 			return null;
 		}
 		
-		return "{field} (Length [" + this.getShMinLength().map(l-> ModelRenderingUtils.render(l)).orElse("0") + ".." + this.getShMaxCount().map(l-> ModelRenderingUtils.render(l)).orElse("*") + "])" ;
+		return "{field} (Length [" + this.getShMinLength().map(l-> Integer.toString(l)).orElse("0") + ".." + this.getShMaxCount().map(l-> Integer.toString(l)).orElse("*") + "])" ;
 	}
 	
 	public String getPlantUmlRangeString() {

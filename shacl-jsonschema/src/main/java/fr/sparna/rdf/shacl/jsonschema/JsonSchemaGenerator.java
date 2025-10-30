@@ -4,12 +4,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.tuple.Triple;
-import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
@@ -310,7 +308,7 @@ public class JsonSchemaGenerator {
 			Resource theDatatype = ps.getShDatatype().orElseGet(() -> qualifiedValueShapeDatatype.orElse(null));
 
 			Triple<String,Boolean,Boolean> contextTest = uriMapper.mapPath(
-				ps.getShPath().get().asResource(),
+				ps.getShPath(),
 				ps.couldBeIriProperty(),
 				theDatatype,
 				// TODO : we don't handle language for now
@@ -333,11 +331,11 @@ public class JsonSchemaGenerator {
 					includeValues)
 				);
 
-				Optional<Literal> qualifiedMinCount = ps.getShQualifiedMinCount();
-				Literal theMinCount = ps.getShMinCount().orElseGet(() -> qualifiedMinCount.orElse(null));
+				Optional<Integer> qualifiedMinCount = ps.getShQualifiedMinCount();
+				Integer theMinCount = ps.getShMinCount().orElseGet(() -> qualifiedMinCount.orElse(null));
 
 				// add to required properties if necessary
-				if (theMinCount != null && theMinCount.getInt() > 0) {
+				if (theMinCount != null && theMinCount > 0) {
 					objectSchema.addRequiredProperty(shortname);
 				}	
 			}		
@@ -383,7 +381,7 @@ public class JsonSchemaGenerator {
 				// TODO : handle constant literal values			
 				singleValueBuilder = ConstSchema
 					.builder()
-					.permittedValue(this.uriMapper.mapValueURI(ps.getShHasValue().get().asResource(), (ps.getShPath().get().asResource().isURIResource())?ps.getShPath().get().asResource().getURI():null));
+					.permittedValue(this.uriMapper.mapValueURI(ps.getShHasValue().get().asResource(), (ps.getShPath().isURIResource())?ps.getShPath().getURI():null));
 			}
 	
 			// sh:in
@@ -392,7 +390,7 @@ public class JsonSchemaGenerator {
 				List<Object> values = new ArrayList<>();
 				for (RDFNode i : ps.getShIn()) {				
 					if (i.isURIResource()) {
-						values.add(this.uriMapper.mapValueURI(i.asResource(), (ps.getShPath().get().asResource().isURIResource())?ps.getShPath().get().asResource().getURI():null));
+						values.add(this.uriMapper.mapValueURI(i.asResource(), (ps.getShPath().isURIResource())?ps.getShPath().getURI():null));
 					} else if (i.isLiteral()) {
 						values.add(i.asLiteral().getValue());
 					} else {
@@ -445,8 +443,8 @@ public class JsonSchemaGenerator {
 			String pattern = ps.getShPattern().get().getString();
 			String patternAsInJson = pattern;
 			if(!ps.couldBeLiteralProperty()) {
-				if(ps.getShPath().get().asResource().isURIResource()) {
-					patternAsInJson = this.uriMapper.mapUriPatternToJsonPattern(pattern, ps.getShPath().get().asResource().getURI());
+				if(ps.getShPath().isURIResource()) {
+					patternAsInJson = this.uriMapper.mapUriPatternToJsonPattern(pattern, ps.getShPath().getURI());
 				} else {
 					patternAsInJson = this.uriMapper.mapUriPatternToJsonPattern(pattern, null);
 				}
@@ -547,12 +545,12 @@ public class JsonSchemaGenerator {
 		Schema.Builder finalBuilder = null;
 
 		// if the property shape has a maxCount > 1 or no maxCount specified, then we need to wrap the single value schema into an ArraySchema
-		Optional<Literal> qualifiedMaxCount = ps.getShQualifiedMaxCount();
-		Literal theMaxCount = ps.getShMaxCount().orElseGet(() -> qualifiedMaxCount.orElse(null));
+		Optional<Integer> qualifiedMaxCount = ps.getShQualifiedMaxCount();
+		Integer theMaxCount = ps.getShMaxCount().orElseGet(() -> qualifiedMaxCount.orElse(null));
 		if (
 			singleValueBuilder != null
 			&&
-			(theMaxCount == null || theMaxCount.getInt() > 1)
+			(theMaxCount == null || theMaxCount > 1)
 			&&
 			// prevent array wrapping if the context requires a language container
 			!requiresContainerLanguage
@@ -561,8 +559,8 @@ public class JsonSchemaGenerator {
 			Schema innerSchema = singleValueBuilder.build();
 
 			Integer maxItems = null;
-			if(theMaxCount != null && theMaxCount.getInt() > 1) {
-				maxItems = theMaxCount.getInt();
+			if(theMaxCount != null && theMaxCount > 1) {
+				maxItems = theMaxCount;
 			}
 
 			finalBuilder = ArraySchema

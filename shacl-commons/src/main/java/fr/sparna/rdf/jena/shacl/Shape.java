@@ -1,24 +1,13 @@
 package fr.sparna.rdf.jena.shacl;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-
-import org.apache.jena.atlas.logging.Log;
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.RDFList;
-import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
-import org.apache.jena.rdf.model.Statement;
-import org.apache.jena.sparql.vocabulary.FOAF;
-import org.apache.jena.vocabulary.OWL;
-import org.apache.jena.vocabulary.RDF;
-import org.apache.jena.vocabulary.RDFS;
 import org.apache.jena.vocabulary.SKOS;
 
 import fr.sparna.rdf.jena.ModelReadingUtils;
-import fr.sparna.rdf.jena.ModelRenderingUtils;
 import fr.sparna.rdf.shacl.*;
 import org.topbraid.shacl.vocabulary.SH;
 
@@ -37,12 +26,18 @@ public abstract class Shape {
 		return shape;
 	}
 
-	public Optional<Resource> getShNode() {
-		return ModelReadingUtils.getOptionalResource(shape, SH.node);
+	
+
+	public Optional<Literal> getShaclPlayColor() {
+		return ModelReadingUtils.getOptionalLiteral(shape, shape.getModel().createProperty(SHACL_PLAY.COLOR));
 	}
 
-	public Optional<Literal> getColor() {
-		return ModelReadingUtils.getOptionalLiteral(shape, shape.getModel().createProperty(SHACL_PLAY.COLOR));
+	public Optional<Literal> getShaclPlayBackgroundColor() {
+		return ModelReadingUtils.getOptionalLiteral(shape, shape.getModel().createProperty(SHACL_PLAY.BACKGROUNDCOLOR));
+	}
+
+	public Optional<Literal> getShaclPlayShortName() {
+		return ModelReadingUtils.getOptionalLiteral(shape, shape.getModel().createProperty(SHACL_PLAY.SHORTNAME));
 	}
 
 	public RDFList getShOr() {
@@ -51,6 +46,10 @@ public abstract class Shape {
 		} else {
 			return null;
 		}		
+	}
+
+	public Optional<Resource> getShNode() {
+		return ModelReadingUtils.getOptionalResource(shape, SH.node);
 	}
 
 	public Optional<Resource> getShClass() {
@@ -69,16 +68,16 @@ public abstract class Shape {
 		return ModelReadingUtils.getOptionalLiteral(this.shape, SH.pattern);
 	}
 
-	public Optional<Literal> getShOrder() {
-		return ModelReadingUtils.getOptionalLiteral(this.shape, SH.order);
+	public Optional<Float> getShOrder() {
+		return ModelReadingUtils.getOptionalLiteral(this.shape, SH.order).map(l -> l.getFloat());
 	}
 
-	public Optional<Literal> getShMinLength() {
-		return ModelReadingUtils.getOptionalLiteral(this.shape, SH.minLength);
+	public Optional<Integer> getShMinLength() {
+		return ModelReadingUtils.getOptionalLiteral(this.shape, SH.minLength).map(l -> l.getInt());
 	}
 	
-	public Optional<Literal> getShMaxLength() {
-		return ModelReadingUtils.getOptionalLiteral(this.shape, SH.maxLength);
+	public Optional<Integer> getShMaxLength() {
+		return ModelReadingUtils.getOptionalLiteral(this.shape, SH.maxLength).map(l -> l.getInt());
 	}
 	
 	public Optional<Literal> getShMinInclusive() {
@@ -97,8 +96,8 @@ public abstract class Shape {
 		return ModelReadingUtils.getOptionalLiteral(this.shape, SH.maxExclusive);
 	}
 
-	public Optional<Literal> getShDeactivated() {
-		return ModelReadingUtils.getOptionalLiteral(this.shape,SH.deactivated);
+	public Optional<Boolean> getShDeactivated() {
+		return ModelReadingUtils.getOptionalLiteral(this.shape,SH.deactivated).map(l -> l.getBoolean());
 	}
 
 	public List<Literal> getExamples() {
@@ -156,11 +155,7 @@ public abstract class Shape {
 	}
 
 	public boolean isDeactivated() {
-		return this.getShDeactivated().isPresent() && this.getShDeactivated().get().getBoolean();
-	}
-
-	public Float getOrderFloat() {
-		return this.getShOrder().map(node -> node.asLiteral().getFloat()).orElse(null);
+		return this.getShDeactivated().orElse(false);
 	}
 
 }

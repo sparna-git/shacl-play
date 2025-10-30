@@ -6,6 +6,8 @@ public class JsonLdMapping {
 	protected String id;
 	protected String type;
 	protected String container;
+	protected String language;
+	protected JsonLdContext innerContext;
 	
 	public JsonLdMapping(String term, String id) {
 		super();
@@ -24,7 +26,7 @@ public class JsonLdMapping {
 	 * @return true if this mapping only has an id set, but no type and no container
 	 */
 	private boolean isOnlyIdMapping() {
-		return (type == null) && (container == null);
+		return (type == null) && (container == null) && (innerContext == null) && (language == null);
 	}
 
 	public void write(StringBuffer buffer) {
@@ -38,8 +40,27 @@ public class JsonLdMapping {
 			if (container != null ) { 				
 				buffer.append(", \"@container\""+":"+"\""+container+"\"");
 			}
+			if (language != null ) { 				
+				buffer.append(", \"@language\""+":"+"\""+language+"\"");
+			}
+			if (innerContext != null ) { 	
+				buffer.append(", ");
+				innerContext.writeInner(buffer, "", ' ');
+			}
 			buffer.append("}");
 		}		
+	}
+
+	public String getTerm() {
+		return term;
+	}
+
+	public JsonLdContext getInnerContext() {
+		return innerContext;
+	}
+
+	public void setInnerContext(JsonLdContext innerContext) {
+		this.innerContext = innerContext;
 	}
 
 	public String getType() {
@@ -58,7 +79,13 @@ public class JsonLdMapping {
 		this.container = container;
 	}
 
-	
+	public String getLanguage() {
+		return language;
+	}
+
+	public void setLanguage(String language) {
+		this.language = language;
+	}
 	
 	
 }

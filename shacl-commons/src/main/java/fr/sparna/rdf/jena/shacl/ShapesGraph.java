@@ -33,6 +33,13 @@ public class ShapesGraph {
 		return allNodeShapes; 
 	}
 
+	/**
+	 * @return All subjects of a sh:path in the graph
+	 */
+	public List<PropertyShape> getAllPropertyShapes() {	
+		return shaclGraph.listSubjectsWithProperty(SH.path).toList().stream().map(r -> new PropertyShape(r)).collect(Collectors.toList());
+	}
+
 	public OwlOntology getOntology() {
 		return ontology;
 	}
@@ -47,6 +54,10 @@ public class ShapesGraph {
 	
 	public NodeShape findNodeShapeByResource(Resource r) {
 		return this.allNodeShapes.stream().filter(ns -> ns.getNodeShape().toString().equals(r.toString())).findFirst().orElse(null);
+	}
+
+	public List<PropertyShape> findPropertyShapesByPath(Resource path) {
+		return shaclGraph.listSubjectsWithProperty(SH.path, path).toList().stream().map(r -> new PropertyShape(r)).collect(Collectors.toList());
 	}
 	
 	
@@ -94,7 +105,7 @@ public class ShapesGraph {
 		public int compare(NodeShape ns1, NodeShape ns2) {
 			if (ns1.getShOrder().orElse(null) != null) {
 				if (ns2.getShOrder().orElse(null) != null) {
-					return ((ns1.getOrderFloat() - ns2.getOrderFloat()) > 0)?1:-1;
+					return ((ns1.getShOrder().get() - ns2.getShOrder().get()) > 0)?1:-1;
 				} else {
 					return -1;
 				}

@@ -1,0 +1,17 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ex: <http://example.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ex:MainNodeShape
+    a sh:NodeShape ;
+    sh:targetClass ex:SimpleClass ;
+    sh:property [
+        sh:path ex:p ;
+        sh:maxCount 1 ;
+        sh:node ex:ValueShape ;        
+    ] ;
+.
+
+ex:ValueShape
+    a sh:NodeShape ;
+    sh:datatype xsd:date ;

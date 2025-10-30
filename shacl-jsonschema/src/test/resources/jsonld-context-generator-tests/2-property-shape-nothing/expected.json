@@ -1,0 +1,18 @@
+{
+  "@context": {
+    "id": "@id",
+    "type": "@type",
+    "graph": "@graph",
+
+
+    "ex": "http://example.org/",
+
+
+    "SimpleClass": "ex:SimpleClass",
+
+    "p": {
+      "@id": "ex:p",
+      "@container": "@set"
+    }
+  }
+}

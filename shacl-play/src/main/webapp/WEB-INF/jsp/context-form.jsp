@@ -84,7 +84,7 @@
 									Add <a href="https://www.w3.org/TR/json-ld/#compact-iris">prefix mappings</a> for each known prefixes in the SHACL file.
 								</li>
 								<li>
-									Add mappings with the URI of NodeShapes in the SHACL, using the local part of the URI as JSON key.
+									Add mappings with the URI of targets of NodeShapes in the SHACL (reading <code>sh:targetClass</code>, or for shapes that are themselves classes), using the local part of the URI as JSON key.
 								</li>
 								<li>
 									Add mappings with the URI of properties referred to in <code>sh:path</code> in the SHACL. SHACL property paths are not supported.
@@ -100,6 +100,16 @@
 										<li>
 											Determine the <code>@type</code> from URI reference : if there are <code>sh:class</code>, <code>sh:node</code>, or if
 											<code>sh:nodeKind</code> = <code>sh:IRI</code> or <code>sh:BlankNodeOrIRI</code>, set the <code>@type</code> to <code>@id</code>
+										</li>
+										<li>
+											If the <code>sh:datatype</code> is <code>rdf:langString</code>, add <code>@container</code> with value <code>@language</code>
+										</li>
+										<li>
+											If no max cardinality is specified, or if max cardinality is greater than 1, and no other <code>@container</code> was set, add <code>@container</code> with value <code>@set</code>
+										</li>
+										<li>
+											If an <code>sh:pattern</code> is specified on the property shape, and the property is an IRI property, and this pattern specifies the beginning of URIs, 
+											add a scoped context for this property with a <code>@base</code> indication using the pattern value.
 										</li>
 									</ol>
 								</li>

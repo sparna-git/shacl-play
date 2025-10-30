@@ -2,6 +2,7 @@
 @prefix ex: <http://example.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 
 ex:MainNodeShape
     a sh:NodeShape ;
@@ -26,8 +27,11 @@ ex:MainNodeShape
     ] ;
     sh:property [
         sh:path ex:p4 ;
-        sh:maxCount 1 ;
         sh:class ex:Class ;
+    ] ;
+    sh:property [
+        sh:path ex:p5 ;
+        sh:class ex:ClassAndShape ;
     ] ;
 .
 
@@ -38,5 +42,9 @@ ex:ValueNodeShape a sh:NodeShape ;
 
 ex:ValueNodeShape2 a sh:NodeShape ;
     sh:targetClass ex:Class ;
+    sh:pattern "^https://data.europarl.europa.eu/eli/dl/doc/[A-Za-z0-9\\-_]+$" ;
+.
+
+ex:ClassAndShape a sh:NodeShape, rdfs:Class ;
     sh:pattern "^https://data.europarl.europa.eu/eli/dl/doc/[A-Za-z0-9\\-_]+$" ;
 .

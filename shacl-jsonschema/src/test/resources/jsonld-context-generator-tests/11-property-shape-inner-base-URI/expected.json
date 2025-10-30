@@ -7,11 +7,13 @@
 
     "ex": "http://example.org/",
     "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
 
 
     "SimpleClass": "ex:SimpleClass",
     "Class": "ex:Class",
+    "ClassAndShape": "ex:ClassAndShape",
 
     "p": {
       "@id": "ex:p",
@@ -31,6 +33,15 @@
     "p4": {
       "@id": "ex:p4",
       "@type": "@id",
+      "@container": "@set",
+      "@context": {
+        "@base": "https://data.europarl.europa.eu/eli/dl/doc/"
+      }
+    },
+    "p5": {
+      "@id": "ex:p5",
+      "@type": "@id",
+      "@container": "@set",
       "@context": {
         "@base": "https://data.europarl.europa.eu/eli/dl/doc/"
       }

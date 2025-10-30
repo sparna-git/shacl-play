@@ -62,12 +62,23 @@ public class NodeShape extends Shape  {
 	}
 
 	/**
-	 * @return The sh:targetClass resources value if present, or an empty list if none
+	 * @return The sh:targetClass resources value if present, as weel the node shape itself if it is a class, or an empty list if none
 	 */
 	public List<Resource> getTargetClasses() {
-		return shape.listProperties(SH.targetClass).toList().stream()
+		List<Resource> targets = shape.listProperties(SH.targetClass).toList().stream()
 				.map(s -> s.getResource())
 				.collect(Collectors.toList());
+		if(this.isClassShape()) {
+			targets.add(this.shape);
+		}
+		return targets;
+	}
+
+	/**
+	 * @return true if this NodeShape is also an rdfs:Class
+	 */
+	public boolean isClassShape() {
+		return shape.hasProperty(RDF.type, RDFS.Class);
 	}
 
 	/**

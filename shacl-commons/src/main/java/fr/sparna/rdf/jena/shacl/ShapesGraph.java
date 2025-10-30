@@ -58,11 +58,11 @@ public class ShapesGraph {
 
 	/**
 	 * @param cl
-	 * @return all NodeShapes that target the given class, based on sh:targetClass, or an empty list if none found
+	 * @return all NodeShapes that target the given class, based on sh:targetClass, or a shape that is itself a class with the requested URI, or an empty list if none found
 	 */
 	public List<NodeShape> findNodeShapeByTargetClass(Resource cl) {
 		return this.allNodeShapes.stream().filter(ns -> 
-			ns.getTargetClasses().stream().anyMatch(tc -> tc.equals(cl))
+			ns.isTargeting(cl)
 		).collect(Collectors.toList());
 	}
 

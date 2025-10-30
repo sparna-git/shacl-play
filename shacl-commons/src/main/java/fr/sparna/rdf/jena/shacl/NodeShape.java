@@ -139,11 +139,13 @@ public class NodeShape extends Shape  {
 		return getShClosed().map(l -> l.getBoolean()).orElse(false);
 	}	
 	
+	/**
+	 * 
+	 * @param classUri
+	 * @return true if getTargetClasses() contains the given classUri 
+	 */
 	public boolean isTargeting(Resource classUri) {
-		boolean hasShTargetClass = Optional.ofNullable(this.getTargetClass()).filter(c -> c.equals(classUri)).isPresent();
-		boolean isItselfTheClass = this.shape.hasProperty(RDF.type, RDFS.Class) && this.shape.hasProperty(RDF.type, SH.NodeShape);
-		
-		return hasShTargetClass || isItselfTheClass;
+		return this.getTargetClasses().stream().filter(tc -> tc.equals(classUri)).findFirst().isPresent();
 	}	
 
 	public String getShortFormOrId() {

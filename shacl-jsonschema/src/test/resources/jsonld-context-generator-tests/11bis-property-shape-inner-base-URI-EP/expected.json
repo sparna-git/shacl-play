@@ -1,0 +1,25 @@
+{
+  "@context": {
+    "id": "@id",
+    "type": "@type",
+    "graph": "@graph",
+
+
+    "eli": "http://data.europa.eu/eli/ontology#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "eli-ep": "https://data.europarl.europa.eu/def/eli-ep#",
+    "eli-dl": "http://data.europa.eu/eli/eli-draft-legislation-ontology#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+
+
+    "Process": "eli-dl:Process",
+    "Work": "eli:Work",
+
+    "involved_work": {
+      "@type": "@id",
+      "@id": "eli-dl:involved_work",
+      "@container": "@set",
+      "@context": {"@base": "https://data.europarl.europa.eu/eli/dl/doc/"}
+    },
+  }
+}

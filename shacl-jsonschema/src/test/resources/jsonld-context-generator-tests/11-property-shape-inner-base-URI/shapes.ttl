@@ -31,6 +31,7 @@ ex:MainNodeShape
     ] ;
     sh:property [
         sh:path ex:p5 ;
+        sh:nodeKind sh:IRI;
         sh:class ex:ClassAndShape ;
     ] ;
 .
@@ -46,5 +47,6 @@ ex:ValueNodeShape2 a sh:NodeShape ;
 .
 
 ex:ClassAndShape a sh:NodeShape, rdfs:Class ;
-    sh:pattern "^https://data.europarl.europa.eu/eli/dl/doc/[A-Za-z0-9\\-_]+$" ;
+    sh:nodeKind sh:IRI;
+    sh:pattern "^https://data.europarl.europa.eu/eli/dl/doc/[A-Za-z0-9\\-_]+$";
 .

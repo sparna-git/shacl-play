@@ -11,12 +11,28 @@
 
 
     "SimpleClass": "ex:SimpleClass",
+    "Class": "ex:Class",
 
     "p": {
       "@id": "ex:p",
       "@type": "@id",
       "@context": {
+        "@base": "https://data.europarl.europa.eu/eli/dl/doc/"
+      }
+    },
+    "p2": {
+      "@id": "ex:p2",
+      "@type": "@id",
+      "@context": {
         "@base": "https://www.example.com/authority/"
+      }
+    },
+    "p3": "ex:p3",
+    "p4": {
+      "@id": "ex:p4",
+      "@type": "@id",
+      "@context": {
+        "@base": "https://data.europarl.europa.eu/eli/dl/doc/"
       }
     }
   }

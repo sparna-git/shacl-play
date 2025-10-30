@@ -18,17 +18,27 @@ public class RegexUtil {
 			pattern = pattern.substring(1);
 		}
 
+        // remove ending $ if any
+        if(pattern.endsWith("$")) {
+            pattern = pattern.substring(0, pattern.length()-1);
+        }
+
         String subPattern = null;
 		// check if the pattern ends with .* or (.*) with an optional $ at the end
 		if(pattern.endsWith(".*")) {
 			subPattern = pattern.substring(0, pattern.length()-2);
 		} else if(pattern.endsWith("(.*)")) {
 			subPattern = pattern.substring(0, pattern.length()-4);
-		} else if(pattern.endsWith(".*$")) {
-			subPattern = pattern.substring(0, pattern.length()-3);
-		} else if(pattern.endsWith("(.*)$")) {
-			subPattern = pattern.substring(0, pattern.length()-5);
 		}
+        // if suPattern ends with [...]+ or [...]* or [...]{x,y}, remove that part too
+        else if(pattern.matches(".*\\[.+\\][+*](\\$)?$")) {
+            int lastIndex = pattern.lastIndexOf('[');
+            subPattern = pattern.substring(0, lastIndex);
+        } else if(pattern.matches(".*\\[.+\\]\\{\\d+(,\\d+)?}(\\$)?$")) {
+            int lastIndex = pattern.lastIndexOf('[');
+            subPattern = pattern.substring(0, lastIndex);
+        }
+        
 
         // looks like a regex with more complex pattern, give up
         if(subPattern.contains("*") || subPattern.contains("+") || subPattern.contains("?") || subPattern.contains("[") || subPattern.contains("(")) {

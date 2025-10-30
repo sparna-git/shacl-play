@@ -11,9 +11,32 @@ ex:MainNodeShape
         sh:maxCount 1 ;
         sh:node ex:ValueNodeShape ;
     ] ;
+    sh:property [
+        sh:path ex:p2 ;
+        sh:maxCount 1 ;
+        sh:nodeKind sh:IRI;
+        sh:pattern "https://www.example.com/authority/.*" ;
+    ] ;
+    sh:property [
+        sh:path ex:p3 ;
+        sh:maxCount 1 ;
+        # should not go through
+        sh:nodeKind sh:Literal;
+        sh:pattern "[A-Z]" ;
+    ] ;
+    sh:property [
+        sh:path ex:p4 ;
+        sh:maxCount 1 ;
+        sh:class ex:Class ;
+    ] ;
 .
 
 ex:ValueNodeShape a sh:NodeShape ;
     sh:nodeKind sh:IRI;
-    sh:pattern "https://www.example.com/authority/.*" ;
+    sh:pattern "^https://data.europarl.europa.eu/eli/dl/doc/[A-Za-z0-9\\-_]+$" ;
+.
+
+ex:ValueNodeShape2 a sh:NodeShape ;
+    sh:targetClass ex:Class ;
+    sh:pattern "^https://data.europarl.europa.eu/eli/dl/doc/[A-Za-z0-9\\-_]+$" ;
 .

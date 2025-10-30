@@ -2,6 +2,7 @@ package fr.sparna.rdf.shacl.jsonld;
 
 import java.io.FileInputStream;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -20,7 +21,9 @@ import org.topbraid.shacl.vocabulary.SH;
 
 import fr.sparna.rdf.jena.shacl.NodeShape;
 import fr.sparna.rdf.jena.shacl.PropertyShape;
+import fr.sparna.rdf.jena.shacl.Shape;
 import fr.sparna.rdf.jena.shacl.ShapesGraph;
+import fr.sparna.rdf.shacl.SHACL_PLAY;
 
 public class JsonLdContextGenerator {
 
@@ -61,7 +64,7 @@ public class JsonLdContextGenerator {
 		boolean atLeastOne = false;
 		for (String aKey : keys) {
 			String idContext = model.getNsPrefixMap().get(aKey);
-			if(!idContext.equals(SH.BASE_URI)) {
+			if(!idContext.equals(SH.BASE_URI) && !idContext.equals(SHACL_PLAY.NAMESPACE)) {
 				// garantee we start a new section only if there is at least one prefix to add
 				if(!atLeastOne) {
 					context.startNewSection();
@@ -252,49 +255,25 @@ public class JsonLdContextGenerator {
 	}
 	
 	private Set<Resource> findDatatypesOfPath(Resource path, Model model) {
-		List<PropertyShape> propertyShapesWithPath = this.shapesGraph.findPropertyShapesByPath(path);
-		Set<Resource> datatypes = propertyShapesWithPath.stream()
+		List<Shape> shapes = findAllShapesToConsider(path, model);
+		
+		Set<Resource> result = shapes.stream()
 			.map(ps -> ps.getShDatatype())
 			.filter(Optional::isPresent)
 			.map(Optional::get)
 			.collect(Collectors.toSet());
-
-		// append datatypes defined in node shapes linked to this path
-		Set<Resource> nodes = findShNodeOfPath(path, model);
-		for(Resource node : nodes) {
-			NodeShape nodeShape = this.shapesGraph.findNodeShapeByResource(node);
-			if(nodeShape != null) {
-				Optional<Resource> nodeDatatype = nodeShape.getShDatatype();
-				if(nodeDatatype.isPresent()) {
-					datatypes.add(nodeDatatype.get());
-				}
-			}
-		}
-
-		return datatypes;		
+		return result;		
 	}
 	
 	private Set<Resource> findShClassOfPath(Resource path, Model model) {
-		List<PropertyShape> propertyShapesWithPath = this.shapesGraph.findPropertyShapesByPath(path);
-		Set<Resource> classes = propertyShapesWithPath.stream()
+		List<Shape> shapes = findAllShapesToConsider(path, model);
+		
+		Set<Resource> result = shapes.stream()
 			.map(ps -> ps.getShClass())
 			.filter(Optional::isPresent)
 			.map(Optional::get)
 			.collect(Collectors.toSet());
-
-		// append classes defined in node shapes linked to this path
-		Set<Resource> nodes = findShNodeOfPath(path, model);
-		for(Resource node : nodes) {
-			NodeShape nodeShape = this.shapesGraph.findNodeShapeByResource(node);
-			if(nodeShape != null) {
-				Optional<Resource> nodeClass = nodeShape.getShClass();
-				if(nodeClass.isPresent()) {
-					classes.add(nodeClass.get());
-				}
-			}
-		}
-
-		return classes;		
+		return result;
 	}
 
 	private Set<List<Literal>> findShLanguageInOfPath(Resource path, Model model) {
@@ -308,36 +287,14 @@ public class JsonLdContextGenerator {
 	}
 
 	private Set<Literal> findPatternsOfPath(Resource path, Model model) {
-		List<PropertyShape> propertyShapesWithPath = this.shapesGraph.findPropertyShapesByPath(path);
-		Set<Literal> patterns = propertyShapesWithPath.stream()
+		List<Shape> shapes = findAllShapesToConsider(path, model);
+
+		Set<Literal> result = shapes.stream()
 			.map(ps -> ps.getShPattern())
 			.filter(Optional::isPresent)
 			.map(Optional::get)
 			.collect(Collectors.toSet());
-
-		// append patterns defined in node shapes linked to this path
-		Set<Resource> nodes = findShNodeOfPath(path, model);
-		for(Resource node : nodes) {
-			NodeShape nodeShape = this.shapesGraph.findNodeShapeByResource(node);
-			if(nodeShape != null) {
-				Optional<Literal> nodePattern = nodeShape.getShPattern();
-				if(nodePattern.isPresent()) {
-					patterns.add(nodePattern.get());
-				}
-			}
-		}
-
-		return patterns;		
-	}
-	
-	private Set<Resource> findShNodeOfPath(Resource path, Model model) {
-		List<PropertyShape> propertyShapesWithPath = this.shapesGraph.findPropertyShapesByPath(path);
-		Set<Resource> nodes = propertyShapesWithPath.stream()
-			.map(ps -> ps.getShNode())
-			.filter(Optional::isPresent)
-			.map(Optional::get)
-			.collect(Collectors.toSet());
-		return nodes;		
+		return result;		
 	}
 	
 	private Set<Integer> findShMaxCountOfPath(Resource path,Model model) {
@@ -351,26 +308,14 @@ public class JsonLdContextGenerator {
 	}
 	
 	private Set<Resource> findShNodeKindOfPath(Resource path, Model model) {
-		List<PropertyShape> propertyShapesWithPath = this.shapesGraph.findPropertyShapesByPath(path);
-		Set<Resource> nodeKinds = propertyShapesWithPath.stream()
+		List<Shape> shapes = findAllShapesToConsider(path, model);
+
+		Set<Resource> result = shapes.stream()
 			.map(ps -> ps.getShNodeKind())
 			.filter(Optional::isPresent)
 			.map(Optional::get)
 			.collect(Collectors.toSet());
-
-		// append nodeKind defined in node shapes linked to this path
-		Set<Resource> nodes = findShNodeOfPath(path, model);
-		for(Resource node : nodes) {
-			NodeShape nodeShape = this.shapesGraph.findNodeShapeByResource(node);
-			if(nodeShape != null) {
-				Optional<Resource> nodeNodeKind = nodeShape.getShNodeKind();
-				if(nodeNodeKind.isPresent()) {
-					nodeKinds.add(nodeNodeKind.get());
-				}
-			}
-		}
-
-		return nodeKinds;			
+		return result;	
 	}
 
 	private Set<String> findShortNamesOfPath(Resource path, Model model) {
@@ -382,6 +327,30 @@ public class JsonLdContextGenerator {
 			.map(l -> l.getString())
 			.collect(Collectors.toSet());
 		return shortnames;	
+	}
+
+	/**
+	 * Primitive to retrieve all shapes (property shapes and node shapes) to consider for a given path
+	 * @param path
+	 * @param model
+	 * @return
+	 */
+	private List<Shape> findAllShapesToConsider(Resource path, Model model) {
+		List<Shape> shapes = new ArrayList<>();
+		List<PropertyShape> propertyShapesWithPath = this.shapesGraph.findPropertyShapesByPath(path);
+		shapes.addAll(propertyShapesWithPath);
+		shapes.addAll(propertyShapesWithPath.stream()
+			.map(ps -> this.shapesGraph.findNodeShapesByPropertyShapeShNode(ps))
+			// flatten the list of lists
+			.flatMap(List::stream)
+			.collect(Collectors.toList()));
+		shapes.addAll(propertyShapesWithPath.stream()
+			.map(ps -> this.shapesGraph.findNodeShapesByPropertyShapeShClass(ps))
+			// flatten the list of lists
+			.flatMap(List::stream)
+			.collect(Collectors.toList()));
+
+		return shapes;			
 	}
 
 	

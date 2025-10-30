@@ -56,6 +56,31 @@ public class ShapesGraph {
 		return this.allNodeShapes.stream().filter(ns -> ns.getNodeShape().toString().equals(r.toString())).findFirst().orElse(null);
 	}
 
+	/**
+	 * @param cl
+	 * @return all NodeShapes that target the given class, based on sh:targetClass, or an empty list if none found
+	 */
+	public List<NodeShape> findNodeShapeByTargetClass(Resource cl) {
+		return this.allNodeShapes.stream().filter(ns -> 
+			ns.getTargetClasses().stream().anyMatch(tc -> tc.equals(cl))
+		).collect(Collectors.toList());
+	}
+
+	public List<NodeShape> findNodeShapesByPropertyShapeShNode(PropertyShape ps) {
+		return this.allNodeShapes.stream().filter(ns -> 
+			ps.getShNode().map(n -> n.equals(ns.getNodeShape())).orElse(false)
+		).collect(Collectors.toList());
+	}
+
+	/**
+	 * 
+	 * @param ps
+	 * @return the nodes shapes that target the class indicated in the sh:class of the given property shape, relying on findNodeShapeByTargetClass
+	 */
+	public List<NodeShape> findNodeShapesByPropertyShapeShClass(PropertyShape ps) {
+		return ps.getShClass().map(cl -> this.findNodeShapeByTargetClass(cl)).orElse(new ArrayList<NodeShape>());
+	}
+
 	public List<PropertyShape> findPropertyShapesByPath(Resource path) {
 		return shaclGraph.listSubjectsWithProperty(SH.path, path).toList().stream().map(r -> new PropertyShape(r)).collect(Collectors.toList());
 	}

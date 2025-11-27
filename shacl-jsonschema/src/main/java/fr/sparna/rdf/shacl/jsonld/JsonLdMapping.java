@@ -7,12 +7,20 @@ public class JsonLdMapping {
 	protected String type;
 	protected String container;
 	protected String language;
+	protected boolean reverse = false;
 	protected JsonLdContext innerContext;
 	
 	public JsonLdMapping(String term, String id) {
 		super();
 		this.term = term;
 		this.id = id;
+	}	
+
+	public JsonLdMapping(String term, String id, boolean reverse) {
+		super();
+		this.term = term;
+		this.id = id;
+		this.reverse = reverse;
 	}	
 	
 	public JsonLdMapping(String term, String id, String type) {
@@ -26,14 +34,15 @@ public class JsonLdMapping {
 	 * @return true if this mapping only has an id set, but no type and no container
 	 */
 	private boolean isOnlyIdMapping() {
-		return (type == null) && (container == null) && (innerContext == null) && (language == null);
+		return (type == null) && (container == null) && (innerContext == null) && (language == null) && !reverse;
 	}
 
 	public void write(StringBuffer buffer) {
 		if(isOnlyIdMapping()) {
 			buffer.append("\""+term+"\""+": "+"\""+id+"\"");
 		} else {			
-			buffer.append("\""+term+"\""+": "+"{\"@id\":\""+id+"\"");
+			String idKey = reverse ? "@reverse" : "@id";
+			buffer.append("\""+term+"\""+": "+"{\""+idKey+"\":\""+id+"\"");
 			if (type != null ) { 				
 				buffer.append(", \"@type\""+":"+"\""+type+"\"");
 			}
@@ -87,5 +96,15 @@ public class JsonLdMapping {
 		this.language = language;
 	}
 	
+	public boolean isReverse() {
+		return reverse;
+	}
 	
+	public void setReverse(boolean reverse) {
+		this.reverse = reverse;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
 }

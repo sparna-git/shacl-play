@@ -11,6 +11,8 @@ import org.apache.jena.vocabulary.OWL;
 import org.apache.jena.vocabulary.RDF;
 import org.topbraid.shacl.vocabulary.SH;
 
+import fr.sparna.rdf.shacl.SHACL_PLAY;
+
 public class ShapesGraph {
 	
 	private Model shaclGraph;
@@ -83,6 +85,10 @@ public class ShapesGraph {
 
 	public List<PropertyShape> findPropertyShapesByPath(Resource path) {
 		return shaclGraph.listSubjectsWithProperty(SH.path, path).toList().stream().map(r -> new PropertyShape(r)).collect(Collectors.toList());
+	}
+
+	public List<PropertyShape> findPropertyShapesByShortname(String shortname) {
+		return shaclGraph.listSubjectsWithProperty(shaclGraph.createProperty(SHACL_PLAY.SHORTNAME), shaclGraph.createLiteral(shortname)).toList().stream().map(r -> new PropertyShape(r)).collect(Collectors.toList());
 	}
 	
 	

@@ -1,0 +1,23 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix eli-ep: <https://data.europarl.europa.eu/def/eli-ep#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix eli: <http://data.europa.eu/eli/ontology#> .
+@prefix eli-dl: <http://data.europa.eu/eli/eli-draft-legislation-ontology#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+eli:Work a sh:NodeShape, rdfs:Class;
+  sh:nodeKind sh:IRI;
+  sh:pattern "^https://data.europarl.europa.eu/eli/dl/doc/[A-Za-z0-9\\-_]+$";
+  sh:property eli-ep:P183 ;
+.
+
+eli-dl:Process a sh:NodeShape, rdfs:Class;
+  sh:nodeKind sh:IRI;
+  sh:pattern "^https://data.europarl.europa.eu/eli/dl/proc/[A-Za-z0-9\\-_]+$";
+.
+
+eli-ep:P183 
+  sh:path eli:refers_to;
+  sh:nodeKind sh:IRI;
+  sh:or ( [sh:class eli:Work] [sh:class eli-dl:Process] ) ;
+.

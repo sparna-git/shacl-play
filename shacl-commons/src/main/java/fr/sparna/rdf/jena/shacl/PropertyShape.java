@@ -1,9 +1,7 @@
 package fr.sparna.rdf.jena.shacl;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.RDFList;
@@ -148,16 +146,6 @@ public class PropertyShape extends Shape {
 		return ModelReadingUtils.getOptionalLiteral(this.shape, SH.qualifiedMaxCount).map(l -> l.getInt());
 	}
 	
-	public List<Literal> getShLanguageIn() {
-		Optional<Resource> list = ModelReadingUtils.getOptionalResource(this.shape, SH.languageIn);
-		if(list.isPresent()) {
-			List<RDFNode> languages = ModelReadingUtils.asJavaList(list.get());
-			return languages.stream().filter(n -> n.isLiteral()).map(n -> n.asLiteral()).collect(Collectors.toList());
-		} else {
-			return new ArrayList<Literal>();
-		}
-	}
-	
 	
 	public String getShNodeLabel() {
 		return this.getShNode().map(r -> ModelRenderingUtils.render(r, true)).orElse(null);
@@ -177,10 +165,6 @@ public class PropertyShape extends Shape {
 		// TODO : this default behavior should be elsewhere probably
 		return ModelRenderingUtils.renderSparqlPropertyPath(this.getShPath(), true);
 	}	
-
-	public String getShLanguageInString() {
-		return this.getShLanguageIn().stream().map(l -> l.toString()).collect(Collectors.joining(", "));
-	}
 	
 	public boolean isUniqueLang() {
 		return this.getShUniqueLang().isPresent() && this.getShUniqueLang().get().getBoolean();

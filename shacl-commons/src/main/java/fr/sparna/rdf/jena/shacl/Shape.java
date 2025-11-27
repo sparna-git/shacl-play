@@ -1,9 +1,13 @@
 package fr.sparna.rdf.jena.shacl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.RDFList;
+import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.vocabulary.SKOS;
 
@@ -98,6 +102,20 @@ public abstract class Shape {
 
 	public Optional<Boolean> getShDeactivated() {
 		return ModelReadingUtils.getOptionalLiteral(this.shape,SH.deactivated).map(l -> l.getBoolean());
+	}
+
+	public List<Literal> getShLanguageIn() {
+		Optional<Resource> list = ModelReadingUtils.getOptionalResource(this.shape, SH.languageIn);
+		if(list.isPresent()) {
+			List<RDFNode> languages = ModelReadingUtils.asJavaList(list.get());
+			return languages.stream().filter(n -> n.isLiteral()).map(n -> n.asLiteral()).collect(Collectors.toList());
+		} else {
+			return new ArrayList<Literal>();
+		}
+	}
+
+	public String getShLanguageInString() {
+		return this.getShLanguageIn().stream().map(l -> l.toString()).collect(Collectors.joining(", "));
 	}
 
 	public List<Literal> getExamples() {

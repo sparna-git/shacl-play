@@ -1,5 +1,7 @@
 package fr.sparna.rdf.shacl.jsonld;
 
+import java.util.List;
+
 import com.github.curiousoddman.rgxgen.RgxGen;
 import com.github.curiousoddman.rgxgen.config.RgxGenOption;
 import com.github.curiousoddman.rgxgen.config.RgxGenProperties;
@@ -67,5 +69,35 @@ public class RegexUtil {
 
         // replace the value inserted for dots back with a dot
         return output.replaceAll("\u0000", ".").replaceAll(" ", "_");
+    }
+
+    public static String findCommonBaseUri(List<String> uris) {
+        if(uris == null || uris.size() == 0) {
+            return null;
+        }
+
+        String commonBase = uris.get(0);
+        for(int i=1; i<uris.size(); i++) {
+            String uri = uris.get(i);
+            int minLength = Math.min(commonBase.length(), uri.length());
+            int j=0;
+            for(; j<minLength; j++) {
+                if(commonBase.charAt(j) != uri.charAt(j)) {
+                    break;
+                }
+            }
+            commonBase = commonBase.substring(0, j);
+            // if at any point the common base is empty, return null
+            if(commonBase.isEmpty()) {
+                return null;
+            }
+        }
+
+        // check that the common base is at least "https://" - otherwise, it's not a valid base URI
+        if(commonBase.length() > "https://".length()) {
+            return commonBase;
+        } else {
+            return null;
+        }
     }
 }

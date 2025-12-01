@@ -253,16 +253,17 @@ public class PlantUmlRenderer {
 		if (renderAsDatatypeProperty) {
 			String output = "";
 
-			output = box.getPlantUmlQuotedBoxName() + " : +" + property.getPathAsSparql() + " : " + classReference;	
+			// output = box.getPlantUmlQuotedBoxName() + " : +" + property.getPathAsSparql() + " : " + classReference.replaceAll("\\(","").replaceAll("\\)","");	
+			output = box.getPlantUmlQuotedBoxName() + " : +" + property.getPathAsSparql() + " : " + property.getShClass().get().getModel().shortForm(property.getShClass().get().getURI());	
 			
 			if (property.getPlantUmlCardinalityString() != null) {
-				output += " " + property.getPlantUmlCardinalityString() + " ";
+				output += " " + property.getPlantUmlCardinalityString() ;
 			}
 			if (property.getShPattern().isPresent() && this.displayPatterns) {
-				output += "(" + ModelRenderingUtils.render(property.getShPattern().get()) + ")" + " ";
+				output += " " + "(" + ModelRenderingUtils.render(property.getShPattern().get()) + ")" + " ";
 			}
-			if (property.getShNodeKind().isPresent() && !property.getShNodeKind().equals(SHACLM.IRI)) {
-				output += ModelRenderingUtils.render(property.getShNodeKind().get()) + " " ;
+			if (property.getShNodeKind().isPresent() && !property.getShNodeKind().get().equals(SHACLM.IRI)) {
+				output += " " + ModelRenderingUtils.render(property.getShNodeKind().get()) + " " ;
 			}
 
 			output += " \n";		

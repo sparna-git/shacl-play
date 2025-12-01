@@ -107,8 +107,7 @@ public class JsonLdContextGenerator {
 				.filter(r -> r.isURIResource() || new PropertyPath(r).isInverse())
 				.collect(Collectors.toSet())
 		);
-		// sort the list
-		paths.sort((p1,p2) -> p1.getLocalName().compareToIgnoreCase(p2.getLocalName()));
+		// note : mappings are sorted in the JsonLdContext class
 		
 		// ### map each paths...
 		for(Resource path : paths) {
@@ -130,7 +129,7 @@ public class JsonLdContextGenerator {
 				PropertyPath propertyPath = getPathOfShortNameOrPath(shortname, path, model);
 				if(propertyPath.isInverse()) {
 					mapping = new JsonLdMapping(
-						propertyPath.getShInversePath().getLocalName(),
+						shortname,
 						model.shortForm(propertyPath.getShInversePath().getURI()),
 						 true
 					);

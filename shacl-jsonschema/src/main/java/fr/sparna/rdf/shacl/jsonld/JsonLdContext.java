@@ -41,6 +41,8 @@ public class JsonLdContext {
 		buffer.append("  \"@context\": {"+newLineChar);
 		
 		for (List<JsonLdMapping> section : sections) {
+			// sort the section content
+			section.sort((m1, m2) -> m1.term.compareTo(m2.term));
 			for (JsonLdMapping m : section) {
 				buffer.append(indent);
 				m.write(buffer);

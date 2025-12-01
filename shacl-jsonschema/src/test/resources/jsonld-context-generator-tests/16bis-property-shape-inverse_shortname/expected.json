@@ -12,7 +12,7 @@
 
     "SimpleClass": "ex:SimpleClass",
 
-    "inverse_p": {
+    "the_inverse": {
       "@reverse": "ex:p",
       "@type": "@id"
     }

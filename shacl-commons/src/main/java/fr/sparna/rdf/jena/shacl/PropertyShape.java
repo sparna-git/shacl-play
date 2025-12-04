@@ -159,11 +159,9 @@ public class PropertyShape extends Shape {
 	public String getColorString() {
 		return this.getShaclPlayColor().map(node -> node.asLiteral().toString()).orElse(null);
 	}
-	
-	public String getPathAsSparql() {
-		// render the property path using prefixes
-		// TODO : this default behavior should be elsewhere probably
-		return ModelRenderingUtils.renderSparqlPropertyPath(this.getShPath(), true);
+
+	public PropertyPath getPropertyPath() {
+		return new PropertyPath(this.getShPath());
 	}	
 	
 	public boolean isUniqueLang() {

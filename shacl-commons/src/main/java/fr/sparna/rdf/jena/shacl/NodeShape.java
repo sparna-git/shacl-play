@@ -227,8 +227,8 @@ public class NodeShape extends Shape  {
 					return 1;
 				} else {
 					// both sh:order are null, try with sh:path
-					if(ps1.getPathAsSparql() != null && ps2.getPathAsSparql() != null) {						
-						return ps1.getPathAsSparql().compareTo(ps2.getPathAsSparql());
+					if(ps1.getPropertyPath().renderSparqlPropertyPath() != null && ps2.getPropertyPath().renderSparqlPropertyPath() != null) {						
+						return ps1.getPropertyPath().renderSparqlPropertyPath().compareTo(ps2.getPropertyPath().renderSparqlPropertyPath());
 					} else {
 						return ps1.getPropertyShape().toString().compareTo(ps2.getPropertyShape().toString());
 					}

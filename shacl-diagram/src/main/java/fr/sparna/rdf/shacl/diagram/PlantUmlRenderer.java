@@ -127,34 +127,6 @@ public class PlantUmlRenderer {
 			}
 			output += "\n";
 			return output;			
-		} else if(
-			property.getShNode().isPresent()
-			&&
-			diagram.findBoxByResource(property.getShNode().get()) != null
-			&&
-			diagram.findBoxByResource(property.getShNode().get()).getProperties().size() > 0
-		) {			
-			// merge the arrow
-			String option = "";
-			if (property.getPlantUmlCardinalityString() != null) {
-				option += "<U+00A0>" + property.getPlantUmlCardinalityString() + " ";
-			}				
-			if (property.getShPattern().isPresent() && this.displayPatterns) {
-				option += "(" + ModelRenderingUtils.render(property.getShPattern().get()) + ")" + " ";
-			}
-			
-			// Merge all arrow
-			if (!property.getShGroup().isPresent()) {
-				collectData(
-						// key
-						// box.getPlantUmlQuotedBoxName() + " -"+colorArrow+"-> \"" + nodeReference+ "\" : ",
-						box.getPlantUmlQuotedBoxName(), colorArrow, nodeReference,
-						// Values
-						property.getPathAsSparql() + option
-				);
-			}
-
-			return null;
 		} else {
 			String option = "";
 			if (property.getPlantUmlCardinalityString() != null) {
@@ -167,11 +139,10 @@ public class PlantUmlRenderer {
 			// function for Merge all arrow what point to same class
 			if (!property.getShGroup().isPresent()) {
 				collectData(
-					// key
-					// box.getPlantUmlQuotedBoxName() + " -"+colorArrow+"-> \"" + nodeReference + "\" : ",
+					// key : same box, same color, same target
 					box.getPlantUmlQuotedBoxName(), colorArrow, nodeReference,
 					// Values
-					property.getPathAsSparql()+option
+					property.getPathAsSparql() + option
 				);
 			}
 			
@@ -614,7 +585,7 @@ public class PlantUmlRenderer {
 	 * dataValue - data values or additional values
 	 * collectRelationProperties - save all properties and if the property is included in the map, generate a list of values.
 	 */
-	public void collectData(String box, String color, String reference,String dataValue) {
+	public void collectData(String box, String color, String reference,String pathAsSparqlWithOptions) {
 		
 		NodeShapeArrowKey key = new NodeShapeArrowKey(box, color, reference);
 		if (!this.nodeShapeArrows.containsKey(key)) {
@@ -622,11 +593,11 @@ public class PlantUmlRenderer {
 					// key
 					key,
 					// Values
-					dataValue
+					pathAsSparqlWithOptions
 			);
 		} else {
 			/* Merge for each input data values in the same property */
-			this.nodeShapeArrows.computeIfPresent(key, (k,v) -> v+" \\l"+dataValue);
+			this.nodeShapeArrows.computeIfPresent(key, (k,v) -> v+" \\l"+pathAsSparqlWithOptions);
 		}
 		
 	}	

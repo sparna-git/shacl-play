@@ -196,6 +196,7 @@ public class PlantUmlProperty {
 		return null;
 	}
 	
+	@Deprecated
 	public String getPathAsSparql() {
 		// render the property path using prefixes
 		// TODO : this default behavior should be elsewhere probably

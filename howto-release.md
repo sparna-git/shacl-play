@@ -1,6 +1,6 @@
 1. Make sure Git is uptodate and on version master
 2. Update version:
-	mvn versions:set -DnewVersion=0.8.1
+	mvn versions:set -DnewVersion=0.11.3
 	mvn versions:commit
 3. Commit and push
 4. Compile

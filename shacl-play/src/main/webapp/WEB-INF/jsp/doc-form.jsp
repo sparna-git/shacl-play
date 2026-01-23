@@ -395,7 +395,7 @@
 									<td>rdf:langString</td>
 									<td>No</td>
 									<td class="text-break">Small descriptive paragraph under the section title. If not provided, and if sh:targetClass points to a URI, then a <code>skos:definition</code> or <code>rdfs:comment</code>
-							  		are searched on the target class.</td>
+							  		are searched on the target class. The content is interpreted as Markdown and can thus contain links to internal anchors or other formatting features.</td>
 								</tr>
 								<tr>
 									<th scope="row"><code>sh:targetClass</code> (can be repeated)</th>
@@ -510,7 +510,8 @@
 							  		<td>rdf:langString</td>
 							  		<td>No</td>
 							  		<td class="text-break">Populates the <b>Description</b> column of the table. If not provided, and if sh:path points to a URI, then a <code>skos:definition</code> or <code>rdfs:comment</code>
-							  		is searched on the property URI indicated in the sh:path. This implies the SHACL file also contains the OWL definition. Otherwise the column will be empty.</td>
+							  		is searched on the property URI indicated in the sh:path. This implies the SHACL file also contains the OWL definition. Otherwise the column will be empty.
+									The content is interpreted as Markdown and can thus contain links to internal anchors or other formatting features.</td>
 							  	</tr>
 							  	<tr>
 							  		<th scope="row"><code>sh:minCount</code> / <code>sh:maxCount</code></th>

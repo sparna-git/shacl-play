@@ -61,21 +61,24 @@
 	            </div>
 	        </li>
         </ul>
-        
-        
+
+
         <!-- /Links -->
         
         <ul class="navbar-nav ml-auto nav-flex-icons">
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" id="langMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <span style="font-size:1.25rem;"><i class="fal fa-globe-africa"></i></span>&nbsp;&nbsp;${data.userLocale.language}
-            </a>
-            <div class="dropdown-menu dropdown-menu-right dropdown-default" aria-labelledby="langMenuLink">
-              <a class="dropdown-item" href="<c:url value="/home?lang=fr" />">fr</a>
-              <a class="dropdown-item" href="<c:url value="/home?lang=en" />">en</a>
-              <a class="dropdown-item" href="<c:url value="/home?lang=es" />">es</a>
-            </div>
-          </li>
+			<li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle" id="langMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				<span style="font-size:1.40rem;"><i class="fal fa-globe-africa"></i></span>&nbsp;&nbsp;${data.userLocale.language}
+				</a>
+				<div class="dropdown-menu dropdown-menu-right dropdown-default" aria-labelledby="langMenuLink">
+				<a class="dropdown-item" href="<c:url value="/home?lang=fr" />">fr</a>
+				<a class="dropdown-item" href="<c:url value="/home?lang=en" />">en</a>
+				<a class="dropdown-item" href="<c:url value="/home?lang=es" />">es</a>
+				</div>
+			</li>
+			<li class="nav-item">
+				<span style="font-size:1.40rem;"><a class="nav-link" href="https://github.com/sparna-git/shacl-play"><i class="fa-brands fa-github"></i></a></span>
+			</li>
         </ul>
 
     </div>

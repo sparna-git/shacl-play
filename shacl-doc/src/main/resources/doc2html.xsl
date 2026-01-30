@@ -242,8 +242,8 @@
 									<h2 id="diagrams" class="sp_section_subtitle">
 										<xsl:value-of select="$LABELS/labels/entry[@key='DIAGRAM.TITLE']/@label" />
 									</h2>
-									<xsl:apply-templates select="diagrams" />
 									<xsl:apply-templates select="depictions"/>
+									<xsl:apply-templates select="diagrams" />
 								</section>
 							</div>
 						</div>						

@@ -80,9 +80,9 @@
 
 		<!-- J2EE -->
 		<dependency>
-			<groupId>javaee</groupId>
+			<groupId>javax</groupId>
 			<artifactId>javaee-api</artifactId>
-			<version>5</version>
+			<version>6.0</version>
             <scope>provided</scope>
 		</dependency>
 

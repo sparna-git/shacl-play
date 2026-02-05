@@ -457,6 +457,26 @@ public class JsonSchemaGenerator {
 			}
 		}
 
+		// sh:or with sh:node
+		if (singleValueBuilder == null && ps.getShOr() != null && ShOrReadingUtils.readShNodeInShOr(ps.getShOr()).size() > 0) {
+            // Read sh:or and get all result possibles
+			List<Schema> anyOfList = new ArrayList<>();
+			List<Resource> shNode = ShOrReadingUtils.readShNodeInShOr(ps.getShOr()).stream().map(r -> r.asResource()).collect(Collectors.toList());
+			// filter to keep only references that are found in the current file
+			ShapesGraph shapesGraph = new ShapesGraph(model, null);
+			shNode = shNode.stream()
+				.filter(n -> shapesGraph.findNodeShapeByResource(n) != null)
+				.collect(Collectors.toList());
+			if(shNode.size() > 0) {
+				// if none of the references can be found in the file, this will default to other conversion
+				// after the sh:or conversion
+				for (Resource n : shNode) {
+					anyOfList.add(ReferenceSchema.builder().refValue(JsonSchemaGenerator.buildSchemaReference(n)).build());
+				}
+				singleValueBuilder = CombinedSchema.anyOf(anyOfList); 
+			}                     
+		}
+
 		// sh:pattern
 		if (singleValueBuilder == null && !ps.getShPattern().isEmpty()) {
 			String pattern = ps.getShPattern().get().getString();
@@ -521,33 +541,6 @@ public class JsonSchemaGenerator {
 					}
 				}
 			}		
-		}
-
-		// sh:or with sh:node
-		if (singleValueBuilder == null && ps.getShOr() != null) {
-            // Read sh:or and get all result possibles
-            if(ShOrReadingUtils.readShNodeInShOr(ps.getShOr()).size() > 0) {
-				// if there are more than 1, use an OneOf schema
-            	List<Schema> anyOfList = new ArrayList<>();
-            	List<Resource> shNode = ShOrReadingUtils.readShNodeInShOr(ps.getShOr()).stream().map(r -> r.asResource()).collect(Collectors.toList());
-            	// filter to keep only references that are found in the current file
-				ShapesGraph shapesGraph = new ShapesGraph(model, null);
-				shNode = shNode.stream()
-					.filter(n -> shapesGraph.findNodeShapeByResource(n) != null)
-					.collect(Collectors.toList());
-				if(shNode.size() > 0) {
-					// if none of the references can be found in the file, this will default to other conversion
-					// after the sh:or conversion
-					for (Resource n : shNode) {
-						anyOfList.add(ReferenceSchema.builder().refValue(JsonSchemaGenerator.buildSchemaReference(n)).build());
-					}
-					singleValueBuilder = CombinedSchema.anyOf(anyOfList); 
-				}
-            } else if(ShOrReadingUtils.readShClassInShOr(ps.getShOr()).size() > 0) {
-				// TODO
-			} else if(ShOrReadingUtils.readShDatatypeInShOr(ps.getShOr()).size() > 0) {
-				// TODO
-			}                       
 		}
 
 		// NodeKind IRI

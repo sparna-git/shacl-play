@@ -130,7 +130,7 @@ public class JsonSchemaGenerator {
 					ns.getNodeShape().getLocalName(),
 					// create the object schema from the node shape
 					hasNoActivePropertyShape.test(ns)
-					?convertNodeShapeToStringSchema(ns)
+					?convertNodeShapeToStringSchema(ns, shaclGraph)
 					:convertNodeShapeToObjectSchema(ns, shaclGraph,!doNotIncludeValues,addProperties)
 			);
 		}
@@ -214,9 +214,11 @@ public class JsonSchemaGenerator {
 	
 	/**
 	 * This is the case where the ndoeShape has no active property shape : we want it to be a simple iri-reference
+	 * possibly with a pattern if the node shape has a sh:pattern, but without any property, even the id property, as it is not relevant in this case
 	 */
 	private Schema convertNodeShapeToStringSchema(
-		NodeShape nodeShape
+		NodeShape nodeShape,
+		Model model
 	) throws Exception {
 		StringSchema.Builder stringSchema = StringSchema.builder();
 		
@@ -228,6 +230,23 @@ public class JsonSchemaGenerator {
 		String description = null;
 		if (nodeShape.getRdfsComment(lang).size() > 0) {
 			description = nodeShape.getRdfsComment(lang).stream().map(l -> l.getString()).collect(Collectors.joining(" "));
+		}
+
+		// pattern
+		if (nodeShape.getShPattern().isPresent()) {
+			stringSchema.pattern(this.uriMapper.mapUriPatternToJsonPattern(nodeShape.getShPattern().get().getString(), null));
+		}
+
+		// shorten all examples according to context
+		List<String> examplesRaw = nodeShape.getExamples().stream().map(e -> e.asLiteral().getString()).collect(Collectors.toList());
+		
+		List<String> examples = examplesRaw.stream()
+			.map(ex -> model.createResource(ex))
+			.map(res -> this.uriMapper.mapValueURI(res, null))
+			.collect(Collectors.toList());
+		
+		if( !examples.isEmpty()) {
+			stringSchema.examples(examples);
 		}
 
 		stringSchema
@@ -274,10 +293,10 @@ public class JsonSchemaGenerator {
 			objectSchema.description(nodeShape.getRdfsComment(lang).stream().map(l -> l.getString()).collect(Collectors.joining(" ")));
 		}
 		
-		List<String> examplesIdRaw = nodeShape.getExamples().stream().map(e -> e.asLiteral().getString()).collect(Collectors.toList());
+		List<String> examplesRaw = nodeShape.getExamples().stream().map(e -> e.asLiteral().getString()).collect(Collectors.toList());
 		
 		// shorten all examples according to context
-		List<String> examplesId = examplesIdRaw.stream()
+		List<String> examplesId = examplesRaw.stream()
 			.map(ex -> model.createResource(ex))
 			.map(res -> this.uriMapper.mapValueURI(res, null))
 			.collect(Collectors.toList());

@@ -12,7 +12,7 @@
     "SimpleClass": "ex:SimpleClass",
 
     "type": {
-      "@id": "rdf:type",
+      "@id": "@type",
       "@container": "@set"
     }
     

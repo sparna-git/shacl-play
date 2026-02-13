@@ -134,7 +134,13 @@ public class JsonLdContextGenerator {
 						 true
 					);
 				} else {
-					mapping = new JsonLdMapping(shortname,path.getModel().shortForm(path.getURI()));
+					if(path.getURI() != null && path.getURI().equals(RDF.type.getURI())) {
+						// rdf:type is changed to @type, so that the compaction of @type works
+						mapping = new JsonLdMapping(shortname,"@type");
+					} else {
+						mapping = new JsonLdMapping(shortname,path.getModel().shortForm(path.getURI()));
+					}
+						
 				}
 
 				// ### determine the @type

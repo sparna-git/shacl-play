@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.util.FileUtils;
 import org.apache.jena.vocabulary.RDF;
@@ -238,7 +239,11 @@ public class JsonLdContextGenerator {
 					if(datatypes.isEmpty() || !datatypes.iterator().next().getURI().equals(RDF.langString.getURI())) {
 						Set<Integer> maxCounts = findShMaxCountOfShortname(shortname, path, model);
 						if(maxCounts.size() == 0) {
-							mapping.setContainer("@set");
+							Set<RDFNode> hasValues = findHasValueOfShortname(shortname, path, model);
+							if(hasValues.size() == 0) {
+								// if there is a sh:hasValue, it means that the property cannot have multiple values, hance we don't set @container to @set 
+								mapping.setContainer("@set");
+							}							
 						} else {
 							Integer maxCount = maxCounts.iterator().next();
 							if(maxCount > 1) {
@@ -343,6 +348,26 @@ public class JsonLdContextGenerator {
 			.map(Optional::get)
 			.collect(Collectors.toSet());
 		return result;		
+	}
+
+	private Set<RDFNode> findHasValueOfShortname(String shortname, Resource path, Model model) {
+		// find the (unique) property shape with its shortname, or with a path (which can return multiple property shapes)
+		List<PropertyShape> propertyShapesWithPath = new ArrayList<>();
+		if(shortname != null) {
+			propertyShapesWithPath = this.shapesGraph.findPropertyShapesByShortname(shortname);
+		}
+		// if nothing found, try with the path
+		if(propertyShapesWithPath.isEmpty()) {
+			propertyShapesWithPath = this.shapesGraph.findPropertyShapesByPath(path);
+		}
+
+		Set<RDFNode> shHasValue = propertyShapesWithPath.stream()
+			.map(ps -> ps.getShHasValue())
+			.filter(Optional::isPresent)
+			.map(Optional::get)
+			.collect(Collectors.toSet());
+		
+		return shHasValue;	
 	}
 
 	private Set<Literal> findPatternsOfShortnameThroughShOr(String shortname, Resource path, Model model) {

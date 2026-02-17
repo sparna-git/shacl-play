@@ -53,7 +53,7 @@
 	
 	<!-- For file upload -->
     <bean id="multipartResolver"  
-        class="org.springframework.web.multipart.commons.CommonsMultipartResolver">  
+        class="org.springframework.web.multipart.support.StandardServletMultipartResolver">  
     </bean>
 	
 	<!-- / Basic application bootstraping -->

@@ -38,7 +38,7 @@
     <java.version>11</java.version>            
     <jena.version>4.6.1</jena.version>
     <jtwig.version>5.87.0.RELEASE</jtwig.version>            
-    <jackson.version>2.13.3</jackson.version>        
+    <jackson.version>2.19.4</jackson.version>        
   </properties>
       
   <build>            

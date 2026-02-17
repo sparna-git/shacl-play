@@ -2,7 +2,7 @@ package fr.sparna.rdf.shacl.shaclplay;
 
 import java.util.Locale;
 
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpSession;
 
 import org.apache.jena.rdf.model.Model;
 

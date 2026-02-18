@@ -132,6 +132,13 @@ eclipse.preferences.version=1
         <artifactId>logback-classic</artifactId>                        
         <version>1.2.3</version>                    
       </dependency>
+      
+      <!-- Bridge Log4j2 API to SLF4J (routes log4j calls through logback) -->
+      <dependency>
+        <groupId>org.apache.logging.log4j</groupId>
+        <artifactId>log4j-to-slf4j</artifactId>
+        <version>2.20.0</version>
+      </dependency>
                   
       <dependency>                        
         <groupId>commons-io</groupId>                        
@@ -237,12 +244,6 @@ eclipse.preferences.version=1
           <groupId>com.github.sparna-git.rdf2xls</groupId>
           <artifactId>rdf2xls-lib</artifactId>
           <version>1.0.0</version>
-          <exclusions>
-            <exclusion>
-              <groupId>org.apache.logging.log4j</groupId>
-              <artifactId>log4j-api</artifactId>
-            </exclusion>
-			    </exclusions> 
       </dependency>
 
       <dependency>

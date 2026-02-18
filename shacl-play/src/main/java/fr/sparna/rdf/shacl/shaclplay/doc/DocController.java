@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.Arrays;
+import java.util.Map;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -119,6 +120,7 @@ public class DocController {
 	
 	@RequestMapping(
 			value="/doc",
+			params={"shapesSource"},
 			method = RequestMethod.POST
 	)
 	public ModelAndView doc(
@@ -277,6 +279,7 @@ public class DocController {
 		
 		
 	}
+		
 		
 	/**
 	 * Handles an error in the validation form (stores the message in the Model, then forward to the view).

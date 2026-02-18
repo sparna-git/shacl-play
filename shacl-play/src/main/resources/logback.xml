@@ -36,13 +36,7 @@
 	</logger>
 
 	<logger name="org.springframework.web">
-		<level value="debug" />
-	</logger>
-	<logger name="org.springframework.web.bind">
-		<level value="debug" />
-	</logger>
-	<logger name="org.springframework.web.filter.CommonsRequestLoggingFilter">
-		<level value="DEBUG" />
+		<level value="info" />
 	</logger>
 	
 	<logger name="org.apache.fop">

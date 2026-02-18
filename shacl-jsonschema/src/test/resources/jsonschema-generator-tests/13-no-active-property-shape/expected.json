@@ -21,8 +21,7 @@
       "format": "iri-reference"
     },
     "MainNodeShape": {
-        "type": "string",
-        "format": "iri-reference"
+        "type": "string"
     }
   }
 }

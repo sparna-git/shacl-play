@@ -62,6 +62,13 @@ public class NodeShape extends Shape  {
 	}
 
 	/**
+	 * @return The sh:target resource value if present, or null if not present
+	 */
+	public Resource getTarget() {
+		return Optional.ofNullable(shape.getProperty(SH.target)).map(s -> s.getResource()).orElse(null);
+	}
+
+	/**
 	 * @return The sh:targetClass resources value if present, as weel the node shape itself if it is a class, or an empty list if none
 	 */
 	public List<Resource> getTargetClasses() {

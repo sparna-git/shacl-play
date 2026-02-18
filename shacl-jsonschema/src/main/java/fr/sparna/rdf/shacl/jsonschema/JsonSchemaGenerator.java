@@ -222,17 +222,17 @@ public class JsonSchemaGenerator {
 	) throws Exception {
 		StringSchema.Builder stringSchema = StringSchema.builder();
 		
-		String title = null;
 		if (nodeShape.getRdfsLabel(lang).size() > 0) {
-			title = nodeShape.getRdfsLabel(lang).stream().map(label -> label.getString()).collect(Collectors.joining(" "));
+			String title = nodeShape.getRdfsLabel(lang).stream().map(label -> label.getString()).collect(Collectors.joining(" "));
+			stringSchema.title(title);
 		}
 		
-		String description = null;
 		if (nodeShape.getRdfsComment(lang).size() > 0) {
-			description = nodeShape.getRdfsComment(lang).stream().map(l -> l.getString()).collect(Collectors.joining(" "));
+			String description = nodeShape.getRdfsComment(lang).stream().map(l -> l.getString()).collect(Collectors.joining(" "));
+			stringSchema.description(description);
 		}
 
-		// pattern
+		// sh:pattern
 		if (nodeShape.getShPattern().isPresent()) {
 			stringSchema.pattern(this.uriMapper.mapUriPatternToJsonPattern(nodeShape.getShPattern().get().getString(), null));
 		}
@@ -249,10 +249,16 @@ public class JsonSchemaGenerator {
 			stringSchema.examples(examples);
 		}
 
-		stringSchema
-			.title(title)
-			.description(description)
-			.format("iri-reference");
+		// only set iri-reference if the NodeShape targets IRIs or has sh:targetClass or sh:target
+		if(
+			nodeShape.getShNodeKind().filter(nodeKind -> nodeKind.getURI().equals(SH.IRI.getURI())).isPresent()
+			||
+			nodeShape.getTargetClass() != null
+			||
+			nodeShape.getTarget() != null
+		) {	
+			stringSchema.format("iri-reference");
+		}
 
 		return stringSchema.build();
 	}
@@ -303,7 +309,7 @@ public class JsonSchemaGenerator {
 
 		StringSchema.Builder idSchemaBuilder = StringSchema.builder();
 		if (nodeShape.getShPattern().isPresent()) {
-			// no property URi in this case
+			// no property URI in this case
 			idSchemaBuilder.pattern(this.uriMapper.mapUriPatternToJsonPattern(nodeShape.getShPattern().get().getString(), null));
 		}
 		if( !examplesId.isEmpty()) {

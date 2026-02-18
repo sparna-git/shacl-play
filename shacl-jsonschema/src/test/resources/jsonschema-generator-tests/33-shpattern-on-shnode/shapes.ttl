@@ -18,7 +18,7 @@ ex:MainNodeShape
 
 ex:OtherShape
     a sh:NodeShape ;
-    sh:nodeKind sh:Literal ;
+    sh:nodeKind sh:IRI ;
     sh:pattern "^https://data.europarl.europa.eu/eli/dl/doc/A-(?<parliamentaryTerm>[0-9]{1,2})-(?<year>[0-9]{4})-(?<number>[0-9]{4})$";
     skos:example "https://data.europarl.europa.eu/eli/dl/doc/A-10-2025-0134";
 .

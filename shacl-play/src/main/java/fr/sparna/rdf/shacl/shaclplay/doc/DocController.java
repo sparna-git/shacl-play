@@ -3,7 +3,7 @@ package fr.sparna.rdf.shacl.shaclplay.doc;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URLEncoder;
-import java.util.List;
+import java.util.Arrays;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -119,7 +119,6 @@ public class DocController {
 	
 	@RequestMapping(
 			value="/doc",
-			params={"shapesSource"},
 			method = RequestMethod.POST
 	)
 	public ModelAndView doc(
@@ -130,13 +129,13 @@ public class DocController {
 			// reference to Shapes Catalog ID if shapeSource=sourceShape-inputShapeCatalog
 			@RequestParam(value="inputShapeCatalog", required=false) String shapesCatalogId,
 			// uploaded shapes if shapeSource=sourceShape-inputShapeFile
-			@RequestParam(value="inputShapeFile", required=false) List<MultipartFile> shapesFiles,
+			@RequestParam(value="inputShapeFile", required=false) MultipartFile[] shapesFiles,
 			// inline Shapes if shapeSource=sourceShape-inputShapeInline
 			@RequestParam(value="inputShapeInline", required=false) String shapesText,
 			// includeDiagram option
-			@RequestParam(value="includeDiagram", required=false) boolean includeDiagram,
+			@RequestParam(value="includeDiagram", required=false, defaultValue="false") boolean includeDiagram,
 			// hide Properties
-			@RequestParam(value="hideProperties", required=false) boolean hideProperties,
+			@RequestParam(value="hideProperties", required=false, defaultValue="false") boolean hideProperties,
 			// print PDF Option
 			@RequestParam(value="format", required=false, defaultValue = "html") String format,
 			// Logo Option
@@ -144,13 +143,20 @@ public class DocController {
 			// Language Option
 			@RequestParam(value="language", required=false) String language,
 			// Split Diagram
-			@RequestParam(value="sectionDiagram", required=false) boolean sectionDiagram,
+			@RequestParam(value="sectionDiagram", required=false, defaultValue="false") boolean sectionDiagram,
 			HttpServletRequest request,
 			HttpServletResponse response
 	) {
 		try {
-			
+            
 			log.debug("doc(shapeSourceString='"+shapesSourceString+"')");
+			log.debug("REQUEST contentType={}", request.getContentType());
+			log.debug("REQUEST params={}", request.getParameterMap());
+			if (shapesFiles == null) {
+				log.debug("shapesFiles=null");
+			} else {
+				log.debug("shapesFiles.length={}", shapesFiles.length);
+			}
 			
 			boolean printPDF = format.toLowerCase().equals("pdf") ? true : false;
 			
@@ -184,7 +190,7 @@ public class DocController {
 					shapesSource,
 					shapesUrl,
 					shapesText,
-					shapesFiles,
+					Arrays.asList(shapesFiles),
 					shapesCatalogId
 			);
 			log.debug("Done Loading Shapes. Model contains "+shapesModel.size()+" triples");

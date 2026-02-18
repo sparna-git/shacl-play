@@ -17,7 +17,7 @@
         http://www.springframework.org/schema/util
         http://www.springframework.org/schema/util/spring-util.xsd">
 
-	<!-- Load skosplay-application.properties -->
+	<!-- Load shaclplay-application.properties -->
 	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 	  <property name="locations">
 	    <list>
@@ -55,6 +55,18 @@
     <bean id="multipartResolver"  
         class="org.springframework.web.multipart.support.StandardServletMultipartResolver">  
     </bean>
+    
+	<!-- Log incoming requests (query string + payload) to help debug binding issues -->
+	<!--
+	<bean id="requestLoggingFilter" class="org.springframework.web.filter.CommonsRequestLoggingFilter">
+		<property name="includeQueryString" value="true"/>
+		<property name="includeClientInfo" value="true"/>
+		<property name="includePayload" value="true"/>
+		<property name="includeHeaders" value="false"/>
+		<property name="maxPayloadLength" value="2000"/>
+		<property name="afterMessagePrefix" value="REQUEST DATA: "/>
+	</bean>
+	-->
 	
 	<!-- / Basic application bootstraping -->
 

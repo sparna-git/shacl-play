@@ -237,6 +237,12 @@ eclipse.preferences.version=1
           <groupId>com.github.sparna-git.rdf2xls</groupId>
           <artifactId>rdf2xls-lib</artifactId>
           <version>1.0.0</version>
+          <exclusions>
+            <exclusion>
+              <groupId>org.apache.logging.log4j</groupId>
+              <artifactId>log4j-api</artifactId>
+            </exclusion>
+			    </exclusions> 
       </dependency>
 
       <dependency>

@@ -44,38 +44,6 @@ public class PropertyShape extends Shape {
 	}
 
 	/**
-	 * Returns true if the property shape could be a literal property.
-  	 * This is the case if it has a datatype, or if it has a nodeKind of Literal,
-  	 * or if it has a languageIn, or if it has minLength, maxLength, minInclusive,
-  	 * maxInclusive, minExclusive, or maxExclusive.
-	 * @return
-	 */
-	public boolean couldBeLiteralProperty() {
-		  return 
-		  shape.hasProperty(SH.datatype)
-		  ||
-		  ( 
-			shape.hasProperty(SH.nodeKind)
-			&& 
-	  		shape.getProperty(SH.nodeKind).getObject().asResource().equals(SH.Literal) 
-		  )
-		  ||
-		  shape.hasProperty(SH.languageIn)
-	  	  ||
-		  shape.hasProperty(SH.minLength)
-		  ||
-		  shape.hasProperty(SH.maxLength)
-	  	  ||
-		  shape.hasProperty(SH.minInclusive)
-		  ||
-		  shape.hasProperty(SH.maxInclusive)
-	  	  ||
-		  shape.hasProperty(SH.minExclusive)
-		  ||
-		  shape.hasProperty(SH.maxExclusive);
-	}
-
-	/**
 	 * Returns true if the property shape could be an IRI property.
   	 * This is the case if it has a nodeKind of IRI, or if it has a class.
 	 * @return
@@ -144,8 +112,7 @@ public class PropertyShape extends Shape {
 	
 	public Optional<Integer> getShQualifiedMaxCount() {
 		return ModelReadingUtils.getOptionalLiteral(this.shape, SH.qualifiedMaxCount).map(l -> l.getInt());
-	}
-	
+	}	
 	
 	public String getShNodeLabel() {
 		return this.getShNode().map(r -> ModelRenderingUtils.render(r, true)).orElse(null);
@@ -153,8 +120,7 @@ public class PropertyShape extends Shape {
 	
 	public String getShQualifiedValueShapeLabel() {
 		return this.getShQualifiedValueShape().map(r -> ModelRenderingUtils.render(r, true)).orElse(null);
-	}
-	
+	}	
 	
 	public String getColorString() {
 		return this.getShaclPlayColor().map(node -> node.asLiteral().toString()).orElse(null);

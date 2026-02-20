@@ -3,9 +3,9 @@ package fr.sparna.rdf.jena.shacl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import org.apache.jena.atlas.logging.Log;
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
@@ -18,7 +18,6 @@ import org.apache.jena.vocabulary.SKOS;
 
 import fr.sparna.rdf.jena.ModelReadingUtils;
 import fr.sparna.rdf.jena.ModelRenderingUtils;
-import fr.sparna.rdf.shacl.*;
 import org.topbraid.shacl.vocabulary.SH;
 
 public class NodeShape extends Shape  {
@@ -38,16 +37,6 @@ public class NodeShape extends Shape  {
 	}
 
 	/**
-	 * @return The shacl-plya:backgroundColor Literal value, or null if not present
-	 */
-	public Literal getBackgroundColor() {
-		return ModelReadingUtils.getOptionalLiteral(
-				shape,
-				shape.getModel().createProperty(SHACL_PLAY.BACKGROUNDCOLOR)
-			).orElse(null);
-	}
-
-	/**
 	 * @return The list of foaf:depiction values, if present, or an empty list if not present
 	 */
 	public List<Resource> getDepiction() {
@@ -61,11 +50,20 @@ public class NodeShape extends Shape  {
 		return Optional.ofNullable(shape.getProperty(SH.targetClass)).map(s -> s.getResource()).orElse(null);
 	}
 
-	/**
-	 * @return The sh:target resource value if present, or null if not present
-	 */
-	public Resource getTarget() {
-		return Optional.ofNullable(shape.getProperty(SH.target)).map(s -> s.getResource()).orElse(null);
+	public List<Resource> getTargetSubjectsOf() {
+		return ModelReadingUtils.readObjectAsResource(shape, SH.targetSubjectsOf);
+	}
+
+	public List<Resource> getTargetObjectsOf() {
+		return ModelReadingUtils.readObjectAsResource(shape, SH.targetObjectsOf);
+	}
+
+	public List<Resource> getTarget() {
+		return ModelReadingUtils.readObjectAsResource(shape, SH.target);
+	}
+
+	public List<Resource> getTargetNodes() {
+		return ModelReadingUtils.readObjectAsResource(shape, SH.targetNode);
 	}
 
 	/**
@@ -133,9 +131,8 @@ public class NodeShape extends Shape  {
 		return ModelReadingUtils.readLiteralInLang(shape, SKOS.definition, lang);
 	}
 
-
 	public String getBackgroundColorString() {
-		return Optional.ofNullable(this.getBackgroundColor()).map(node -> node.asLiteral().toString()).orElse(null);
+		return this.getShaclPlayBackgroundColor().map(node -> node.asLiteral().toString()).orElse(null);
 	}
 
 	public String getColorString() {
@@ -147,13 +144,60 @@ public class NodeShape extends Shape  {
 	}	
 	
 	/**
-	 * 
-	 * @param classUri
 	 * @return true if getTargetClasses() contains the given classUri 
 	 */
 	public boolean isTargeting(Resource classUri) {
 		return this.getTargetClasses().stream().filter(tc -> tc.equals(classUri)).findFirst().isPresent();
-	}	
+	}
+
+	/**
+	 * @return true if this node shape has at least one target 
+	 * (sh:targetClass or itself a class, sh:targetSubjectsOf, sh:targetObjectsOf, sh:targetNode or sh:target)
+	 */
+	public boolean hasTarget() {
+		return 
+			getTargetClasses().size() > 0
+			||
+			getTargetSubjectsOf().size() > 0
+			||
+			getTargetObjectsOf().size() > 0
+			||
+			getTarget().size() > 0
+			||
+			getTargetNodes().size() > 0
+		;
+	}
+
+	/**
+	 * @return true if this node shape has no active property shapes and no target, meaning it 
+	 * describes only the value nodes of some property shapes
+	 */
+	public boolean isPureValueShape() {
+		Predicate<NodeShape> hasNoActivePropertyShape = new Predicate<NodeShape>() {
+
+			@Override
+			public boolean test(NodeShape ns) {
+				// as soon as we find one non-deactivated property shape, we return false
+				for (PropertyShape ps : ns.getProperties()) {
+					if (!ps.isDeactivated()) {
+						return false;
+					}
+				}
+				// no property shape active at all, return true
+				return true;
+			}
+		};
+
+		return hasNoActivePropertyShape.test(this) && this.hasTarget() == false;
+	}
+
+	public boolean isUsedInShapesGraph() {
+		boolean isUsedInShNode = this.getNodeShape().getModel().contains(null, SH.node, this.getNodeShape());
+		boolean isUsedInQualifiedValueShape = this.getNodeShape().getModel().contains(null, SH.qualifiedValueShape, this.getNodeShape());
+		boolean isUsedInRdfsSubClassOf = this.getNodeShape().getModel().contains(null, RDFS.subClassOf, this.getNodeShape());
+
+		return isUsedInShNode || isUsedInQualifiedValueShape || isUsedInRdfsSubClassOf;
+	}
 
 	public String getShortFormOrId() {
 		if(this.shape.isURIResource()) {

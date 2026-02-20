@@ -1,4 +1,11 @@
 @prefix sh: <http://www.w3.org/ns/shacl#> .
 @prefix ex: <http://example.org/> .
 
-ex:MainNodeShape a sh:NodeShape .
+ex:MainNodeShape a sh:NodeShape ;
+    sh:targetClass ex:something ;
+    sh:property [
+        sh:path ex:p ;
+        sh:deactivated true ;
+        sh:maxCount 1;
+    ] ;
+.

@@ -5,11 +5,6 @@
 @prefix eli-dl: <http://data.europa.eu/eli/eli-draft-legislation-ontology#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 
-eli:Work a sh:NodeShape, rdfs:Class;
-  sh:nodeKind sh:IRI;
-  sh:pattern "^https://data.europarl.europa.eu/eli/dl/doc/[A-Za-z0-9\\-_]+$";
-.
-
 
 eli-dl:Process a sh:NodeShape, rdfs:Class;
   sh:nodeKind sh:IRI;
@@ -21,3 +16,18 @@ eli-ep:P183
   sh:path eli-dl:involved_work;
   sh:nodeKind sh:IRI;
   sh:class eli:Work .
+
+eli-ep:P184 
+  sh:path eli-dl:political_group;
+  sh:nodeKind sh:IRI;
+  sh:class eli:PoliticalGroup .
+
+
+eli:Work a sh:NodeShape, rdfs:Class;
+  sh:nodeKind sh:IRI;
+  sh:pattern "^https://data.europarl.europa.eu/eli/dl/doc/[A-Za-z0-9\\-_]+$";
+.
+
+eli:PoliticalGroup a sh:NodeShape, rdfs:Class;
+  sh:nodeKind sh:IRI;
+  sh:pattern "^https://data.europarl.europa.eu/org/ep-(?<parliamentaryTerm>[0-9]{1,2})";

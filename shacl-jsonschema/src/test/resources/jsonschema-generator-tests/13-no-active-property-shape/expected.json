@@ -21,7 +21,14 @@
       "format": "iri-reference"
     },
     "MainNodeShape": {
-        "type": "string"
+      "type": "object",
+      "required": ["id"],
+      "properties": {
+        "id": {
+          "format": "iri-reference",
+          "type": "string"
+        }
+      }
     }
   }
 }

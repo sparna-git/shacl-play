@@ -17,17 +17,15 @@
   "required": ["@context", "data"],
   "$defs": {
     "@context": {},
-    "OtherShape": {
-      "examples": ["https://data.europarl.europa.eu/eli/dl/doc/A-10-2025-0134"],
-      "pattern": "^https://data.europarl.europa.eu/eli/dl/doc/A-(?<parliamentaryTerm>[0-9]{1,2})-(?<year>[0-9]{4})-(?<number>[0-9]{4})$",
-      "format": "iri-reference",
-      "type": "string"
-    },
     "MainNodeShape": {
       "type": "object",
       "required": ["id"],
       "properties": {
-        "p": {"$ref": "#/$defs/OtherShape"},
+        "p": {
+          "type": "string",
+          "examples": ["https://data.europarl.europa.eu/eli/dl/doc/A-10-2025-0134"],
+          "pattern": "^https://data.europarl.europa.eu/eli/dl/doc/A-(?<parliamentaryTerm>[0-9]{1,2})-(?<year>[0-9]{4})-(?<number>[0-9]{4})$"
+        },
         "id": {
           "format": "iri-reference",
           "type": "string"

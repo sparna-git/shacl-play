@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.vocabulary.OWL;
 import org.apache.jena.vocabulary.RDF;
@@ -18,7 +19,6 @@ public class ShapesGraph {
 	private Model shaclGraph;
 	private Model owlGraph;
 	
-	private List<NodeShape> allNodeShapes = new ArrayList<>();
 	private OwlOntology ontology;
 	
 	public ShapesGraph(Model shaclGraph, Model owlGraph) {
@@ -27,12 +27,11 @@ public class ShapesGraph {
 		this.owlGraph = owlGraph;
 		
 		this.ontology = this.readOWL(shaclGraph);
-		this.allNodeShapes = this.readAllNodeShapes(shaclGraph, owlGraph);
 	}
 	
 	
 	public List<NodeShape> getAllNodeShapes() {	
-		return allNodeShapes; 
+		return ShapesGraph.readAllNodeShapes(shaclGraph, owlGraph); 
 	}
 
 	/**
@@ -55,7 +54,7 @@ public class ShapesGraph {
 	}
 	
 	public NodeShape findNodeShapeByResource(Resource r) {
-		return this.allNodeShapes.stream().filter(ns -> ns.getNodeShape().toString().equals(r.toString())).findFirst().orElse(null);
+		return getAllNodeShapes().stream().filter(ns -> ns.getNodeShape().toString().equals(r.toString())).findFirst().orElse(null);
 	}
 
 	/**
@@ -63,20 +62,21 @@ public class ShapesGraph {
 	 * @return all NodeShapes that target the given class, based on sh:targetClass, or a shape that is itself a class with the requested URI, or an empty list if none found
 	 */
 	public List<NodeShape> findNodeShapeByTargetClass(Resource cl) {
-		return this.allNodeShapes.stream().filter(ns -> 
+		return getAllNodeShapes().stream().filter(ns -> 
 			ns.isTargeting(cl)
 		).collect(Collectors.toList());
 	}
 
+	/**
+	 * @return the nodes shapes that target the node indicated in the sh:node of the given property shape
+	 */
 	public List<NodeShape> findNodeShapesByPropertyShapeShNode(PropertyShape ps) {
-		return this.allNodeShapes.stream().filter(ns -> 
+		return getAllNodeShapes().stream().filter(ns -> 
 			ps.getShNode().map(n -> n.equals(ns.getNodeShape())).orElse(false)
 		).collect(Collectors.toList());
 	}
 
 	/**
-	 * 
-	 * @param ps
 	 * @return the nodes shapes that target the class indicated in the sh:class of the given property shape, relying on findNodeShapeByTargetClass
 	 */
 	public List<NodeShape> findNodeShapesByPropertyShapeShClass(PropertyShape ps) {
@@ -89,6 +89,38 @@ public class ShapesGraph {
 
 	public List<PropertyShape> findPropertyShapesByShortname(String shortname) {
 		return shaclGraph.listSubjectsWithProperty(shaclGraph.createProperty(SHACL_PLAY.SHORTNAME), shaclGraph.createLiteral(shortname)).toList().stream().map(r -> new PropertyShape(r)).collect(Collectors.toList());
+	}
+
+	public void pruneEmptyAndUnusedNodeShapes() {
+		List<NodeShape> unusedNodeShapes = getAllNodeShapes().stream().filter(
+			ns -> (
+				ns.isPureValueShape()
+				&&
+				!ns.isUsedInShapesGraph()
+			)
+		).toList();
+		unusedNodeShapes.forEach(ns -> this.deleteNodeShape(ns.getNodeShape()));
+
+		// do that a second time so that potential sh:node references to the deleted node shapes are also deleted
+		// this should be a loop, of course
+		unusedNodeShapes = getAllNodeShapes().stream().filter(
+			ns -> (
+				ns.isPureValueShape()
+				&&
+				!ns.isUsedInShapesGraph()
+			)
+		).toList();
+		unusedNodeShapes.forEach(ns -> this.deleteNodeShape(ns.getNodeShape()));
+	}
+
+
+	public void deleteNodeShape(Resource nodeShape) {
+		// delete any blank nodes that are linked to this node shape
+		this.shaclGraph.listStatements(nodeShape, null, (RDFNode) null).toList()
+		.stream().filter(s -> s.getObject().isAnon()).forEach(s -> this.shaclGraph.removeAll(s.getObject().asResource(), null, null));
+
+		this.shaclGraph.removeAll(nodeShape, null, null);
+		this.shaclGraph.removeAll(null, null, nodeShape);
 	}
 	
 	
@@ -111,7 +143,10 @@ public class ShapesGraph {
 		return ontologyObject;
 	}
 	
-	private List<NodeShape> readAllNodeShapes(Model shaclGraph, Model owlGraph) {
+	/**
+	 * @return all instances of sh:NodeShape in the graph, as NodeShape objects
+	 */
+	private static List<NodeShape> readAllNodeShapes(Model shaclGraph, Model owlGraph) {
 		
 		List<Resource> nodeShapes = shaclGraph.listResourcesWithProperty(RDF.type, SH.NodeShape).toList();
 

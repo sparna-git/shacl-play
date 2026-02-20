@@ -21,6 +21,11 @@
       "type": "object",
       "required": ["id"],
       "properties": {
+        "p": {
+          "type": "string",
+          "pattern": "^A-(?<parliamentaryTerm>[0-9]{1,2})-(?<year>[0-9]{4})-(?<number>[0-9]{4})$",
+          "examples": ["A-10-2025-0134"]
+        },
         "id": {
           "format": "iri-reference",
           "type": "string"

@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.tuple.Triple;
 import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.vocabulary.RDF;
@@ -20,6 +21,7 @@ import fr.sparna.rdf.jena.shacl.NodeShape;
 import fr.sparna.rdf.jena.shacl.OwlOntology;
 import fr.sparna.rdf.jena.shacl.PropertyShape;
 import fr.sparna.rdf.jena.shacl.ShOrReadingUtils;
+import fr.sparna.rdf.jena.shacl.Shape;
 import fr.sparna.rdf.jena.shacl.ShapesGraph;
 import fr.sparna.rdf.shacl.jsonschema.jsonld.ContextUriMapper;
 import fr.sparna.rdf.shacl.jsonschema.jsonld.LocalNameUriToJsonMapper;
@@ -84,16 +86,28 @@ public class JsonSchemaGenerator {
 		List<String> rootShapes
 	) throws Exception {
 		return this.convertToJsonSchema(shaclGraph, rootShapes, false, false);
-	}		
+	}
 
-    public Schema convertToJsonSchema(
+	public Schema convertToJsonSchema(
 		Model shaclGraph,
 		List<String> rootShapes,
 		boolean doNotIncludeValues,
 		boolean addProperties
 	) throws Exception {
+		// make a deep copy of the Model because we will be pruning the unused node shapes in it
+		Model shaclGraphCopy = ModelFactory.createDefaultModel().add(shaclGraph);
+		ShapesGraph shapesGraph = new ShapesGraph(shaclGraphCopy, null);
+		shapesGraph.pruneEmptyAndUnusedNodeShapes();
+		return convertToJsonSchema(shapesGraph, rootShapes, doNotIncludeValues, addProperties);
+	}
+
+    public Schema convertToJsonSchema(
+		ShapesGraph shapesGraph,
+		List<String> rootShapes,
+		boolean doNotIncludeValues,
+		boolean addProperties
+	) throws Exception {
         log.info("Generating JSON schema...");
-		ShapesGraph shapesGraph = new ShapesGraph(shaclGraph, null);
 		    
 		// Create JSON Schema 
         // root schema
@@ -123,16 +137,23 @@ public class JsonSchemaGenerator {
         populateMetadataFromOntology(shapesGraph,rootSchema);        
         
 		// Read nodeshapes and generate corresponding object schemas
-		Predicate<NodeShape> hasNoActivePropertyShape = this.buildHasNoActivePropertyShapePredicate();
 		for (NodeShape ns : shapesGraph.getAllNodeShapes()) {
-			
+			if(!ns.isPureValueShape()) {
+				rootSchema.embeddedSchema(
+					ns.getNodeShape().getLocalName(),
+					convertNodeShapeToObjectSchema(ns, shapesGraph.getShaclGraph(),!doNotIncludeValues,addProperties)
+				);
+			}
+
+			/*
 			rootSchema.embeddedSchema(
 					ns.getNodeShape().getLocalName(),
 					// create the object schema from the node shape
-					hasNoActivePropertyShape.test(ns)
-					?convertNodeShapeToStringSchema(ns, shaclGraph)
-					:convertNodeShapeToObjectSchema(ns, shaclGraph,!doNotIncludeValues,addProperties)
+					ns.isPureValueShape()
+					?convertNodeShapeToStringSchema(ns, shapesGraph.getShaclGraph())
+					:convertNodeShapeToObjectSchema(ns, shapesGraph.getShaclGraph(),!doNotIncludeValues,addProperties)
 			);
+			 */
 		}
 		
 		// find the root node shapes
@@ -173,7 +194,7 @@ public class JsonSchemaGenerator {
 
     private void populateMetadataFromOntology(ShapesGraph shapesGraph,ObjectSchema.Builder rootSchema) {
     	
-    	// Generate OWL
+    	// Get the ontology object
     	OwlOntology owl = shapesGraph.getOntology();
     	
 		if(owl != null) {
@@ -211,74 +232,132 @@ public class JsonSchemaGenerator {
 		
 	    return containerLanguage;
 	}
-	
+
 	/**
-	 * This is the case where the ndoeShape has no active property shape : we want it to be a simple iri-reference
-	 * possibly with a pattern if the node shape has a sh:pattern, but without any property, even the id property, as it is not relevant in this case
+	 * Handles :
+	 * - sh:pattern with shortening
+	 * - sh:datatype, including in qualifiedValueShape
+	 * - sh:nodeKind IRI
+	 * - sh:nodeKind Literal
+	 * - skos:example
+	 * 
+	 * @param nodeShapeOrPropertyShape Either the property shape itself of a NodeShape referenced through sh:node
+	 * @param inContextOfPropertyShape The property shape in which the call is done, just to know the sh:path for shortening
+	 * @param model
+	 * @return
+	 * @throws Exception
 	 */
-	private Schema convertNodeShapeToStringSchema(
-		NodeShape nodeShape,
+	private Schema.Builder convertShapeToSchemaForProperty(
+		Shape nodeShapeOrPropertyShape,
+		PropertyShape inContextOfPropertyShape,
 		Model model
 	) throws Exception {
-		StringSchema.Builder stringSchema = StringSchema.builder();
-		
-		if (nodeShape.getRdfsLabel(lang).size() > 0) {
-			String title = nodeShape.getRdfsLabel(lang).stream().map(label -> label.getString()).collect(Collectors.joining(" "));
-			stringSchema.title(title);
-		}
-		
-		if (nodeShape.getRdfsComment(lang).size() > 0) {
-			String description = nodeShape.getRdfsComment(lang).stream().map(l -> l.getString()).collect(Collectors.joining(" "));
-			stringSchema.description(description);
-		}
+		Schema.Builder singleValueBuilder = null;
 
 		// sh:pattern
-		if (nodeShape.getShPattern().isPresent()) {
-			stringSchema.pattern(this.uriMapper.mapUriPatternToJsonPattern(nodeShape.getShPattern().get().getString(), null));
+		if (singleValueBuilder == null && !nodeShapeOrPropertyShape.getShPattern().isEmpty()) {
+			String pattern = nodeShapeOrPropertyShape.getShPattern().get().getString();
+			String patternAsInJson = pattern;
+			if(!nodeShapeOrPropertyShape.couldBeLiteral()) {
+				if(inContextOfPropertyShape.getShPath().isURIResource()) {
+					patternAsInJson = this.uriMapper.mapUriPatternToJsonPattern(pattern, inContextOfPropertyShape.getShPath().getURI());
+				} else {
+					patternAsInJson = this.uriMapper.mapUriPatternToJsonPattern(pattern, null);
+				}
+			}
+			
+			singleValueBuilder = StringSchema
+					.builder()
+					// note : the builder-specific method needs to be called **before** the generic method
+					.pattern(patternAsInJson);			
+		}
+
+		// sh:datatype, including in qualifiedValueShape
+		Optional<Resource> qualifiedValueShapeDatatype = Optional.ofNullable(
+			nodeShapeOrPropertyShape.getShape().getProperty(SH.qualifiedValueShape)
+		)
+		.map(st -> st.getResource())
+		.map(r -> new NodeShape(r)).flatMap(ns -> ns.getShDatatype());
+
+		if (
+			singleValueBuilder == null
+			&&
+			(
+				nodeShapeOrPropertyShape.getShDatatype().isPresent()
+				||
+				qualifiedValueShapeDatatype.isPresent()
+			)
+		) {
+
+			Resource theDatatype = nodeShapeOrPropertyShape.getShDatatype().orElseGet(() -> qualifiedValueShapeDatatype.orElse(null));
+
+			if(theDatatype != null) {
+				String datatype = theDatatype.getURI();
+				// TODO : theoretically we should check the schema to make sure the property is really a @container: @language
+				if (datatype.equals(RDF.langString.getURI())) {						
+					singleValueBuilder = ReferenceSchema
+							.builder()	
+							// note : the builder-specific method needs to be called **before** the generic method
+							.refValue("#/$defs/"+CONTAINER_LANGUAGE);
+					
+				} else {
+					Optional<DatatypeToJsonSchemaMapping> typefound = DatatypeToJsonSchemaMapping.findByDatatypeUri(datatype);
+					
+					if (typefound.isPresent()) {							
+						if (typefound.get().getJsonSchemaType().equals(JsonSchemaType.STRING)) {								
+							singleValueBuilder = StringSchema
+								.builder()
+								.format(typefound.get().getJsonSchemaFormat());
+						} else if (typefound.get().getJsonSchemaType().equals(JsonSchemaType.BOOLEAN)) {
+							singleValueBuilder = BooleanSchema
+										.builder();
+						} else if (typefound.get().getJsonSchemaType().equals(JsonSchemaType.NUMBER) || typefound.get().getJsonSchemaType().equals(JsonSchemaType.INTEGER)) {
+							singleValueBuilder = NumberSchema
+								.builder();
+						}
+					} else {
+						// default to StringSchema
+						singleValueBuilder = StringSchema
+							.builder();
+					}
+				}
+			}		
+		}
+
+		// NodeKind IRI
+		if (singleValueBuilder == null && nodeShapeOrPropertyShape.getShNodeKind().filter(nodeKind -> nodeKind.getURI().equals(SH.IRI.getURI())).isPresent()) {	
+			singleValueBuilder = StringSchema
+			.builder()
+			.format("iri-reference");
+		}
+
+		// NodeKind Literal
+		if (singleValueBuilder == null && nodeShapeOrPropertyShape.getShNodeKind().filter(nodeKind -> nodeKind.getURI().equals(SH.Literal.getURI())).isPresent()) {	
+			singleValueBuilder = StringSchema
+			.builder();
 		}
 
 		// shorten all examples according to context
-		List<String> examplesRaw = nodeShape.getExamples().stream().map(e -> e.asLiteral().getString()).collect(Collectors.toList());
+		List<String> examplesRaw = nodeShapeOrPropertyShape.getExamples().stream().map(e -> e.asLiteral().getString()).collect(Collectors.toList());
 		
 		List<String> examples = examplesRaw.stream()
 			.map(ex -> model.createResource(ex))
-			.map(res -> this.uriMapper.mapValueURI(res, null))
+			.map(res -> {
+				if(inContextOfPropertyShape.getShPath().isURIResource()) {
+					return this.uriMapper.mapValueURI(res, inContextOfPropertyShape.getShPath().getURI());
+				} else {
+					return this.uriMapper.mapValueURI(res, null);
+				}
+			 })
 			.collect(Collectors.toList());
 		
-		if( !examples.isEmpty()) {
-			stringSchema.examples(examples);
+		if( singleValueBuilder != null && !examples.isEmpty() ) {
+			singleValueBuilder.examples(examples);
 		}
 
-		// only set iri-reference if the NodeShape targets IRIs or has sh:targetClass or sh:target
-		if(
-			nodeShape.getShNodeKind().filter(nodeKind -> nodeKind.getURI().equals(SH.IRI.getURI())).isPresent()
-			||
-			nodeShape.getTargetClass() != null
-			||
-			nodeShape.getTarget() != null
-		) {	
-			stringSchema.format("iri-reference");
-		}
-
-		return stringSchema.build();
+		return singleValueBuilder;
 	}
 
-	private Predicate<NodeShape> buildHasNoActivePropertyShapePredicate() {
-		return new Predicate<NodeShape>() {
-
-			@Override
-			public boolean test(NodeShape ns) {
-				// as soon as we find one non-deactivated property shape, we return false
-				for (PropertyShape ps : ns.getProperties()) {
-					if (!ps.isDeactivated()) {
-						return false;
-					}
-				}
-				// no property shape active at all, return true
-				return true;
-			}
-		};
-	}
 
 	private Schema convertNodeShapeToObjectSchema(
 		NodeShape nodeShape,
@@ -346,7 +425,6 @@ public class JsonSchemaGenerator {
 			if(contextTest != null) {
 				String shortname = contextTest.getLeft();
 				objectSchema.addPropertySchema(shortname, this.convertPropertyShapeSchema(
-					nodeShape, 
 					ps, 
 					// requires array
 					contextTest.getMiddle(),
@@ -378,7 +456,6 @@ public class JsonSchemaGenerator {
 	}
 
 	private Schema convertPropertyShapeSchema(
-		NodeShape nodeShape,
 		PropertyShape ps,
 		boolean requiresArray,
 		boolean requiresContainerLanguage,
@@ -387,16 +464,19 @@ public class JsonSchemaGenerator {
 	) throws Exception {
 
 		log.trace("Converting PropertyShape "+ps.getPropertyShape().getURI()+" to JSON Schema");
+		ShapesGraph shapesGraph = new ShapesGraph(model, null);
 
 		// precedence order
-		// 1. sh:hasValue ==> ConstSchema
-		// 2. sh:in ==> EnumSchema
-		// 3. sh:node ==> iri-reference if no embed, or ReferenceSchema if embed, wrapped into ArraySchema if maxCount > 1
-		// 4. sh:pattern ==> StringSchema with pattern
-		// 5. sh:datatype ==> StringSchema or ReferenceSchema to ContainerLanguage or BooleanSchema or NumberSchema
-		// 6. sh:or with sh:node
+		// 1. sh:hasValue ==> const
+		// 2. sh:in ==> enum
+		// 3. sh:node or sh:node in qualifiedValueShape ==> iri-reference if no embed, or ref if embed, or copy the node shape schema if it is a pure value node
+		// 4. sh:or with sh:node ==> anyOf of either ref, or the inner node shape schema if it is a pure value node
+		// 5. sh:pattern ==> StringSchema with pattern
+		// 6. sh:datatype ==> string or ref to ContainerLanguage or boolean or number
 		// 7. sh:nodeKind == IRI ==> StringSchema with format = iri-reference
-		// otherwise return EmptySchema
+		// otherwise an empty schema
+		// 
+		// do the wrapping of the value schema in Array if maxCount > 1
 
 		Schema.Builder singleValueBuilder = null;
 		
@@ -431,135 +511,56 @@ public class JsonSchemaGenerator {
 							.possibleValues(values);	
 				}
 			}
-		} // end checkbox for ignore if is a sh:hasValueOf or sh:in
+		} // end checkbox for ignore if is a sh:hasValue or sh:in
 
-		//sh:node
-		Optional<Resource> qualifiedValueShapeNode = ps.getShQualifiedValueShape().map(r -> new NodeShape(r)).flatMap(ns -> ns.getShNode());
+		// sh:node, either a ref or a pure value node
+		Resource shNodeForRef = this.findShNode(ps);
 		if (
 			singleValueBuilder == null
 			&& 
-			(
-				ps.getShNode().isPresent()
-				||
-				qualifiedValueShapeNode.isPresent()
-			)
-		) {				
-			Resource theShNode = ps.getShNode().orElseGet(() -> qualifiedValueShapeNode.orElse(null));
-
-			ShapesGraph shapesGraph = new ShapesGraph(model, null);
-			if(ps.isEmbedNever() || shapesGraph.findNodeShapeByResource(theShNode) == null) {
+			shNodeForRef != null
+		) {
+			if(shapesGraph.findNodeShapeByResource(shNodeForRef).isPureValueShape()) {
+				singleValueBuilder = this.convertShapeToSchemaForProperty(new NodeShape(shNodeForRef), ps, model);
+			} else if(ps.isEmbedNever() || shapesGraph.findNodeShapeByResource(shNodeForRef) == null) {
 				// no embedding, or reference to sh:node not found, this is a URI reference
 				singleValueBuilder = StringSchema
 				.builder()
 				.format("iri-reference");
 			} else {
 				// this is a reference to another Schema coming from the NodeShape
-				// TODO : make sure the NodeShape exists, otherwise the schema is inconsistent
 				singleValueBuilder = ReferenceSchema
 					.builder()
 					// note : the builder-specific method needs to be called **before** the generic method
 					.refValue(JsonSchemaGenerator
-								.buildSchemaReference(theShNode));
+								.buildSchemaReference(shNodeForRef));
 			}
 		}
 
-		// sh:or with sh:node
-		if (singleValueBuilder == null && ps.getShOr() != null && ShOrReadingUtils.readShNodeInShOr(ps.getShOr()).size() > 0) {
+		// sh:or with sh:node, either a ref or a value node
+		List<Resource> shNodesInShOr = this.findShNodeInShOr(ps);
+		if (singleValueBuilder == null && shNodesInShOr.size() > 0) {
             // Read sh:or and get all result possibles
 			List<Schema> anyOfList = new ArrayList<>();
-			List<Resource> shNode = ShOrReadingUtils.readShNodeInShOr(ps.getShOr()).stream().map(r -> r.asResource()).collect(Collectors.toList());
-			// filter to keep only references that are found in the current file
-			ShapesGraph shapesGraph = new ShapesGraph(model, null);
-			shNode = shNode.stream()
-				.filter(n -> shapesGraph.findNodeShapeByResource(n) != null)
-				.collect(Collectors.toList());
-			if(shNode.size() > 0) {
-				// if none of the references can be found in the file, this will default to other conversion
-				// after the sh:or conversion
-				for (Resource n : shNode) {
+
+			// TODO : handle embed
+			// if none of the references is converted here, it will default to others after this step
+			// after the sh:or conversion
+			for (Resource n : shNodesInShOr) {
+				if(shapesGraph.findNodeShapeByResource(n).isPureValueShape()) {
+					Schema.Builder innerSchemaBuilder = this.convertShapeToSchemaForProperty(new NodeShape(n), ps, model);
+					if(innerSchemaBuilder != null) {
+						anyOfList.add(innerSchemaBuilder.build());
+					}
+				} else {
 					anyOfList.add(ReferenceSchema.builder().refValue(JsonSchemaGenerator.buildSchemaReference(n)).build());
 				}
-				singleValueBuilder = CombinedSchema.anyOf(anyOfList); 
-			}                     
-		}
-
-		// sh:pattern
-		if (singleValueBuilder == null && !ps.getShPattern().isEmpty()) {
-			String pattern = ps.getShPattern().get().getString();
-			String patternAsInJson = pattern;
-			if(!ps.couldBeLiteralProperty()) {
-				if(ps.getShPath().isURIResource()) {
-					patternAsInJson = this.uriMapper.mapUriPatternToJsonPattern(pattern, ps.getShPath().getURI());
-				} else {
-					patternAsInJson = this.uriMapper.mapUriPatternToJsonPattern(pattern, null);
-				}
 			}
-			
-			singleValueBuilder = StringSchema
-					.builder()
-					// note : the builder-specific method needs to be called **before** the generic method
-					.pattern(patternAsInJson);			
+			singleValueBuilder = CombinedSchema.anyOf(anyOfList);                     
 		}
 
-		// Datatype
-		Optional<Resource> qualifiedValueShapeDatatype = ps.getShQualifiedValueShape().map(r -> new NodeShape(r)).flatMap(ns -> ns.getShDatatype());
-
-		if (
-			singleValueBuilder == null
-			&&
-			(
-				ps.getShDatatype().isPresent()
-				||
-				qualifiedValueShapeDatatype.isPresent()
-			)
-		) {
-
-			Resource theDatatype = ps.getShDatatype().orElseGet(() -> qualifiedValueShapeDatatype.orElse(null));
-
-			if(theDatatype != null) {
-				String datatype = theDatatype.getURI();
-				// TODO : theoretically we should check the schema to make sure the property is really a @container: @language
-				if (datatype.equals(RDF.langString.getURI())) {						
-					singleValueBuilder = ReferenceSchema
-							.builder()	
-							// note : the builder-specific method needs to be called **before** the generic method
-							.refValue("#/$defs/"+CONTAINER_LANGUAGE);
-					
-				} else {
-					Optional<DatatypeToJsonSchemaMapping> typefound = DatatypeToJsonSchemaMapping.findByDatatypeUri(datatype);
-					
-					if (typefound.isPresent()) {							
-						if (typefound.get().getJsonSchemaType().equals(JsonSchemaType.STRING)) {								
-							singleValueBuilder = StringSchema
-								.builder()
-								.format(typefound.get().getJsonSchemaFormat());
-						} else if (typefound.get().getJsonSchemaType().equals(JsonSchemaType.BOOLEAN)) {
-							singleValueBuilder = BooleanSchema
-										.builder();
-						} else if (typefound.get().getJsonSchemaType().equals(JsonSchemaType.NUMBER) || typefound.get().getJsonSchemaType().equals(JsonSchemaType.INTEGER)) {
-							singleValueBuilder = NumberSchema
-								.builder();
-						}
-					} else {
-						// default to StringSchema
-						singleValueBuilder = StringSchema
-							.builder();
-					}
-				}
-			}		
-		}
-
-		// NodeKind IRI
-		if (singleValueBuilder == null && ps.getShNodeKind().filter(nodeKind -> nodeKind.getURI().equals(SH.IRI.getURI())).isPresent()) {	
-			singleValueBuilder = StringSchema
-			.builder()
-			.format("iri-reference");
-		}
-
-		// NodeKind Literal
-		if (singleValueBuilder == null && ps.getShNodeKind().filter(nodeKind -> nodeKind.getURI().equals(SH.Literal.getURI())).isPresent()) {	
-			singleValueBuilder = StringSchema
-			.builder();
+		if(singleValueBuilder == null) {
+			singleValueBuilder = this.convertShapeToSchemaForProperty(ps, ps, model);
 		}
 
 		// default
@@ -637,6 +638,33 @@ public class JsonSchemaGenerator {
 		return finalBuilder.build();
 
 	}
+
+	private Resource findShNode(PropertyShape ps) {
+		Optional<Resource> qualifiedValueShapeNode = ps.getShQualifiedValueShape().map(r -> new NodeShape(r)).flatMap(ns -> ns.getShNode());
+		if (
+				ps.getShNode().isPresent()
+				||
+				qualifiedValueShapeNode.isPresent()
+		) {
+			Resource theShNode = ps.getShNode().orElseGet(() -> qualifiedValueShapeNode.orElse(null));
+			return theShNode;
+		}
+		return null;
+	}
+
+	private List<Resource> findShNodeInShOr(PropertyShape ps) {
+		if(ps.getShOr() != null) {
+			List<Resource> shNode = ShOrReadingUtils.readShNodeInShOr(ps.getShOr()).stream().map(r -> r.asResource()).collect(Collectors.toList());
+			// filter to keep only references that are found in the current file
+			ShapesGraph shapesGraph = new ShapesGraph(ps.getPropertyShape().getModel(), null);
+			shNode = shNode.stream()
+				.filter(n -> shapesGraph.findNodeShapeByResource(n) != null)
+				.collect(Collectors.toList());
+			return shNode;
+		}
+		return new ArrayList<>();
+	}
+
 
     private List<NodeShape> findRootNodeShapes(List<NodeShape> nodeShapes, List<String> rootShapes) {
 

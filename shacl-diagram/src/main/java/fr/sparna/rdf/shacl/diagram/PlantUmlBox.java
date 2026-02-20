@@ -118,7 +118,9 @@ public class PlantUmlBox implements PlantUmlBoxIfc {
 	
 	public String getLabel() {
 		// use the sh:targetClass if present, otherwise use the URI of the NodeShape
-		return ModelRenderingUtils.render(this.nodeShape, true)+this.getTargetClass().map(targetClass -> " ("+ModelRenderingUtils.render(targetClass, true)+")").orElse("");
+		return this.getTargetClass()
+				.map(targetClass -> ModelRenderingUtils.render(targetClass, true))
+				.orElse(ModelRenderingUtils.render(this.nodeShape, true));
 	}
 	
 	public String getPlantUmlQuotedBoxName() {

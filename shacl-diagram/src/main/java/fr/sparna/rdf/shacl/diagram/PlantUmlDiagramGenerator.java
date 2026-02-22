@@ -13,6 +13,12 @@ import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.vocabulary.RDF;
 import org.topbraid.shacl.vocabulary.SH;
 
+import fr.sparna.rdf.shacl.diagram.model.PlantUmlBoxIfc;
+import fr.sparna.rdf.shacl.diagram.model.PlantUmlDiagram;
+import fr.sparna.rdf.shacl.diagram.model.PlantUmlProperty;
+import fr.sparna.rdf.shacl.diagram.model.SimplePlantUmlBox;
+import fr.sparna.rdf.shacl.diagram.render.PlantUmlRenderer;
+
 public class PlantUmlDiagramGenerator {
 
 	protected boolean includeSubclassLinks = true;

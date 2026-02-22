@@ -98,7 +98,7 @@ public class ShapesGraph {
 				&&
 				!ns.isUsedInShapesGraph()
 			)
-		).toList();
+		).collect(Collectors.toList());
 		unusedNodeShapes.forEach(ns -> this.deleteNodeShape(ns.getNodeShape()));
 
 		// do that a second time so that potential sh:node references to the deleted node shapes are also deleted
@@ -109,7 +109,7 @@ public class ShapesGraph {
 				&&
 				!ns.isUsedInShapesGraph()
 			)
-		).toList();
+		).collect(Collectors.toList());
 		unusedNodeShapes.forEach(ns -> this.deleteNodeShape(ns.getNodeShape()));
 	}
 

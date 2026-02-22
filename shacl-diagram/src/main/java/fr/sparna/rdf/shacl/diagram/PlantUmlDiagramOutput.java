@@ -1,5 +1,8 @@
 package fr.sparna.rdf.shacl.diagram;
 
+import fr.sparna.rdf.shacl.diagram.model.PlantUmlDiagram;
+import fr.sparna.rdf.shacl.diagram.render.PlantUmlRenderer;
+
 /**
  * The output of a PlantUML diagram generation, 
  * containing the PlantUML source code and some metadata about the diagram.

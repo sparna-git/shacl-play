@@ -1,4 +1,4 @@
-package fr.sparna.rdf.shacl.diagram;
+package fr.sparna.rdf.shacl.diagram.model;
 
 import java.util.ArrayList;
 import java.util.List;

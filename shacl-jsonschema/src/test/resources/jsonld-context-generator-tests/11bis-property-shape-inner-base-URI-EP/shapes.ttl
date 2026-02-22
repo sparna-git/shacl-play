@@ -30,4 +30,5 @@ eli:Work a sh:NodeShape, rdfs:Class;
 
 eli:PoliticalGroup a sh:NodeShape, rdfs:Class;
   sh:nodeKind sh:IRI;
+  # note how the last "ep-" should be removed from the final base URI
   sh:pattern "^https://data.europarl.europa.eu/org/ep-(?<parliamentaryTerm>[0-9]{1,2})";

@@ -12,7 +12,7 @@ ex:MainNodeShape
         sh:path ex:p ;
         sh:maxCount 1 ;
         sh:nodeKind sh:IRI ;
-        # not found
-        sh:node ex:OtherShape ;
+        # bad format, extra "
+        skos:example "https://data.europarl.europa.eu/distribution/reds_iPlTa_Itm/TA-9-2022-0269/TA-9-2022-0269-FNL_fr.pdf\"" ;
     ] ;
 .

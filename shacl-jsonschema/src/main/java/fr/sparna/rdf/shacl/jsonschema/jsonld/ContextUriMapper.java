@@ -1,5 +1,6 @@
 package fr.sparna.rdf.shacl.jsonschema.jsonld;
 
+import java.net.URL;
 import java.util.Set;
 
 import org.apache.commons.lang3.tuple.Triple;
@@ -86,8 +87,9 @@ public class ContextUriMapper implements UriToJsonMapper {
     	String contextMapping;
         try {
             contextMapping = contextWrapper.readTermFromValue(uri.getURI(), propertyUri);
-        } catch (JsonLdException e) {
-            throw new RuntimeException(e);
+        } catch (Exception e) {
+            log.error("Error mapping value URI "+uri+" in property "+propertyUri+", returning full value", e);
+            return uri.getURI();
         }
 
         // here : either something happened with the context mapping, and we return it,

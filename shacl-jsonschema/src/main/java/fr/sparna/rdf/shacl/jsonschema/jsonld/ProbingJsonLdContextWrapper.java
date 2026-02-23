@@ -8,10 +8,6 @@ import org.slf4j.LoggerFactory;
 
 import com.apicatalog.jsonld.JsonLdError;
 import com.apicatalog.jsonld.document.JsonDocument;
-import com.github.curiousoddman.rgxgen.RgxGen;
-import com.github.curiousoddman.rgxgen.config.RgxGenOption;
-import com.github.curiousoddman.rgxgen.config.RgxGenProperties;
-import com.github.curiousoddman.rgxgen.model.RgxGenCharsDefinition;
 
 import fr.sparna.rdf.shacl.jsonld.RegexUtil;
 import jakarta.json.Json;

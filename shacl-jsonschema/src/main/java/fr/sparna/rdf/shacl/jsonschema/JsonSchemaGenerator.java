@@ -647,7 +647,13 @@ public class JsonSchemaGenerator {
 				qualifiedValueShapeNode.isPresent()
 		) {
 			Resource theShNode = ps.getShNode().orElseGet(() -> qualifiedValueShapeNode.orElse(null));
-			return theShNode;
+			ShapesGraph shapesGraph = new ShapesGraph(ps.getPropertyShape().getModel(), null);
+			if(shapesGraph.findNodeShapeByResource(theShNode) != null) {
+				return theShNode;
+			} else {
+				log.warn("Found a sh:node reference to "+theShNode.getURI()+" in property shape "+ps.getPropertyShape().getURI()+" but no NodeShape with this URI was found in the graph, ignoring this sh:node");
+				return null;
+			}
 		}
 		return null;
 	}

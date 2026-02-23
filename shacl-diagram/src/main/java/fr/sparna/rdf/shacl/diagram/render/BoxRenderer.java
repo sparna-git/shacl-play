@@ -29,8 +29,6 @@ public class BoxRenderer {
 	// current temporary arrow direction index to determine the u,d,r,l directions of the arrows
 	protected transient int currentArrowDirectionIndex = 0;
 
-	protected transient PropertyRenderer propertyRenderer;
-
 	
 
 	public BoxRenderer(
@@ -44,11 +42,6 @@ public class BoxRenderer {
 		this.generateAnchorHyperlink = generateAnchorHyperlink;
 		this.renderSectionDiagram = renderSectionDiagram;
 		this.diagram = diagram;
-
-		this.propertyRenderer = new PropertyRenderer(
-			displayPatterns,
-			this
-		);
 	}
 
 	/**
@@ -140,6 +133,8 @@ public class BoxRenderer {
 					declaration += "\""+box.getLabel()+"\"" + " -up[#gray,bold]-|> " + "\""+aSuperClass.getLabel()+"\"" + "\n";
 				}
 			}
+
+			PropertyRenderer propertyRenderer = new PropertyRenderer(avoidArrowsToEmptyBoxes, this);
 			
 			String propertiesDeclaration = "";
 			for (int i=0;i<box.getProperties().size();i++) {
@@ -185,7 +180,7 @@ public class BoxRenderer {
 					}
 				}
 				
-				String codePropertyPlantUml = this.propertyRenderer.renderProperty(
+				String codePropertyPlantUml = propertyRenderer.renderProperty(
 						plantUmlproperty, 
 						box,
 						displayAsDatatypeProperty
@@ -209,7 +204,7 @@ public class BoxRenderer {
 					
 					String GroupId = box.getPlantUmlQuotedBoxName() + " : "+ "__"+notationName+"__\n";
 					
-					String codePropertyPlantUmlGroup = this.propertyRenderer.renderProperty(
+					String codePropertyPlantUmlGroup = propertyRenderer.renderProperty(
 							plantUmlproperty, 
 							box,
 							// force rendering as a datatype property

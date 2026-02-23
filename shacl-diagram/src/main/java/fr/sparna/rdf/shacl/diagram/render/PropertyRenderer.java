@@ -24,10 +24,12 @@ public class PropertyRenderer {
 
     public PropertyRenderer(
         boolean displayPatterns,
-        BoxRenderer boxRenderer
+        BoxRenderer boxRenderer,
+        PlantUmlDiagram diagram
     ) {
         this.displayPatterns = displayPatterns;
         this.boxRenderer = boxRenderer;
+        this.diagram = diagram;
     }
 
     public String renderProperty(

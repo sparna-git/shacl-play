@@ -134,7 +134,7 @@ public class BoxRenderer {
 				}
 			}
 
-			PropertyRenderer propertyRenderer = new PropertyRenderer(avoidArrowsToEmptyBoxes, this);
+			PropertyRenderer propertyRenderer = new PropertyRenderer(avoidArrowsToEmptyBoxes, this, this.diagram);
 			
 			String propertiesDeclaration = "";
 			for (int i=0;i<box.getProperties().size();i++) {

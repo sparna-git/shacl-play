@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "container_language": {
+      "patternProperties": {"^[A-Za-z]{2,3}$": {
+        "$comment": "Overly simplified version of the regex. See https://github.com/w3c/wot-thing-description/blob/main/validation/td-json-schema-validation.json for a complete regex",
+        "type": "string"
+      }},
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "@context": {"$comment": "The JSON-LD @context"},
+    "MainNodeShape": {
+      "type": "object",
+      "title": "Main Node Shape",
+      "required": ["id"],
+      "properties": {
+        "property": {
+          "anyOf": [
+              {
+                "type": "string",
+                "pattern" : "^A-.*$",
+                "examples": ["A-1234"]
+              },
+              {
+                "type": "string",
+                "pattern" : "^B-.*$",
+                "examples": ["B-1234"]
+              }
+          ]
+        },
+        "otherProperty": {
+          "minItems": 1,
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern" : "^A-.*$",
+                "examples": ["A-1234"]
+              },
+              {
+                "type": "string",
+                "pattern" : "^B-.*$",
+                "examples": ["B-1234"]
+              }
+            ]
+          }
+        },
+        "id": {
+          "format": "iri-reference",
+          "type": "string"
+        }
+      }
+    }
+  },
+  "additionalProperties": false,
+  "type": "object",
+  "required": [
+    "@context",
+    "data"
+  ],
+  "properties": {
+    "data": {
+      "minItems": 1,
+      "type": "array",
+      "items": {"$ref": "#/$defs/MainNodeShape"}
+    },
+    "@context": {"$ref": "#/$defs/@context"}
+  }
+}

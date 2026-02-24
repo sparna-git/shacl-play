@@ -16,10 +16,13 @@ import jakarta.json.JsonValue;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
-import org.apache.jena.util.FileUtils;
 import org.apache.jena.vocabulary.RDF;
 import org.json.JSONObject;
 import org.junit.Test;
+
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.Logger;
+import org.slf4j.LoggerFactory;
 
 import fr.sparna.rdf.shacl.jsonschema.model.Schema;
 
@@ -29,6 +32,10 @@ public class JsonSchemaGeneratorTest {
 
     @Test
     public void testAllTestCases() throws Exception {
+        // Set log level to TRACE for fr.sparna.rdf.shacl package
+        Logger logger = (Logger) LoggerFactory.getLogger("fr.sparna.rdf.shacl");
+        logger.setLevel(Level.TRACE);
+
         // List all directories in the test resources folder
         try (Stream<Path> paths = Files.list(Path.of(TEST_RESOURCES_DIR))) {
             paths.filter(Files::isDirectory)

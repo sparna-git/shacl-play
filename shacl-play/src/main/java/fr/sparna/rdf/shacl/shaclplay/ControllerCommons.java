@@ -18,6 +18,7 @@ import org.apache.jena.ontology.OntDocumentManager;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.query.Dataset;
 import org.apache.jena.query.DatasetFactory;
+import org.apache.jena.rdf.model.AnonId;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
@@ -194,10 +195,23 @@ public class ControllerCommons {
 			};
 
 			@Override
+			// Convert RDF4J statement to Jena statement and add to the Jena model
 			public void handleStatement(Statement statement) {
-				// Convert RDF4J statement to Jena statement and add to the Jena model
-				org.apache.jena.rdf.model.Resource subject = model.createResource(statement.getSubject().stringValue());
+				
+				// convert subject
+				org.apache.jena.rdf.model.Resource subject; 
+				if (statement.getSubject() instanceof org.eclipse.rdf4j.model.IRI) {
+					subject = model.createResource(statement.getSubject().stringValue());
+				} else if (statement.getSubject() instanceof org.eclipse.rdf4j.model.BNode) {
+					subject = model.createResource(new AnonId( ((org.eclipse.rdf4j.model.BNode)statement.getSubject()).getID()) );
+				} else {
+					throw new IllegalArgumentException("Unsupported RDF4J subject type: " + statement.getSubject().getClass().getName());
+				}
+				
+				// convert predicate
 				org.apache.jena.rdf.model.Property predicate = model.createProperty(statement.getPredicate().stringValue());
+				
+				// convert object
 				org.apache.jena.rdf.model.RDFNode object;
 				if (statement.getObject() instanceof org.eclipse.rdf4j.model.Literal) {
 					org.eclipse.rdf4j.model.Literal literal = (org.eclipse.rdf4j.model.Literal) statement.getObject();
@@ -211,10 +225,11 @@ public class ControllerCommons {
 				} else if (statement.getObject() instanceof org.eclipse.rdf4j.model.IRI) {
 					object = model.createResource(statement.getObject().stringValue());
 				} else if (statement.getObject() instanceof org.eclipse.rdf4j.model.BNode) {
-					object = model.createResource(statement.getObject().stringValue());
+					object = model.createResource(new AnonId( ((org.eclipse.rdf4j.model.BNode)statement.getObject()).getID()) );
 				} else {
 					throw new IllegalArgumentException("Unsupported RDF4J object type: " + statement.getObject().getClass().getName());
 				}
+
 				model.add(subject, predicate, object);
 			}							
 		};

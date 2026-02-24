@@ -1,0 +1,17 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ex: <http://example.org/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix play: <https://shacl-play.sparna.fr/ontology#> .
+
+ex:MainNodeShape
+    a sh:NodeShape ;
+    rdfs:label "Main Node Shape"@en ;
+    sh:property [
+        sh:path [ sh:inversePath ex:property ] ;
+        sh:nodeKind sh:IRI ;
+        sh:maxCount 1 ;
+        play:shortname "customName" ;
+    ] ;
+.

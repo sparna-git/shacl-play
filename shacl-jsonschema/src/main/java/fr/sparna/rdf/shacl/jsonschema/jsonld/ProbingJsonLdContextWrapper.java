@@ -70,7 +70,7 @@ public class ProbingJsonLdContextWrapper implements JsonLdContextWrapper {
         try {
             JsonObject probeDocument = prepareProbePropertyDocument(propertyUri, isIriProperty, isInverse, datatype, language);
             //debug the input and output            
-            log.trace("Probe document: {}", probeDocument);
+            log.trace("Probe document: {}", JsonUtils.prettyPrint(probeDocument));
             JsonObject compactedDocument = doCompact(probeDocument, this.context);
             Entry<String, JsonValue> firstEntry = getFirstNonContextEntry(compactedDocument);
 
@@ -78,9 +78,14 @@ public class ProbingJsonLdContextWrapper implements JsonLdContextWrapper {
             String term = propertyUri;
             Boolean requiresArray = false;
             Boolean requiresContainerLanguage = false;
-            if (firstEntry != null) {
+
+            if (firstEntry != null && !firstEntry.getKey().equals("@reverse")) {
+                // exclude the case where the result contains a @reverse,
+                // which indicates it was an inverse property path, but not mapped in the context
+
                 term = firstEntry.getKey(); // Return the first non-context entry key
                 requiresArray = firstEntry.getValue().getValueType() == JsonValue.ValueType.ARRAY; // Check if the value is an array
+                
                 // if the first entry is an object, and if it contains a single key that has 2 letters, then it is a language container
                 if(firstEntry.getValue().getValueType() == JsonValue.ValueType.OBJECT) {
                     JsonObject valueObject = firstEntry.getValue().asJsonObject();
@@ -107,9 +112,9 @@ public class ProbingJsonLdContextWrapper implements JsonLdContextWrapper {
         try {
             // first try with an @vocab to see if the value can be simplified based on the terms declared in the context
             JsonObject probeDocument = prepareProbeValueDocument(uri, propertyUri, true);
-            log.debug("Probe document 1: {}", probeDocument);
+            log.debug("readTermFromValue Probe document before compaction: {}", JsonUtils.prettyPrint(probeDocument));
             JsonObject compactedDocument = doCompact(probeDocument, probeDocument.get("@context"));
-            log.debug("Probe document 1: {}", compactedDocument);
+            log.debug("readTermFromValue Probe document after compaction: {}", JsonUtils.prettyPrint(compactedDocument));
             Entry<String, JsonValue> firstEntry = getFirstNonContextEntry(compactedDocument);
 
             String finalResult = uri;
@@ -271,15 +276,14 @@ public class ProbingJsonLdContextWrapper implements JsonLdContextWrapper {
 
         JsonObject probeDocument;
 
-        if(isInverse) {
-            // create an empty JSON object
+        // create the object with the context + value, potentially @reverse
+        if(isInverse) {            
             probeDocument = Json.createObjectBuilder()
                 .add("@reverse", Json.createObjectBuilder().add(propertyUri, value).build())
                 // and the context
                 .add("@context", context)
                 .build();
         } else {
-            // create an empty JSON object
             probeDocument = Json.createObjectBuilder()            
                 .add(propertyUri, value) // Add the property URI to the document
                 // and the context

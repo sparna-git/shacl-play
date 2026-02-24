@@ -32,10 +32,13 @@ public class ContextUriMapper implements UriToJsonMapper {
     ) {
         Triple<String,Boolean,Boolean> contextMapping = null;
         
+        boolean isInverse = path.hasProperty(SH.inversePath);
+        String predicateUri = (isInverse)?path.getRequiredProperty(SH.inversePath).getResource().getURI():path.getURI();
+
         try {
-            if(path.hasProperty(SH.inversePath)) {
+            if(isInverse) {
                 contextMapping = contextWrapper.testProperty(
-                    path.getRequiredProperty(SH.inversePath).getResource().getURI(),
+                    predicateUri,
                     isIriProperty,
                     // true for inverse
                     true,
@@ -44,7 +47,7 @@ public class ContextUriMapper implements UriToJsonMapper {
                 );
             } else if(path.isURIResource()) {
                 contextMapping = contextWrapper.testProperty(
-                    path.getURI(),
+                    predicateUri,
                     isIriProperty,
                     false,
                     (datatype != null)?datatype.getURI():null,
@@ -56,12 +59,17 @@ public class ContextUriMapper implements UriToJsonMapper {
         }
         
 
-        if(contextMapping != null && !contextMapping.getLeft().equals(path.getURI())) {
+        if(
+            contextMapping != null
+            &&
+            !contextMapping.getLeft().equals(predicateUri)
+        ) {
             // Otherwise, returns the context mapping
             return contextMapping;
         } else {
             // If the context mapping is the same as the URI, reads the shortname annotation from the property shape
 			Set<String> shortnames = ShaclReadingUtils.findShortNamesOfPath(path);
+
             if (shortnames.size() == 1) {
                 // If there is a single shortname, returns it
                 return Triple.of(shortnames.iterator().next(),false,false);

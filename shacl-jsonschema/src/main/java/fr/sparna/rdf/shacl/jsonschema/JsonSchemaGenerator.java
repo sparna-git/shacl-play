@@ -424,6 +424,7 @@ public class JsonSchemaGenerator {
 			// in the context
 			if(contextTest != null) {
 				String shortname = contextTest.getLeft();
+				log.trace("Converting PropertyShape "+ps.getPropertyShape().getURI()+" with key '"+shortname+"' to JSON Schema");
 				objectSchema.addPropertySchema(shortname, this.convertPropertyShapeSchema(
 					ps, 
 					// requires array
@@ -463,7 +464,6 @@ public class JsonSchemaGenerator {
 		boolean includeValues
 	) throws Exception {
 
-		log.trace("Converting PropertyShape "+ps.getPropertyShape().getURI()+" to JSON Schema");
 		ShapesGraph shapesGraph = new ShapesGraph(model, null);
 
 		// precedence order

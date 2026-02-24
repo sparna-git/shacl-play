@@ -259,11 +259,10 @@ public class JsonSchemaGenerator {
 			String pattern = nodeShapeOrPropertyShape.getShPattern().get().getString();
 			String patternAsInJson = pattern;
 			if(!nodeShapeOrPropertyShape.couldBeLiteral()) {
-				if(inContextOfPropertyShape.getShPath().isURIResource()) {
-					patternAsInJson = this.uriMapper.mapUriPatternToJsonPattern(pattern, inContextOfPropertyShape.getShPath().getURI());
-				} else {
-					patternAsInJson = this.uriMapper.mapUriPatternToJsonPattern(pattern, null);
-				}
+				patternAsInJson = this.uriMapper.mapUriPatternToJsonPattern(
+					pattern,
+					(!inContextOfPropertyShape.getShPath().isAnon())?inContextOfPropertyShape.getShPath().getURI():null
+				);
 			}
 			
 			singleValueBuilder = StringSchema
@@ -343,11 +342,10 @@ public class JsonSchemaGenerator {
 		List<String> examples = examplesRaw.stream()
 			.map(ex -> model.createResource(ex))
 			.map(res -> {
-				if(inContextOfPropertyShape.getShPath().isURIResource()) {
-					return this.uriMapper.mapValueURI(res, inContextOfPropertyShape.getShPath().getURI());
-				} else {
-					return this.uriMapper.mapValueURI(res, null);
-				}
+				return this.uriMapper.mapValueURI(
+					res,
+					(!inContextOfPropertyShape.getShPath().isAnon())?inContextOfPropertyShape.getShPath().getURI():null
+				);
 			 })
 			.collect(Collectors.toList());
 		
@@ -424,7 +422,7 @@ public class JsonSchemaGenerator {
 			// in the context
 			if(contextTest != null) {
 				String shortname = contextTest.getLeft();
-				log.trace("Converting PropertyShape "+ps.getPropertyShape().getURI()+" with key '"+shortname+"' to JSON Schema");
+				log.debug("Converting PropertyShape "+ps.getPropertyShape().getURI()+" with key '"+shortname+"' to JSON Schema");
 				objectSchema.addPropertySchema(shortname, this.convertPropertyShapeSchema(
 					ps, 
 					// requires array
@@ -486,7 +484,7 @@ public class JsonSchemaGenerator {
 				// TODO : handle constant literal values			
 				singleValueBuilder = ConstSchema
 					.builder()
-					.permittedValue(this.uriMapper.mapValueURI(ps.getShHasValue().get().asResource(), (ps.getShPath().isURIResource())?ps.getShPath().getURI():null));
+					.permittedValue(this.uriMapper.mapValueURI(ps.getShHasValue().get().asResource(), (!ps.getShPath().isAnon())?ps.getShPath().getURI():null));
 			}
 	
 			// sh:in
@@ -495,7 +493,7 @@ public class JsonSchemaGenerator {
 				List<Object> values = new ArrayList<>();
 				for (RDFNode i : ps.getShIn()) {				
 					if (i.isURIResource()) {
-						values.add(this.uriMapper.mapValueURI(i.asResource(), (ps.getShPath().isURIResource())?ps.getShPath().getURI():null));
+						values.add(this.uriMapper.mapValueURI(i.asResource(), (!ps.getShPath().isAnon())?ps.getShPath().getURI():null));
 					} else if (i.isLiteral()) {
 						values.add(i.asLiteral().getValue());
 					} else {

@@ -16,8 +16,13 @@
       "required": ["id"],
       "properties": {
         "inverse_property": {
-          "format": "iri-reference",
-          "type": "string"
+          "minItems": 1,
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern" : "^SP-(?<date>(19[5-9][0-9]|20[0-9][0-9])-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01]))-TA-(?<parliamentaryTerm>[0-9]{1,2})-(?<year>[0-9]{4})-(?<numberProc>[0-9]{4})$",
+            "examples": ["SP-2025-03-06-TA-10-2024-0061"]
+          }
         },
         "id": {
           "format": "iri-reference",

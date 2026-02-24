@@ -46,7 +46,7 @@ public abstract class Shape {
 
 	public RDFList getShOr() {
 		if (shape.hasProperty(SH.or)) {
-			return shape.getProperty(SH.or).getList(); 
+			return shape.getProperty(SH.or).getObject().as(RDFList.class); 
 		} else {
 			return null;
 		}		

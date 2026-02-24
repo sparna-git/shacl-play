@@ -65,7 +65,7 @@ public class PropertyShape extends Shape {
 	}
 	
 	public Resource getShPath() {
-		return shape.getRequiredProperty(SH.path).getResource();
+		return shape.getRequiredProperty(SH.path).getObject().asResource();
 	}
 	
 	public Optional<Literal> getShName() {

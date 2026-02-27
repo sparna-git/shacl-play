@@ -84,8 +84,16 @@ public class JsonSchemaGeneratorTest {
             }
         }
 
+        // Test if the SHACL file contains the string "useNativeTypes=false"
+        boolean useNativeTypes = true;
+        String shaclContent = Files.readString(inputShaclFile);
+        if (shaclContent.contains("useNativeTypes=false")) {
+            useNativeTypes = false;
+        }
+
         // Generate the JSON schema
         JsonSchemaGenerator generator = new JsonSchemaGenerator("en", context);
+        generator.setUseNativeTypes(useNativeTypes);
         Schema outputSchema = generator.convertToJsonSchema(
             shaclGraph,
             Collections.singletonList("http://example.org/MainNodeShape")

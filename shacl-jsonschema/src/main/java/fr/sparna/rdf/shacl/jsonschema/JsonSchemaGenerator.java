@@ -54,6 +54,8 @@ public class JsonSchemaGenerator {
 	// the language in which to read the labels and description
 	private String lang;
 
+	private boolean useNativeTypes = true;
+
 	private JsonValue context;
 	private ProbingJsonLdContextWrapper contextWrapper;
 
@@ -232,130 +234,6 @@ public class JsonSchemaGenerator {
 		
 	    return containerLanguage;
 	}
-
-	/**
-	 * Handles :
-	 * - sh:pattern with shortening
-	 * - sh:datatype, including in qualifiedValueShape
-	 * - sh:nodeKind IRI
-	 * - sh:nodeKind Literal
-	 * - skos:example
-	 * 
-	 * @param nodeShapeOrPropertyShape Either the property shape itself of a NodeShape referenced through sh:node
-	 * @param inContextOfPropertyShape The property shape in which the call is done, just to know the sh:path for shortening
-	 * @param model
-	 * @return
-	 * @throws Exception
-	 */
-	private Schema.Builder convertShapeToSchemaForProperty(
-		Shape nodeShapeOrPropertyShape,
-		PropertyShape inContextOfPropertyShape,
-		Model model
-	) throws Exception {
-		Schema.Builder singleValueBuilder = null;
-
-		// sh:pattern
-		if (singleValueBuilder == null && !nodeShapeOrPropertyShape.getShPattern().isEmpty()) {
-			String pattern = nodeShapeOrPropertyShape.getShPattern().get().getString();
-			String patternAsInJson = pattern;
-			if(!nodeShapeOrPropertyShape.couldBeLiteral()) {
-				patternAsInJson = this.uriMapper.mapUriPatternToJsonPattern(
-					pattern,
-					(!inContextOfPropertyShape.getShPath().isAnon())?inContextOfPropertyShape.getShPath().getURI():null
-				);
-			}
-			
-			singleValueBuilder = StringSchema
-					.builder()
-					// note : the builder-specific method needs to be called **before** the generic method
-					.pattern(patternAsInJson);			
-		}
-
-		// sh:datatype, including in qualifiedValueShape
-		Optional<Resource> qualifiedValueShapeDatatype = Optional.ofNullable(
-			nodeShapeOrPropertyShape.getShape().getProperty(SH.qualifiedValueShape)
-		)
-		.map(st -> st.getResource())
-		.map(r -> new NodeShape(r)).flatMap(ns -> ns.getShDatatype());
-
-		if (
-			singleValueBuilder == null
-			&&
-			(
-				nodeShapeOrPropertyShape.getShDatatype().isPresent()
-				||
-				qualifiedValueShapeDatatype.isPresent()
-			)
-		) {
-
-			Resource theDatatype = nodeShapeOrPropertyShape.getShDatatype().orElseGet(() -> qualifiedValueShapeDatatype.orElse(null));
-
-			if(theDatatype != null) {
-				String datatype = theDatatype.getURI();
-				// TODO : theoretically we should check the schema to make sure the property is really a @container: @language
-				if (datatype.equals(RDF.langString.getURI())) {						
-					singleValueBuilder = ReferenceSchema
-							.builder()	
-							// note : the builder-specific method needs to be called **before** the generic method
-							.refValue("#/$defs/"+CONTAINER_LANGUAGE);
-					
-				} else {
-					Optional<DatatypeToJsonSchemaMapping> typefound = DatatypeToJsonSchemaMapping.findByDatatypeUri(datatype);
-					
-					if (typefound.isPresent()) {							
-						if (typefound.get().getJsonSchemaType().equals(JsonSchemaType.STRING)) {								
-							singleValueBuilder = StringSchema
-								.builder()
-								.format(typefound.get().getJsonSchemaFormat());
-						} else if (typefound.get().getJsonSchemaType().equals(JsonSchemaType.BOOLEAN)) {
-							singleValueBuilder = BooleanSchema
-										.builder();
-						} else if (typefound.get().getJsonSchemaType().equals(JsonSchemaType.NUMBER) || typefound.get().getJsonSchemaType().equals(JsonSchemaType.INTEGER)) {
-							singleValueBuilder = NumberSchema
-								.builder();
-						}
-					} else {
-						// default to StringSchema
-						singleValueBuilder = StringSchema
-							.builder();
-					}
-				}
-			}		
-		}
-
-		// NodeKind IRI
-		if (singleValueBuilder == null && nodeShapeOrPropertyShape.getShNodeKind().filter(nodeKind -> nodeKind.getURI().equals(SH.IRI.getURI())).isPresent()) {	
-			singleValueBuilder = StringSchema
-			.builder()
-			.format("iri-reference");
-		}
-
-		// NodeKind Literal
-		if (singleValueBuilder == null && nodeShapeOrPropertyShape.getShNodeKind().filter(nodeKind -> nodeKind.getURI().equals(SH.Literal.getURI())).isPresent()) {	
-			singleValueBuilder = StringSchema
-			.builder();
-		}
-
-		// shorten all examples according to context
-		List<String> examplesRaw = nodeShapeOrPropertyShape.getExamples().stream().map(e -> e.asLiteral().getString()).collect(Collectors.toList());
-		
-		List<String> examples = examplesRaw.stream()
-			.map(ex -> model.createResource(ex))
-			.map(res -> {
-				return this.uriMapper.mapValueURI(
-					res,
-					(!inContextOfPropertyShape.getShPath().isAnon())?inContextOfPropertyShape.getShPath().getURI():null
-				);
-			 })
-			.collect(Collectors.toList());
-		
-		if( singleValueBuilder != null && !examples.isEmpty() ) {
-			singleValueBuilder.examples(examples);
-		}
-
-		return singleValueBuilder;
-	}
-
 
 	private Schema convertNodeShapeToObjectSchema(
 		NodeShape nodeShape,
@@ -637,6 +515,131 @@ public class JsonSchemaGenerator {
 
 	}
 
+	/**
+	 * Handles :
+	 * - sh:pattern with shortening
+	 * - sh:datatype, including in qualifiedValueShape
+	 * - sh:nodeKind IRI
+	 * - sh:nodeKind Literal
+	 * - skos:example
+	 * 
+	 * @param nodeShapeOrPropertyShape Either the property shape itself of a NodeShape referenced through sh:node
+	 * @param inContextOfPropertyShape The property shape in which the call is done, just to know the sh:path for shortening
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
+	private Schema.Builder convertShapeToSchemaForProperty(
+		Shape nodeShapeOrPropertyShape,
+		PropertyShape inContextOfPropertyShape,
+		Model model
+	) throws Exception {
+		Schema.Builder singleValueBuilder = null;
+
+		// sh:pattern
+		if (singleValueBuilder == null && !nodeShapeOrPropertyShape.getShPattern().isEmpty()) {
+			String pattern = nodeShapeOrPropertyShape.getShPattern().get().getString();
+			String patternAsInJson = pattern;
+			if(!nodeShapeOrPropertyShape.couldBeLiteral()) {
+				patternAsInJson = this.uriMapper.mapUriPatternToJsonPattern(
+					pattern,
+					(!inContextOfPropertyShape.getShPath().isAnon())?inContextOfPropertyShape.getShPath().getURI():null
+				);
+			}
+			
+			singleValueBuilder = StringSchema
+					.builder()
+					// note : the builder-specific method needs to be called **before** the generic method
+					.pattern(patternAsInJson);			
+		}
+
+		// sh:datatype, including in qualifiedValueShape
+		Optional<Resource> qualifiedValueShapeDatatype = Optional.ofNullable(
+			nodeShapeOrPropertyShape.getShape().getProperty(SH.qualifiedValueShape)
+		)
+		.map(st -> st.getResource())
+		.map(r -> new NodeShape(r)).flatMap(ns -> ns.getShDatatype());
+
+		if (
+			singleValueBuilder == null
+			&&
+			(
+				nodeShapeOrPropertyShape.getShDatatype().isPresent()
+				||
+				qualifiedValueShapeDatatype.isPresent()
+			)
+		) {
+
+			Resource theDatatype = nodeShapeOrPropertyShape.getShDatatype().orElseGet(() -> qualifiedValueShapeDatatype.orElse(null));
+
+			if(theDatatype != null) {
+				String datatype = theDatatype.getURI();
+				// TODO : theoretically we should check the schema to make sure the property is really a @container: @language
+				if (datatype.equals(RDF.langString.getURI())) {						
+					singleValueBuilder = ReferenceSchema
+							.builder()	
+							// note : the builder-specific method needs to be called **before** the generic method
+							.refValue("#/$defs/"+CONTAINER_LANGUAGE);
+					
+				} else {
+					Optional<DatatypeToJsonSchemaMapping> typefound = DatatypeToJsonSchemaMapping.findByDatatypeUri(datatype, this.useNativeTypes);
+					
+					if (typefound.isPresent()) {							
+						if (typefound.get().getJsonSchemaType().equals(JsonSchemaType.STRING)) {								
+							singleValueBuilder = StringSchema
+								.builder()
+								.format(typefound.get().getJsonSchemaFormat());
+						} else if (typefound.get().getJsonSchemaType().equals(JsonSchemaType.BOOLEAN)) {
+							singleValueBuilder = BooleanSchema
+										.builder();
+						} else if (typefound.get().getJsonSchemaType().equals(JsonSchemaType.NUMBER) || typefound.get().getJsonSchemaType().equals(JsonSchemaType.INTEGER)) {
+							singleValueBuilder = NumberSchema
+								.builder();
+						}
+					} else {
+						// default to StringSchema
+						singleValueBuilder = StringSchema
+							.builder();
+					}
+				}
+			}		
+		}
+
+		// NodeKind IRI
+		if (singleValueBuilder == null && nodeShapeOrPropertyShape.getShNodeKind().filter(nodeKind -> nodeKind.getURI().equals(SH.IRI.getURI())).isPresent()) {	
+			singleValueBuilder = StringSchema
+			.builder()
+			.format("iri-reference");
+		}
+
+		// NodeKind Literal
+		if (singleValueBuilder == null && nodeShapeOrPropertyShape.getShNodeKind().filter(nodeKind -> nodeKind.getURI().equals(SH.Literal.getURI())).isPresent()) {	
+			singleValueBuilder = StringSchema
+			.builder();
+		}
+
+		// shorten all examples according to context
+		List<String> examplesRaw = nodeShapeOrPropertyShape.getExamples().stream().map(e -> e.asLiteral().getString()).collect(Collectors.toList());
+		
+		List<String> examples = examplesRaw.stream()
+			.map(ex -> model.createResource(ex))
+			.map(res -> {
+				return this.uriMapper.mapValueURI(
+					res,
+					(!inContextOfPropertyShape.getShPath().isAnon())?inContextOfPropertyShape.getShPath().getURI():null
+				);
+			 })
+			.collect(Collectors.toList());
+		
+		if( singleValueBuilder != null && !examples.isEmpty() ) {
+			singleValueBuilder.examples(examples);
+		}
+
+		return singleValueBuilder;
+	}
+
+
+
 	private Resource findShNode(PropertyShape ps) {
 		Optional<Resource> qualifiedValueShapeNode = ps.getShQualifiedValueShape().map(r -> new NodeShape(r)).flatMap(ns -> ns.getShNode());
 		if (
@@ -719,4 +722,12 @@ public class JsonSchemaGenerator {
 
         return nodeShapes.stream().filter(predicate).collect(Collectors.toList());
     }
+
+	public boolean isUseNativeTypes() {
+		return useNativeTypes;
+	}
+
+	public void setUseNativeTypes(boolean useNativeTypes) {
+		this.useNativeTypes = useNativeTypes;
+	}
 }

@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>      
   <groupId>fr.sparna.rdf.shacl</groupId>      
   <artifactId>shacl-play-root-pom</artifactId>      
-  <version>0.11.6</version>      
+  <version>0.11.7</version>      
   <packaging>pom</packaging>
       
   <!-- https://maven.apache.org/pom.html#distribution-management-->

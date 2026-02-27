@@ -75,22 +75,32 @@ public class JsonSchemaController {
 			@RequestParam(value="IdUrl", required=false) List<String> urlRoot,
 			// inline Context, this option is optional
 			@RequestParam(value="inputContextInline", required=false) String contextText,
+			// Checkbox noUseNativeTypes 
+			@RequestParam(value="noUseNativeTypes", required=false, defaultValue = "false") boolean noUseNativeTypes,
 			// Checkbox Ignore the sh:hasValue and sh:in 
-			@RequestParam(value="ignoreProperties", required=false) boolean ignoreProperties,
+			@RequestParam(value="ignoreProperties", required=false, defaultValue = "false") boolean ignoreProperties,
 			// Checkbox AdditionalProperties 
-			@RequestParam(value="optAddProperties", required=false) boolean AddProperties,
+			@RequestParam(value="noAdditionalProperties", required=false, defaultValue = "false") boolean noAdditionalProperties,
 			HttpServletRequest request,
 			HttpServletResponse response
 			) throws Exception {
 		try {
-			log.debug("schema(shapesUrl='"+shapesUrl+"')");
+			log.debug("schema(shapesUrl='"+shapesUrl+"', ignoreProperties="+ignoreProperties+", noAdditionalProperties="+noAdditionalProperties+")");
 			
 			Model shapesModel = ModelFactory.createDefaultModel();
 			ControllerModelFactory modelPopulator = new ControllerModelFactory(this.catalogService.getShapesCatalog());
 			modelPopulator.populateModelFromUrl(shapesModel, shapesUrl);
 			log.debug("Done Loading Shapes. Model contains "+shapesModel.size()+" triples");
 			
-			doSchemaShapes(shapesModel,urlRoot,contextText,ignoreProperties,AddProperties,response);
+			generateJsonSchema(
+				shapesModel,
+				urlRoot,
+				contextText,
+				noUseNativeTypes,
+				ignoreProperties,
+				noAdditionalProperties,
+				response
+			);
 			
 			return null;
 		} catch (Exception e) {
@@ -169,14 +179,19 @@ public class JsonSchemaController {
 		@RequestParam(value="IdUrl", required=false) List<String> urlRoot,
 		// inline Context, this option is optional
 		@RequestParam(value="inputContextInline", required=false) String contextText,
+		// Checkbox useNativeTypes 
+		@RequestParam(value="noUseNativeTypes", required=false, defaultValue = "false") boolean noUseNativeTypes,	
 		// Checkbox Ignore the sh:hasValue and sh:in 
-		@RequestParam(value="ignoreProperties", required=false) boolean ignoreProperties,
+		@RequestParam(value="ignoreProperties", required=false, defaultValue = "false") boolean ignoreProperties,
 		// Checkbox AdditionalProperties 
-		@RequestParam(value="optAddProperties", required=false) boolean AddProperties,		
+		@RequestParam(value="noAdditionalProperties", required=false, defaultValue = "false") boolean noAdditionalProperties,		
 		HttpServletRequest request,
 		HttpServletResponse response
 	) throws Exception {
+
 		log.debug("jsonschema generation (shapesSource='"+shapesSourceString+"')");
+		log.debug("noUseNativeTypes="+noUseNativeTypes+", ignoreProperties="+ignoreProperties+", noAdditionalProperties="+noAdditionalProperties);
+
 		try {
 			
 			
@@ -202,7 +217,15 @@ public class JsonSchemaController {
 				);
 				
 				log.debug("Done Loading Shapes. Model contains "+shapesModel.size()+" triples");
-				doSchemaShapes(shapesModel,urlRoot,contextText,ignoreProperties,AddProperties,response);
+				generateJsonSchema(
+					shapesModel,
+					urlRoot,
+					contextText,
+					noUseNativeTypes,
+					ignoreProperties,
+					noAdditionalProperties,
+					response
+				);
 			}
 			
 			return null;
@@ -214,29 +237,24 @@ public class JsonSchemaController {
 	}
 	
 	
-	private Model doSchemaShapes(
+	private Model generateJsonSchema(
 			Model shapesModel,
 			List<String> rootUri,
 			String contextInput,
+			boolean noUseNativeTypes,
 			boolean ignoreProperties,
-			boolean addProperties,
+			boolean noAdditionalProperties,
 			HttpServletResponse response
 	) throws Exception {
 		
 		// Convert to JsonValue
-		JsonValue context = convertContex(contextInput);
-		/*
-		if (contextInput != null) {
-			String contextJson = contextInput;
-            try (JsonReader reader = Json.createReader(new StringReader(contextJson))) {
-                context = reader.readValue();
-            }
-		} 
-		*/
+		JsonValue context = convertContext(contextInput);
         	
-		JsonSchemaGenerator generator = new JsonSchemaGenerator("en",context);		
+		JsonSchemaGenerator generator = new JsonSchemaGenerator("en",context);
+		generator.setUseNativeTypes(!noUseNativeTypes);
+
 		// convert the shacl shapes to json schema
-		Schema output = generator.convertToJsonSchema(shapesModel,rootUri,ignoreProperties, addProperties);
+		Schema output = generator.convertToJsonSchema(shapesModel, rootUri, ignoreProperties, noAdditionalProperties);
 		
 		JSONObject jsonSchemaOutput = new JSONObject(output.toString());
 
@@ -247,7 +265,7 @@ public class JsonSchemaController {
 	}
 	
 	
-	public JsonValue convertContex(String contextInline) {
+	public JsonValue convertContext(String contextInline) {
 		JsonValue context = null;
 		
 		if (contextInline.length() > 0) {

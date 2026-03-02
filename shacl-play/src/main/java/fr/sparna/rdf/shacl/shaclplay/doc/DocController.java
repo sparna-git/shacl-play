@@ -26,10 +26,11 @@ import com.openhtmltopdf.pdfboxout.PdfRendererBuilder;
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentation;
 import fr.sparna.rdf.shacl.doc.read.ShapesDocumentationModelReader;
 import fr.sparna.rdf.shacl.doc.read.ShapesDocumentationReaderIfc;
-import fr.sparna.rdf.shacl.doc.write.ShapesDocumentationJacksonXsltWriter;
 import fr.sparna.rdf.shacl.doc.write.ShapesDocumentationWriterIfc;
 import fr.sparna.rdf.shacl.doc.write.ShapesDocumentationWriterIfc.MODE;
 import fr.sparna.rdf.shacl.doc.write.ShapesDocumentationXmlWriter;
+import fr.sparna.rdf.shacl.doc.write.ShapesDocumentationXsltRespecWriter;
+import fr.sparna.rdf.shacl.doc.write.ShapesDocumentationXsltShaclPlayWriter;
 import fr.sparna.rdf.shacl.shaclplay.ApplicationData;
 import fr.sparna.rdf.shacl.shaclplay.ControllerModelFactory;
 import fr.sparna.rdf.shacl.shaclplay.ControllerModelFactory.SOURCE_TYPE;
@@ -88,7 +89,9 @@ public class DocController {
 			HttpServletResponse response
 	){
 		try {
-			log.debug("docUrl(shapesUrl='"+shapesUrl+"')");		
+			log.debug("docUrl(shapesUrl='"+shapesUrl+"')");
+
+			ShapesDocumentationWriterIfc.MODE mode = ShapesDocumentationWriterIfc.MODE.valueOf(format.toUpperCase());
 			
 			Model shapesModel = ModelFactory.createDefaultModel();
 			ControllerModelFactory modelPopulator = new ControllerModelFactory(this.catalogService.getShapesCatalog());
@@ -104,7 +107,7 @@ public class DocController {
 					// true to read diagram
 					includeDiagram,
 					hideProperties,
-					format,
+					mode,
 					urlLogo,
 					modelPopulator.getSourceName(),
 					language,
@@ -152,7 +155,7 @@ public class DocController {
 			
 			log.debug("doc(shapeSourceString='"+shapesSourceString+"')");
 			
-			boolean printPDF = format.toLowerCase().equals("pdf") ? true : false;
+			ShapesDocumentationWriterIfc.MODE mode = ShapesDocumentationWriterIfc.MODE.valueOf(format.toUpperCase());
 			
 			// get the shapes source type
 			ControllerModelFactory.SOURCE_TYPE shapesSource = ControllerModelFactory.SOURCE_TYPE.valueOf(shapesSourceString.toUpperCase());
@@ -165,13 +168,21 @@ public class DocController {
 					+"&includeDiagram="+includeDiagram
 					+("&sectionDiagram="+sectionDiagram)
 					+((hideProperties)?"&hideProperties=true":"")
-					+((printPDF)?"&printPDF=true":"")
+					+("&format="+format)
 					+((!language.equals("en"))?"&language="+language:"")
 					+((urlLogo != null)?"&inputLogo="+URLEncoder.encode(urlLogo, "UTF-8"):"")
 				);
 			} else if (shapesSource == SOURCE_TYPE.CATALOG) {
 				AbstractCatalogEntry entry = this.catalogService.getShapesCatalog().getCatalogEntryById(shapesCatalogId);
-				return new ModelAndView("redirect:/doc?format="+format.toLowerCase()+"&url="+URLEncoder.encode(entry.getTurtleDownloadUrl().toString(), "UTF-8")+"&includeDiagram="+includeDiagram+"&hideProperties="+hideProperties+((printPDF)?"&printPDF=true":"")+((!language.equals("en"))?"&language="+language:"")+((urlLogo != null)?"&inputLogo="+URLEncoder.encode(urlLogo, "UTF-8"):""));				
+				return new ModelAndView("redirect:/doc?format="
+				+format.toLowerCase()
+				+"&url="+URLEncoder.encode(entry.getTurtleDownloadUrl().toString(), "UTF-8")
+				+"&includeDiagram="+includeDiagram
+				+"&hideProperties="+hideProperties
+				+("&format="+format)
+				+((!language.equals("en"))?"&language="+language:"")
+				+((urlLogo != null)?"&inputLogo="
+				+URLEncoder.encode(urlLogo, "UTF-8"):""));				
 			}
 			
 			
@@ -199,7 +210,7 @@ public class DocController {
 					// true to read diagram
 					includeDiagram,
 					hideProperties,
-					format,
+					mode,
 					urlLogo,
 					modelPopulator.getSourceName(),
 					language,
@@ -219,7 +230,7 @@ public class DocController {
 			Model shapesModel,
 			boolean includeDiagram,
 			boolean hideProperties,
-			String format, // printPDF,
+			ShapesDocumentationWriterIfc.MODE mode,
 			String urlLogo,
 			String filename,
 			String languageInput,
@@ -236,39 +247,55 @@ public class DocController {
 				languageInput
 		);
 		
-		
-		if (format.toLowerCase().equals("html")) { 
-			ShapesDocumentationWriterIfc writer = new ShapesDocumentationJacksonXsltWriter();
-			response.setContentType("text/html");
-			// response.setContentType("application/xhtml+xml");
-			writer.writeDoc(doc, languageInput, response.getOutputStream(), MODE.HTML);			
-		} else if (format.toLowerCase().equals("xml")) {
-			
-			ShapesDocumentationXmlWriter writeXML = new ShapesDocumentationXmlWriter();
-			response.setContentType("application/xml");
-			writeXML.write(doc, languageInput, response.getOutputStream(), MODE.XML);
-			
-		} else if(format.toLowerCase().equals("pdf") ) {
-			
-			// 1. write Documentation structure to XML
-			ShapesDocumentationWriterIfc writerHTML = new ShapesDocumentationJacksonXsltWriter();
-			ByteArrayOutputStream htmlBytes = new ByteArrayOutputStream();
-			writerHTML.writeDoc(doc,languageInput, htmlBytes,MODE.PDF);
-			
-			//read file html
-			String htmlCode = new String(htmlBytes.toByteArray(),"UTF-8");
-			
-			// Convert
-			response.setContentType("application/pdf");
-			PdfRendererBuilder _builder = new PdfRendererBuilder();
-			_builder.useFastMode();
-			_builder.withHtmlContent(htmlCode,"https://shacl-play.sparna.fr/play");			
-			_builder.toStream(response.getOutputStream());
-			_builder.testMode(false);
-			_builder.run();			
-			
-		} 
-		
+		switch(mode) {
+			case HTML : {
+				response.setHeader("Content-Disposition", "inline; filename=\""+filename+".html\"");
+				ShapesDocumentationWriterIfc writer = new ShapesDocumentationXsltShaclPlayWriter(MODE.HTML);
+				response.setContentType("text/html");
+
+				// response.setContentType("application/xhtml+xml");
+				writer.writeDoc(doc, languageInput, response.getOutputStream());		
+				break;
+			}
+			case PDF : {
+				response.setHeader("Content-Disposition", "inline; filename=\""+filename+".pdf\"");
+				// 1. write Documentation structure to XML
+				ShapesDocumentationWriterIfc writerHTML = new ShapesDocumentationXsltShaclPlayWriter(MODE.PDF);
+				ByteArrayOutputStream htmlBytes = new ByteArrayOutputStream();
+				writerHTML.writeDoc(doc,languageInput, htmlBytes);
+				
+				//read file html
+				String htmlCode = new String(htmlBytes.toByteArray(),"UTF-8");
+				
+				// Convert
+				response.setContentType("application/pdf");
+				PdfRendererBuilder _builder = new PdfRendererBuilder();
+				_builder.useFastMode();
+				_builder.withHtmlContent(htmlCode,"https://shacl-play.sparna.fr/play");			
+				_builder.toStream(response.getOutputStream());
+				_builder.testMode(false);
+				_builder.run();		
+
+				break;
+			}
+			case XML : {
+				response.setHeader("Content-Disposition", "inline; filename=\""+filename+".xml\"");
+				ShapesDocumentationXmlWriter writeXML = new ShapesDocumentationXmlWriter();
+				response.setContentType("application/xml");
+				writeXML.write(doc, languageInput, response.getOutputStream());
+
+				break;
+			}
+			case HTML_RESPEC : {
+				response.setHeader("Content-Disposition", "inline; filename=\""+filename+".html\"");
+				ShapesDocumentationWriterIfc writer = new ShapesDocumentationXsltRespecWriter(MODE.HTML);
+				response.setContentType("text/html");
+
+				// response.setContentType("application/xhtml+xml");
+				writer.writeDoc(doc, languageInput, response.getOutputStream());		
+				break;
+			}
+		}		
 		
 	}
 		

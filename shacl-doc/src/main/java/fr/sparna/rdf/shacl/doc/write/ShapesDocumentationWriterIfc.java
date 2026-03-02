@@ -10,9 +10,10 @@ public interface ShapesDocumentationWriterIfc {
 	public enum MODE {
 		HTML,
 		PDF,
-		XML
+		XML,
+		HTML_RESPEC
 	}
 	
-	public void writeDoc(ShapesDocumentation documentation, String outputLang, OutputStream output, MODE mode) throws IOException;
+	public void writeDoc(ShapesDocumentation documentation, String outputLang, OutputStream output) throws IOException;
 	
 }

@@ -21,7 +21,7 @@ import fr.sparna.rdf.shacl.app.InputModelReader;
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentation;
 import fr.sparna.rdf.shacl.doc.read.ShapesDocumentationModelReader;
 import fr.sparna.rdf.shacl.doc.read.ShapesDocumentationReaderIfc;
-import fr.sparna.rdf.shacl.doc.write.ShapesDocumentationJacksonXsltWriter;
+import fr.sparna.rdf.shacl.doc.write.ShapesDocumentationXsltWriter;
 import fr.sparna.rdf.shacl.doc.write.ShapesDocumentationWriterIfc;
 import fr.sparna.rdf.shacl.doc.write.ShapesDocumentationWriterIfc.MODE;
 import fr.sparna.rdf.shacl.doc.write.ShapesDocumentationXmlWriter;
@@ -83,7 +83,7 @@ public class Doc implements CliCommandIfc {
 		FileOutputStream out = new FileOutputStream(a.getOutput());
 		if(a.isPdfOutput()) {			
 			// 1. write Documentation structure to XML
-			ShapesDocumentationWriterIfc writerHTML = new ShapesDocumentationJacksonXsltWriter();
+			ShapesDocumentationWriterIfc writerHTML = new ShapesDocumentationXsltWriter();
 			ByteArrayOutputStream htmlBytes = new ByteArrayOutputStream();
 			writerHTML.writeDoc(doc,a.getLanguage(), htmlBytes, MODE.PDF);
 			
@@ -107,7 +107,7 @@ public class Doc implements CliCommandIfc {
 			writer.writeDoc(doc, a.getLanguage(), out, MODE.XML);
 		} else {
 			// 2. write Documentation structure to HTML
-			ShapesDocumentationWriterIfc writer = new ShapesDocumentationJacksonXsltWriter();
+			ShapesDocumentationWriterIfc writer = new ShapesDocumentationXsltWriter();
 			writer.writeDoc(doc, a.getLanguage(), out, MODE.HTML);
 		}	
 		out.flush();

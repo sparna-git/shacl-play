@@ -28,10 +28,12 @@ import com.openhtmltopdf.pdfboxout.PdfRendererBuilder;
 import fr.sparna.rdf.jena.QueryExecutionServiceImpl;
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentation;
 import fr.sparna.rdf.shacl.doc.read.ShapesDocumentationModelReader;
-import fr.sparna.rdf.shacl.doc.write.ShapesDocumentationJacksonXsltWriter;
+import fr.sparna.rdf.shacl.doc.write.ShapesDocumentationXsltWriter;
 import fr.sparna.rdf.shacl.doc.write.ShapesDocumentationWriterIfc;
 import fr.sparna.rdf.shacl.doc.write.ShapesDocumentationWriterIfc.MODE;
 import fr.sparna.rdf.shacl.doc.write.ShapesDocumentationXmlWriter;
+import fr.sparna.rdf.shacl.doc.write.ShapesDocumentationXsltRespecWriter;
+import fr.sparna.rdf.shacl.doc.write.ShapesDocumentationXsltShaclPlayWriter;
 import fr.sparna.rdf.shacl.generate.Configuration;
 import fr.sparna.rdf.shacl.generate.DefaultModelProcessor;
 import fr.sparna.rdf.shacl.generate.PaginatedQuery;
@@ -157,6 +159,8 @@ public class AnalyzeController {
 			ControllerModelFactory.SOURCE_TYPE source = ControllerModelFactory.SOURCE_TYPE.valueOf(sourceString.toUpperCase());
 			// get the shapes source type
 			ControllerModelFactory.SOURCE_TYPE shapesSource = ControllerModelFactory.SOURCE_TYPE.valueOf(shapesSourceString.toUpperCase());
+			// get the format
+			ShapesDocumentationWriterIfc.MODE mode = ShapesDocumentationWriterIfc.MODE.valueOf(format.toUpperCase());
 			
 			Configuration config = new Configuration(new DefaultModelProcessor(), "https://shacl-play.sparna.fr/shapes/", "shapes");
 			config.setShapesOntology("https://shacl-play.sparna.fr/shapes");
@@ -256,7 +260,7 @@ public class AnalyzeController {
 				// then serialize				
 				serialize(
 					sd,
-					format,
+					mode,
 					language,
 					sourceName,
 					response						
@@ -301,7 +305,7 @@ public class AnalyzeController {
 					// then serialize				
 					serialize(
 							sd,
-							format,
+							mode,
 							language,
 							sourceName,
 							response						
@@ -401,58 +405,80 @@ public class AnalyzeController {
 	
 	protected void serialize(
 			ShapesDocumentation sd,
-			String format,
+			ShapesDocumentationWriterIfc.MODE mode,
 			String language,
 			String filename,
 			HttpServletResponse response
 	) throws IOException {		
 		
-		if (format.toLowerCase().equals("html")) {
-			response.setHeader("Content-Disposition", "inline; filename=\""+filename+".html\"");
-			ShapesDocumentationWriterIfc writer = new ShapesDocumentationJacksonXsltWriter();
-			response.setContentType("text/html");
-			writer.writeDoc(
-					sd,  
-					language,	
-					response.getOutputStream(),
-					MODE.HTML	
-			);
-		} else if (format.toLowerCase().equals("xml")) {
-			response.setHeader("Content-Disposition", "inline; filename=\""+filename+".xml\"");
-			ShapesDocumentationWriterIfc writer = new ShapesDocumentationXmlWriter();
-			response.setContentType("application/xml");
-			writer.writeDoc(
-					sd,
-					language,	
-					response.getOutputStream(),
-					MODE.XML	
-			);
-		} else if(format.toLowerCase().equals("pdf") ) {
-			response.setHeader("Content-Disposition", "inline; filename=\""+filename+".pdf\"");
-			ShapesDocumentationWriterIfc writer = new ShapesDocumentationJacksonXsltWriter();
-			// 1. write Documentation structure to XML
-			ByteArrayOutputStream htmlBytes = new ByteArrayOutputStream();
-			writer.writeDoc(
-					sd,
-					language,	
-					response.getOutputStream(),
-					MODE.XML	
-			);
-			
-			//read file html
-			String htmlCode = new String(htmlBytes.toByteArray(),"UTF-8");
-			// htmlCode.replace("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">", "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />");
-			
-			// Render PDF
-			response.setContentType("application/pdf");
-			PdfRendererBuilder _builder = new PdfRendererBuilder();			 
-			_builder.useFastMode();
-			
-			_builder.withHtmlContent(htmlCode,"https://shacl-play.sparna.fr/play");			
-			
-			_builder.toStream(response.getOutputStream());
-			_builder.testMode(false);
-			_builder.run();
+
+		switch(mode) {
+			case HTML : {
+				response.setHeader("Content-Disposition", "inline; filename=\""+filename+".html\"");
+				ShapesDocumentationWriterIfc writer = new ShapesDocumentationXsltShaclPlayWriter(MODE.HTML);
+				response.setContentType("text/html");
+				writer.writeDoc(
+						sd,  
+						language,	
+						response.getOutputStream()
+						
+				);
+
+				break;
+			}
+			case PDF : {
+				response.setHeader("Content-Disposition", "inline; filename=\""+filename+".pdf\"");
+				ShapesDocumentationWriterIfc writer = new ShapesDocumentationXsltShaclPlayWriter(MODE.PDF);
+				// 1. write Documentation structure to XML
+				ByteArrayOutputStream htmlBytes = new ByteArrayOutputStream();
+				writer.writeDoc(
+						sd,
+						language,	
+						response.getOutputStream()
+				);
+				
+				//read file html
+				String htmlCode = new String(htmlBytes.toByteArray(),"UTF-8");
+				// htmlCode.replace("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">", "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />");
+				
+				// Render PDF
+				response.setContentType("application/pdf");
+				PdfRendererBuilder _builder = new PdfRendererBuilder();			 
+				_builder.useFastMode();
+				
+				_builder.withHtmlContent(htmlCode,"https://shacl-play.sparna.fr/play");			
+				
+				_builder.toStream(response.getOutputStream());
+				_builder.testMode(false);
+				_builder.run();
+
+				break;
+			}
+			case XML : {
+				response.setHeader("Content-Disposition", "inline; filename=\""+filename+".xml\"");
+				ShapesDocumentationWriterIfc writer = new ShapesDocumentationXmlWriter();
+				response.setContentType("application/xml");
+				writer.writeDoc(
+						sd,
+						language,	
+						response.getOutputStream()	
+				);
+
+				break;
+			}
+			case HTML_RESPEC : {
+				response.setHeader("Content-Disposition", "inline; filename=\""+filename+".html\"");
+				ShapesDocumentationWriterIfc writer = new ShapesDocumentationXsltRespecWriter(MODE.HTML);
+				response.setContentType("text/html");
+				writer.writeDoc(
+						sd,  
+						language,	
+						response.getOutputStream()
+						
+				);
+
+				break;
+			}
 		}
 	}
 	
@@ -509,6 +535,8 @@ public class AnalyzeController {
 		String sourceName = (String)request.getSession().getAttribute("sourceName");
 		String language = (String)request.getSession().getAttribute("language");
 		
+		ShapesDocumentationWriterIfc.MODE mode = ShapesDocumentationWriterIfc.MODE.valueOf(format.toUpperCase());
+
 		// generate the documentation
 		ShapesDocumentationModelReader reader = new ShapesDocumentationModelReader(false, null,false,false);
 		ShapesDocumentation sd = reader.readShapesDocumentation(
@@ -523,7 +551,7 @@ public class AnalyzeController {
 		// then serialize				
 		serialize(
 				sd,
-				format,
+				mode,
 				language,
 				sourceName,
 				response						

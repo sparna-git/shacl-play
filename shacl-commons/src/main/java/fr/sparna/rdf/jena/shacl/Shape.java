@@ -46,7 +46,7 @@ public abstract class Shape {
 
 	public RDFList getShOr() {
 		if (shape.hasProperty(SH.or)) {
-			return shape.getProperty(SH.or).getList(); 
+			return shape.getProperty(SH.or).getObject().as(RDFList.class); 
 		} else {
 			return null;
 		}		
@@ -120,6 +120,39 @@ public abstract class Shape {
 
 	public List<Literal> getExamples() {
 		return ModelReadingUtils.readLiteral(shape, SKOS.example);
+	}
+
+
+	/**
+	 * Returns true if the shape could be a literal.
+  	 * This is the case if it has a datatype, or if it has a nodeKind of Literal,
+  	 * or if it has a languageIn, or if it has minLength, maxLength, minInclusive,
+  	 * maxInclusive, minExclusive, or maxExclusive.
+	 * @return
+	 */
+	public boolean couldBeLiteral() {
+		  return 
+		  shape.hasProperty(SH.datatype)
+		  ||
+		  ( 
+			shape.hasProperty(SH.nodeKind)
+			&& 
+	  		shape.getProperty(SH.nodeKind).getObject().asResource().equals(SH.Literal) 
+		  )
+		  ||
+		  shape.hasProperty(SH.languageIn)
+	  	  ||
+		  shape.hasProperty(SH.minLength)
+		  ||
+		  shape.hasProperty(SH.maxLength)
+	  	  ||
+		  shape.hasProperty(SH.minInclusive)
+		  ||
+		  shape.hasProperty(SH.maxInclusive)
+	  	  ||
+		  shape.hasProperty(SH.minExclusive)
+		  ||
+		  shape.hasProperty(SH.maxExclusive);
 	}
 
 	public boolean hasShOrShClassOrShNode() {

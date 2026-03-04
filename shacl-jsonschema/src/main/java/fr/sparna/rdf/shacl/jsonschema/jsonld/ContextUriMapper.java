@@ -1,5 +1,6 @@
 package fr.sparna.rdf.shacl.jsonschema.jsonld;
 
+import java.net.URL;
 import java.util.Set;
 
 import org.apache.commons.lang3.tuple.Triple;
@@ -31,10 +32,13 @@ public class ContextUriMapper implements UriToJsonMapper {
     ) {
         Triple<String,Boolean,Boolean> contextMapping = null;
         
+        boolean isInverse = path.hasProperty(SH.inversePath);
+        String predicateUri = (isInverse)?path.getRequiredProperty(SH.inversePath).getResource().getURI():path.getURI();
+
         try {
-            if(path.hasProperty(SH.inversePath)) {
+            if(isInverse) {
                 contextMapping = contextWrapper.testProperty(
-                    path.getRequiredProperty(SH.inversePath).getResource().getURI(),
+                    predicateUri,
                     isIriProperty,
                     // true for inverse
                     true,
@@ -43,7 +47,7 @@ public class ContextUriMapper implements UriToJsonMapper {
                 );
             } else if(path.isURIResource()) {
                 contextMapping = contextWrapper.testProperty(
-                    path.getURI(),
+                    predicateUri,
                     isIriProperty,
                     false,
                     (datatype != null)?datatype.getURI():null,
@@ -55,12 +59,17 @@ public class ContextUriMapper implements UriToJsonMapper {
         }
         
 
-        if(contextMapping != null && !contextMapping.getLeft().equals(path.getURI())) {
+        if(
+            contextMapping != null
+            &&
+            !contextMapping.getLeft().equals(predicateUri)
+        ) {
             // Otherwise, returns the context mapping
             return contextMapping;
         } else {
             // If the context mapping is the same as the URI, reads the shortname annotation from the property shape
 			Set<String> shortnames = ShaclReadingUtils.findShortNamesOfPath(path);
+
             if (shortnames.size() == 1) {
                 // If there is a single shortname, returns it
                 return Triple.of(shortnames.iterator().next(),false,false);
@@ -86,8 +95,9 @@ public class ContextUriMapper implements UriToJsonMapper {
     	String contextMapping;
         try {
             contextMapping = contextWrapper.readTermFromValue(uri.getURI(), propertyUri);
-        } catch (JsonLdException e) {
-            throw new RuntimeException(e);
+        } catch (Exception e) {
+            log.error("Error mapping value URI "+uri+" in property "+propertyUri+", returning full value", e);
+            return uri.getURI();
         }
 
         // here : either something happened with the context mapping, and we return it,

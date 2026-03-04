@@ -1,7 +1,6 @@
 package fr.sparna.rdf.shacl.diagram;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -12,6 +11,8 @@ import org.apache.jena.vocabulary.DCTerms;
 import org.topbraid.shacl.vocabulary.SH;
 
 import fr.sparna.rdf.jena.ModelReadingUtils;
+import fr.sparna.rdf.shacl.diagram.model.PlantUmlBoxIfc;
+import fr.sparna.rdf.shacl.diagram.model.PlantUmlDiagram;
 
 public class PlantUmlDiagramReader {
 

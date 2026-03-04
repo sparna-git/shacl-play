@@ -127,7 +127,23 @@
 									</small>
 						  		</div>						  							  		
 							</div>
-							<!-- Ignore Properties Sh:In and sh:hasValues -->
+
+							<!-- do not use JSON native types -->
+							<div class="form-group row">
+						      	<div class="col-sm-12">
+							      	<div class="form-check">
+									  <input class="form-check-input" type="checkbox" id="noUseNativeTypes" name="noUseNativeTypes" />
+									  <label class="form-check-label" for="noUseNativeTypes">
+									    <fmt:message key="schema.options.noUseNativeTypes" />
+									  </label>
+									  <small class="form-text text-muted">
+										<fmt:message key="schema.options.noUseNativeTypes.help" />
+									  </small>
+									</div>
+								</div>
+							</div>
+
+							<!-- Ignore Properties sh:in and sh:hasValue -->
 							<div class="form-group row">
 						      	<div class="col-sm-12">
 							      	<div class="form-check">
@@ -142,16 +158,16 @@
 								</div>
 							</div>
 							
-							<!-- Ignore Properties Sh:In and sh:hasValues -->
+							<!-- do not set additionalProperties to false -->
 							<div class="form-group row">
 						      	<div class="col-sm-12">
 							      	<div class="form-check">
-									  <input class="form-check-input" type="checkbox" id="optAddProperties" name="optAddProperties" />
-									  <label class="form-check-label" for="optAddProperties">
-									    <fmt:message key="schema.options.optAddProperties" />
+									  <input class="form-check-input" type="checkbox" id="noAdditionalProperties" name="noAdditionalProperties" />
+									  <label class="form-check-label" for="noAdditionalProperties">
+									    <fmt:message key="schema.options.noAdditionalProperties" />
 									  </label>
 									  <small class="form-text text-muted">
-										<fmt:message key="schema.options.optAddProperties.help" />
+										<fmt:message key="schema.options.noAdditionalProperties.help" />
 									  </small>
 									</div>
 								</div>

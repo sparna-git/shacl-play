@@ -151,7 +151,8 @@
 					    		<select class="form-control" id="format" name="format" >
 					    			<option value="HTML">HTML</option>
 					    			<option value="PDF">PDF</option>
-					    			<option value="XML">XML</option>					    			
+					    			<option value="XML">XML</option>
+									<option value="HTML_RESPEC">HTML Respec (beta)</option>			    			
 							    </select>
 						    </div>									    
 						 </div>

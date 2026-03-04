@@ -1,0 +1,37 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ex: <http://example.org/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+ex:MainNodeShape
+    a sh:NodeShape ;
+    rdfs:label "Main Node Shape"@en ;
+    sh:property [
+        sh:path ex:property ;
+        sh:or (
+            [ sh:node ex:ValueA ]
+            [ sh:node ex:ValueB ]
+        );
+        sh:maxCount 1;
+    ] ;
+    sh:property [
+        sh:path ex:otherProperty ;
+        sh:or (
+            [ sh:node ex:ValueA ]
+            [ sh:node ex:ValueB ]
+        );
+    ] ;
+.
+
+ex:ValueA
+    a sh:NodeShape ;
+    sh:nodeKind sh:IRI ;
+    sh:pattern "^https://data.domain1.org/.*$" ;
+.
+
+ex:ValueB
+    a sh:NodeShape ;
+    sh:nodeKind sh:IRI ;
+    sh:pattern "^https://data.domain2.org/.*$" ;
+.

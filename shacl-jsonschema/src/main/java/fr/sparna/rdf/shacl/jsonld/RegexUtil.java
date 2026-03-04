@@ -2,6 +2,8 @@ package fr.sparna.rdf.shacl.jsonld;
 
 import java.util.List;
 
+import org.apache.jena.sparql.function.library.e;
+
 import com.github.curiousoddman.rgxgen.RgxGen;
 import com.github.curiousoddman.rgxgen.config.RgxGenOption;
 import com.github.curiousoddman.rgxgen.config.RgxGenProperties;
@@ -10,6 +12,7 @@ import com.github.curiousoddman.rgxgen.model.RgxGenCharsDefinition;
 public class RegexUtil {
 
 	public static String extractHttpBaseUriFromPattern(String pattern) {
+        System.out.println("Trying to extract base URI from pattern: " + pattern);
 
         if(!pattern.contains("http")) {
             return null;
@@ -36,18 +39,39 @@ public class RegexUtil {
         else if(pattern.matches(".*\\[.+\\][+*](\\$)?$")) {
             int lastIndex = pattern.lastIndexOf('[');
             subPattern = pattern.substring(0, lastIndex);
+        // if suPattern ends with [...]{x,y} or [...]{x}, remove that part too
         } else if(pattern.matches(".*\\[.+\\]\\{\\d+(,\\d+)?}(\\$)?$")) {
             int lastIndex = pattern.lastIndexOf('[');
             subPattern = pattern.substring(0, lastIndex);
         }
+        // matches https://data.europarl.europa.eu/org/ep-(?<parliamentaryTerm>[0-9]{1,2})
+        else if(pattern.matches(".*\\(\\?<[^>]+>.+\\)")) {
+            int lastIndex = pattern.lastIndexOf('(');
+            subPattern = pattern.substring(0, lastIndex);
+        }
         
+        System.out.println("Extracted subPattern: " + subPattern);
 
-        // looks like a regex with more complex pattern, give up
-        if(subPattern.contains("*") || subPattern.contains("+") || subPattern.contains("?") || subPattern.contains("[") || subPattern.contains("(")) {
+        
+        if(subPattern != null) {
+            // looks like a regex with more complex pattern, give up
+            if(subPattern.contains("*") || subPattern.contains("+") || subPattern.contains("?") || subPattern.contains("[") || subPattern.contains("(")) {
+                return null;
+            }
+
+            // is subPattern contains # character but not at the end, remove everything after #
+            if(subPattern.contains("#") && !subPattern.endsWith("#")) {
+                subPattern = subPattern.substring(0, subPattern.indexOf('#')+1);
+            } else {
+                // if subPattern does not end with /, remove everything after the last /
+                if(!subPattern.endsWith("/")) {
+                    subPattern = subPattern.substring(0, subPattern.lastIndexOf('/')+1);
+                }
+            }
+            return subPattern;
+        } else {
             return null;
         }
-
-		return subPattern;
 	}
 
     public static String generateMatchingString(String regex) {

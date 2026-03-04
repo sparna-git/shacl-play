@@ -18,8 +18,14 @@
   "$defs": {
     "@context": {},
     "MainNodeShape": {
-      "type": "string",
-      "format": "iri-reference"
+      "type": "object",
+      "required": ["id"],
+      "properties": {
+        "id": {
+          "format": "iri-reference",
+          "type": "string"
+        }
+      }
     }
   }
 }

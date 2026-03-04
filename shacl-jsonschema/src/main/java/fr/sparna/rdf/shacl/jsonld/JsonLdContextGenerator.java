@@ -2,11 +2,9 @@ package fr.sparna.rdf.shacl.jsonld;
 
 import java.io.FileInputStream;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Literal;
@@ -498,7 +496,6 @@ public class JsonLdContextGenerator {
 		return shapes;			
 	}
 
-	
 	public static void main(String... args) throws Exception {
 		Model shaclGraph = ModelFactory.createDefaultModel();
 		

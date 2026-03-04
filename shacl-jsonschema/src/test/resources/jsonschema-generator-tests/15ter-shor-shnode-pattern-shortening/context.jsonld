@@ -1,0 +1,25 @@
+[
+  {
+    "data": "@graph"
+  },
+  {
+      "id" : "@id",
+      "type" : "@type",
+      "property" : {
+        "@id" : "http://example.org/property",
+        "@type" : "@id",
+        "@context" : {
+          "@base" : "https://data.domain.org/"
+        }
+      },
+      "otherProperty" : {
+        "@id" : "http://example.org/otherProperty",
+        "@type" : "@id",
+        "@container" : "@set",
+        "@context" : {
+          "@base" : "https://data.domain.org/"
+        }
+      },
+      "ex" : "http://example.org/"
+  }
+]

@@ -1,0 +1,10 @@
+{
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "ex": "http://example.org/",
+
+    "p": {
+        "@id": "ex:p",
+        "@context" : { "@base": "https://data.europarl.europa.eu/eli/dl/doc/A-" }
+    }
+}
+

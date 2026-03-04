@@ -12,13 +12,7 @@ ex:MainNodeShape
         sh:path ex:p ;
         sh:maxCount 1 ;
         sh:nodeKind sh:IRI ;
-        sh:node ex:OtherShape ;
+        sh:pattern "^https://data.europarl.europa.eu/eli/dl/event/MTG-PL-(?<date>(19[5-9][0-9]|20[0-9][0-9])-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01]))-PVCRE-ITM-[1-9]([0-9]{0,2})?$";
+        skos:example "https://data.europarl.europa.eu/eli/dl/event/MTG-PL-2023-10-17-PVCRE-ITM-7";
     ] ;
-.
-
-ex:OtherShape
-    a sh:NodeShape ;
-    sh:nodeKind sh:Literal ;
-    sh:pattern "^https://data.europarl.europa.eu/eli/dl/doc/A-(?<parliamentaryTerm>[0-9]{1,2})-(?<year>[0-9]{4})-(?<number>[0-9]{4})$";
-    skos:example "https://data.europarl.europa.eu/eli/dl/doc/A-10-2025-0134";
 .

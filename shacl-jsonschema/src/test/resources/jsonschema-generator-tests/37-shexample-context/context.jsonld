@@ -1,0 +1,6 @@
+{
+	"data": "@graph",
+	"@base": "https://data.europarl.europa.eu/eli/dl/",
+	"p":"http://example.org/p"
+}
+

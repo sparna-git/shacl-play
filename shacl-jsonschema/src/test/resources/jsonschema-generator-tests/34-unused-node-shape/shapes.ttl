@@ -1,0 +1,25 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ex: <http://example.org/> .
+@prefix ex-external: <http://example.org/external/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+ex:MainNodeShape
+    a sh:NodeShape ;
+    sh:targetClass ex:SimpleClass ;
+    sh:property [
+        sh:path ex:p ;
+        sh:maxCount 1 ;
+        sh:nodeKind sh:IRI ;
+    ] ;
+.
+
+# This is not referenced anywhere
+# So should not appear in the schema
+ex:OtherShape
+    a sh:NodeShape ;
+    sh:nodeKind sh:Literal ;
+    sh:pattern "^https://data.europarl.europa.eu/eli/dl/doc/A-(?<parliamentaryTerm>[0-9]{1,2})-(?<year>[0-9]{4})-(?<number>[0-9]{4})$";
+    skos:example "https://data.europarl.europa.eu/eli/dl/doc/A-10-2025-0134";
+.

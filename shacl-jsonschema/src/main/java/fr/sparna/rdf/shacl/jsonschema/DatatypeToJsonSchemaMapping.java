@@ -88,7 +88,12 @@ import java.util.Optional;
 		}
 		
 
-		public static Optional<DatatypeToJsonSchemaMapping> findByDatatypeUri(String valueType) {
+		public static Optional<DatatypeToJsonSchemaMapping> findByDatatypeUri(String valueType, boolean useNativeTypes) {
+
+			if(!useNativeTypes) {
+				// if not using native types, we consider all datatypes as strings
+				return Optional.of(STRING);
+			}
 
 			return Arrays.stream(DatatypeToJsonSchemaMapping.values()).filter(e -> e.getDatatypeUri().toString().equals(valueType))
 					.findFirst();

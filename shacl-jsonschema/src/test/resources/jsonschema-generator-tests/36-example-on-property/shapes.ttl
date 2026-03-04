@@ -1,0 +1,17 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ex: <http://example.org/> .
+@prefix ex-external: <http://example.org/external/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+ex:MainNodeShape
+    a sh:NodeShape ;
+    sh:targetClass ex:SimpleClass ;
+    sh:property [
+        sh:path ex:p ;
+        sh:maxCount 1 ;
+        sh:nodeKind sh:IRI ;
+        skos:example "https://data.europarl.europa.eu/distribution/reds_iPlTa_Itm/TA-9-2022-0269/TA-9-2022-0269-FNL_fr.pdf" ;
+    ] ;
+.

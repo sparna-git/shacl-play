@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "@context": {
+      "$ref": "#/$defs/@context"
+    },
+    "data": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/MainNodeShape"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "required": ["@context", "data"],
+  "$defs": {
+    "@context": {},
+    "MainNodeShape": {
+      "type": "object",
+      "required": ["id"],
+      "properties": {
+        "p": {
+          "type": "string",
+          "examples": ["https://data.europarl.europa.eu/eli/dl/doc/A-10-2025-0134"],
+          "pattern": "^https://data.europarl.europa.eu/eli/dl/doc/A-(?<parliamentaryTerm>[0-9]{1,2})-(?<year>[0-9]{4})-(?<number>[0-9]{4})$"
+        },
+        "id": {
+          "format": "iri-reference",
+          "type": "string"
+        }
+      }
+    }
+  }
+}

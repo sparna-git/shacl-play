@@ -21,10 +21,10 @@ import fr.sparna.rdf.shacl.app.InputModelReader;
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentation;
 import fr.sparna.rdf.shacl.doc.read.ShapesDocumentationModelReader;
 import fr.sparna.rdf.shacl.doc.read.ShapesDocumentationReaderIfc;
-import fr.sparna.rdf.shacl.doc.write.ShapesDocumentationXsltWriter;
 import fr.sparna.rdf.shacl.doc.write.ShapesDocumentationWriterIfc;
 import fr.sparna.rdf.shacl.doc.write.ShapesDocumentationWriterIfc.MODE;
 import fr.sparna.rdf.shacl.doc.write.ShapesDocumentationXmlWriter;
+import fr.sparna.rdf.shacl.doc.write.ShapesDocumentationXsltShaclPlayWriter;
 
 public class Doc implements CliCommandIfc {
 
@@ -83,9 +83,13 @@ public class Doc implements CliCommandIfc {
 		FileOutputStream out = new FileOutputStream(a.getOutput());
 		if(a.isPdfOutput()) {			
 			// 1. write Documentation structure to XML
-			ShapesDocumentationWriterIfc writerHTML = new ShapesDocumentationXsltWriter();
+			ShapesDocumentationWriterIfc writerHTML = new ShapesDocumentationXsltShaclPlayWriter(MODE.PDF);
 			ByteArrayOutputStream htmlBytes = new ByteArrayOutputStream();
-			writerHTML.writeDoc(doc,a.getLanguage(), htmlBytes, MODE.PDF);
+			writerHTML.writeDoc(
+				doc,
+				a.getLanguage(),
+				htmlBytes
+			);
 			
 			//read file html
 			String htmlCode = new String(htmlBytes.toByteArray(),"UTF-8");
@@ -104,11 +108,11 @@ public class Doc implements CliCommandIfc {
 		} else if(a.isXmlOutput()) {
 			// 2. write Documentation structure to XML
 			ShapesDocumentationWriterIfc writer = new ShapesDocumentationXmlWriter();
-			writer.writeDoc(doc, a.getLanguage(), out, MODE.XML);
+			writer.writeDoc(doc, a.getLanguage(), out);
 		} else {
 			// 2. write Documentation structure to HTML
-			ShapesDocumentationWriterIfc writer = new ShapesDocumentationXsltWriter();
-			writer.writeDoc(doc, a.getLanguage(), out, MODE.HTML);
+			ShapesDocumentationWriterIfc writer = new ShapesDocumentationXsltShaclPlayWriter(MODE.HTML);
+			writer.writeDoc(doc, a.getLanguage(), out);
 		}	
 		out.flush();
 		out.close();

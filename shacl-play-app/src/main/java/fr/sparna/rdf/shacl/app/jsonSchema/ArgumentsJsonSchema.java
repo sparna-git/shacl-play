@@ -30,7 +30,14 @@ public class ArgumentsJsonSchema {
 			required = true
 	)
 	private File output;
-	
+
+	@Parameter(
+			names = { "-c", "--contextPath" },
+			description = "Path to a *.json file containing an optional JSON-LD context to be taken into account when generating the schema",
+			required = false
+	)
+	private File contextFile;	
+
 	public List<File> getInput() {
 		return input;
 	}
@@ -53,6 +60,14 @@ public class ArgumentsJsonSchema {
 
 	public void setOutput(File output) {
 		this.output = output;
+	}
+
+	public File getContextFile() {
+		return contextFile;
+	}
+
+	public void setContextFile(File contextFile) {
+		this.contextFile = contextFile;
 	}
 	
 }

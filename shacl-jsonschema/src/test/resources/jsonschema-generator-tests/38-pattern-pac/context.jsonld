@@ -1,0 +1,15 @@
+{
+    "graph": "@graph",
+    "id": "@id",
+    "type": "@type",
+
+
+    "schema": "http://schema.org/",
+
+
+    "Person": "schema:Person",
+
+
+    "homepage": {"@id":"schema:url", "@type":"@id",   "@context": { "@base": "https://example.org/pages/"   } }
+  }
+

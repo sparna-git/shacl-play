@@ -1,6 +1,8 @@
 package fr.sparna.rdf.shacl.app.jsonSchema;
 
+import java.io.StringReader;
 import java.nio.file.Files;
+import java.security.InvalidParameterException;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -13,6 +15,11 @@ import fr.sparna.rdf.shacl.jsonschema.model.Schema;
 import fr.sparna.rdf.shacl.app.CliCommandIfc;
 import fr.sparna.rdf.shacl.app.InputModelReader;
 
+import jakarta.json.Json;
+import jakarta.json.JsonReader;
+import jakarta.json.JsonValue;
+
+
 public class GenerateJsonSchema implements CliCommandIfc {
 
 	private Logger log = LoggerFactory.getLogger(this.getClass().getName());
@@ -23,10 +30,25 @@ public class GenerateJsonSchema implements CliCommandIfc {
 		
 		// read input file or URL
 		Model shapesModel = ModelFactory.createDefaultModel(); 
-		InputModelReader.populateModelFromFile(shapesModel, a.getInput(), null);		
+		InputModelReader.populateModelFromFile(shapesModel, a.getInput(), null);	
 		
-		JsonSchemaGenerator generator = new JsonSchemaGenerator("en");
+		// read optional context
+		JsonValue context = null;
+		if(a.getContextFile() != null) {
+			if(!a.getContextFile().exists()) {
+				throw new InvalidParameterException("Provided context file does not exist : "+a.getContextFile().getAbsolutePath());
+			} else {
+				// read JSON context as a JsonValue
+				String contextJson = Files.readString(a.getContextFile().toPath());
+            	try (JsonReader reader = Json.createReader(new StringReader(contextJson))) {
+                	context = reader.readValue();
+            	}
+			}
+		}
 		
+		// build generator with context that can be null
+		JsonSchemaGenerator generator = new JsonSchemaGenerator("en", context);
+
 		// convert the shacl shapes to json schema
 		Schema output = generator.convertToJsonSchema(shapesModel, a.getNodeShapes());
 		JSONObject jsonSchemaOutput = new JSONObject(output.toString());

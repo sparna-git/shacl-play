@@ -1,8 +1,4 @@
 package fr.sparna.rdf.shacl.jsonschema.jsonld;
-import java.io.ByteArrayOutputStream;
-import java.io.StringWriter;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.commons.lang3.tuple.Triple;
@@ -19,9 +15,6 @@ import jakarta.json.JsonObject;
 import jakarta.json.JsonObjectBuilder;
 import jakarta.json.JsonStructure;
 import jakarta.json.JsonValue;
-import jakarta.json.JsonWriter;
-import jakarta.json.JsonWriterFactory;
-import jakarta.json.stream.JsonGenerator;
 
 public class ProbingJsonLdContextWrapper implements JsonLdContextWrapper {
 
@@ -173,6 +166,7 @@ public class ProbingJsonLdContextWrapper implements JsonLdContextWrapper {
         // System.out.println("Probing JSON-LD context for regex: "+regexPattern);
         try {
             String testValue = RegexUtil.generateMatchingString(regexPattern);
+            // System.out.println("'"+testValue+"'");
             JsonObject probeDocument = prepareProbeRegex(testValue, propertyUri);
             
             log.trace("Probe document before compaction: {}", JsonUtils.prettyPrint(probeDocument));

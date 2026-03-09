@@ -2,8 +2,6 @@ package fr.sparna.rdf.shacl.jsonld;
 
 import java.util.List;
 
-import org.apache.jena.sparql.function.library.e;
-
 import com.github.curiousoddman.rgxgen.RgxGen;
 import com.github.curiousoddman.rgxgen.config.RgxGenOption;
 import com.github.curiousoddman.rgxgen.config.RgxGenProperties;
@@ -89,10 +87,12 @@ public class RegexUtil {
         RgxGenOption.INFINITE_PATTERN_REPETITION.setInProperties(properties, 3);
 
         RgxGen rgxGen = RgxGen.parse(properties, regex);
-        String output = rgxGen.generate();
+        String generatedValue = rgxGen.generate();
 
         // replace the value inserted for dots back with a dot
-        return output.replaceAll("\u0000", ".").replaceAll(" ", "_");
+        String output = generatedValue.replaceAll("\u0000", ".").replaceAll(" ", "_");
+        // System.out.println("'"+output+"'");
+        return output;
     }
 
     public static String findCommonBaseUri(List<String> uris) {

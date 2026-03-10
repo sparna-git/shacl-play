@@ -205,10 +205,12 @@ public class JsonLdContextGenerator {
 					// check if it is a simple startsWith pattern
 					String startsWith = RegexUtil.extractHttpBaseUriFromPattern(pattern);
 					if(startsWith != null) {
-						// create an inner context with @base
+						// create an inner context with @vocab
 						JsonLdContext innerContext = new JsonLdContext();
-						innerContext.add(new JsonLdMapping("@base", startsWith));
+						innerContext.add(new JsonLdMapping("@vocab", startsWith));
 						mapping.setInnerContext(innerContext);
+						// set the type of the mapping to @vocab
+						mapping.setType("@vocab");
 					}
 				} else {
 					
@@ -227,8 +229,10 @@ public class JsonLdContextGenerator {
 						if(commonBase != null) {
 							// create an inner context with @base
 							JsonLdContext innerContext = new JsonLdContext();
-							innerContext.add(new JsonLdMapping("@base", commonBase));
+							innerContext.add(new JsonLdMapping("@vocab", commonBase));
 							mapping.setInnerContext(innerContext);
+							// set the type of the mapping to @vocab
+							mapping.setType("@vocab");
 						}
 					}
 				}

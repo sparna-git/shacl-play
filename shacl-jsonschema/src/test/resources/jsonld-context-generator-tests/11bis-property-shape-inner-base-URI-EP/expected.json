@@ -17,16 +17,16 @@
     "PoliticalGroup": "eli:PoliticalGroup",
 
     "involved_work": {
-      "@type": "@id",
+      "@type": "@vocab",
       "@id": "eli-dl:involved_work",
       "@container": "@set",
-      "@context": {"@base": "https://data.europarl.europa.eu/eli/dl/doc/"}
+      "@context": {"@vocab": "https://data.europarl.europa.eu/eli/dl/doc/"}
     },
     "political_group": {
-      "@type": "@id",
+      "@type": "@vocab",
       "@id": "eli-dl:political_group",
       "@container": "@set",
-      "@context": {"@base": "https://data.europarl.europa.eu/org/"}
+      "@context": {"@vocab": "https://data.europarl.europa.eu/org/"}
     }
   }
 }

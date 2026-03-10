@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "@context": {
+      "$ref": "#/$defs/@context"
+    },
+    "data": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/MainNodeShape"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "required": ["@context", "data"],
+  "$defs": {
+    "@context": {},
+    "MainNodeShape": {
+        "type": "object",
+        "properties": {
+            "id": {
+              "type": "string",
+              "format": "iri-reference"
+            },
+            "property1": {
+              "type": "string",
+              "pattern": "^ep-[0-9]{1,2}$"
+            },
+            "property2": {
+              "type": "string",
+              "pattern": "^[0-9]{1,2}$"
+            },
+            "property3": {
+              "type": "string",
+              "pattern": "^org/ep-[0-9]{1,2}$"
+            }
+        },
+        "required": ["id"]
+    }
+  }
+}

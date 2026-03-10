@@ -16,10 +16,10 @@
     "Work": "eli:Work",
 
     "refers_to": {
-      "@type": "@id",
+      "@type": "@vocab",
       "@id": "eli:refers_to",
       "@container": "@set",
-      "@context": {"@base": "https://data.europarl.europa.eu/eli/dl/"}
+      "@context": {"@vocab": "https://data.europarl.europa.eu/eli/dl/"}
     }
   }
 }

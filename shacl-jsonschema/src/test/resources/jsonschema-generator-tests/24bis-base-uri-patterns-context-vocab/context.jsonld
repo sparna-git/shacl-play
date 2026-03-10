@@ -1,0 +1,19 @@
+{
+    "@base": "https://data.europarl.europa.eu/",
+    "id": "@id",
+    "property1": {
+        "@id": "http://example.org/property1",
+        "@type": "@id",
+        "@context": { "@base": "https://data.europarl.europa.eu/org/ep-"   }
+    },
+    "property2": {
+        "@id": "http://example.org/property2",
+        "@type": "@vocab",
+        "@context": { "@vocab": "https://data.europarl.europa.eu/org/ep-"   }
+    },
+    "property3": {
+        "@id": "http://example.org/property3",
+        "@type": "@id"
+    }
+}
+

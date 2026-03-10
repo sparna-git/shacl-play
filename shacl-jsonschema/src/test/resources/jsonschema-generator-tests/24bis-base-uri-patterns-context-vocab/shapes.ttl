@@ -1,0 +1,26 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ex: <http://example.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix eli-dl: <http://data.europa.eu/eli/eli-draft-legislation-ontology#>
+
+ex:MainNodeShape a sh:NodeShape ;
+    sh:property [
+        sh:path ex:property1 ;
+        sh:nodeKind sh:IRI ;
+        sh:maxCount 1 ;
+        sh:pattern "^https://data.europarl.europa.eu/org/ep-[0-9]{1,2}$" ;
+    ];
+    sh:property [
+        sh:path ex:property2 ;
+        sh:nodeKind sh:IRI ;
+        sh:maxCount 1 ;
+        sh:pattern "^https://data.europarl.europa.eu/org/ep-[0-9]{1,2}$" ;
+    ];
+    sh:property [
+        sh:path ex:property3 ;
+        sh:nodeKind sh:IRI ;
+        sh:maxCount 1 ;
+        sh:pattern "^https://data.europarl.europa.eu/org/ep-[0-9]{1,2}$" ;
+    ];
+
+.

@@ -152,7 +152,7 @@
 	<!-- Select labels based on language param -->
 	<xsl:variable name="LABELS" select="if($LANG = 'fr') then $LABELS_FR else $LABELS_EN" />
 
-	<xsl:param name="COLSPAN" select="5" />
+	<xsl:param name="COLSPAN" select="4" />
 	
 	<!-- Principal -->
 	<xsl:template match="/">
@@ -253,6 +253,7 @@
 						preProcess: [loadTurtleLang,loadSparqlLang],
 						specStatus: "base",
 						shortName: "sparna",
+						maxTocLevel: 2,
 						license: "w3c-software-doc",
 						<xsl:apply-templates select="dateissued" />
 						<xsl:apply-templates select="modifiedDate" />
@@ -871,46 +872,48 @@
 		Section of Diagram 	
 	-->
 	<xsl:template match="diagrams">
+		<!--
 		<section>
-			<h2><xsl:value-of select="$LABELS/labels/entry[@key='DIAGRAM.TITLE']/@label" /></h2>
-			<xsl:apply-templates />		
+			<h2><xsl:value-of select="$LABELS/labels/entry[@key='DIAGRAM.TITLE']/@label" /></h2>				
 		</section>
+		-->
+		<xsl:apply-templates />	
 	</xsl:template>
 	
 	<xsl:template match="diagram">
-		<!--
-		<xsl:if test="displayTitle">
-			<h3><xsl:value-of select="displayTitle" /></h3> 
-		</xsl:if>
-		-->
-		<xsl:if test="diagramDescription">
-			<p><xsl:value-of select="diagramDescription" /></p> 
-		</xsl:if>
-		<xsl:choose>
-			<xsl:when test="$MODE = 'PDF'">
-				<!--  When outputting PDF, inserts the PNG image -->
-				<img src="{pngLink}" style="width:80%;" alt="a diagram representing this application profile" />
-			</xsl:when>
-			<xsl:otherwise>
-				<!-- @disable-output-escaping prints the raw XML string as XML in the 
-					document and removes XML-encoding of the characters
-				-->
-				<div>
-					<xsl:value-of select="svg" disable-output-escaping="yes" />
-				</div>
-				<small class="form-text text-muted">
-					<xsl:value-of
-							select="$LABELS/labels/entry[@key='DIAGRAM.HELP']/@label" />
-					<xsl:text> | </xsl:text>
-					<a href="{pngLink}" target="_blank">
-						<xsl:value-of select="$LABELS/labels/entry[@key='DIAGRAM.VIEW']/@label" />
-					</a>			
-				</small>
-				<xsl:comment>
-					<xsl:value-of select="plantUmlString" disable-output-escaping="yes" />
-				</xsl:comment>	
-			</xsl:otherwise>
-		</xsl:choose>			
+		<section id="diagram-local">
+			<xsl:if test="displayTitle">
+				<h3><xsl:value-of select="displayTitle" /></h3> 
+			</xsl:if>
+			<xsl:if test="diagramDescription">
+				<p><xsl:value-of select="diagramDescription" /></p> 
+			</xsl:if>
+			<xsl:choose>
+				<xsl:when test="$MODE = 'PDF'">
+					<!--  When outputting PDF, inserts the PNG image -->
+					<img src="{pngLink}" style="width:80%;" alt="a diagram representing this application profile" />
+				</xsl:when>
+				<xsl:otherwise>
+					<!-- @disable-output-escaping prints the raw XML string as XML in the 
+						document and removes XML-encoding of the characters
+					-->
+					<div>
+						<xsl:value-of select="svg" disable-output-escaping="yes" />
+					</div>
+					<small class="form-text text-muted">
+						<xsl:value-of
+								select="$LABELS/labels/entry[@key='DIAGRAM.HELP']/@label" />
+						<xsl:text> | </xsl:text>
+						<a href="{pngLink}" target="_blank">
+							<xsl:value-of select="$LABELS/labels/entry[@key='DIAGRAM.VIEW']/@label" />
+						</a>			
+					</small>
+					<xsl:comment>
+						<xsl:value-of select="plantUmlString" disable-output-escaping="yes" />
+					</xsl:comment>	
+				</xsl:otherwise>
+			</xsl:choose>			
+		</section>
 	</xsl:template>
 
 	<!-- Description Title -->
@@ -976,9 +979,9 @@
 					<xsl:if test="description != ''">
 						<div>
 							<!--  disable output escaping so that HTML is preserved -->
-							<aside class="note">
+							<div class="def">
 								<xsl:value-of select="description" disable-output-escaping="yes" />
-							</aside>
+							</div>
 						</div>
 					</xsl:if>
 
@@ -1198,14 +1201,32 @@
 		<xsl:variable name="depiction_src" select="src"/>
 		<xsl:variable name="depiction_title" select="title"/>
 		<xsl:variable name="depiction_description" select="description"/>
-		<figure>
-			<a href="{$depiction_src}"><img src="{$depiction_src}" style="width:100%;"/></a>
-			<xsl:if test="$depiction_title or $depiction_description">
-				<figcaption>
+
+		<xsl:variable name="title_section">
+			<xsl:choose>
+				<xsl:when test="$depiction_title or $depiction_description">
 					<xsl:if test="$depiction_title"><em><xsl:value-of select="$depiction_title"/> :</em> </xsl:if><xsl:value-of select="$depiction_description"/>
-				</figcaption>
-			</xsl:if>
-		</figure>
+				</xsl:when>
+				<xsl:otherwise>
+					
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		
+		<section>
+			<h3><xsl:value-of select="$title_section"/></h3>
+
+			<figure>
+				<a href="{$depiction_src}"><img src="{$depiction_src}" style="width:100%;"/></a>
+				<!--
+				<xsl:if test="$depiction_title or $depiction_description">
+					<figcaption>
+						<xsl:if test="$depiction_title"><em><xsl:value-of select="$depiction_title"/> :</em> </xsl:if><xsl:value-of select="$depiction_description"/>
+					</figcaption>
+				</xsl:if>
+				-->
+			</figure>
+		</section>
 	</xsl:template>
 		
 	<!-- Property groups -->
@@ -1332,10 +1353,11 @@
 						<!-- Display Description -->
 						<xsl:if test="string-length(./description) &gt; 0">
 							<div>
-								<p style="text-indent: 3.5em;">
+								<p style="text-indent: 5.5em;">
 									<li>
-										<i class="fa fa-camera-retro fa-lg"></i>
+										<!--
 										<xsl:value-of select="concat($LABELS/labels/entry[@key='COLUMN_DESCRIPTION']/@label,': ')"/>
+										-->
 										<xsl:apply-templates select="./description"/>
 									</li>
 								</p>

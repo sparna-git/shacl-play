@@ -70,7 +70,7 @@
 
 			<!-- Respec Sections -->
 			<entry key="SECTION_DESCRIPTION.TITLE" label="Description" />
-			<entry key="SECTION.DIAGRAM.TITLE" label="Diagrammes" />
+			<entry key="SECTION.DIAGRAM.TITLE" label="Diagramme" />
 			<entry key="SECTION.PROPERTY.TITLE" label="Propriétés" />
 
 		</labels>
@@ -140,7 +140,7 @@
 
 			<!-- Respec Sections -->
 			<entry key="SECTION_DESCRIPTION.TITLE" label="Description" />
-			<entry key="SECTION.DIAGRAM.TITLE" label="Diagrams" />
+			<entry key="SECTION.DIAGRAM.TITLE" label="Diagram" />
 			<entry key="SECTION.PROPERTY.TITLE" label="Properties" />
 			
 		</labels>
@@ -253,7 +253,7 @@
 						preProcess: [loadTurtleLang,loadSparqlLang],
 						specStatus: "base",
 						shortName: "sparna",
-						license: "cc-by",
+						license: "w3c-software-doc",
 						<xsl:apply-templates select="dateissued" />
 						<xsl:apply-templates select="modifiedDate" />
 						<xsl:apply-templates select="feedbacks" />
@@ -270,8 +270,12 @@
 				</script>						
 			</head>
 			<body>
+
 				<p class="copyright">
-					@<xsl:apply-templates select="yearCopyRighted" />
+					<xsl:if test="yearCopyRighted">
+						@<xsl:apply-templates select="yearCopyRighted" />
+					</xsl:if>
+					
 					<xsl:apply-templates select="rightsHolders" />
 				</p>
 
@@ -280,17 +284,21 @@
 				<xsl:apply-templates select="abstract_" />
 				<xsl:apply-templates select="prefixes" />
 				<xsl:if test="diagrams/diagram or depictions/depiction">						
-					<div class="sp_section_row mt-3">
-						<div class="sp_section_col">
-							<section>
-								<h2 id="diagrams" class="sp_section_subtitle">
-									<xsl:value-of select="$LABELS/labels/entry[@key='DIAGRAM.TITLE']/@label" />
-								</h2>
+					<section>
+						<h2>
+							<xsl:value-of select="$LABELS/labels/entry[@key='DIAGRAM.TITLE']/@label" />
+						</h2>
+						<div class="sp_section_row mt-3">
+							<div class="sp_section_col">							
+							<xsl:if test="depictions/depiction">
 								<xsl:apply-templates select="depictions"/>
+							</xsl:if>
+							<xsl:if test="diagrams/diagram">
 								<xsl:apply-templates select="diagrams" />
-							</section>
-						</div>
-					</div>						
+							</xsl:if>							
+							</div>
+						</div>	
+					</section>					
 				</xsl:if>				
 				<xsl:apply-templates select="descriptionDocument" />
 				<!-- Section for each node shape-->
@@ -482,7 +490,12 @@
 					.table-striped tbody:nth-child(even) {
 						background-color: #eee;
 					}
-							
+
+					/*  */
+					.table-striped-prefix tr:nth-child(even) {
+						background-color: #eee;
+					}
+
 					.sp_table_prefixes table {
 						border-collapse: collapse;
 						margin-bottom: 1rem;
@@ -798,22 +811,32 @@
 		</span>
 	</xsl:template>
 
+	<xsl:template match="abstract_">
+		<section class="Abstract">
+			<h2><xsl:value-of select="$LABELS/labels/entry[@key='METADATA.INTRODUCTION']/@label" /></h2>
+			<div class="row mt-3">
+				<div class="col">
+					<!--  disable output escaping so that HTML is preserved -->
+					<xsl:value-of select="." disable-output-escaping="yes" />			
+				</div>
+			</div>
+		</section>
+	</xsl:template>
 
 	<!--
 		Section of prefix
 	-->
 	<xsl:template match="prefixes">
-		<!--
-		<div class="row mt-3">
-			<div class="col">
-			</div>
-		</div>
-		-->
+		<!-- this section is necessary if the shacl file cannot a descriptio or abstract section, then show the toc respec -->
+		<section id="abstract" class="notoc remove">
+		</section>
+
+
 		<section id="prefixes">
 			<h2>
 				<xsl:value-of select="$LABELS/labels/entry[@key='PREFIXES.TITLE']/@label" />
 			</h2>
-			<table class="sp_table_prefixes table table-striped table-responsive">
+			<table class="sp_table_prefixes table table-striped-prefix table-responsive">
 				<thead>
 					<tr>
 						<th>
@@ -892,10 +915,6 @@
 
 	<!-- Description Title -->
 	<xsl:template match="descriptionDocument[text() != '']">
-
-		<section id="abstract" class="notoc remove">
-		</section>
-
 		<section id="description_document">
 			<h2><xsl:value-of select="$LABELS/labels/entry[@key='DESCRIPTION.TITLE']/@label" /></h2>
 			<!--  disable output escaping so that HTML is preserved -->
@@ -917,7 +936,7 @@
 	<!-- Subsection -->
 	<xsl:template match="section">
 
-		<section id="{sectionId}">
+		<section id="{sectionId}" style="margin-top: -30px;">
 
 			<h3><xsl:apply-templates select="title" /></h3>
 			<div class="sp_section_title_table_wrapper">
@@ -933,16 +952,35 @@
 				</xsl:if>				
 			</div>	
 
-			<xsl:if test="description != ''">
-				<section id="description" style="margin-top: -23px;">
+			<xsl:if test="description != '' or targetClass/href
+							or
+							superClasses/link
+							or
+							nodeKind != ''
+							or
+							pattern != ''
+							or
+							closed='true'
+							or
+							skosExample != ''
+							or
+							targetSubjectsOf != ''
+							or
+							targetObjectsOf != ''
+							or
+							sparqlTarget">
+
+				<section id="description" style="margin-top: -25px;">
 					<h4><xsl:value-of select="$LABELS/labels/entry[@key='SECTION_DESCRIPTION.TITLE']/@label" /></h4>
 
-					<div class="sp_nodeshape_description">
-						<!--  disable output escaping so that HTML is preserved -->
-						<aside class="note">
-							<xsl:value-of select="description" disable-output-escaping="yes" />
-						</aside>
-					</div>
+					<xsl:if test="description != ''">
+						<div>
+							<!--  disable output escaping so that HTML is preserved -->
+							<aside class="note">
+								<xsl:value-of select="description" disable-output-escaping="yes" />
+							</aside>
+						</div>
+					</xsl:if>
 
 					<xsl:if
 						test="
@@ -1061,13 +1099,12 @@
 							</xsl:if>
 						</ul>
 					</xsl:if>
-
 				</section>
 			</xsl:if>
 
-			<xsl:if test="sectionDiagrams or depictions or depictionsImgs">
+			<xsl:if test="sectionDiagrams != '' or depictions !='' or depictionsImgs != ''">
 
-				<section id="diagrams">
+				<section id="diagram">
 					<h4><xsl:value-of select="$LABELS/labels/entry[@key='SECTION.DIAGRAM.TITLE']/@label" /></h4>
 
 					<!-- depiction, before bullet list -->
@@ -1297,6 +1334,7 @@
 							<div>
 								<p style="text-indent: 3.5em;">
 									<li>
+										<i class="fa fa-camera-retro fa-lg"></i>
 										<xsl:value-of select="concat($LABELS/labels/entry[@key='COLUMN_DESCRIPTION']/@label,': ')"/>
 										<xsl:apply-templates select="./description"/>
 									</li>

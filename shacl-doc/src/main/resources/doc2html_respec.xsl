@@ -16,6 +16,10 @@
 	<xsl:variable name="LABELS_FR_BASE">
 		<labels>
 			<entry key="TOC" label="Table des Matières" />
+			// Entities Shapes
+			<entry key="TOC_MAIN" label="Entités principales" />
+			<entry key="TOC_SUPPORTIVE" label="Entités secondaires" />
+
 			<entry key="COLUMN_PROPERTY" label="Nom de la propriété" />
 			<entry key="COLUMN_URI" label="URI" />
 			<entry key="COLUMN_EXPECTED_VALUE" label="Valeur attendue" />
@@ -85,6 +89,9 @@
 	<xsl:variable name="LABELS_EN_BASE">
 		<labels>
 			<entry key="TOC" label="Table of Contents" />
+			<entry key="TOC_MAIN" label="Main Entities" />
+			<entry key="TOC_SUPPORTIVE" label="Supportive Entities" />
+
 			<entry key="COLUMN_PROPERTY" label="Property name" />
 			<entry key="COLUMN_URI" label="URI" />
 			<entry key="COLUMN_EXPECTED_VALUE" label="Expected value" />
@@ -252,6 +259,8 @@
 					var respecConfig = {
 						preProcess: [loadTurtleLang,loadSparqlLang],
 						specStatus: "base",
+						//
+						latestVersion: null,
 						shortName: "sparna",
 						maxTocLevel: 2,
 						license: "w3c-software-doc",
@@ -929,11 +938,21 @@
 		NodeShapes 
 	-->
 	<xsl:template match="sections">
-		<section id="documentation">
-			<h2><xsl:value-of select="$LABELS/labels/entry[@key='DOCUMENTATION.TITLE']/@label" /></h2>
 
-			<xsl:apply-templates select="section" />		
-		</section>
+		<!-- Show in TOC all nodeshape main principal -->
+		<xsl:if test="section/mainToc='true'">
+			<h2 id="documentation" class="sp_section_subtitle">
+				<xsl:value-of select="$LABELS/labels/entry[@key='TOC_MAIN']/@label" />
+			</h2>
+			<xsl:apply-templates select="section[mainToc='true']" />
+		</xsl:if>	
+		<!-- Show in TOC all nodeshape supportive entities -->
+		<xsl:if test="section/mainToc='false'">
+			<h2 id="documentation" class="sp_section_subtitle">
+				<xsl:value-of select="$LABELS/labels/entry[@key='TOC_SUPPORTIVE']/@label" />
+			</h2>
+			<xsl:apply-templates select="section[not(mainToc='true')]" />
+		</xsl:if>
 	</xsl:template>
 
 	<!-- Subsection -->
@@ -1349,32 +1368,26 @@
 			<xsl:if test="(string-length(./description) &gt; 0) or (count(./examples) &gt; 0)" >
 				<tr>
 					<td colspan="4">
-						<ul>
 						<!-- Display Description -->
 						<xsl:if test="string-length(./description) &gt; 0">
 							<div>
 								<p style="text-indent: 5.5em;">
-									<li>
 										<!--
 										<xsl:value-of select="concat($LABELS/labels/entry[@key='COLUMN_DESCRIPTION']/@label,': ')"/>
 										-->
 										<xsl:apply-templates select="./description"/>
-									</li>
 								</p>
 							</div>							
 						</xsl:if>
 						<!-- Display Example -->
 						<xsl:if test="count(./examples) &gt; 0">
 							<div>
-								<p style="text-indent: 3.5em;">
-									<li>
-										<xsl:value-of select="concat($LABELS/labels/entry[@key='COLUMN_EXAMPLE']/@label,': ')"/>
-										<xsl:apply-templates select="./examples"/>
-									</li>
+								<p style="text-indent: 4.5em;">
+									<xsl:value-of select="concat($LABELS/labels/entry[@key='COLUMN_EXAMPLE']/@label,': ')"/>
+									<xsl:apply-templates select="./examples"/>
 								</p>
 							</div>							
-						</xsl:if>
-						</ul>
+						</xsl:if>						
 					</td>			
 				</tr>
 			</xsl:if>

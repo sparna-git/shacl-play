@@ -43,6 +43,7 @@ public class ShapesDocumentationSection {
 	private Boolean closed;
 	private String skosExample;
 	private String color;
+	private Boolean mainToc;
 	
 	private String targetSubjectsOf;
 	private String targetObjectsOf;
@@ -299,4 +300,13 @@ public class ShapesDocumentationSection {
 	public void setDescriptionSparql(String descriptionSparl) {
 		DescriptionSparql = descriptionSparl;
 	}
+
+	public Boolean getMainToc() {
+		return mainToc;
+	}
+
+	public void setMainToc(Boolean mainToc) {
+		this.mainToc = mainToc;
+	}
+	
 }

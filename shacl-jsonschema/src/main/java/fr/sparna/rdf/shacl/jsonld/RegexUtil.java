@@ -57,6 +57,7 @@ public class RegexUtil {
                 return null;
             }
 
+            /*
             // is subPattern contains # character but not at the end, remove everything after #
             if(subPattern.contains("#") && !subPattern.endsWith("#")) {
                 subPattern = subPattern.substring(0, subPattern.indexOf('#')+1);
@@ -66,6 +67,7 @@ public class RegexUtil {
                     subPattern = subPattern.substring(0, subPattern.lastIndexOf('/')+1);
                 }
             }
+            */
             return subPattern;
         } else {
             return null;

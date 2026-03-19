@@ -217,22 +217,28 @@ public class JsonLdContextGenerator {
 					// look through sh:or to determine if there is a common base URI to all patterns
 					Set<Literal> patternsThroughShOr = findPatternsOfShortnameThroughShOr(shortname, path, model);
 
-					List<String> startsWithList = patternsThroughShOr.stream()
-						.map(lit -> lit.getString())
-						.map(pat -> RegexUtil.extractHttpBaseUriFromPattern(pat))
-						.filter(sw -> sw != null)
-						.collect(Collectors.toList());				
-						
-					if(startsWithList.size() > 0) {
-						// now check if they have some common base
-						String commonBase = RegexUtil.findCommonBaseUri(startsWithList);
-						if(commonBase != null) {
-							// create an inner context with @base
-							JsonLdContext innerContext = new JsonLdContext();
-							innerContext.add(new JsonLdMapping("@vocab", commonBase));
-							mapping.setInnerContext(innerContext);
-							// set the type of the mapping to @vocab
-							mapping.setType("@vocab");
+					if(patternsThroughShOr.size() > 0) {
+						log.trace("Found multiple patterns through sh:or for path "+path+", will try to determine common base URI between : "+patternsThroughShOr.stream().map(l -> l.getString()).collect(Collectors.toList()));
+
+						List<String> startsWithList = patternsThroughShOr.stream()
+							.map(lit -> lit.getString())
+							.map(pat -> RegexUtil.extractHttpBaseUriFromPattern(pat))
+							.filter(sw -> sw != null)
+							.collect(Collectors.toList());				
+							
+						if(startsWithList.size() > 0) {
+							// now check if they have some common base
+							String commonBase = RegexUtil.findCommonBaseUri(startsWithList);
+							if(commonBase != null) {
+								log.trace("Common base found to be "+commonBase);
+
+								// create an inner context with @base
+								JsonLdContext innerContext = new JsonLdContext();
+								innerContext.add(new JsonLdMapping("@vocab", commonBase));
+								mapping.setInnerContext(innerContext);
+								// set the type of the mapping to @vocab
+								mapping.setType("@vocab");
+							}
 						}
 					}
 				}

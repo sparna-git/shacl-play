@@ -65,10 +65,10 @@ public class ShapesDocumentationSectionBuilder {
 		}
 		
 		// Get type of shape Main or Supportive Entities
-		if (nodeShape.getMainToc() != null || !nodeShape.getMainToc() ) {
-			currentSection.setMainToc(valueMain(false,nodeShape));
+		if (nodeShape.getShaclPlayMain() == null) {
+			currentSection.setMainToc(isMainEntity(nodeShape));
 		} else { 
-			currentSection.setMainToc(nodeShape.getMainToc());
+			currentSection.setMainToc(nodeShape.getShaclPlayMain());
 		}
 		
 		// sh:targetSubjectsOf or sh:targetObjectsOf
@@ -219,9 +219,7 @@ public class ShapesDocumentationSectionBuilder {
 		}
 	 }
 
-	private boolean valueMain(boolean mainValue, NodeShape ns) {
-		
-		
+	private boolean isMainEntity(NodeShape ns) {
 		if (ns.getShtargetSubjectsOf() != null) {
 			return true;
 		} else if (ns.getShtargetObjectsOf() != null){
@@ -229,6 +227,8 @@ public class ShapesDocumentationSectionBuilder {
 		} else if (ns.getShTargetClass().size() > 0) {
 			return true;
 		} else if (ns.getShTargetShSelect() != null) {
+			return true;
+		} else if (ns.isAClass()) {
 			return true;
 		} else {
 			return false;

@@ -174,8 +174,8 @@ public class NodeShape {
 		return nodeShape.hasProperty(RDF.type, RDFS.Class);
 	}
 
-	public Boolean getMainToc() {
-		return ModelReadingUtils.readLiteral(nodeShape, nodeShape.getModel().createProperty(SHACL_PLAY.MAIN)).stream().map(s -> s.getBoolean()).findFirst().orElse(false);
+	public Boolean getShaclPlayMain() {
+		return ModelReadingUtils.readLiteral(nodeShape, nodeShape.getModel().createProperty(SHACL_PLAY.MAIN)).stream().map(s -> s.getBoolean()).findFirst().orElse(null);
 	}
 	
 	public RDFNode getSkosExample() {

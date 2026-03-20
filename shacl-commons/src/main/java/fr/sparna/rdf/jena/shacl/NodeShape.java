@@ -20,6 +20,8 @@ import fr.sparna.rdf.jena.ModelReadingUtils;
 import fr.sparna.rdf.jena.ModelRenderingUtils;
 import org.topbraid.shacl.vocabulary.SH;
 
+import fr.sparna.rdf.shacl.SHACL_PLAY;
+
 public class NodeShape extends Shape  {
 	
 	// cache of property shapes
@@ -137,7 +139,11 @@ public class NodeShape extends Shape  {
 
 	public String getColorString() {
 		return this.getShaclPlayColor().map(node -> node.asLiteral().toString()).orElse(null);
-	}	
+	}
+	
+	public Boolean getMainBoolean() {
+		return this.getShaclPlayMain().map(node -> node.asLiteral().getBoolean()).orElse(false);
+	}
 
 	public Boolean isClosed() {
 		return getShClosed().map(l -> l.getBoolean()).orElse(false);

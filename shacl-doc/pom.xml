@@ -19,7 +19,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.8.1</version>
+				<version>3.15.0</version>
 				<configuration>
 					<release>${java.version}</release>
 				</configuration>
@@ -30,7 +30,7 @@
 	<properties>
 		<!-- Define the version of OPEN HTML TO PDF in the properties section of 
 			your POM. -->
-		<openhtml.version>1.0.4</openhtml.version>
+		<openhtml.version>1.0.10</openhtml.version>
 	</properties>
 
 
@@ -126,6 +126,12 @@
 			<groupId>com.openhtmltopdf</groupId>
 			<artifactId>openhtmltopdf-pdfbox</artifactId>
 			<version>${openhtml.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				</exclusion>
+			</exclusions> 
 		</dependency>
 
 		<dependency>

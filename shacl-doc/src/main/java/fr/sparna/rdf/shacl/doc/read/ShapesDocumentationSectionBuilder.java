@@ -63,7 +63,13 @@ public class ShapesDocumentationSectionBuilder {
 			// turn diagrams into output data structure
 			plantUmlDiagrams.stream().forEach(d -> currentSection.getSectionDiagrams().add(new ShapesDocumentationDiagram(d)));
 		}
-			
+		
+		// Get type of shape Main or Supportive Entities
+		if (nodeShape.getShaclPlayMain() == null) {
+			currentSection.setMainToc(isMainEntity(nodeShape));
+		} else { 
+			currentSection.setMainToc(nodeShape.getShaclPlayMain());
+		}
 		
 		// sh:targetSubjectsOf or sh:targetObjectsOf
 		if (nodeShape.getShtargetSubjectsOf() != null) {
@@ -88,18 +94,7 @@ public class ShapesDocumentationSectionBuilder {
 											)
 									.collect(Collectors.toList());
 			
-			
 			currentSection.setTargetClass(tClass);
-			
-			/*
-			currentSection.setTargetClass(
-				new Link(
-						nodeShape.getShTargetClass().getURI(),
-						// label of link is the label if known, otherwise it is the short form
-						nodeShape.getShTargetClass().getModel().shortForm(nodeShape.getShTargetClass().getURI())
-				)				
-			);
-			*/
 		}
 		
 		// sparql target
@@ -223,5 +218,22 @@ public class ShapesDocumentationSectionBuilder {
 			);
 		}
 	 }
+
+	private boolean isMainEntity(NodeShape ns) {
+		if (ns.getShtargetSubjectsOf() != null) {
+			return true;
+		} else if (ns.getShtargetObjectsOf() != null){
+			return true;
+		} else if (ns.getShTargetClass().size() > 0) {
+			return true;
+		} else if (ns.getShTargetShSelect() != null) {
+			return true;
+		} else if (ns.isAClass()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 
 }

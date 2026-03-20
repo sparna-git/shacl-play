@@ -44,6 +44,10 @@ public abstract class Shape {
 		return ModelReadingUtils.getOptionalLiteral(shape, shape.getModel().createProperty(SHACL_PLAY.SHORTNAME));
 	}
 
+	public Optional<Literal> getShaclPlayMain() {
+		return ModelReadingUtils.getOptionalLiteral(shape, shape.getModel().createProperty(SHACL_PLAY.MAIN));
+	}
+
 	public RDFList getShOr() {
 		if (shape.hasProperty(SH.or)) {
 			return shape.getProperty(SH.or).getObject().as(RDFList.class); 

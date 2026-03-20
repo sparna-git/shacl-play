@@ -18,6 +18,11 @@
 	<xsl:variable name="LABELS_FR_BASE">
 		<labels>
 			<entry key="TOC" label="Table des Matières" />
+
+			// Entities Shapes
+			<entry key="TOC_MAIN" label="Entités principales" />
+			<entry key="TOC_SUPPORTIVE" label="Entités secondaires" />
+
 			<entry key="COLUMN_PROPERTY" label="Nom de la propriété" />
 			<entry key="COLUMN_URI" label="URI" />
 			<entry key="COLUMN_EXPECTED_VALUE" label="Valeur attendue" />
@@ -69,6 +74,10 @@
 			<entry key="LABEL_NO_PROPERTIES" label="Aucune propriété spécifique"/>
 			
 			<entry key="LABEL_CONSTRAINTS" label="Règles additionnelles"/>			
+
+
+
+
 		</labels>
 	</xsl:variable>
 	<!-- In this stylesheet we just copy the base labels -->
@@ -81,6 +90,9 @@
 	<xsl:variable name="LABELS_EN_BASE">
 		<labels>
 			<entry key="TOC" label="Table of Contents" />
+			<entry key="TOC_MAIN" label="Main Entities" />
+			<entry key="TOC_SUPPORTIVE" label="Supportive Entities" />
+
 			<entry key="COLUMN_PROPERTY" label="Property name" />
 			<entry key="COLUMN_URI" label="URI" />
 			<entry key="COLUMN_EXPECTED_VALUE" label="Expected value" />
@@ -209,7 +221,7 @@
 		            		</table>
 		            	</xsl:when>
 		            	<xsl:otherwise>
-		            			<h1 class="mb-4 sp_section_title_header"><xsl:value-of select="title" /></h1>
+		            		<h1 class="mb-4 sp_section_title_header"><xsl:value-of select="title" /></h1>
 		            	</xsl:otherwise>
 		            </xsl:choose>			            
 			         
@@ -277,322 +289,321 @@
 	<!-- Style CSS -->
 	<xsl:template match="ShapesDocumentation" mode="style_css_doc">
 		
-			body {
-						margin: 0;
-						font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-							"Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif,
-							"Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
-							"Noto Color Emoji";
-						background-color: #fff;
-					}
+		body {
+			margin: 0;
+			font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+				"Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif,
+				"Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+				"Noto Color Emoji";
+			background-color: #fff;
+		}
 		
 		/* Pour la colonne Description */
-		td,
-		th {
-		white-space: normal;
-		word-break: break-word;
+		td, th {
+			white-space: normal;
+			word-break: break-word;
 		}
 		/* Limite la largeur de la colonne Description */
 		td.description,
 		th.description {
-		max-width: 300px;
+			max-width: 300px;
 		}
 		/* Pour éviter le scroll horizontal du tableau */
 		table {
-		/*width: 100%;*/
-		max-width: 1100px;
-		table-layout: fixed;
+			/*width: 100%;*/
+			max-width: 1100px;
+			table-layout: fixed;
 		}
-			  
+
+		.anchor {
+			float: left;
+			padding-right: 4px;
+			margin-left: -20px;
+			line-height: 1;
+			padding-top: 12px;
+		}
+				
+		a {
+			color: #007bff;
+			text-decoration: none;
+			background-color: transparent;
+		}
+		
+		a:-webkit-any-link {
+			cursor: pointer;
+		}
+		
+		.p {
+			font-size: 0.875em;
+		}
+		
+		h2 {
+			margin: 25px 0px 10px 0px;
+		}
 					
-					.anchor {
-						float: left;
-						padding-right: 4px;
-						margin-left: -20px;
-						line-height: 1;
-						padding-top: 12px;
-					}
+		h3 {
+			font-size: 1.4em;
+		}
+
+		h4 {
+			font-size: 1.1em;
+			font-weight: bold;
+		}
+
+		.constraint_list li {
+			list-style:"> ";
+			font-style: italic;
+		}
+		
+		@media only print {
+		}
+		
+		@page {
+			size: A4 portrait;
+			margin-top: 1.2cm;
+			margin-bottom: 1.2cm;
+			margin-left: 1.2cm;
+			margin-right: 1.2cm;
+			background-repeat: no-repeat;
+			background-position: 40px 10px;
+			
+			@bottom-center
+			{
+				content: counter(page);
+			}
+		
+		}
 							
-					a {
-						color: #007bff;
-						text-decoration: none;
-						background-color: transparent;
-					}
-					
-					a:-webkit-any-link {
-						cursor: pointer;
-					}
-					
-					.p {
-						font-size: 0.875em;
-					}
-					
-					h2 {
-						margin: 25px 0px 10px 0px;
-					}
-					
-					h3 {
-						font-size: 1.4em;
-					}
+		/* This section draw the format web */
+		.ul_type_none {
+			list-style-type: none;
+		}
+		
+		.sp_list_description_properties {
+			/* don't set it lower otherwise it gets hidden in PDF */
+			padding-left: 20px;
+		}
+		
+		dl, ol, ul {
+			margin-top: 0;
+			margin-bottom: 1rem;
+		}
+		
+		.sp_list_toc_section {
+			margin-top: 0;
+			margin-bottom: 1rem;
+		}
 
-					h4 {
-						font-size: 1.1em;
-						font-weight: bold;
-					}
 
-					.constraint_list li {
-						list-style:"> ";
-						font-style: italic;
-					}
+		li {
+			display: list-item;
+			text-align: -webkit-match-parent;
+		}
 					
-					@media only print {
-					}
+		.sp_section_title_header {
+			font-family: Georgia, Garamond, serif;	
+			margin-top: 25px;
+			margin-bottom: 2.5rem;
+			font-size: 1.5625rem;
+			display: block;
+			font-weight: 500;
+			color: #1e1e1f;
+			line-height: 1.2em;   
+		}
+		
+		.sp_section_subtitle {
+			font-family: Georgia, Garamond, serif;	
+			margin-top: 0;
+			margin-bottom: 0.5rem;
+			display: block;
+			font-weight: 500;
+			color: #1e1e1f;
+			line-height: 1.2em;  
+		}
 					
-					@page {
-						size: A4 portrait;
-						margin-top: 1.2cm;
-						margin-bottom: 1.2cm;
-						margin-left: 1.2cm;
-						margin-right: 1.2cm;
-						background-repeat: no-repeat;
-						background-position: 40px 10px;
-						
-						@bottom-center
-						{
-						content
-						:
-						counter(
-						page
-						);
-					}
-					
-					}
-							
-					/* This section draw the format web */
-					.ul_type_none {
-						list-style-type: none;
-					}
-					
-					.sp_list_description_properties {
-						/* don't set it lower otherwise it gets hidden in PDF */
-						padding-left: 20px;
-					}
-					
-					dl, ol, ul {
-						margin-top: 0;
-						margin-bottom: 1rem;
-					}
-					
-					li {
-						display: list-item;
-						text-align: -webkit-match-parent;
-					}
-					
-					.sp_section_title_header {
-						font-family: Georgia, Garamond, serif;	
-						margin-top: 25px;
-						margin-bottom: 2.5rem;
-					    font-size: 1.5625rem;
-						display: block;
-						font-weight: 500;
-						color: #1e1e1f;
-						line-height: 1.2em;   
-					}
-					
-					.sp_section_subtitle {
-						font-family: Georgia, Garamond, serif;	
-						margin-top: 0;
-						margin-bottom: 0.5rem;
-						display: block;
-						font-weight: 500;
-						color: #1e1e1f;
-						line-height: 1.2em;  
-					}
-					
-					.sp_section_title_table {
-						font-family: Georgia, Garamond, serif;	
-						/* 0 because URI is right under */
-						margin-bottom: 0rem;
-						display: block;
-						font-weight: 500;
-						color: #1e1e1f;
-						line-height: 1.2em; 
-					}
-							
+		.sp_section_title_table {
+			font-family: Georgia, Garamond, serif;	
+			/* 0 because URI is right under */
+			margin-bottom: 0rem;
+			display: block;
+			font-weight: 500;
+			color: #1e1e1f;
+			line-height: 1.2em; 
+		}				
 
-					.sp_section_title_toc {
-						font-family: Georgia, Garamond, serif;	
-					}
+		.sp_section_title_toc {
+			font-family: Georgia, Garamond, serif;	
+		}
 
-					/* URI below the title of the section */
-					.sp_section_uri	 {
-						margin-top: 0px;
-					}
+		/* URI below the title of the section */
+		.sp_section_uri	 {
+			margin-top: 0px;
+		}
 
-					/* div wrapping section title and URI below - same as a paragraph margin */
-					.sp_section_title_table_wrapper {
-						margin-bottom: 16px;
-						border-bottom: 1px solid;	
-					}
+		/* div wrapping section title and URI below - same as a paragraph margin */
+		.sp_section_title_table_wrapper {
+			margin-bottom: 16px;
+			border-bottom: 1px solid;	
+		}
+		
+		.sp_section_nodeshape_diagram {
+			padding-bottom: 16px;
+		}
+		
+		.sp_section_nodeshape_center {
+			display: flex;
+			justify-content: center;
+		}
 					
-					.sp_section_nodeshape_diagram {
-						padding-bottom: 16px;
-					}
-					
-					.sp_section_nodeshape_center {
-						display: flex;
-						justify-content: center;
-					}
-					
-					table {
-						display: table;
-						border-spacing: 0px;
-						margin-bottom: 1rem;
-					}
-					
-					.table-striped tr:nth-child(even) {
-						background-color: #eee;
-					}
-							
-					.sp_table_prefixes table {
-						border-collapse: collapse;
-						margin-bottom: 1rem;
-						color: #212529;
-					}
-											
-					.sp_table_prefixes td {
-						padding: 0.25rem;
-						vertical-align: top;
-						border-top: 1px solid #dee2e6;
-					}
-					
-					.sp_table_propertyshapes {
-						border-collapse: collapse;
-						width: 100%;
-					}
-										
-					.sp_table_propertyshapes thead {
-						display: table-header-group;
-						vertical-align: middle;
-						border-color: inherit;
-					}
-													
-					.sp_table_propertyshapes tr {
-					    display: table-row;
-					    vertical-align: inherit;
-					    border-color: inherit;					    
-					}
-													
-					.sp_table_propertyshapes th:nth-child(4) {
-						width: 6%;
-					}
-													
-					.sp_table_propertyshapes td {
-						padding: 0.75rem;
-						border-top: 1px solid #dee2e6;
-					}
-													
-					.sp_table_propertyshapes tbody {
-						display: table-row-group;
-						vertical-align: middle;
-						border-color: inherit;
-					}
-										
-					.sp_table_propertyshapes_col_description {
-						word-break: break-word;
-					}
-					
-					tr.sp_propertyGroup {
-						font-style: italic;
-						background-color: #def0f7;
-					}
-					
-					tr.sp_propertyGroup td {
-						border-bottom: 1px solid black;
-						padding-bottom: 0.25 rem;
-					}
-					
-					.sp_serialization_badge {
-						margin-right: 0.5em;
-					}
-
-					.sp_nodeshape_description {
-						background: #efefef;
-						padding-top:1px;
-						padding-bottom:1px;
-						padding-left:10px;
-						padding-right:10px;
-						border-radius: 5px;
-						margin-bottom:10px;
-					}
-					
-					<xsl:choose>
-						<xsl:when test="$MODE = 'PDF'">
-							.toc { }
-							.sp_section_title_toc {
-								margin-block-start: 0.83em;
-							    margin-block-end: 0.83em;
-							    margin-inline-start: 0px;
-							    margin-inline-end: 0px;    
-								margin-bottom: 0.5rem;
-								display: block;
-								font-weight: 500;
-								color: #1e1e1f;
-								line-height: 1.2em;
-							}
-							
-							.sp_container_principal {
-								width: calc(100% - 40px);
-								max-width: 1000px;
-								margin-left: auto;
-								margin-right: 20px;
+		table {
+			display: table;
+			border-spacing: 0px;
+			margin-bottom: 1rem;
+		}
+		
+		.table-striped tr:nth-child(even) {
+			background-color: #eee;
+		}
+				
+		.sp_table_prefixes table {
+			border-collapse: collapse;
+			margin-bottom: 1rem;
+			color: #212529;
+		}
 								
-								/*
-								width: auto;
-								max-width: 1100px;
-								margin-left: 300px;
-								margin-right: 120px;
-								*/
-							}
+		.sp_table_prefixes td {
+			padding: 0.25rem;
+			vertical-align: top;
+			border-top: 1px solid #dee2e6;
+		}
+		
+		.sp_table_propertyshapes {
+			border-collapse: collapse;
+			width: 100%;
+		}
 							
-							.pt-4 {
-								padding-top: 2.5rem !important;
-							}
-						</xsl:when>
-						<xsl:otherwise>
-							/*
-							.container {
-							    width: calc(100% - 40px);
-							    max-width: 1100px;
-							    margin-left: 300px;
-							    margin-right: auto;
-							}
-							.container {width: calc(100% - 500px);}
-							*/
-							.container {
-								width: auto;
-								max-width: 1100px;
-								margin-left: 300px;
-								margin-right: 120px;
-							}
-							.toc {
-								position: fixed;
-								top: 0;
-								left: 0;
-								font-size: small;
-								padding: 10px 10px;
-								width: auto;
-								border-right: solid 2px #eeeeee;
-								bottom: 0;
-								overflow-y: scroll;
-								background-color:white;
-								max-width:255px;
-							}
-							.sp_list_toc {padding-left: 0px;}
-							.sp_list_toc_l2 {padding-left: 10px;}	
-							.sp_list_toc_l3 {padding-left: 8px;}					
-						</xsl:otherwise>
-					</xsl:choose>
+		.sp_table_propertyshapes thead {
+			display: table-header-group;
+			vertical-align: middle;
+			border-color: inherit;
+		}
+													
+		.sp_table_propertyshapes tr {
+			display: table-row;
+			vertical-align: inherit;
+			border-color: inherit;					    
+		}
+										
+		.sp_table_propertyshapes th:nth-child(4) {
+			width: 6%;
+		}
+										
+		.sp_table_propertyshapes td {
+			padding: 0.75rem;
+			border-top: 1px solid #dee2e6;
+		}
+										
+		.sp_table_propertyshapes tbody {
+			display: table-row-group;
+			vertical-align: middle;
+			border-color: inherit;
+		}
+							
+		.sp_table_propertyshapes_col_description {
+			word-break: break-word;
+		}
+		
+		tr.sp_propertyGroup {
+			font-style: italic;
+			background-color: #def0f7;
+		}
+		
+		tr.sp_propertyGroup td {
+			border-bottom: 1px solid black;
+			padding-bottom: 0.25 rem;
+		}
+		
+		.sp_serialization_badge {
+			margin-right: 0.5em;
+		}
+
+		.sp_nodeshape_description {
+			background: #efefef;
+			padding-top:1px;
+			padding-bottom:1px;
+			padding-left:10px;
+			padding-right:10px;
+			border-radius: 5px;
+			margin-bottom:10px;
+		}
+					
+		<xsl:choose>
+			<xsl:when test="$MODE = 'PDF'">
+				.toc { }
+				.sp_section_title_toc {
+					margin-block-start: 0.83em;
+					margin-block-end: 0.83em;
+					margin-inline-start: 0px;
+					margin-inline-end: 0px;    
+					margin-bottom: 0.5rem;
+					display: block;
+					font-weight: 500;
+					color: #1e1e1f;
+					line-height: 1.2em;
+				}
+				
+				.sp_container_principal {
+					width: calc(100% - 40px);
+					max-width: 1000px;
+					margin-left: auto;
+					margin-right: 20px;
+					
+					/*
+					width: auto;
+					max-width: 1100px;
+					margin-left: 300px;
+					margin-right: 120px;
+					*/
+				}
+				
+				.pt-4 {
+					padding-top: 2.5rem !important;
+				}
+			</xsl:when>
+			<xsl:otherwise>
+				/*
+				.container {
+					width: calc(100% - 40px);
+					max-width: 1100px;
+					margin-left: 300px;
+					margin-right: auto;
+				}
+				.container {width: calc(100% - 500px);}
+				*/
+				.container {
+					width: auto;
+					max-width: 1100px;
+					margin-left: 300px;
+					margin-right: 120px;
+				}
+				.toc {
+					position: fixed;
+					top: 0;
+					left: 0;
+					font-size: small;
+					padding: 10px 10px;
+					width: auto;
+					border-right: solid 2px #eeeeee;
+					bottom: 0;
+					overflow-y: scroll;
+					background-color:white;
+					max-width:255px;
+				}
+				.sp_list_toc {padding-left: 0px;}
+				.sp_list_toc_l2 {padding-left: 10px;}	
+				.sp_list_toc_l3 {padding-left: 8px;}					
+			</xsl:otherwise>
+		</xsl:choose>
 		
 	</xsl:template>
 	
@@ -601,13 +612,13 @@
 		<div class="sp_section_title_toc toc">
 			<h2 id="index"><xsl:value-of select="$LABELS/labels/entry[@key='TOC']/@label" /></h2>
 			<ul role="list" class="sp_list_toc ul_type_none t-x-mode">
-				<li>
+				<li class="sp_list_toc_section">
 					<!-- Prefixes -->
 					<a href="#prefixes"><xsl:value-of select="$LABELS/labels/entry[@key='PREFIXES.TITLE']/@label" /></a>
 				</li>
 				<!-- Diagram -->
 				<xsl:if test="string-length(diagrams) &gt; 0 or string-length(depictions) &gt; 0">					
-					<li>
+					<li class="sp_list_toc_section">
 						<a href="#diagrams">
 							<xsl:value-of select="$LABELS/labels/entry[@key='DIAGRAM.TITLE']/@label" />
 						</a>
@@ -615,24 +626,36 @@
 				</xsl:if>
 				<!-- Description -->
 				<xsl:if test="descriptionDocument">
-					<li>
+					<li class="sp_list_toc_section">
 						<a href="#description">
 							<xsl:value-of select="$LABELS/labels/entry[@key='DESCRIPTION.TITLE']/@label"/>
 						</a>
 					</li>
 				</xsl:if>
-				<li>
-					<a href="#documentation">
-							<xsl:value-of select="$LABELS/labels/entry[@key='DOCUMENTATION.TITLE']/@label"/>
-					</a>
-					<ul role="list" class="ul_type_none sp_list_toc_l2">
-						<!-- Section -->
-						<xsl:apply-templates select="sections/section" mode="TOC" />												
-					</ul>
+				<li class="sp_list_toc_section">
+					<xsl:if test="sections/section/mainToc='true'">
+						<a href="#documentation">
+							<xsl:value-of select="$LABELS/labels/entry[@key='TOC_MAIN']/@label"/>
+						</a>
+						<ul role="list" class="ul_type_none sp_list_toc_l2">
+							<!-- Section -->
+							<xsl:apply-templates select="sections/section[mainToc='true']" mode="TOC" />												
+						</ul>
+					</xsl:if>
+
+					<xsl:if test="sections/section/mainToc='false'">
+						<a href="#documentation">
+							<xsl:value-of select="$LABELS/labels/entry[@key='TOC_SUPPORTIVE']/@label"/>
+						</a>
+						<ul role="list" class="ul_type_none sp_list_toc_l2">
+							<!-- Section -->
+							<xsl:apply-templates select="sections/section[mainToc='false']" mode="TOC" />												
+						</ul>
+					</xsl:if>
 				</li>
 				<!-- Release notes -->
 				<xsl:if test="releaseNotes">
-					<li>
+					<li class="sp_list_toc_section">
 						<a href="#releaseNotes">
 							<xsl:value-of select="$LABELS/labels/entry[@key='RELEASE_NOTES.TITLE']/@label"/>
 						</a>
@@ -906,16 +929,28 @@
 
 	<!-- Sections -->
 	<xsl:template match="sections">
-		<h2 id="documentation" class="sp_section_subtitle">
-			<xsl:value-of select="$LABELS/labels/entry[@key='DOCUMENTATION.TITLE']/@label" />
-		</h2>
-		<xsl:apply-templates select="section" />		
+		
+		<!-- Show in TOC all nodeshape main principal -->
+		<xsl:if test="section/mainToc='true'">
+			<h2 id="documentation" class="sp_section_subtitle">
+				<xsl:value-of select="$LABELS/labels/entry[@key='TOC_MAIN']/@label" />
+			</h2>
+			<xsl:apply-templates select="section[mainToc='true']" />
+		</xsl:if>	
+		<!-- Show in TOC all nodeshape supportive entities -->
+		<xsl:if test="section/mainToc='false'">
+			<h2 id="documentation" class="sp_section_subtitle">
+				<xsl:value-of select="$LABELS/labels/entry[@key='TOC_SUPPORTIVE']/@label" />
+			</h2>
+			<xsl:apply-templates select="section[not(mainToc='true')]" />
+		</xsl:if>	
 	</xsl:template>
 	
 	<xsl:template match="section">
 		<div class="row mt-3">
 			<div class="col">
 				<section>
+
 					<div class="sp_section_title_table_wrapper">
 					
 						<xsl:apply-templates select="title" />

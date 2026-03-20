@@ -23,6 +23,9 @@ import org.topbraid.shacl.vocabulary.SH;
 import fr.sparna.rdf.jena.ModelReadingUtils;
 import fr.sparna.rdf.jena.ModelRenderingUtils;
 import fr.sparna.rdf.shacl.DCT;
+import fr.sparna.rdf.shacl.SHACL_PLAY;
+
+import fr.sparna.rdf.jena.ModelReadingUtils;
 
 public class NodeShape {
 
@@ -171,6 +174,10 @@ public class NodeShape {
 		return nodeShape.hasProperty(RDF.type, RDFS.Class);
 	}
 
+	public Boolean getShaclPlayMain() {
+		return ModelReadingUtils.readLiteral(nodeShape, nodeShape.getModel().createProperty(SHACL_PLAY.MAIN)).stream().map(s -> s.getBoolean()).findFirst().orElse(null);
+	}
+	
 	public RDFNode getSkosExample() {
 		return Optional.ofNullable(nodeShape.getProperty(SKOS.example)).map(s -> s.getObject()).orElse(null);
 	}

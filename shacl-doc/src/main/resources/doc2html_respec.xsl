@@ -62,7 +62,7 @@
 			<entry key="LABEL_NODEKIND" label="Type de noeud : " />
 			<entry key="LABEL_PATTERNS" label="Structure d'identifiant : " />
 			<entry key="LABEL_CLOSE" label="Shape fermée" />
-			<entry key="LABEL_CLOSE_DESCRIPTION" label="La description de cette entité est fixe, aucune autre propriété que celles listées dans le tableau ci-dessous n'est autorisée." />
+			<entry key="LABEL_CLOSE_DESCRIPTION" label="&#9888; La description de cette entité est fixe, aucune propriété autre que celles listées dans le tableau ci-dessous n'est autorisée." />
 			<entry key="LABEL_EXAMPLE" label="Exemple : "/>
 			<entry key="LABEL_SUPERCLASSES" label="Hérite de : "/>
 			<entry key="LABEL_OR" label=" ou "/>
@@ -137,7 +137,7 @@
 			<entry key="LABEL_NODEKIND" label="Nodes: " />
 			<entry key="LABEL_PATTERNS" label="URI pattern: " />
 			<entry key="LABEL_CLOSE" label="Closed shape" />
-			<entry key="LABEL_CLOSE_DESCRIPTION" label="This shape is closed, no other properties than the ones listed in the table are allowed." />
+			<entry key="LABEL_CLOSE_DESCRIPTION" label="&#9888; No other properties than the ones listed in the table below are allowed." />
 			<entry key="LABEL_EXAMPLE" label="Example: "/>
 			<entry key="LABEL_SUPERCLASSES" label="Inherits from: "/>
 			<entry key="LABEL_OR" label=" or "/>
@@ -1353,7 +1353,7 @@
 		<!-- Show message if the nodeshape is closed -->
 		<xsl:if test="../../../closed='true'">
 			<div class="advisement">
-				<xsl:value-of select="$LABELS/labels/entry[@key='LABEL_CLOSE_DESCRIPTION']/@label" />
+				<em><xsl:value-of select="$LABELS/labels/entry[@key='LABEL_CLOSE_DESCRIPTION']/@label" /></em>
 			</div>
 		</xsl:if>
 

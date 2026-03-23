@@ -20,6 +20,10 @@
         <spring.version>6.2.16</spring.version>
     </properties>
 
+    <prerequisites>
+        <maven>3.6.3</maven>
+    </prerequisites>
+
     <build>
     	<!-- to populate automagically version.properties -->
         <resources>

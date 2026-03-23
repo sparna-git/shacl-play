@@ -15,18 +15,20 @@
 	<name>SHACl validator</name>
 	<description>An integration of the SHACL API for easy launching</description>
 
+  <prerequisites>
+      <maven>3.6.3</maven>
+  </prerequisites>
+
 	<build>
 		<plugins>
-
-		  <plugin>
-              <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-compiler-plugin</artifactId>
-              <version>3.15.0</version>
-              <configuration>
-                  <release>${java.version}</release>
-              </configuration>
-          </plugin>
-
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.15.0</version>
+				<configuration>
+					<release>${java.version}</release>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 

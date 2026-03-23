@@ -40,6 +40,10 @@
     <jtwig.version>5.87.0.RELEASE</jtwig.version>            
     <jackson.version>2.19.4</jackson.version>        
   </properties>
+
+  <prerequisites>
+    <maven>3.6.3</maven>
+  </prerequisites>
       
   <build>            
     <plugins>  

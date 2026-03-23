@@ -12,6 +12,10 @@
     <relativePath>../pom.xml</relativePath>
   </parent>
 
+  <prerequisites>
+    <maven>3.6.3</maven>
+  </prerequisites>
+
   <build>
     <plugins>
       <plugin>

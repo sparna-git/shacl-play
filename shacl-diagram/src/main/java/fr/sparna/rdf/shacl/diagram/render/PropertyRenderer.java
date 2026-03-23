@@ -231,7 +231,7 @@ public class PropertyRenderer {
 		}
 		
 		
-		String output = box.getPlantUmlQuotedBoxName() + " : "+""+labelColor+ property.getPathAsSparql() + " ";
+		String output = box.getPlantUmlQuotedBoxName() + " : " + labelColor + property.getPathAsSparql() + " ";
 		
 		// if  sh:or value is of kind of datatype , for each property concat with or word .. eg. xsd:string or rdf:langString
 		String shOr_Datatype = "";

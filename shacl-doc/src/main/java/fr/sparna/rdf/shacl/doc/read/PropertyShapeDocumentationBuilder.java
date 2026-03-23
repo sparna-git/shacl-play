@@ -1,5 +1,6 @@
 package fr.sparna.rdf.shacl.doc.read;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -48,6 +49,7 @@ public class PropertyShapeDocumentationBuilder {
 		// Start building final structure
 		PropertyShapeDocumentation proprieteDoc = new PropertyShapeDocumentation();
 		proprieteDoc.setLabel(propertyShape.getDisplayLabel(shaclGraph.union(owlGraph), lang));
+		
 		// URI in the documentation
 		proprieteDoc.setPropertyUri(buildPathLink(propertyShape));
 		// full URI
@@ -64,11 +66,10 @@ public class PropertyShapeDocumentationBuilder {
 		
 		proprieteDoc.setDescription(propertyShape.getDisplayDescription(shaclGraph.union(owlGraph), lang));
 		
-		// Color
+		// colors
 		if (!propertyShape.getColor().isEmpty()) {
 			proprieteDoc.setColor(propertyShape.getColor().get().getString());
-		}
-		
+		}		
 		if (!propertyShape.getBackgroundColor().isEmpty()) {
 			proprieteDoc.setBackgroundcolor(propertyShape.getBackgroundColor().get().getString());
 		}
@@ -86,8 +87,13 @@ public class PropertyShapeDocumentationBuilder {
 			List<Link> links = propertyShape.getShIn().stream().map(i -> buildDefaultLink(i)).collect(Collectors.toList());
 			proprieteDoc.getExpectedValue().setInValues(links);
 		}
+		// sh:hasValue is taken as the main value above in selectExpectedValueAsLink()
+		// it is placed in the "inValues" slot only if there is a sh:node or sh:class
+		if(propertyShape.getShHasValue() != null && (propertyShape.getShClass() != null || propertyShape.getShNode() != null)) {
+			proprieteDoc.getExpectedValue().setInValues(Collections.singletonList(buildDefaultLink(propertyShape.getShHasValue())));
+		}
 		
-		// sh:Pattern on property
+		// sh:pattern on property
 		if(propertyShape.getShPattern() != null) {
 			proprieteDoc.getExpectedValue().setPattern(propertyShape.getShPattern().getLexicalForm());
 		}
@@ -97,11 +103,12 @@ public class PropertyShapeDocumentationBuilder {
 			proprieteDoc.setLabelRole(true);
 		}
 		
-		// sh:Deactivated
+		// sh:deactivated
 		if (propertyShape.isDeactivated()) {
 			proprieteDoc.setDeactivated(true);
 		}
 		
+		// skos:example
 		if (propertyShape.getSkosExample() != null) {
 			proprieteDoc.setExamples(propertyShape.getSkosExample().asLiteral().getString());
 		}
@@ -178,19 +185,14 @@ public class PropertyShapeDocumentationBuilder {
 			l = this.buildShQualifiedValueShape(shQualifiedValueShape);			
 		} else if (shHasValue != null && shNode == null && shClass == null) {
 			return buildDefaultLink(shHasValue);
-		// sh:node has precedence over sh:class
 		} else if (shNode != null) {
 			return this.buildShNodeLink(shNode);
-			//l = this.buildShNodeLink(shNode);
 		} else if (shClass != null) {
 			return this.buildShClassLink(shClass);
-			//l = this.buildShClassLink(shClass);
 		} else if (shDatatype != null) {
 			return this.buildShDatatypeLink(shDatatype);
-			//l = this.buildShDatatypeLink(shDatatype);
 		} else if (shNodeKind != null) {
 			return this.buildShNodeKindLink(shNodeKind);
-			//l = this.buildShNodeKindLink(shNodeKind);
 		}
 		
 		return l;
@@ -238,15 +240,15 @@ public class PropertyShapeDocumentationBuilder {
 
 	public Link buildShDatatypeLink(Resource shDatatype) {
 		if(
-				!shDatatype.asResource().getURI().startsWith(XSD.NS)
-				&&
-				!shDatatype.asResource().getURI().startsWith(RDF.uri)
-			) {
-				return buildDefaultLink(shDatatype);
-			} else {
-				// avoid putting a link to well-known datatypes
-				return new Link(null, ModelRenderingUtils.render(shDatatype, true));
-			}
+			!shDatatype.asResource().getURI().startsWith(XSD.NS)
+			&&
+			!shDatatype.asResource().getURI().startsWith(RDF.uri)
+		) {
+			return buildDefaultLink(shDatatype);
+		} else {
+			// avoid putting a link to well-known datatypes
+			return new Link(null, ModelRenderingUtils.render(shDatatype, true));
+		}
 	}
 
 	public Link buildShNodeKindLink(Resource shNodeKind) {

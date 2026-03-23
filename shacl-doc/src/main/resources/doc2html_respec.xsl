@@ -631,6 +631,23 @@
 			font-size: 16px;
 			padding-bottom: 8px;
 		}
+
+		
+		/* Cacher toutes les ancres par défaut */
+		.anchors-doc a {
+			display: none;
+		}
+
+      	/* Afficher seulement l'ancre du tr survolé */
+		tr:hover .anchors-doc a {
+			position: absolute;
+			margin-left: -13.25px;
+			padding-left: 0.25px;
+			padding-right: 0.25px;
+			display: inline;
+			opacity: 0.6;
+		}
+	
 					
 		<xsl:choose>
 			<xsl:when test="$MODE = 'PDF'">
@@ -1384,16 +1401,33 @@
 				</td>
 				<!-- Property URI -->
 				<!-- Also with the ID, if provided -->
-				<td>
-					<xsl:if test="sectionId">
-						<!---->
-						<xsl:attribute name="id"><xsl:value-of select="sectionId" /></xsl:attribute>
-						
-						<!-- <a id="{sectionId}" href="#{sectionId}">#</a> -->
-					</xsl:if>	
+				
+				<xsl:choose>
+					<xsl:when test="sectionId">
+						<td style="position: relative; width: 100px; overflow: hidden;" onmouseover="this.style.overflow='';" onmouseout="this.style.overflow='hidden';">
+							<div>
+								<div class="anchors-doc">
+									<a href="#{sectionId}" id="{sectionId}">#</a>									
+								</div>
+								<xsl:apply-templates select="./propertyUri"/>
+							</div>
+						</td>
+					</xsl:when>
+					<xsl:otherwise>
+						<td>
+							<xsl:apply-templates select="./propertyUri"/>
+						</td>
+					</xsl:otherwise>
+				</xsl:choose>
 
-					<xsl:apply-templates select="./propertyUri"/>				
-				</td>
+					<!--
+					<xsl:if test="sectionId">
+						<xsl:attribute name="id"><xsl:value-of select="sectionId" /></xsl:attribute>
+						< ! - - <a id="{sectionId}" href="#{sectionId}">#</a> - - >
+					</xsl:if>	
+					<xsl:apply-templates select="./propertyUri"/>
+					-->
+				
 				<!-- Expected Value -->
 				<td>
 					<xsl:apply-templates select="./expectedValue"/>				

@@ -262,9 +262,7 @@
 					var respecConfig = {
 						preProcess: [loadTurtleLang,loadSparqlLang],
 						specStatus: "base",
-						//
 						latestVersion: null,
-						shortName: "sparna",
 						lint: {
 							"local-refs-exist": true,
 						},
@@ -289,7 +287,7 @@
 
 				<p class="copyright">
 					<xsl:if test="yearCopyRighted">
-						@<xsl:apply-templates select="yearCopyRighted" />
+						© <xsl:apply-templates select="yearCopyRighted" />
 					</xsl:if>
 					
 					<xsl:apply-templates select="rightsHolders" />
@@ -1027,7 +1025,7 @@
 				</xsl:if>				
 			</div>	
 
-			<!-- Description -->
+			<!-- div definition -->
 			<xsl:if test="description != ''">
 				<!--  disable output escaping so that HTML is preserved -->
 				<div class="def">
@@ -1036,7 +1034,7 @@
 				</div>
 			</xsl:if>
 
-			<!-- list -->
+			<!-- div targets -->
 			<xsl:if test="
 							targetClass/href
 							or
@@ -1124,7 +1122,7 @@
 				</div>
 			</xsl:if>
 
-			<!-- Block on the IRI / patterns / examples -->
+			<!-- div value : nodeKind / pattern / examples -->
 			<xsl:if test="
 							nodeKind != ''
 							or
@@ -1158,29 +1156,25 @@
 				</div>
 			</xsl:if>
 
-
-			<xsl:if test="sectionDiagrams != '' or depictions !='' or depictionsImgs != ''">
+			<!-- diagram -->
+			<xsl:if test="sectionDiagrams != '' or depictions !=''">
 				<xsl:variable name="section_diagram" select="concat('diagram-',sectionId)"/>
 				<section id="{$section_diagram}">
 					<h4><xsl:value-of select="$LABELS/labels/entry[@key='SECTION.DIAGRAM.TITLE']/@label" /></h4>
 
-					<!-- depiction, before bullet list -->
+					<!-- depictions given as URL to an image -->
 					<xsl:apply-templates select="depictions" />
 
-					<!-- Diagram forEach section (NodeShape) -->
+					<!-- PlantUML diagram forEach section (NodeShape) -->
 					<xsl:apply-templates select="sectionDiagrams"/>
-					
-					<!-- Section of add image -->
-					<xsl:apply-templates select="depictionsImgs" />
 
 				</section>
 			</xsl:if>
 			
-			<xsl:if test="count(propertyGroups/propertyGroup) > 0
+			<xsl:if test="
+				count(propertyGroups/propertyGroup) > 0
 				or
 				charts
-				or
-				depictions
 			">
 				<xsl:variable name="section_properties" select="concat('properties-',sectionId)"/>
 				<section id="{$section_properties}">
@@ -1212,7 +1206,7 @@
 		<xsl:value-of select="." />
 	</xsl:template>
 
-	<!-- Diagramme for each section  -->
+	<!-- Diagram for each section  -->
 	<xsl:template match="sectionDiagrams">
 		<xsl:apply-templates select="sectionDiagram"/>		
 	</xsl:template>
@@ -1222,14 +1216,11 @@
 		<xsl:choose>
 			<xsl:when test="$MODE = 'PDF'">
 				<!--  When outputting PDF, inserts the PNG image -->
-				<img src="{pngLink}" style="width:45%;" alt="a diagram representing this application profile" />
+				<img src="{pngLink}" style="width:45%;" alt="a UML diagram describing this entity" />
 			</xsl:when>
 			<xsl:otherwise>
 				<!-- @disable-output-escaping prints the raw XML string as XML in the 
 					document and removes XML-encoding of the characters
-				
-				<div class="sp_section_nodeshape_diagram">
-					<div class="sp_section_nodeshape_center">
 				-->
 				<div>
 					<div class="sp_section_nodeshape_center">
@@ -1255,6 +1246,7 @@
 		<xsl:apply-templates select="depiction"/>		
 	</xsl:template>
 	
+	<!-- add a <figure> elements with the href read from "src", along with a title and a description -->
 	<xsl:template match="depiction">
 		<xsl:variable name="depiction_src" select="src"/>
 		<xsl:variable name="depiction_title" select="title"/>
@@ -1278,58 +1270,52 @@
 
 			<figure>
 				<a href="{$depiction_src}"><img src="{$depiction_src}" style="width:100%;"/></a>
-				<!--
-				<xsl:if test="$depiction_title or $depiction_description">
-					<figcaption>
-						<xsl:if test="$depiction_title"><em><xsl:value-of select="$depiction_title"/> :</em> </xsl:if><xsl:value-of select="$depiction_description"/>
-					</figcaption>
-				</xsl:if>
-				-->
 			</figure>
 		</section>
 	</xsl:template>
 		
 	<!-- Property groups -->
 	<xsl:template match="propertyGroups">
-		<xsl:if test="count(propertyGroup) > 0">
-		
-			<xsl:variable name="getBgColor">
-				<xsl:choose>
-					<xsl:when test="propertyGroup/properties/property/backgroundcolor != ''"></xsl:when>
-					<xsl:otherwise>table-striped</xsl:otherwise>
-				</xsl:choose>
-			</xsl:variable>
-			
-			<xsl:variable name="exampleProperties">
-				<xsl:value-of select="count(propertyGroup/properties/property/examples)"/>
-			</xsl:variable>
-			
-			<xsl:if test="count(propertyGroup/properties/property) &gt; 0">
-				<table class="sp_table_propertyshapes {$getBgColor} table-responsive">
-					<thead>
-						<tr>
-							<th>
-								<xsl:value-of
-									select="$LABELS/labels/entry[@key='COLUMN_PROPERTY']/@label" />
-							</th>
-							<th >
-								<xsl:value-of
-									select="$LABELS/labels/entry[@key='COLUMN_URI']/@label" />
-							</th>
-							<th>
-								<xsl:value-of
-									select="$LABELS/labels/entry[@key='COLUMN_EXPECTED_VALUE']/@label" />
-							</th>
-							<th>
-								<xsl:value-of
-									select="$LABELS/labels/entry[@key='COLUMN_CARD']/@label" />
-							</th>				
-						</tr>
-					</thead>
-					<xsl:apply-templates select="propertyGroup" />					
-				</table><!-- end properties table -->
-			</xsl:if>
+
+		<!-- Show message if the nodeshape is closed -->
+		<xsl:if test="../closed='true'">
+			<div class="advisement">
+				<em><xsl:value-of select="$LABELS/labels/entry[@key='LABEL_CLOSE_DESCRIPTION']/@label" /></em>
+			</div>
 		</xsl:if>
+	
+		<xsl:variable name="getBgColor">
+			<xsl:choose>
+				<xsl:when test="propertyGroup/properties/property/backgroundcolor != ''"></xsl:when>
+				<xsl:otherwise>table-striped</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		
+		<!-- Always 4 columns : label, URI, expected value, cardinalities -->
+		<table class="sp_table_propertyshapes {$getBgColor} table-responsive">
+			<thead>
+				<tr>
+					<th>
+						<xsl:value-of
+							select="$LABELS/labels/entry[@key='COLUMN_PROPERTY']/@label" />
+					</th>
+					<th >
+						<xsl:value-of
+							select="$LABELS/labels/entry[@key='COLUMN_URI']/@label" />
+					</th>
+					<th>
+						<xsl:value-of
+							select="$LABELS/labels/entry[@key='COLUMN_EXPECTED_VALUE']/@label" />
+					</th>
+					<th>
+						<xsl:value-of
+							select="$LABELS/labels/entry[@key='COLUMN_CARD']/@label" />
+					</th>				
+				</tr>
+			</thead>
+			<xsl:apply-templates select="propertyGroup" />					
+		</table><!-- end properties table -->
+
 	</xsl:template>
 	
 	<xsl:template match="propertyGroup">
@@ -1344,17 +1330,11 @@
 	
 	<!-- Properties -->
 	<xsl:template match="properties">
+		<!-- no properties, display a message -->
 		<xsl:if test="count(property) = 0">
 			<tr>
 				<td colspan="{$COLSPAN}"><em><xsl:value-of select="$LABELS/labels/entry[@key='LABEL_NO_PROPERTIES']/@label" /></em></td>
 			</tr>
-		</xsl:if>
-
-		<!-- Show message if the nodeshape is closed -->
-		<xsl:if test="../../../closed='true'">
-			<div class="advisement">
-				<em><xsl:value-of select="$LABELS/labels/entry[@key='LABEL_CLOSE_DESCRIPTION']/@label" /></em>
-			</div>
 		</xsl:if>
 
 		<xsl:apply-templates select="property" />
@@ -1518,19 +1498,20 @@
 		</xsl:if>
 	</xsl:template>
 	
-	<!-- Cardinality -->
+	<!-- cardinalities -->
 	<xsl:template match="property/cardinalite"><xsl:value-of select="." /></xsl:template>
 	
-	<!-- Skos:Example properties -->
+	<!-- skos:example -->
 	<xsl:template match="property/examples">
 		<xsl:value-of select="."/>			
 	</xsl:template>
 	
-	<!-- Description properties -->
+	<!-- description -->
 	<xsl:template match="property/description">
 		<xsl:value-of select="." />
 	</xsl:template>
 	
+	<!-- SPARQL query -->
 	<xsl:template match="descriptionSparql">
 		<xsl:value-of select="."/>
 	</xsl:template>

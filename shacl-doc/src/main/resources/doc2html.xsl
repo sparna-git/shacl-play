@@ -1100,9 +1100,6 @@
 					<!-- Diagram forEach section (NodeShape) -->
 					<xsl:apply-templates select="sectionDiagrams"/>
 					
-					<!-- Section of add image -->
-					<xsl:apply-templates select="depictionsImgs" />
-					
 					<!-- Properties table -->
 					<xsl:apply-templates select="propertyGroups" />		
 					

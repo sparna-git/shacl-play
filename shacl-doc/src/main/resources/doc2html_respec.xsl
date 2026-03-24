@@ -524,9 +524,13 @@
 			background-color: #eee;
 		}
 
-		.sp_hidde_line {
+		.sp_hidden_line {
 			border-block-start-style: hidden;
 			font-style: italic;
+		}
+
+		.sp_hidden_line td {
+			padding: 0px;
 		}
 
 		/*  */
@@ -1420,26 +1424,19 @@
 				</td>				
 			</tr>
 			<xsl:if test="(string-length(./description) &gt; 0) or (count(./examples) &gt; 0)" >
-				<tr class="sp_hidde_line">
+				<tr class="sp_hidden_line">
 					<td colspan="4">
 						<!-- Display Description -->
 						<xsl:if test="string-length(./description) &gt; 0">
-							<div>
-								<p style="text-indent: 5.5em;">
-										<!--
-										<xsl:value-of select="concat($LABELS/labels/entry[@key='COLUMN_DESCRIPTION']/@label,': ')"/>
-										-->
-										<xsl:apply-templates select="./description"/>
-								</p>
+							<div style="padding-left: 3.5em;">
+								&#10137; <xsl:apply-templates select="./description"/>
 							</div>							
 						</xsl:if>
 						<!-- Display Example -->
 						<xsl:if test="count(./examples) &gt; 0">	
-							<div>
-								<p style="text-indent: 4.5em;">
-									<xsl:value-of select="concat($LABELS/labels/entry[@key='COLUMN_EXAMPLE']/@label,': ')"/>
-									<xsl:apply-templates select="./examples"/>
-								</p>
+							<div style="padding-left: 3.5em;">
+								<xsl:value-of select="concat($LABELS/labels/entry[@key='COLUMN_EXAMPLE']/@label,': ')"/>
+								<xsl:apply-templates select="./examples"/>
 							</div>							
 						</xsl:if>						
 					</td>			

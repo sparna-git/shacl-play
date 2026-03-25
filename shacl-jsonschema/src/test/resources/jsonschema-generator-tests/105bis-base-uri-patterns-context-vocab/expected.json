@@ -35,6 +35,10 @@
             "property3": {
               "type": "string",
               "pattern": "^org/ep-[0-9]{1,2}$"
+            },
+            "property4": {
+              "type": "string",
+              "pattern": "^[0-9]{1,2}$"
             }
         },
         "required": ["id"]

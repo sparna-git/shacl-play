@@ -205,12 +205,7 @@ public class JsonLdContextGenerator {
 					// check if it is a simple startsWith pattern
 					String startsWith = RegexUtil.extractHttpBaseUriFromPattern(pattern);
 					if(startsWith != null) {
-						// create an inner context with @vocab
-						JsonLdContext innerContext = new JsonLdContext();
-						innerContext.add(new JsonLdMapping("@vocab", startsWith));
-						mapping.setInnerContext(innerContext);
-						// set the type of the mapping to @vocab
-						mapping.setType("@vocab");
+						setInnerBaseAndVocab(mapping, startsWith);
 					}
 				} else {
 					
@@ -231,13 +226,7 @@ public class JsonLdContextGenerator {
 							String commonBase = RegexUtil.findCommonBaseUri(startsWithList);
 							if(commonBase != null) {
 								log.trace("Common base found to be "+commonBase);
-
-								// create an inner context with @base
-								JsonLdContext innerContext = new JsonLdContext();
-								innerContext.add(new JsonLdMapping("@vocab", commonBase));
-								mapping.setInnerContext(innerContext);
-								// set the type of the mapping to @vocab
-								mapping.setType("@vocab");
+								setInnerBaseAndVocab(mapping, commonBase);
 							}
 						}
 					}
@@ -279,7 +268,17 @@ public class JsonLdContextGenerator {
 		StringBuffer buffer = new StringBuffer();
 		context.write(buffer);
 		return buffer.toString();
-	}	
+	}
+
+	private void setInnerBaseAndVocab(JsonLdMapping mapping, String uri) {
+		// create an inner context with @base and @vocab
+		JsonLdContext innerContext = new JsonLdContext();
+		innerContext.add(new JsonLdMapping("@vocab", uri));
+		innerContext.add(new JsonLdMapping("@base", uri));
+		mapping.setInnerContext(innerContext);
+		// set the type of the mapping to @vocab
+		mapping.setType("@vocab");
+	}
 
 	public List<JsonLdMapping> buildNodeShapesMappings(List<NodeShape> nodeShapes) {
 		// for each node shape, read its sh:targetClass if there is one

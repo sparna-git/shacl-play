@@ -19,7 +19,7 @@
       "@type": "@vocab",
       "@id": "eli:refers_to",
       "@container": "@set",
-      "@context": {"@vocab": "https://data.europarl.europa.eu/eli/dl/"}
+      "@context": {"@vocab": "https://data.europarl.europa.eu/eli/dl/", "@base": "https://data.europarl.europa.eu/eli/dl/"}
     }
   }
 }

@@ -14,6 +14,11 @@
     "property3": {
         "@id": "http://example.org/property3",
         "@type": "@id"
+    },
+    "property4": {
+        "@id": "http://example.org/property4",
+        "@type": "@vocab",
+        "@context": { "@vocab": "https://data.europarl.europa.eu/org/ep-", "@base": "https://data.europarl.europa.eu/org/ep-"   }
     }
 }
 

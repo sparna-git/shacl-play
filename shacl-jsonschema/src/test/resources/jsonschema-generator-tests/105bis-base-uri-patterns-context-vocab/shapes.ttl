@@ -22,5 +22,11 @@ ex:MainNodeShape a sh:NodeShape ;
         sh:maxCount 1 ;
         sh:pattern "^https://data.europarl.europa.eu/org/ep-[0-9]{1,2}$" ;
     ];
+    sh:property [
+        sh:path ex:property4 ;
+        sh:nodeKind sh:IRI ;
+        sh:maxCount 1 ;
+        sh:pattern "^https://data.europarl.europa.eu/org/ep-[0-9]{1,2}$" ;
+    ];
 
 .

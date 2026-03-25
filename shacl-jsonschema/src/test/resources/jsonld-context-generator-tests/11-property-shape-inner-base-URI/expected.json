@@ -19,14 +19,14 @@
       "@id": "ex:p",
       "@type": "@vocab",
       "@context": {
-        "@vocab": "https://data.europarl.europa.eu/eli/dl/doc/"
+        "@vocab": "https://data.europarl.europa.eu/eli/dl/doc/", "@base": "https://data.europarl.europa.eu/eli/dl/doc/"
       }
     },
     "p2": {
       "@id": "ex:p2",
       "@type": "@vocab",
       "@context": {
-        "@vocab": "https://www.example.com/authority/"
+        "@vocab": "https://www.example.com/authority/", "@base": "https://www.example.com/authority/"
       }
     },
     "p3": "ex:p3",
@@ -35,7 +35,7 @@
       "@type": "@vocab",
       "@container": "@set",
       "@context": {
-        "@vocab": "https://data.europarl.europa.eu/eli/dl/doc/"
+        "@vocab": "https://data.europarl.europa.eu/eli/dl/doc/", "@base": "https://data.europarl.europa.eu/eli/dl/doc/"
       }
     },
     "p5": {
@@ -43,7 +43,7 @@
       "@type": "@vocab",
       "@container": "@set",
       "@context": {
-        "@vocab": "https://data.europarl.europa.eu/eli/dl/doc/"
+        "@vocab": "https://data.europarl.europa.eu/eli/dl/doc/", "@base": "https://data.europarl.europa.eu/eli/dl/doc/"
       }
     }
   }

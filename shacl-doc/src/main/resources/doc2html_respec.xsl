@@ -263,25 +263,31 @@
 						preProcess: [loadTurtleLang,loadSparqlLang],
 						specStatus: "base",
 						latestVersion: null,
-						lint: {
-							"local-refs-exist": true,
-						},
 						maxTocLevel: 2,
 						license: "w3c-software-doc",
 						<xsl:apply-templates select="dateissued" />
 						<xsl:apply-templates select="modifiedDate" />
 						<xsl:apply-templates select="feedbacks" />
 						// this section is custom
-						<xsl:apply-templates select="publishers" />
+						<xsl:choose>
+							<xsl:when test="publishers/publisher">
+								<xsl:apply-templates select="publishers" />								
+							</xsl:when>
+							<xsl:otherwise>
+								editors: [{ name: " "}],
+							</xsl:otherwise>
+						</xsl:choose>
 						otherLinks: [
 							<xsl:apply-templates select="datecreated" />
 							<xsl:apply-templates select="versionInfo" />
 							<xsl:apply-templates select="creators" />
 							<xsl:apply-templates select="feedbacks" />
 							<xsl:apply-templates select="OWLimports" />							
-						],						
+						]				
 					};
-				</script>						
+				</script>
+
+				
 			</head>
 			<body>
 
@@ -331,6 +337,20 @@
 					//anchors.add('h2,h3');
 					// for links inside tables		
 					anchors.add('td[id]');
+				</script>
+				<!-- Script for handling SVG elements -->
+				<script>
+					document.addEventListener('DOMContentLoaded', function() {
+					document.querySelectorAll('svg').forEach(svg =&gt; {
+						const div = svg.parentElement;
+						const rectCount = svg.querySelectorAll('rect').length;
+						if (rectCount &gt;= 6) {
+						div.className = 'overlarge';
+						} else {
+						div.className = 'sp_section_nodeshape_center';
+						}
+					});
+					});
 				</script>
 				
 				<xsl:apply-templates select="../ShapesDocumentation" mode="javascript_extra"/>
@@ -1284,15 +1304,14 @@
 			</xsl:choose>
 		</xsl:variable>
 		
-		<section>
-			<xsl:if test="$title_section != null or string-length($title_section) &gt; 0">
-				<h3><xsl:value-of select="$title_section"/></h3>
-			</xsl:if>
+		<xsl:if test="$title_section != null or string-length($title_section) &gt; 0">
+			<h3><xsl:value-of select="$title_section"/></h3>
+		</xsl:if>
 
-			<figure>
-				<a href="{$depiction_src}"><img src="{$depiction_src}" style="width:100%;"/></a>
-			</figure>
-		</section>
+		<figcaption>
+			<a href="{$depiction_src}"><img src="{$depiction_src}" style="width:100%;"/></a>
+		</figcaption>
+		
 	</xsl:template>
 		
 	<!-- Property groups -->
@@ -1428,7 +1447,7 @@
 					<td colspan="4">
 						<!-- Display Description -->
 						<xsl:if test="string-length(./description) &gt; 0">
-							<div style="padding-left: 3.5em;">
+							<div style="padding-left: 3.5em; margin-top: -15px;">
 								&#10137; <xsl:apply-templates select="./description"/>
 							</div>							
 						</xsl:if>

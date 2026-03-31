@@ -61,6 +61,7 @@
 			<entry key="RELEASE_NOTES.TITLE" label="Notes de version" />
 
 			<entry key="LABEL_NODESHAPE_DESCRIPTION" label="Description"/>
+			<entry key="LABEL_SHNODE" label="Respecte : " />
 			<entry key="LABEL_TARGETCLASS" label="S'applique à : " />
 			<entry key="LABEL_NODEKIND" label="Type de noeud : " />
 			<entry key="LABEL_PATTERNS" label="Structure d'identifiant : " />
@@ -132,6 +133,7 @@
 			<entry key="RELEASE_NOTES.TITLE" label="Release notes" />
 
 			<entry key="LABEL_NODESHAPE_DESCRIPTION" label="Description"/>
+			<entry key="LABEL_SHNODE" label="Conforms to: " />
 			<entry key="LABEL_TARGETCLASS" label="Applies to: " />
 			<entry key="LABEL_NODEKIND" label="Nodes: " />
 			<entry key="LABEL_PATTERNS" label="URI pattern: " />
@@ -997,6 +999,8 @@
 							targetObjectsOf != ''
 							or
 							sparqlTarget
+							or
+							shNode/href
 						"
 					>
 						<ul class="sp_list_description_properties">
@@ -1093,6 +1097,28 @@
 									<em>Message:</em><xsl:value-of select="MessageOfValidate"/>
 								</li>
 							</xsl:if>
+							<xsl:if test="shNode/href">
+								<li>
+									<xsl:value-of select="$LABELS/labels/entry[@key='LABEL_SHNODE']/@label" />
+									<xsl:for-each select="shNode">
+										<xsl:variable name="shNode_Href" select="href"/>
+										<xsl:variable name="shNode_label" select="label"/>
+										
+										<a href="{$shNode_Href}">
+											<xsl:value-of select="$shNode_label" />
+										</a>
+										<xsl:choose>
+											<xsl:when test="position() = last()">
+												<xsl:text></xsl:text>
+											</xsl:when>
+											<xsl:when test="position() != last()">
+												<xsl:text> | </xsl:text>
+											</xsl:when>											
+										</xsl:choose>
+									</xsl:for-each>
+								</li>
+							</xsl:if>
+
 						</ul>
 					</xsl:if>
 					

@@ -5,11 +5,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.vocabulary.RDFS;
 import org.topbraid.shacl.vocabulary.SH;
+import org.apache.jena.rdf.model.Literal;
 
 import fr.sparna.rdf.jena.ModelReadingUtils;
+import fr.sparna.rdf.jena.ModelRenderingUtils;
 import fr.sparna.rdf.shacl.diagram.PlantUmlDiagramOutput;
 import fr.sparna.rdf.shacl.doc.MarkdownRenderer;
 import fr.sparna.rdf.shacl.doc.NodeShape;
@@ -21,6 +24,7 @@ import fr.sparna.rdf.shacl.doc.model.PropertyShapeDocumentation;
 import fr.sparna.rdf.shacl.doc.model.PropertyShapesGroupDocumentation;
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentationDiagram;
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentationSection;
+import net.sourceforge.plantuml.board.BNode;
 
 public class ShapesDocumentationSectionBuilder {
 	
@@ -71,6 +75,16 @@ public class ShapesDocumentationSectionBuilder {
 			currentSection.setMainToc(nodeShape.getShaclPlayMain());
 		}
 		
+		// Get sh:node as type of shape
+		if (nodeShape.getShNode() != null) {			
+			nodeShape.getShNode().forEach(shNode -> {
+				currentSection.setShNode(
+					buildShNodeLink(shNode, shapesGraph.getAllNodeShapes(), owlGraph, lang)	
+				);
+			});
+		}
+
+
 		// sh:targetSubjectsOf or sh:targetObjectsOf
 		if (nodeShape.getShtargetSubjectsOf() != null) {
 			currentSection.setTargetSubjectsOf(nodeShape.getShtargetSubjectsOf().getURI());
@@ -218,6 +232,37 @@ public class ShapesDocumentationSectionBuilder {
 			);
 		}
 	 }
+
+	public Link buildShNodeLink(Resource shNode, List<NodeShape> allNodeShapes, Model owlGraph, String lang) {
+		for(NodeShape aBox : allNodeShapes) {
+			// using toString instead of getURI so that it works with anonymous nodeshapes
+			if(aBox.getNodeShape().toString().equals(shNode.toString())) {
+				return new Link("#"+aBox.getShortFormOrId(), aBox.getDisplayLabel(owlGraph, lang));
+			}
+		}
+
+		// default link if shape not found
+		return buildDefaultLink(shNode);
+	}
+
+	public Link buildDefaultLink(RDFNode node) {
+		Link l = new Link();
+
+		if (node instanceof Literal) {
+			Literal lt = node.asLiteral();
+			l.setLabel(lt.getLexicalForm());
+			l.setLang(lt.getLanguage());
+			l.setDatatype(ModelRenderingUtils.render(node.getModel().createResource(lt.getDatatypeURI()), false) );
+		} else if (node instanceof Resource) {
+			l.setHref(node.asResource().getURI());
+			l.setLabel(ModelRenderingUtils.render(node, true));
+		} else if (node instanceof BNode) {
+			l.setLabel(ModelRenderingUtils.render(node, true));
+		}	
+		
+		return l;
+	}
+
 
 	private boolean isMainEntity(NodeShape ns) {
 		if (ns.getShtargetSubjectsOf() != null) {

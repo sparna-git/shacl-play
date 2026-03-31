@@ -36,31 +36,33 @@ public class ShapesDocumentationSection {
 	private Link subtitleUri;
 	private String description;
 	
-	private List<Link> targetClass;
+	
 	
 	private String pattern;
 	private String nodeKind;
 	private Boolean closed;
 	private String skosExample;
+	private Link shNode;
 	private String color;
 	private Boolean mainToc;
 	
+
+	private List<Link> targetClass;
 	private String targetSubjectsOf;
 	private String targetObjectsOf;
+	// The target of the shape when it is expressed using a SPARQL query
+	private String sparqlTarget;
 	
 	private String hasValue;
-	
-	/**
-	 * The target of the shape when it is expressed using a SPARQL query
-	 */
-	private String sparqlTarget;
 	
 	/**
 	 * Diagram inside nodeshape
 	 */
 	private PlantUmlDiagramOutput nsDiagram;
 	
-	private String DescriptionSparql;
+	// List of description of attached SPARQL constraints
+	// TODO : refactor as another entity inside the section, with a SPARQL query and a description
+	private String descriptionSparql;
 	
 	@JacksonXmlElementWrapper(localName="superClasses")
 	@JacksonXmlProperty(localName = "link")
@@ -294,11 +296,11 @@ public class ShapesDocumentationSection {
 	}
 
 	public String getDescriptionSparql() {
-		return DescriptionSparql;
+		return descriptionSparql;
 	}
 
 	public void setDescriptionSparql(String descriptionSparl) {
-		DescriptionSparql = descriptionSparl;
+		descriptionSparql = descriptionSparl;
 	}
 
 	public Boolean getMainToc() {
@@ -307,6 +309,14 @@ public class ShapesDocumentationSection {
 
 	public void setMainToc(Boolean mainToc) {
 		this.mainToc = mainToc;
+	}
+
+	public Link getShNode() {
+		return shNode;
+	}
+
+	public void setShNode(Link shNode) {
+		this.shNode = shNode;
 	}
 	
 }

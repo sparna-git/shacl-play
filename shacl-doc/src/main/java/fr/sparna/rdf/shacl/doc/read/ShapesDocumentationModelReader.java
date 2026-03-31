@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Model;
@@ -12,6 +13,7 @@ import fr.sparna.rdf.shacl.diagram.PlantUmlDiagramOutput;
 import fr.sparna.rdf.shacl.doc.NodeShape;
 import fr.sparna.rdf.shacl.doc.NodeShapeReader;
 import fr.sparna.rdf.shacl.doc.PlantUmlSourceGenerator;
+import fr.sparna.rdf.shacl.doc.PropertyShape;
 import fr.sparna.rdf.shacl.doc.ShaclPrefixReader;
 import fr.sparna.rdf.shacl.doc.ShapesGraph;
 import fr.sparna.rdf.shacl.doc.model.NamespaceSection;
@@ -73,18 +75,22 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 		// For each NodeShape ...
 		List<ShapesDocumentationSection> sections = new ArrayList<>();
 		for (NodeShape nodeShape : shapesModel.getAllNodeShapes()) {
-			ShapesDocumentationSection section = sectionBuidler.build(
-				nodeShape, 
-				shapesModel, 
-				// Model
-				shaclGraph, 
-				// Model
-				owlGraph, 
-				lang,
-				this.readSectionDiagrams
-			);
 			
-			sections.add(section);
+			if (findNodeShapeInOtherProperties(shaclGraph, nodeShape)) {
+			
+				ShapesDocumentationSection section = sectionBuidler.build(
+					nodeShape, 
+					shapesModel, 
+					// Model
+					shaclGraph, 
+					// Model
+					owlGraph, 
+					lang,
+					this.readSectionDiagrams
+				);
+			
+				sections.add(section);
+			}
 		}
 		shapesDocumentation.setSections(sections);
 		
@@ -129,5 +135,36 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 		}).collect(Collectors.toList());
 		
 		return sortNameSpacesectionPrefix; 
+	}
+
+	
+	public boolean findNodeShapeInOtherProperties (Model shaclGraph, NodeShape nodeShape) {
+		// id of nodeshape is the same as the id of one of the node shapes in the model
+		String nodeShapeId = nodeShape.getShortFormOrId();
+		// if the node shape has properties, then it is a section
+		if (nodeShape.getProperties().size() > 0) {
+			return true;
+		} else {
+
+			List<Boolean> foundList = new ArrayList<>();
+			shaclGraph.listStatements().forEach( tripleObject -> {
+				if (tripleObject.getObject().isResource() && tripleObject.getObject().asResource().getURI() != null) {
+					String objectValue = tripleObject.getObject().getModel().shortForm(tripleObject.getObject().asResource().getURI());
+					if (objectValue.equals(nodeShapeId)) {
+						foundList.add(true);
+					}
+				}
+			});
+
+			if (foundList.size() > 0) {
+				if (foundList.stream().filter(b -> b == true).count() >= 1) {
+					return true;
+				} else {
+					return false;
+				}
+			} 
+			
+			return false;			
+		}
 	}
 }

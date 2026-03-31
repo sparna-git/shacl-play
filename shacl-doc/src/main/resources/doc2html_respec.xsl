@@ -852,7 +852,7 @@
 			<xsl:choose>
 				<xsl:when test="href">
 					name: <xsl:value-of select="concat($quota,label,$quota,$comma)"/>
-					companyURL: <xsl:value-of select="concat($quota,href,$quota,$comma)"/>
+					url: <xsl:value-of select="concat($quota,href,$quota,$comma)"/>
 				</xsl:when>
 				<xsl:otherwise>
 					name: <xsl:value-of select="concat($quota,label,$quota,$comma)"/>

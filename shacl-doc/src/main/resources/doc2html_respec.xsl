@@ -341,16 +341,16 @@
 				<!-- Script for handling SVG elements -->
 				<script>
 					document.addEventListener('DOMContentLoaded', function() {
-					document.querySelectorAll('svg').forEach(svg =&gt; {
-						const div = svg.parentElement;
-						const rectCount = svg.querySelectorAll('rect').length;
-						if (rectCount &gt;= 6) {
-							div.className = 'overlarge';
-						} else {
-							div.className = 'sp_section_nodeshape_center';
-						}
-					});
-					});
+						document.querySelectorAll('svg').forEach(svg =&gt; {
+							const div = svg.parentElement;
+							if ( svg.parentElement.class = 'sp_section_nodeshape_center') {
+								const rectCount = svg.querySelectorAll('rect').length;
+								if (rectCount &gt;= 6) {
+									div.className = 'overlarge';
+								}
+							}
+						});
+					});					
 				</script>
 				
 				<xsl:apply-templates select="../ShapesDocumentation" mode="javascript_extra"/>
@@ -852,7 +852,7 @@
 			<xsl:choose>
 				<xsl:when test="href">
 					name: <xsl:value-of select="concat($quota,label,$quota,$comma)"/>
-					companyURL: <xsl:value-of select="concat($quota,href,$quota,$comma)"/>
+					url: <xsl:value-of select="concat($quota,href,$quota,$comma)"/>
 				</xsl:when>
 				<xsl:otherwise>
 					name: <xsl:value-of select="concat($quota,label,$quota,$comma)"/>

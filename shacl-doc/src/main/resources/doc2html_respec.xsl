@@ -345,9 +345,9 @@
 						const div = svg.parentElement;
 						const rectCount = svg.querySelectorAll('rect').length;
 						if (rectCount &gt;= 6) {
-						div.className = 'overlarge';
+							div.className = 'overlarge';
 						} else {
-						div.className = 'sp_section_nodeshape_center';
+							div.className = 'sp_section_nodeshape_center';
 						}
 					});
 					});
@@ -546,7 +546,6 @@
 
 		.sp_hidden_line {
 			border-block-start-style: hidden;
-			font-style: italic;
 		}
 
 		.sp_hidden_line td {
@@ -1445,19 +1444,21 @@
 			<xsl:if test="(string-length(./description) &gt; 0) or (count(./examples) &gt; 0)" >
 				<tr class="sp_hidden_line">
 					<td colspan="4">
-						<!-- Display Description -->
-						<xsl:if test="string-length(./description) &gt; 0">
-							<div style="padding-left: 3.5em; margin-top: -15px;">
-								&#10137; <xsl:apply-templates select="./description"/>
-							</div>							
-						</xsl:if>
-						<!-- Display Example -->
-						<xsl:if test="count(./examples) &gt; 0">	
-							<div style="padding-left: 3.5em;">
-								<xsl:value-of select="concat($LABELS/labels/entry[@key='COLUMN_EXAMPLE']/@label,': ')"/>
-								<xsl:apply-templates select="./examples"/>
-							</div>							
-						</xsl:if>						
+						<div style="padding-left: 3.5em; margin-top: -15px; font-size:smaller;">
+							<!-- Display Description -->
+							<xsl:if test="string-length(./description) &gt; 0">
+								<div>
+									&#10137; <xsl:apply-templates select="./description"/>
+								</div>							
+							</xsl:if>
+							<!-- Display Example -->
+							<xsl:if test="count(./examples) &gt; 0">	
+								<div>
+									&#10137; <xsl:value-of select="concat($LABELS/labels/entry[@key='COLUMN_EXAMPLE']/@label,': ')"/>
+									<xsl:apply-templates select="./examples"/>
+								</div>							
+							</xsl:if>
+						</div>						
 					</td>			
 				</tr>
 			</xsl:if>
@@ -1525,25 +1526,25 @@
 				<!-- Oups, don't know how to handle this -->
 			</xsl:otherwise>
 		</xsl:choose>
-		<br />
+		
 		<xsl:if test="inValues/inValue">
-			<p>
-				<small>
-					<xsl:for-each select="inValues/inValue">
-						<xsl:choose>
-							<xsl:when test="href/text()">
-								<a href="{href}"><xsl:value-of select="label" /></a>
-							</xsl:when>
-							<xsl:otherwise>
-								<xsl:value-of select="label" />
-							</xsl:otherwise>
-						</xsl:choose>
-						<xsl:if test="position() != last()">, </xsl:if>
-					</xsl:for-each>
-				</small>
-			</p>
+			<br />
+			<small>
+				<xsl:for-each select="inValues/inValue">
+					<xsl:choose>
+						<xsl:when test="href/text()">
+							<a href="{href}"><xsl:value-of select="label" /></a>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="label" />
+						</xsl:otherwise>
+					</xsl:choose>
+					<xsl:if test="position() != last()">, </xsl:if>
+				</xsl:for-each>
+			</small>
 		</xsl:if>
 		<xsl:if test="pattern">	
+			<br />
 			<small><xsl:value-of select="pattern" /></small>			
 		</xsl:if>
 	</xsl:template>

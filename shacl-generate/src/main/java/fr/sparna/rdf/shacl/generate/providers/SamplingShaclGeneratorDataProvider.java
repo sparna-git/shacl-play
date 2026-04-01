@@ -87,7 +87,7 @@ public class SamplingShaclGeneratorDataProvider extends BaseShaclGeneratorDataPr
 			log.warn("Could not get complete list of properties of "+classUri+", will use a sample");
 			
 			ValuesQuery valuesQuery = new ValuesQuery(20);
-			List<Map<String, RDFNode>> rows = valuesQuery.select(queryExecutionService, readQuery("sampling/select-instances-properties.rq"), "uri", getSampleInstances(classUri));
+			List<Map<String, RDFNode>> rows = valuesQuery.select(queryExecutionService, readQuery("sampling/select-instances-properties.rq"), null, "uri", getSampleInstances(classUri));
 			
 			this.messageListener.accept("Warning, properties read on a sample of "+this.sampleInstancesCache.get(classUri).size()+" entities");
 			List<String> duplicatedList = JenaResultSetHandlers.convertSingleColumnUriToStringList(rows);
@@ -110,7 +110,7 @@ public class SamplingShaclGeneratorDataProvider extends BaseShaclGeneratorDataPr
 			qs.add("property", ResourceFactory.createResource(propertyUri));
 			
 			ValuesQuery valuesQuery = new ValuesQuery(20);
-			List<Map<String, RDFNode>> rows = valuesQuery.select(queryExecutionService, readQuery("select-datatypes.rq"), "uri", getSampleInstances(classUri));
+			List<Map<String, RDFNode>> rows = valuesQuery.select(queryExecutionService, readQuery("select-datatypes.rq"), qs, "uri", getSampleInstances(classUri));
 			
 			this.messageListener.accept("Warning, sh:datatype read on a sample of "+this.sampleInstancesCache.get(classUri).size()+" entities");
 			List<String> duplicatedList = JenaResultSetHandlers.convertSingleColumnUriToStringList(rows);
@@ -132,7 +132,7 @@ public class SamplingShaclGeneratorDataProvider extends BaseShaclGeneratorDataPr
 			qs.add("property", ResourceFactory.createResource(propertyUri));
 			
 			ValuesQuery valuesQuery = new ValuesQuery(20);
-			List<Map<String, RDFNode>> rows = valuesQuery.select(queryExecutionService, readQuery("select-object-types.rq"), "uri", getSampleInstances(classUri));
+			List<Map<String, RDFNode>> rows = valuesQuery.select(queryExecutionService, readQuery("select-object-types.rq"), qs, "uri", getSampleInstances(classUri));
 			
 			this.messageListener.accept("Warning, sh:class read on a sample of "+this.sampleInstancesCache.get(classUri).size()+" entities");
 			List<String> duplicatedList = JenaResultSetHandlers.convertSingleColumnUriToStringList(rows);

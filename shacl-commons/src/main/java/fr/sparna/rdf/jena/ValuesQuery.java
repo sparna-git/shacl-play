@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.jena.query.QuerySolutionMap;
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.RDFNode;
 import org.slf4j.Logger;
@@ -24,10 +25,10 @@ public class ValuesQuery {
     this.batchSize = batchSize;
   }
 
-  public List<Map<String, RDFNode>> select(QueryExecutionService service, String query, String varName, List<RDFNode> values) {
+  public List<Map<String, RDFNode>> select(QueryExecutionService service, String query, QuerySolutionMap qs, String varName, List<RDFNode> values) {
 	  // skip if there is already a VALUES clause
 	  if (hasValuesAtEnd(query)) {
-		  return runQuery(service, query);
+		  return runQuery(service, query, qs);
 	  }
 
 	  int batchNumber = 0;
@@ -45,7 +46,7 @@ public class ValuesQuery {
 				  values.subList(fromIndex, values.size())
 				  :values.subList(fromIndex, toIndex);
 		  
-		  List<Map<String, RDFNode>> batchMap = selectBatch(service, query, varName, valuesBatch);
+		  List<Map<String, RDFNode>> batchMap = selectBatch(service, query, qs, varName, valuesBatch);
 		  result.addAll(batchMap);
 		  batchNumber += 1;
 	  }
@@ -54,7 +55,11 @@ public class ValuesQuery {
   }
   
   public List<Map<String, RDFNode>> select(QueryExecutionService service, String query) {
-	    return this.select(service, query, null, null);
+	    return this.select(service, query, null, null, null);
+  }
+
+  public List<Map<String, RDFNode>> select(QueryExecutionService service, String query, QuerySolutionMap qs) {
+	    return this.select(service, query, qs, null, null);
   }
 
   private boolean hasValuesAtEnd(String query) {
@@ -75,13 +80,14 @@ public class ValuesQuery {
   private List<Map<String, RDFNode>> selectBatch(
 		  QueryExecutionService service,
 		  String query,
+		  QuerySolutionMap qs,
 		  String varName,
 		  List<RDFNode> values
   ) {
     String valuesClause = "values ?" + varName + " { " + values.stream().map(v -> toSparqlString(v)).collect(Collectors.joining(" ")) + " } ";
     String batchQuery = StringUtils.substringBeforeLast(query, "}") + "\n" + valuesClause + "\n" + "}" + StringUtils.substringAfterLast(query, "}");
 
-    return runQuery(service, batchQuery);
+    return runQuery(service, batchQuery, qs);
   }
 
   private static String toSparqlString(RDFNode node) {
@@ -95,8 +101,13 @@ public class ValuesQuery {
 	  }
   }
   
-  private List<Map<String, RDFNode>> runQuery(QueryExecutionService service, String query) {
-    return service.executeSelectQuery(query, JenaResultSetHandlers::convertToListOfMaps);
+  private List<Map<String, RDFNode>> runQuery(QueryExecutionService service, String query, QuerySolutionMap qs) {
+	if(qs == null) {
+		return service.executeSelectQuery(query, JenaResultSetHandlers::convertToListOfMaps);
+	} else {
+		return service.executeSelectQuery(query, qs, JenaResultSetHandlers::convertToListOfMaps);
+	}
+    
   }
 
 }

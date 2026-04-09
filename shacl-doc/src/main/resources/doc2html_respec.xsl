@@ -83,6 +83,7 @@
 			<entry key="SECTION_SYNTAX.TITLE" label="Structure de l'identifiant ou de la valeur" />
 			<entry key="SECTION_GENERAL_DESCRIPTIONS" label="Description générale" />
 			<entry key="SECTION.CHARTS.TITLE" label="Statistiques" />
+			<entry key="SECTION.USAGE.TITLE" label="Utilisation" />
 		</labels>
 	</xsl:variable>
 	<!-- In this stylesheet we just copy the base labels -->
@@ -162,6 +163,7 @@
 			<entry key="SECTION_SYNTAX.TITLE" label="Identifier or value specification" />
 			<entry key="SECTION_GENERAL_DESCRIPTIONS" label="General description" />
 			<entry key="SECTION.CHARTS.TITLE" label="Statistics" />
+			<entry key="SECTION.USAGE.TITLE" label="Usage" />
 		</labels>
 	</xsl:variable>
 	<!-- In this stylesheet we just copy the base labels -->
@@ -709,6 +711,18 @@
 			padding-right: 0.25px;
 			display: inline;
 			opacity: 0.6;
+		}
+
+		/* USAGE */
+
+		.usage_nodeshape {
+			display: inline-block;
+			background: #eee;
+			border-radius: 10px;
+			margin-right: 0.5em;
+			margin-bottom: 0.5em;
+			padding-left: 0.5em;
+			padding-right: 0.5em;
 		}
 	
 					
@@ -1309,6 +1323,14 @@
 				</section>
 			</xsl:if>
 
+			<!-- Section of usage -->
+			<xsl:if test="usages/usage">
+				<section id="usage">
+					<h4><xsl:value-of select="$LABELS/labels/entry[@key='SECTION.USAGE.TITLE']/@label" /></h4>
+					<xsl:apply-templates select="usages" />				
+				</section>
+			</xsl:if>
+						
 			<xsl:if test="string-length(descriptionSparql) &gt; 0">
 				<xsl:variable name="section_constraints" select="concat('constraints-',sectionId)"/>
 				<section id="{$section_constraints}">
@@ -1477,6 +1499,8 @@
 		
 	<xsl:template match="property">
 	
+		
+
 		<xsl:variable name="guillemets">"</xsl:variable>	
 		<xsl:variable name="Colors">
 			<xsl:choose>
@@ -1492,7 +1516,7 @@
 			</xsl:choose>
 		</xsl:variable>
 		<tbody>
-			<tr style="{$Colors}">			
+			<tr style="{$Colors}" id="{propertyShapeUriOrId}">			
 				<!-- Property name -->
 				<td>
 					<xsl:apply-templates select="./label"/>
@@ -1501,11 +1525,11 @@
 				<!-- Also with the ID, if provided -->
 				
 				<xsl:choose>
-					<xsl:when test="sectionId">
+					<xsl:when test="propertyShapeUriOrId">
 						<td style="position: relative; width: 100px; overflow: hidden;" onmouseover="this.style.overflow='';" onmouseout="this.style.overflow='hidden';">
 							<div>
 								<div class="anchors-doc">
-									<a href="#{sectionId}" id="{sectionId}">#</a>									
+									<a href="#{propertyShapeUriOrId}" id="{propertyShapeUriOrId}">#</a>									
 								</div>
 								<xsl:apply-templates select="./propertyUri"/>
 							</div>
@@ -1663,6 +1687,28 @@
 		<xsl:value-of select="."/>
 	</xsl:template>
 	
+	<xsl:template match="usages">
+		<div>
+			<table style="border-collapse: collapse;">
+				<tbody>
+					<xsl:apply-templates select="usage" />					
+				</tbody>
+			</table>	
+		</div>
+	</xsl:template>
+
+	<xsl:template match="usage">
+		<!--  solid #f2f2f71c; -->
+		<tr style="border-bottom: 0.2em">
+			<th><xsl:value-of select="nodeshape_usage"/></th>
+			<td style="padding-left: 1em;"><xsl:apply-templates select="properties_usage/properties_usage" /></td>
+		</tr>
+	</xsl:template>
+
+	<xsl:template match="properties_usage">
+		<a class="usage_nodeshape" href="{href}"><xsl:value-of select="label"/></a>		
+	</xsl:template>
+
 	<!-- Release notes at the end  -->
 	<xsl:template match="releaseNotes[text() != '']">
 		<section id="releaseNotes">

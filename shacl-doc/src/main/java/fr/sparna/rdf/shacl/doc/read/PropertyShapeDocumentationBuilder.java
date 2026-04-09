@@ -53,8 +53,9 @@ public class PropertyShapeDocumentationBuilder {
 		// URI in the documentation
 		proprieteDoc.setPropertyUri(buildPathLink(propertyShape));
 		// full URI
-		proprieteDoc.setPropertyShapeUriOrId(propertyShape.getURIOrId());
+		proprieteDoc.setPropertyShapeUriOrId(propertyShape.getResource().getModel().shortForm(propertyShape.getURIOrId()));
 		// section ID from concat of node shape ID + short name of the property
+		//proprieteDoc.setSectionId(nodeShape.getShortFormOrId()+"_"+propertyShape.getShPathAsString());	
 		proprieteDoc.setSectionId(nodeShape.getShortFormOrId()+"_"+propertyShape.getShPathAsString());	
 		
 		// if sh:qualifiedValueShape found in then property else print cardinality
@@ -141,8 +142,7 @@ public class PropertyShapeDocumentationBuilder {
 		}
 		return bResult;
 	}
-	
-	
+		
 	public static Link buildPathLink(PropertyShape prop) {			
 		if(prop.getShPath() != null && prop.getShPath().isURIResource()) {
 			return new Link(

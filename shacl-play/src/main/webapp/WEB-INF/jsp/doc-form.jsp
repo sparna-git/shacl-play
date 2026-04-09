@@ -149,10 +149,10 @@
 							</label>
 						    <div class="col-sm-4">
 					    		<select class="form-control" id="format" name="format" >
-					    			<option value="HTML">HTML</option>
+					    			<option value="HTML_RESPEC">HTML</option>
 					    			<option value="PDF">PDF</option>
 					    			<option value="XML">XML</option>
-									<option value="HTML_RESPEC">HTML Respec (beta)</option>			    			
+									<option value="HTML">HTML (old version)</option>			    			
 							    </select>
 						    </div>									    
 						 </div>

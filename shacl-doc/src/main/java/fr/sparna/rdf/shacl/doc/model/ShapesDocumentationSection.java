@@ -10,6 +10,9 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 import fr.sparna.rdf.shacl.doc.Depiction;
+import fr.sparna.rdf.shacl.doc.PropertyShape;
+import fr.sparna.rdf.shacl.doc.UsageDoc;
+import fr.sparna.rdf.shacl.doc.UsageOutput;
 import fr.sparna.rdf.shacl.diagram.PlantUmlDiagramOutput;
 
 
@@ -68,6 +71,11 @@ public class ShapesDocumentationSection {
 	@JacksonXmlProperty(localName = "link")
 	private List<Link> superClasses;
 	
+	// List of usage
+	@JacksonXmlElementWrapper(localName="usages")
+	@JacksonXmlProperty(localName = "usage")
+	private List<UsageOutput> usages;
+
 	/*
 	@JacksonXmlElementWrapper(localName="properties")
 	@JacksonXmlProperty(localName = "property")
@@ -92,6 +100,8 @@ public class ShapesDocumentationSection {
 	private List<Depiction> depictions;
 	
 	private int numberOfTargets;
+
+
 	
 	@JacksonXmlElementWrapper(localName="sectionDiagrams")
 	@JacksonXmlProperty(localName = "sectionDiagram")
@@ -318,5 +328,15 @@ public class ShapesDocumentationSection {
 	public void setShNode(Link shNode) {
 		this.shNode = shNode;
 	}
+
+	public List<UsageOutput> getUsages() {
+		return usages;
+	}
+
+	public void setUsages(List<UsageOutput> usages) {
+		this.usages = usages;
+	}
 	
+	
+
 }

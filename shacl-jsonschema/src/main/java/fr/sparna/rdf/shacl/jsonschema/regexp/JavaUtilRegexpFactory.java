@@ -12,7 +12,8 @@ class JavaUtilRegexp extends AbstractRegexp {
         this.pattern = Pattern.compile(pattern);
     }
 
-    @Override public Optional<RegexpMatchingFailure> patternMatchingFailure(String input) {
+    @Override 
+    public Optional<RegexpMatchingFailure> patternMatchingFailure(String input) {
         if (pattern.matcher(input).find()) {
             return Optional.empty();
         } else {
@@ -20,7 +21,8 @@ class JavaUtilRegexp extends AbstractRegexp {
         }
     }
 
-    @Override public boolean equals(Object o) {
+    @Override 
+    public boolean equals(Object o) {
         if (this == o)
             return true;
         if (!(o instanceof JavaUtilRegexp))
@@ -29,7 +31,8 @@ class JavaUtilRegexp extends AbstractRegexp {
         return Objects.equals(pattern.pattern(), that.pattern.pattern());
     }
 
-    @Override public int hashCode() {
+    @Override 
+    public int hashCode() {
         return Objects.hash(pattern);
     }
 }

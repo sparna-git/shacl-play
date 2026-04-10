@@ -1,11 +1,16 @@
 package fr.sparna.rdf.shacl.jsonld;
 
+import java.io.StringReader;
 import java.util.List;
 
 import com.github.curiousoddman.rgxgen.RgxGen;
 import com.github.curiousoddman.rgxgen.config.RgxGenOption;
 import com.github.curiousoddman.rgxgen.config.RgxGenProperties;
 import com.github.curiousoddman.rgxgen.model.RgxGenCharsDefinition;
+
+import fr.sparna.rdf.shacl.jsonschema.jsonld.ProbingJsonLdContextWrapper;
+import jakarta.json.Json;
+import jakarta.json.JsonValue;
 
 public class RegexUtil {
 
@@ -80,12 +85,15 @@ public class RegexUtil {
         // but this is not supported by RgxGen, so we need to remove the named capturing groups
         regex = regex.replaceAll("\\(\\?<[^>]+>\\s*", "("); // Remove named capturing groups
 
+        // to ensure that at least one character is generated for each wildcard, we replace .* with .+ in the regex
+        regex = regex.replaceAll("\\.\\*", "\\.\\+");
+
         RgxGenProperties properties = new RgxGenProperties();
         // when matching a dot, always use the special \u0000 character for replacement
         // this is because EP uses regexes like "^https://data.europarl.europa.eu/eli/dl/doc/[A-Za-z0-9\-_]+/[a-z][a-z]$"
         // that directly contains a dot
         RgxGenOption.DOT_MATCHES_ONLY.setInProperties(properties, RgxGenCharsDefinition.of("\u0000"));
-        // when generating any number of values, generate 3 characters
+        // when generating any number of values, generate 3 characters max (can be zero)
         RgxGenOption.INFINITE_PATTERN_REPETITION.setInProperties(properties, 3);
 
         RgxGen rgxGen = RgxGen.parse(properties, regex);
@@ -93,7 +101,8 @@ public class RegexUtil {
 
         // replace the value inserted for dots back with a dot
         String output = generatedValue.replaceAll("\u0000", ".").replaceAll(" ", "_");
-        // System.out.println("'"+output+"'");
+
+        System.out.println("Generated value : " + output);
         return output;
     }
 
@@ -119,11 +128,34 @@ public class RegexUtil {
             }
         }
 
-        // check that the common base is at least "https://" - otherwise, it's not a valid base URI
-        if(commonBase.length() > "https://".length()) {
+        // check that the common base is at least "http://" - otherwise, it's not a valid base URI
+        if(commonBase.length() > "http://".length()) {
             return commonBase;
         } else {
             return null;
+        }
+    }
+
+    public static void main(String[] args) throws Exception {
+
+        final String TEST_1 = "^https://www.iana.org/assignments/media-types/application/.*$";
+        final String TEST_2 = "^http://publications.europa.eu/resource/authority/file-type/.*$";
+
+        /*
+        for(int i =0; i<10; i++) {
+            System.out.println("Generated value for TEST_1: " + generateMatchingString(TEST_1));
+        }
+
+        for(int i =0; i<10; i++) {
+            System.out.println("Generated value for TEST_2: " + generateMatchingString(TEST_2));
+        }
+            */
+
+        String TEST_CONTEXT = "{\"p\": { \"@id\": \"https://data.europarl.europa.eu/p\", \"@context\": { \"@base\" : \"https://www.iana.org/assignments/media-types/application/\", \"@vocab\" : \"https://www.iana.org/assignments/media-types/application/\" } }, \"@base\": \"https://data.europarl.europa.eu/\"}";
+        JsonValue baseContext = Json.createReader(new StringReader(TEST_CONTEXT)).readValue();
+        ProbingJsonLdContextWrapper wrapper = new ProbingJsonLdContextWrapper(baseContext);
+        for(int i =0; i<10; i++) {
+            System.out.println("Generated value for TEST_1: " + wrapper.simplifyPattern(TEST_1, "https://data.europarl.europa.eu/p"));
         }
     }
 }

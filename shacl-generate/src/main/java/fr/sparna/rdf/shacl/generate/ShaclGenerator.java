@@ -25,12 +25,14 @@ import fr.sparna.rdf.shacl.generate.progress.NoOpProgressMonitor;
 import fr.sparna.rdf.shacl.generate.progress.ProgressMonitor;
 import fr.sparna.rdf.shacl.generate.providers.ShaclGeneratorDataProviderIfc;
 import fr.sparna.rdf.shacl.generate.visitors.AssignClassesVisitor;
+import fr.sparna.rdf.shacl.generate.visitors.AssignColorVisitor;
 import fr.sparna.rdf.shacl.generate.visitors.AssignDatatypesVisitor;
 import fr.sparna.rdf.shacl.generate.visitors.AssignMinCountAndMaxCountVisitor;
 import fr.sparna.rdf.shacl.generate.visitors.AssignNodeKindVisitor;
 import fr.sparna.rdf.shacl.generate.visitors.AssignValueOrInVisitor;
 import fr.sparna.rdf.shacl.generate.visitors.ShaclVisit;
 import fr.sparna.rdf.shacl.generate.visitors.ShaclVisitorIfc;
+
 
 /**
  * Algorithm to generation a SHACL model from data. Does not do any read operation by itself but reads its input from a data provider.
@@ -103,6 +105,9 @@ public class ShaclGenerator {
 		}
 		this.visitors.add(new AssignMinCountAndMaxCountVisitor(dataProvider));
 		this.visitors.add(new AssignValueOrInVisitor(dataProvider));
+
+		// Add color for each node shape
+		this.visitors.add(new AssignColorVisitor());
 		
 		// add extra visitors
 		if(this.extraVisitors != null) {
@@ -428,6 +433,5 @@ public class ShaclGenerator {
 			}
 		}
 	}
-	
 	
 }

@@ -148,7 +148,9 @@ public class BaseShaclGeneratorDataProvider implements ShaclGeneratorDataProvide
 		QuerySolutionMap qs = new QuerySolutionMap();
 		qs.add("type", ResourceFactory.createResource(classUri));
 		qs.add("property", ResourceFactory.createResource(propertyUri));
-		return this.queryExecutionService.executeAskQuery(readQuery("has-instance-with-two-properties.rq"), qs);
+		// return this.queryExecutionService.executeAskQuery(readQuery("has-instance-with-two-properties.rq"), qs);
+		// return this.queryExecutionService.executeAskQuery(readQuery("has-instance-with-two-properties-equal.rq"), qs);
+		return this.queryExecutionService.executeAskQuery(readQuery("has-instance-with-two-properties-group-by.rq"), qs);
 	}
 
 	@Override

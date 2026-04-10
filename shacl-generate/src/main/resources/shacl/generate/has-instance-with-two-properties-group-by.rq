@@ -1,0 +1,10 @@
+ASK {
+  SELECT ?uri
+  WHERE
+  { 
+    ?uri a $type .
+    ?uri $property ?x .
+  }
+  GROUP BY ?uri
+  HAVING (count(?x) > 1)
+}

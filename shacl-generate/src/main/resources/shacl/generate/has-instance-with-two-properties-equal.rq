@@ -1,0 +1,6 @@
+ask {
+  ?uri a $type .
+  ?uri $property ?x, ?y.
+  # An implementation with = because QLever does not support sameTerm (01/04/2026)
+  FILTER (?x != ?y)
+}

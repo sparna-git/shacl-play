@@ -22,6 +22,14 @@ ex:MainNodeShape
             [ sh:node ex:ValueB ]
         );
     ] ;
+    sh:property [
+        sh:path ex:yetAnotherProperty ;
+        sh:or (
+            [ sh:node ex:ValueB ]
+            [ sh:node ex:ValueC ]
+        );
+        sh:maxCount 1;
+    ] ;
 .
 
 ex:ValueA
@@ -34,4 +42,10 @@ ex:ValueB
     a sh:NodeShape ;
     sh:nodeKind sh:IRI ;
     sh:pattern "^https://data.domain2.org/.*$" ;
+.
+
+ex:ValueC
+    a sh:NodeShape ;
+    sh:nodeKind sh:IRI ;
+    sh:pattern "^https://data.domain2.org/.+$" ;
 .

@@ -43,6 +43,18 @@
             ]
           }
         },
+        "yetAnotherProperty": {
+          "anyOf": [
+              {
+                "type": "string",
+                "pattern" : "^https://data.domain2.org/.*$"
+              },
+              {
+                "type": "string",
+                "pattern" : "^https://data.domain2.org/.+$"
+              }
+          ]
+        },
         "id": {
           "format": "iri-reference",
           "type": "string"

@@ -32,12 +32,13 @@ public class RegexUtil {
         }
 
         String subPattern = null;
-		// check if the pattern ends with .* or (.*) with an optional $ at the end
-		if(pattern.endsWith(".*")) {
+		// check if the pattern ends with .* or (.*) or .+ or (.+) with an optional $ at the end
+		if(pattern.endsWith(".*") || pattern.endsWith(".+")) {
 			subPattern = pattern.substring(0, pattern.length()-2);
-		} else if(pattern.endsWith("(.*)")) {
+		} else if(pattern.endsWith("(.*)") || pattern.endsWith("(.+)")) {
 			subPattern = pattern.substring(0, pattern.length()-4);
-		}
+		} 
+        
         // if suPattern ends with [...]+ or [...]* or [...]{x,y}, remove that part too
         else if(pattern.matches(".*\\[.+\\][+*](\\$)?$")) {
             int lastIndex = pattern.lastIndexOf('[');
@@ -52,9 +53,6 @@ public class RegexUtil {
             int lastIndex = pattern.lastIndexOf('(');
             subPattern = pattern.substring(0, lastIndex);
         }
-        
-        System.out.println("Extracted subPattern: " + subPattern);
-
         
         if(subPattern != null) {
             // looks like a regex with more complex pattern, give up

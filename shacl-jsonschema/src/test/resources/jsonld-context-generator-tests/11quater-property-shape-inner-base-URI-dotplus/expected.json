@@ -1,0 +1,24 @@
+{
+  "@context": {
+    "id": "@id",
+    "type": "@type",
+    "graph": "@graph",
+
+
+    "ex": "http://example.org/",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+
+
+    "SimpleClass": "ex:SimpleClass",
+
+    "p": {
+      "@id": "ex:p",
+      "@type": "@vocab",
+      "@context": {
+        "@vocab": "https://data.europarl.europa.eu/eli/dl/doc/", "@base": "https://data.europarl.europa.eu/eli/dl/doc/"
+      }
+    }
+  }
+}

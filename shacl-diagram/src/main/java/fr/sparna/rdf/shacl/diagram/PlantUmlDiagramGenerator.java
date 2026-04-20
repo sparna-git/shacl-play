@@ -109,7 +109,7 @@ public class PlantUmlDiagramGenerator {
 		if (boxesIncludedInTheDiagram.size() == 1) {
 			int nBox = boxesIncludedInTheDiagram
 			.stream()
-			.filter(b -> b.getProperties().size() > 0)
+			.filter(b -> b.getPropertiesBox().size() > 0)
 			.collect(Collectors.toList())
 			.size();
 			
@@ -211,7 +211,7 @@ public class PlantUmlDiagramGenerator {
 		
 		// 2. Une fois qu'on a toute la liste, lire les proprietes
 		for (PlantUmlBoxIfc aBox : plantUmlBoxes) {
-			aBox.setProperties(nodeShapeReader.readProperties(aBox.getNodeShape()));
+			aBox.setPropertiesBox(nodeShapeReader.readProperties(aBox.getNodeShape()));
 		}
 		
 		return plantUmlBoxes;		
@@ -225,7 +225,7 @@ public class PlantUmlDiagramGenerator {
 		// iterate on all initial boxes
 		for (PlantUmlBoxIfc box : initialBoxes) {
 			interestingBoxes.addAll(
-				box.getProperties()
+				box.getPropertiesBox()
 				.stream()
 				.filter(f -> f.getShNode().isPresent() || f.getShClass().isPresent())
 				.map( p -> {
@@ -243,7 +243,7 @@ public class PlantUmlDiagramGenerator {
 			);
 	
 			// read all sh:or...
-			for (PlantUmlProperty prop : box.getProperties()) {
+			for (PlantUmlProperty prop : box.getPropertiesBox()) {
 				if (prop.getShOrShClass() != null) {
 					for (Resource aShClass : prop.getShOrShClass()) {
 						interestingBoxes.add(PlantUmlDiagram.findBoxByTargetClass(aShClass, allBoxes));
@@ -266,11 +266,11 @@ public class PlantUmlDiagramGenerator {
 			.map( b -> {
 				// create box with a label and colors
 				SimplePlantUmlBox newBoxSimple = new SimplePlantUmlBox(b.getNodeShape());
-				newBoxSimple.setBackgroundColorString(b.getBackgroundColorString());
-				newBoxSimple.setColorString(b.getColorString());
+				newBoxSimple.setBackgroundColorString(b.getBackgroundColorStringBox());
+				newBoxSimple.setColorString(b.getColorStringBox());
 				newBoxSimple.setLabel(b.getLabel());
 				// note : this is necessary so that the renderer can resolve class references to the correct boxes
-				newBoxSimple.setTargetClass(b.getTargetClass());
+				newBoxSimple.setTargetClass(b.getTargetClassAsOptional());
 				
 				return newBoxSimple;
 				

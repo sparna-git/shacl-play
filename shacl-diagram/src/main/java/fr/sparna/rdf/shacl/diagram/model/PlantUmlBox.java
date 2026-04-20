@@ -7,49 +7,38 @@ import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Resource;
-import org.apache.jena.sparql.vocabulary.FOAF;
-import org.apache.jena.vocabulary.OWL;
 import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.RDFS;
 import org.topbraid.shacl.vocabulary.SH;
 
-import fr.sparna.rdf.jena.ModelReadingUtils;
 import fr.sparna.rdf.jena.ModelRenderingUtils;
-import fr.sparna.rdf.shacl.SHACL_PLAY;;
+import fr.sparna.rdf.jena.shacl.NodeShape;
 
-public class PlantUmlBox implements PlantUmlBoxIfc {
+public class PlantUmlBox extends NodeShape implements PlantUmlBoxIfc {
 	
 	private Resource nodeShape;
 	
-	protected List<PlantUmlProperty> properties = new ArrayList<>();
+	protected List<PlantUmlProperty> propertiesBox = new ArrayList<>();
 
 	protected String link;
 
 	public PlantUmlBox(Resource nodeShape) {  
+		super(nodeShape);
 	    this.nodeShape = nodeShape;		
-		// init the link
-		if(this.nodeShape.isURIResource()) {
-			this.link = "#" + this.nodeShape.getModel().shortForm(this.nodeShape.getURI());
-		} else {
-			// to deal with blank node shapes
-			this.link = "#" + this.nodeShape.asResource().toString();
-		}
+		this.link = "#" + super.getShortFormOrId();
 	}
-	
-	public Resource getNodeShape() {
-		return nodeShape;
-	}
-	
+
 	public Optional<Literal> getBackgroundColor() {
-		return ModelReadingUtils.getOptionalLiteral(nodeShape, nodeShape.getModel().createProperty(SHACL_PLAY.BACKGROUNDCOLOR));
+		return super.getShaclPlayBackgroundColor();
 	}
 	
 	public Optional<Literal> getColor() {
-		return ModelReadingUtils.getOptionalLiteral(nodeShape, nodeShape.getModel().createProperty(SHACL_PLAY.COLOR));
+		return getShaclPlayColor();
 	}
 	
-	public List<Resource> getDepiction() {
-		List<Resource> depictionInput = ModelReadingUtils.readObjectAsResource(nodeShape, FOAF.depiction).stream()
+	public List<Resource> getDepictionBox() {
+		List<Resource> depictionInput = super.getDepiction()
+											.stream()
 											.filter(f -> { 
 												if (f.getURI().contains(".png")) {
 													return false;
@@ -65,24 +54,16 @@ public class PlantUmlBox implements PlantUmlBoxIfc {
 		return depictionInput;
 	}
 	
-	public Optional<Resource> getTargetClass() {
-		return ModelReadingUtils.getOptionalResource(nodeShape, SH.targetClass);
-	}
-	
 	public List<Resource> getRdfsSubClassOf() {
-		return nodeShape.listProperties(RDFS.subClassOf).toList().stream()
-				.map(s -> s.getResource())
-				.filter(r -> { return r.isURIResource() && !r.getURI().equals(OWL.Thing.getURI()); })
-				.collect(Collectors.toList());
+		return super.getSubClassOf();
 	}
 
-	public List<Resource> getShNode() {
-		return nodeShape.listProperties(SH.node).toList().stream().map(s -> s.getResource()).collect(Collectors.toList());
+	public List<Resource> getShNodeBox() {
+		return super.getShNodeAsList();
 	}
 	
-	
-	public boolean isTargeting(Resource classUri) {	
-		boolean hasShTargetClass = this.getTargetClass().filter(c -> c.equals(classUri)).isPresent();		
+	public boolean isTargetingBox(Resource classUri) {	
+		boolean hasShTargetClass = super.isTargeting(classUri);
 		boolean isItselfTheClass = 
 		this.nodeShape.hasProperty(RDF.type, RDFS.Class)
 		&&
@@ -93,18 +74,17 @@ public class PlantUmlBox implements PlantUmlBoxIfc {
 		return hasShTargetClass || isItselfTheClass;
 	}
 	
-	public String getBackgroundColorString() {
+	public String getBackgroundColorStringBox() {
 		return this.getBackgroundColor().map(node -> node.asLiteral().getLexicalForm()).orElse(null);
 	}
 	
-	public String getColorString() {
+	public String getColorStringBox() {
 		return this.getColor().map(node -> node.asLiteral().getLexicalForm()).orElse(null);
 	}
 	
-	
 	public int countShNodeOrShClassReferencesTo(String id, PlantUmlDiagram diagram) {
 		int count = 0;
-		for (PlantUmlProperty p : this.properties) {
+		for (PlantUmlProperty p : this.propertiesBox) {
 			if (
 					diagram.resolvePropertyShapeShNodeOrShClass(p) != null
 					&&
@@ -118,19 +98,19 @@ public class PlantUmlBox implements PlantUmlBoxIfc {
 	
 	public String getLabel() {
 		// use the sh:targetClass if present, otherwise use the URI of the NodeShape
-		return ModelRenderingUtils.render(this.nodeShape, true)+this.getTargetClass().map(targetClass -> " ("+ModelRenderingUtils.render(targetClass, true)+")").orElse("");
+		return ModelRenderingUtils.render(this.nodeShape, true)+this.getTargetClassAsOptional().map(targetClass -> " ("+ModelRenderingUtils.render(targetClass, true)+")").orElse("");
 	}
 	
 	public String getPlantUmlQuotedBoxName() {
 		return "\"" + this.getLabel() + "\"";
 	}
 
-	public List<PlantUmlProperty> getProperties() {	
-		return properties;
+	public List<PlantUmlProperty> getPropertiesBox() {
+		return propertiesBox;
 	}
-	
-	public void setProperties(List<PlantUmlProperty> properties) {
-		this.properties = properties;
+
+	public void setPropertiesBox(List<PlantUmlProperty> propertiesBox) {
+		this.propertiesBox = propertiesBox;
 	}
 
 	public String getLink() {

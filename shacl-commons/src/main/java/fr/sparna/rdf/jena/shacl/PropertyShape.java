@@ -101,18 +101,34 @@ public class PropertyShape extends Shape {
 	public Optional<Integer> getShMinCount() {
 		return ModelReadingUtils.getOptionalLiteral(this.shape, SH.minCount).map(l -> l.getInt());
 	}
+
+	public Optional<Literal> getShMinCountAsLiteral() {
+		return ModelReadingUtils.getOptionalLiteral(this.shape, SH.minCount);
+	}
 	
 	public Optional<Integer> getShMaxCount() {
 		return ModelReadingUtils.getOptionalLiteral(this.shape, SH.maxCount).map(l -> l.getInt());
+	}
+
+	public Optional<Literal> getShMaxCountAsLiteral() {
+		return ModelReadingUtils.getOptionalLiteral(this.shape, SH.maxCount);
 	}
 	
 	public Optional<Integer> getShQualifiedMinCount() {
 		return ModelReadingUtils.getOptionalLiteral(this.shape, SH.qualifiedMinCount).map(l -> l.getInt());
 	}
+
+	public Optional<Literal> getShQualifiedMinCountAsLiteral() {
+		return ModelReadingUtils.getOptionalLiteral(this.shape, SH.qualifiedMinCount);
+	}
 	
 	public Optional<Integer> getShQualifiedMaxCount() {
 		return ModelReadingUtils.getOptionalLiteral(this.shape, SH.qualifiedMaxCount).map(l -> l.getInt());
-	}	
+	}
+	
+	public Optional<Literal> getShQualifiedMaxCountAsLiteral() {
+		return ModelReadingUtils.getOptionalLiteral(this.shape, SH.qualifiedMaxCount);
+	}
 	
 	public String getShNodeLabel() {
 		return this.getShNode().map(r -> ModelRenderingUtils.render(r, true)).orElse(null);
@@ -148,54 +164,9 @@ public class PropertyShape extends Shape {
 			)
 		);
 	}
-	
-	public String getPlantUmlCardinalityString() {
-		if(this.getShMinCount().isEmpty() && this.getShMaxCount().isEmpty()) {
-			return null;
-		}
-		
-		return "[" + this.getShMinCount().map(l-> Integer.toString(l)).orElse("0") + ".." + this.getShMaxCount().map(l-> Integer.toString(l)).orElse("*") + "]" ;
+
+	public Optional<Resource> getShPathAsOptional() {
+		return ModelReadingUtils.getOptionalResource(shape, SH.path);
 	}
 
-	public String getPlantUmlQualifiedCardinalityString() {
-		if(this.getShQualifiedMinCount().isEmpty() && this.getShQualifiedMaxCount().isEmpty()) {
-			return null;
-		}
-		
-		return "[" + this.getShQualifiedMinCount().map(l-> Integer.toString(l)).orElse("0") + ".." + this.getShQualifiedMaxCount().map(l-> Integer.toString(l)).orElse("*") + "]" ;
-	}
-	
-	public String getPlantUmlLengthString() {
-		if(this.getShMinLength().isEmpty() && this.getShMaxLength().isEmpty()) {
-			return null;
-		}
-		
-		return "{field} (Length [" + this.getShMinLength().map(l-> Integer.toString(l)).orElse("0") + ".." + this.getShMaxCount().map(l-> Integer.toString(l)).orElse("*") + "])" ;
-	}
-	
-	public String getPlantUmlRangeString() {
-		if(this.getShMinInclusive().isEmpty() && this.getShMinExclusive().isEmpty() && this.getShMaxExclusive().isEmpty() && this.getShMaxInclusive().isEmpty()) {
-			return null;
-		}
-		
-		String minString = this.getShMinInclusive().map(
-				l-> "{field} (range : ["+ModelRenderingUtils.render(l)
-		).orElse(this.getShMinExclusive().map( 
-				l-> "{field} (range : ]"+ModelRenderingUtils.render(l)
-		).orElse(
-				"{field} (range : ]*"
-		));
-		
-		String maxString = this.getShMaxInclusive().map(
-				l-> ModelRenderingUtils.render(l)+"])"
-		).orElse(this.getShMaxExclusive().map( 
-				l-> ModelRenderingUtils.render(l)+"[)"
-		).orElse(
-				"*[)"
-		));
-		
-		return minString+"-"+maxString;
-	}
-	
-	
 }

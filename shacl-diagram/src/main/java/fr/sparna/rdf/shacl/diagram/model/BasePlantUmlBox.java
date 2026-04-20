@@ -14,19 +14,19 @@ public class BasePlantUmlBox implements PlantUmlBoxIfc {
     }
 
     @Override
-    public String getBackgroundColorString() {
+    public String getBackgroundColorStringBox() {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public String getColorString() {
+    public String getColorStringBox() {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public List<Resource> getDepiction() {
+    public List<Resource> getDepictionBox() {
         // TODO Auto-generated method stub
         return null;
     }
@@ -50,7 +50,7 @@ public class BasePlantUmlBox implements PlantUmlBoxIfc {
     }
 
     @Override
-    public List<PlantUmlProperty> getProperties() {
+    public List<PlantUmlProperty> getPropertiesBox() {
         // TODO Auto-generated method stub
         return null;
     }
@@ -62,25 +62,25 @@ public class BasePlantUmlBox implements PlantUmlBoxIfc {
     }
 
     @Override
-    public List<Resource> getShNode() {
+    public List<Resource> getShNodeBox() {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public Optional<Resource> getTargetClass() {
+    public Optional<Resource> getTargetClassAsOptional() {
         // TODO Auto-generated method stub
         return Optional.empty();
     }
 
     @Override
-    public boolean isTargeting(Resource classUri) {
+    public boolean isTargetingBox(Resource classUri) {
         // TODO Auto-generated method stub
         return false;
     }
 
     @Override
-    public void setProperties(List<PlantUmlProperty> properties) {
+    public void setPropertiesBox(List<PlantUmlProperty> propertiesBox) {
         // TODO Auto-generated method stub
         
     }

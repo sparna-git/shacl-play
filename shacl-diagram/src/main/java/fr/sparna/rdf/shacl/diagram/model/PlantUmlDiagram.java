@@ -37,7 +37,7 @@ public class PlantUmlDiagram {
 	}
 	
 	public static PlantUmlBoxIfc findBoxByTargetClass(Resource classUri, List<PlantUmlBoxIfc> boxes) {
-		return boxes.stream().filter(b -> b.isTargeting(classUri)).findFirst().orElse(null);
+		return boxes.stream().filter(b -> b.isTargetingBox(classUri)).findFirst().orElse(null);
 	}
 
 	public static PlantUmlBoxIfc findBoxByResource(Resource r, List<PlantUmlBoxIfc> boxes) {
@@ -110,7 +110,7 @@ public class PlantUmlDiagram {
 
 	public boolean usesShGroup(List<PlantUmlBoxIfc> boxes) {
 		// tester si sh:group est utilisé au moins une fois par une sh:property		
-		return boxes.stream().map( p -> p.getProperties().stream().filter(pp -> pp.getShGroup().isPresent()).findAny().isPresent()).findAny().isPresent();
+		return boxes.stream().map( p -> p.getPropertiesBox().stream().filter(pp -> pp.getShGroup().isPresent()).findAny().isPresent()).findAny().isPresent();
 	}
 	
 	public List<PlantUmlBoxIfc> getBoxes() {

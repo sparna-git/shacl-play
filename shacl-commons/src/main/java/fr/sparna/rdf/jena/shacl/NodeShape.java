@@ -52,6 +52,10 @@ public class NodeShape extends Shape  {
 		return Optional.ofNullable(shape.getProperty(SH.targetClass)).map(s -> s.getResource()).orElse(null);
 	}
 
+	public Optional<Resource> getTargetClassAsOptional() {
+		return ModelReadingUtils.getOptionalResource(shape, SH.targetClass);
+	}
+
 	public List<Resource> getTargetSubjectsOf() {
 		return ModelReadingUtils.readObjectAsResource(shape, SH.targetSubjectsOf);
 	}

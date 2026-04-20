@@ -10,19 +10,19 @@ public interface PlantUmlBoxIfc {
 	
 	public Resource getNodeShape();
 	
-	public List<Resource> getDepiction();
+	public List<Resource> getDepictionBox();
 	
-	public Optional<Resource> getTargetClass();
+	public Optional<Resource> getTargetClassAsOptional();
 	
 	public List<Resource> getRdfsSubClassOf();
 
-	public List<Resource> getShNode();
+	public List<Resource> getShNodeBox();
 	
-	public boolean isTargeting(Resource classUri);
+	public boolean isTargetingBox(Resource classUri);
 	
-	public String getBackgroundColorString();
+	public String getBackgroundColorStringBox();
 	
-	public String getColorString();	
+	public String getColorStringBox();	
 	
 	public int countShNodeOrShClassReferencesTo(String id, PlantUmlDiagram diagram);
 	
@@ -30,9 +30,9 @@ public interface PlantUmlBoxIfc {
 	
 	public String getPlantUmlQuotedBoxName();
 
-	public List<PlantUmlProperty> getProperties();
+	public List<PlantUmlProperty> getPropertiesBox();
 
-	public void setProperties(List<PlantUmlProperty> properties);
+	public void setPropertiesBox(List<PlantUmlProperty> propertiesBox);
 	
 	public String getLink();
 }

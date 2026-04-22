@@ -30,8 +30,6 @@ public abstract class Shape {
 		return shape;
 	}
 
-	
-
 	public Optional<Literal> getShaclPlayColor() {
 		return ModelReadingUtils.getOptionalLiteral(shape, shape.getModel().createProperty(SHACL_PLAY.COLOR));
 	}
@@ -56,8 +54,20 @@ public abstract class Shape {
 		}		
 	}
 
+	public Optional<Resource> getShGroup() {
+		return ModelReadingUtils.getOptionalResource(shape, SH.group);
+	}
+
 	public Optional<Resource> getShNode() {
 		return ModelReadingUtils.getOptionalResource(shape, SH.node);
+	}
+
+	public List<Resource> getShNodeAsList() {
+
+		ModelReadingUtils.readObjectAsResource(shape, SH.node)
+			.forEach( o -> {System.out.println(o.getURI());});
+		//return shape.listProperties(SH.node).toList().stream().map(s -> s.getResource()).collect(Collectors.toList());
+		return ModelReadingUtils.readObjectAsResource(shape, SH.node);
 	}
 
 	public Optional<Resource> getShClass() {
@@ -80,12 +90,24 @@ public abstract class Shape {
 		return ModelReadingUtils.getOptionalLiteral(this.shape, SH.order).map(l -> l.getFloat());
 	}
 
+	public Optional<Literal> getShOrderAsLiteral() {
+		return ModelReadingUtils.getOptionalLiteral(this.shape, SH.order);
+	}
+
 	public Optional<Integer> getShMinLength() {
 		return ModelReadingUtils.getOptionalLiteral(this.shape, SH.minLength).map(l -> l.getInt());
+	}
+
+	public Optional<Literal> getShMinLengthAsLiteral() {
+		return ModelReadingUtils.getOptionalLiteral(this.shape, SH.minLength);
 	}
 	
 	public Optional<Integer> getShMaxLength() {
 		return ModelReadingUtils.getOptionalLiteral(this.shape, SH.maxLength).map(l -> l.getInt());
+	}
+
+	public Optional<Literal> getShMaxLengthAsLiteral() {
+		return ModelReadingUtils.getOptionalLiteral(this.shape, SH.maxLength);
 	}
 	
 	public Optional<Literal> getShMinInclusive() {

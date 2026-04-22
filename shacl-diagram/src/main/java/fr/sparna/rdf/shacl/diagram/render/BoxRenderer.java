@@ -81,20 +81,20 @@ public class BoxRenderer {
 		String declaration = "";
 
 		String colorBackGround = "";
-		if (box.getBackgroundColorString() != null ) {			
-			colorBackGround = "#back:"+box.getBackgroundColorString();						
+		if (box.getBackgroundColorStringBox() != null ) {			
+			colorBackGround = "#back:"+box.getBackgroundColorStringBox();						
 		}else {
 			colorBackGround = "";
 		}
 		
 		String labelColorClass = "";
-		if(box.getColorString() != null) {
+		if(box.getColorStringBox() != null) {
 			if(!colorBackGround.equals("")) {
 				labelColorClass += ";";
 			} else {
 				labelColorClass += "#";
 			}
-			labelColorClass += "text:"+box.getColorString();
+			labelColorClass += "text:"+box.getColorStringBox();
 		}
 		
 		// resolve subclasses only if we were asked for it
@@ -102,20 +102,20 @@ public class BoxRenderer {
 		if(this.includeSubclassLinks) {
 			superClassesBoxes = box.getRdfsSubClassOf().stream().map(sc -> this.diagram.findBoxByResource(sc)).filter(b -> b != null).collect(Collectors.toList());
 			superClassesBoxes.addAll(
-				box.getShNode().stream().map(sc -> this.diagram.findBoxByResource(sc)).filter(b -> b != null).collect(Collectors.toList())
+				box.getShNodeBox().stream().map(sc -> this.diagram.findBoxByResource(sc)).filter(b -> b != null).collect(Collectors.toList())
 			);
 		}
 		
 		Map<String,String> collectGroupProperties = new HashMap<>();
 		// declare the class if it has properties or super classes or a color
 		if (
-				(box.getProperties().size() > 0 || superClassesBoxes.size() > 0)
+				(box.getPropertiesBox().size() > 0 || superClassesBoxes.size() > 0)
 				||
-				(box.getProperties().size() == 0 && box.getRdfsSubClassOf().size() == 0 && box.getDepiction().size() == 0 )
+				(box.getPropertiesBox().size() == 0 && box.getRdfsSubClassOf().size() == 0 && box.getDepictionBox().size() == 0 )
 				||
-				box.getBackgroundColorString() != null
+				box.getBackgroundColorStringBox() != null
 				||
-				box.getColorString() != null 			
+				box.getColorStringBox() != null 			
 		) {
 			if (box.getNodeShape().isAnon()) {
 				// give it an empty label
@@ -137,8 +137,8 @@ public class BoxRenderer {
 			PropertyRenderer propertyRenderer = new PropertyRenderer(avoidArrowsToEmptyBoxes, this, this.diagram);
 			
 			String propertiesDeclaration = "";
-			for (int i=0;i<box.getProperties().size();i++) {
-				PlantUmlProperty plantUmlproperty = box.getProperties().get(i);
+			for (int i=0;i<box.getPropertiesBox().size();i++) {
+				PlantUmlProperty plantUmlproperty = box.getPropertiesBox().get(i);
 
 				boolean displayAsDatatypeProperty = false;
 				
@@ -160,7 +160,7 @@ public class BoxRenderer {
 									||
 									(
 											// points to an existing NodeShape, but with no property
-											boxReference.getProperties().size() == 0
+											boxReference.getPropertiesBox().size() == 0
 											&&
 											// and does not have a super class
 											superClassesBoxes.size() == 0

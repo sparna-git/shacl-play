@@ -14,10 +14,10 @@ public class SimplePlantUmlBox extends BasePlantUmlBox {
     private String backgroundColorString;
     private String colorString;
     private Resource nodeShape;
-    private List<Resource> shNode = new ArrayList<>();
+    private List<Resource> shNodeBox = new ArrayList<>();
     private String label;
-    private List<Resource> depiction = new ArrayList<>();
-    protected List<PlantUmlProperty> properties = new ArrayList<>();
+    private List<Resource> depictionBox = new ArrayList<>();
+    protected List<PlantUmlProperty> propertiesBox = new ArrayList<>();
     private List<Resource> rdfsSubClassOf = new ArrayList<>();
 	private String link;
 
@@ -53,24 +53,24 @@ public class SimplePlantUmlBox extends BasePlantUmlBox {
 		return label;
 	}
 
-	public List<Resource> getDepiction() {
-		return this.depiction;
-	}
-
-	public List<PlantUmlProperty> getProperties() {
-		return properties;
+	public List<Resource> getDepictionBox() {
+		return this.depictionBox;
 	}
 
 	public void setLabel(String label) {
 		this.label = label;
 	}
 
-	public void setDepiction(List<Resource> depiction) {
-		this.depiction = depiction;
+	public void setDepictionBox(List<Resource> depictionBox) {
+		this.depictionBox = depictionBox;
 	}
 
-	public void setProperties(List<PlantUmlProperty> properties) {
-		this.properties = properties;
+	public List<PlantUmlProperty> getPropertiesBox() {
+		return propertiesBox;
+	}
+
+	public void setPropertiesBox(List<PlantUmlProperty> propertiesBox) {
+		this.propertiesBox = propertiesBox;
 	}
 
 	public List<Resource> getRdfsSubClassOf() {
@@ -81,12 +81,12 @@ public class SimplePlantUmlBox extends BasePlantUmlBox {
 		this.rdfsSubClassOf = rdfsSubClassOf;
 	}
 
-	public List<Resource> getShNode() {
-		return shNode;
+	public List<Resource> getShNodeBox() {
+		return shNodeBox;
 	}
 
-	public void setShNode(List<Resource> shNode) {
-		this.shNode = shNode;
+	public void setShNodeBox(List<Resource> shNodeBox) {
+		this.shNodeBox = shNodeBox;
 	}
 
 	public String getLink() {
@@ -98,7 +98,7 @@ public class SimplePlantUmlBox extends BasePlantUmlBox {
 	}
 
 	@Override
-    public Optional<Resource> getTargetClass() {
+    public Optional<Resource> getTargetClassAsOptional() {
         return this.targetClass;
     }
 
@@ -107,8 +107,8 @@ public class SimplePlantUmlBox extends BasePlantUmlBox {
 	}
 
 	@Override
-    public boolean isTargeting(Resource classUri) {
-		boolean hasShTargetClass = this.getTargetClass().filter(c -> c.equals(classUri)).isPresent();		
+    public boolean isTargetingBox(Resource classUri) {
+		boolean hasShTargetClass = this.getTargetClassAsOptional().filter(c -> c.equals(classUri)).isPresent();		
 		boolean isItselfTheClass = 
 		this.nodeShape.hasProperty(RDF.type, RDFS.Class)
 		&&

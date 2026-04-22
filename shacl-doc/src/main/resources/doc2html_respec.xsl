@@ -724,6 +724,9 @@
 			padding-left: 0.5em;
 			padding-right: 0.5em;
 		}
+
+		/* Overwrite ReSpec variable to adjust contract of Table of Content title */
+		--tocsidebar-heading-text: hsla(203,20%,40%,.9);
 	
 					
 		<xsl:choose>

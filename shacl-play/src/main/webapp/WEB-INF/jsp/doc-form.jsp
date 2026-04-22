@@ -236,10 +236,10 @@
 							  		must point to a resource (IRI or blank node) that have both a <code>dcterms:format</code> indicating the format of the file and a
 							  		<code>dcat:downloadURL</code> giving the download URL. Supported values for dcterms:format are:
 							  		<ul>
-							  			<li>https://www.iana.org/assignments/media-types/text/turtle for Turtle distribution</li>
-							  			<li>https://www.iana.org/assignments/media-types/application/rdf+xml for RDF/XML distribution</li>
-							  			<li>https://www.iana.org/assignments/media-types/application/n-triples for NTriple distribution </li>
-							  			<li>https://www.iana.org/assignments/media-types/application/ld+json for JSON-LD distribution</li>
+							  			<li><code>https://www.iana.org/assignments/media-types/text/turtle</code> for Turtle distribution</li>
+							  			<li><code>https://www.iana.org/assignments/media-types/application/rdf+xml</code> for RDF/XML distribution</li>
+							  			<li><code>https://www.iana.org/assignments/media-types/application/n-triples</code> for NTriple distribution </li>
+							  			<li><code>https://www.iana.org/assignments/media-types/application/ld+json</code> for JSON-LD distribution</li>
 							  		</ul>
 							  		This can be repeated to point to multiple distributions.
 							  		</td>

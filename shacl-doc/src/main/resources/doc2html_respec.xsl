@@ -680,19 +680,19 @@
         }
 
 		.sp_target-header {
-			color: #a0a0a0;
+			color: #3b3b3b;
 			font-size: 16px;
 			margin-bottom: 1em;
 		}
 
 		.sp_syntax-header {
-			color: #a0a0a0;
+			color: #3b3b3b;
 			font-size: 16px;
 			margin-bottom: 1em;
 		}
 
 		.sp_def-header {
-			color: #a0a0a0;
+			color: #3b3b3b;
 			font-size: 16px;
 			margin-bottom: 1em;
 		}

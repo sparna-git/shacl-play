@@ -16,13 +16,33 @@ public class JsonLdContext {
 		startNewSection();
 	}
 
-	protected void startNewSection() {
+	public void startNewSection() {
 		sections.add(new ArrayList<JsonLdMapping>());
 		currentSection = sections.get(sections.size()-1);
 	}
 	
-	protected void add(JsonLdMapping mapping) {
+	public void add(JsonLdMapping mapping) {
+		if(this.containsTerm(mapping.term)) {
+			throw new IllegalArgumentException("The context already contains a mapping for the term '"+mapping.term+"'");
+		}
+		
 		this.currentSection.add(mapping);
+	}
+
+	/**
+	 * Check if the context already contains a mapping for the given term
+	 * @param term
+	 * @return
+	 */
+	public boolean containsTerm(String term) {
+		for (List<JsonLdMapping> section : sections) {
+			for (JsonLdMapping m : section) {
+				if(m.term.equals(term)) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 	
 	public void write(StringBuffer buffer) {

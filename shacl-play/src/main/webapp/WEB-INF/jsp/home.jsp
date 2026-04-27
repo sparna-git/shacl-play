@@ -110,7 +110,11 @@
 									</li>
 									<li style="display: list-item; text-align: -webkit-match-parent; padding: 0.3rem;">
 										<a href="<c:url value="/validate#badges" />" title="<fmt:message key="navbar.menu2.badge.tooltip" />"><fmt:message key="navbar.menu2.badge.label" /></a>										
-									</li>			
+									</li>
+									<!-- Raport validation -->
+									<li style="display: list-item; text-align: -webkit-match-parent; padding: 0.3rem;">
+										<a href="<c:url value="/report" />" title="<fmt:message key="navbar.menu2.report.tooltip" />"><fmt:message key="navbar.menu2.report.label" /></a>
+									</li>
 								</ul>
 							</div>
 						</div>

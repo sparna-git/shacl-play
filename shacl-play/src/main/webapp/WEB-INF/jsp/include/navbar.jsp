@@ -48,6 +48,7 @@
 	            	<a class="dropdown-item" href="<c:url value="/generate" />" title="<fmt:message key="navbar.menu2.generate.tooltip" />"><fmt:message key="navbar.menu2.generate.label" /></a>
 					<a class="dropdown-item" href="<c:url value="/analyze" />" title="<fmt:message key="navbar.menu2.analyze.tooltip" />"><fmt:message key="navbar.menu2.analyze.label" /></a>
 	            	<a class="dropdown-item" href="<c:url value="/validate#badges" />" title="<fmt:message key="navbar.menu2.badge.tooltip" />"><fmt:message key="navbar.menu2.badge.label" /></a>
+					<a class="dropdown-item" href="<c:url value="/report" />" title="<fmt:message key="navbar.menu2.report.tooltip" />"><fmt:message key="navbar.menu2.report.label" /></a>
 	            </div>
         	</li>
 			<li class="nav-item dropdown">

@@ -24,6 +24,7 @@ import fr.sparna.rdf.shacl.doc.read.ShapesDocumentationReaderIfc;
 import fr.sparna.rdf.shacl.doc.write.ShapesDocumentationWriterIfc;
 import fr.sparna.rdf.shacl.doc.write.ShapesDocumentationWriterIfc.MODE;
 import fr.sparna.rdf.shacl.doc.write.ShapesDocumentationXmlWriter;
+import fr.sparna.rdf.shacl.doc.write.ShapesDocumentationXsltRespecWriter;
 import fr.sparna.rdf.shacl.doc.write.ShapesDocumentationXsltShaclPlayWriter;
 
 public class Doc implements CliCommandIfc {
@@ -111,7 +112,7 @@ public class Doc implements CliCommandIfc {
 			writer.writeDoc(doc, a.getLanguage(), out);
 		} else {
 			// 2. write Documentation structure to HTML
-			ShapesDocumentationWriterIfc writer = new ShapesDocumentationXsltShaclPlayWriter(MODE.HTML);
+			ShapesDocumentationWriterIfc writer = new ShapesDocumentationXsltRespecWriter(MODE.HTML); //ShapesDocumentationXsltShaclPlayWriter(MODE.HTML);
 			writer.writeDoc(doc, a.getLanguage(), out);
 		}	
 		out.flush();

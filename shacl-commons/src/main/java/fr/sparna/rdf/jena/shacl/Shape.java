@@ -1,6 +1,7 @@
 package fr.sparna.rdf.jena.shacl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -9,6 +10,7 @@ import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.RDFList;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.vocabulary.SKOS;
 
 import fr.sparna.rdf.jena.ModelReadingUtils;
@@ -148,6 +150,14 @@ public abstract class Shape {
 		return ModelReadingUtils.readLiteral(shape, SKOS.example);
 	}
 
+	public Literal getSkosExample () {
+		return Optional.ofNullable(shape.getProperty(SKOS.example)).map(s -> s.getLiteral()).orElse(null);
+	}
+
+	public RDFNode getSkosExampleNode() {
+		return Optional.ofNullable(shape.getProperty(SKOS.example)).map(s -> s.getObject()).orElse(null);
+	}
+
 
 	/**
 	 * Returns true if the shape could be a literal.
@@ -234,5 +244,19 @@ public abstract class Shape {
 	public boolean isDeactivated() {
 		return this.getShDeactivated().orElse(false);
 	}
+
+	public List<Resource> getPropertyRoles() {
+		if (shape.hasProperty(DASH.propertyRole)) {
+			List<Statement> propertyRoles = shape.listProperties(DASH.propertyRole).toList();
+			return propertyRoles.stream().map(s -> s.getObject().asResource()).collect(Collectors.toList());
+		} else {
+			return Collections.emptyList();
+		}
+	}
+	
+	public boolean isLabelRole() {
+		return this.getPropertyRoles().stream().anyMatch(r -> r.getURI().equals(DASH.LabelRole.getURI()));
+	}
+
 
 }

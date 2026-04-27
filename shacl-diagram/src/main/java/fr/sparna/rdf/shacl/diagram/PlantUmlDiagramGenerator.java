@@ -231,17 +231,17 @@ public class PlantUmlDiagramGenerator {
 				.map( p -> {
 					// return the box corresponding to the value of sh:node or sh:class
 					if (p.getShNode().isPresent()) {
-						return PlantUmlDiagram.findBoxByResource(p.getShNode().get(), allBoxes);
+						return PlantUmlDiagram.findBoxByResource(p.getShNode().get().asResource(), allBoxes);
 					}
 					
 					if (p.getShClass().isPresent()) {
-						return PlantUmlDiagram.findBoxByTargetClass(p.getShClass().get(), allBoxes);
+						return PlantUmlDiagram.findBoxByTargetClass(p.getShClass().get().asResource(), allBoxes);
 					}
 					return null;
 				})
 				.collect(Collectors.toList())
 			);
-	
+
 			// read all sh:or...
 			for (PlantUmlProperty prop : box.getPropertiesBox()) {
 				if (prop.getShOrShClass() != null) {
@@ -266,8 +266,8 @@ public class PlantUmlDiagramGenerator {
 			.map( b -> {
 				// create box with a label and colors
 				SimplePlantUmlBox newBoxSimple = new SimplePlantUmlBox(b.getNodeShape());
-				newBoxSimple.setBackgroundColorString(b.getBackgroundColorStringBox());
-				newBoxSimple.setColorString(b.getColorStringBox());
+				newBoxSimple.setBackgroundColorStringBox(b.getBackgroundColorStringBox());
+				newBoxSimple.setColorStringBox(b.getColorStringBox());
 				newBoxSimple.setLabel(b.getLabel());
 				// note : this is necessary so that the renderer can resolve class references to the correct boxes
 				newBoxSimple.setTargetClass(b.getTargetClassAsOptional());

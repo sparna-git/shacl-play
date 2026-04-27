@@ -75,11 +75,11 @@ public class PlantUmlBox extends NodeShape implements PlantUmlBoxIfc {
 	}
 	
 	public String getBackgroundColorStringBox() {
-		return this.getBackgroundColor().map(node -> node.asLiteral().getLexicalForm()).orElse(null);
+		return super.getShaclPlayBackgroundColor().map(node -> node.asLiteral().getLexicalForm()).orElse(null);
 	}
 	
 	public String getColorStringBox() {
-		return this.getColor().map(node -> node.asLiteral().getLexicalForm()).orElse(null);
+		return super.getShaclPlayColor().map(node -> node.asLiteral().getLexicalForm()).orElse(null);
 	}
 	
 	public int countShNodeOrShClassReferencesTo(String id, PlantUmlDiagram diagram) {

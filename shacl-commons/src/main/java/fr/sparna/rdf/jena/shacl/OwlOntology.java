@@ -90,6 +90,10 @@ public class OwlOntology {
 		return ModelReadingUtils.readObjectAsResourceOrLiteral(this.resource, FOAF.depiction);
 	}
 
+	public String getOWLUri() {
+		return this.resource.toString();
+	}
+	
 	public String getDctTitle(String lang) {
 		return ModelReadingUtils.readLiteralInLangAsString(this.resource, DCTerms.title, lang);
 	}
@@ -108,6 +112,10 @@ public class OwlOntology {
 
 	public String getOwlVersionInfo() {
 		return ModelReadingUtils.readLiteralAsString(this.resource,OWL.versionInfo);
+	}
+
+	public List<Resource> getOwlImports() {
+		return ModelReadingUtils.readObjectAsResource(this.resource, OWL.imports);		
 	}
 
 	public String getDescription(String lang) {

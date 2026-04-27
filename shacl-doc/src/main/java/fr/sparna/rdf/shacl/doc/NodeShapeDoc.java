@@ -7,69 +7,54 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
-import org.apache.jena.rdf.model.Statement;
-import org.apache.jena.sparql.vocabulary.FOAF;
 import org.apache.jena.vocabulary.DCTerms;
 import org.apache.jena.vocabulary.OWL;
-import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.RDFS;
 import org.apache.jena.vocabulary.SKOS;
 import org.topbraid.shacl.vocabulary.SH;
 
 import fr.sparna.rdf.jena.ModelReadingUtils;
 import fr.sparna.rdf.jena.ModelRenderingUtils;
-import fr.sparna.rdf.shacl.DCT;
-import fr.sparna.rdf.shacl.SHACL_PLAY;
+import fr.sparna.rdf.jena.shacl.NodeShape;
+import fr.sparna.rdf.jena.shacl.ShapesGraph;
 
-import fr.sparna.rdf.jena.ModelReadingUtils;
-
-public class NodeShape {
+public class NodeShapeDoc extends NodeShape  {
 
 	private Resource nodeShape;
 	
 	
-	protected List<PropertyShape> properties = new ArrayList<>();
+	protected List<PropertyShapeDoc> propertiesDoc = new ArrayList<>();
 	
-	public NodeShape(Resource nodeShape) {
+	public NodeShapeDoc(Resource nodeShape) {
+		super(nodeShape);
 		this.nodeShape = nodeShape;
 	}
 	
 	public String getRdfsLabelAsString(String lang) {
-		return ModelRenderingUtils.render(this.getRdfsLabel(lang), true);
+		return ModelRenderingUtils.render(super.getRdfsLabel(lang), true);
 	}	
 	
-	public String getShortFormOrId() {
-		if(this.nodeShape.isURIResource()) {
-			return this.getNodeShape().getModel().shortForm(this.getNodeShape().getURI());
-		} else {
-			// returns the blank node ID in that case
-			return this.nodeShape.asResource().getId().getLabelString();
-		}
-	}
-	
 	public String getURIOrId() {
-		if(this.nodeShape.isURIResource()) {
-			return this.getNodeShape().getURI();
+		if(super.getNodeShape().isURIResource()) {
+			return super.getNodeShape().getURI();
 		} else {
 			// returns the blank node ID in that case
-			return this.nodeShape.asResource().getId().getLabelString();
+			return super.getNodeShape().asResource().getId().getLabelString();
 		}
 	}
 	
 	public String getDisplayLabel(Model owlModel, String lang) {
-		String result = ModelRenderingUtils.render(this.getSkosPrefLabel(lang), true);
+		String result = ModelRenderingUtils.render(super.getSkosPrefLabel(lang), true);
 		
 		if(result == null) {
-			result = ModelRenderingUtils.render(this.getRdfsLabel(lang), true);
+			result = ModelRenderingUtils.render(super.getRdfsLabel(lang), true);
 		}				
 		
-		if((result == null) && (this.getShTargetClass().size() > 0)) {			
+		if((result == null) && (super.getTargetClasses().size() > 0)) {			
 			// otherwise if we have skos:prefLabel on the class, take it
-			for (Resource t : this.getShTargetClass()) {
+			for (Resource t : super.getTargetClasses()) {
 				String res = ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(owlModel.getResource(t.getURI()), SKOS.prefLabel, lang), true);
 			    if (res != null) {
 			    	result = res;
@@ -78,9 +63,9 @@ public class NodeShape {
 			
 		}
 		
-		if((result == null) && (this.getShTargetClass().size() > 0)) {
+		if((result == null) && (super.getTargetClasses().size() > 0)) {
 			// otherwise if we have rdfs:label on the class, take it
-			for (Resource t : this.getShTargetClass()) {
+			for (Resource t : super.getTargetClasses()) {
 				String res = ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(owlModel.getResource(t.getURI()), RDFS.label, lang), true);
 			    if (res != null) {
 			    	result = res;
@@ -98,16 +83,16 @@ public class NodeShape {
 	}
 	
 	public String getDisplayDescription(Model owlModel, String lang) {
-		String result = ModelRenderingUtils.render(this.getSkosDefinition(lang), true);
+		String result = ModelRenderingUtils.render(super.getSkosDefinition(lang), true);
 		
 		if(result == null) {
-			result = ModelRenderingUtils.render(this.getRdfsComment(lang), true);
+			result = ModelRenderingUtils.render(super.getRdfsComment(lang), true);
 		}
 		
-		if(result == null && this.getShTargetClass().size() > 0) {
+		if(result == null && super.getTargetClasses().size() > 0) {
 			// otherwise if we have skos:definition on the class, take it
 			//result = ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(owlModel.getResource(this.getShTargetClass().getURI()), SKOS.definition, lang), true);
-			for (Resource t : this.getShTargetClass()) {
+			for (Resource t : super.getTargetClasses()) {
 				String res = ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(owlModel.getResource(t.getURI()), SKOS.definition, lang), true);
 			    if (res != null) {
 			    	result.join(",",res);
@@ -116,10 +101,10 @@ public class NodeShape {
 			
 		}
 		
-		if(result == null && this.getShTargetClass().size() > 0) {
+		if(result == null && super.getTargetClasses().size() > 0) {
 			// otherwise if we have rdfs:label on the class, take it
 			//result = ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(owlModel.getResource(this.getShTargetClass().getURI()), RDFS.comment, lang), true);
-			for (Resource t : this.getShTargetClass()) {
+			for (Resource t : super.getTargetClasses()) {
 				String res = ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(owlModel.getResource(t.getURI()), RDFS.comment, lang), true);
 			    if (res != null) {
 			    	result.join(",",res);
@@ -129,90 +114,29 @@ public class NodeShape {
 		
 		return result;
 	}
-		
-	public List<Literal> getRdfsComment(String lang) {
-		return ModelReadingUtils.readLiteralInLang(nodeShape, RDFS.comment, lang);
-	}
 	
-	public List<Literal> getRdfsLabel(String lang) {
-		return ModelReadingUtils.readLiteralInLang(nodeShape, RDFS.label, lang);
-	}
-	
-	public List<Literal> getSkosPrefLabel(String lang) {
-		return ModelReadingUtils.readLiteralInLang(nodeShape, SKOS.prefLabel, lang);
-	}
-	
-	public List<Literal> getSkosDefinition(String lang) {
-		return ModelReadingUtils.readLiteralInLang(nodeShape, SKOS.definition, lang);
-	}
-	
-	public Resource getNodeShape() {
-		return nodeShape;
+	public List<PropertyShapeDoc> getPropertiesDoc() {
+		return propertiesDoc;
 	}
 
-	public List<PropertyShape> getProperties() {
-		return properties;
-	}
-
-	public void setProperties(List<PropertyShape> properties) {
-		this.properties = properties;
-	}
-
-	public Literal getShTargetShSelect() {
-		return Optional.ofNullable(nodeShape.getPropertyResourceValue(SH.target)).map(
-				r -> Optional.ofNullable(r.getProperty(SH.select)).map(l -> l.getLiteral()).orElse(null)
-		).orElse(null);
+	public void setPropertiesDoc(List<PropertyShapeDoc> propertiesDoc) {
+		this.propertiesDoc = propertiesDoc;
 	}
 	
-	public Literal getShSparqlDCTDescription() {
-		return Optional.ofNullable(nodeShape.getPropertyResourceValue(SH.sparql)).map(
-				r -> Optional.ofNullable(r.getProperty(DCT.Description)).map(l -> l.getLiteral()).orElse(null)
-		).orElse(null);
-	}
-
 	public boolean isAClass() {
-		return nodeShape.hasProperty(RDF.type, RDFS.Class);
+		return super.isClassShape();
 	}
 
-	public Boolean getShaclPlayMain() {
-		return ModelReadingUtils.readLiteral(nodeShape, nodeShape.getModel().createProperty(SHACL_PLAY.MAIN)).stream().map(s -> s.getBoolean()).findFirst().orElse(null);
-	}
-	
-	public RDFNode getSkosExample() {
-		return Optional.ofNullable(nodeShape.getProperty(SKOS.example)).map(s -> s.getObject()).orElse(null);
-	}
-	
-	public Resource getShNodeKind() {	
-		return Optional.ofNullable(nodeShape.getProperty(SH.nodeKind)).map(s -> s.getResource()).orElse(null);
-	}
-
-	public Boolean getShClosed() {
-		return Optional.ofNullable(nodeShape.getProperty(SH.closed)).map(s -> Boolean.valueOf(s.getBoolean())).orElse(null);
-	}
-
-	public Double getShOrder() {
+	public Double getShOrderDoc() {
 		return getShOrderOf(nodeShape);
 	}
 
 	private Double getShOrderOf(Resource r) {
 		return Optional.ofNullable(r.getProperty(SH.order)).map(s -> s.getDouble()).orElse(null);
 	}
-
-	public Literal getShPattern() {
-		return Optional.ofNullable(nodeShape.getProperty(SH.pattern)).map(s -> s.getLiteral()).orElse(null);
-	}
-
-	public List<Resource> getShTargetClass() {
-		//Optional.ofNullable(nodeShape.getProperty(SH.targetClass)).map(s -> s.getResource()).orElse(null);
-		return nodeShape.listProperties(SH.targetClass).toList().stream().map(s -> s.getObject().asResource()).collect(Collectors.toList());
-	}
 	
 	public List<Resource> getRdfsSubClassOf() {
-		return NodeShape.getRdfsSubClassOfOf(nodeShape);
-	}
-
-	public List<Resource> getShNode() {
-		return nodeShape.listProperties(SH.node).toList().stream().map(s -> s.getObject().asResource()).collect(Collectors.toList());
+		return this.getRdfsSubClassOfOf(nodeShape);
 	}
 	
 	public static List<Resource> getRdfsSubClassOfOf(Resource resource) {
@@ -224,12 +148,12 @@ public class NodeShape {
 	
 	public List<Resource> getShTargetClassRdfsSubclassOfInverseOfShTargetClass() {
 		Set<Resource> result = new HashSet<Resource>();
-		List<Resource> targetClass = this.getShTargetClass();		
+		List<Resource> targetClass = super.getTargetClasses();
 		if(targetClass != null) {
 			
 			List<Resource> subClassesOf = new ArrayList<>();
 			for (Resource r : targetClass) {
-				subClassesOf.addAll(NodeShape.getRdfsSubClassOfOf(r));
+				subClassesOf.addAll(this.getRdfsSubClassOfOf(r));
 			}
 			
 			//List<Resource> subClassesOf = NodeShape.getRdfsSubClassOfOf(targetClass);
@@ -258,37 +182,29 @@ public class NodeShape {
 		List<Resource> superShapes = new ArrayList<Resource>();
 		superShapes.addAll(this.getRdfsSubClassOf());
 		superShapes.addAll(this.getShTargetClassRdfsSubclassOfInverseOfShTargetClass());
-		superShapes.addAll(this.getShNode());
+		superShapes.addAll(this.getShNodeAsList());
 		return superShapes;
 	}
-		
-	public Resource getShtargetSubjectsOf() {
-		return Optional.ofNullable(nodeShape.getProperty(SH.targetSubjectsOf)).map(s -> s.getResource()).orElse(null);
-	}
 	
-	public Resource getShtargetObjectsOf() {
-		return Optional.ofNullable(nodeShape.getProperty(SH.targetObjectsOf)).map(s -> s.getResource()).orElse(null);
-	}	
-
 	public List<Depiction> getFoafDepiction() {
 		
-		List<Statement> depic = nodeShape.listProperties(FOAF.depiction).toList();
+		//List<Statement> depic = nodeShape.listProperties(FOAF.depiction).toList();
 		List<Resource> depictionsResources = new ArrayList<>();
 
-		for (Statement aDepictStatement : depic) {
-			RDFNode object = aDepictStatement.getObject();
+		for (Resource aDepictStatement : super.getDepiction()) {
+			//RDFNode object = aDepictStatement.getObject();
 
-			if (object.isResource()) {
+			if (aDepictStatement.isResource()) {
 				if(
-					object.asResource().getURI() != null
+					aDepictStatement.asResource().getURI() != null
 					&&
 					(
-						object.asResource().getURI().contains(".jpg")
+						aDepictStatement.asResource().getURI().contains(".jpg")
 						||
-						object.asResource().getURI().contains(".png")
+						aDepictStatement.asResource().getURI().contains(".png")
 					)
 				)
-				depictionsResources.add(object.asResource());	
+				depictionsResources.add(aDepictStatement.asResource());	
 			}					
 		}
 		
@@ -325,5 +241,54 @@ public class NodeShape {
 		}
 		
 		return depictions;	
+	}
+
+	public List<UsageDoc> getUsage() {
+
+		ShapesGraph shapesGraphUsage = new ShapesGraph(this.getNodeShape().getModel());
+		// Get all Resources
+		List<Resource> ListOfPropertiesByUsage =  shapesGraphUsage.getResourceByUsage(this.nodeShape);
+		//
+		List<UsageDoc> nsUsageAsList = new ArrayList<>();
+		if (ListOfPropertiesByUsage.size() > 0) {
+			for (Resource r : ListOfPropertiesByUsage) {
+				if (!r.isAnon() && r.isResource()) {
+					List<Resource> nResourceFound = shapesGraphUsage.findNodeShapeByProperty(r);
+					//System.out.println("Number of Resouces: " + nResourceFound.size());
+					for(Resource rFound : nResourceFound) {
+						NodeShapeDoc nsUsage = new NodeShapeDoc(rFound);						
+						PropertyShapeDoc psDocUsage = new PropertyShapeDoc(r);
+						boolean nsExist = nsUsageAsList.stream().filter( nsList -> nsList.getNodeShape().getNodeShape().getURI().equals(nsUsage.getNodeShape().getURI())).findFirst().isPresent();
+						if (!nsExist) {
+							UsageDoc usDoc = new UsageDoc();
+							usDoc.setNodeShape(nsUsage);
+							List<PropertyShapeDoc> psList = new ArrayList<>();
+							psList.add(psDocUsage);
+							usDoc.setProperties(psList);
+							nsUsageAsList.add(usDoc);
+						} else {
+							Integer nCount = 0;
+							for (UsageDoc nsResource : nsUsageAsList) {
+								if (nsResource.getNodeShape().getNodeShape().getURI().equals(nsUsage.getNodeShape().getURI())) {
+									List<PropertyShapeDoc> psList = nsResource.getProperties();
+									boolean nsExistProperty = psList.stream().filter( pp -> pp.getPropertyShape().getURI().equals(psDocUsage.getPropertyShape().getURI()) ).findFirst().isPresent();
+									if (!nsExistProperty) {
+										List<PropertyShapeDoc> p = nsResource.getProperties();
+										p.add(psDocUsage);
+										nsResource.setProperties(p);
+										nsUsageAsList.set(nCount, nsResource);
+									}
+								}
+								nCount++;
+							}							
+						}
+
+					}
+				}
+			}
+		}
+		
+		return nsUsageAsList;
+
 	}
 }

@@ -14,8 +14,8 @@ import org.apache.jena.vocabulary.XSD;
 
 import fr.sparna.rdf.jena.ModelRenderingUtils;
 import fr.sparna.rdf.jena.shacl.ShOrReadingUtils;
-import fr.sparna.rdf.shacl.doc.NodeShape;
-import fr.sparna.rdf.shacl.doc.PropertyShape;
+import fr.sparna.rdf.shacl.doc.NodeShapeDoc;
+import fr.sparna.rdf.shacl.doc.PropertyShapeDoc;
 import fr.sparna.rdf.shacl.doc.model.Link;
 import fr.sparna.rdf.shacl.doc.model.PropertyShapeDocumentation;
 import net.sourceforge.plantuml.board.BNode;
@@ -23,7 +23,7 @@ import net.sourceforge.plantuml.board.BNode;
 
 public class PropertyShapeDocumentationBuilder {
 
-	private List<NodeShape> allNodeShapes;
+	private List<NodeShapeDoc> allNodeShapes;
 	private Model shaclGraph;
 	private Model owlGraph;
 	private String lang;
@@ -31,7 +31,7 @@ public class PropertyShapeDocumentationBuilder {
 	
 
 	public PropertyShapeDocumentationBuilder(
-		List<NodeShape> allNodeShapes,
+		List<NodeShapeDoc> allNodeShapes,
 		Model shaclGraph,
 		Model owlGraph,
 		String lang
@@ -44,8 +44,8 @@ public class PropertyShapeDocumentationBuilder {
 
 
 	public PropertyShapeDocumentation build(
-			PropertyShape propertyShape,
-			NodeShape nodeShape) {
+			PropertyShapeDoc propertyShape,
+			NodeShapeDoc nodeShape) {
 		// Start building final structure
 		PropertyShapeDocumentation proprieteDoc = new PropertyShapeDocumentation();
 		proprieteDoc.setLabel(propertyShape.getDisplayLabel(shaclGraph.union(owlGraph), lang));
@@ -53,35 +53,39 @@ public class PropertyShapeDocumentationBuilder {
 		// URI in the documentation
 		proprieteDoc.setPropertyUri(buildPathLink(propertyShape));
 		// full URI
-		proprieteDoc.setPropertyShapeUriOrId(propertyShape.getResource().getModel().shortForm(propertyShape.getURIOrId()));
+		proprieteDoc.setPropertyShapeUriOrId(propertyShape.getPropertyShape().getModel().shortForm(propertyShape.getURIOrId()));
 		// section ID from concat of node shape ID + short name of the property
 		//proprieteDoc.setSectionId(nodeShape.getShortFormOrId()+"_"+propertyShape.getShPathAsString());	
 		proprieteDoc.setSectionId(nodeShape.getShortFormOrId()+"_"+propertyShape.getShPathAsString());	
 		
 		// if sh:qualifiedValueShape found in then property else print cardinality
-		if (propertyShape.getQualifiedValueShape() != null) {
-			proprieteDoc.setCardinalite(renderCardinalities(propertyShape.getShQualifiedMinCount(), propertyShape.getShQualifiedMaxCount()));
+		if (propertyShape.getShQualifiedValueShape().isPresent()) {
+			Integer qlfMin = propertyShape.getShQualifiedMinCount().isPresent() ? propertyShape.getShQualifiedMinCount().get() : null;
+			Integer qlfMax = propertyShape.getShQualifiedMaxCount().isPresent() ? propertyShape.getShQualifiedMaxCount().get() : null;
+			proprieteDoc.setCardinalite(renderCardinalities(qlfMin, qlfMax));
 		} else {
-			proprieteDoc.setCardinalite(renderCardinalities(propertyShape.getShMinCount(), propertyShape.getShMaxCount()));
+			Integer minCount = propertyShape.getShMinCount().isPresent() ? propertyShape.getShMinCount().get() : null;
+			Integer maxCount = propertyShape.getShMaxCount().isPresent() ? propertyShape.getShMaxCount().get() : null;
+			proprieteDoc.setCardinalite(renderCardinalities(minCount, maxCount));
 		}		
 		
 		proprieteDoc.setDescription(propertyShape.getDisplayDescription(shaclGraph.union(owlGraph), lang));
 		
 		// colors
-		if (!propertyShape.getColor().isEmpty()) {
-			proprieteDoc.setColor(propertyShape.getColor().get().getString());
+		if (!propertyShape.getShaclPlayColor().isEmpty()) {
+			proprieteDoc.setColor(propertyShape.getShaclPlayColor().get().getString());
 		}		
-		if (!propertyShape.getBackgroundColor().isEmpty()) {
-			proprieteDoc.setBackgroundcolor(propertyShape.getBackgroundColor().get().getString());
+		if (!propertyShape.getShaclPlayBackgroundColor().isEmpty()) {
+			proprieteDoc.setBackgroundcolor(propertyShape.getShaclPlayBackgroundColor().get().getString());
 		}
 		
 		proprieteDoc.getExpectedValue().setExpectedValue(selectExpectedValueAsLink(
-				propertyShape.getShClass(),
-				propertyShape.getShNode(),
-				propertyShape.getShDatatype(),
-				propertyShape.getShNodeKind(),
-				propertyShape.getShHasValue(),
-				propertyShape.getQualifiedValueShape()
+				propertyShape.getShClass().isPresent() ? propertyShape.getShClass().get().asResource() : null ,
+				propertyShape.getShNode().isPresent() ? propertyShape.getShNode().get().asResource() : null ,
+				propertyShape.getShDatatype().isPresent() ? propertyShape.getShDatatype().get().asResource() : null,
+				propertyShape.getShNodeKind().isPresent() ? propertyShape.getShNodeKind().get().asResource() : null,
+				propertyShape.getShHasValue().isPresent() ? propertyShape.getShHasValue().get() : null,
+				propertyShape.getShQualifiedValueShape().isPresent() ? propertyShape.getShQualifiedValueShape().get().asResource() : null
 		));
 
 		if(propertyShape.getShIn() != null) {
@@ -90,13 +94,13 @@ public class PropertyShapeDocumentationBuilder {
 		}
 		// sh:hasValue is taken as the main value above in selectExpectedValueAsLink()
 		// it is placed in the "inValues" slot only if there is a sh:node or sh:class
-		if(propertyShape.getShHasValue() != null && (propertyShape.getShClass() != null || propertyShape.getShNode() != null)) {
-			proprieteDoc.getExpectedValue().setInValues(Collections.singletonList(buildDefaultLink(propertyShape.getShHasValue())));
+		if(propertyShape.getShHasValue().isPresent() && (propertyShape.getShClass().isPresent() || propertyShape.getShNode().isPresent())) {
+			proprieteDoc.getExpectedValue().setInValues(Collections.singletonList(buildDefaultLink(propertyShape.getShHasValue().get())));
 		}
 		
 		// sh:pattern on property
-		if(propertyShape.getShPattern() != null) {
-			proprieteDoc.getExpectedValue().setPattern(propertyShape.getShPattern().getLexicalForm());
+		if(propertyShape.getShPattern().isPresent()) {
+			proprieteDoc.getExpectedValue().setPattern(propertyShape.getShPattern().get().getLexicalForm());
 		}
 		
 		// dash:LabelRole
@@ -143,7 +147,7 @@ public class PropertyShapeDocumentationBuilder {
 		return bResult;
 	}
 		
-	public static Link buildPathLink(PropertyShape prop) {			
+	public static Link buildPathLink(PropertyShapeDoc prop) {			
 		if(prop.getShPath() != null && prop.getShPath().isURIResource()) {
 			return new Link(
 					prop.getShPath().getURI(),
@@ -212,7 +216,7 @@ public class PropertyShapeDocumentationBuilder {
 	}
 
 	public Link buildShNodeLink(Resource shNode) {
-		for(NodeShape aBox : allNodeShapes) {
+		for(NodeShapeDoc aBox : allNodeShapes) {
 			// using toString instead of getURI so that it works with anonymous nodeshapes
 			if(aBox.getNodeShape().toString().equals(shNode.toString())) {
 				return new Link("#"+aBox.getShortFormOrId(), aBox.getDisplayLabel(owlGraph, lang));
@@ -224,8 +228,8 @@ public class PropertyShapeDocumentationBuilder {
 	}
 
 	public Link buildShClassLink(Resource shClass) {
-		for(NodeShape aNodeShape : allNodeShapes) {
-			if(aNodeShape.getShTargetClass() != null && findShClassInShTargetClass(aNodeShape.getShTargetClass(),shClass.getURI())) {
+		for(NodeShapeDoc aNodeShape : allNodeShapes) {
+			if(aNodeShape.getTargetClasses() != null && findShClassInShTargetClass(aNodeShape.getTargetClasses(),shClass.getURI())) {
 				return new Link("#"+aNodeShape.getShortFormOrId(), aNodeShape.getDisplayLabel(owlGraph, lang));
 				// checks that the URI of the NodeShape is itself equal to the sh:class
 				// add a check to work only with named URI node shapes
@@ -275,14 +279,14 @@ public class PropertyShapeDocumentationBuilder {
 	
 	public Link buildShQualifiedValueShape(Resource shQualifiedValueShape) {
 		
-		PropertyShape qualifiedvaludShapeObject = new PropertyShape(shQualifiedValueShape);
+		PropertyShapeDoc qualifiedvaludShapeObject = new PropertyShapeDoc(shQualifiedValueShape);
 
 		return selectExpectedValueAsLink(
-			qualifiedvaludShapeObject.getShClass(),
-			qualifiedvaludShapeObject.getShNode(),
-			qualifiedvaludShapeObject.getShDatatype(),
-			qualifiedvaludShapeObject.getShNodeKind(),
-			qualifiedvaludShapeObject.getShHasValue(),
+			qualifiedvaludShapeObject.getShClass().isPresent() ? qualifiedvaludShapeObject.getShClass().get().asResource() : null,
+			qualifiedvaludShapeObject.getShNode().isPresent() ? qualifiedvaludShapeObject.getShNode().get().asResource() : null,
+			qualifiedvaludShapeObject.getShDatatype().isPresent() ? qualifiedvaludShapeObject.getShDatatype().get().asResource() : null,
+			qualifiedvaludShapeObject.getShNodeKind().isPresent() ? qualifiedvaludShapeObject.getShNodeKind().get().asResource() : null,
+			qualifiedvaludShapeObject.getShHasValue().isPresent() ? qualifiedvaludShapeObject.getShHasValue().get().asResource() : null,
 			// null for qualifiedValueShape
 			null
 		);

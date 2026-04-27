@@ -10,7 +10,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 import fr.sparna.rdf.shacl.doc.Depiction;
-import fr.sparna.rdf.shacl.doc.PropertyShape;
+import fr.sparna.rdf.shacl.doc.PropertyShapeDoc;
 import fr.sparna.rdf.shacl.doc.UsageDoc;
 import fr.sparna.rdf.shacl.doc.UsageOutput;
 import fr.sparna.rdf.shacl.diagram.PlantUmlDiagramOutput;

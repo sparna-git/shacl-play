@@ -20,7 +20,7 @@ import fr.sparna.rdf.jena.ModelReadingUtils;
 import fr.sparna.rdf.jena.ModelRenderingUtils;
 import org.topbraid.shacl.vocabulary.SH;
 
-import fr.sparna.rdf.shacl.SHACL_PLAY;
+import fr.sparna.rdf.shacl.DCT;
 
 public class NodeShape extends Shape  {
 	
@@ -39,13 +39,6 @@ public class NodeShape extends Shape  {
 	}
 
 	/**
-	 * @return The list of foaf:depiction values, if present, or an empty list if not present
-	 */
-	public List<Resource> getDepiction() {
-		return ModelReadingUtils.readObjectAsResource(shape, FOAF.depiction);
-	}
-
-	/**
 	 * @return The sh:targetClass resource value if present, or null if not present
 	 */
 	public Resource getTargetClass() {
@@ -60,8 +53,20 @@ public class NodeShape extends Shape  {
 		return ModelReadingUtils.readObjectAsResource(shape, SH.targetSubjectsOf);
 	}
 
+	public Resource getTargetSubjectsOfAsResource() {
+		return ModelReadingUtils.getOptionalResource(shape, SH.targetSubjectsOf).isPresent() ?
+			ModelReadingUtils.getOptionalResource(shape, SH.targetSubjectsOf).map( r -> r.asResource()).get().asResource()
+			: null;
+	}
+
 	public List<Resource> getTargetObjectsOf() {
 		return ModelReadingUtils.readObjectAsResource(shape, SH.targetObjectsOf);
+	}
+
+	public Resource getTargetObjectsOfAsResource() {
+		return ModelReadingUtils.getOptionalResource(shape, SH.targetObjectsOf).isPresent() ?
+			ModelReadingUtils.getOptionalResource(shape, SH.targetObjectsOf).get().asResource() :
+			null;
 	}
 
 	public List<Resource> getTarget() {
@@ -107,46 +112,6 @@ public class NodeShape extends Shape  {
 	 */
 	public Optional<Literal> getShClosed() {
 		return ModelReadingUtils.getOptionalLiteral(shape,SH.closed);
-	}
-
-	/**
-	 * @return The rdfs:comment list in the provided language, or an empty list if none is present
-	 */
-	public List<Literal> getRdfsComment(String lang) {
-		return ModelReadingUtils.readLiteralInLang(shape, RDFS.comment, lang);
-	}
-	
-	/**
-	 * @return The rdfs:label list in the provided language, or an empty list if none is present
-	 */
-	public List<Literal> getRdfsLabel(String lang) {
-		return ModelReadingUtils.readLiteralInLang(shape, RDFS.label, lang);
-	}
-	
-	/**
-	 * @return The skos:prefLabel list in the provided language, or an empty list if none is present
-	 */
-	public List<Literal> getSkosPrefLabel(String lang) {
-		return ModelReadingUtils.readLiteralInLang(shape, SKOS.prefLabel, lang);
-	}
-	
-	/**
-	 * @return The skos:definition list in the provided language, or an empty list if none is present
-	 */
-	public List<Literal> getSkosDefinition(String lang) {
-		return ModelReadingUtils.readLiteralInLang(shape, SKOS.definition, lang);
-	}
-
-	public String getBackgroundColorString() {
-		return this.getShaclPlayBackgroundColor().map(node -> node.asLiteral().toString()).orElse(null);
-	}
-
-	public String getColorString() {
-		return this.getShaclPlayColor().map(node -> node.asLiteral().toString()).orElse(null);
-	}
-	
-	public Boolean getMainBoolean() {
-		return this.getShaclPlayMain().map(node -> node.asLiteral().getBoolean()).orElse(false);
 	}
 
 	public Boolean isClosed() {
@@ -210,7 +175,7 @@ public class NodeShape extends Shape  {
 	}
 
 	public String getShortFormOrId() {
-		if(this.shape.isURIResource()) {
+		if(this.shape.isURIResource() && this.shape != null) {
 			return this.getNodeShape().getModel().shortForm(this.getNodeShape().getURI());
 		} else {
 			// returns the blank node ID in that case
@@ -251,7 +216,6 @@ public class NodeShape extends Shape  {
 		return result;
 	}
 	
-
 	public List<PropertyShape> getProperties() {
 		if(this.properties != null) {
 			return properties;
@@ -299,4 +263,73 @@ public class NodeShape extends Shape  {
 		 
 		return properties;	
 	}
+
+	public Literal getShTargetShSelect() {
+		return Optional.ofNullable(this.shape.getPropertyResourceValue(SH.target)).map(
+				r -> Optional.ofNullable(r.getProperty(SH.select)).map(l -> l.getLiteral()).orElse(null)
+		).orElse(null);
+	}
+
+	public Literal getShSparqlDCTDescription() {
+		return Optional.ofNullable(this.shape.getPropertyResourceValue(SH.sparql)).map(
+				r -> Optional.ofNullable(r.getProperty(DCT.Description)).map(l -> l.getLiteral()).orElse(null)
+		).orElse(null);
+	}
+
+	/* ######## FOAF ########  */
+
+	/**
+	 * @return The list of foaf:depiction values, if present, or an empty list if not present
+	 */
+	public List<Resource> getDepiction() {
+		return ModelReadingUtils.readObjectAsResource(shape, FOAF.depiction);
+	}
+
+	
+	/* ######## RDFs ########  */
+
+	/**
+	 * @return The rdfs:comment list in the provided language, or an empty list if none is present
+	 */
+	public List<Literal> getRdfsComment(String lang) {
+		return ModelReadingUtils.readLiteralInLang(shape, RDFS.comment, lang);
+	}
+	
+	/**
+	 * @return The rdfs:label list in the provided language, or an empty list if none is present
+	 */
+	public List<Literal> getRdfsLabel(String lang) {
+		return ModelReadingUtils.readLiteralInLang(shape, RDFS.label, lang);
+	}
+
+	/* ######## SHACL Play ########  */
+	
+	public String getBackgroundColorString() {
+		return this.getShaclPlayBackgroundColor().map(node -> node.asLiteral().toString()).orElse(null);
+	}
+
+	public String getColorString() {
+		return this.getShaclPlayColor().map(node -> node.asLiteral().toString()).orElse(null);
+	}
+	
+	public Boolean getMainBoolean() {
+		return this.getShaclPlayMain().map(node -> node.asLiteral().getBoolean()).orElse(false);
+	}
+
+	/* ######## SKOS ########  */
+
+	/**
+	 * @return The skos:prefLabel list in the provided language, or an empty list if none is present
+	 */
+	public List<Literal> getSkosPrefLabel(String lang) {
+		return ModelReadingUtils.readLiteralInLang(shape, SKOS.prefLabel, lang);
+	}
+	
+	/**
+	 * @return The skos:definition list in the provided language, or an empty list if none is present
+	 */
+	public List<Literal> getSkosDefinition(String lang) {
+		return ModelReadingUtils.readLiteralInLang(shape, SKOS.definition, lang);
+	}
+	
 }

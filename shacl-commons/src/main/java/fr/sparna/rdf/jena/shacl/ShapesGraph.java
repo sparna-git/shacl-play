@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.RDFList;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.vocabulary.OWL;
@@ -27,6 +28,11 @@ public class ShapesGraph {
 		this.owlGraph = owlGraph;
 		
 		this.ontology = this.readOWL(shaclGraph);
+	}
+
+	public ShapesGraph(Model shaclGraph) {
+		super();
+		this.shaclGraph = shaclGraph;
 	}
 	
 	
@@ -55,6 +61,10 @@ public class ShapesGraph {
 	
 	public NodeShape findNodeShapeByResource(Resource r) {
 		return getAllNodeShapes().stream().filter(ns -> ns.getNodeShape().toString().equals(r.toString())).findFirst().orElse(null);
+	}
+
+	public List<Resource> findNodeShapeByProperty(Resource resource) {
+		return shaclGraph.listStatements(null,SH.property, resource).toList().stream().map( m -> m.getSubject()).collect(Collectors.toList());
 	}
 
 	/**
@@ -87,10 +97,90 @@ public class ShapesGraph {
 		return shaclGraph.listSubjectsWithProperty(SH.path, path).toList().stream().map(r -> new PropertyShape(r)).collect(Collectors.toList());
 	}
 
+	/*
+		Return the 
+	 */
 	public List<PropertyShape> findPropertyShapesByShortname(String shortname) {
 		return shaclGraph.listSubjectsWithProperty(shaclGraph.createProperty(SHACL_PLAY.SHORTNAME), shaclGraph.createLiteral(shortname)).toList().stream().map(r -> new PropertyShape(r)).collect(Collectors.toList());
 	}
 
+	/*
+		Return list of properties from SH.node
+	*/
+	public List<Resource> findPropertyShapeByShNode(Resource findNS) {	
+		return shaclGraph.listStatements(null,SH.node, findNS).toList().stream().map(r -> r.getSubject()).collect(Collectors.toList());
+	}
+
+	public List<Resource> findPropertyShapeByShClass(Resource findNS) {		
+		return shaclGraph.listStatements(null,SH.class_, findNS).toList().stream().map(r -> r.getSubject()).collect(Collectors.toList());
+	}
+
+	public List<Resource> findPropertyShapeByShQualifiedValueShape(Resource findNS) {		
+		return shaclGraph.listStatements(null,SH.qualifiedValueShape, findNS).toList().stream().map(r -> r.getSubject()).collect(Collectors.toList());
+	}
+
+	public List<Resource> findPropertyShapeByShNodeInShOr(Resource findNS) {
+
+		// Get all nodeShapes
+		List<Resource> rShOr = shaclGraph.listResourcesWithProperty(SH.or)
+								.toList()
+								.stream()
+								.map( shORValue -> shORValue.asResource())
+								.collect(Collectors.toList());
+		
+		List<Resource> x = new ArrayList<>();
+		for (Resource r : rShOr) {
+			// Sh Node in Sh Or
+			for (Resource rNodeValue : ShOrReadingUtils.readShNodeInShOr(r.getProperty(SH.or).getList())) {
+				if (rNodeValue.getURI().equals(findNS.getURI())) {
+					x.add(r.asResource());
+				}
+			}
+			// Sh Class in Sh Or
+			List<Resource> rdfListClass =  ShOrReadingUtils.readShClassInShOr(r.getProperty(SH.or).getList());
+			for (Resource rNodeValue : rdfListClass) {
+				if (rNodeValue.isResource() && rNodeValue != null && !rNodeValue.isAnon()) {
+					if (rNodeValue.getURI().equals(findNS.getURI())) {
+						x.add(r.asResource());
+					}
+				}
+			}
+			// Sh Datatype in Sh Or
+			for (Resource rNodeValue : ShOrReadingUtils.readShDatatypeInShOr(r.getProperty(SH.or).getList())) {
+				if (rNodeValue.isResource() && rNodeValue != null && !rNodeValue.isAnon()) {
+					if (rNodeValue.getURI().equals(findNS.getURI())) {
+						x.add(r.asResource());
+					}
+				}
+			}
+			// Sh NodeKind in Sh Or
+			for (Resource rNodeValue : ShOrReadingUtils.readShNodeKindInShOr(r.getProperty(SH.or).getList())) {
+				if (rNodeValue.isResource() && rNodeValue != null && !rNodeValue.isAnon()) {
+					if (rNodeValue.getURI().equals(findNS.getURI())) {
+						x.add(r.asResource());
+					}
+				}
+			}
+		}
+
+		return x;		
+	}
+
+	public List<Resource> getResourceByUsage(Resource nodeshape) {
+
+		List<Resource> ListOfPropertiesUsage = new ArrayList<>();
+		// for SH Node
+		ListOfPropertiesUsage.addAll(this.findPropertyShapeByShNode(nodeshape));
+		// for SH Class
+		ListOfPropertiesUsage.addAll(this.findPropertyShapeByShClass(nodeshape));
+		// sh:node in sh:Or
+		ListOfPropertiesUsage.addAll(this.findPropertyShapeByShNodeInShOr(nodeshape));
+		// sh:qualifiedValueShape
+		ListOfPropertiesUsage.addAll(this.findPropertyShapeByShQualifiedValueShape(nodeshape));
+		
+		return ListOfPropertiesUsage;
+	}
+	
 	public void pruneEmptyAndUnusedNodeShapes() {
 		List<NodeShape> unusedNodeShapes = getAllNodeShapes().stream().filter(
 			ns -> (
@@ -113,7 +203,6 @@ public class ShapesGraph {
 		unusedNodeShapes.forEach(ns -> this.deleteNodeShape(ns.getNodeShape()));
 	}
 
-
 	public void deleteNodeShape(Resource nodeShape) {
 		// delete any blank nodes that are linked to this node shape
 		this.shaclGraph.listStatements(nodeShape, null, (RDFNode) null).toList()
@@ -122,7 +211,6 @@ public class ShapesGraph {
 		this.shaclGraph.removeAll(nodeShape, null, null);
 		this.shaclGraph.removeAll(null, null, nodeShape);
 	}
-	
 	
 	private OwlOntology readOWL(Model shaclGraph) {
 		

@@ -18,10 +18,12 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
-import fr.sparna.rdf.shacl.doc.DcatDistribution;
+//import fr.sparna.rdf.shacl.doc.DcatDistribution;
 import fr.sparna.rdf.shacl.doc.Depiction;
 import fr.sparna.rdf.shacl.doc.MarkdownRenderer;
-import fr.sparna.rdf.shacl.doc.OwlOntology;
+//import fr.sparna.rdf.shacl.doc.OwlOntology;
+import fr.sparna.rdf.jena.shacl.DcatDistribution;
+import fr.sparna.rdf.jena.shacl.OwlOntology;
 
 @JsonInclude(Include.NON_NULL)
 public class ShapesDocumentation {

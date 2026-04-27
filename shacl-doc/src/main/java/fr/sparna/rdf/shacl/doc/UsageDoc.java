@@ -1,30 +1,24 @@
 package fr.sparna.rdf.shacl.doc;
 import java.util.List;
 
-import fr.sparna.rdf.shacl.doc.model.Link;
-
 public class UsageDoc {
 
-    private NodeShape nodeShape;
-    private List<PropertyShape> properties;
+    private NodeShapeDoc nodeShape;
+    private List<PropertyShapeDoc> properties;
     
-    public UsageDoc(NodeShape nodeShape) {
-		this.nodeShape = nodeShape;
-	}
-
-    public NodeShape getNodeShape() {
+    public NodeShapeDoc getNodeShape() {
         return nodeShape;
     }
 
-    public void setNodeShape(NodeShape nodeShape) {
+    public void setNodeShape(NodeShapeDoc nodeShape) {
         this.nodeShape = nodeShape;
     }
 
-    public List<PropertyShape> getProperties() {
+    public List<PropertyShapeDoc> getProperties() {
         return properties;
     }
 
-    public void setProperties(List<PropertyShape> properties) {
+    public void setProperties(List<PropertyShapeDoc> properties) {
         this.properties = properties;
     }    
     

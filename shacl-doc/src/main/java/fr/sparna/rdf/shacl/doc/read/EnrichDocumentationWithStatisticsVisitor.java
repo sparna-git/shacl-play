@@ -9,8 +9,8 @@ import org.apache.jena.vocabulary.VOID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import fr.sparna.rdf.shacl.doc.NodeShape;
-import fr.sparna.rdf.shacl.doc.PropertyShape;
+import fr.sparna.rdf.shacl.doc.NodeShapeDoc;
+import fr.sparna.rdf.shacl.doc.PropertyShapeDoc;
 import fr.sparna.rdf.shacl.doc.model.PropertyShapeDocumentation;
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentation;
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentationSection;
@@ -56,7 +56,7 @@ public class EnrichDocumentationWithStatisticsVisitor implements ShaclVisitorIfc
 				int instances = aClassPartition.getProperty(VOID.entities).getInt();
 				
 				// find corresponding section
-				NodeShape ns = new NodeShape(aNodeShape);
+				NodeShapeDoc ns = new NodeShapeDoc(aNodeShape);
 				ShapesDocumentationSection section = this.documentation.findSectionByUriOrId(ns.getURIOrId());
 				if(section != null) {
 					section.setNumberOfTargets(instances);
@@ -81,10 +81,10 @@ public class EnrichDocumentationWithStatisticsVisitor implements ShaclVisitorIfc
 			Resource aPropertyPartition = propertyPartitions.get(0);
 			
 			// find corresponding section in doc
-			NodeShape ns = new NodeShape(aNodeShape);
+			NodeShapeDoc ns = new NodeShapeDoc(aNodeShape);
 			ShapesDocumentationSection section = this.documentation.findSectionByUriOrId(ns.getURIOrId());
 			if(section != null) {
-				PropertyShape ps = new PropertyShape(aPropertyShape);
+				PropertyShapeDoc ps = new PropertyShapeDoc(aPropertyShape);
 				PropertyShapeDocumentation propertySection = section.findPropertyShapeDocumentationSectionByUriOrId(ps.getURIOrId());
 				
 				if(propertySection != null) {

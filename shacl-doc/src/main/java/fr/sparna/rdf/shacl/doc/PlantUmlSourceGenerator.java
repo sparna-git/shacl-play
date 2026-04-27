@@ -54,6 +54,7 @@ public class PlantUmlSourceGenerator {
 	
 	public List<PlantUmlDiagramOutput> generatePlantUmlDiagramSection(Resource nodeShape) {
 		PlantUmlDiagramGenerator writer = this.buildPlantUmlDiagramGenerator();
+		
 		List<PlantUmlDiagramOutput> output = writer.generateDiagramsForSection(shapesModel, owlModel, nodeShape);		
 		return output;
 	}

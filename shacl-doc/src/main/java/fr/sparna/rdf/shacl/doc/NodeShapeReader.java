@@ -18,30 +18,30 @@ public class NodeShapeReader {
 	}
 	
 
-	public List<PropertyShape> readProperties(Resource nodeShape, List<NodeShape> allBoxes, Model owlModel) {
+	public List<PropertyShapeDoc> readProperties(Resource nodeShape, List<NodeShapeDoc> allBoxes, Model owlModel) {
 		
 		List<Statement> propertyStatements = nodeShape.listProperties(SH.property).toList();
-		List<PropertyShape> propertyShapes = new ArrayList<>();
+		List<PropertyShapeDoc> propertyShapes = new ArrayList<>();
 		for (Statement aPropertyStatement : propertyStatements) {
 			RDFNode object = aPropertyStatement.getObject();
 
 			if (object.isResource()) {
 				Resource propertyShape = object.asResource();			
-				PropertyShape plantvalueproperty = new PropertyShape(propertyShape);
+				PropertyShapeDoc plantvalueproperty = new PropertyShapeDoc(propertyShape);
 				propertyShapes.add(plantvalueproperty);	
 			}					
 		}
 		
 		// sort property shapes
-		propertyShapes.sort((PropertyShape ps1, PropertyShape ps2) -> {
-			if(ps1.getShOrder() != null) {
-				if(ps2.getShOrder() != null) {
-					return (ps1.getShOrder() - ps2.getShOrder()) > 0?1:-1;
+		propertyShapes.sort((PropertyShapeDoc ps1, PropertyShapeDoc ps2) -> {
+			if(ps1.getShOrderAsLiteral().isPresent()) {
+				if(ps2.getShOrderAsLiteral().isPresent()) {
+					return (ps1.getShOrderAsLiteral().get().getDouble() - ps2.getShOrderAsLiteral().get().getDouble()) > 0?1:-1;
 				} else {
 					return -1;
 				}
 			} else {
-				if(ps2.getShOrder() != null) {
+				if(ps2.getShOrderAsLiteral().isPresent()) {
 					return 1;
 				} else {
 					// both sh:order are null, try with sh:name

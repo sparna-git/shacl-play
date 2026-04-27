@@ -5,39 +5,38 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.Resource;
-import org.apache.jena.vocabulary.OWL;
-import org.apache.jena.vocabulary.RDF;
-import org.topbraid.shacl.vocabulary.SH;
 
-public class ShapesGraph {
+import fr.sparna.rdf.jena.shacl.ShapesGraph;
+
+public class ShapesGraphDoc extends ShapesGraph{
 	
 	private Model shaclGraph;
 	private Model owlGraph;
 	
-	private List<NodeShape> allNodeShapes = new ArrayList<>();
-	private OwlOntology ontologyObject;
+	private List<NodeShapeDoc> allNodeShapes = new ArrayList<>();
+	//private OwlOntology ontologyObject;
 	
 	/**
 	 * TODO : lang should not be here. It should be an accessor parameter in OwlOntology class
 	 */
-	public ShapesGraph(Model shaclGraph, Model owlGraph, String lang) {
-		super();
+	public ShapesGraphDoc(Model shaclGraph, Model owlGraph, String lang) {
+		super(shaclGraph,owlGraph);
 		this.shaclGraph = shaclGraph;
 		this.owlGraph = owlGraph;
 		
-		this.ontologyObject = this.readOWL(shaclGraph, lang);
-		this.allNodeShapes = this.readAllNodeShapes(shaclGraph, owlGraph, lang);
+		//this.ontologyObject = super.getOntology(); //this.readOWLDoc(shaclGraph, lang);
+		this.allNodeShapes = this.readAllNodeShapesDoc(shaclGraph, owlGraph, lang);
 	}
-	
-	
-	public List<NodeShape> getAllNodeShapes() {	
+
+	public List<NodeShapeDoc> getAllNodeShapesDoc() {	
 		return allNodeShapes; 
 	}
 
+	/*
 	public OwlOntology getOntologyObject() {
 		return ontologyObject;
 	}
+	*/
 
 	public Model getShaclGraph() {
 		return shaclGraph;
@@ -47,12 +46,21 @@ public class ShapesGraph {
 		return owlGraph;
 	}
 	
-	public NodeShape findNodeShapeByResource(Resource r) {
+	/* 
+	public NodeShapeDoc findNodeShapeByResource(Resource r) {
 		return this.allNodeShapes.stream().filter(ns -> ns.getNodeShape().toString().equals(r.toString())).findFirst().orElse(null);
 	}
 	
 	
-	private OwlOntology readOWL(Model shaclGraph, String lang) {
+	@Override
+	public NodeShape findNodeShapeByResource(Resource r) {
+		// TODO Auto-generated method stub
+		return super.findNodeShapeByResource(r);
+	}
+	*/
+
+	/* 
+	private OwlOntology readOWLDoc(Model shaclGraph, String lang) {
 		
 		// Lecture de OWL
 		// this is tricky, because we can have multiple ones if SHACL is merged with OWL or imports OWL
@@ -70,28 +78,28 @@ public class ShapesGraph {
 				
 		return ontologyObject;
 	}
-	
-	private ArrayList<NodeShape> readAllNodeShapes(Model shaclGraph, Model owlGraph, String lang) {
-		
-		List<Resource> nodeShapes = shaclGraph.listResourcesWithProperty(RDF.type, SH.NodeShape).toList();
+	*/
 
-		// 1. Lire toutes les classes		
-		ArrayList<NodeShape> allNodeShapes = new ArrayList<>();
+	private ArrayList<NodeShapeDoc> readAllNodeShapesDoc(Model shaclGraph, Model owlGraph, String lang) {
+		
+		// Convert nodehsape in nodeshape doc
+		ArrayList<NodeShapeDoc> allNodeShapes = new ArrayList<>();
 		NodeShapeReader reader = new NodeShapeReader(lang);
-		for (Resource nodeShape : nodeShapes) {
-			allNodeShapes.add(new NodeShape(nodeShape));
-		}
+		super.getAllNodeShapes()
+			.stream()
+			.map( ns -> allNodeShapes.add(new NodeShapeDoc(ns.getNodeShape())))
+			.collect(Collectors.toList());
 
 		// sort node shapes
-		allNodeShapes.sort((NodeShape ns1, NodeShape ns2) -> {
-			if (ns1.getShOrder() != null) {
-				if (ns2.getShOrder() != null) {
-					return ((ns1.getShOrder() - ns2.getShOrder()) > 0)?1:-1;
+		allNodeShapes.sort((NodeShapeDoc ns1, NodeShapeDoc ns2) -> {
+			if (ns1.getShOrderDoc() != null) {
+				if (ns2.getShOrderDoc() != null) {
+					return ((ns1.getShOrderDoc() - ns2.getShOrderDoc()) > 0)?1:-1;
 				} else {
 					return -1;
 				}
 			} else {
-				if (ns2.getShOrder() != null) {
+				if (ns2.getShOrderDoc() != null) {
 					return 1;
 				} else {
 					// both sh:order are null, try with their display label
@@ -101,8 +109,8 @@ public class ShapesGraph {
 		});
 
 		// 2. Lire les propriétés
-		for (NodeShape aBox : allNodeShapes) {
-			aBox.setProperties(reader.readProperties(aBox.getNodeShape(), allNodeShapes, owlGraph));
+		for (NodeShapeDoc aBox : allNodeShapes) {
+			aBox.setPropertiesDoc(reader.readProperties(aBox.getNodeShape(), allNodeShapes, owlGraph));
 		}
 		
 		return allNodeShapes; 

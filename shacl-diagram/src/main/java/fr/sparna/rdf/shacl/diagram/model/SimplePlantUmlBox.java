@@ -11,8 +11,8 @@ import org.topbraid.shacl.vocabulary.SH;
 
 public class SimplePlantUmlBox extends BasePlantUmlBox {
     
-    private String backgroundColorString;
-    private String colorString;
+    private String backgroundColorStringBox;
+    private String colorStringBox;
     private Resource nodeShape;
     private List<Resource> shNodeBox = new ArrayList<>();
     private String label;
@@ -28,24 +28,32 @@ public class SimplePlantUmlBox extends BasePlantUmlBox {
 		// init the link
 		this.link = "#" + ((r.isURIResource())?this.nodeShape.getModel().shortForm(this.nodeShape.getURI()):r.getId().getLabelString());    
     }
-    
-    public String getBackgroundColorString() {
-        return backgroundColorString;
-    }
 
-    public void setBackgroundColorString(String backgroundColorString) {
-        this.backgroundColorString = backgroundColorString;        
-    }
+	public String getBackgroundColorStringBox() {
+		return backgroundColorStringBox;
+	}
 
-    public String getColorString() {
-        return colorString;
-    }
 
-    public void setColorString(String colorString) {
-        this.colorString = colorString;
-    }
 
-    public Resource getNodeShape() {
+	public void setBackgroundColorStringBox(String backgroundColorStringBox) {
+		this.backgroundColorStringBox = backgroundColorStringBox;
+	}
+
+
+
+	public String getColorStringBox() {
+		return colorStringBox;
+	}
+
+
+
+	public void setColorStringBox(String colorStringBox) {
+		this.colorStringBox = colorStringBox;
+	}
+
+
+
+	public Resource getNodeShape() {
         return nodeShape;
     }
 

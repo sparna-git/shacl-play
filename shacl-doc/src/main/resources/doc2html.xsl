@@ -1300,9 +1300,7 @@
 				<xsl:when test="string-length(./color) > 1">
 					<xsl:value-of select="concat('color:',./color)"/>
 				</xsl:when>
-				<xsl:otherwise>
-					''
-				</xsl:otherwise>
+				<xsl:otherwise></xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
 	

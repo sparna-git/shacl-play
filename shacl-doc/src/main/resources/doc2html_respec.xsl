@@ -5,6 +5,7 @@
 	<!-- Language parameter to the XSLT -->
 	<xsl:param name="LANG"/>
 
+	<xsl:param name="respec-w3c" select="./respec/respec-w3c.js" />
 	<xsl:param name="quota">"</xsl:param>
 	<xsl:param name="comma">,</xsl:param>
 	
@@ -230,9 +231,11 @@
 				
 				<xsl:apply-templates select="../ShapesDocumentation" mode="javascript_extra_header"/>
 
-				<!--  RESPEC Documentation  -->
+				<!--  RESPEC Documentation  
 				<script src="https://www.w3.org/Tools/respec/respec-w3c" class="remove" defer="true"></script>
-    			<script class="remove">
+				-->
+				<script language="javascript" src="https://shacl-play.sparna.fr/play/resources/respec/respec-w3c.js" class="remove" defer="true"></script>
+				<script class="remove">
 					// Turtle
 					async function loadTurtleLang() {
 						//this is the function you call in 'preProcess', to load the highlighter
@@ -279,7 +282,9 @@
 							});
 						});
     				}
+					// Language
 					
+
 					// All config options at https://respec.org/docs/
 					var respecConfig = {
 						preProcess: [loadTurtleLang,loadSparqlLang],

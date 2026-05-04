@@ -71,7 +71,8 @@ public class Doc implements CliCommandIfc {
 			a.getDiagramShacl(),
 			name_img,
 			a.getHidePropertiesShacl(),
-			!a.getNoSectionDiagrams()
+			!a.getNoSectionDiagrams(),
+			a.getFilterUnusedNodeShape()
 		);
 		
 		ShapesDocumentation doc = reader.readShapesDocumentation(

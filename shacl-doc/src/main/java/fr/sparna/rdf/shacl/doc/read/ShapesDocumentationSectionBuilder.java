@@ -209,17 +209,17 @@ public class ShapesDocumentationSectionBuilder {
 		List<Resource> superShapes = nodeShape.getSuperShapes();
 		for (Resource aSuperShape : superShapes) {
 			// find corresponding node shape
-			System.out.println("Super Class: " + aSuperShape.getURI());
-			
 			NodeShapeDoc superShape = shapesGraph.findNodeShapeByResource(aSuperShape) != null ? new NodeShapeDoc(shapesGraph.findNodeShapeByResource(aSuperShape).getNodeShape()) : null ;
-			if(superShape != null) {
-				groups.addAll(readPropertyGroupsRec(
-						superShape,
-						shapesGraph,
-						shaclGraph,
-						owlGraph,
-						lang
-				));
+			if (!aSuperShape.equals(superShape.getNodeShape())) {			
+				if(superShape != null) {
+					groups.addAll(readPropertyGroupsRec(
+							superShape,
+							shapesGraph,
+							shaclGraph,
+							owlGraph,
+							lang
+					));
+				}
 			}
 		}
 		

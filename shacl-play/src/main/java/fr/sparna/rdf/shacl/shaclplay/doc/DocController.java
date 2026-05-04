@@ -86,6 +86,8 @@ public class DocController {
 			@RequestParam(value="inputLogo", required=false) String urlLogo,
 			// Language Option
 			@RequestParam(value="language", required=false) String language,
+			// Filter Unused NodeShape
+			@RequestParam(value="filterUnusedNodeShapes", required=false, defaultValue="false") boolean filterUnusedNodeShapes,
 			HttpServletRequest request,
 			HttpServletResponse response
 	){
@@ -113,6 +115,7 @@ public class DocController {
 					modelPopulator.getSourceName(),
 					language,
 					sectionDiagram,
+					filterUnusedNodeShapes,
 					response);
 			return null;
 		} catch (Exception e) {
@@ -149,6 +152,8 @@ public class DocController {
 			@RequestParam(value="language", required=false) String language,
 			// Split Diagram
 			@RequestParam(value="sectionDiagram", required=false, defaultValue="false") boolean sectionDiagram,
+			// Filter Unused NodeShape
+			@RequestParam(value="filterUnusedNodeShapes", required=false, defaultValue="false") boolean filterUnusedNodeShapes,
 			HttpServletRequest request,
 			HttpServletResponse response
 	) {
@@ -221,6 +226,7 @@ public class DocController {
 					modelPopulator.getSourceName(),
 					language,
 					sectionDiagram,
+					filterUnusedNodeShapes,
 					response
 			);
 			return null;
@@ -241,11 +247,12 @@ public class DocController {
 			String filename,
 			String languageInput,
 			boolean includeSectionDiagram,
+			boolean filterUnusedNodeShapes,
 			HttpServletResponse response
 	) throws IOException {		
 		response.setHeader("Content-Disposition", "inline; filename=\""+filename+".html\"");
 
-		ShapesDocumentationReaderIfc reader = new ShapesDocumentationModelReader(includeDiagram, urlLogo, hideProperties, includeSectionDiagram);
+		ShapesDocumentationReaderIfc reader = new ShapesDocumentationModelReader(includeDiagram, urlLogo, hideProperties, includeSectionDiagram, filterUnusedNodeShapes);
 		ShapesDocumentation doc = reader.readShapesDocumentation(
 				shapesModel,
 				// OWL graph : empty

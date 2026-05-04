@@ -142,6 +142,20 @@
 								</div>
 							</div>
 						</div>						
+						<!-- Filter Unused NodeShape filterUnusedNodeShapes-->
+						<div class="form-group row">
+					      	<div class="col-sm-12">
+						      	<div class="form-check">
+								  <input class="form-check-input" type="checkbox" id="filterUnusedNodeShapes" name="filterUnusedNodeShapes" />
+								  <label class="form-check-label" for="filterUnusedNodeShapes">
+								    <fmt:message key="doc.options.filterUnusedNodeShapes" />
+								  </label>
+								  <small class="form-text text-muted">
+									<fmt:message key="doc.options.filterUnusedNodeShapes.help" />
+								  </small>
+								</div>
+							</div>
+						</div>
 						<!-- Output format option -->
 						<div class="form-group row">
 							<label for="format" class="col-sm-3 col-form-label">
@@ -155,8 +169,8 @@
 									<option value="HTML">HTML (old version)</option>			    			
 							    </select>
 						    </div>									    
-						 </div>
-						 
+						</div>
+						
 						<!--   
 						<div class="form-group row">
 						      	<div class="col-sm-12">

@@ -57,6 +57,14 @@ public class ArgumentsDoc {
 			required = false
 	)
 	private Boolean hidePropertiesShacl=false;
+
+
+	@Parameter(
+			names = { "-f", "--filter" },
+			description = "filter unused NodeShape.",
+			required = false
+	)
+	private Boolean filterUnusedNodeShape=false;
 	
 	
 	@Parameter(
@@ -136,6 +144,14 @@ public class ArgumentsDoc {
 
 	public void setNoSectionDiagrams(Boolean noSectionDiagrams) {
 		this.noSectionDiagrams = noSectionDiagrams;
+	}
+
+	public Boolean getFilterUnusedNodeShape() {
+		return filterUnusedNodeShape;
+	}
+
+	public void setFilterUnusedNodeShape(Boolean filterUnusedNodeShape) {
+		this.filterUnusedNodeShape = filterUnusedNodeShape;
 	}
 	
 }

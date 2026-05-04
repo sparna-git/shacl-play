@@ -247,7 +247,7 @@ public class AnalyzeController {
 				shapesModel.add(countModel);
 
 				// generate the documentation
-				ShapesDocumentationModelReader reader = new ShapesDocumentationModelReader(false, null,false,false);
+				ShapesDocumentationModelReader reader = new ShapesDocumentationModelReader(false, null,false,false,false);
 				ShapesDocumentation sd = reader.readShapesDocumentation(
 						// shapes + statistics
 						shapesModel,
@@ -292,7 +292,7 @@ public class AnalyzeController {
 
 				if(!async) {
 					// generate the documentation
-					ShapesDocumentationModelReader reader = new ShapesDocumentationModelReader(false, null,false,false);
+					ShapesDocumentationModelReader reader = new ShapesDocumentationModelReader(false, null,false,false,false);
 					ShapesDocumentation sd = reader.readShapesDocumentation(
 							// shapes + statistics
 							shapesModel,
@@ -538,7 +538,7 @@ public class AnalyzeController {
 		ShapesDocumentationWriterIfc.MODE mode = ShapesDocumentationWriterIfc.MODE.valueOf(format.toUpperCase());
 
 		// generate the documentation
-		ShapesDocumentationModelReader reader = new ShapesDocumentationModelReader(false, null,false,false);
+		ShapesDocumentationModelReader reader = new ShapesDocumentationModelReader(false, null,false,false,false);
 		ShapesDocumentation sd = reader.readShapesDocumentation(
 				// shapes
 				generatedShapes,

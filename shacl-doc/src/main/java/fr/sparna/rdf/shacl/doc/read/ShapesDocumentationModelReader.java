@@ -28,18 +28,21 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 	protected boolean hideProperties = false;
 	protected boolean readSectionDiagrams = false;
 	protected String imgLogo = null;
+	protected boolean filterUnusedNodeShapes = true;
 	
 	public ShapesDocumentationModelReader(
 		boolean readDiagram,
 		String imgLogo,
 		boolean hideProperties,
-		boolean readSectionDiagrams
+		boolean readSectionDiagrams,
+		boolean filterUnusedNodeShapes
 	) {
 		super();
 		this.readDiagram = readDiagram;
 		this.imgLogo = imgLogo;
 		this.hideProperties = hideProperties;
 		this.readSectionDiagrams = readSectionDiagrams;
+		this.filterUnusedNodeShapes = filterUnusedNodeShapes;
 	}
 
 	@Override
@@ -76,8 +79,22 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 		List<ShapesDocumentationSection> sections = new ArrayList<>();
 		for (NodeShapeDoc nodeShape : shapesModel.getAllNodeShapesDoc()) {
 			
-			if (findNodeShapeInOtherProperties(shaclGraph, nodeShape)) {
-			
+			if (this.filterUnusedNodeShapes ) {
+				if (findNodeShapeInOtherProperties(shaclGraph, nodeShape)) {
+					ShapesDocumentationSection section = sectionBuidler.build(
+					nodeShape, 
+					shapesModel, 
+					// Model
+					shaclGraph, 
+					// Model
+					owlGraph, 
+					lang,
+					this.readSectionDiagrams
+					);
+					sections.add(section);
+				}
+				
+			} else {
 				ShapesDocumentationSection section = sectionBuidler.build(
 					nodeShape, 
 					shapesModel, 
@@ -87,10 +104,9 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 					owlGraph, 
 					lang,
 					this.readSectionDiagrams
-				);
-			
-				sections.add(section);
-			}
+					);
+					sections.add(section);
+			} 
 		}
 		shapesDocumentation.setSections(sections);
 		

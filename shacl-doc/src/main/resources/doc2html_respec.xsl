@@ -1062,10 +1062,7 @@
 					document and removes XML-encoding of the characters
 				-->
 				<div>
-					<!-- Remove head element in svg whit substring-after(svg,'?&gt;') <?xml version="1.0" encoding="us-ascii" standalone="no"?> -->
-					<xsl:variable name="Remove_la" select="concat('lengthAdjust=',$quota,'[^',$quota,']*',$quota)"/>
-					<xsl:variable name="Remove_tl" select="concat('textLength=',$quota,'[^',$quota,']*',$quota)"/>
-					<xsl:value-of select="replace(replace(substring-after(svg,'?&gt;'),$Remove_la,''),$Remove_tl,'')" disable-output-escaping="no"/>
+					<xsl:value-of select="svg" disable-output-escaping="yes"/>
 				</div>
 				<small class="form-text text-muted">
 					<xsl:value-of

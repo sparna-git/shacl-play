@@ -37,7 +37,7 @@ public class PlantUmlRenderer {
 		sourceuml.append("set namespaceSeparator none\n");
 		sourceuml.append("skinparam classFontSize 14"+"\n");
 		sourceuml.append("!define LIGHTORANGE\n");
-		sourceuml.append("skinparam svgDimensionStyle false\n"); // for use in safari - Test....
+		sourceuml.append("!pragma svgSize <U+1F610> XX\n"); // for use in safari - Test....
 		sourceuml.append("skinparam componentStyle uml2\n");
 		sourceuml.append("skinparam wrapMessageWidth 100\n");
 		sourceuml.append("skinparam ArrowColor #Maroon\n");

@@ -67,11 +67,11 @@ public class ArgumentsDoc {
 	private Boolean noUnusedNodeShapeFiltering = false;
 	
 	@Parameter(
-		names = { "-lv","--lastVersion"},
-		description = "Generate the document in last version.",
+		names = { "-old","--oldVersion"},
+		description = "Use the old HTML layout to generate the documentation, instead of Respec one",
 		required = false
 	)
-	private Boolean oldversion=false;
+	private Boolean oldversion = false;
 
 	@Parameter(
 			names = { "-m", "--img" },

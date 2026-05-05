@@ -66,7 +66,13 @@ public class ArgumentsDoc {
 	)
 	private Boolean filterUnusedNodeShape=false;
 	
-	
+	@Parameter(
+		names = { "-lv","--lastVersion"},
+		description = "Generate the document in last version.",
+		required = false
+	)
+	private Boolean oldversion=false;
+
 	@Parameter(
 			names = { "-m", "--img" },
 			description = "Upload your logo on the document, local or through a link.",
@@ -152,6 +158,14 @@ public class ArgumentsDoc {
 
 	public void setFilterUnusedNodeShape(Boolean filterUnusedNodeShape) {
 		this.filterUnusedNodeShape = filterUnusedNodeShape;
+	}
+
+	public Boolean getOldversion() {
+		return oldversion;
+	}
+
+	public void setOldversion(Boolean oldversion) {
+		this.oldversion = oldversion;
 	}
 	
 }

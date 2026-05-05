@@ -112,9 +112,15 @@ public class Doc implements CliCommandIfc {
 			ShapesDocumentationWriterIfc writer = new ShapesDocumentationXmlWriter();
 			writer.writeDoc(doc, a.getLanguage(), out);
 		} else {
-			// 2. write Documentation structure to HTML
-			ShapesDocumentationWriterIfc writer = new ShapesDocumentationXsltRespecWriter(MODE.HTML); //ShapesDocumentationXsltShaclPlayWriter(MODE.HTML);
-			writer.writeDoc(doc, a.getLanguage(), out);
+
+			if (a.getOldversion()) {
+				ShapesDocumentationWriterIfc writer = new ShapesDocumentationXsltShaclPlayWriter(MODE.HTML);
+				writer.writeDoc(doc, a.getLanguage(), out);
+			} else {
+				// 2. write Documentation structure to HTML
+				ShapesDocumentationWriterIfc writer = new ShapesDocumentationXsltRespecWriter(MODE.HTML); //ShapesDocumentationXsltShaclPlayWriter(MODE.HTML);
+				writer.writeDoc(doc, a.getLanguage(), out);
+			}
 		}	
 		out.flush();
 		out.close();

@@ -252,7 +252,13 @@ public class DocController {
 	) throws IOException {		
 		response.setHeader("Content-Disposition", "inline; filename=\""+filename+".html\"");
 
-		ShapesDocumentationReaderIfc reader = new ShapesDocumentationModelReader(includeDiagram, urlLogo, hideProperties, includeSectionDiagram, filterUnusedNodeShapes);
+		ShapesDocumentationReaderIfc reader = ShapesDocumentationModelReader.buildShapesDocumentationModelReader(
+			includeDiagram,
+			urlLogo,
+			hideProperties,
+			includeSectionDiagram,
+			filterUnusedNodeShapes
+		);
 		ShapesDocumentation doc = reader.readShapesDocumentation(
 				shapesModel,
 				// OWL graph : empty

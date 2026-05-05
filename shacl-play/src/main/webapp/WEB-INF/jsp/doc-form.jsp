@@ -99,6 +99,7 @@
 								</div>
 							</div>
 						</div>
+						
 				      	<!-- Diagram -->
 				      	<div class="form-group row">
 					      	<div class="col-sm-12">
@@ -113,11 +114,12 @@
 								</div>
 							</div>
 						</div>
+
 						<!-- Split Diagram -->
 						<div class="form-group row">
 							<div class="col-sm-12">
 								<div class="form-check">
-									<input class="form-check-input" type="checkbox" id="sectionDiagram" name="sectionDiagram" checked/>
+									<input class="form-check-input" type="checkbox" id="sectionDiagram" name="sectionDiagram" checked />
 									<label class="form-check-label" for="sectionDiagram">
 								    	<fmt:message key="doc.options.sectionDiagram" />								  		
 								  	</label>
@@ -141,12 +143,13 @@
 								  </small>
 								</div>
 							</div>
-						</div>						
+						</div>
+
 						<!-- Filter Unused NodeShape filterUnusedNodeShapes-->
 						<div class="form-group row">
 					      	<div class="col-sm-12">
 						      	<div class="form-check">
-								  <input class="form-check-input" type="checkbox" id="filterUnusedNodeShapes" name="filterUnusedNodeShapes" />
+								  <input class="form-check-input" type="checkbox" id="filterUnusedNodeShapes" name="filterUnusedNodeShapes" checked />
 								  <label class="form-check-label" for="filterUnusedNodeShapes">
 								    <fmt:message key="doc.options.filterUnusedNodeShapes" />
 								  </label>
@@ -156,6 +159,7 @@
 								</div>
 							</div>
 						</div>
+
 						<!-- Output format option -->
 						<div class="form-group row">
 							<label for="format" class="col-sm-3 col-form-label">

@@ -60,11 +60,11 @@ public class ArgumentsDoc {
 
 
 	@Parameter(
-			names = { "-f", "--filter" },
-			description = "filter unused NodeShape.",
+			names = { "-nuf", "--noUnusedNodeShapeFilter" },
+			description = "Set this parameter to avoid filtering out unused node shapes from the generated documentation",
 			required = false
 	)
-	private Boolean filterUnusedNodeShape=false;
+	private Boolean noUnusedNodeShapeFiltering = false;
 	
 	@Parameter(
 		names = { "-lv","--lastVersion"},
@@ -152,20 +152,20 @@ public class ArgumentsDoc {
 		this.noSectionDiagrams = noSectionDiagrams;
 	}
 
-	public Boolean getFilterUnusedNodeShape() {
-		return filterUnusedNodeShape;
-	}
-
-	public void setFilterUnusedNodeShape(Boolean filterUnusedNodeShape) {
-		this.filterUnusedNodeShape = filterUnusedNodeShape;
-	}
-
 	public Boolean getOldversion() {
 		return oldversion;
 	}
 
 	public void setOldversion(Boolean oldversion) {
 		this.oldversion = oldversion;
+	}
+
+	public Boolean getNoUnusedNodeShapeFiltering() {
+		return noUnusedNodeShapeFiltering;
+	}
+
+	public void setNoUnusedNodeShapeFiltering(Boolean noUnusedNodeShapeFiltering) {
+		this.noUnusedNodeShapeFiltering = noUnusedNodeShapeFiltering;
 	}
 	
 }

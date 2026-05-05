@@ -67,12 +67,12 @@ public class Doc implements CliCommandIfc {
 			}
 		}
 		
-		ShapesDocumentationReaderIfc reader = new ShapesDocumentationModelReader(
+		ShapesDocumentationReaderIfc reader = ShapesDocumentationModelReader.buildShapesDocumentationModelReader(
 			a.getDiagramShacl(),
 			name_img,
 			a.getHidePropertiesShacl(),
 			!a.getNoSectionDiagrams(),
-			a.getFilterUnusedNodeShape()
+			!a.getNoUnusedNodeShapeFiltering()
 		);
 		
 		ShapesDocumentation doc = reader.readShapesDocumentation(

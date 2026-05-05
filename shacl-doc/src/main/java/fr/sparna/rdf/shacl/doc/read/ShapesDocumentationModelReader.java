@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Model;
@@ -13,7 +12,6 @@ import fr.sparna.rdf.shacl.diagram.PlantUmlDiagramOutput;
 import fr.sparna.rdf.shacl.doc.NodeShapeDoc;
 import fr.sparna.rdf.shacl.doc.NodeShapeReader;
 import fr.sparna.rdf.shacl.doc.PlantUmlSourceGenerator;
-import fr.sparna.rdf.shacl.doc.PropertyShapeDoc;
 import fr.sparna.rdf.shacl.doc.ShaclPrefixReader;
 import fr.sparna.rdf.shacl.doc.ShapesGraphDoc;
 import fr.sparna.rdf.shacl.doc.model.NamespaceSection;
@@ -30,19 +28,56 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 	protected String imgLogo = null;
 	protected boolean filterUnusedNodeShapes = true;
 	
-	public ShapesDocumentationModelReader(
+
+	public static ShapesDocumentationModelReader buildShapesDocumentationModelReader(
 		boolean readDiagram,
 		String imgLogo,
 		boolean hideProperties,
 		boolean readSectionDiagrams,
 		boolean filterUnusedNodeShapes
 	) {
+		ShapesDocumentationModelReader reader = new ShapesDocumentationModelReader();
+		reader.setReadDiagram(readDiagram);
+		reader.setImgLogo(imgLogo);
+		reader.setHideProperties(hideProperties);
+		reader.setReadSectionDiagrams(readSectionDiagrams);
+		reader.setFilterUnusedNodeShapes(filterUnusedNodeShapes);
+
+		return reader;
+	}
+
+	/**
+	 * @return a ShapesDocumentationModelReader with default options
+	 */
+	public static ShapesDocumentationModelReader buildDefaultShapesDocumentationModelReader() {
+		return buildShapesDocumentationModelReader(
+			false,
+			null,
+			false,
+			true,
+			true
+		);
+	}
+
+	public ShapesDocumentationModelReader() {
+
+	}
+
+	/**
+	 * @deprecated use the static factory method buildShapesDocumentationModelReader instead
+	 */
+	@Deprecated
+	public ShapesDocumentationModelReader(
+		boolean readDiagram,
+		String imgLogo,
+		boolean hideProperties,
+		boolean readSectionDiagrams
+	) {
 		super();
 		this.readDiagram = readDiagram;
 		this.imgLogo = imgLogo;
 		this.hideProperties = hideProperties;
 		this.readSectionDiagrams = readSectionDiagrams;
-		this.filterUnusedNodeShapes = filterUnusedNodeShapes;
 	}
 
 	@Override
@@ -183,4 +218,46 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 			return false;			
 		}
 	}
+
+	public boolean isReadDiagram() {
+		return readDiagram;
+	}
+
+	public void setReadDiagram(boolean readDiagram) {
+		this.readDiagram = readDiagram;
+	}
+
+	public boolean isHideProperties() {
+		return hideProperties;
+	}
+
+	public void setHideProperties(boolean hideProperties) {
+		this.hideProperties = hideProperties;
+	}
+
+	public boolean isReadSectionDiagrams() {
+		return readSectionDiagrams;
+	}
+
+	public void setReadSectionDiagrams(boolean readSectionDiagrams) {
+		this.readSectionDiagrams = readSectionDiagrams;
+	}
+
+	public String getImgLogo() {
+		return imgLogo;
+	}
+
+	public void setImgLogo(String imgLogo) {
+		this.imgLogo = imgLogo;
+	}
+
+	public boolean isFilterUnusedNodeShapes() {
+		return filterUnusedNodeShapes;
+	}
+
+	public void setFilterUnusedNodeShapes(boolean filterUnusedNodeShapes) {
+		this.filterUnusedNodeShapes = filterUnusedNodeShapes;
+	}
+
+	
 }

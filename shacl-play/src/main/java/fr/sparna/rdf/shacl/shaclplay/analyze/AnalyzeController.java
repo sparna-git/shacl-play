@@ -9,7 +9,6 @@ import java.util.List;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import org.apache.jena.ontology.OntModel;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.owasp.encoder.Encode;
@@ -28,7 +27,6 @@ import com.openhtmltopdf.pdfboxout.PdfRendererBuilder;
 import fr.sparna.rdf.jena.QueryExecutionServiceImpl;
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentation;
 import fr.sparna.rdf.shacl.doc.read.ShapesDocumentationModelReader;
-import fr.sparna.rdf.shacl.doc.write.ShapesDocumentationXsltWriter;
 import fr.sparna.rdf.shacl.doc.write.ShapesDocumentationWriterIfc;
 import fr.sparna.rdf.shacl.doc.write.ShapesDocumentationWriterIfc.MODE;
 import fr.sparna.rdf.shacl.doc.write.ShapesDocumentationXmlWriter;
@@ -247,7 +245,7 @@ public class AnalyzeController {
 				shapesModel.add(countModel);
 
 				// generate the documentation
-				ShapesDocumentationModelReader reader = new ShapesDocumentationModelReader(false, null,false,false,false);
+				ShapesDocumentationModelReader reader = ShapesDocumentationModelReader.buildDefaultShapesDocumentationModelReader();
 				ShapesDocumentation sd = reader.readShapesDocumentation(
 						// shapes + statistics
 						shapesModel,
@@ -292,7 +290,7 @@ public class AnalyzeController {
 
 				if(!async) {
 					// generate the documentation
-					ShapesDocumentationModelReader reader = new ShapesDocumentationModelReader(false, null,false,false,false);
+					ShapesDocumentationModelReader reader = ShapesDocumentationModelReader.buildDefaultShapesDocumentationModelReader();
 					ShapesDocumentation sd = reader.readShapesDocumentation(
 							// shapes + statistics
 							shapesModel,
@@ -538,7 +536,7 @@ public class AnalyzeController {
 		ShapesDocumentationWriterIfc.MODE mode = ShapesDocumentationWriterIfc.MODE.valueOf(format.toUpperCase());
 
 		// generate the documentation
-		ShapesDocumentationModelReader reader = new ShapesDocumentationModelReader(false, null,false,false,false);
+		ShapesDocumentationModelReader reader = ShapesDocumentationModelReader.buildDefaultShapesDocumentationModelReader();
 		ShapesDocumentation sd = reader.readShapesDocumentation(
 				// shapes
 				generatedShapes,

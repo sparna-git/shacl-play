@@ -1046,39 +1046,38 @@
 	</xsl:template>
 	
 	<xsl:template match="diagram">
-		<section id="{displayTitle}">
-			<xsl:if test="displayTitle">
-				<h3><xsl:value-of select="displayTitle" /></h3> 
-			</xsl:if>
-			<xsl:if test="diagramDescription">
-				<p><xsl:value-of select="diagramDescription" /></p> 
-			</xsl:if>
-			<xsl:choose>
-				<xsl:when test="$MODE = 'PDF'">
-					<!--  When outputting PDF, inserts the PNG image -->
-					<img src="{pngLink}" style="width:80%;" alt="a diagram representing this application profile" />
-				</xsl:when>
-				<xsl:otherwise>
-					<!-- @disable-output-escaping prints the raw XML string as XML in the 
-						document and removes XML-encoding of the characters
-					-->
-					<div>
-						<xsl:value-of select="svg" disable-output-escaping="yes" />
-					</div>
-					<small class="form-text text-muted">
-						<xsl:value-of
-								select="$LABELS/labels/entry[@key='DIAGRAM.HELP']/@label" />
-						<xsl:text> | </xsl:text>
-						<a href="{pngLink}" target="_blank">
-							<xsl:value-of select="$LABELS/labels/entry[@key='DIAGRAM.VIEW']/@label" />
-						</a>			
-					</small>
-					<xsl:comment>
-						<xsl:value-of select="plantUmlString" disable-output-escaping="yes" />
-					</xsl:comment>	
-				</xsl:otherwise>
-			</xsl:choose>			
-		</section>
+		<xsl:if test="displayTitle">
+			<h3><xsl:value-of select="displayTitle" /></h3> 
+		</xsl:if>
+		<xsl:if test="diagramDescription">
+			<p><xsl:value-of select="diagramDescription" /></p> 
+		</xsl:if>
+		<xsl:choose>
+			<xsl:when test="$MODE = 'PDF'">
+				<!--  When outputting PDF, inserts the PNG image -->
+				<img src="{pngLink}" style="width:80%;" alt="a diagram representing this application profile" />
+			</xsl:when>
+			<xsl:otherwise>
+				<!-- @disable-output-escaping prints the raw XML string as XML in the 
+					document and removes XML-encoding of the characters
+				-->
+				<div>
+					<!-- Remove head element in svg whit substring-after(svg,'?&gt;') <?xml version="1.0" encoding="us-ascii" standalone="no"?> -->
+					<xsl:value-of select="substring-after(svg,'?&gt;')" disable-output-escaping="yes"/>
+				</div>
+				<small class="form-text text-muted">
+					<xsl:value-of
+							select="$LABELS/labels/entry[@key='DIAGRAM.HELP']/@label" />
+					<xsl:text> | </xsl:text>
+					<a href="{pngLink}" target="_blank">
+						<xsl:value-of select="$LABELS/labels/entry[@key='DIAGRAM.VIEW']/@label" />
+					</a>			
+				</small>
+				<xsl:comment>
+					<xsl:value-of select="plantUmlString" disable-output-escaping="yes" />
+				</xsl:comment>	
+			</xsl:otherwise>
+		</xsl:choose>		
 	</xsl:template>
 
 	<!-- Description Title -->

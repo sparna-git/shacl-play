@@ -1,7 +1,6 @@
 package fr.sparna.rdf.shacl.doc.model;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
@@ -9,9 +8,6 @@ import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.vocabulary.RDFS;
-import org.commonmark.node.Node;
-import org.commonmark.parser.Parser;
-import org.commonmark.renderer.html.HtmlRenderer;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;

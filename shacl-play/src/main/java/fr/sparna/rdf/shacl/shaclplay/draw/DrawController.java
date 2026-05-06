@@ -28,6 +28,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import fr.sparna.rdf.shacl.diagram.PlantUmlDiagramGenerator;
 import fr.sparna.rdf.shacl.diagram.PlantUmlDiagramOutput;
+import fr.sparna.rdf.shacl.diagram.plantuml.PlantUmlHtmlSerializer;
+import fr.sparna.rdf.shacl.diagram.plantuml.PlantUmlPngSerializer;
+import fr.sparna.rdf.shacl.diagram.plantuml.PlantUmlSvgSerializer;
 import fr.sparna.rdf.shacl.shaclplay.ApplicationData;
 import fr.sparna.rdf.shacl.shaclplay.ControllerModelFactory;
 import fr.sparna.rdf.shacl.shaclplay.ControllerModelFactory.SOURCE_TYPE;
@@ -57,7 +60,7 @@ public class DrawController {
 		PNG("image/png", FileFormat.PNG, "png"),
 		// html page that will contain the SVG diagrams
 		HTML("text/html", null, "html"),
-		TXT("text/pain", null, "txt");
+		TXT("text/plain", null, "txt");
 		
 		protected String mimeType;
 		protected FileFormat plantUmlFileFormat;
@@ -204,11 +207,6 @@ public class DrawController {
 			HttpServletResponse response
 	) throws IOException {
 		
-		
-		// Add a list of prefixes in the model for default
-		//shapesModel.setNsPrefixes(shapesModel);
-		
-		
 		PlantUmlDiagramGenerator writer = new PlantUmlDiagramGenerator(
 				// includes the subClassOf links in the generated diagram
 				true,
@@ -227,119 +225,102 @@ public class DrawController {
 				// OWL Model
 				ModelFactory.createDefaultModel()
 		);
-		
-		
-		switch(format) {
-		case PNG :
-		case SVG :
-		case TXT : {
-			
-			if(diagrams.size() == 1) {
-				response.setContentType(format.mimeType);
-				response.setHeader("Content-Disposition", "inline; filename=\""+filename+"."+format.extension+"\"");
-				
-				if(format == FORMAT.TXT) {
-					response.setCharacterEncoding("UTF-8");
-					response.getOutputStream().write(diagrams.get(0).getPlantUmlString().getBytes("UTF-8"));
+
+		if(diagrams.size() == 1) {
+			String plantUmlString = diagrams.get(0).getPlantUmlString();
+			// always set appropriate content type
+			response.setContentType(format.mimeType);
+
+			switch(format) {
+				case PNG : {
+					// display a png file, generate from PlantUml			        			        	
+					PlantUmlPngSerializer pngSerializer = new PlantUmlPngSerializer();
+					pngSerializer.serialize(plantUmlString, response.getOutputStream());
 					response.getOutputStream().flush();
-				} else {
-					
-					SourceStringReader reader = new SourceStringReader(diagrams.get(0).getPlantUmlString());
-			        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			        // read class for create a svg or png file
-					reader.outputImage(baos, new FileFormatOption(format.plantUmlFileFormat));
-					String diagram = baos.toString();
-					
-			        response.setCharacterEncoding("UTF-8");
-			        
-			        // display a ong file, generate from PlantUml
-			        if (format.plantUmlFileFormat.toString().equals("PNG")) {
-			        	
-			        	String pngLink = "http://www.plantuml.com/plantuml/png/"+TranscoderUtil.getDefaultTranscoder().encode(diagrams.get(0).getPlantUmlString());
-			        	URL pngURL = new URL(pngLink);
-			        	InputStream is = pngURL.openStream();
-			        	
-			        	byte[] b = new byte[2048];
-			            int length;
-			            while ((length = is.read(b)) != -1) {
-			                response.getOutputStream().write(b, 0, length);
-			            }
-			            is.close();			        	
-			        } 		        
-			        
-			        // fix the problem when is generated a svg file
-			        if (format.plantUmlFileFormat.toString().equals("SVG")) {
-			        	diagram = diagram.replace("g xmlns=\"\"","g");
-			        	diagram = diagram.replace("\" --> \"", "\" - -> \"");			        	
-			        	
-				        response.getOutputStream().write(diagram.getBytes("UTF-8"));
-			        	
-			        }
-			        
-			        response.getOutputStream().flush();
+					break;
 				}
-			} else {
-				// create a zip
-				response.setContentType("application/zip");
-				response.setHeader("Content-Disposition", "inline; filename=\""+filename+".zip\"");
+				case SVG : {					
+					PlantUmlSvgSerializer svgSerializer = new PlantUmlSvgSerializer();
+					response.setCharacterEncoding("UTF-8");
+					svgSerializer.serializeInSVG(plantUmlString, response.getOutputStream());
+					response.getOutputStream().flush();
+					break;
+				}
+				case TXT : {
+					response.setCharacterEncoding("UTF-8");
+					response.getOutputStream().write(plantUmlString.getBytes("UTF-8"));
+					response.getOutputStream().flush();
+					break;
+				} 
+				case HTML : {
+					response.setHeader("Content-Disposition", "inline; filename=\""+filename+".html\"");
+					PlantUmlHtmlSerializer htmlSerializer = new PlantUmlHtmlSerializer();
+					htmlSerializer.serialize(diagrams, response.getOutputStream());
+					response.getOutputStream().flush();
+					break;
+				}
+				default : {
+					throw new RuntimeException("Unknown output format "+format.name());
+				}	
+			}
+		} else {
+			switch(format) {
+				case PNG :
+				case SVG :
+				case TXT : {
+					// create a zip
+					response.setContentType("application/zip");
+					response.setHeader("Content-Disposition", "inline; filename=\""+filename+".zip\"");
 
-				ZipOutputStream zos = new ZipOutputStream(response.getOutputStream(), Charset.forName("UTF-8"));
-				zos.setLevel(9);
-				
-				for (PlantUmlDiagramOutput oneDiagram : diagrams) {
-					String uri = oneDiagram.getDiagramUri();
-					String localPart;
-					if(uri.indexOf('#') > -1) {
-						localPart = uri.substring(uri.lastIndexOf('#')+1);
-					} else {
-						localPart = uri.substring(uri.lastIndexOf('/')+1);
+					ZipOutputStream zos = new ZipOutputStream(response.getOutputStream(), Charset.forName("UTF-8"));
+					zos.setLevel(9);
+					
+					for (PlantUmlDiagramOutput oneDiagram : diagrams) {
+						String uri = oneDiagram.getDiagramUri();
+						String localPart;
+						if(uri.indexOf('#') > -1) {
+							localPart = uri.substring(uri.lastIndexOf('#')+1);
+						} else {
+							localPart = uri.substring(uri.lastIndexOf('/')+1);
+						}						
+						
+						if(format == FORMAT.TXT) {
+							String entryName = URLEncoder.encode(localPart, "UTF-8") + ".txt";
+							zos.putNextEntry(new ZipEntry(entryName));
+							zos.write(oneDiagram.getPlantUmlString().getBytes("UTF-8"));
+							zos.closeEntry();
+						} else {
+							String entryName = URLEncoder.encode(localPart, "UTF-8") + "." + format.extension;
+							zos.putNextEntry(new ZipEntry(entryName));
+							SourceStringReader reader = new SourceStringReader(oneDiagram.getPlantUmlString());
+							// either SVG or PNG, cannot be HTML or TXT
+							reader.generateImage(zos, new FileFormatOption(format.plantUmlFileFormat));
+							zos.closeEntry();
+						}
+						
 					}
 					
-					
-					if(format == FORMAT.TXT) {
-						String entryName = URLEncoder.encode(localPart, "UTF-8") + ".txt";
-						zos.putNextEntry(new ZipEntry(entryName));
-						zos.write(oneDiagram.getPlantUmlString().getBytes("UTF-8"));
-						zos.closeEntry();
-					} else {
-						String entryName = URLEncoder.encode(localPart, "UTF-8") + "." + format.extension;
-						zos.putNextEntry(new ZipEntry(entryName));
-						SourceStringReader reader = new SourceStringReader(oneDiagram.getPlantUmlString());
-						reader.generateImage(zos, new FileFormatOption(format.plantUmlFileFormat));
-						zos.closeEntry();
-					}
-					
-				}
-				
-				zos.flush();
-				zos.close();
-				response.flushBuffer();
+					zos.flush();
+					zos.close();
+					response.flushBuffer();
 
-			}
-			
-			break;
-		}
-		case HTML : {
-			response.setContentType("text/html");
-			response.setHeader("Content-Disposition", "inline; filename=\""+filename+".html\"");
-			for (PlantUmlDiagramOutput oneDiagram : diagrams) {
-				SourceStringReader reader = new SourceStringReader(oneDiagram.getPlantUmlString());
-				if(oneDiagram.getDisplayTitle() != null) {
-					response.getOutputStream().write(("<h2>"+oneDiagram.getDisplayTitle()+"</h2>\n").getBytes());					
+					break;
 				}
-				if(oneDiagram.getDiagramDescription() != null) {
-					response.getOutputStream().write(("<p>"+oneDiagram.getDiagramDescription()+"</p>\n").getBytes());
+				case HTML: {
+					response.setContentType("text/html");
+					response.setHeader("Content-Disposition", "inline; filename=\""+filename+".html\"");
+					PlantUmlHtmlSerializer htmlSerializer = new PlantUmlHtmlSerializer();
+					htmlSerializer.serialize(diagrams, response.getOutputStream());
+					response.getOutputStream().flush();
+					break;
 				}
-				// render in SVG inside HTML
-				reader.generateImage(response.getOutputStream(), new FileFormatOption(FORMAT.SVG.plantUmlFileFormat));
-				response.getOutputStream().write("\n".getBytes());
-				response.getOutputStream().write("<hr /><br />\n".getBytes());
+				default : {
+					throw new RuntimeException("Unknown output format "+format.name());
+				}
 			}
-			response.flushBuffer();
-			break;
 		}
-		} // end switch
-		} // end else
+	}
+
 		
 	/**
 	 * Handles an error in the validation form (stores the message in the Model, then forward to the view).

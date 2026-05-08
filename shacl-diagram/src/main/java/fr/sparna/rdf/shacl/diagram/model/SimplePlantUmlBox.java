@@ -106,7 +106,7 @@ public class SimplePlantUmlBox extends BasePlantUmlBox {
 	}
 
 	@Override
-    public Optional<Resource> getTargetClassAsOptional() {
+    public Optional<Resource> getTargetClass() {
         return this.targetClass;
     }
 
@@ -116,7 +116,7 @@ public class SimplePlantUmlBox extends BasePlantUmlBox {
 
 	@Override
     public boolean isTargetingBox(Resource classUri) {
-		boolean hasShTargetClass = this.getTargetClassAsOptional().filter(c -> c.equals(classUri)).isPresent();		
+		boolean hasShTargetClass = this.getTargetClass().filter(c -> c.equals(classUri)).isPresent();		
 		boolean isItselfTheClass = 
 		this.nodeShape.hasProperty(RDF.type, RDFS.Class)
 		&&

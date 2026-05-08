@@ -84,7 +84,7 @@ public class PropertyShape extends Shape {
 	}
 
 	/**
-	 * @return The sh:name list in the provided language, or an empty list if none is present
+	 * @return The sh:description list in the provided language, or an empty list if none is present
 	 */
 	public List<Literal> getShDescription(String lang) {
 		return ModelReadingUtils.readLiteralInLang(shape, SH.description, lang);
@@ -101,33 +101,17 @@ public class PropertyShape extends Shape {
 	public Optional<Integer> getShMinCount() {
 		return ModelReadingUtils.getOptionalLiteral(this.shape, SH.minCount).map(l -> l.getInt());
 	}
-
-	public Optional<Literal> getShMinCountAsLiteral() {
-		return ModelReadingUtils.getOptionalLiteral(this.shape, SH.minCount);
-	}
 	
 	public Optional<Integer> getShMaxCount() {
 		return ModelReadingUtils.getOptionalLiteral(this.shape, SH.maxCount).map(l -> l.getInt());
-	}
-
-	public Optional<Literal> getShMaxCountAsLiteral() {
-		return ModelReadingUtils.getOptionalLiteral(this.shape, SH.maxCount);
 	}
 	
 	public Optional<Integer> getShQualifiedMinCount() {
 		return ModelReadingUtils.getOptionalLiteral(this.shape, SH.qualifiedMinCount).map(l -> l.getInt());
 	}
-
-	public Optional<Literal> getShQualifiedMinCountAsLiteral() {
-		return ModelReadingUtils.getOptionalLiteral(this.shape, SH.qualifiedMinCount);
-	}
 	
 	public Optional<Integer> getShQualifiedMaxCount() {
 		return ModelReadingUtils.getOptionalLiteral(this.shape, SH.qualifiedMaxCount).map(l -> l.getInt());
-	}
-	
-	public Optional<Literal> getShQualifiedMaxCountAsLiteral() {
-		return ModelReadingUtils.getOptionalLiteral(this.shape, SH.qualifiedMaxCount);
 	}
 	
 	public String getShNodeLabel() {
@@ -137,10 +121,6 @@ public class PropertyShape extends Shape {
 	public String getShQualifiedValueShapeLabel() {
 		return this.getShQualifiedValueShape().map(r -> ModelRenderingUtils.render(r, true)).orElse(null);
 	}	
-	
-	public String getColorString() {
-		return this.getShaclPlayColor().map(node -> node.asLiteral().toString()).orElse(null);
-	}
 
 	public PropertyPath getPropertyPath() {
 		return new PropertyPath(this.getShPath());
@@ -163,10 +143,6 @@ public class PropertyShape extends Shape {
 				(this.getEmbed().get().isLiteral() && (!this.getEmbed().get().asLiteral().getBoolean()))
 			)
 		);
-	}
-
-	public Optional<Resource> getShPathAsOptional() {
-		return ModelReadingUtils.getOptionalResource(shape, SH.path);
 	}
 
 }

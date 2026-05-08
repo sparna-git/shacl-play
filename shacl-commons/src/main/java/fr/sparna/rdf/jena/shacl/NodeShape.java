@@ -7,6 +7,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Literal;
+import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
@@ -39,54 +40,52 @@ public class NodeShape extends Shape  {
 	}
 
 	/**
-	 * @return The sh:targetClass resource value if present, or null if not present
+	 * @return The values of SH.targetClass, or an empty list if none 
 	 */
-	public Resource getTargetClass() {
-		return Optional.ofNullable(shape.getProperty(SH.targetClass)).map(s -> s.getResource()).orElse(null);
+	public List<Resource> getTargetClass() {
+		return ModelReadingUtils.readObjectAsResource(shape, SH.targetClass);
 	}
 
-	public Optional<Resource> getTargetClassAsOptional() {
-		return ModelReadingUtils.getOptionalResource(shape, SH.targetClass);
-	}
-
+	/**
+	 * @return The values of SH.targetSubjectsOf, or an empty list if none 
+	 */
 	public List<Resource> getTargetSubjectsOf() {
 		return ModelReadingUtils.readObjectAsResource(shape, SH.targetSubjectsOf);
 	}
 
-	public Resource getTargetSubjectsOfAsResource() {
-		return ModelReadingUtils.getOptionalResource(shape, SH.targetSubjectsOf).isPresent() ?
-			ModelReadingUtils.getOptionalResource(shape, SH.targetSubjectsOf).map( r -> r.asResource()).get().asResource()
-			: null;
-	}
-
+	/**
+	 * @return The values of SH.targetObjectsOf, or an empty list if none 
+	 */
 	public List<Resource> getTargetObjectsOf() {
 		return ModelReadingUtils.readObjectAsResource(shape, SH.targetObjectsOf);
 	}
 
-	public Resource getTargetObjectsOfAsResource() {
-		return ModelReadingUtils.getOptionalResource(shape, SH.targetObjectsOf).isPresent() ?
-			ModelReadingUtils.getOptionalResource(shape, SH.targetObjectsOf).get().asResource() :
-			null;
-	}
-
+	/**
+	 * @return The values of SH.target, or an empty list if none 
+	 */
 	public List<Resource> getTarget() {
 		return ModelReadingUtils.readObjectAsResource(shape, SH.target);
 	}
 
-	public List<Resource> getTargetNodes() {
+/**
+	 * @return The values of SH.targetNode, or an empty list if none 
+	 */	
+	public List<Resource> getTargetNode() {
 		return ModelReadingUtils.readObjectAsResource(shape, SH.targetNode);
 	}
 
 	/**
-	 * @return The sh:targetClass resources value if present, as weel the node shape itself if it is a class, or an empty list if none
+	 * @return All targeted classes, that is the sh:targetClass resources value if present, plus the node shape itself if it is a class, or an empty list if none
 	 */
-	public List<Resource> getTargetClasses() {
+	public List<Resource> getAllTargetedClasses() {
 		List<Resource> targets = shape.listProperties(SH.targetClass).toList().stream()
 				.map(s -> s.getResource())
 				.collect(Collectors.toList());
+		
 		if(this.isClassShape()) {
 			targets.add(this.shape);
 		}
+
 		return targets;
 	}
 
@@ -98,7 +97,7 @@ public class NodeShape extends Shape  {
 	}
 
 	/**
-	 * @return The list of rdfs:subClassOf of this node shape exclugind owl:Thing, if present, or an empty list if none
+	 * @return The list of rdfs:subClassOf of this node shape excluding owl:Thing, if present, or an empty list if none
 	 */
 	public List<Resource> getSubClassOf() {
 		return shape.listProperties(RDFS.subClassOf).toList().stream()
@@ -122,7 +121,7 @@ public class NodeShape extends Shape  {
 	 * @return true if getTargetClasses() contains the given classUri 
 	 */
 	public boolean isTargeting(Resource classUri) {
-		return this.getTargetClasses().stream().filter(tc -> tc.equals(classUri)).findFirst().isPresent();
+		return this.getAllTargetedClasses().stream().filter(tc -> tc.equals(classUri)).findFirst().isPresent();
 	}
 
 	/**
@@ -131,7 +130,7 @@ public class NodeShape extends Shape  {
 	 */
 	public boolean hasTarget() {
 		return 
-			getTargetClasses().size() > 0
+			getAllTargetedClasses().size() > 0
 			||
 			getTargetSubjectsOf().size() > 0
 			||
@@ -139,7 +138,7 @@ public class NodeShape extends Shape  {
 			||
 			getTarget().size() > 0
 			||
-			getTargetNodes().size() > 0
+			getTargetNode().size() > 0
 		;
 	}
 
@@ -183,32 +182,40 @@ public class NodeShape extends Shape  {
 		}
 	}
 
-	public String getDiagramLabel() {
-		// use the sh:targetClass if present, otherwise use the URI of the NodeShape
-		return 
-		ModelRenderingUtils.render(this.shape, true)
-		+
-		Optional.ofNullable(this.getTargetClass()).map(targetClass -> " ("+ModelRenderingUtils.render(targetClass, true)+")")
-		.orElse("");
+	public String getDisplayLabel(String lang) {
+		return this.getDisplayLabel(this.getNodeShape().getModel(), lang);
 	}
 
-	public String getDisplayLabel(String lang) {
+	public String getDisplayLabel(Model owlModel, String lang) {
 		String result = ModelRenderingUtils.render(this.getSkosPrefLabel(lang), true);
 		
 		if(result == null) {
 			result = ModelRenderingUtils.render(this.getRdfsLabel(lang), true);
 		}				
 		
-		if(result == null && this.getTargetClass() != null) {
+		if((result == null) && (this.getAllTargetedClasses().size() > 0)) {			
 			// otherwise if we have skos:prefLabel on the class, take it
-			result = ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(this.shape.getModel().getResource(this.getTargetClass().getURI()), SKOS.prefLabel, lang), true);
+			for (Resource t : this.getAllTargetedClasses()) {
+				String res = ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(owlModel.getResource(t.getURI()), SKOS.prefLabel, lang), true);
+			    if (res != null) {
+			    	result = res;
+			    }
+			}
+			
 		}
 		
-		if(result == null && this.getTargetClass() != null) {
+		if((result == null) && (this.getAllTargetedClasses().size() > 0)) {
 			// otherwise if we have rdfs:label on the class, take it
-			result = ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(this.shape.getModel().getResource(this.getTargetClass().getURI()), RDFS.label, lang), true);
+			for (Resource t : this.getAllTargetedClasses()) {
+				String res = ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(owlModel.getResource(t.getURI()), RDFS.label, lang), true);
+			    if (res != null) {
+			    	result = res;
+			    }
+			}
+		
 		}
 		
+		// default to short form or id
 		if(result == null) {
 			result = this.getShortFormOrId();
 		}

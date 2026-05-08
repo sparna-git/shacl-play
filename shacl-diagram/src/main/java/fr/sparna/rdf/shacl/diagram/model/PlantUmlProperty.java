@@ -31,32 +31,36 @@ public class PlantUmlProperty extends PropertyShape {
 	@Deprecated
 	public String getPathAsSparql() {
 		// render the property path using prefixes
-		// TODO : this default behavior should be elsewhere probably
-		return this.getShPathAsOptional().map(path -> ModelRenderingUtils.renderSparqlPropertyPath(path, true)).orElse(this.propertyShape.getURI());
+		try {
+			return ModelRenderingUtils.renderSparqlPropertyPath(this.getShPath(), true);
+		} catch(Exception e) {
+			// just in case we have a property shape without an sh:path
+			return this.propertyShape.getURI();
+		}
 	}	
 
 	public String getPlantUmlCardinalityString() {
-		if(super.getShMinCountAsLiteral().isEmpty() && this.getShMaxCountAsLiteral().isEmpty()) {
+		if(super.getShMinCount().isEmpty() && this.getShMaxCount().isEmpty()) {
 			return null;
 		}
 		
-		return "[" + this.getShMinCountAsLiteral().map(l-> ModelRenderingUtils.render(l)).orElse("0") + ".." + this.getShMaxCountAsLiteral().map(l-> ModelRenderingUtils.render(l)).orElse("*") + "]" ;
+		return "[" + this.getShMinCount().map(l-> Integer.toString(l)).orElse("0") + ".." + this.getShMaxCount().map(l-> Integer.toString(l)).orElse("*") + "]" ;
 	}
 
 	public String getPlantUmlQualifiedCardinalityString() {
-		if(this.getShQualifiedMinCountAsLiteral().isEmpty() && this.getShQualifiedMaxCountAsLiteral().isEmpty()) {
+		if(this.getShQualifiedMinCount().isEmpty() && this.getShQualifiedMaxCount().isEmpty()) {
 			return null;
 		}
 		
-		return "[" + this.getShQualifiedMinCountAsLiteral().map(l-> ModelRenderingUtils.render(l)).orElse("0") + ".." + this.getShQualifiedMaxCountAsLiteral().map(l-> ModelRenderingUtils.render(l)).orElse("*") + "]" ;
+		return "[" + this.getShQualifiedMinCount().map(l-> Integer.toString(l)).orElse("0") + ".." + this.getShQualifiedMaxCount().map(l-> Integer.toString(l)).orElse("*") + "]" ;
 	}
 	
 	public String getPlantUmlLengthString() {
-		if(this.getShMinLengthAsLiteral().isEmpty() && this.getShMaxLengthAsLiteral().isEmpty()) {
+		if(this.getShMinLength().isEmpty() && this.getShMaxLength().isEmpty()) {
 			return null;
 		}
 		
-		return "{field} (Length [" + this.getShMinLengthAsLiteral().map(l-> ModelRenderingUtils.render(l)).orElse("0") + ".." + this.getShMaxLengthAsLiteral().map(l-> ModelRenderingUtils.render(l)).orElse("*") + "])" ;
+		return "{field} (Length [" + this.getShMinLength().map(l-> Integer.toString(l)).orElse("0") + ".." + this.getShMaxLength().map(l-> Integer.toString(l)).orElse("*") + "])" ;
 	}
 	
 	public String getPlantUmlRangeString() {

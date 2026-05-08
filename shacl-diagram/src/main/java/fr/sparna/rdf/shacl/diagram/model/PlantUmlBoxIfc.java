@@ -12,7 +12,7 @@ public interface PlantUmlBoxIfc {
 	
 	public List<Resource> getDepictionBox();
 	
-	public Optional<Resource> getTargetClassAsOptional();
+	public Optional<Resource> getTargetClass();
 	
 	public List<Resource> getRdfsSubClassOf();
 

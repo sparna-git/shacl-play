@@ -270,7 +270,7 @@ public class PlantUmlDiagramGenerator {
 				newBoxSimple.setColorStringBox(b.getColorStringBox());
 				newBoxSimple.setLabel(b.getLabel());
 				// note : this is necessary so that the renderer can resolve class references to the correct boxes
-				newBoxSimple.setTargetClass(b.getTargetClassAsOptional());
+				newBoxSimple.setTargetClass(b.getTargetClass());
 				
 				return newBoxSimple;
 				

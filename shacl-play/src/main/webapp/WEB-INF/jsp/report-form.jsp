@@ -54,14 +54,10 @@
 					</div>
 					
 					<form id="upload_form" action="report" method="POST" enctype="multipart/form-data" class="form-horizontal">
-						<h2><i class="fal fa-shapes"></i>&nbsp;&nbsp;<fmt:message key="report.shapes.title" /></h2>
+						<h2><i class="fal fa-shapes"></i>&nbsp;&nbsp;<fmt:message key="report.report.title" /></h2>
 						
-						<!-- Include shapes blockquote -->
-					  	<%@ include file="include/shapes-blockquote.jsp" %>
-						
-						<!--  
-						<h2><i class="fal fa-tools"></i>&nbsp;&nbsp;<fmt:message key="blockquote.options.title" /></h2>
-				      	-->
+						<!-- Include report blockquote -->
+					  	<%@ include file="include/report-blockquote.jsp" %>
 				      	
 				      	<button type="submit" id="validate-button" class="btn btn-info btn-lg"><fmt:message key="report.submit" /></button>
 					</form>	

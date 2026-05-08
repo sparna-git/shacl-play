@@ -65,10 +65,6 @@ public abstract class Shape {
 	}
 
 	public List<Resource> getShNodeAsList() {
-
-		ModelReadingUtils.readObjectAsResource(shape, SH.node)
-			.forEach( o -> {System.out.println(o.getURI());});
-		//return shape.listProperties(SH.node).toList().stream().map(s -> s.getResource()).collect(Collectors.toList());
 		return ModelReadingUtils.readObjectAsResource(shape, SH.node);
 	}
 
@@ -99,17 +95,9 @@ public abstract class Shape {
 	public Optional<Integer> getShMinLength() {
 		return ModelReadingUtils.getOptionalLiteral(this.shape, SH.minLength).map(l -> l.getInt());
 	}
-
-	public Optional<Literal> getShMinLengthAsLiteral() {
-		return ModelReadingUtils.getOptionalLiteral(this.shape, SH.minLength);
-	}
 	
 	public Optional<Integer> getShMaxLength() {
 		return ModelReadingUtils.getOptionalLiteral(this.shape, SH.maxLength).map(l -> l.getInt());
-	}
-
-	public Optional<Literal> getShMaxLengthAsLiteral() {
-		return ModelReadingUtils.getOptionalLiteral(this.shape, SH.maxLength);
 	}
 	
 	public Optional<Literal> getShMinInclusive() {
@@ -142,22 +130,9 @@ public abstract class Shape {
 		}
 	}
 
-	public String getShLanguageInString() {
-		return this.getShLanguageIn().stream().map(l -> l.toString()).collect(Collectors.joining(", "));
+	public List<RDFNode> getSkosExample() {
+		return ModelReadingUtils.readObjectAsResourceOrLiteral(shape, SKOS.example);
 	}
-
-	public List<Literal> getExamples() {
-		return ModelReadingUtils.readLiteral(shape, SKOS.example);
-	}
-
-	public Literal getSkosExample () {
-		return Optional.ofNullable(shape.getProperty(SKOS.example)).map(s -> s.getLiteral()).orElse(null);
-	}
-
-	public RDFNode getSkosExampleNode() {
-		return Optional.ofNullable(shape.getProperty(SKOS.example)).map(s -> s.getObject()).orElse(null);
-	}
-
 
 	/**
 	 * Returns true if the shape could be a literal.

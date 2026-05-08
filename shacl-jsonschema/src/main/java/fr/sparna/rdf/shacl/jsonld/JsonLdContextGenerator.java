@@ -285,7 +285,7 @@ public class JsonLdContextGenerator {
 		// and add a mapping with the localName of the target class as term, and the short form of the class URI as value
 		List<JsonLdMapping> mappings = new ArrayList<>();
 		for (NodeShape nodeShape : nodeShapes) {
-			List<Resource> targetClasses = nodeShape.getTargetClasses();
+			List<Resource> targetClasses = nodeShape.getAllTargetedClasses();
 			for (Resource targetClass : targetClasses) {
 				JsonLdMapping mapping = new JsonLdMapping(targetClass.getLocalName(), targetClass.getModel().shortForm(targetClass.getURI()));
 				mappings.add(mapping);

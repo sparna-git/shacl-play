@@ -9,12 +9,10 @@ import java.util.stream.Collectors;
 import org.apache.jena.rdf.model.RDFList;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
-import org.apache.jena.shacl.vocabulary.SHACLM;
 import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.XSD;
 
 import fr.sparna.rdf.jena.shacl.PropertyPath;
-import fr.sparna.rdf.shacl.SH;
 
 public class ModelRenderingUtils {
 

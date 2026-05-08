@@ -51,7 +51,7 @@ public class ShapesDocumentationSectionBuilder {
 		currentSection.setNodeShapeUriOrId(nodeShape.getURIOrId());
 		currentSection.setSectionId(nodeShape.getShortFormOrId());
 		// if the node shape is itself a class, set its subtitle to the URI
-		if(nodeShape.isAClass()) {
+		if(nodeShape.isClassShape()) {
 			currentSection.setSubtitleUri(new Link(nodeShape.getNodeShape().getURI(), nodeShape.getNodeShape().getURI()));
 		} else {
 			currentSection.setSubtitleUri(new Link(null, nodeShape.getNodeShape().getURI()));
@@ -89,19 +89,18 @@ public class ShapesDocumentationSectionBuilder {
 
 
 		// sh:targetSubjectsOf or sh:targetObjectsOf
-		if (nodeShape.getTargetSubjectsOfAsResource() != null) {
-			currentSection.setTargetSubjectsOf(nodeShape.getTargetSubjectsOfAsResource().getURI());
-		}
-		
-		if (nodeShape.getTargetObjectsOfAsResource() != null) {
-			currentSection.setTargetObjectsOf(nodeShape.getTargetObjectsOfAsResource().getURI());
+		if (!nodeShape.getTargetSubjectsOf().isEmpty()) {
+			currentSection.setTargetSubjectsOf(nodeShape.getTargetSubjectsOf().get(0).getURI());
+		}		
+		if (!nodeShape.getTargetObjectsOf().isEmpty()) {
+			currentSection.setTargetObjectsOf(nodeShape.getTargetObjectsOf().get(0).getURI());
 		}
 		
 		// sh:targetClass
-		if(nodeShape.getTargetClasses().size() > 0) {
+		if(nodeShape.getAllTargetedClasses().size() > 0) {
 			
 			// Create List<Link>
-			List<Link> tClass = nodeShape.getTargetClasses()
+			List<Link> tClass = nodeShape.getAllTargetedClasses()
 									.stream()
 									.map(s -> 
 										new Link(s.getURI(),
@@ -140,7 +139,9 @@ public class ShapesDocumentationSectionBuilder {
 		//currentSection.set
 		
 		// skos:example
-		currentSection.setSkosExample((nodeShape.getSkosExampleNode() != null)?nodeShape.getSkosExampleNode().toString():null);
+		currentSection.setSkosExample(
+			nodeShape.getSkosExample().stream().map(example -> example.toString()).collect(Collectors.joining("; "))
+		);
 		
 		// rdfs:subClassOf if shape is also a class
 		currentSection.setSuperClasses(nodeShape.getRdfsSubClassOf().stream()
@@ -210,16 +211,14 @@ public class ShapesDocumentationSectionBuilder {
 		for (Resource aSuperShape : superShapes) {
 			// find corresponding node shape
 			NodeShapeDoc superShape = shapesGraph.findNodeShapeByResource(aSuperShape) != null ? new NodeShapeDoc(shapesGraph.findNodeShapeByResource(aSuperShape).getNodeShape()) : null ;
-			if (!aSuperShape.equals(superShape.getNodeShape())) {			
-				if(superShape != null) {
-					groups.addAll(readPropertyGroupsRec(
-							superShape,
-							shapesGraph,
-							shaclGraph,
-							owlGraph,
-							lang
-					));
-				}
+			if (superShape != null && !aSuperShape.equals(superShape.getNodeShape())) {			
+				groups.addAll(readPropertyGroupsRec(
+						superShape,
+						shapesGraph,
+						shaclGraph,
+						owlGraph,
+						lang
+				));
 			}
 		}
 		
@@ -273,15 +272,15 @@ public class ShapesDocumentationSectionBuilder {
 	}
 
 	private boolean isMainEntity(NodeShapeDoc ns) {
-		if (ns.getTargetSubjectsOfAsResource() != null) {
+		if (!ns.getTargetSubjectsOf().isEmpty()) {
 			return true;
-		} else if (ns.getTargetObjectsOfAsResource() != null){
+		} else if (!ns.getTargetObjectsOf().isEmpty()){
 			return true;
-		} else if (ns.getTargetClasses().size() > 0) {
+		} else if (ns.getAllTargetedClasses().size() > 0) {
 			return true;
 		} else if (ns.getShTargetShSelect() != null) {
 			return true;
-		} else if (ns.isAClass()) {
+		} else if (ns.isClassShape()) {
 			return true;
 		} else {
 			return false;

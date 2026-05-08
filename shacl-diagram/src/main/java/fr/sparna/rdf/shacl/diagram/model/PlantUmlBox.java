@@ -14,30 +14,41 @@ import org.topbraid.shacl.vocabulary.SH;
 import fr.sparna.rdf.jena.ModelRenderingUtils;
 import fr.sparna.rdf.jena.shacl.NodeShape;
 
-public class PlantUmlBox extends NodeShape implements PlantUmlBoxIfc {
+public class PlantUmlBox implements PlantUmlBoxIfc {
 	
-	private Resource nodeShape;
+	private NodeShape nodeShape;
 	
 	protected List<PlantUmlProperty> propertiesBox = new ArrayList<>();
 
 	protected String link;
 
 	public PlantUmlBox(Resource nodeShape) {  
-		super(nodeShape);
-	    this.nodeShape = nodeShape;		
-		this.link = "#" + super.getShortFormOrId();
+		this.nodeShape = new NodeShape(nodeShape);
+		this.link = "#" + this.nodeShape.getShortFormOrId();
+	}
+
+	@Override
+	public Resource getNodeShape() {
+		return this.nodeShape.getNodeShape();
+	}
+
+	@Override
+	public Optional<Resource> getTargetClass() {
+		return Optional.ofNullable(
+			(this.nodeShape.getTargetClass().size() > 0)?this.nodeShape.getTargetClass().get(0):null
+		);
 	}
 
 	public Optional<Literal> getBackgroundColor() {
-		return super.getShaclPlayBackgroundColor();
+		return this.nodeShape.getShaclPlayBackgroundColor();
 	}
 	
 	public Optional<Literal> getColor() {
-		return getShaclPlayColor();
+		return this.nodeShape.getShaclPlayColor();
 	}
 	
 	public List<Resource> getDepictionBox() {
-		List<Resource> depictionInput = super.getDepiction()
+		List<Resource> depictionInput = this.nodeShape.getDepiction()
 											.stream()
 											.filter(f -> { 
 												if (f.getURI().contains(".png")) {
@@ -55,19 +66,19 @@ public class PlantUmlBox extends NodeShape implements PlantUmlBoxIfc {
 	}
 	
 	public List<Resource> getRdfsSubClassOf() {
-		return super.getSubClassOf();
+		return this.nodeShape.getSubClassOf();
 	}
 
 	public List<Resource> getShNodeBox() {
-		return super.getShNodeAsList();
+		return this.nodeShape.getShNodeAsList();
 	}
 	
 	public boolean isTargetingBox(Resource classUri) {	
-		boolean hasShTargetClass = super.isTargeting(classUri);
+		boolean hasShTargetClass = this.nodeShape.isTargeting(classUri);
 		boolean isItselfTheClass = 
-		this.nodeShape.hasProperty(RDF.type, RDFS.Class)
+		this.nodeShape.getNodeShape().hasProperty(RDF.type, RDFS.Class)
 		&&
-		this.nodeShape.hasProperty(RDF.type, SH.NodeShape)
+		this.nodeShape.getNodeShape().hasProperty(RDF.type, SH.NodeShape)
 		&&
 		this.nodeShape.equals(classUri);
 		
@@ -75,11 +86,11 @@ public class PlantUmlBox extends NodeShape implements PlantUmlBoxIfc {
 	}
 	
 	public String getBackgroundColorStringBox() {
-		return super.getShaclPlayBackgroundColor().map(node -> node.asLiteral().getLexicalForm()).orElse(null);
+		return this.nodeShape.getShaclPlayBackgroundColor().map(node -> node.asLiteral().getLexicalForm()).orElse(null);
 	}
 	
 	public String getColorStringBox() {
-		return super.getShaclPlayColor().map(node -> node.asLiteral().getLexicalForm()).orElse(null);
+		return this.nodeShape.getShaclPlayColor().map(node -> node.asLiteral().getLexicalForm()).orElse(null);
 	}
 	
 	public int countShNodeOrShClassReferencesTo(String id, PlantUmlDiagram diagram) {
@@ -98,7 +109,8 @@ public class PlantUmlBox extends NodeShape implements PlantUmlBoxIfc {
 	
 	public String getLabel() {
 		// use the sh:targetClass if present, otherwise use the URI of the NodeShape
-		return ModelRenderingUtils.render(this.nodeShape, true)+this.getTargetClassAsOptional().map(targetClass -> " ("+ModelRenderingUtils.render(targetClass, true)+")").orElse("");
+		String classLabels = this.getTargetClass().stream().map(targetClass -> ModelRenderingUtils.render(targetClass, true)).collect(Collectors.joining(", "));
+		return ModelRenderingUtils.render(this.nodeShape.getNodeShape(), true)+(classLabels.equals("")?"":" ("+classLabels+")");
 	}
 	
 	public String getPlantUmlQuotedBoxName() {
@@ -119,7 +131,6 @@ public class PlantUmlBox extends NodeShape implements PlantUmlBoxIfc {
 
 	public void setLink(String link) {
 		this.link = link;
-	}
-	
+	}	
 
 }

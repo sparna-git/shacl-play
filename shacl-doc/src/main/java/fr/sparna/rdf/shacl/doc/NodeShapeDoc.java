@@ -18,6 +18,7 @@ import org.topbraid.shacl.vocabulary.SH;
 import fr.sparna.rdf.jena.ModelReadingUtils;
 import fr.sparna.rdf.jena.ModelRenderingUtils;
 import fr.sparna.rdf.jena.shacl.NodeShape;
+import fr.sparna.rdf.jena.shacl.ShOrderComparator;
 import fr.sparna.rdf.jena.shacl.ShapesGraph;
 
 public class NodeShapeDoc extends NodeShape  {
@@ -45,43 +46,6 @@ public class NodeShapeDoc extends NodeShape  {
 		}
 	}
 	
-	public String getDisplayLabel(Model owlModel, String lang) {
-		String result = ModelRenderingUtils.render(super.getSkosPrefLabel(lang), true);
-		
-		if(result == null) {
-			result = ModelRenderingUtils.render(super.getRdfsLabel(lang), true);
-		}				
-		
-		if((result == null) && (super.getTargetClasses().size() > 0)) {			
-			// otherwise if we have skos:prefLabel on the class, take it
-			for (Resource t : super.getTargetClasses()) {
-				String res = ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(owlModel.getResource(t.getURI()), SKOS.prefLabel, lang), true);
-			    if (res != null) {
-			    	result = res;
-			    }
-			}
-			
-		}
-		
-		if((result == null) && (super.getTargetClasses().size() > 0)) {
-			// otherwise if we have rdfs:label on the class, take it
-			for (Resource t : super.getTargetClasses()) {
-				String res = ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(owlModel.getResource(t.getURI()), RDFS.label, lang), true);
-			    if (res != null) {
-			    	result = res;
-			    }
-			}
-		
-		}
-		
-		// default to short form or id
-		if(result == null) {
-			result = this.getShortFormOrId();
-		}
-		
-		return result;
-	}
-	
 	public String getDisplayDescription(Model owlModel, String lang) {
 		String result = ModelRenderingUtils.render(super.getSkosDefinition(lang), true);
 		
@@ -89,10 +53,9 @@ public class NodeShapeDoc extends NodeShape  {
 			result = ModelRenderingUtils.render(super.getRdfsComment(lang), true);
 		}
 		
-		if(result == null && super.getTargetClasses().size() > 0) {
+		if(result == null && super.getAllTargetedClasses().size() > 0) {
 			// otherwise if we have skos:definition on the class, take it
-			//result = ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(owlModel.getResource(this.getShTargetClass().getURI()), SKOS.definition, lang), true);
-			for (Resource t : super.getTargetClasses()) {
+			for (Resource t : super.getAllTargetedClasses()) {
 				String res = ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(owlModel.getResource(t.getURI()), SKOS.definition, lang), true);
 			    if (res != null) {
 			    	result.join(",",res);
@@ -101,10 +64,9 @@ public class NodeShapeDoc extends NodeShape  {
 			
 		}
 		
-		if(result == null && super.getTargetClasses().size() > 0) {
-			// otherwise if we have rdfs:label on the class, take it
-			//result = ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(owlModel.getResource(this.getShTargetClass().getURI()), RDFS.comment, lang), true);
-			for (Resource t : super.getTargetClasses()) {
+		if(result == null && super.getAllTargetedClasses().size() > 0) {
+			// otherwise if we have rdfs:comment on the class, take it
+			for (Resource t : super.getAllTargetedClasses()) {
 				String res = ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(owlModel.getResource(t.getURI()), RDFS.comment, lang), true);
 			    if (res != null) {
 			    	result.join(",",res);
@@ -122,17 +84,9 @@ public class NodeShapeDoc extends NodeShape  {
 	public void setPropertiesDoc(List<PropertyShapeDoc> propertiesDoc) {
 		this.propertiesDoc = propertiesDoc;
 	}
-	
-	public boolean isAClass() {
-		return super.isClassShape();
-	}
 
-	public Double getShOrderDoc() {
-		return getShOrderOf(nodeShape);
-	}
-
-	private Double getShOrderOf(Resource r) {
-		return Optional.ofNullable(r.getProperty(SH.order)).map(s -> s.getDouble()).orElse(null);
+	public Float getShOrderDoc() {
+		return this.getShOrder().orElse(null);
 	}
 	
 	public List<Resource> getRdfsSubClassOf() {
@@ -148,7 +102,7 @@ public class NodeShapeDoc extends NodeShape  {
 	
 	public List<Resource> getShTargetClassRdfsSubclassOfInverseOfShTargetClass() {
 		Set<Resource> result = new HashSet<Resource>();
-		List<Resource> targetClass = super.getTargetClasses();
+		List<Resource> targetClass = super.getAllTargetedClasses();
 		if(targetClass != null) {
 			
 			List<Resource> subClassesOf = new ArrayList<>();
@@ -191,46 +145,26 @@ public class NodeShapeDoc extends NodeShape  {
 		//List<Statement> depic = nodeShape.listProperties(FOAF.depiction).toList();
 		List<Resource> depictionsResources = new ArrayList<>();
 
-		for (Resource aDepictStatement : super.getDepiction()) {
-			//RDFNode object = aDepictStatement.getObject();
-
-			if (aDepictStatement.isResource()) {
-				if(
-					aDepictStatement.asResource().getURI() != null
-					&&
-					(
-						aDepictStatement.asResource().getURI().contains(".jpg")
-						||
-						aDepictStatement.asResource().getURI().contains(".png")
-					)
+		for (Resource aDepiction : super.getDepiction()) {
+			if(
+				aDepiction.getURI() != null
+				&&
+				(
+					aDepiction.getURI().contains(".jpg")
+					||
+					aDepiction.getURI().contains(".png")
 				)
-				depictionsResources.add(aDepictStatement.asResource());	
-			}					
+			)
+			depictionsResources.add(aDepiction);					
 		}
 		
-		depictionsResources.sort((Resource dp1, Resource dp2) -> {
-			if (getShOrderOf(dp1) != null) {
-				if(getShOrderOf(dp2) != null) {
-					return (getShOrderOf(dp1) - getShOrderOf(dp2)) > 0?1:-1;
-				} else {
-					return -1;
-				}
-			} else {
-				if(getShOrderOf(dp2) != null) {
-					return 1;
-				} else {
-					// both sh:order are null, try with sh:name
-					return 1;
-				}
-			}
-			
-		});
+		depictionsResources.sort(new ShOrderComparator());
 		
 		List<Depiction> depictions = new ArrayList<>();
 		for (Resource r : depictionsResources) {
 			Depiction aDepiction = new Depiction();
 			aDepiction.setSrc(r.getURI());
-			aDepiction.setShorder(getShOrderOf(r));
+			aDepiction.setShorder(ShOrderComparator.getShOrderOf(r));
 			
 			// dcterms:title
 			Optional.ofNullable(r.getProperty(DCTerms.title)).map(s -> s.getString()).ifPresent(title -> aDepiction.setTitle(title));

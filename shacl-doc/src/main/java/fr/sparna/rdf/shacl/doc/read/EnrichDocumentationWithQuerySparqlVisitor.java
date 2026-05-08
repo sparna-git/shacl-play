@@ -72,7 +72,7 @@ public class EnrichDocumentationWithQuerySparqlVisitor implements ShaclVisitorIf
 		NodeShapeDoc ns = new NodeShapeDoc(aNodeShape);
 		
 		// this works only if we have a targetClass and a URI in sh:path
-		if(ns.getTargetClasses() != null && ps.getShPath().isURIResource()) {
+		if(ns.getAllTargetedClasses() != null && ps.getShPath().isURIResource()) {
 			// find corresponding section in doc
 			ShapesDocumentationSection section = this.documentation.findSectionByUriOrId(ns.getURIOrId());
 			if(section != null) {

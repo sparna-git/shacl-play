@@ -40,8 +40,8 @@ public class PropertyRenderer {
 		
 		// get the color for the arrow drawn
 		String colorArrowProperty = "";
-		if(property.getColorString() != null) {
-			colorArrowProperty = "[bold,#"+property.getColorString()+"]";
+		if(property.getShaclPlayColor().isPresent()) {
+			colorArrowProperty = "[bold,#"+property.getShaclPlayColor().get()+"]";
 		}
 				
 		if (property.getShNode().isPresent()) {
@@ -193,8 +193,8 @@ public class PropertyRenderer {
 			// TODO : why is this computed here diferently than in renderAsNode ???
 			String labelColor = "";
 			String labelColorClose = "";
-			if(property.getColorString() != null) {
-				labelColor = "<color:"+property.getColorString()+">"+" ";
+			if(property.getShaclPlayColor().isPresent()) {
+				labelColor = "<color:"+property.getShaclPlayColor().get()+">"+" ";
 				labelColorClose = "</color>";
 			}
 	
@@ -225,8 +225,8 @@ public class PropertyRenderer {
 		// TODO : why is this computed here diferently than in renderAsNode ???
 		String labelColor = "";
 		String labelColorClose = "";
-		if(property.getColorString() != null) {
-			labelColor = "<color:"+property.getColorString()+">"+" ";
+		if(property.getShaclPlayColor().isPresent()) {
+			labelColor = "<color:"+property.getShaclPlayColor().get()+">"+" ";
 			labelColorClose = "</color>";
 		}
 		

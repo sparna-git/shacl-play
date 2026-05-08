@@ -114,9 +114,9 @@ public class PropertyShapeDocumentationBuilder {
 		}
 		
 		// skos:example
-		if (propertyShape.getSkosExample() != null) {
-			proprieteDoc.setExamples(propertyShape.getSkosExample().asLiteral().getString());
-		}
+		proprieteDoc.setExamples(
+			propertyShape.getSkosExample().stream().map(example -> example.toString()).collect(Collectors.joining("; "))
+		);
 		
 		// read values in sh:or
 		RDFList shOrList = propertyShape.getShOr();
@@ -229,7 +229,7 @@ public class PropertyShapeDocumentationBuilder {
 
 	public Link buildShClassLink(Resource shClass) {
 		for(NodeShapeDoc aNodeShape : allNodeShapes) {
-			if(aNodeShape.getTargetClasses() != null && findShClassInShTargetClass(aNodeShape.getTargetClasses(),shClass.getURI())) {
+			if(aNodeShape.getAllTargetedClasses() != null && findShClassInShTargetClass(aNodeShape.getAllTargetedClasses(),shClass.getURI())) {
 				return new Link("#"+aNodeShape.getShortFormOrId(), aNodeShape.getDisplayLabel(owlGraph, lang));
 				// checks that the URI of the NodeShape is itself equal to the sh:class
 				// add a check to work only with named URI node shapes

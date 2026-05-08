@@ -8,7 +8,7 @@ import org.apache.jena.rdf.model.Model;
 
 import fr.sparna.rdf.jena.shacl.ShapesGraph;
 
-public class ShapesGraphDoc extends ShapesGraph{
+public class ShapesGraphDoc extends ShapesGraph {
 	
 	private Model shaclGraph;
 	private Model owlGraph;

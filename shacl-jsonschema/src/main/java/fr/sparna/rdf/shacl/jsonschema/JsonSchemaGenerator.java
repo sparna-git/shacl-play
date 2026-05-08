@@ -254,7 +254,8 @@ public class JsonSchemaGenerator {
 			objectSchema.description(nodeShape.getRdfsComment(lang).stream().map(l -> l.getString()).collect(Collectors.joining(" ")));
 		}
 		
-		List<String> examplesRaw = nodeShape.getExamples().stream().map(e -> e.asLiteral().getString()).collect(Collectors.toList());
+		// assume all skos:example are literals
+		List<String> examplesRaw = nodeShape.getSkosExample().stream().map(e -> e.isLiteral()?e.asLiteral().getString():"").collect(Collectors.toList());
 		
 		// shorten all examples according to context
 		List<String> examplesId = examplesRaw.stream()
@@ -619,7 +620,7 @@ public class JsonSchemaGenerator {
 		}
 
 		// shorten all examples according to context
-		List<String> examplesRaw = nodeShapeOrPropertyShape.getExamples().stream().map(e -> e.asLiteral().getString()).collect(Collectors.toList());
+		List<String> examplesRaw = nodeShapeOrPropertyShape.getSkosExample().stream().map(e -> e.isLiteral()?e.asLiteral().getString():"").collect(Collectors.toList());
 		
 		List<String> examples = examplesRaw.stream()
 			.map(ex -> model.createResource(ex))
@@ -696,7 +697,7 @@ public class JsonSchemaGenerator {
 								&&
                                 r.getURI().equals(ns.getNodeShape().getURI())
                                 ||
-                                (ns.getTargetClass() != null && r.getURI().equals(ns.getTargetClass().getURI()))
+                                (ns.isTargeting(r))
                                 ;
                             }).isPresent()
                         ) {

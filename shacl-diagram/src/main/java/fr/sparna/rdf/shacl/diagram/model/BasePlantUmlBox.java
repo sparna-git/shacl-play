@@ -68,7 +68,7 @@ public class BasePlantUmlBox implements PlantUmlBoxIfc {
     }
 
     @Override
-    public Optional<Resource> getTargetClassAsOptional() {
+    public Optional<Resource> getTargetClass() {
         // TODO Auto-generated method stub
         return Optional.empty();
     }

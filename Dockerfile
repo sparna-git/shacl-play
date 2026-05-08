@@ -1,4 +1,4 @@
-FROM maven:3.9.6 as builder
+FROM maven:3.9.6 AS builder
 
 WORKDIR /build
 
@@ -7,7 +7,7 @@ COPY ./ ./
 
 RUN mvn package
 
-FROM tomcat:9.0-jdk17
+FROM tomcat:10.1-jdk17
 
 RUN apt update -y && apt install graphviz -y
 

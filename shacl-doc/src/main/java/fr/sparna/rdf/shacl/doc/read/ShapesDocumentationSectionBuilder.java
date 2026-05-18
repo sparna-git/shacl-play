@@ -139,9 +139,8 @@ public class ShapesDocumentationSectionBuilder {
 		//currentSection.set
 		
 		// skos:example
-		currentSection.setSkosExample(
-			nodeShape.getSkosExample().stream().map(example -> example.toString()).collect(Collectors.joining("; "))
-		);
+		String exampleString = nodeShape.getSkosExample().stream().map(example -> example.toString()).collect(Collectors.joining("; "));
+		currentSection.setSkosExample(exampleString.equals("")?null:exampleString);
 		
 		// rdfs:subClassOf if shape is also a class
 		currentSection.setSuperClasses(nodeShape.getRdfsSubClassOf().stream()

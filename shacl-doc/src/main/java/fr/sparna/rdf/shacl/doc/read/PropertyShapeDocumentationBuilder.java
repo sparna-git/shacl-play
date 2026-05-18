@@ -114,9 +114,8 @@ public class PropertyShapeDocumentationBuilder {
 		}
 		
 		// skos:example
-		proprieteDoc.setExamples(
-			propertyShape.getSkosExample().stream().map(example -> example.toString()).collect(Collectors.joining("; "))
-		);
+		String exampleString = propertyShape.getSkosExample().stream().map(example -> example.toString()).collect(Collectors.joining("; "));
+		proprieteDoc.setExamples(exampleString.equals("")?null:exampleString);
 		
 		// read values in sh:or
 		RDFList shOrList = propertyShape.getShOr();

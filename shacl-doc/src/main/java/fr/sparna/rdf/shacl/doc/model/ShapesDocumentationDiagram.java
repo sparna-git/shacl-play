@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 import fr.sparna.rdf.shacl.diagram.PlantUmlDiagramOutput;
-import fr.sparna.rdf.shacl.doc.SVGGenerator;
+import fr.sparna.rdf.shacl.diagram.plantuml.PlantUmlSvgSerializer;
 import net.sourceforge.plantuml.code.TranscoderUtil;
 
 @JsonInclude(Include.NON_NULL)
@@ -21,8 +21,8 @@ public class ShapesDocumentationDiagram {
 		this.plantUmlString = diagramGenerationOutput.getPlantUmlString();
 		try {
 			this.pngLink = "http://www.plantuml.com/plantuml/png/"+TranscoderUtil.getDefaultTranscoder().encode(diagramGenerationOutput.getPlantUmlString());
-			SVGGenerator svgGen = new SVGGenerator();
-			this.svg = svgGen.generateSvgDiagram(diagramGenerationOutput.getPlantUmlString());
+			PlantUmlSvgSerializer svgGen = new PlantUmlSvgSerializer();
+			this.svg = svgGen.serializeInSVG(diagramGenerationOutput.getPlantUmlString());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

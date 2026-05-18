@@ -16,6 +16,12 @@ public class PlantUmlSvgSerializer {
 	private static String SVG_LENGTHADJUST = "lengthAdjust=\"[^\"]*\"";
 	private static String SVG_TEXTLENGTH = "textLength=\"[^\"]*\"";
 
+	public String serializeInSVG(String plantUmlString) throws IOException {
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		this.serializeInSVG(plantUmlString, out);
+		return new String(out.toByteArray(), Charset.forName("UTF-8"));
+	}
+
 	public void serializeInSVG(String plantUmlString, OutputStream output) throws IOException {
 		SourceStringReader reader = new SourceStringReader(plantUmlString);
 		// temporary output to be post-processed

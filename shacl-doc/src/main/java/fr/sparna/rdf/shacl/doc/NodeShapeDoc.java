@@ -10,7 +10,6 @@ import java.util.stream.Collectors;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.vocabulary.DCTerms;
-import org.apache.jena.vocabulary.OWL;
 import org.apache.jena.vocabulary.RDFS;
 import org.apache.jena.vocabulary.SKOS;
 import org.topbraid.shacl.vocabulary.SH;
@@ -89,28 +88,13 @@ public class NodeShapeDoc extends NodeShape  {
 		return this.getShOrder().orElse(null);
 	}
 	
-	public List<Resource> getRdfsSubClassOf() {
-		return this.getRdfsSubClassOfOf(nodeShape);
-	}
-	
-	public static List<Resource> getRdfsSubClassOfOf(Resource resource) {
-		return resource.listProperties(RDFS.subClassOf).toList().stream()
-				.map(s -> s.getResource())
-				.filter(r -> { return r.isURIResource() && !r.getURI().equals(OWL.Thing.getURI()); })
-				.collect(Collectors.toList());
-	}
-	
 	public List<Resource> getShTargetClassRdfsSubclassOfInverseOfShTargetClass() {
 		Set<Resource> result = new HashSet<Resource>();
-		List<Resource> targetClass = super.getAllTargetedClasses();
-		if(targetClass != null) {
+		List<Resource> targetClasses = super.getAllTargetedClasses();
+		if(targetClasses != null) {
 			
-			List<Resource> subClassesOf = new ArrayList<>();
-			for (Resource r : targetClass) {
-				subClassesOf.addAll(this.getRdfsSubClassOfOf(r));
-			}
+			List<Resource> subClassesOf = targetClasses.stream().flatMap( t -> NodeShape.getRdfsSubClassOfOf(t).stream()).collect(Collectors.toList());
 			
-			//List<Resource> subClassesOf = NodeShape.getRdfsSubClassOfOf(targetClass);
 			if(subClassesOf != null && subClassesOf.size() > 0) {
 				for (Resource aSuperClass : subClassesOf) {
 					List<Resource> shapeWithThisTarget = nodeShape.getModel().listStatements(null, SH.targetClass, aSuperClass).toList().stream().map(s -> s.getSubject()).collect(Collectors.toList());

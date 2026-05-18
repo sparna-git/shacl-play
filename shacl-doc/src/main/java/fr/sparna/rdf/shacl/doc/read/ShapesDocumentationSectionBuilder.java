@@ -135,9 +135,6 @@ public class ShapesDocumentationSectionBuilder {
 			currentSection.setClosed(nodeShape.getShClosed().get().getBoolean());
 		}
 		
-		// SH.hasValue
-		//currentSection.set
-		
 		// skos:example
 		String exampleString = nodeShape.getSkosExample().stream().map(example -> example.toString()).collect(Collectors.joining("; "));
 		currentSection.setSkosExample(exampleString.equals("")?null:exampleString);
@@ -173,7 +170,7 @@ public class ShapesDocumentationSectionBuilder {
 				shaclGraph,
 				owlGraph,
 				lang
-		);		
+		);	
 		
 		currentSection.setPropertyGroups(groups);
 
@@ -190,12 +187,11 @@ public class ShapesDocumentationSectionBuilder {
 		List<PropertyShapesGroupDocumentation> groups = new ArrayList<>();
 		
 		PropertyShapesGroupDocumentation thisGroup = new PropertyShapesGroupDocumentation();
-		thisGroup.setTargetClass(new Link(
-					"#"+nodeShape.getShortFormOrId(),
-					nodeShape.getDisplayLabel(owlGraph, lang)
-		));
+		thisGroup.setTargetClass(new Link("#"+nodeShape.getShortFormOrId(),nodeShape.getDisplayLabel(owlGraph, lang)));
+
 		List<PropertyShapeDocumentation> properties = new ArrayList<>();
 		PropertyShapeDocumentationBuilder pBuidler = new PropertyShapeDocumentationBuilder(shapesGraph.getAllNodeShapesDoc(), shaclGraph, owlGraph, lang);	
+
 		for (PropertyShapeDoc aPropertyShape : nodeShape.getPropertiesDoc()) {
 			PropertyShapeDocumentation psd = pBuidler.build(
 				aPropertyShape,
@@ -207,10 +203,12 @@ public class ShapesDocumentationSectionBuilder {
 		
 		// then recurse up
 		List<Resource> superShapes = nodeShape.getSuperShapes();
+
 		for (Resource aSuperShape : superShapes) {
 			// find corresponding node shape
-			NodeShapeDoc superShape = shapesGraph.findNodeShapeByResource(aSuperShape) != null ? new NodeShapeDoc(shapesGraph.findNodeShapeByResource(aSuperShape).getNodeShape()) : null ;
-			if (superShape != null && !aSuperShape.equals(superShape.getNodeShape())) {			
+			NodeShapeDoc superShape = shapesGraph.findNodeShapeByResource(aSuperShape) != null ? shapesGraph.findNodeShapeByResource(aSuperShape) : null ;
+			
+			if (superShape != null && !nodeShape.getNodeShape().equals(superShape.getNodeShape())) {			
 				groups.addAll(readPropertyGroupsRec(
 						superShape,
 						shapesGraph,

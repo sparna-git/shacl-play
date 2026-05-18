@@ -309,6 +309,20 @@ public class NodeShape extends Shape  {
 		return ModelReadingUtils.readLiteralInLang(shape, RDFS.label, lang);
 	}
 
+	public List<Resource> getRdfsSubClassOf() {
+		return NodeShape.getRdfsSubClassOfOf(shape);
+	}
+
+	/**
+	 * @return the list of resources that this resource is a rdfs:subClassOf of, excluding owl:Thing and blank nodes.
+	 */
+	public static List<Resource> getRdfsSubClassOfOf(Resource resource) {
+		return resource.listProperties(RDFS.subClassOf).toList().stream()
+				.map(s -> s.getResource())
+				.filter(r -> { return r.isURIResource() && !r.getURI().equals(OWL.Thing.getURI()); })
+				.collect(Collectors.toList());
+	}
+
 	/* ######## SHACL Play ########  */
 	
 	public String getBackgroundColorString() {
@@ -338,5 +352,7 @@ public class NodeShape extends Shape  {
 	public List<Literal> getSkosDefinition(String lang) {
 		return ModelReadingUtils.readLiteralInLang(shape, SKOS.definition, lang);
 	}
+
+
 	
 }

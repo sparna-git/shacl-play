@@ -943,8 +943,9 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		}<xsl:value-of select="$comma"/>
-		<!-- if we have following sibling nodes, add a comma -->
+		<!-- if we have following sibling nodes, add a comma 
 		<xsl:if test="following-sibling::*">, </xsl:if>
+		-->
 	</xsl:template>	
 	
 	<xsl:template match="formats">
@@ -1567,7 +1568,7 @@
 					</div>								
 				</td>				
 			</tr>
-			<xsl:if test="(string-length(./description) &gt; 0) or (count(./examples) &gt; 0)" >
+			<xsl:if test="(string-length(./description) &gt; 0) or (string-length(./examples) &gt; 0)" >
 				<tr class="sp_hidden_line">
 					<td colspan="4">
 						<div style="padding-left: 3.5em; margin-top: -15px; font-size:smaller;">
@@ -1578,7 +1579,7 @@
 								</div>							
 							</xsl:if>
 							<!-- Display Example -->
-							<xsl:if test="count(./examples) &gt; 0">	
+							<xsl:if test="string-length(./examples) &gt; 0">	
 								<div>
 									&#10137; <xsl:value-of select="concat($LABELS/labels/entry[@key='COLUMN_EXAMPLE']/@label,': ')"/>
 									<xsl:apply-templates select="./examples"/>

@@ -1,10 +1,6 @@
 {
     "xsd": "http://www.w3.org/2001/XMLSchema#",
     "ex": "http://example.org/",
-    "@base": "https://data.europarl.europa.eu/eli/dl/doc/",
-
-    "theProperty": {
-        "@id": "ex:property"
-    }
+    "@base": "https://data.europarl.europa.eu/eli/dl/doc/"
 }
 

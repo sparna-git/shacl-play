@@ -153,7 +153,7 @@ public class RegexUtil {
         JsonValue baseContext = Json.createReader(new StringReader(TEST_CONTEXT)).readValue();
         ProbingJsonLdContextWrapper wrapper = new ProbingJsonLdContextWrapper(baseContext);
         for(int i =0; i<10; i++) {
-            System.out.println("Generated value for TEST_1: " + wrapper.simplifyPattern(TEST_1, "https://data.europarl.europa.eu/p"));
+            System.out.println("Generated value for TEST_1: " + wrapper.simplifyPattern(TEST_1, "https://data.europarl.europa.eu/p", false));
         }
     }
 }

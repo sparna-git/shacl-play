@@ -1,0 +1,17 @@
+[
+  {
+    "data": "@graph"
+  },
+  {
+      "id" : "@id",
+      "type" : "@type",
+      "inverse_property" : {
+        "@reverse" : "http://example.org/property",
+        "@type" : "@id",
+        "@context" : {
+          "@base" : "https://data.domain.org/"
+        }
+      },
+      "ex" : "http://example.org/"
+  }
+]

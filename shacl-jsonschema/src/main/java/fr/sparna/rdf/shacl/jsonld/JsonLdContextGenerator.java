@@ -34,6 +34,8 @@ public class JsonLdContextGenerator {
 	protected String atTypeMapping = "type";
 	protected String atGraphMapping = "graph";
 
+	protected String INVERSE_PREFIX = "inverse_";
+
 	protected boolean defaultContainerSet = true;
 	protected boolean defaultContainerLanguage = true;
 
@@ -116,7 +118,7 @@ public class JsonLdContextGenerator {
 				PropertyPath propertyPath = new PropertyPath(path);
 				if(propertyPath.isInverse()) {
 					// provide sensible default for inverse paths
-					shortnames.add("inverse_"+propertyPath.getShInversePath().getLocalName());
+					shortnames.add(this.INVERSE_PREFIX + propertyPath.getShInversePath().getLocalName());
 				} else {
 					shortnames.add(path.getLocalName());
 				}

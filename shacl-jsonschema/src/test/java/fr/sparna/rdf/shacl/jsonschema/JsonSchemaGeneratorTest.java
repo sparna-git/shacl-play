@@ -43,6 +43,7 @@ public class JsonSchemaGeneratorTest {
                 .sorted()
                 .forEach(directory -> {
                     try {
+                        System.out.println("Now testing: " + directory);
                         runTest(directory);
                         System.out.println("Test passed for directory: " + directory);
                     } catch (Exception e) {

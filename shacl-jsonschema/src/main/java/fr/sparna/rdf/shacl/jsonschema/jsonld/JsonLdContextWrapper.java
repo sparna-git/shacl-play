@@ -14,14 +14,15 @@ public interface JsonLdContextWrapper {
     /**
      * Maps a value URI to a JSON key by reading the context
      * @param propertyUri an optional property URI, which can be used when the context contains a local context for a given property
+     * @param reverse whether the value is an inverse property
      * @return How the value URI should be represented in JSON by interpreting the context (either a JSON term of the full URI if it is not mapped in the context)
      */
-    public String readTermFromValue(String uri, String propertyUri)  throws JsonLdException;
+    public String readTermFromValue(String uri, String propertyUri, boolean reverse)  throws JsonLdException;
 
     /**
      * Maps a property URI to a JSON key by reading the context, and also returns whether the property requires an array and whether it requires a language container
      * @param propertyUri
-     * @return How the property URI should be represented in JSON by interpreting the context (either a JSON term of the full URI if it is not mapped in the context)
+     * @return How the property URI should be represented in JSON by interpreting the context (either a JSON term of the full URI if it is not mapped in the context) and also returns whether the property requires an array and whether it requires a language container
      */
     public Triple<String,Boolean,Boolean> testProperty(String propertyUri, boolean isIriProperty, boolean isInverse, String datatype, String language)  throws JsonLdException;
 
@@ -40,6 +41,6 @@ public interface JsonLdContextWrapper {
      *   }
      *  }    
      */
-    public String simplifyPattern(String regexPattern, String propertyUri) throws JsonLdException;
+    public String simplifyPattern(String regexPattern, String propertyUri, boolean reverse) throws JsonLdException;
 
 }

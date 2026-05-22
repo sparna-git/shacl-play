@@ -19,6 +19,7 @@ import org.topbraid.shacl.vocabulary.SH;
 
 import fr.sparna.rdf.jena.shacl.NodeShape;
 import fr.sparna.rdf.jena.shacl.OwlOntology;
+import fr.sparna.rdf.jena.shacl.PropertyPath;
 import fr.sparna.rdf.jena.shacl.PropertyShape;
 import fr.sparna.rdf.jena.shacl.ShOrReadingUtils;
 import fr.sparna.rdf.jena.shacl.Shape;
@@ -260,13 +261,13 @@ public class JsonSchemaGenerator {
 		// shorten all examples according to context
 		List<String> examplesId = examplesRaw.stream()
 			.map(ex -> model.createResource(ex))
-			.map(res -> this.uriMapper.mapValueURI(res, null))
+			.map(res -> this.uriMapper.mapValueURI(res, null, false))
 			.collect(Collectors.toList());
 
 		StringSchema.Builder idSchemaBuilder = StringSchema.builder();
 		if (nodeShape.getShPattern().isPresent()) {
-			// no property URI in this case
-			idSchemaBuilder.pattern(this.uriMapper.mapUriPatternToJsonPattern(nodeShape.getShPattern().get().getString(), null));
+			// no property URI in this case, and always not reverse
+			idSchemaBuilder.pattern(this.uriMapper.mapUriPatternToJsonPattern(nodeShape.getShPattern().get().getString(), null, false));
 		}
 		if( !examplesId.isEmpty()) {
 			idSchemaBuilder.examples(examplesId);
@@ -342,6 +343,7 @@ public class JsonSchemaGenerator {
 	) throws Exception {
 
 		ShapesGraph shapesGraph = new ShapesGraph(model, null);
+		PropertyPath path = ps.getPropertyPath();
 
 		// precedence order
 		// 1. sh:hasValue ==> const
@@ -358,12 +360,17 @@ public class JsonSchemaGenerator {
 		Schema.Builder singleValueBuilder = null;
 		
 		if (includeValues) {
+			
 			// sh:hasValue	
 			if (!ps.getShHasValue().isEmpty()) {
 				// TODO : handle constant literal values			
 				singleValueBuilder = ConstSchema
 					.builder()
-					.permittedValue(this.uriMapper.mapValueURI(ps.getShHasValue().get().asResource(), (!ps.getShPath().isAnon())?ps.getShPath().getURI():null));
+					.permittedValue(this.uriMapper.mapValueURI(
+						ps.getShHasValue().get().asResource(),
+						(!ps.getShPath().isAnon())?ps.getShPath().getURI():(path.isInverse()?path.getShInversePath().getURI():null),
+						path.isInverse()
+					));
 			}
 	
 			// sh:in
@@ -372,7 +379,11 @@ public class JsonSchemaGenerator {
 				List<Object> values = new ArrayList<>();
 				for (RDFNode i : ps.getShIn()) {				
 					if (i.isURIResource()) {
-						values.add(this.uriMapper.mapValueURI(i.asResource(), (!ps.getShPath().isAnon())?ps.getShPath().getURI():null));
+						values.add(this.uriMapper.mapValueURI(
+							i.asResource(),
+							(!ps.getShPath().isAnon())?ps.getShPath().getURI():(path.isInverse()?path.getShInversePath().getURI():null),
+							path.isInverse()
+						));
 					} else if (i.isLiteral()) {
 						values.add(i.asLiteral().getValue());
 					} else {
@@ -536,16 +547,27 @@ public class JsonSchemaGenerator {
 		Model model
 	) throws Exception {
 		Schema.Builder singleValueBuilder = null;
+		PropertyPath path = inContextOfPropertyShape.getPropertyPath();
 
 		// sh:pattern
 		if (singleValueBuilder == null && !nodeShapeOrPropertyShape.getShPattern().isEmpty()) {
 			String pattern = nodeShapeOrPropertyShape.getShPattern().get().getString();
 			String patternAsInJson = pattern;
-			if(!nodeShapeOrPropertyShape.couldBeLiteral()) {
-				patternAsInJson = this.uriMapper.mapUriPatternToJsonPattern(
-					pattern,
-					(!inContextOfPropertyShape.getShPath().isAnon())?inContextOfPropertyShape.getShPath().getURI():null
-				);
+			if(!nodeShapeOrPropertyShape.couldBeLiteral()) {				
+				if(path.isInverse()) {
+					patternAsInJson = this.uriMapper.mapUriPatternToJsonPattern(
+						pattern,
+						path.getShInversePath().isAnon()?null:path.getShInversePath().getURI(),
+						true
+					);
+				} else {
+					patternAsInJson = this.uriMapper.mapUriPatternToJsonPattern(
+						pattern,
+						(!inContextOfPropertyShape.getShPath().isAnon())?inContextOfPropertyShape.getShPath().getURI():null,
+						false
+					);
+				}
+
 			}
 			
 			singleValueBuilder = StringSchema
@@ -627,7 +649,8 @@ public class JsonSchemaGenerator {
 			.map(res -> {
 				return this.uriMapper.mapValueURI(
 					res,
-					(!inContextOfPropertyShape.getShPath().isAnon())?inContextOfPropertyShape.getShPath().getURI():null
+					(!inContextOfPropertyShape.getShPath().isAnon())?inContextOfPropertyShape.getShPath().getURI():(path.isInverse()?path.getShInversePath().getURI():null),
+					path.isInverse()
 				);
 			 })
 			.collect(Collectors.toList());

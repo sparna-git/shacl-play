@@ -85,7 +85,7 @@ public class EnrichDocumentationWithStatisticsVisitor implements ShaclVisitorIfc
 			ShapesDocumentationSection section = this.documentation.findSectionByUriOrId(ns.getURIOrId());
 			if(section != null) {
 				PropertyShapeDoc ps = new PropertyShapeDoc(aPropertyShape);
-				PropertyShapeDocumentation propertySection = section.findPropertyShapeDocumentationSectionByUriOrId(ps.getURIOrId());
+				PropertyShapeDocumentation propertySection = section.findPropertyShapeDocumentationSectionByUriOrId(aPropertyShape.getModel().shortForm(ps.getURIOrId()));
 				
 				if(propertySection != null) {
 					// read number of triples and distinct subjects 
@@ -98,6 +98,8 @@ public class EnrichDocumentationWithStatisticsVisitor implements ShaclVisitorIfc
 						int distinctObjects = aPropertyPartition.getProperty(VOID.distinctObjects).getObject().asLiteral().getInt();
 						propertySection.setDistinctObjects(distinctObjects);
 					}
+				} else {
+					log.warn("Unable to find property shape documentation section "+ps.getURIOrId());
 				}
 			}
 		}

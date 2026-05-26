@@ -25,7 +25,7 @@ public class PropertyShapeDoc extends PropertyShape {
 			return this.resource.getURI();
 		} else {
 			// returns the blank node ID in that case
-			return this.resource.asResource().getId().getLabelString();
+			return this.resource.getId().toString();
 		}
 	}
 	

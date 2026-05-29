@@ -81,20 +81,18 @@ public class BoxRenderer {
 		String declaration = "";
 
 		String colorBackGround = "";
-		if (box.getBackgroundColorStringBox() != null ) {			
-			colorBackGround = "#back:"+box.getBackgroundColorStringBox();						
-		}else {
-			colorBackGround = "";
+		if (box.getBackgroundColorStringBox() != null ) {
+			// colors in PlantUML must not start with # in background
+			String finalColor = box.getBackgroundColorStringBox().startsWith("#")? box.getBackgroundColorStringBox().substring(1):box.getBackgroundColorStringBox();
+			colorBackGround = "#back:"+finalColor;						
 		}
 		
 		String labelColorClass = "";
 		if(box.getColorStringBox() != null) {
-			if(!colorBackGround.equals("")) {
-				labelColorClass += ";";
-			} else {
-				labelColorClass += "#";
-			}
-			labelColorClass += "text:"+box.getColorStringBox();
+			// colors in PlantUML must not start with # in background
+			String finalColor = box.getColorStringBox().startsWith("#")? box.getColorStringBox().substring(1):box.getColorStringBox();
+			labelColorClass += !colorBackGround.equals("")? ";":"#";
+			labelColorClass += "text:"+finalColor;
 		}
 		
 		// resolve subclasses only if we were asked for it

@@ -1,29 +1,6 @@
 package fr.sparna.rdf.shacl.shaclplay.doc;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.net.URLEncoder;
-import java.util.Arrays;
-import java.util.Map;
-
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-
-import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.ModelFactory;
-import org.owasp.encoder.Encode;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
-
 import com.openhtmltopdf.pdfboxout.PdfRendererBuilder;
-
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentation;
 import fr.sparna.rdf.shacl.doc.read.ShapesDocumentationModelReader;
 import fr.sparna.rdf.shacl.doc.read.ShapesDocumentationReaderIfc;
@@ -38,6 +15,25 @@ import fr.sparna.rdf.shacl.shaclplay.ControllerModelFactory.SOURCE_TYPE;
 import fr.sparna.rdf.shacl.shaclplay.catalog.AbstractCatalogEntry;
 import fr.sparna.rdf.shacl.shaclplay.catalog.shapes.ShapesCatalog;
 import fr.sparna.rdf.shacl.shaclplay.catalog.shapes.ShapesCatalogService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.owasp.encoder.Encode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.net.URLEncoder;
+import java.util.Arrays;
 
 
 @Controller
@@ -66,7 +62,35 @@ public class DocController {
 		
 		return new ModelAndView("doc-form", DocFormData.KEY, vfd);	
 	}
-	
+
+
+	@GetMapping("/test")
+	public ResponseEntity<String> test1(){
+		return new ResponseEntity<>("get test", HttpStatus.OK);
+	}
+
+	@ResponseBody
+	@PostMapping("/test")
+	public ResponseEntity<String> test2(){
+		return new ResponseEntity<>("post test", HttpStatus.OK);
+	}
+
+	@DeleteMapping("/test")
+	public ResponseEntity<String> test3(){
+		return new ResponseEntity<>("delete test", HttpStatus.OK);
+	}
+
+	@DeleteMapping("/test2")
+	public ModelAndView test4(){
+		return new ModelAndView();
+	}
+
+	@ResponseBody
+	@DeleteMapping("/test3")
+	public ModelAndView test5(){
+		return new ModelAndView();
+	}
+
 	@RequestMapping(
 			value = {"doc"},
 			params={"url"},
@@ -123,7 +147,7 @@ public class DocController {
 			return handleViewFormError(request, e.getClass().getName() +" : "+e.getMessage(), e);
 		}
 	}
-	
+
 	@RequestMapping(
 			value="/doc",
 			params={"shapesSource"},

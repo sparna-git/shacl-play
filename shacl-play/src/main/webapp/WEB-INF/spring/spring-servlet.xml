@@ -28,9 +28,9 @@
 	    </list>
 	  </property>
 	  <property name="properties">  
-		<props>  
-		   <prop key="project.version">project.version</prop>
-		   <prop key="timestamp">timestamp</prop>  
+		<props>
+		    <prop key="project.version">project.version</prop>
+		    <prop key="timestamp">timestamp</prop>
 		</props>  
 	  </property>
 	  <property name="ignoreResourceNotFound" value="true" />
@@ -43,7 +43,6 @@
 	<!-- Maps /** to the DefaultServletHandler -->
 	<mvc:default-servlet-handler />
 
-	<mvc:annotation-driven />
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/jsp/" />
@@ -88,6 +87,5 @@
 	        </map>
 	    </property>
 	</bean>
-	
 
 </beans>

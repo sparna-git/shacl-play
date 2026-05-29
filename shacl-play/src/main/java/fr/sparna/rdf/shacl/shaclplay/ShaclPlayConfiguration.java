@@ -1,4 +1,4 @@
-package fr.sparna.rdf.shacl.shaclplay.swagger;
+package fr.sparna.rdf.shacl.shaclplay;
 
 
 import fr.sparna.rdf.xls2rdf.web.SwaggerUICustom;
@@ -10,9 +10,7 @@ import org.springdoc.core.providers.ObjectMapperProvider;
 import org.springdoc.webmvc.ui.SwaggerIndexPageTransformer;
 import org.springdoc.webmvc.ui.SwaggerWelcomeCommon;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.*;
 
 @OpenAPIDefinition(
         info = @Info(
@@ -22,8 +20,11 @@ import org.springframework.context.annotation.Primary;
                 version = "version api ...")
 )
 @Configuration
+@PropertySources(
+        @PropertySource("classpath:shaclplay-application.properties")
+)
 @EnableAutoConfiguration
-public class OpenAPIConfiguration {
+public class ShaclPlayConfiguration {
 
     @Bean
     @Primary

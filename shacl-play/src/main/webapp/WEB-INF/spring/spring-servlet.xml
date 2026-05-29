@@ -22,7 +22,6 @@
 	  <property name="locations">
 	    <list>
 	        <value>file://#{systemProperties['shaclplay.home']}/conf/shaclplay-application.properties</value>
-	        <value>classpath:shaclplay-application.properties</value>
 	        <!-- Load version.properties from the classpath -->
 	        <value>classpath:version.properties</value>
 	    </list>
@@ -35,7 +34,6 @@
 	  </property>
 	  <property name="ignoreResourceNotFound" value="true" />
 	</bean>
-
 
 	<!-- ***** Basic application bootstraping ***** -->	
 	<context:component-scan base-package="fr.sparna.rdf.shacl" />

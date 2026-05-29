@@ -23,8 +23,6 @@ import org.owasp.encoder.Encode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -48,7 +46,7 @@ public class DocController {
 	protected ShapesCatalogService catalogService;
 
 	@RequestMapping(
-			value = {"doc"},
+			value = {"/doc"},
 			method=RequestMethod.GET
 	)
 	public ModelAndView validate(
@@ -63,36 +61,9 @@ public class DocController {
 		return new ModelAndView("doc-form", DocFormData.KEY, vfd);	
 	}
 
-
-	@GetMapping("/test")
-	public ResponseEntity<String> test1(){
-		return new ResponseEntity<>("get test", HttpStatus.OK);
-	}
-
 	@ResponseBody
-	@PostMapping("/test")
-	public ResponseEntity<String> test2(){
-		return new ResponseEntity<>("post test", HttpStatus.OK);
-	}
-
-	@DeleteMapping("/test")
-	public ResponseEntity<String> test3(){
-		return new ResponseEntity<>("delete test", HttpStatus.OK);
-	}
-
-	@DeleteMapping("/test2")
-	public ModelAndView test4(){
-		return new ModelAndView();
-	}
-
-	@ResponseBody
-	@DeleteMapping("/test3")
-	public ModelAndView test5(){
-		return new ModelAndView();
-	}
-
 	@RequestMapping(
-			value = {"doc"},
+			value = {"/doc"},
 			params={"url"},
 			method=RequestMethod.GET
 	)
@@ -144,14 +115,15 @@ public class DocController {
 			return null;
 		} catch (Exception e) {
 			e.printStackTrace();
-			return handleViewFormError(request, e.getClass().getName() +" : "+e.getMessage(), e);
+			return this.handleViewFormError(request, e.getClass().getName() +" : "+e.getMessage(), e);
 		}
 	}
 
+	@ResponseBody
 	@RequestMapping(
-			value="/doc",
+			value = {"/doc"},
 			params={"shapesSource"},
-			method = RequestMethod.POST
+			method=RequestMethod.POST
 	)
 	public ModelAndView doc(
 			// radio box indicating type of shapes
@@ -297,7 +269,7 @@ public class DocController {
 				response.setContentType("text/html");
 
 				// response.setContentType("application/xhtml+xml");
-				writer.writeDoc(doc, languageInput, response.getOutputStream());		
+				writer.writeDoc(doc, languageInput, response.getOutputStream());
 				break;
 			}
 			case PDF : {

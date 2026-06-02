@@ -64,8 +64,8 @@ public class ShapesGraph {
 		return getAllNodeShapes().stream().filter(ns -> ns.getNodeShape().toString().equals(r.toString())).findFirst().orElse(null);
 	}
 
-	public List<Resource> findNodeShapeByProperty(Resource resource) {
-		return shaclGraph.listStatements(null,SH.property, resource).toList().stream().map( m -> m.getSubject()).collect(Collectors.toList());
+	public NodeShape findNodeShapeByProperty(Resource resource) {
+		return shaclGraph.listStatements(null,SH.property, resource).toList().stream().map( m -> new NodeShape(m.getSubject().asResource())).findFirst().get();
 	}
 
 	/**
@@ -108,19 +108,103 @@ public class ShapesGraph {
 	/*
 		Return list of properties from SH.node
 	*/
-	public List<Resource> findPropertyShapeByShNode(Resource findNS) {	
-		return shaclGraph.listStatements(null,SH.node, findNS).toList().stream().map(r -> r.getSubject()).collect(Collectors.toList());
+	public List<PropertyShape> findPropertyShapeByShNode(Resource findNS) {	
+		List<Resource> shNode = shaclGraph.listStatements(null,SH.node, findNS).toList().stream().map( r -> r.getSubject().asResource()).collect(Collectors.toList());
+		List<PropertyShape> ps = new ArrayList<>();
+		for (Resource r : shNode) {
+			if (!r.isAnon()) {
+				ps.add(new PropertyShape(r.asResource()));
+			}
+		}
+		return ps;
 	}
 
-	public List<Resource> findPropertyShapeByShClass(Resource findNS) {		
-		return shaclGraph.listStatements(null,SH.class_, findNS).toList().stream().map(r -> r.getSubject()).collect(Collectors.toList());
+	/*
+		Return list of properties from SH.Class
+	*/
+	public List<PropertyShape> findPropertyShapeByShClass(Resource findNS) {		
+		return shaclGraph.listStatements(null,SH.class_, findNS).toList().stream().map(r -> new PropertyShape(r.getSubject().asResource())).collect(Collectors.toList());
 	}
 
-	public List<Resource> findPropertyShapeByShQualifiedValueShape(Resource findNS) {		
-		return shaclGraph.listStatements(null,SH.qualifiedValueShape, findNS).toList().stream().map(r -> r.getSubject()).collect(Collectors.toList());
+	public List<PropertyShape> findPropertyShapeByShQualifiedValueShape(Resource findNS) {		
+		
+
+		List<PropertyShape> properties = new ArrayList<>();
+		List<Resource> rQFVS = shaclGraph
+			.listResourcesWithProperty(SH.qualifiedValueShape)
+			.toList()
+			.stream()
+			.map( resouce -> resouce.asResource())
+			.collect(Collectors.toList());
+		
+		for (Resource r : rQFVS) {
+			
+			Resource res = r.getProperty(SH.qualifiedValueShape).getResource();
+			PropertyShape qualifiedvaludShapeObject = new PropertyShape(res);
+			
+			// Type of constraints 
+			if (qualifiedvaludShapeObject.getShClass().isPresent()) {
+				Resource rClass = qualifiedvaludShapeObject.getShClass().get().asResource();
+				
+				
+				Resource shTargetClass = shaclGraph.listStatements(null, SH.targetClass, rClass)
+					.toList()
+					.stream()
+					.map( m -> m.getSubject().asResource())
+					.findFirst()
+					.get();
+				
+				if (shTargetClass != null) {
+					if (shTargetClass.getURI().equals(findNS.getURI())) {
+						properties.add(new PropertyShape(r));
+					}
+				} else {
+					if (rClass.getURI().equals(findNS.getURI())) {
+						properties.add(new PropertyShape(r));
+					}
+				}
+			}
+			
+			if (qualifiedvaludShapeObject.getShNode().isPresent()) {
+				Resource rNodeShape = qualifiedvaludShapeObject.getShNode().get().asResource();
+				if (rNodeShape.getURI().equals(findNS.getURI())) {
+					properties.add(new PropertyShape(r));
+				}
+			}
+
+			if (qualifiedvaludShapeObject.getShDatatype().isPresent()) {
+				Resource rDatatype = qualifiedvaludShapeObject.getShDatatype().get().asResource();
+				if (rDatatype.getURI().equals(findNS.getURI())) {
+					properties.add(new PropertyShape(r));
+				}
+			}
+
+			if (qualifiedvaludShapeObject.getShNodeKind().isPresent()) {
+				Resource rNodekind =  qualifiedvaludShapeObject.getShNodeKind().get().asResource();
+				if (rNodekind.getURI().equals(findNS.getURI())) {
+					properties.add(new PropertyShape(r));
+				}
+			}
+
+			if (qualifiedvaludShapeObject.getShHasValue().isPresent()
+				&& 
+				!qualifiedvaludShapeObject.getShNode().isPresent() 
+				&&
+				!qualifiedvaludShapeObject.getShClass().isPresent()
+			) {
+				Resource rHasValue = qualifiedvaludShapeObject.getShHasValue().get().asResource();
+				if (rHasValue.getURI().equals(findNS.getURI())) {
+					properties.add(new PropertyShape(r));
+				}
+			}
+		}
+
+		// find in the graph the SH.qualifiedValueShape Constraint:
+		return properties;
+
 	}
 
-	public List<Resource> findPropertyShapeByShNodeInShOr(Resource findNS) {
+	public List<PropertyShape> findPropertyShapeByShNodeInShOr(Resource findNS) {
 
 		// Get all nodeShapes
 		List<Resource> rShOr = shaclGraph.listResourcesWithProperty(SH.or)
@@ -129,12 +213,12 @@ public class ShapesGraph {
 								.map( shORValue -> shORValue.asResource())
 								.collect(Collectors.toList());
 		
-		List<Resource> x = new ArrayList<>();
+		List<PropertyShape> x = new ArrayList<>();
 		for (Resource r : rShOr) {
 			// Sh Node in Sh Or
 			for (Resource rNodeValue : ShOrReadingUtils.readShNodeInShOr(r.getProperty(SH.or).getList())) {
 				if (rNodeValue.getURI().equals(findNS.getURI())) {
-					x.add(r.asResource());
+					x.add(new PropertyShape(r.asResource()));
 				}
 			}
 			// Sh Class in Sh Or
@@ -142,7 +226,7 @@ public class ShapesGraph {
 			for (Resource rNodeValue : rdfListClass) {
 				if (rNodeValue.isResource() && rNodeValue != null && !rNodeValue.isAnon()) {
 					if (rNodeValue.getURI().equals(findNS.getURI())) {
-						x.add(r.asResource());
+						x.add(new PropertyShape(r.asResource()));
 					}
 				}
 			}
@@ -150,7 +234,7 @@ public class ShapesGraph {
 			for (Resource rNodeValue : ShOrReadingUtils.readShDatatypeInShOr(r.getProperty(SH.or).getList())) {
 				if (rNodeValue.isResource() && rNodeValue != null && !rNodeValue.isAnon()) {
 					if (rNodeValue.getURI().equals(findNS.getURI())) {
-						x.add(r.asResource());
+						x.add(new PropertyShape(r.asResource()));
 					}
 				}
 			}
@@ -158,7 +242,7 @@ public class ShapesGraph {
 			for (Resource rNodeValue : ShOrReadingUtils.readShNodeKindInShOr(r.getProperty(SH.or).getList())) {
 				if (rNodeValue.isResource() && rNodeValue != null && !rNodeValue.isAnon()) {
 					if (rNodeValue.getURI().equals(findNS.getURI())) {
-						x.add(r.asResource());
+						x.add(new PropertyShape(r.asResource()));
 					}
 				}
 			}
@@ -167,9 +251,9 @@ public class ShapesGraph {
 		return x;		
 	}
 
-	public List<Resource> getResourceByUsage(Resource nodeshape) {
+	public List<PropertyShape> getResourceByUsage(Resource nodeshape) {
 
-		List<Resource> ListOfPropertiesUsage = new ArrayList<>();
+		List<PropertyShape> ListOfPropertiesUsage = new ArrayList<>();
 		// for SH Node
 		ListOfPropertiesUsage.addAll(this.findPropertyShapeByShNode(nodeshape));
 		// for SH Class

@@ -288,51 +288,10 @@ public class ShapesDocumentationSectionBuilder {
 	
 	public List<UsageOutput> findNodeShapeUsage (ShapesGraphDoc shapesGraph,NodeShapeDoc nodeShape, Model shacModel, String lang) {
 		
-		/* 
-		List<UsageDoc> nsUsageAsList = new ArrayList<>();
-		// Get all properties from the nodeshape
-		List<Resource> propertiesUsage = nodeShape.getPropertiesUsage();
-		if (propertiesUsage.size() > 0) {
-			for (Resource r : propertiesUsage) {
-				if (!r.isAnon() && r.isResource()) {
-					List<Resource> nResourceFound = shapesGraph.findNodeShapeByProperty(r);
-					//System.out.println("Number of Resouces: " + nResourceFound.size());
-					for(Resource rFound : nResourceFound) {
-						NodeShapeDoc nsUsage = new NodeShapeDoc(rFound);
-						
-						PropertyShapeDoc psDocUsage = new PropertyShapeDoc(r);
-						boolean nsExist = nsUsageAsList.stream().filter( nsList -> nsList.getNodeShape().getNodeShape().getURI().equals(nsUsage.getNodeShape().getURI())).findFirst().isPresent();
-						if (!nsExist) {
-							UsageDoc usDoc = new UsageDoc();
-							usDoc.setNodeShape(nsUsage);
-							List<PropertyShapeDoc> psList = new ArrayList<>();
-							psList.add(psDocUsage);
-							usDoc.setProperties(psList);
-							nsUsageAsList.add(usDoc);
-						} else {
-							Integer nCount = 0;
-							for (UsageDoc nsResource : nsUsageAsList) {
-								if (nsResource.getNodeShape().getNodeShape().getURI().equals(nsUsage.getNodeShape().getURI())) {
-									List<PropertyShapeDoc> psList = nsResource.getProperties();
-									boolean nsExistProperty = psList.stream().filter( pp -> pp.getPropertyShape().getURI().equals(psDocUsage.getPropertyShape().getURI()) ).findFirst().isPresent();
-									if (!nsExistProperty) {
-										List<PropertyShapeDoc> p = nsResource.getProperties();
-										p.add(psDocUsage);
-										nsResource.setProperties(p);
-										nsUsageAsList.set(nCount, nsResource);
-									}
-								}
-								nCount++;
-							}							
-						}
 
-					}
-				}
-			}
-		}
-			*/
 		List<UsageDoc> nsUsageAsList = nodeShape.getUsage();
 		List<UsageOutput> showusage = new ArrayList<>();
+	
 		if (nsUsageAsList.size() > 0) {
 			// Short
 			nsUsageAsList.sort(((UsageDoc arg0, UsageDoc arg1) -> {

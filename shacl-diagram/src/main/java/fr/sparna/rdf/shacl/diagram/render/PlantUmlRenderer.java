@@ -55,7 +55,7 @@ public class PlantUmlRenderer {
 		}
 		
 		sourceuml.append("hide circle\n");
-		sourceuml.append("hide methods\n");
+		//sourceuml.append("hide methods\n");
 		sourceuml.append("hide empty members\n");
 		
 		if (this.hideProperties) {

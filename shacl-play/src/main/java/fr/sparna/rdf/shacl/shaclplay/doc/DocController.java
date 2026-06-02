@@ -1,29 +1,6 @@
 package fr.sparna.rdf.shacl.shaclplay.doc;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.net.URLEncoder;
-import java.util.Arrays;
-import java.util.Map;
-
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-
-import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.ModelFactory;
-import org.owasp.encoder.Encode;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
-
 import com.openhtmltopdf.pdfboxout.PdfRendererBuilder;
-
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentation;
 import fr.sparna.rdf.shacl.doc.read.ShapesDocumentationModelReader;
 import fr.sparna.rdf.shacl.doc.read.ShapesDocumentationReaderIfc;
@@ -38,6 +15,23 @@ import fr.sparna.rdf.shacl.shaclplay.ControllerModelFactory.SOURCE_TYPE;
 import fr.sparna.rdf.shacl.shaclplay.catalog.AbstractCatalogEntry;
 import fr.sparna.rdf.shacl.shaclplay.catalog.shapes.ShapesCatalog;
 import fr.sparna.rdf.shacl.shaclplay.catalog.shapes.ShapesCatalogService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.owasp.encoder.Encode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.net.URLEncoder;
+import java.util.Arrays;
 
 
 @Controller
@@ -52,7 +46,7 @@ public class DocController {
 	protected ShapesCatalogService catalogService;
 
 	@RequestMapping(
-			value = {"doc"},
+			value = {"/doc"},
 			method=RequestMethod.GET
 	)
 	public ModelAndView validate(
@@ -66,9 +60,10 @@ public class DocController {
 		
 		return new ModelAndView("doc-form", DocFormData.KEY, vfd);	
 	}
-	
+
+	@ResponseBody
 	@RequestMapping(
-			value = {"doc"},
+			value = {"/doc"},
 			params={"url"},
 			method=RequestMethod.GET
 	)
@@ -120,14 +115,15 @@ public class DocController {
 			return null;
 		} catch (Exception e) {
 			e.printStackTrace();
-			return handleViewFormError(request, e.getClass().getName() +" : "+e.getMessage(), e);
+			return this.handleViewFormError(request, e.getClass().getName() +" : "+e.getMessage(), e);
 		}
 	}
-	
+
+	@ResponseBody
 	@RequestMapping(
-			value="/doc",
+			value = {"/doc"},
 			params={"shapesSource"},
-			method = RequestMethod.POST
+			method=RequestMethod.POST
 	)
 	public ModelAndView doc(
 			// radio box indicating type of shapes
@@ -273,7 +269,7 @@ public class DocController {
 				response.setContentType("text/html");
 
 				// response.setContentType("application/xhtml+xml");
-				writer.writeDoc(doc, languageInput, response.getOutputStream());		
+				writer.writeDoc(doc, languageInput, response.getOutputStream());
 				break;
 			}
 			case PDF : {

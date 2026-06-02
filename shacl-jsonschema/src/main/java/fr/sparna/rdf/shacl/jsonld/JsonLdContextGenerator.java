@@ -236,18 +236,27 @@ public class JsonLdContextGenerator {
 				
 				if(defaultContainerSet) {
 					if(datatypes.isEmpty() || !datatypes.iterator().next().getURI().equals(RDF.langString.getURI())) {
+						// by default there can be multiple values
+						boolean canBeMultiple = true;
 						Set<Integer> maxCounts = findShMaxCountOfShortname(shortname, path, model);
 						if(maxCounts.size() == 0) {
 							Set<RDFNode> hasValues = findHasValueOfShortname(shortname, path, model);
-							if(hasValues.size() == 0) {
-								// if there is a sh:hasValue, it means that the property cannot have multiple values, hance we don't set @container to @set 
-								mapping.setContainer("@set");
-							}							
-						} else {
-							Integer maxCount = maxCounts.iterator().next();
-							if(maxCount > 1) {
-								mapping.setContainer("@set");
+							// if there is a sh:hasValue, it means that the property cannot have multiple values, hance we don't set @container to @set 
+							if(hasValues.size() > 0) {
+								canBeMultiple = false;
 							}
+						} else {
+							// we have some sh:maxCount, but if there was some property shape without sh:maxCount, then we consider that the property can be multiple
+							if(!hasPropertyShapeWithoutShmaxCount(shortname, path, model)) {
+								Integer maxCount = maxCounts.iterator().next();
+								if(maxCount == 1) {
+									canBeMultiple = false;
+								}
+							}
+						}
+
+						if(canBeMultiple) {
+							mapping.setContainer("@set");
 						}
 					}
 				}
@@ -429,6 +438,22 @@ public class JsonLdContextGenerator {
 			.collect(Collectors.toSet());
 		return shMaxCount;	
 	}
+
+	private boolean hasPropertyShapeWithoutShmaxCount(String shortname, Resource path,Model model) {
+		// find the (unique) property shape with its shortname, or with a path (which can return multiple property shapes)
+		List<PropertyShape> propertyShapesWithPath = new ArrayList<>();
+		if(shortname != null) {
+			propertyShapesWithPath = this.shapesGraph.findPropertyShapesByShortname(shortname);
+		}
+		// if nothing found, try with the path
+		if(propertyShapesWithPath.isEmpty()) {
+			propertyShapesWithPath = this.shapesGraph.findPropertyShapesByPath(path);
+		}
+
+		return propertyShapesWithPath.stream()
+			.map(ps -> ps.getShMaxCount())
+			.anyMatch(mc -> !mc.isPresent());
+	}	
 	
 	private Set<Resource> findShNodeKindOfShortname(String shortname, Resource path, Model model) {
 		List<Shape> shapes = findAllShapesToConsider(shortname, path, model);

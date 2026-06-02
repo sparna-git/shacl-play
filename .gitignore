@@ -25,3 +25,13 @@ output-summary.html
 output.html
 
 shacl-play-app/dependency-reduced-pom.xml
+.smarttomcat/shacl-play/conf/catalina.policy
+.smarttomcat/shacl-play/conf/context.xml
+.smarttomcat/shacl-play/conf/jaspic-providers.xml
+.smarttomcat/shacl-play/conf/jaspic-providers.xsd
+.smarttomcat/shacl-play/conf/logging.properties
+.smarttomcat/shacl-play/conf/server.xml
+.smarttomcat/shacl-play/conf/tomcat-users.xml
+.smarttomcat/shacl-play/conf/tomcat-users.xsd
+.smarttomcat/shacl-play/conf/web.xml
+.smarttomcat/shacl-play/conf/catalina.properties

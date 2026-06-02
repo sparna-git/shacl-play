@@ -1,31 +1,5 @@
 package fr.sparna.rdf.shacl.shaclplay.draw;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.net.URLEncoder;
-import java.nio.charset.Charset;
-import java.util.List;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
-
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-
-import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.ModelFactory;
-import org.owasp.encoder.Encode;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
-
 import fr.sparna.rdf.shacl.diagram.PlantUmlDiagramGenerator;
 import fr.sparna.rdf.shacl.diagram.PlantUmlDiagramOutput;
 import fr.sparna.rdf.shacl.diagram.plantuml.PlantUmlHtmlSerializer;
@@ -37,10 +11,31 @@ import fr.sparna.rdf.shacl.shaclplay.ControllerModelFactory.SOURCE_TYPE;
 import fr.sparna.rdf.shacl.shaclplay.catalog.AbstractCatalogEntry;
 import fr.sparna.rdf.shacl.shaclplay.catalog.shapes.ShapesCatalog;
 import fr.sparna.rdf.shacl.shaclplay.catalog.shapes.ShapesCatalogService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import net.sourceforge.plantuml.FileFormat;
 import net.sourceforge.plantuml.FileFormatOption;
 import net.sourceforge.plantuml.SourceStringReader;
-import net.sourceforge.plantuml.code.TranscoderUtil;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.owasp.encoder.Encode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
+
+import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.Charset;
+import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 
 @Controller
@@ -76,13 +71,10 @@ public class DrawController {
 	}
 
 	@RequestMapping(
-			value = {"draw"},
+			value = {"/draw"},
 			method=RequestMethod.GET
 	)
-	public ModelAndView validate(
-			HttpServletRequest request,
-			HttpServletResponse response
-	){
+	public ModelAndView validate(){
 		DrawFormData vfd = new DrawFormData();
 		
 		ShapesCatalog catalog = this.catalogService.getShapesCatalog();
@@ -90,9 +82,10 @@ public class DrawController {
 		
 		return new ModelAndView("draw-form", DrawFormData.KEY, vfd);	
 	}
-	
+
+	@ResponseBody
 	@RequestMapping(
-			value = {"draw"},
+			value = {"/draw"},
 			params={"url"},
 			method=RequestMethod.GET
 	)
@@ -126,7 +119,8 @@ public class DrawController {
 			return handleViewFormError(request, e.getClass().getName() +" : "+e.getMessage(), e);
 		}
 	}
-	
+
+	@ResponseBody
 	@RequestMapping(
 			value="/draw",
 			params={"shapesSource"},

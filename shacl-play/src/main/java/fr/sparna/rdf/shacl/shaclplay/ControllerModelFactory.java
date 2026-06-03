@@ -1,12 +1,8 @@
 package fr.sparna.rdf.shacl.shaclplay;
 
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.List;
-import java.util.stream.Collectors;
-
+import fr.sparna.rdf.shacl.shaclplay.catalog.AbstractCatalogEntry;
+import fr.sparna.rdf.shacl.shaclplay.catalog.Catalog;
+import fr.sparna.rdf.shacl.shaclplay.exception.ControllerModelException;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFLanguages;
@@ -15,8 +11,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
 
-import fr.sparna.rdf.shacl.shaclplay.catalog.AbstractCatalogEntry;
-import fr.sparna.rdf.shacl.shaclplay.catalog.Catalog;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 public class ControllerModelFactory {

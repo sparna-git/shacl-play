@@ -1,4 +1,4 @@
-package fr.sparna.rdf.xls2rdf.web;
+package fr.sparna.rdf.shacl.shaclplay.swagger;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springdoc.core.properties.SwaggerUiConfigProperties;

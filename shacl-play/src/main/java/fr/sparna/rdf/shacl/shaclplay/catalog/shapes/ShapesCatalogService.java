@@ -19,7 +19,7 @@ public class ShapesCatalogService {
 		} catch (Exception e) {
 			// if we are offline, then just silently skip
 			e.printStackTrace();
-			log.warn("Errow when reading shapes catalog");
+			log.warn("Error when reading shapes catalog");
 			
 		}
 		

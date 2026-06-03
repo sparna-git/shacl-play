@@ -1,131 +1,121 @@
 package fr.sparna.rdf.shacl.shaclplay.doc;
 
-import com.openhtmltopdf.pdfboxout.PdfRendererBuilder;
-import fr.sparna.rdf.shacl.doc.model.ShapesDocumentation;
-import fr.sparna.rdf.shacl.doc.read.ShapesDocumentationModelReader;
-import fr.sparna.rdf.shacl.doc.read.ShapesDocumentationReaderIfc;
 import fr.sparna.rdf.shacl.doc.write.ShapesDocumentationWriterIfc;
-import fr.sparna.rdf.shacl.doc.write.ShapesDocumentationWriterIfc.MODE;
-import fr.sparna.rdf.shacl.doc.write.ShapesDocumentationXmlWriter;
-import fr.sparna.rdf.shacl.doc.write.ShapesDocumentationXsltRespecWriter;
-import fr.sparna.rdf.shacl.doc.write.ShapesDocumentationXsltShaclPlayWriter;
-import fr.sparna.rdf.shacl.shaclplay.ApplicationData;
 import fr.sparna.rdf.shacl.shaclplay.ControllerModelFactory;
 import fr.sparna.rdf.shacl.shaclplay.ControllerModelFactory.SOURCE_TYPE;
 import fr.sparna.rdf.shacl.shaclplay.catalog.AbstractCatalogEntry;
 import fr.sparna.rdf.shacl.shaclplay.catalog.shapes.ShapesCatalog;
 import fr.sparna.rdf.shacl.shaclplay.catalog.shapes.ShapesCatalogService;
+import fr.sparna.rdf.shacl.shaclplay.doc.service.DocService;
+import fr.sparna.rdf.shacl.shaclplay.exception.DocException;
+import fr.sparna.rdf.shacl.shaclplay.exception.ExceptionManager;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
-import org.owasp.encoder.Encode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.net.URLEncoder;
-import java.util.Arrays;
+import java.util.List;
 
 
 @Controller
 public class DocController {
 
-	private Logger log = LoggerFactory.getLogger(this.getClass().getName());
+	private final static Logger LOGGER = LoggerFactory.getLogger(DocController.class);
+
+	private final ShapesCatalogService catalogService;
+	private final DocService docService;
+	private final DocFormData formData;
 
 	@Autowired
-	protected ApplicationData applicationData;
-	
-	@Autowired
-	protected ShapesCatalogService catalogService;
+	public DocController(ShapesCatalogService catalogService, DocService docService, DocFormData formData){
+		this.catalogService = catalogService;
+		this.docService = docService;
+		this.formData = formData;
+	}
 
-	@RequestMapping(
+	@ResponseStatus(HttpStatus.OK)
+	@GetMapping(
 			value = {"/doc"},
-			method=RequestMethod.GET
-	)
-	public ModelAndView validate(
-			HttpServletRequest request,
-			HttpServletResponse response
-	){
-		DocFormData vfd = new DocFormData();
-		
+			produces = {"text/html"})
+	public String validate(org.springframework.ui.Model model){
 		ShapesCatalog catalog = this.catalogService.getShapesCatalog();
-		vfd.setCatalog(catalog);
-		
-		return new ModelAndView("doc-form", DocFormData.KEY, vfd);	
+		formData.setCatalog(catalog);
+		model.addAttribute(DocFormData.KEY, formData);
+		return "doc-form";
 	}
 
-	@ResponseBody
-	@RequestMapping(
-			value = {"/doc"},
-			params={"url"},
-			method=RequestMethod.GET
-	)
-	public ModelAndView docUrl(
-			@RequestParam(value="url", required=true) String shapesUrl,
-			// includeDiagram option
-			@RequestParam(value="includeDiagram", required=false) boolean includeDiagram,
-			// includeDiagram option
-			@RequestParam(value="sectionDiagram", required=false, defaultValue = "true") boolean sectionDiagram,
-			// hide Properties
-			@RequestParam(value="hideProperties", required=false) boolean hideProperties,
-			// List Option
-			@RequestParam(value="format", required=false, defaultValue = "html") String format,
-			// Logo Option
-			@RequestParam(value="inputLogo", required=false) String urlLogo,
-			// Language Option
-			@RequestParam(value="language", required=false) String language,
-			// Filter Unused NodeShape
-			@RequestParam(value="filterUnusedNodeShapes", required=false, defaultValue="false") boolean filterUnusedNodeShapes,
-			HttpServletRequest request,
-			HttpServletResponse response
-	){
-		try {
-			log.debug("docUrl(shapesUrl='"+shapesUrl+"')");
+	//@RequestMapping(
+	//		value = {"/doc"},
+	//		params={"url"},
+	//		method=RequestMethod.GET
+	//)
+	//public ModelAndView docUrl(
+	//		@RequestParam(value="url", required=true) String shapesUrl,
+	//		// includeDiagram option
+	//		@RequestParam(value="includeDiagram", required=false) boolean includeDiagram,
+	//		// includeDiagram option
+	//		@RequestParam(value="sectionDiagram", required=false, defaultValue = "true") boolean sectionDiagram,
+	//		// hide Properties
+	//		@RequestParam(value="hideProperties", required=false) boolean hideProperties,
+	//		// List Option
+	//		@RequestParam(value="format", required=false, defaultValue = "html") String format,
+	//		// Logo Option
+	//		@RequestParam(value="inputLogo", required=false) String urlLogo,
+	//		// Language Option
+	//		@RequestParam(value="language", required=false) String language,
+	//		// Filter Unused NodeShape
+	//		@RequestParam(value="filterUnusedNodeShapes", required=false, defaultValue="false") boolean filterUnusedNodeShapes,
+	//		HttpServletRequest request,
+	//		HttpServletResponse response
+	//){
+	//	try {
+	//		log.debug("docUrl(shapesUrl='"+shapesUrl+"')");
+//
+	//		ShapesDocumentationWriterIfc.MODE mode = ShapesDocumentationWriterIfc.MODE.valueOf(format.toUpperCase());
+	//
+	//		Model shapesModel = ModelFactory.createDefaultModel();
+	//		ControllerModelFactory modelPopulator = new ControllerModelFactory(this.catalogService.getShapesCatalog());
+	//		modelPopulator.populateModelFromUrl(shapesModel, shapesUrl);
+	//		log.debug("Done Loading Shapes. Model contains "+shapesModel.size()+" triples");
+	//
+	//		if(language == null) {
+	//			language ="en";
+	//		}
+	//
+	//		docService.doOutputDoc(
+	//				shapesModel,
+	//				// true to read diagram
+	//				includeDiagram,
+	//				hideProperties,
+	//				mode,
+	//				urlLogo,
+	//				modelPopulator.getSourceName(),
+	//				language,
+	//				sectionDiagram,
+	//				filterUnusedNodeShapes,
+	//				response);
+	//		return null;
+	//	} catch (Exception e) {
+	//		e.printStackTrace();
+	//		return this.handleViewFormError(request, e.getClass().getName() +" : "+e.getMessage(), e);
+	//	}
+	//}
 
-			ShapesDocumentationWriterIfc.MODE mode = ShapesDocumentationWriterIfc.MODE.valueOf(format.toUpperCase());
-			
-			Model shapesModel = ModelFactory.createDefaultModel();
-			ControllerModelFactory modelPopulator = new ControllerModelFactory(this.catalogService.getShapesCatalog());
-			modelPopulator.populateModelFromUrl(shapesModel, shapesUrl);
-			log.debug("Done Loading Shapes. Model contains "+shapesModel.size()+" triples");
-			
-			if(language == null) {
-				language ="en";
-			}
-			
-			doOutputDoc(
-					shapesModel,
-					// true to read diagram
-					includeDiagram,
-					hideProperties,
-					mode,
-					urlLogo,
-					modelPopulator.getSourceName(),
-					language,
-					sectionDiagram,
-					filterUnusedNodeShapes,
-					response);
-			return null;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return this.handleViewFormError(request, e.getClass().getName() +" : "+e.getMessage(), e);
-		}
-	}
-
-	@ResponseBody
-	@RequestMapping(
+	@ResponseStatus(HttpStatus.CREATED)
+	@PostMapping(
 			value = {"/doc"},
-			params={"shapesSource"},
-			method=RequestMethod.POST
+			consumes = {"multipart/form-data"},
+			produces = {"text/html", "text/xml", "application/pdf"}
 	)
-	public ModelAndView doc(
+	public ResponseEntity<ByteArrayResource> doc(
 			// radio box indicating type of shapes
 			@RequestParam(value="shapesSource", required=true) String shapesSourceString,
 			// reference to Shapes URL if shapeSource=sourceShape-inputShapeUrl
@@ -133,212 +123,109 @@ public class DocController {
 			// reference to Shapes Catalog ID if shapeSource=sourceShape-inputShapeCatalog
 			@RequestParam(value="inputShapeCatalog", required=false) String shapesCatalogId,
 			// uploaded shapes if shapeSource=sourceShape-inputShapeFile
-			@RequestParam(value="inputShapeFile", required=false) MultipartFile[] shapesFiles,
+			@RequestParam(value="inputShapeFile", required=false) List<MultipartFile> shapesFiles,
 			// inline Shapes if shapeSource=sourceShape-inputShapeInline
 			@RequestParam(value="inputShapeInline", required=false) String shapesText,
 			// includeDiagram option
-			@RequestParam(value="includeDiagram", required=false, defaultValue="false") boolean includeDiagram,
+			@RequestParam(value="includeDiagram", required=false) boolean includeDiagram,
+			// includeDiagram option
+			@RequestParam(value="sectionDiagram", required=false, defaultValue = "true") boolean sectionDiagram,
 			// hide Properties
 			@RequestParam(value="hideProperties", required=false, defaultValue="false") boolean hideProperties,
-			// print PDF Option
-			@RequestParam(value="format", required=false, defaultValue = "html") String format,
+			// List Option
+			@RequestParam(value="format", required=false, defaultValue = "html") String clientFormat,
 			// Logo Option
 			@RequestParam(value="inputLogo", required=false) String urlLogo,
 			// Language Option
-			@RequestParam(value="language", required=false) String language,
-			// Split Diagram
-			@RequestParam(value="sectionDiagram", required=false, defaultValue="false") boolean sectionDiagram,
+			@RequestParam(value="language", required=false, defaultValue = "en") String language,
 			// Filter Unused NodeShape
 			@RequestParam(value="filterUnusedNodeShapes", required=false, defaultValue="false") boolean filterUnusedNodeShapes,
-			HttpServletRequest request,
-			HttpServletResponse response
+			HttpServletRequest request
 	) {
 		try {
-            
-			log.debug("doc(shapeSourceString='"+shapesSourceString+"')");
-			log.debug("REQUEST contentType={}", request.getContentType());
-			log.debug("REQUEST params={}", request.getParameterMap());
-			if (shapesFiles == null) {
-				log.debug("shapesFiles=null");
-			} else {
-				log.debug("shapesFiles.length={}", shapesFiles.length);
-			}
-			
-			ShapesDocumentationWriterIfc.MODE mode = ShapesDocumentationWriterIfc.MODE.valueOf(format.toUpperCase());
-			
 			// get the shapes source type
-			ControllerModelFactory.SOURCE_TYPE shapesSource = ControllerModelFactory.SOURCE_TYPE.valueOf(shapesSourceString.toUpperCase());
-			
-			// if source is a ULR, redirect to the API
-			if(shapesSource == SOURCE_TYPE.URL) {
-				return new ModelAndView("redirect:/doc"
-					+"?format="+format.toLowerCase()
-					+"&url="+URLEncoder.encode(shapesUrl, "UTF-8")
-					+"&includeDiagram="+includeDiagram
-					+("&sectionDiagram="+sectionDiagram)
-					+((hideProperties)?"&hideProperties=true":"")
-					+((!language.equals("en"))?"&language="+language:"")
-					+((urlLogo != null)?"&inputLogo="+URLEncoder.encode(urlLogo, "UTF-8"):"")
-				);
-			} else if (shapesSource == SOURCE_TYPE.CATALOG) {
-				AbstractCatalogEntry entry = this.catalogService.getShapesCatalog().getCatalogEntryById(shapesCatalogId);
-				return new ModelAndView("redirect:/doc"
-				+"?url="+URLEncoder.encode(entry.getTurtleDownloadUrl().toString(), "UTF-8")
-				+"&includeDiagram="+includeDiagram
-				+"&hideProperties="+hideProperties
-				+("&format="+format)
-				+((!language.equals("en"))?"&language="+language:"")
-				+((urlLogo != null)?"&inputLogo="
-				+URLEncoder.encode(urlLogo, "UTF-8"):""));				
-			}
-			
-			
-			// initialize shapes first
-			log.debug("Determining Shapes source...");
-			Model shapesModel = ModelFactory.createDefaultModel();
+			ControllerModelFactory.SOURCE_TYPE source = ControllerModelFactory.SOURCE_TYPE.valueOf(shapesSourceString.toUpperCase());
+
+            LOGGER.debug("doc(shapeSourceString='{}')", shapesSourceString);
+			LOGGER.debug("REQUEST contentType={}", request.getContentType());
+			LOGGER.debug("REQUEST params={}", request.getParameterMap());
+
+			if (shapesFiles == null) LOGGER.debug("shapesFiles=null");
+			else LOGGER.debug("shapesFiles.length={}", shapesFiles.size());
+
+			Model model = ModelFactory.createDefaultModel();
+			ShapesDocumentationWriterIfc.MODE format = ShapesDocumentationWriterIfc.MODE.valueOf(clientFormat.toUpperCase());
 			ControllerModelFactory modelPopulator = new ControllerModelFactory(this.catalogService.getShapesCatalog());
-			modelPopulator.populateModel(
-					shapesModel,
-					shapesSource,
-					shapesUrl,
-					shapesText,
-					Arrays.asList(shapesFiles),
-					shapesCatalogId
-			);
-			log.debug("Done Loading Shapes. Model contains "+shapesModel.size()+" triples");
-			
-			// defaults to english
-			if(language == null) {
-				language ="en";
+
+			if(source == SOURCE_TYPE.URL) {
+				modelPopulator.populateModelFromUrl(model, shapesUrl);
 			}
-			
-			doOutputDoc(
-					shapesModel,
+			else if (source == SOURCE_TYPE.CATALOG) {
+				AbstractCatalogEntry entry = this.catalogService.getShapesCatalog().getCatalogEntryById(shapesCatalogId);
+				modelPopulator.populateModelFromUrl(model, entry.getTurtleDownloadUrl().toString());
+			}
+			else{
+				modelPopulator.populateModel(
+						model,
+						source,
+						shapesUrl,
+						shapesText,
+						shapesFiles,
+						shapesCatalogId
+				);
+			}
+
+            LOGGER.debug("Done Loading Shapes. Model contains {} triples", model.size());
+
+			return this.docService.doOutputDoc(
+					model,
 					// true to read diagram
 					includeDiagram,
 					hideProperties,
-					mode,
+					format,
 					urlLogo,
 					modelPopulator.getSourceName(),
 					language,
 					sectionDiagram,
-					filterUnusedNodeShapes,
-					response
+					filterUnusedNodeShapes
 			);
-			return null;
-			
-			
 		} catch (Exception e) {
-			e.printStackTrace();
-			return handleViewFormError(request, e.getClass().getName() +" : "+e.getMessage(), e);
+			ExceptionManager.throwException(DocException.class, e.getMessage());
 		}
+		return ResponseEntity.badRequest().build();
 	}
-	
-	protected void doOutputDoc(
-			Model shapesModel,
-			boolean includeDiagram,
-			boolean hideProperties,
-			ShapesDocumentationWriterIfc.MODE mode,
-			String urlLogo,
-			String filename,
-			String languageInput,
-			boolean includeSectionDiagram,
-			boolean filterUnusedNodeShapes,
-			HttpServletResponse response
-	) throws IOException {		
-		response.setHeader("Content-Disposition", "inline; filename=\""+filename+".html\"");
 
-		ShapesDocumentationReaderIfc reader = ShapesDocumentationModelReader.buildShapesDocumentationModelReader(
-			includeDiagram,
-			urlLogo,
-			hideProperties,
-			includeSectionDiagram,
-			filterUnusedNodeShapes
-		);
-		ShapesDocumentation doc = reader.readShapesDocumentation(
-				shapesModel,
-				// OWL graph : empty
-				ModelFactory.createDefaultModel(),
-				languageInput
-		);
-		
-		switch(mode) {
-			case HTML : {
-				response.setHeader("Content-Disposition", "inline; filename=\""+filename+".html\"");
-				ShapesDocumentationWriterIfc writer = new ShapesDocumentationXsltShaclPlayWriter(MODE.HTML);
-				response.setContentType("text/html");
-
-				// response.setContentType("application/xhtml+xml");
-				writer.writeDoc(doc, languageInput, response.getOutputStream());
-				break;
-			}
-			case PDF : {
-				response.setHeader("Content-Disposition", "inline; filename=\""+filename+".pdf\"");
-				// 1. write Documentation structure to XML
-				ShapesDocumentationWriterIfc writerHTML = new ShapesDocumentationXsltShaclPlayWriter(MODE.PDF);
-				ByteArrayOutputStream htmlBytes = new ByteArrayOutputStream();
-				writerHTML.writeDoc(doc,languageInput, htmlBytes);
-				
-				//read file html
-				String htmlCode = new String(htmlBytes.toByteArray(),"UTF-8");
-				
-				// Convert
-				response.setContentType("application/pdf");
-				PdfRendererBuilder _builder = new PdfRendererBuilder();
-				_builder.useFastMode();
-				_builder.withHtmlContent(htmlCode,"https://shacl-play.sparna.fr/play");			
-				_builder.toStream(response.getOutputStream());
-				_builder.testMode(false);
-				_builder.run();		
-
-				break;
-			}
-			case XML : {
-				response.setHeader("Content-Disposition", "inline; filename=\""+filename+".xml\"");
-				ShapesDocumentationXmlWriter writeXML = new ShapesDocumentationXmlWriter();
-				response.setContentType("application/xml");
-				writeXML.write(doc, languageInput, response.getOutputStream());
-
-				break;
-			}
-			case HTML_RESPEC : {
-				response.setHeader("Content-Disposition", "inline; filename=\""+filename+".html\"");
-				ShapesDocumentationWriterIfc writer = new ShapesDocumentationXsltRespecWriter(MODE.HTML);
-				response.setContentType("text/html");
-
-				// response.setContentType("application/xhtml+xml");
-				writer.writeDoc(doc, languageInput, response.getOutputStream());		
-				break;
-			}
-		}		
-		
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	@ExceptionHandler(value = DocException.class, produces = "text/html")
+	public String handleExceptionForDocController(DocException ex, org.springframework.ui.Model model){
+		formData.setErrorMessage(ex.getMessage());
+		formData.setCatalog(this.catalogService.getShapesCatalog());
+		model.addAttribute(DocFormData.KEY, formData);
+		return "doc-form";
 	}
-		
-		
-	/**
-	 * Handles an error in the validation form (stores the message in the Model, then forward to the view).
-	 * 
-	 * @param request
-	 * @param message
-	 * @return
-	 */
-	protected ModelAndView handleViewFormError(
-			HttpServletRequest request,
-			String message,
-			Exception e
-	) {
-		DocFormData vfd = new DocFormData();
-		vfd.setErrorMessage(Encode.forHtml(message));
-		
-		ShapesCatalog catalog = this.catalogService.getShapesCatalog();
-		vfd.setCatalog(catalog);
-		
-		if(e != null) {
-			e.printStackTrace();
-		}
-		return new ModelAndView("doc-form", DocFormData.KEY, vfd);
-	}
-	
-	
+
+	///**
+	// * Handles an error in the validation form (stores the message in the Model, then forward to the view).
+	// *
+	// * @param request
+	// * @param message
+	// * @return
+	// */
+	//protected ModelAndView handleViewFormError(
+	//		HttpServletRequest request,
+	//		String message,
+	//		Exception e
+	//) {
+	//	DocFormData vfd = new DocFormData();
+	//	vfd.setErrorMessage(Encode.forHtml(message));
+	//
+	//	ShapesCatalog catalog = this.catalogService.getShapesCatalog();
+	//	vfd.setCatalog(catalog);
+	//
+	//	if(e != null) {
+	//		e.printStackTrace();
+	//	}
+	//	return new ModelAndView("doc-form", DocFormData.KEY, vfd);
+	//}
 
 }

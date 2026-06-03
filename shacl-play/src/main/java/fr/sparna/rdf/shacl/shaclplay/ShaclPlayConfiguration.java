@@ -1,7 +1,7 @@
 package fr.sparna.rdf.shacl.shaclplay;
 
 
-import fr.sparna.rdf.xls2rdf.web.SwaggerUICustom;
+import fr.sparna.rdf.shacl.shaclplay.swagger.SwaggerUICustom;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
 import org.springdoc.core.properties.SwaggerUiConfigProperties;
@@ -14,7 +14,7 @@ import org.springframework.context.annotation.*;
 
 @OpenAPIDefinition(
         info = @Info(
-                title = "titre",
+                title = "shacl-play REST API",
                 summary = "Résumé api ...",
                 description = "description api ...",
                 version = "version api ...")
@@ -36,4 +36,6 @@ public class ShaclPlayConfiguration {
     ){
         return new SwaggerUICustom(a,b,c,d);
     }
+
+
 }

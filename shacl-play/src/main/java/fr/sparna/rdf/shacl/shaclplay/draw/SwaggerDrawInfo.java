@@ -34,7 +34,7 @@ import java.lang.annotation.*;
 @ApiResponses(
         {
                 @ApiResponse(responseCode = "201",
-                        description = "Something went wrong with the conversion. Check the url or the local file before processing.",
+                        description = "The UML Diagram has been created successfully.",
                         content = {
                                 @Content(mediaType = "text/html"),
                                 @Content(mediaType = "text/xml"),

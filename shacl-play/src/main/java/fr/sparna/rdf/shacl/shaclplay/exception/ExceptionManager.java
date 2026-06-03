@@ -1,5 +1,7 @@
 package fr.sparna.rdf.shacl.shaclplay.exception;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -9,8 +11,11 @@ import java.time.LocalDateTime;
 
 public enum ExceptionManager {
 
+
     INTERNAL_SERVER_ERROR("Unexpected behaviour. Please try again.")
     ;
+
+    private final static Logger LOGGER = LoggerFactory.getLogger(ExceptionManager.class);
 
     private final String message;
 

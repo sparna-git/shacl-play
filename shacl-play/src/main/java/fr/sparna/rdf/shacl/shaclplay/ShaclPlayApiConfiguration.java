@@ -9,9 +9,10 @@ import org.springdoc.core.properties.SwaggerUiOAuthProperties;
 import org.springdoc.core.providers.ObjectMapperProvider;
 import org.springdoc.webmvc.ui.SwaggerIndexPageTransformer;
 import org.springdoc.webmvc.ui.SwaggerWelcomeCommon;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.context.annotation.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 
 /*
  * Permet de définir les informations principales de la page API Swagger
@@ -30,7 +31,7 @@ import org.springframework.context.annotation.*;
 
 /*
  * Permet d'activer l'auto-configuration avec Spring-boot: rajout de la dépendance dans le POM : spring-boot-autoconfigure
- * Spring-boot scan le classpath et cherche les dossiers META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports qui liste
+ * Spring-boot scan le classpath et cherche les dossiers META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports qui listent
  * les class de @Configuration à charger dans le contexte de Spring.
  * ex: springdoc-openapi-starter-webmvc
 
@@ -60,8 +61,11 @@ public class ShaclPlayApiConfiguration {
         return new SwaggerUICustom(a,b,c,d);
     }
 
+    /*
+    Permet de customiser le rendu de la page swagger UNE FOIS la spécification faite par springdoc-open api
+     */
     @Bean
-    public OpenApiCustomizer customizer(@Value("#{applicationData.buildVersion}") String version, ApplicationData data){
+    public OpenApiCustomizer customizer(ApplicationData data){
         return openApi -> {
             System.out.println("version = " + data.getBuildVersion());
             openApi.getInfo().setVersion(data.getBuildVersion());

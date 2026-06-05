@@ -38,10 +38,6 @@
             <resource>
                 <directory>src/main/resources</directory>
                 <filtering>false</filtering>
-                <includes>
-                    <include>application.properties</include>
-                    <include>fr/sparna/rdf/shacl/shaclplay/i18n/**/*.properties</include>
-                </includes>
             </resource>
         </resources>
    	

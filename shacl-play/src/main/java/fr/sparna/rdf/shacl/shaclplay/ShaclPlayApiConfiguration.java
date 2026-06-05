@@ -17,10 +17,9 @@ import org.springframework.context.annotation.*;
  */
 @OpenAPIDefinition(
         info = @Info(
-                title = "shacl-play REST API",
-                summary = "Résumé api ...",
-                description = "description api ...",
-                version = "version api ...")
+                title = "SHACL Play REST API",
+                summary = "This API allows you to call the various features of SHACL Play from your own application.",
+                version = "1")
 )
 /*
   Class de configuration pour Spring, elle est chargée par WEB-INF/spring/spring-servlet-xml#<context:component-scan base-package="fr.sparna.rdf.shacl" />
@@ -49,7 +48,7 @@ import org.springframework.context.annotation.*;
  * org.springdoc.webmvc.core.configuration.MultipleOpenApiSupportConfiguration <----- C'est une autre class de @Configuration springdoc qui va être chargée dans le contexte de Spring
  */
 @EnableAutoConfiguration
-public class ShaclPlayConfiguration {
+public class ShaclPlayApiConfiguration {
 
     /**
      * Permet de réecrire dans la page css de springdoc pour override des propriétés css.

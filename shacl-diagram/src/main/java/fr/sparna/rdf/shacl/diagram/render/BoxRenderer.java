@@ -29,7 +29,7 @@ public class BoxRenderer {
 	// current temporary arrow direction index to determine the u,d,r,l directions of the arrows
 	protected transient int currentArrowDirectionIndex = 0;
 
-	
+	public static int MIN_BOXES_FOR_AVOIDING_ARROWS_TO_EMPTY_BOXES = 8;
 
 	public BoxRenderer(
 		boolean includeSubclassLinks,
@@ -142,7 +142,7 @@ public class BoxRenderer {
 				
 				// if we want to avoid arrows to empty boxes...
 				// note that this behavior is triggered only if the diagram has a certain size
-				if (avoidArrowsToEmptyBoxes && diagram.getBoxes().size() > 8) {
+				if (avoidArrowsToEmptyBoxes && diagram.getBoxes().size() > MIN_BOXES_FOR_AVOIDING_ARROWS_TO_EMPTY_BOXES) {
 					// then see if there is a reference to a box
 					String arrowReference = diagram.resolvePropertyShapeShNodeOrShClass(plantUmlproperty);
 					PlantUmlBoxIfc boxReference = diagram.findBoxById(arrowReference);

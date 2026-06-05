@@ -19,7 +19,7 @@ import java.lang.annotation.*;
         {
                 @Parameter(
                         name = "includeDiagram",
-                        description = "Check if you want the UML diagram to be included in the generated documentation. Not all structure of Shapes file can produce a nice UML diagram.",
+                        description = "Check if you want the full UML diagram to be included in the generated documentation. Not all structure of Shapes file can produce a nice UML diagram. Individual section diagrams are controlled by another parameter.",
                         in = ParameterIn.QUERY),
 
                 @Parameter(
@@ -29,27 +29,22 @@ import java.lang.annotation.*;
 
                 @Parameter(
                         name = "hideProperties",
-                        description = "Not display properties."),
+                        description = "Hide datatype properties in the generated diagrams."),
 
                 @Parameter(
                         name = "format",
-                        description = "RAJOUTER DESCRIPTION",
-                        schema = @Schema(
-                                allowableValues = {"HTML", "PDF", "XML", "HTML_RESPEC"},
-                                description = "HTML"),
+                        description = "Format of the generated documentation.",
+                        schema = @Schema(allowableValues = {"HTML", "PDF", "XML", "HTML_RESPEC"}, defaultValue = "HTML_RESPEC"),
                         in = ParameterIn.QUERY),
 
                 @Parameter(
                         name = "inputLogo",
-                        description = "The logo must be accessible at a URL. SVG is not supported if printed in PDF.",
+                        description = "A logo to be included at the top of the generated documentation. The logo must be accessible at a URL. SVG is not supported if printed in PDF.",
                         in = ParameterIn.QUERY),
 
                 @Parameter(
                         name = "language",
-                        description = "Enter a 2-letters language code. Labels and notes will be read in this language.",
-                        schema = @Schema(
-                                allowableValues = {"fr", "es", "ru", "en", "it"},
-                                defaultValue = "en"),
+                        description = "The 2-letters language code of the labels and notes to be read from the SHACL file.",
                         in = ParameterIn.QUERY)
 
         }

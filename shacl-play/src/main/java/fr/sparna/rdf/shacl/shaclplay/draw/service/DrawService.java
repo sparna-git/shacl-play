@@ -77,9 +77,7 @@ public class DrawService {
             }
         } else {
             switch(drawFormat) {
-                case PNG -> {}
-                case SVG -> {}
-                case TXT -> {
+                case PNG, SVG, TXT -> {
                     // create a zip
                     mediaType = MediaType.parseMediaType("application/zip");
                     extension = ".zip";

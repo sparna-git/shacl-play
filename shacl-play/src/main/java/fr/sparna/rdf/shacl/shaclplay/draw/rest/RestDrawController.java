@@ -48,7 +48,7 @@ public class RestDrawController {
      */
     @SwaggerDrawInfo
     @ResponseStatus(HttpStatus.CREATED)
-    @Operation(summary = "Indiquer un un résumé du endpoint....")
+    @Operation(summary = "Generates one or more diagram from a SHACL file URL. Splitting multiple diagrams is based on the presence of foaf:depiction annotations on NodeShapes.")
     @GetMapping(
             value = "/draw",
             produces = {"image/svg+xml", "image/png", "text/html", "text/plain"})
@@ -89,7 +89,7 @@ public class RestDrawController {
      */
     @SwaggerDrawInfo
     @ResponseStatus(HttpStatus.CREATED)
-    @Operation(summary = "Indiquer un un résumé du endpoint....")
+    @Operation(summary = "Generates one or more diagram from a SHACL file uploaded as a multipart form data. Splitting multiple diagrams is based on the presence of foaf:depiction annotations on NodeShapes.")
     @PostMapping(
             value = "/draw",
             consumes = "multipart/form-data",
@@ -97,7 +97,7 @@ public class RestDrawController {
     public ResponseEntity<ByteArrayResource> postDraw(
             @Parameter(
                     name = "inputShapeFile",
-                    description = "METTRE DESCRIPTION",
+                    description = "The SHACL file to be used for generating the diagram.",
                     required = true
             )
             @RequestParam(value="inputShapeFile", required=true) List<MultipartFile> shapesFiles,

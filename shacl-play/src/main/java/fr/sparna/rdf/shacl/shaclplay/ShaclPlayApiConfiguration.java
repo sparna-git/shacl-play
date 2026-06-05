@@ -14,17 +14,16 @@ import org.springframework.context.annotation.*;
 
 @OpenAPIDefinition(
         info = @Info(
-                title = "shacl-play REST API",
-                summary = "Résumé api ...",
-                description = "description api ...",
-                version = "version api ...")
+                title = "SHACL Play REST API",
+                summary = "This API allows you to call the various features of SHACL Play from your own application.",
+                version = "1")
 )
 @Configuration
 @PropertySources(
         @PropertySource("classpath:shaclplay-application.properties")
 )
 @EnableAutoConfiguration
-public class ShaclPlayConfiguration {
+public class ShaclPlayApiConfiguration {
 
     @Bean
     @Primary

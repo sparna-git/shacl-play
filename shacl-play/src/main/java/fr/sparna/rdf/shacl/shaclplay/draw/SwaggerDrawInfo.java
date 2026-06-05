@@ -19,7 +19,7 @@ import java.lang.annotation.*;
         {
                 @Parameter(
                         name = "format",
-                        description = "RAJOUTER DESCRIPTION",
+                        description = "Format of the generated diagram. 'TXT' is for the raw PlantUML code.",
                         schema = @Schema(
                                 allowableValues = {"SVG", "PNG", "TXT", "HTML"},
                                 defaultValue = "SVG"),
@@ -27,7 +27,7 @@ import java.lang.annotation.*;
 
                 @Parameter(
                         name = "hideProperties",
-                        description = "Don't display anything inside the boxes, just keep the arrows to show the skeleton of the diagram\n",
+                        description = "Don't display anything inside the boxes, just keep the arrows to show the skeleton of the diagram.",
                         in = ParameterIn.QUERY),
         }
 )

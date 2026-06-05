@@ -12,6 +12,7 @@ import fr.sparna.rdf.shacl.shaclplay.exception.DocException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.slf4j.Logger;
@@ -52,28 +53,46 @@ public class RestDocController {
             value = "/doc",
             produces = {"text/html", "text/xml", "application/pdf"})
     @SwaggerDocInfo
-    @Operation(summary = "Indiquer un un résumé du endpoint....")
+    @Operation(summary = "Generates a human-readable documentation from a SHACL file URL.")
     public ResponseEntity<ByteArrayResource> getDoc(
             @Parameter(
                     name = "url",
-                    description = "URL of an RDF file. Same extensions as file upload are supported.",
-                    required = true
+                    description = "URL of a SHACL file. Format will be auto-detected based on the file extension (ex: .ttl, .rdf, .jsonld...).",
+                    required = true,
+                    examples = {
+                        @ExampleObject(
+                                name = "European Parliament ELI-EP Application Profile",
+                                value = "https://europarl.github.io/eli-ep/3.0.0/eli-ep.shacl.ttl"
+                        ),
+                        @ExampleObject(
+                                name = "SAPA Collections",
+                                value = "https://shapes.performing-arts.ch/collections/sapa-collections.ttl"
+                        ),
+                        @ExampleObject(
+                                name = "SemPER Ric-O Application Profile",
+                                value = "https://sparna-git.github.io/semper/configs/ad31-shacl.ttl"
+                        )
+                    }
             )
             @RequestParam(value="url", required=true) String shapesUrl,
             // includeDiagram option
-            @RequestParam(value="includeDiagram", required=false) boolean includeDiagram,
+            @RequestParam(
+                value="includeDiagram",
+                required=false,
+                defaultValue = "false"
+            ) boolean includeDiagram,
             // includeDiagram option
             @RequestParam(value="sectionDiagram", required=false, defaultValue = "true") boolean sectionDiagram,
             // hide Properties
-            @RequestParam(value="hideProperties", required=false) boolean hideProperties,
+            @RequestParam(value="hideProperties", required=false, defaultValue = "false") boolean hideProperties,
             // List Option
-            @RequestParam(value="format", required=false, defaultValue = "html") String clientFormat,
+            @RequestParam(value="format", required=false, defaultValue = "HTML_RESPEC") String clientFormat,
             // Logo Option
             @RequestParam(value="inputLogo", required=false) String urlLogo,
             // Language Option
             @RequestParam(value="language", required=false, defaultValue = "en") String language,
             // Filter Unused NodeShape
-            @RequestParam(value="filterUnusedNodeShapes", required=false, defaultValue="false") boolean filterUnusedNodeShapes
+            @RequestParam(value="filterUnusedNodeShapes", required=false, defaultValue="true") boolean filterUnusedNodeShapes
     ){
         try {
 
@@ -114,28 +133,28 @@ public class RestDocController {
             produces = {"text/html", "text/xml", "application/pdf"}
     )
     @SwaggerDocInfo
-    @Operation(summary = "Indiquer un un résumé du endpoint....")
+    @Operation(summary = "Generates a human-readable documentation from a SHACL file uploaded as a multipart form data.")
     public ResponseEntity<ByteArrayResource> postDoc(
             @Parameter(
                     name = "inputShapeFile",
-                    description = "METTRE DESCRIPTION",
+                    description = "The SHACL file to be read for generating the documentation. RDF format will be auto-detected based on the file extension (ex: .ttl, .rdf, .jsonld...).",
                     required = true
             )
             @RequestParam(value="inputShapeFile", required=true) List<MultipartFile> shapesFiles,
             // includeDiagram option
-            @RequestParam(value="includeDiagram", required=false) boolean includeDiagram,
+            @RequestParam(value="includeDiagram", required=false, defaultValue = "false") boolean includeDiagram,
             // includeDiagram option
             @RequestParam(value="sectionDiagram", required=false, defaultValue = "true") boolean sectionDiagram,
             // hide Properties
-            @RequestParam(value="hideProperties", required=false) boolean hideProperties,
+            @RequestParam(value="hideProperties", required=false, defaultValue = "false") boolean hideProperties,
             // List Option
-            @RequestParam(value="format", required=false, defaultValue = "html") String clientFormat,
+            @RequestParam(value="format", required=false, defaultValue = "HTML_RESPEC") String clientFormat,
             // Logo Option
             @RequestParam(value="inputLogo", required=false) String urlLogo,
             // Language Option
             @RequestParam(value="language", required=false, defaultValue = "en") String language,
             // Filter Unused NodeShape
-            @RequestParam(value="filterUnusedNodeShapes", required=false, defaultValue="false") boolean filterUnusedNodeShapes
+            @RequestParam(value="filterUnusedNodeShapes", required=false, defaultValue="true") boolean filterUnusedNodeShapes
     ){
         try {
 

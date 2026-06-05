@@ -156,6 +156,11 @@ public class DrawController {
 		return ResponseEntity.badRequest().build();
 	}
 
+	/*
+	@ExceptionHandler permet de définir pour CETTE classe uniquement les exceptions qu'elles capturent
+	Ici le endpoint du formulaire /draw peut retourner DrawException, si c'est le cas,
+	on retourne la vue avec le message d'erreur.
+	*/
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(value = DrawException.class, produces = "text/html")
 	public String handleExceptionForDrawController(DrawException ex, org.springframework.ui.Model model){

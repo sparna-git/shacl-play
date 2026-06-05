@@ -1,14 +1,15 @@
 package fr.sparna.rdf.shacl.shaclplay;
 
-
 import fr.sparna.rdf.shacl.shaclplay.swagger.SwaggerUICustom;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
+import org.springdoc.core.customizers.OpenApiCustomizer;
 import org.springdoc.core.properties.SwaggerUiConfigProperties;
 import org.springdoc.core.properties.SwaggerUiOAuthProperties;
 import org.springdoc.core.providers.ObjectMapperProvider;
 import org.springdoc.webmvc.ui.SwaggerIndexPageTransformer;
 import org.springdoc.webmvc.ui.SwaggerWelcomeCommon;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.*;
 
@@ -26,12 +27,6 @@ import org.springframework.context.annotation.*;
   Permet de rajouter des beans ou autre élément dans le contexte de Spring.
  */
 @Configuration
-/*
- * Permet de rajouter des @PropertySource afin de que Spring rajoute des propriétés dans {@link org.springframework.core.env.Environment}.
- */
-@PropertySources(
-        @PropertySource("classpath:shaclplay-application.properties")
-)
 
 /*
  * Permet d'activer l'auto-configuration avec Spring-boot: rajout de la dépendance dans le POM : spring-boot-autoconfigure
@@ -64,6 +59,15 @@ public class ShaclPlayApiConfiguration {
     ){
         return new SwaggerUICustom(a,b,c,d);
     }
+
+    @Bean
+    public OpenApiCustomizer customizer(@Value("#{applicationData.buildVersion}") String version, ApplicationData data){
+        return openApi -> {
+            System.out.println("version = " + data.getBuildVersion());
+            openApi.getInfo().setVersion(data.getBuildVersion());
+        };
+    }
+
 
 
 }

@@ -17,22 +17,14 @@
         http://www.springframework.org/schema/util
         http://www.springframework.org/schema/util/spring-util.xsd">
 
-	<!-- Load shaclplay-application.properties -->
-	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-	  <property name="locations">
-	    <list>
-	        <value>file://#{systemProperties['shaclplay.home']}/conf/shaclplay-application.properties</value>
-	        <!-- Load version.properties from the classpath -->
-	        <value>classpath:version.properties</value>
-	    </list>
-	  </property>
-	  <property name="properties">  
-		<props>
-		    <prop key="project.version">project.version</prop>
-		    <prop key="timestamp">timestamp</prop>
-		</props>  
-	  </property>
-	  <property name="ignoreResourceNotFound" value="true" />
+	<!-- Load application.properties -->
+	<bean id="propertyConfigurer" class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:application.properties</value>
+				<value>classpath:version.properties</value>
+			</list>
+		</property>
 	</bean>
 
 	<!-- ***** Basic application bootstraping ***** -->	

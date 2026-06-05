@@ -12,9 +12,14 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import java.lang.annotation.*;
 
 
+//@Target permet d'indiquer sur quel élément l'annotation peut être mise ex: METHOD, PARAMETER, TYPE ... @Target(METHOD) => l'annotation ne peut être mise que sur des méthodes.
 @Target(ElementType.METHOD)
+//@Retention(RUNTIME) permet que l'annotation soit conservée au runtime et accessible par l'API Reflection de Java : ex: Lire et récupérer le contenu d'une annotation sur une class, une méthode etc.
+//Autrement dit elle est accessible en tant que meta donnée à l'exécution.
 @Retention(RetentionPolicy.RUNTIME)
+//@Documented permet qyue l'annotation apparaisse dans la Javadoc produite pour une class.
 @Documented
+//Conteneur à @Parameter, permet d'indiquer la documentation Swagger des paramètres d'un endpoint
 @Parameters(
         {
                 @Parameter(
@@ -31,6 +36,7 @@ import java.lang.annotation.*;
                         in = ParameterIn.QUERY),
         }
 )
+//Conteneur à @ApiResponse, permet de documenter les réponses qui peuvent être faite pour un endpoint
 @ApiResponses(
         {
                 @ApiResponse(responseCode = "201",
@@ -57,5 +63,6 @@ import java.lang.annotation.*;
                         )
                         })
         })
+//Annotation qui agrége les annotations précédentes
 public @interface SwaggerDrawInfo {
 }

@@ -25,6 +25,10 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 
+
+/*
+Controller pour le formulaire de génération de la documentation Shacl
+ */
 @Controller
 public class DocController {
 
@@ -34,6 +38,8 @@ public class DocController {
 	private final DocService docService;
 	private final DocFormData formData;
 
+
+	//Injection des dépendances par Spring par le constructeur => c'est la recommendation Spring.
 	@Autowired
 	public DocController(ShapesCatalogService catalogService, DocService docService, DocFormData formData){
 		this.catalogService = catalogService;
@@ -195,6 +201,12 @@ public class DocController {
 		return ResponseEntity.badRequest().build();
 	}
 
+
+	/*
+	@ExceptionHandler permet de définir pour CETTE classe uniquement les exceptions qu'elles capturent
+	Ici le endpoint du formulaire /doc peut retourner DocException, si c'est le cas,
+	on retourne la vue avec le message d'erreur.
+	*/
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(value = DocException.class, produces = "text/html")
 	public String handleExceptionForDocController(DocException ex, org.springframework.ui.Model model){

@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class SwaggerController {
 
-    @GetMapping("api")
+    @GetMapping("/api-doc")
     public String swagger(){
         return "api-doc";
     }

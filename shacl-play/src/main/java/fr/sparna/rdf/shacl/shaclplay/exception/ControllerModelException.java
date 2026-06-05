@@ -1,4 +1,4 @@
-package fr.sparna.rdf.shacl.shaclplay;
+package fr.sparna.rdf.shacl.shaclplay.exception;
 
 public class ControllerModelException extends Exception {
 

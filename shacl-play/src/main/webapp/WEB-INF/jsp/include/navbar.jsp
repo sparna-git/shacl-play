@@ -61,6 +61,9 @@
 	            	<a class="dropdown-item" href="<c:url value="/rules-catalog" />" title="<fmt:message key="navbar.menu3.rules-catalog.tooltip" />"><fmt:message key="navbar.menu3.rules-catalog.label" /></a>	            	
 	            </div>
 	        </li>
+	        <li class="nav-item">
+                <a id="api-button" class="menu-item nav-link active" href="<c:url value="/api-doc" />" >API</a>
+            </li>
         </ul>
 
 

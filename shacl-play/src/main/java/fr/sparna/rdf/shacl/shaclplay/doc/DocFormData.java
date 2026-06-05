@@ -1,16 +1,20 @@
 package fr.sparna.rdf.shacl.shaclplay.doc;
 
 import fr.sparna.rdf.shacl.shaclplay.catalog.shapes.ShapesCatalog;
+import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.RequestScope;
 
+@RequestScope
+@Component
 public class DocFormData {
 
 	public static final String KEY = DocFormData.class.getSimpleName();
 	
-	protected String errorMessage;
+	private String errorMessage;
 	
-	protected ShapesCatalog catalog;
+	private ShapesCatalog catalog;
 	
-	protected String selectedShapesKey;
+	private String selectedShapesKey;
 
 	/**
 	 * Creates a new DocFormData instance suitable for displaying the given error message.

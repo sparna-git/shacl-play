@@ -85,7 +85,7 @@
 										<fmt:message key="doc.options.logo" />
 									</label>
 									<div class="col-sm-9">
-								      	<input type="text" 
+								      	<input type="url"
 								      			class="form-control" id="inputLogo" name="inputLogo" 
 								      			oninput="inputtextlogo()"
 								      			placeholder="<fmt:message key="doc.options.logo.placeholder"/>"

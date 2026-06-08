@@ -67,7 +67,6 @@ public class ShaclPlayApiConfiguration {
     @Bean
     public OpenApiCustomizer customizer(ApplicationData data){
         return openApi -> {
-            System.out.println("version = " + data.getBuildVersion());
             openApi.getInfo().setVersion(data.getBuildVersion());
         };
     }

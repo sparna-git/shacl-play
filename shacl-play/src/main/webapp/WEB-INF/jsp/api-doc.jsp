@@ -25,14 +25,12 @@
 		 <!-- Swagger CSS / SCRIPTS -->
           <script src="${pageContext.request.contextPath}/swagger-ui/swagger-ui-bundle.js" charset="UTF-8"> </script>
           <script src="${pageContext.request.contextPath}/swagger-ui/swagger-ui-standalone-preset.js" charset="UTF-8"> </script>
-          <script src="${pageContext.request.contextPath}/swagger-ui//swagger-initializer.js" charset="UTF-8"> </script>
+          <script src="${pageContext.request.contextPath}/swagger-ui/swagger-initializer.js" charset="UTF-8"> </script>
           <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/swagger-ui/swagger-ui.css" />
 
 	</head>
 
-	<jsp:include page="include/navbar.jsp">
-    		<jsp:param name="active" value="doc"/>
-    	</jsp:include>
+	<jsp:include page="include/navbar.jsp" />
 
 
     <div class="content">
@@ -40,7 +38,7 @@
     </div>
 
 
-    <jsp:include page="include/footer.jsp"></jsp:include>
+    <jsp:include page="include/footer.jsp" />
 
     	<!-- SCRIPTS -->
         <!-- JQuery -->

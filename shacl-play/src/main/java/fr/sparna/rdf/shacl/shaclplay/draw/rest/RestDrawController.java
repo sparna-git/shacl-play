@@ -42,9 +42,8 @@ public class RestDrawController {
         this.drawService = drawService;
     }
 
-
     /**
-     *  GET REST END POINT
+     *  GET REST END POINT -> Permet de générer un dessin depuis une URL
      */
     @SwaggerDrawInfo
     @ResponseStatus(HttpStatus.CREATED)
@@ -85,7 +84,7 @@ public class RestDrawController {
 
 
     /**
-     *  POST REST END POINT
+     *  POST REST END POINT -> Permet de générer un dessin avec une list de fichiers
      */
     @SwaggerDrawInfo
     @ResponseStatus(HttpStatus.CREATED)
@@ -137,6 +136,11 @@ public class RestDrawController {
         return ResponseEntity.badRequest().build();
     }
 
+    /*
+	@ExceptionHandler permet de définir pour CETTE classe uniquement les exceptions qu'elles capturent
+	Ici les endspoints /draw/doc peuvent retourner DrawException, si c'est le cas,
+	on retourne un message JSON avec le stacktrace
+	*/
     @ExceptionHandler(value = DrawException.class, produces = "application/json")
     public ResponseEntity<RestExceptionRenderer> handleExceptionForRestDrawController(DrawException ex){
         return ExceptionManager.prepareRestExceptionRenderer(ex, HttpStatus.BAD_REQUEST, LocalDateTime.now());

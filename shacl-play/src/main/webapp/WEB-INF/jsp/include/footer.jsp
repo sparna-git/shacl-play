@@ -10,7 +10,7 @@
 <footer id="footer" style="margin-top:30px;">
 	    SHACL Play! by <a href="http://blog.sparna.fr" target="_blank">Thomas Francart</a>, <a href="http://sparna.fr" target="_blank"><img src="<c:url value="/resources/img/sparna.png" />" /></a>
       	&nbsp;|&nbsp;
-      	version : ${applicationScope.applicationData.buildVersion} (${applicationScope.applicationData.buildTimestamp})
+      	version : ${applicationScope['applicationData'].buildVersion} (${applicationScope['applicationData'].buildTimestamp})
       	&nbsp;|&nbsp;
       	SHACL Play! embeds <a href="https://github.com/TopQuadrant/shacl" target="_blank">TobBraid SHACL API</a> from <a href="https://www.topquadrant.com/" target="_blank">TopQuadrant</a>
       	&nbsp;|&nbsp;

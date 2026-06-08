@@ -6,9 +6,9 @@ import fr.sparna.rdf.shacl.shaclplay.ControllerModelFactory;
 import fr.sparna.rdf.shacl.shaclplay.catalog.shapes.ShapesCatalogService;
 import fr.sparna.rdf.shacl.shaclplay.doc.SwaggerDocInfo;
 import fr.sparna.rdf.shacl.shaclplay.doc.service.DocService;
+import fr.sparna.rdf.shacl.shaclplay.exception.DocException;
 import fr.sparna.rdf.shacl.shaclplay.exception.ExceptionManager;
 import fr.sparna.rdf.shacl.shaclplay.exception.RestExceptionRenderer;
-import fr.sparna.rdf.shacl.shaclplay.exception.DocException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -31,7 +31,7 @@ import static fr.sparna.rdf.shacl.shaclplay.ControllerModelFactory.SOURCE_TYPE.F
 
 @Tag(name = "Documentation")
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api") //Les requêtes arrivent sur /api pour chaque endpoints de ce controller
 public class RestDocController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RestDocController.class);
@@ -46,15 +46,17 @@ public class RestDocController {
     }
 
     /**
-     *  GET REST END POINT
+     *  GET REST END POINT -> Permet de générer une documentation depuis une URL
      */
     @ResponseStatus(HttpStatus.CREATED)
     @GetMapping(
-            value = "/doc",
+            value = "/doc", // /api/doc
             produces = {"text/html", "text/xml", "application/pdf"})
     @SwaggerDocInfo
+    //@Operation permet de documenter le end-point
     @Operation(summary = "Generates a human-readable documentation from a SHACL file URL.")
     public ResponseEntity<ByteArrayResource> getDoc(
+            //@Parameter permet de documenter un paramètre du endpoint
             @Parameter(
                     name = "url",
                     description = "URL of a SHACL file. Format will be auto-detected based on the file extension (ex: .ttl, .rdf, .jsonld...).",
@@ -124,11 +126,11 @@ public class RestDocController {
     }
 
     /**
-     *  POST REST END POINT
+     *  POST REST END POINT -> Permet de générer une documentation avec une list de fichiers
      */
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(
-            value = "/doc",
+            value = "/doc", // /api/doc
             consumes = {"multipart/form-data"},
             produces = {"text/html", "text/xml", "application/pdf"}
     )
@@ -194,6 +196,12 @@ public class RestDocController {
         return ResponseEntity.badRequest().build();
     }
 
+
+    /*
+	@ExceptionHandler permet de définir pour CETTE classe uniquement les exceptions qu'elles capturent
+	Ici les endspoints /api/doc peuvent retourner DocException, si c'est le cas,
+	on retourne un message JSON avec le stacktrace
+	*/
     @ExceptionHandler(value = DocException.class, produces = "application/json")
     public ResponseEntity<RestExceptionRenderer> handleExceptionForRestDocController(DocException ex){
         return ExceptionManager.prepareRestExceptionRenderer(ex, HttpStatus.BAD_REQUEST, LocalDateTime.now());

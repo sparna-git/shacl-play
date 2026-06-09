@@ -294,7 +294,9 @@
 						license: "w3c-software-doc",
 						<xsl:apply-templates select="dateissued" />
 						<xsl:apply-templates select="modifiedDate" />
-						<xsl:apply-templates select="feedbacks" />
+						<xsl:if test="contains(feedbacks/feedback/href,'github')">
+							<xsl:apply-templates select="feedbacks" />
+						</xsl:if>						
 						// this section is custom
 						<xsl:choose>
 							<xsl:when test="publishers/publisher">
@@ -318,7 +320,9 @@
 							<xsl:apply-templates select="datecreated" />
 							<xsl:apply-templates select="versionInfo" />
 							<xsl:apply-templates select="creators" />
-							<xsl:apply-templates select="feedbacks" />
+							<xsl:if test="not(contains(feedbacks/feedback/href,'github'))">
+								<xsl:apply-templates select="feedbacks" />
+							</xsl:if>
 							<xsl:apply-templates select="OWLimports" />							
 						]				
 					};
@@ -885,7 +889,7 @@
 	<xsl:template match="feedbacks[feedback]">
 		<xsl:choose>
 			<xsl:when test="contains(./feedback/href,'github')">
-				github: <xsl:value-of select="./feedback/href"/>
+				github: <xsl:value-of select="concat($quota,./feedback/href,$quota,',')"/>
 			</xsl:when>
 			<xsl:otherwise>
 				{

@@ -1350,21 +1350,21 @@
 				<section id="{$section_constraints}">
 					<h4><xsl:value-of select="$LABELS/labels/entry[@key='LABEL_CONSTRAINTS']/@label" /></h4>	
 					
-					<!-- Sparql Constraint Select-->
-					<xsl:if test="string-length(selectSparql) &gt; 0">
-						<code>
-							<pre class="sparql">
-								<xsl:value-of select="selectSparql" />					
-							</pre>
-						</code>
-					</xsl:if>
-					
 					<!-- Description Constraint -->
-					<xsl:if test="string-length(descriptionSparql) &gt; 0">
-						<ul class="constraint_list">
-							<li><xsl:apply-templates select="descriptionSparql"/></li>
-						</ul>
-					</xsl:if>					
+					
+					<ul class="constraint_list">
+						<li>
+							<xsl:apply-templates select="descriptionSparql"/>
+							<!-- Sparql Constraint Select-->
+							<xsl:if test="string-length(selectSparql) &gt; 0">
+								<code>
+									<pre class="sparql">
+										<xsl:value-of select="selectSparql" />					
+									</pre>
+								</code>
+							</xsl:if>
+						</li>
+					</ul>					
 				</section>
 			</xsl:if>
 

@@ -1133,13 +1133,25 @@
 					<xsl:apply-templates select="charts" />	
 					
 					<!-- Section for Contraints descriptions -->
-					<xsl:if test="string-length(descriptionSparql) &gt; 0">
+					<xsl:if test="(string-length(descriptionSparql) &gt; 0) || (string-length(selectSparql) &gt; 0) ">
 						<h4>
 							<xsl:value-of select="$LABELS/labels/entry[@key='LABEL_CONSTRAINTS']/@label" />
 						</h4>
-						<ul class="constraint_list">
-							<li><xsl:apply-templates select="descriptionSparql"/></li>
-						</ul>
+
+						<!-- Sparql Constraint Select-->
+						<xsl:if test="string-length(selectSparql) &gt; 0">
+							<code>
+								<pre class="sparql">
+									<xsl:value-of select="selectSparql" />					
+								</pre>
+							</code>
+						</xsl:if>
+						<!-- Description Constraint -->
+						<xsl:if test="string-length(descriptionSparql) &gt; 0">
+							<ul class="constraint_list">
+								<li><xsl:apply-templates select="descriptionSparql"/></li>
+							</ul>
+						</xsl:if>
 					</xsl:if>
 						
 				</section>

@@ -283,6 +283,12 @@ public class NodeShape extends Shape  {
 		).orElse(null);
 	}
 
+	public Literal getShSparqlSHSelect() {
+		return Optional.ofNullable(this.shape.getPropertyResourceValue(SH.sparql)).map(
+				r -> Optional.ofNullable(r.getProperty(SH.select)).map(l -> l.getLiteral()).orElse(null)
+		).orElse(null);
+	}
+
 	/* ######## FOAF ########  */
 
 	/**

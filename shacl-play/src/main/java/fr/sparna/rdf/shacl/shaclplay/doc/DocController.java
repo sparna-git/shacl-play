@@ -133,19 +133,19 @@ public class DocController {
 			// inline Shapes if shapeSource=sourceShape-inputShapeInline
 			@RequestParam(value="inputShapeInline", required=false) String shapesText,
 			// includeDiagram option
-			@RequestParam(value="includeDiagram", required=false) boolean includeDiagram,
+			@RequestParam(value="includeDiagram", required=false, defaultValue = "false") boolean includeDiagram,
 			// includeDiagram option
 			@RequestParam(value="sectionDiagram", required=false, defaultValue = "true") boolean sectionDiagram,
 			// hide Properties
 			@RequestParam(value="hideProperties", required=false, defaultValue="false") boolean hideProperties,
 			// List Option
-			@RequestParam(value="format", required=false, defaultValue = "html") String clientFormat,
+			@RequestParam(value="format", required=false, defaultValue = "HTML_RESPEC") String clientFormat,
 			// Logo Option
 			@RequestParam(value="inputLogo", required=false) String urlLogo,
 			// Language Option
 			@RequestParam(value="language", required=false, defaultValue = "en") String language,
 			// Filter Unused NodeShape
-			@RequestParam(value="filterUnusedNodeShapes", required=false, defaultValue="false") boolean filterUnusedNodeShapes,
+			@RequestParam(value="filterUnusedNodeShapes", required=false, defaultValue="true") boolean filterUnusedNodeShapes,
 			HttpServletRequest request
 	) {
 		try {

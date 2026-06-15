@@ -1343,14 +1343,28 @@
 					<xsl:apply-templates select="usages" />				
 				</section>
 			</xsl:if>
-						
-			<xsl:if test="string-length(descriptionSparql) &gt; 0">
+
+			<!-- Additionnal constraints -->
+			<xsl:if test="(string-length(descriptionSparql) &gt; 0) || (string-length(selectSparql) &gt; 0)">
 				<xsl:variable name="section_constraints" select="concat('constraints-',sectionId)"/>
 				<section id="{$section_constraints}">
 					<h4><xsl:value-of select="$LABELS/labels/entry[@key='LABEL_CONSTRAINTS']/@label" /></h4>	
+					
+					<!-- Description Constraint -->
+					
 					<ul class="constraint_list">
-						<li><xsl:apply-templates select="descriptionSparql"/></li>
-					</ul>
+						<li>
+							<xsl:apply-templates select="descriptionSparql"/>
+							<!-- Sparql Constraint Select-->
+							<xsl:if test="string-length(selectSparql) &gt; 0">
+								<code>
+									<pre class="sparql">
+										<xsl:value-of select="selectSparql" />					
+									</pre>
+								</code>
+							</xsl:if>
+						</li>
+					</ul>					
 				</section>
 			</xsl:if>
 

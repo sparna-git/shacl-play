@@ -122,6 +122,11 @@ public class ShapesDocumentationSectionBuilder {
 		if(nodeShape.getShSparqlDCTDescription() != null) {
 			currentSection.setDescriptionSparql(nodeShape.getShSparqlDCTDescription().getString());
 		}
+
+		// sparql Constraint Select
+		if(nodeShape.getShSparqlSHSelect() != null) {
+			currentSection.setSelectSparql(nodeShape.getShSparqlSHSelect().getString());
+		}
 		
 		// sh:pattern
 		currentSection.setPattern(nodeShape.getShPattern().isPresent() ?nodeShape.getShPattern().get().getString():null);

@@ -66,6 +66,7 @@ public class ShapesDocumentationSection {
 	// List of description of attached SPARQL constraints
 	// TODO : refactor as another entity inside the section, with a SPARQL query and a description
 	private String descriptionSparql;
+	private String SelectSparql;
 	
 	@JacksonXmlElementWrapper(localName="superClasses")
 	@JacksonXmlProperty(localName = "link")
@@ -313,6 +314,8 @@ public class ShapesDocumentationSection {
 		descriptionSparql = descriptionSparl;
 	}
 
+	
+
 	public Boolean getMainToc() {
 		return mainToc;
 	}
@@ -335,6 +338,14 @@ public class ShapesDocumentationSection {
 
 	public void setUsages(List<UsageOutput> usages) {
 		this.usages = usages;
+	}
+
+	public String getSelectSparql() {
+		return SelectSparql;
+	}
+
+	public void setSelectSparql(String selectSparql) {
+		SelectSparql = selectSparql;
 	}
 	
 	

@@ -79,7 +79,8 @@
 							<ol>
 								<li>
 									Always add a mapping from <code>id</code>, <code>type</code> and <code>graph</code> 
-									to <code>@id</code>, <code>@type</code> and <code>@graph</code> respectively.</li>
+									to <code>@id</code>, <code>@type</code> and <code>@graph</code> respectively. The <code>type</code> mapping is added only if no property shape in the graph is already <code>rdf:type</code>
+								    to avoid conflicting declarations.</li>
 								<li>
 									Add <a href="https://www.w3.org/TR/json-ld/#compact-iris">prefix mappings</a> for each known prefixes in the SHACL file.
 								</li>
@@ -87,29 +88,52 @@
 									Add mappings with the URI of targets of NodeShapes in the SHACL (reading <code>sh:targetClass</code>, or for shapes that are themselves classes), using the local part of the URI as JSON key.
 								</li>
 								<li>
-									Add mappings with the URI of properties referred to in <code>sh:path</code> in the SHACL. SHACL property paths are not supported.
+									Add mappings with the URI of properties referred to in <code>sh:path</code> in the SHACL. Only direct property URIs, or inverse path are supported, and more complex paths are ignored.
 									By default, the local part of the property URI is used as key, but a different JSON key can be specified by annotating the property shape
 									with the property <code>https://shacl-play.sparna.fr/ontology#shortname</code> (if the same property is referred to by multiple property shapes
-									annotated with different shortname,	the first one is used). Then :
+									annotated with different shortnames, then multiple mappings are generated). Then :
 									<ol>
 										<li>
-											Determine the <code>@type</code> from datatypes : read the <code>sh:datatype</code> on property shapes referring to the property. 
-											If there is one, use it as the value of @type (if the same property is referred to by multiple property shapes
-											with different <code>sh:datatype</code>, the first one is used.)
+											If the property path is an inverse path, use <code>@reverse</code> in the mapping.
 										</li>
 										<li>
-											Determine the <code>@type</code> from URI reference : if there are <code>sh:class</code>, <code>sh:node</code>, or if
-											<code>sh:nodeKind</code> = <code>sh:IRI</code> or <code>sh:BlankNodeOrIRI</code>, set the <code>@type</code> to <code>@id</code>
+											If the property is <code>rdf:type</code>, map the shortname to <code>@type</code> instead of the property URI, so that compaction algorithm can compact it.
+											Otherwise map to the property URI.
+										</li>
+										<li><u>For every reading of a property characteristic below (<code>sh:datatype</code>, <code>sh:pattern</code>, <code>sh:languageIn</code>, <code>sh:class</code>, <code>sh:nodeKind</code>), the lookup is always done on the property shape(s) 
+										but also on the node shape being referred to by <code>sh:node</code> on these property shapes.</u></li>
+										<li>
+											Determine the <code>@type</code> from datatypes : read the <code>sh:datatype</code>. If there is one, use it as the value of @type (if the same property is referred to by multiple property shapes
+											with different <code>sh:datatype</code>, the first one is used, and a warning is output).
+											<ol>
+												<li>If the datatype starts with <code>http://www.w3.org/2001/XMLSchema#</code> but is not <code>xsd:string</code>, use the value <code>xsd:xxxxx</code> as the value of @type</li>
+												<li>If the datatype is <code>rdf:langString</code>, then if there is a single value for <code>sh:languageIn</code>, then use this language in a <code>@language</code> annotation on this mapping, otherwise set <code>@container: @language</code> on this mapping</li>
+												<li>Otherwise, set the short form of the datatype URI as the value of @type</li>
+											</ol>
 										</li>
 										<li>
-											If the <code>sh:datatype</code> is <code>rdf:langString</code>, add <code>@container</code> with value <code>@language</code>
+											Determine the <code>@type</code> from URI reference : if there is a <code>sh:class</code>, or if
+											<code>sh:nodeKind</code> is <code>sh:IRI</code> or <code>sh:BlankNodeOrIRI</code>, set the <code>@type</code> to <code>@id</code> (note : <code>sh:node</code> is not considered here as it can point to a node shape actually describing a literal value).
 										</li>
 										<li>
-											If no max cardinality is specified, or if max cardinality is greater than 1, and no other <code>@container</code> was set, add <code>@container</code> with value <code>@set</code>
+											In order to have short values for IRI references in the JSON, determine is there is a common URI prefix for the values of the property in order to set an inner context. Search for a <code>sh:pattern</code> (on property shape reference node shape through <code>sh:node</code>).
+											<ol>
+												<li>
+													If there is one, and if is a regex describing the beginning of an http or https URI, add a scoped context for this property with a <code>@vocab</code> + <code>@base</code> 
+													indication using the beginning of the URI extracted from the regex, and set the <code>@type</code> to <code>@vocab</code>.
+													See <a href="https://github.com/sparna-git/shacl-play/issues/301">this discussion</a> for why both <code>@vocab</code> and <code>@base</code> are set.
+												</li>
+												<li>Otherwise, if there is some <code>sh:or</code> on the property shape(s) using this predicate (or associated with this shortname), then read the <code>sh:pattern</code> on each of them, and determine if there is a single common root for all of the them. If there is, then use it to set <code>@vocab</code> + <code>@base</code> on an inner <code>@context</code></li>
+											</ol>
+											
 										</li>
 										<li>
-											If an <code>sh:pattern</code> is specified on the property shape, and the property is an IRI property, and this pattern specifies the beginning of URIs, 
-											add a scoped context for this property with a <code>@base</code> indication using the pattern value.
+											Determine if <code>@container: @set</code> should be added : if no other value for <code>@container</code> was set (e.g. with <code>@language</code>), then by default set <code>@container: @set</code> unles :
+											<ol>
+												<li>no <code>sh:maxCount</code> is found, but there is an <code>sh:hasValue</code>, indicating that the property cannot have multiple values.</li>
+												<li>all occurrences of the property in property shapes do have an <code>sh:maxCount</code>, and all the values are 1.</li>
+											</ol>	
+											
 										</li>
 									</ol>
 								</li>

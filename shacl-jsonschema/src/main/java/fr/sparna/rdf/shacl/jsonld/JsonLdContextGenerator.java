@@ -235,7 +235,7 @@ public class JsonLdContextGenerator {
 				}
 				
 				if(defaultContainerSet) {
-					if(datatypes.isEmpty() || !datatypes.iterator().next().getURI().equals(RDF.langString.getURI())) {
+					if(mapping.getContainer() == null) {
 						// by default there can be multiple values
 						boolean canBeMultiple = true;
 						Set<Integer> maxCounts = findShMaxCountOfShortname(shortname, path, model);
@@ -248,8 +248,8 @@ public class JsonLdContextGenerator {
 						} else {
 							// we have some sh:maxCount, but if there was some property shape without sh:maxCount, then we consider that the property can be multiple
 							if(!hasPropertyShapeWithoutShmaxCount(shortname, path, model)) {
-								Integer maxCount = maxCounts.iterator().next();
-								if(maxCount == 1) {
+								// test if all values of sh:maxCount are 1, in which case we don't set @container to @set
+								if(maxCounts.stream().filter(mc -> mc != null).allMatch(mc -> mc == 1)) {
 									canBeMultiple = false;
 								}
 							}
@@ -260,11 +260,6 @@ public class JsonLdContextGenerator {
 						}
 					}
 				}
-
-				// ### map @language
-				// if the datatype is rdf:langString, then...
-				// if there is a sh:languageIn with a single value, set a @language to the value
-				// otherwise map it to a @container: @language
 				
 				// ### map controlled values
 				// if we have an sh:hasValue or sh:in, then map the possible values to JSON terms
@@ -283,6 +278,8 @@ public class JsonLdContextGenerator {
 
 	private void setInnerBaseAndVocab(JsonLdMapping mapping, String uri) {
 		// create an inner context with @base and @vocab
+		// @base is still needed in order to shorten the id/@id of inner objects inside this property, when objects are nested
+		// see https://github.com/sparna-git/shacl-play/issues/301
 		JsonLdContext innerContext = new JsonLdContext();
 		innerContext.add(new JsonLdMapping("@vocab", uri));
 		innerContext.add(new JsonLdMapping("@base", uri));

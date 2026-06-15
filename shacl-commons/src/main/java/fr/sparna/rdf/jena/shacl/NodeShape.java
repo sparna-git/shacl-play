@@ -22,6 +22,7 @@ import fr.sparna.rdf.jena.ModelRenderingUtils;
 import org.topbraid.shacl.vocabulary.SH;
 
 import fr.sparna.rdf.shacl.DCT;
+import fr.sparna.rdf.shacl.SCHEMA;
 
 public class NodeShape extends Shape  {
 	
@@ -187,37 +188,103 @@ public class NodeShape extends Shape  {
 	}
 
 	public String getDisplayLabel(Model owlModel, String lang) {
+		// try with skos:prefLabel
 		String result = ModelRenderingUtils.render(this.getSkosPrefLabel(lang), true);
 		
+		// try with rdfs:label
 		if(result == null) {
 			result = ModelRenderingUtils.render(this.getRdfsLabel(lang), true);
-		}				
+		}	
 		
-		if((result == null) && (this.getAllTargetedClasses().size() > 0)) {			
-			// otherwise if we have skos:prefLabel on the class, take it
-			for (Resource t : this.getAllTargetedClasses()) {
-				String res = ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(owlModel.getResource(t.getURI()), SKOS.prefLabel, lang), true);
-			    if (res != null) {
-			    	result = res;
-			    }
-			}
-			
+		// try with schema:name
+		if(result == null) {
+			result = ModelRenderingUtils.render(this.getSchemaName(lang), true);
 		}
-		
-		if((result == null) && (this.getAllTargetedClasses().size() > 0)) {
-			// otherwise if we have rdfs:label on the class, take it
-			for (Resource t : this.getAllTargetedClasses()) {
-				String res = ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(owlModel.getResource(t.getURI()), RDFS.label, lang), true);
-			    if (res != null) {
-			    	result = res;
-			    }
+
+		if(this.getAllTargetedClasses().size() > 0) {
+			if(result == null) {			
+				// otherwise if we have skos:prefLabel on the class, take it
+				for (Resource t : this.getAllTargetedClasses()) {
+					String res = ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(owlModel.getResource(t.getURI()), SKOS.prefLabel, lang), true);
+					if (res != null) {
+						result = res;
+					}
+				}
 			}
-		
+
+			if(result == null) {			
+				// otherwise if we have rdfs:label on the class, take it
+				for (Resource t : this.getAllTargetedClasses()) {
+					String res = ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(owlModel.getResource(t.getURI()), RDFS.label, lang), true);
+					if (res != null) {
+						result = res;
+					}
+				}			
+			}
+
+			if(result == null) {			
+				// otherwise if we have schema:name on the class, take it
+				for (Resource t : this.getAllTargetedClasses()) {
+					String res = ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(owlModel.getResource(t.getURI()), SCHEMA.name, lang), true);
+					if (res != null) {
+						result = res;
+					}
+				}			
+			}
 		}
 		
 		// default to short form or id
 		if(result == null) {
 			result = this.getShortFormOrId();
+		}
+		
+		return result;
+	}
+
+	public String getDisplayDescription(Model owlModel, String lang) {
+		// try with skos:definition
+		String result = ModelRenderingUtils.render(this.getSkosDefinition(lang), true);
+		
+		// try with rdfs:comment
+		if(result == null) {
+			result = ModelRenderingUtils.render(this.getRdfsComment(lang), true);
+		}
+
+		// try with schema:description
+		if(result == null) {
+			result = ModelRenderingUtils.render(this.getSchemaDescription(lang), true);
+		}
+
+		if(this.getAllTargetedClasses().size() > 0) {
+			if(result == null) {
+				// otherwise if we have skos:definition on the class, take it
+				for (Resource t : this.getAllTargetedClasses()) {
+					String res = ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(owlModel.getResource(t.getURI()), SKOS.definition, lang), true);
+					if (res != null) {
+						result = res;
+					}
+				}				
+			}
+
+			if(result == null) {
+				// otherwise if we have rdfs:comment on the class, take it
+				for (Resource t : this.getAllTargetedClasses()) {
+					String res = ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(owlModel.getResource(t.getURI()), RDFS.comment, lang), true);
+					if (res != null) {
+						result = res;
+					}
+				}
+			}
+
+			if(result == null) {
+				// otherwise if we have schema:description on the class, take it
+				for (Resource t : this.getAllTargetedClasses()) {
+					String res = ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(owlModel.getResource(t.getURI()), SCHEMA.description, lang), true);
+					if (res != null) {
+						result = res;
+					}
+				}
+			}
 		}
 		
 		return result;
@@ -292,23 +359,6 @@ public class NodeShape extends Shape  {
 		return ModelReadingUtils.readObjectAsResource(shape, FOAF.depiction);
 	}
 
-	
-	/* ######## RDFs ########  */
-
-	/**
-	 * @return The rdfs:comment list in the provided language, or an empty list if none is present
-	 */
-	public List<Literal> getRdfsComment(String lang) {
-		return ModelReadingUtils.readLiteralInLang(shape, RDFS.comment, lang);
-	}
-	
-	/**
-	 * @return The rdfs:label list in the provided language, or an empty list if none is present
-	 */
-	public List<Literal> getRdfsLabel(String lang) {
-		return ModelReadingUtils.readLiteralInLang(shape, RDFS.label, lang);
-	}
-
 	public List<Resource> getRdfsSubClassOf() {
 		return NodeShape.getRdfsSubClassOfOf(shape);
 	}
@@ -336,23 +386,5 @@ public class NodeShape extends Shape  {
 	public Boolean getMainBoolean() {
 		return this.getShaclPlayMain().map(node -> node.asLiteral().getBoolean()).orElse(false);
 	}
-
-	/* ######## SKOS ########  */
-
-	/**
-	 * @return The skos:prefLabel list in the provided language, or an empty list if none is present
-	 */
-	public List<Literal> getSkosPrefLabel(String lang) {
-		return ModelReadingUtils.readLiteralInLang(shape, SKOS.prefLabel, lang);
-	}
-	
-	/**
-	 * @return The skos:definition list in the provided language, or an empty list if none is present
-	 */
-	public List<Literal> getSkosDefinition(String lang) {
-		return ModelReadingUtils.readLiteralInLang(shape, SKOS.definition, lang);
-	}
-
-
 	
 }

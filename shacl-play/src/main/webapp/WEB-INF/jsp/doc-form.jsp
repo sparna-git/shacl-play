@@ -397,10 +397,10 @@
 							</thead>
 							<tbody>
 								<tr>
-									<th scope="row" width="30%"><code>rdfs:label</code> (or <code>skos:prefLabel</code> or <code>rdfs:label</code> on class)</th>
+									<th scope="row" width="30%"><code>skos:prefLabel</code> or <code>rdfs:label</code> or <code>schema:name</code> (or <code>skos:prefLabel</code> or <code>rdfs:label</code> or <code>schema:name</code> on class)</th>
 									<td>rdf:langString</td>
 									<td>Yes</td>
-									<td class="text-break">Label of the NodeShape used as the title of the section in the documentation. If not provided, and if sh:targetClass points to a URI, then a <code>skos:prefLabel</code> or <code>rdfs:label</code>
+									<td class="text-break">Label of the NodeShape used as the title of the section in the documentation. If not provided, and if sh:targetClass points to a URI, then a <code>skos:prefLabel</code> or <code>rdfs:label</code> or <code>schema:name</code>
 							  		are searched on the target class.</td>
 								</tr>
 								<tr>
@@ -410,17 +410,17 @@
 									<td class="text-break">If the NodeShape is also an instance of <code>rdfs:Class</code>, then its URI will be displayed under the section title.</td>
 							  	</tr>
 								<tr>
-									<th scope="row" width="30%"><code>rdfs:comment</code> (or <code>skos:definition</code> or <code>rdfs:comment</code> on class)</th>
+									<th scope="row" width="30%"><code>skos:definition</code>, <code>rdfs:comment</code> or <code>schema:description</code> (or the same on target class)</th>
 									<td>rdf:langString</td>
 									<td>No</td>
-									<td class="text-break">Small descriptive paragraph under the section title. If not provided, and if sh:targetClass points to a URI, then a <code>skos:definition</code> or <code>rdfs:comment</code>
+									<td class="text-break">Small descriptive paragraph under the section title. If not provided, and if sh:targetClass points to a URI, then the properties
 							  		are searched on the target class. The content is interpreted as Markdown and can thus contain links to internal anchors or other formatting features.</td>
 								</tr>
 								<tr>
-									<th scope="row"><code>sh:targetClass</code> (can be repeated)</th>
+									<th scope="row"><code>sh:targetClass</code> (multiple)</th>
 									<td>IRI</td>
 									<td>No</td>
-									<td class="text-break">The class to which the NodeShape applies. This can be repeated multiple times</td>
+									<td class="text-break">The class(es) to which the NodeShape applies. This can be repeated multiple times</td>
 							  	</tr>
 								  <tr>
 									<th scope="row"><code>sh:targetSubjectsOf</code> or <code>sh:targetObjectsOf</code></th>
@@ -518,17 +518,17 @@
 									<td class="text-break">Property or property path - each property shape generates one line in the table.</td>
 								</tr>
 								<tr>
-									<th scope="row"><code>sh:name</code> (or <code>skos:prefLabel</code> or <code>rdfs:label</code>)</th>
+									<th scope="row"><code>sh:name</code> (or <code>skos:prefLabel</code> or <code>rdfs:label</code> or <code>schema:name</code>)</th>
 									<td>rdf:langString</td>
 									<td>No</td>
 									<td class="text-break">Used to display the name of the property. If not provided, and if sh:path points to a URI, then a <code>skos:prefLabel</code> or <code>rdfs:label</code>
 							  		are searched on the property URI indicated in the sh:path. This implies the SHACL file also contains the OWL definition. Otherwise, the column will be empty.</td>
 							  	</tr>
 							  	<tr>
-							  		<th scope="row"><code>sh:description</code> (or <code>skos:definition</code> or <code>rdfs:comment</code>)</th>
+							  		<th scope="row"><code>sh:description</code> or <code>skos:definition</code> or <code>rdfs:comment</code> or <code>schema:description</code> (or <code>skos:definition</code> or <code>rdfs:comment</code> or <code>schema:description</code> on the property)</th>
 							  		<td>rdf:langString</td>
 							  		<td>No</td>
-							  		<td class="text-break">Populates the <b>Description</b> column of the table. If not provided, and if sh:path points to a URI, then a <code>skos:definition</code> or <code>rdfs:comment</code>
+							  		<td class="text-break">Populates the <b>Description</b> column of the table. If not provided, and if sh:path points to a URI, then a <code>skos:definition</code> or <code>rdfs:comment</code> or <code>schema:description</code>
 							  		is searched on the property URI indicated in the sh:path. This implies the SHACL file also contains the OWL definition. Otherwise the column will be empty.
 									The content is interpreted as Markdown and can thus contain links to internal anchors or other formatting features.</td>
 							  	</tr>

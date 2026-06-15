@@ -41,33 +41,6 @@ public class PropertyShapeDoc extends PropertyShape {
 	public String getShNameAsString(String lang) {
 		return ModelRenderingUtils.render(super.getShName(lang), true);
 	}
-	
-	public String getDisplayLabel(Model owlModel, String lang) {
-		
-		String result = ModelRenderingUtils.render(this.getShName(lang), true);
-		
-		if(result == null && this.getShPath() == null) {
-			// problem. Return something so at least we can debug
-			return super.getPropertyShape().toString();
-		}
-		
-		if(result == null && this.getShPath().isURIResource() && owlModel != null) {
-			// otherwise if we have skos:prefLabel on the property, take it
-			result = ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(owlModel.getResource(this.getShPath().getURI()), SKOS.prefLabel, lang), true);
-		}
-		
-		if(result == null && this.getShPath().isURIResource() && owlModel != null) {
-			// otherwise if we have rdfs:label on the property, take it
-			result = ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(owlModel.getResource(this.getShPath().getURI()), RDFS.label, lang), true);
-		}
-		
-		// otherwise return empty string (could be null now that we use another method for sorting)
-		if(result == null) {
-			result = "";
-		}
-		
-		return result;
-	}
 
 	/**
 	 * Returns the key to be used for sorting in the properties table
@@ -88,27 +61,6 @@ public class PropertyShapeDoc extends PropertyShape {
 			// otherwise use the path
 			return this.getShPath().toString();
 		}
-	}
-	
-	public String getDisplayDescription(Model owlModel, String lang) {
-		String result = ModelRenderingUtils.render(this.getShDescription(lang), true);
-		
-		if(result == null && super.getShPath() == null) {
-			// problem. Return something so at least we can debug
-			return "";
-		}
-		
-		if(result == null && super.getShPath().isURIResource()) {
-			// otherwise if we have skos:definition on the property, take it
-			result = ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(owlModel.getResource(super.getShPath().getURI()), SKOS.definition, lang), true);
-		}
-		
-		if(result == null && super.getShPath().isURIResource()) {
-			// otherwise if we have rdfs:comment on the property, take it
-			result = ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(owlModel.getResource(super.getShPath().getURI()), RDFS.comment, lang), true);
-		}
-		
-		return result;
 	}
 	
 }

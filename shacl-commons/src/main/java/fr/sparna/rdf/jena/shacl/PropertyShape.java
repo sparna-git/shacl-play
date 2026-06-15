@@ -4,9 +4,12 @@ import java.util.List;
 import java.util.Optional;
 
 import org.apache.jena.rdf.model.Literal;
+import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.RDFList;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.vocabulary.RDFS;
+import org.apache.jena.vocabulary.SKOS;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.topbraid.shacl.vocabulary.SH;
@@ -26,7 +29,88 @@ public class PropertyShape extends Shape {
 	public Resource getPropertyShape() {
 		return this.getShape();
 	}
-	
+
+	public String getDisplayLabel(Model owlModel, String lang) {
+		
+		// try with sh:name
+		String result = ModelRenderingUtils.render(this.getShName(lang), true);
+		
+		// try with skos:prefLabel
+		if(result == null) {
+			result = ModelRenderingUtils.render(this.getSkosPrefLabel(lang), true);
+		}
+
+		// try with rdfs:label
+		if(result == null) {
+			result = ModelRenderingUtils.render(this.getRdfsLabel(lang), true);
+		}
+
+		// try with schema:name
+		if(result == null) {
+			result = ModelRenderingUtils.render(this.getSchemaName(lang), true);
+		}
+
+		if(result == null && this.getShPath() == null) {
+			// problem. Return something so at least we can debug
+			return this.getPropertyShape().toString();
+		}
+		
+		if(result == null && this.getShPath().isURIResource() && owlModel != null) {
+			// otherwise if we have skos:prefLabel on the property, take it
+			result = ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(owlModel.getResource(this.getShPath().getURI()), SKOS.prefLabel, lang), true);
+		}
+		
+		if(result == null && this.getShPath().isURIResource() && owlModel != null) {
+			// otherwise if we have rdfs:label on the property, take it
+			result = ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(owlModel.getResource(this.getShPath().getURI()), RDFS.label, lang), true);
+		}
+		
+		// otherwise return empty string (could be null now that we use another method for sorting)
+		if(result == null) {
+			result = "";
+		}
+		
+		return result;
+	}
+
+	public String getDisplayDescription(Model owlModel, String lang) {
+
+		// try with sh:description
+		String result = ModelRenderingUtils.render(this.getShDescription(lang), true);
+
+		// try with skos:definition
+		if(result == null) {
+			result = ModelRenderingUtils.render(this.getSkosDefinition(lang), true);
+		}
+
+		// try with rdfs:comment
+		if(result == null) {
+			result = ModelRenderingUtils.render(this.getRdfsComment(lang), true);
+		}
+
+		// try with schema:description
+		if(result == null) {
+			result = ModelRenderingUtils.render(this.getSchemaDescription(lang), true);
+		}
+		
+		if(result == null && this.getShPath() == null) {
+			// problem. Return something so at least we can debug
+			return "";
+		}
+		
+		if(result == null && this.getShPath().isURIResource()) {
+			// otherwise if we have skos:definition on the property, take it
+			result = ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(owlModel.getResource(this.getShPath().getURI()), SKOS.definition, lang), true);
+		}
+		
+		if(result == null && this.getShPath().isURIResource()) {
+			// otherwise if we have rdfs:comment on the property, take it
+			result = ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(owlModel.getResource(this.getShPath().getURI()), RDFS.comment, lang), true);
+		}
+		
+		return result;
+	}	
+
 	/**
 	 * Could be either an IRI or a boolean set to false
 	 */

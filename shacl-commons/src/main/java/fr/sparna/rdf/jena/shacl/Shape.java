@@ -11,6 +11,7 @@ import org.apache.jena.rdf.model.RDFList;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
+import org.apache.jena.vocabulary.RDFS;
 import org.apache.jena.vocabulary.SKOS;
 
 import fr.sparna.rdf.jena.ModelReadingUtils;
@@ -233,5 +234,46 @@ public abstract class Shape {
 		return this.getPropertyRoles().stream().anyMatch(r -> r.getURI().equals(DASH.LabelRole.getURI()));
 	}
 
+	/**
+	 * @return The rdfs:comment list in the provided language, or an empty list if none is present
+	 */
+	public List<Literal> getRdfsComment(String lang) {
+		return ModelReadingUtils.readLiteralInLang(shape, RDFS.comment, lang);
+	}
+	
+	/**
+	 * @return The rdfs:label list in the provided language, or an empty list if none is present
+	 */
+	public List<Literal> getRdfsLabel(String lang) {
+		return ModelReadingUtils.readLiteralInLang(shape, RDFS.label, lang);
+	}
+
+	/**
+	 * @return The rdfs:label list in the provided language, or an empty list if none is present
+	 */
+	public List<Literal> getSchemaName(String lang) {
+		return ModelReadingUtils.readLiteralInLang(shape, SCHEMA.name, lang);
+	}
+
+	/**
+	 * @return The rdfs:label list in the provided language, or an empty list if none is present
+	 */
+	public List<Literal> getSchemaDescription(String lang) {
+		return ModelReadingUtils.readLiteralInLang(shape, SCHEMA.description, lang);
+	}
+
+	/**
+	 * @return The skos:prefLabel list in the provided language, or an empty list if none is present
+	 */
+	public List<Literal> getSkosPrefLabel(String lang) {
+		return ModelReadingUtils.readLiteralInLang(shape, SKOS.prefLabel, lang);
+	}
+	
+	/**
+	 * @return The skos:definition list in the provided language, or an empty list if none is present
+	 */
+	public List<Literal> getSkosDefinition(String lang) {
+		return ModelReadingUtils.readLiteralInLang(shape, SKOS.definition, lang);
+	}
 
 }

@@ -45,37 +45,6 @@ public class NodeShapeDoc extends NodeShape  {
 		}
 	}
 	
-	public String getDisplayDescription(Model owlModel, String lang) {
-		String result = ModelRenderingUtils.render(super.getSkosDefinition(lang), true);
-		
-		if(result == null) {
-			result = ModelRenderingUtils.render(super.getRdfsComment(lang), true);
-		}
-		
-		if(result == null && super.getAllTargetedClasses().size() > 0) {
-			// otherwise if we have skos:definition on the class, take it
-			for (Resource t : super.getAllTargetedClasses()) {
-				String res = ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(owlModel.getResource(t.getURI()), SKOS.definition, lang), true);
-			    if (res != null) {
-			    	result.join(",",res);
-			    }
-			}
-			
-		}
-		
-		if(result == null && super.getAllTargetedClasses().size() > 0) {
-			// otherwise if we have rdfs:comment on the class, take it
-			for (Resource t : super.getAllTargetedClasses()) {
-				String res = ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(owlModel.getResource(t.getURI()), RDFS.comment, lang), true);
-			    if (res != null) {
-			    	result.join(",",res);
-			    }
-			}
-		}
-		
-		return result;
-	}
-	
 	public List<PropertyShapeDoc> getPropertiesDoc() {
 		return propertiesDoc;
 	}

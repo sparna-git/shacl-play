@@ -141,7 +141,9 @@ public class PlantUmlDiagramGenerator {
 		// and then render each diagram
 		PlantUmlRenderer renderer = new PlantUmlRenderer();
 		renderer.setGenerateAnchorHyperlink(this.generateAnchorHyperlink);
-		renderer.setAvoidArrowsToEmptyBoxes(this.avoidArrowsToEmptyBoxes);
+		// avoid setting this flag if we know there are more than one diagram
+		// this garantees that for small diagrams all arrows are always displayed
+		renderer.setAvoidArrowsToEmptyBoxes(this.avoidArrowsToEmptyBoxes && diagrams.size() == 1);
 		renderer.setIncludeSubclassLinks(this.includeSubclassLinks);
 		renderer.setHideProperties(this.hidePropertiesBoxes);
 		renderer.setRenderSectionDiagram(sectionDiagram);

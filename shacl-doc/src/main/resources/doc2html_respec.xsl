@@ -1525,7 +1525,6 @@
 	</xsl:template>
 		
 	<xsl:template match="property">
-	
 		
 
 		<xsl:variable name="guillemets">"</xsl:variable>	
@@ -1587,7 +1586,7 @@
 				</td>				
 			</tr>
 			<xsl:if test="(string-length(./description) &gt; 0) or (string-length(./examples) &gt; 0)" >
-				<tr class="sp_hidden_line">
+				<tr style="{$Colors}" class="sp_hidden_line">
 					<td colspan="4">
 						<div style="padding-left: 3.5em; margin-top: -15px; font-size:smaller;">
 							<!-- Display Description -->

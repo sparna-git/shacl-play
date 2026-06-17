@@ -1345,7 +1345,7 @@
 			</xsl:if>
 
 			<!-- Additionnal constraints -->
-			<xsl:if test="(string-length(descriptionSparql) &gt; 0) || (string-length(selectSparql) &gt; 0)">
+			<xsl:if test="string-length(descriptionSparql) &gt; 0">
 				<xsl:variable name="section_constraints" select="concat('constraints-',sectionId)"/>
 				<section id="{$section_constraints}">
 					<h4><xsl:value-of select="$LABELS/labels/entry[@key='LABEL_CONSTRAINTS']/@label" /></h4>	

@@ -86,11 +86,11 @@ public class NodeShapeDoc extends NodeShape  {
 	 * @return
 	 */
 	public List<Resource> getSuperShapes() {
-		List<Resource> superShapes = new ArrayList<Resource>();
+		Set<Resource> superShapes = new HashSet<Resource>();
 		superShapes.addAll(this.getRdfsSubClassOf());
 		superShapes.addAll(this.getShTargetClassRdfsSubclassOfInverseOfShTargetClass());
 		superShapes.addAll(this.getShNodeAsList());
-		return superShapes;
+		return new ArrayList<Resource>(superShapes);
 	}
 	
 	public List<Depiction> getFoafDepiction() {

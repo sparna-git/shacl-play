@@ -191,6 +191,7 @@ public class ShapesDocumentationSectionBuilder {
 	) {
 		List<PropertyShapesGroupDocumentation> groups = new ArrayList<>();
 		
+		// add a group for this current node shape
 		PropertyShapesGroupDocumentation thisGroup = new PropertyShapesGroupDocumentation();
 		thisGroup.setTargetClass(new Link("#"+nodeShape.getShortFormOrId(),nodeShape.getDisplayLabel(owlGraph, lang)));
 

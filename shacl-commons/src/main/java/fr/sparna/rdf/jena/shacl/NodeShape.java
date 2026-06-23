@@ -188,6 +188,10 @@ public class NodeShape extends Shape  {
 			if(ns.getShNode().map(n -> n.equals(this.getNodeShape())).orElse(false)) {
 				usage.add(ns);
 			}
+			// check if this node shape is used in a rdfs:subClassOf of this node shape
+			if(ns.getRdfsSubClassOf().stream().filter(c -> c.equals(this.getNodeShape())).findFirst().isPresent()) {
+				usage.add(ns);
+			}
 			// check all property shapes
 			for(PropertyShape ps : ns.getProperties()) {
 				// check if this node shape is used in sh:qualifiedValueShape

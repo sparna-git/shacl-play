@@ -7,7 +7,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.RDFList;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.vocabulary.OWL;
@@ -112,74 +111,8 @@ public class ShapesGraph {
 		return shaclGraph.listStatements(null,SH.node, findNS).toList().stream().map(r -> r.getSubject()).collect(Collectors.toList());
 	}
 
-	public List<Resource> findPropertyShapeByShClass(Resource findNS) {		
-		return shaclGraph.listStatements(null,SH.class_, findNS).toList().stream().map(r -> r.getSubject()).collect(Collectors.toList());
-	}
-
 	public List<Resource> findPropertyShapeByShQualifiedValueShape(Resource findNS) {		
 		return shaclGraph.listStatements(null,SH.qualifiedValueShape, findNS).toList().stream().map(r -> r.getSubject()).collect(Collectors.toList());
-	}
-
-	public List<Resource> findPropertyShapeByShNodeInShOr(Resource findNS) {
-
-		// Get all nodeShapes
-		List<Resource> rShOr = shaclGraph.listResourcesWithProperty(SH.or)
-								.toList()
-								.stream()
-								.map( shORValue -> shORValue.asResource())
-								.collect(Collectors.toList());
-		
-		List<Resource> x = new ArrayList<>();
-		for (Resource r : rShOr) {
-			// Sh Node in Sh Or
-			for (Resource rNodeValue : ShOrReadingUtils.readShNodeInShOr(r.getProperty(SH.or).getList())) {
-				if (rNodeValue.getURI().equals(findNS.getURI())) {
-					x.add(r.asResource());
-				}
-			}
-			// Sh Class in Sh Or
-			List<Resource> rdfListClass =  ShOrReadingUtils.readShClassInShOr(r.getProperty(SH.or).getList());
-			for (Resource rNodeValue : rdfListClass) {
-				if (rNodeValue.isResource() && rNodeValue != null && !rNodeValue.isAnon()) {
-					if (rNodeValue.getURI().equals(findNS.getURI())) {
-						x.add(r.asResource());
-					}
-				}
-			}
-			// Sh Datatype in Sh Or
-			for (Resource rNodeValue : ShOrReadingUtils.readShDatatypeInShOr(r.getProperty(SH.or).getList())) {
-				if (rNodeValue.isResource() && rNodeValue != null && !rNodeValue.isAnon()) {
-					if (rNodeValue.getURI().equals(findNS.getURI())) {
-						x.add(r.asResource());
-					}
-				}
-			}
-			// Sh NodeKind in Sh Or
-			for (Resource rNodeValue : ShOrReadingUtils.readShNodeKindInShOr(r.getProperty(SH.or).getList())) {
-				if (rNodeValue.isResource() && rNodeValue != null && !rNodeValue.isAnon()) {
-					if (rNodeValue.getURI().equals(findNS.getURI())) {
-						x.add(r.asResource());
-					}
-				}
-			}
-		}
-
-		return x;		
-	}
-
-	public List<Resource> getResourceByUsage(Resource nodeshape) {
-
-		List<Resource> ListOfPropertiesUsage = new ArrayList<>();
-		// for SH Node
-		ListOfPropertiesUsage.addAll(this.findPropertyShapeByShNode(nodeshape));
-		// for SH Class
-		ListOfPropertiesUsage.addAll(this.findPropertyShapeByShClass(nodeshape));
-		// sh:node in sh:Or
-		ListOfPropertiesUsage.addAll(this.findPropertyShapeByShNodeInShOr(nodeshape));
-		// sh:qualifiedValueShape
-		ListOfPropertiesUsage.addAll(this.findPropertyShapeByShQualifiedValueShape(nodeshape));
-		
-		return ListOfPropertiesUsage;
 	}
 	
 	public void pruneEmptyAndUnusedNodeShapes() {

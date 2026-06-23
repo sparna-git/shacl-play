@@ -202,6 +202,13 @@ public class NodeShape extends Shape  {
 				if(ps.getShClass().map(c -> this.getAllTargetedClasses().stream().filter(tc -> tc.equals(c)).findFirst().isPresent()).orElse(false)) {
 					usage.add(ps);
 				}
+				// check if this node shape is used in an sh:or containing a sh:node or a sh:class targeting a class that is the target of this one
+				if(ShOrReadingUtils.readShNodeInShOr(ps.getShOr()).stream().filter(n -> n.equals(this.getNodeShape())).findFirst().isPresent()) {
+					usage.add(ps);
+				}
+				if(ShOrReadingUtils.readShClassInShOr(ps.getShOr()).stream().filter(c -> this.getAllTargetedClasses().stream().filter(tc -> tc.equals(c)).findFirst().isPresent()).findFirst().isPresent()) {
+					usage.add(ps);
+				}
 			}
 		}
 		return usage;

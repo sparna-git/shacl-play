@@ -17,6 +17,10 @@ public class ShOrReadingUtils {
 	 */
 	public static List<Resource> readShNodeInShOr(RDFList shOrList){
 		
+		if(shOrList == null) {
+			return new ArrayList<>();
+		}
+
 		List<Resource> result = new ArrayList<>();
 		List<RDFNode> rdflist = shOrList.asJavaList();
 		
@@ -41,6 +45,10 @@ public class ShOrReadingUtils {
 	 * @return
 	 */
 	public static List<Resource> readShClassInShOr(RDFList shOrList) {		
+		if(shOrList == null) {
+			return new ArrayList<>();
+		}
+
 		List<Resource> result = new ArrayList<>();
 		List<RDFNode> rdflist = shOrList.asJavaList();
 		
@@ -65,6 +73,9 @@ public class ShOrReadingUtils {
 	 * @return
 	 */
 	public static List<Resource> readShDatatypeInShOr(RDFList shOrList){
+		if(shOrList == null) {
+			return new ArrayList<>();
+		}
 		
 		List<Resource> result = new ArrayList<>();
 		List<RDFNode> rdflist = shOrList.asJavaList();
@@ -90,6 +101,9 @@ public class ShOrReadingUtils {
 	 * @return
 	 */
 	public static List<Resource> readShNodeKindInShOr(RDFList shOrList){
+		if(shOrList == null) {
+			return new ArrayList<>();
+		}
 		
 		List<Resource> result = new ArrayList<>();
 		List<RDFNode> rdflist = shOrList.asJavaList();
@@ -115,6 +129,10 @@ public class ShOrReadingUtils {
 	 * @return
 	 */
 	public static List<Resource> readShClassAndShNodeAndShDatatypeAndShNodeKindInShOr(RDFList shOrList){
+
+		if(shOrList == null) {
+			return new ArrayList<>();
+		}
 		
 		List<Resource> result = new ArrayList<>();
 		result.addAll(ShOrReadingUtils.readShClassInShOr(shOrList));

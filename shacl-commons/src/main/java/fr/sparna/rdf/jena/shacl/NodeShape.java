@@ -174,6 +174,39 @@ public class NodeShape extends Shape  {
 		return isUsedInShNode || isUsedInQualifiedValueShape || isUsedInRdfsSubClassOf;
 	}
 
+	/**
+	 * 
+	 * @return the list of NodeShapes and Property shapes that refer to this NodeShape in the shapes graph, 
+	 * either through sh:node, sh:qualifiedValueShape or rdfs:subClassOf, or sh:class targeting a class that is the target of this one
+	 */
+	public List<Shape> getUsage() {
+		// iterate through all shapes in the model and find those that refer to this node shape
+		List<Shape> usage = new ArrayList<>();
+		ShapesGraph graph = new ShapesGraph(this.getNodeShape().getModel());
+		for(NodeShape ns : graph.getAllNodeShapes()) {
+			// check if this node shape is used in sh:node
+			if(ns.getShNode().map(n -> n.equals(this.getNodeShape())).orElse(false)) {
+				usage.add(ns);
+			}
+			// check all property shapes
+			for(PropertyShape ps : ns.getProperties()) {
+				// check if this node shape is used in sh:qualifiedValueShape
+				if(ps.getShQualifiedValueShape().map(n -> n.equals(this.getNodeShape())).orElse(false)) {
+					usage.add(ps);
+				}
+				// check if this node shape is used in sh:node
+				if(ps.getShNode().map(n -> n.equals(this.getNodeShape())).orElse(false)) {
+					usage.add(ps);
+				}
+				// check if this node shape is used in sh:class targeting a class that is the target of this one
+				if(ps.getShClass().map(c -> this.getAllTargetedClasses().stream().filter(tc -> tc.equals(c)).findFirst().isPresent()).orElse(false)) {
+					usage.add(ps);
+				}
+			}
+		}
+		return usage;
+	}
+
 	public String getShortFormOrId() {
 		if(this.shape.isURIResource() && this.shape != null) {
 			return this.getNodeShape().getModel().shortForm(this.getNodeShape().getURI());

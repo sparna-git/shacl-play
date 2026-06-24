@@ -1,13 +1,16 @@
 package fr.sparna.rdf.jena.shacl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.ObjectUtils.Null;
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.RDFList;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
@@ -167,11 +170,14 @@ public class NodeShape extends Shape  {
 	}
 
 	public boolean isUsedInShapesGraph() {
-		boolean isUsedInShNode = this.getNodeShape().getModel().contains(null, SH.node, this.getNodeShape());
-		boolean isUsedInQualifiedValueShape = this.getNodeShape().getModel().contains(null, SH.qualifiedValueShape, this.getNodeShape());
-		boolean isUsedInRdfsSubClassOf = this.getNodeShape().getModel().contains(null, RDFS.subClassOf, this.getNodeShape());
+		if (getUsage().size() == 0) {
+			return false;
+		}
+		return true;
+	}
 
-		return isUsedInShNode || isUsedInQualifiedValueShape || isUsedInRdfsSubClassOf;
+	public ShapesGraph getUsageTmp() {
+		return new ShapesGraph(this.getNodeShape().getModel());
 	}
 
 	/**
@@ -180,11 +186,13 @@ public class NodeShape extends Shape  {
 	 * either through sh:node, sh:qualifiedValueShape or rdfs:subClassOf, or sh:class targeting a class that is the target of this one
 	 */
 	public List<Shape> getUsage() {
+
 		// iterate through all shapes in the model and find those that refer to this node shape
 		List<Shape> usage = new ArrayList<>();
 		ShapesGraph graph = new ShapesGraph(this.getNodeShape().getModel());
 		for(NodeShape ns : graph.getAllNodeShapes()) {
 			// check if this node shape is used in sh:node
+			
 			if(ns.getShNode().map(n -> n.equals(this.getNodeShape())).orElse(false)) {
 				usage.add(ns);
 			}
@@ -194,6 +202,7 @@ public class NodeShape extends Shape  {
 			}
 			// check all property shapes
 			for(PropertyShape ps : ns.getProperties()) {
+
 				// check if this node shape is used in sh:qualifiedValueShape
 				if(ps.getShQualifiedValueShape().map(n -> n.equals(this.getNodeShape())).orElse(false)) {
 					usage.add(ps);
@@ -210,14 +219,17 @@ public class NodeShape extends Shape  {
 				if(ShOrReadingUtils.readShNodeInShOr(ps.getShOr()).stream().filter(n -> n.equals(this.getNodeShape())).findFirst().isPresent()) {
 					usage.add(ps);
 				}
+				
 				if(ShOrReadingUtils.readShClassInShOr(ps.getShOr()).stream().filter(c -> this.getAllTargetedClasses().stream().filter(tc -> tc.equals(c)).findFirst().isPresent()).findFirst().isPresent()) {
 					usage.add(ps);
 				}
-			}
+			}		
 		}
 		return usage;
 	}
-
+		
+	
+	
 	public String getShortFormOrId() {
 		if(this.shape.isURIResource() && this.shape != null) {
 			return this.getNodeShape().getModel().shortForm(this.getNodeShape().getURI());

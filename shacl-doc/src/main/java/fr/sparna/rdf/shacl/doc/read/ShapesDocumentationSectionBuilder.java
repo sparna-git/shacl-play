@@ -27,7 +27,9 @@ import fr.sparna.rdf.shacl.doc.model.ShapesDocumentationDiagram;
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentationSection;
 import net.sourceforge.plantuml.board.BNode;
 
+import fr.sparna.rdf.jena.shacl.Shape;
 import fr.sparna.rdf.jena.shacl.NodeShape;
+import fr.sparna.rdf.jena.shacl.PropertyShape;
 
 public class ShapesDocumentationSectionBuilder {
 	
@@ -212,7 +214,7 @@ public class ShapesDocumentationSectionBuilder {
 
 		for (Resource aSuperShape : superShapes) {
 			// find corresponding node shape
-			NodeShapeDoc superShape = shapesGraph.findNodeShapeByResource(aSuperShape) != null ? shapesGraph.findNodeShapeByResource(aSuperShape) : null ;
+			NodeShapeDoc superShape = shapesGraph.findNodeShapeByResource(aSuperShape) != null ? new NodeShapeDoc(shapesGraph.findNodeShapeByResource(aSuperShape).getNodeShape()) : null ;
 			
 			if (superShape != null && !nodeShape.getNodeShape().equals(superShape.getNodeShape())) {			
 				groups.addAll(readPropertyGroupsRec(
@@ -291,52 +293,56 @@ public class ShapesDocumentationSectionBuilder {
 	}
 	
 	public List<UsageOutput> findNodeShapeUsage (ShapesGraphDoc shapesGraph,NodeShapeDoc nodeShape, Model shacModel, String lang) {
-		
-		/* 
-		List<UsageDoc> nsUsageAsList = new ArrayList<>();
-		// Get all properties from the nodeshape
-		List<Resource> propertiesUsage = nodeShape.getPropertiesUsage();
-		if (propertiesUsage.size() > 0) {
-			for (Resource r : propertiesUsage) {
-				if (!r.isAnon() && r.isResource()) {
-					List<Resource> nResourceFound = shapesGraph.findNodeShapeByProperty(r);
-					//System.out.println("Number of Resouces: " + nResourceFound.size());
-					for(Resource rFound : nResourceFound) {
-						NodeShapeDoc nsUsage = new NodeShapeDoc(rFound);
-						
-						PropertyShapeDoc psDocUsage = new PropertyShapeDoc(r);
-						boolean nsExist = nsUsageAsList.stream().filter( nsList -> nsList.getNodeShape().getNodeShape().getURI().equals(nsUsage.getNodeShape().getURI())).findFirst().isPresent();
-						if (!nsExist) {
-							UsageDoc usDoc = new UsageDoc();
-							usDoc.setNodeShape(nsUsage);
-							List<PropertyShapeDoc> psList = new ArrayList<>();
-							psList.add(psDocUsage);
-							usDoc.setProperties(psList);
-							nsUsageAsList.add(usDoc);
-						} else {
-							Integer nCount = 0;
-							for (UsageDoc nsResource : nsUsageAsList) {
-								if (nsResource.getNodeShape().getNodeShape().getURI().equals(nsUsage.getNodeShape().getURI())) {
-									List<PropertyShapeDoc> psList = nsResource.getProperties();
-									boolean nsExistProperty = psList.stream().filter( pp -> pp.getPropertyShape().getURI().equals(psDocUsage.getPropertyShape().getURI()) ).findFirst().isPresent();
-									if (!nsExistProperty) {
-										List<PropertyShapeDoc> p = nsResource.getProperties();
-										p.add(psDocUsage);
-										nsResource.setProperties(p);
-										nsUsageAsList.set(nCount, nsResource);
-									}
-								}
-								nCount++;
-							}							
-						}
 
+		List<Shape> shapes = nodeShape.getUsage();	
+		List<UsageDoc> nsUsageAsList = new ArrayList();
+		// Populate
+		for (Shape shape : shapes) {
+			if (shape instanceof PropertyShape) {				
+				PropertyShape ps = (PropertyShape) shape;
+				
+				// Find Node Shape Usage Doc
+				PropertyShapeDoc psDocUsage = new PropertyShapeDoc(ps.getPropertyShape());
+				List<NodeShape> nsUsage = shapesGraph.findNodeShapeByPropertyShape(psDocUsage);
+				for (NodeShape nodeShape_usageDoc : nsUsage) {
+					boolean nsInList = nsUsageAsList.stream().filter( nsdoc -> nsdoc.getNodeShape().getNodeShape().getURI().equals(nodeShape_usageDoc.getNodeShape().getURI())).findFirst().isPresent();
+					if (!nsInList) {
+						UsageDoc usDoc = new UsageDoc();
+						usDoc.setNodeShape(new NodeShapeDoc(nodeShape_usageDoc.getNodeShape()));
+						List<PropertyShapeDoc> psList = new ArrayList<>();
+						psList.add(psDocUsage);
+						usDoc.setProperties(psList);
+						nsUsageAsList.add(usDoc);
+					} else {
+						Integer nCount = 0;
+						for (UsageDoc nsResource : nsUsageAsList) {
+							if (nsResource.getNodeShape().getNodeShape().getURI().equals(nodeShape_usageDoc.getNodeShape().getURI())) {
+								List<PropertyShapeDoc> psList = nsResource.getProperties();
+								boolean nsExistProperty = psList.stream().filter( pp -> pp.getPropertyShape().getURI().equals(psDocUsage.getPropertyShape().getURI()) ).findFirst().isPresent();
+								if (!nsExistProperty) {
+									List<PropertyShapeDoc> p = nsResource.getProperties();
+									p.add(psDocUsage);
+									nsResource.setProperties(p);
+									nsUsageAsList.set(nCount, nsResource);
+								}
+							}
+							nCount++;
+						}
 					}
-				}
+				}				
 			}
 		}
-			*/
-		List<UsageDoc> nsUsageAsList = nodeShape.getUsage();
-		List<UsageOutput> showusage = new ArrayList<>();
+
+		List<UsageOutput> outputUsage = this.getUsageOutput(nsUsageAsList, shacModel, lang);
+		
+		return outputUsage;
+	}
+
+
+	private List<UsageOutput> getUsageOutput(List<UsageDoc> nsUsageAsList, Model shacModel, String lang) {
+
+		List<UsageOutput> output = new ArrayList();
+		// Sort Usage Doc
 		if (nsUsageAsList.size() > 0) {
 			// Short
 			nsUsageAsList.sort(((UsageDoc arg0, UsageDoc arg1) -> {
@@ -355,10 +361,10 @@ public class ShapesDocumentationSectionBuilder {
 				}
 			} ));
 
-			// ort for each properties
 			for (UsageDoc usgae_doc : nsUsageAsList) {
 			
-				//Sort Properties			
+				//Sort Properties	
+				if (usgae_doc.getProperties().size() > 1) {		
 				usgae_doc.getProperties()
 					.sort((ps1,ps2) -> {
 						if(ps1.getShOrder().isPresent()) {
@@ -377,6 +383,8 @@ public class ShapesDocumentationSectionBuilder {
 						}
 					});
 
+				}
+
 				if (usgae_doc.getProperties().size() > 0 ) {
 					List<Link> linkUsage = usgae_doc.getProperties()
 						.stream()
@@ -384,16 +392,15 @@ public class ShapesDocumentationSectionBuilder {
 						.collect(Collectors.toList());
 				
 						UsageOutput uOutput = new UsageOutput();
-						uOutput.setNodeshape_usage(usgae_doc.getNodeShape().getDisplayLabel(shacModel, lang));
+						uOutput.setNodeshape_name(usgae_doc.getNodeShape().getDisplayLabel(shacModel, lang));
 						uOutput.setProperties_usage(linkUsage);
 
-						showusage.add(uOutput);
+						output.add(uOutput);
 				}
 			}
 		}
-				
-		return showusage;
-	}
+		return output;
+	} 
 
 	
 }

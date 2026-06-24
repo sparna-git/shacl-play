@@ -1724,7 +1724,7 @@
 	<xsl:template match="usage">
 		<!--  solid #f2f2f71c; -->
 		<tr style="border-bottom: 0.2em">
-			<th><xsl:value-of select="nodeshape_usage"/></th>
+			<th><xsl:value-of select="nodeshape_name"/></th>
 			<td style="padding-left: 1em;"><xsl:apply-templates select="properties_usage/properties_usage" /></td>
 		</tr>
 	</xsl:template>

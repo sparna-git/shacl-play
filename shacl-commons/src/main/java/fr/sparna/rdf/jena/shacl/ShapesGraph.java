@@ -59,6 +59,7 @@ public class ShapesGraph {
 		return owlGraph;
 	}
 	
+	
 	public NodeShape findNodeShapeByResource(Resource r) {
 		return getAllNodeShapes().stream().filter(ns -> ns.getNodeShape().toString().equals(r.toString())).findFirst().orElse(null);
 	}
@@ -76,6 +77,19 @@ public class ShapesGraph {
 			ns.isTargeting(cl)
 		).collect(Collectors.toList());
 	}
+
+	public List<NodeShape> findNodeShapeByPropertyShape(PropertyShape ps) {
+		return getAllNodeShapes()
+				.stream()
+				.filter( ns -> ns.getProperties()
+									.stream()
+									.filter( psp -> psp.getPropertyShape().getURI().equals(ps.getPropertyShape().getURI()))
+									.findFirst()
+									.isPresent()
+						)
+				.collect(Collectors.toList());
+	}
+
 
 	/**
 	 * @return the nodes shapes that target the node indicated in the sh:node of the given property shape

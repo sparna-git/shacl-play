@@ -7,18 +7,15 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.vocabulary.DCTerms;
-import org.apache.jena.vocabulary.RDFS;
-import org.apache.jena.vocabulary.SKOS;
 import org.topbraid.shacl.vocabulary.SH;
 
-import fr.sparna.rdf.jena.ModelReadingUtils;
 import fr.sparna.rdf.jena.ModelRenderingUtils;
 import fr.sparna.rdf.jena.shacl.NodeShape;
 import fr.sparna.rdf.jena.shacl.ShOrderComparator;
-import fr.sparna.rdf.jena.shacl.ShapesGraph;
+
+
 
 public class NodeShapeDoc extends NodeShape  {
 
@@ -130,52 +127,10 @@ public class NodeShapeDoc extends NodeShape  {
 		return depictions;	
 	}
 
-	public List<UsageDoc> getUsage() {
-
-		ShapesGraph shapesGraphUsage = new ShapesGraph(this.getNodeShape().getModel());
-		// Get all Resources
-		List<Resource> ListOfPropertiesByUsage =  shapesGraphUsage.getResourceByUsage(this.nodeShape);
-		//
-		List<UsageDoc> nsUsageAsList = new ArrayList<>();
-		if (ListOfPropertiesByUsage.size() > 0) {
-			for (Resource r : ListOfPropertiesByUsage) {
-				if (!r.isAnon() && r.isResource()) {
-					List<Resource> nResourceFound = shapesGraphUsage.findNodeShapeByProperty(r);
-					//System.out.println("Number of Resouces: " + nResourceFound.size());
-					for(Resource rFound : nResourceFound) {
-						NodeShapeDoc nsUsage = new NodeShapeDoc(rFound);						
-						PropertyShapeDoc psDocUsage = new PropertyShapeDoc(r);
-						boolean nsExist = nsUsageAsList.stream().filter( nsList -> nsList.getNodeShape().getNodeShape().getURI().equals(nsUsage.getNodeShape().getURI())).findFirst().isPresent();
-						if (!nsExist) {
-							UsageDoc usDoc = new UsageDoc();
-							usDoc.setNodeShape(nsUsage);
-							List<PropertyShapeDoc> psList = new ArrayList<>();
-							psList.add(psDocUsage);
-							usDoc.setProperties(psList);
-							nsUsageAsList.add(usDoc);
-						} else {
-							Integer nCount = 0;
-							for (UsageDoc nsResource : nsUsageAsList) {
-								if (nsResource.getNodeShape().getNodeShape().getURI().equals(nsUsage.getNodeShape().getURI())) {
-									List<PropertyShapeDoc> psList = nsResource.getProperties();
-									boolean nsExistProperty = psList.stream().filter( pp -> pp.getPropertyShape().getURI().equals(psDocUsage.getPropertyShape().getURI()) ).findFirst().isPresent();
-									if (!nsExistProperty) {
-										List<PropertyShapeDoc> p = nsResource.getProperties();
-										p.add(psDocUsage);
-										nsResource.setProperties(p);
-										nsUsageAsList.set(nCount, nsResource);
-									}
-								}
-								nCount++;
-							}							
-						}
-
-					}
-				}
-			}
-		}
-		
-		return nsUsageAsList;
-
-	}
+	
 }
+
+
+
+
+

@@ -170,14 +170,7 @@ public class NodeShape extends Shape  {
 	}
 
 	public boolean isUsedInShapesGraph() {
-		if (getUsage().size() == 0) {
-			return false;
-		}
-		return true;
-	}
-
-	public ShapesGraph getUsageTmp() {
-		return new ShapesGraph(this.getNodeShape().getModel());
+		return (getUsage().size() > 0);
 	}
 
 	/**

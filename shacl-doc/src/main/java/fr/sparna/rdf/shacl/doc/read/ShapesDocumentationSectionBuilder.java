@@ -214,8 +214,8 @@ public class ShapesDocumentationSectionBuilder {
 
 		for (Resource aSuperShape : superShapes) {
 			// find corresponding node shape
-			NodeShapeDoc superShape = shapesGraph.findNodeShapeByResource(aSuperShape) != null ? new NodeShapeDoc(shapesGraph.findNodeShapeByResource(aSuperShape).getNodeShape()) : null ;
-			
+			NodeShapeDoc superShape = shapesGraph.findNodeShapeByResource(aSuperShape) != null ? shapesGraph.findNodeShapeByResource(aSuperShape) : null ;
+
 			if (superShape != null && !nodeShape.getNodeShape().equals(superShape.getNodeShape())) {			
 				groups.addAll(readPropertyGroupsRec(
 						superShape,

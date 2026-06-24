@@ -27,11 +27,9 @@ public class ShapesGraphDoc extends ShapesGraph {
 		this.allNodeShapes = this.readAllNodeShapesDoc(shaclGraph, owlGraph, lang);
 	}
 
-	/* 
 	public NodeShapeDoc findNodeShapeByResource(Resource r) {
 		return this.allNodeShapes.stream().filter(ns -> ns.getNodeShape().equals(r)).findFirst().orElse(null);
 	}
-		*/
 
 	public List<NodeShapeDoc> getAllNodeShapesDoc() {	
 		return allNodeShapes; 

@@ -393,17 +393,31 @@ public class NodeShape extends Shape  {
 		).orElse(null);
 	}
 
-	public Literal getShSparqlDCTDescription() {
-		return Optional.ofNullable(this.shape.getPropertyResourceValue(SH.sparql)).map(
-				r -> Optional.ofNullable(r.getProperty(DCT.Description)).map(l -> l.getLiteral()).orElse(null)
-		).orElse(null);
+	public List<SparqlConstraint> getSparqlConstraint() {
+
+		List<SparqlConstraint> sparqlConstraint = new ArrayList();
+
+		List<Resource> resourceConstraint = this.shape.listProperties(SH.sparql).toList().stream().map( c-> c.getResource()).collect(Collectors.toList());
+		for (Resource r : resourceConstraint) {
+			SparqlConstraint sc = new SparqlConstraint();
+
+			if (r.hasProperty(DCT.Description)) {
+				sc.setDescription(r.getProperty(DCT.Description).getString());
+			} else {
+				sc.setDescription("Sparql Query");
+			}
+
+			if (r.hasProperty(SH.select)) {
+				sc.setSelect(r.getProperty(SH.select).getString());
+			}
+
+			sparqlConstraint.add(sc);
+		}
+
+		return sparqlConstraint;
 	}
 
-	public Literal getShSparqlSHSelect() {
-		return Optional.ofNullable(this.shape.getPropertyResourceValue(SH.sparql)).map(
-				r -> Optional.ofNullable(r.getProperty(SH.select)).map(l -> l.getLiteral()).orElse(null)
-		).orElse(null);
-	}
+	
 
 	/* ######## FOAF ########  */
 

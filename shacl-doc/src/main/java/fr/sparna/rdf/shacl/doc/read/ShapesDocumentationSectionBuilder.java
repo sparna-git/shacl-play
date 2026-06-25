@@ -120,14 +120,9 @@ public class ShapesDocumentationSectionBuilder {
 			currentSection.setSparqlTarget(nodeShape.getShTargetShSelect().getString());
 		}
 		
-		// sparql Constraint
-		if(nodeShape.getShSparqlDCTDescription() != null) {
-			currentSection.setDescriptionSparql(nodeShape.getShSparqlDCTDescription().getString());
-		}
-
-		// sparql Constraint Select
-		if(nodeShape.getShSparqlSHSelect() != null) {
-			currentSection.setSelectSparql(nodeShape.getShSparqlSHSelect().getString());
+		// SPARQL CONSTRAINT
+		if (nodeShape.getSparqlConstraint().size() > 0) {
+			currentSection.setSparqlConstraints(nodeShape.getSparqlConstraint());
 		}
 		
 		// sh:pattern

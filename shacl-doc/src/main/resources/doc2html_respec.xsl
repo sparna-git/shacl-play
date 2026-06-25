@@ -1345,26 +1345,15 @@
 			</xsl:if>
 
 			<!-- Additionnal constraints -->
-			<xsl:if test="string-length(descriptionSparql) &gt; 0">
+			<xsl:if test="count(sparqlConstraints/sparqlConstraint) &gt; 0">
 				<xsl:variable name="section_constraints" select="concat('constraints-',sectionId)"/>
 				<section id="{$section_constraints}">
-					<h4><xsl:value-of select="$LABELS/labels/entry[@key='LABEL_CONSTRAINTS']/@label" /></h4>	
-					
-					<!-- Description Constraint -->
-					
+					<!-- title of section -->
+					<h4><xsl:value-of select="$LABELS/labels/entry[@key='LABEL_CONSTRAINTS']/@label" /></h4>
+
 					<ul class="constraint_list">
-						<li>
-							<xsl:apply-templates select="descriptionSparql"/>
-							<!-- Sparql Constraint Select-->
-							<xsl:if test="string-length(selectSparql) &gt; 0">
-								<code>
-									<pre class="sparql">
-										<xsl:value-of select="selectSparql" />					
-									</pre>
-								</code>
-							</xsl:if>
-						</li>
-					</ul>					
+						<xsl:apply-templates select="sparqlConstraints/sparqlConstraint" />
+					</ul>	
 				</section>
 			</xsl:if>
 
@@ -1706,11 +1695,25 @@
 		<xsl:value-of select="." />
 	</xsl:template>
 	
-	<!-- SPARQL query -->
-	<xsl:template match="descriptionSparql">
-		<xsl:value-of select="."/>
+	<!-- Sparql Constraint -->
+	<xsl:template match="sparqlConstraint">
+		<!-- Sparql Constraint Select-->
+		<li>
+			<xsl:if test="string-length(description) > 0">
+				<xsl:value-of select="description"/>
+			</xsl:if>
+
+			<xsl:if test="string-length(select) &gt; 0">
+				<code>
+					<pre class="sparql">
+						<xsl:value-of select="select" />					
+					</pre>
+				</code>
+			</xsl:if>
+		</li>
 	</xsl:template>
-	
+
+	<!-- Usages -->
 	<xsl:template match="usages">
 		<div>
 			<table style="border-collapse: collapse;">

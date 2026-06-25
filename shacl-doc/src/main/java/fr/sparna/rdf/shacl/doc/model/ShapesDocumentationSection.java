@@ -14,7 +14,7 @@ import fr.sparna.rdf.shacl.doc.PropertyShapeDoc;
 import fr.sparna.rdf.shacl.doc.UsageDoc;
 import fr.sparna.rdf.shacl.doc.UsageOutput;
 import fr.sparna.rdf.shacl.diagram.PlantUmlDiagramOutput;
-
+import fr.sparna.rdf.jena.shacl.SparqlConstraint;
 
 /**
  * One section in the final documentation, corresponding to one NodeShape
@@ -63,11 +63,6 @@ public class ShapesDocumentationSection {
 	 */
 	private PlantUmlDiagramOutput nsDiagram;
 	
-	// List of description of attached SPARQL constraints
-	// TODO : refactor as another entity inside the section, with a SPARQL query and a description
-	private String descriptionSparql;
-	private String SelectSparql;
-	
 	@JacksonXmlElementWrapper(localName="superClasses")
 	@JacksonXmlProperty(localName = "link")
 	private List<Link> superClasses;
@@ -76,6 +71,13 @@ public class ShapesDocumentationSection {
 	@JacksonXmlElementWrapper(localName="usages")
 	@JacksonXmlProperty(localName = "usage")
 	private List<UsageOutput> usages;
+
+
+	// List of description of attached SPARQL constraints
+	// TODO : refactor as another entity inside the section, with a SPARQL query and a description
+	@JacksonXmlElementWrapper(localName="sparqlConstraints")
+	@JacksonXmlProperty(localName = "sparqlConstraint")
+	private List<SparqlConstraint> sparqlConstraints;
 
 	/*
 	@JacksonXmlElementWrapper(localName="properties")
@@ -306,16 +308,6 @@ public class ShapesDocumentationSection {
 		this.subtitleUri = subtitleUri;
 	}
 
-	public String getDescriptionSparql() {
-		return descriptionSparql;
-	}
-
-	public void setDescriptionSparql(String descriptionSparl) {
-		descriptionSparql = descriptionSparl;
-	}
-
-	
-
 	public Boolean getMainToc() {
 		return mainToc;
 	}
@@ -340,14 +332,11 @@ public class ShapesDocumentationSection {
 		this.usages = usages;
 	}
 
-	public String getSelectSparql() {
-		return SelectSparql;
+	public List<SparqlConstraint> getSparqlConstraints() {
+		return sparqlConstraints;
 	}
 
-	public void setSelectSparql(String selectSparql) {
-		SelectSparql = selectSparql;
+	public void setSparqlConstraints(List<SparqlConstraint> sparqlConstraints) {
+		this.sparqlConstraints = sparqlConstraints;
 	}
-	
-	
-
 }

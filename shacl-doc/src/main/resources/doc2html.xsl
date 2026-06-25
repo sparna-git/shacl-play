@@ -76,9 +76,8 @@
 			
 			<entry key="LABEL_CONSTRAINTS" label="Règles additionnelles"/>			
 
-
-
-
+			<!-- SPARQL Constraint -->
+			<entry key="LABEL_DESCRIPTION_SPARQL" label="Contrainte sans description textuelle" />
 		</labels>
 	</xsl:variable>
 	<!-- In this stylesheet we just copy the base labels -->
@@ -147,7 +146,9 @@
 			<entry key="LABEL_NO_PROPERTIES" label="No specific properties"/>
 			
 			<entry key="LABEL_CONSTRAINTS" label="Additionnal constraints"/>
-			
+
+			<!-- SPARQL Constraint -->
+			<entry key="LABEL_DESCRIPTION_SPARQL" label="Constraint without textual description" />			
 		</labels>
 	</xsl:variable>
 	<!-- In this stylesheet we just copy the base labels -->
@@ -1133,27 +1134,20 @@
 					<xsl:apply-templates select="charts" />	
 					
 					<!-- Section for Contraints descriptions -->
-					<xsl:if test="(string-length(descriptionSparql) &gt; 0) || (string-length(selectSparql) &gt; 0) ">
+					<xsl:if test="count(sparqlConstraints/sparqlConstraint) &gt; 0">
 						<h4>
 							<xsl:value-of select="$LABELS/labels/entry[@key='LABEL_CONSTRAINTS']/@label" />
 						</h4>
 
-						<!-- Description Constraint -->
 						<ul class="constraint_list">
-							<li>
-								<xsl:apply-templates select="descriptionSparql"/>
-								<!-- Sparql Constraint Select-->
-								<xsl:if test="string-length(selectSparql) &gt; 0">
-									<code>
-										<pre class="sparql">
-											<xsl:value-of select="selectSparql" />					
-										</pre>
-									</code>
-								</xsl:if>
-							</li>
-						</ul>
-					</xsl:if>
+							<xsl:apply-templates select="sparqlConstraints/sparqlConstraint" />
+						</ul>	
 						
+					</xsl:if>
+
+
+
+
 				</section>
 			</div>
 		</div>
@@ -1445,8 +1439,28 @@
 		<xsl:value-of select="." />
 	</xsl:template>
 	
-	<xsl:template match="descriptionSparql">
-		<xsl:value-of select="."/>
+	<!-- Sparql Constraint -->
+	<xsl:template match="sparqlConstraint">
+		<!-- Sparql Constraint Select-->
+		<li>
+
+			<xsl:choose>
+				<xsl:when test="string-length(description) &gt; 0">
+					<xsl:value-of select="description"/>					
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="$LABELS/labels/entry[@key='LABEL_DESCRIPTION_SPARQL']/@label" />
+				</xsl:otherwise>
+			</xsl:choose>
+
+			<xsl:if test="string-length(select) &gt; 0">
+				<code>
+					<pre class="sparql">
+						<xsl:value-of select="select" />					
+					</pre>
+				</code>
+			</xsl:if>
+		</li>
 	</xsl:template>
 	
 	<!-- Release notes at the end  -->

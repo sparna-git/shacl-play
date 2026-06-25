@@ -85,6 +85,9 @@
 			<entry key="SECTION_GENERAL_DESCRIPTIONS" label="Description générale" />
 			<entry key="SECTION.CHARTS.TITLE" label="Statistiques" />
 			<entry key="SECTION.USAGE.TITLE" label="Utilisation" />
+
+			<!-- SPARQL Constraint -->
+			<entry key="LABEL_DESCRIPTION_SPARQL" label="Contrainte sans description textuelle" />
 		</labels>
 	</xsl:variable>
 	<!-- In this stylesheet we just copy the base labels -->
@@ -165,6 +168,9 @@
 			<entry key="SECTION_GENERAL_DESCRIPTIONS" label="General description" />
 			<entry key="SECTION.CHARTS.TITLE" label="Statistics" />
 			<entry key="SECTION.USAGE.TITLE" label="Usage" />
+
+			<!-- SPARQL Constraint -->
+			<entry key="LABEL_DESCRIPTION_SPARQL" label="Constraint without textual description" />
 		</labels>
 	</xsl:variable>
 	<!-- In this stylesheet we just copy the base labels -->
@@ -1699,9 +1705,15 @@
 	<xsl:template match="sparqlConstraint">
 		<!-- Sparql Constraint Select-->
 		<li>
-			<xsl:if test="string-length(description) > 0">
-				<xsl:value-of select="description"/>
-			</xsl:if>
+
+			<xsl:choose>
+				<xsl:when test="string-length(description) &gt; 0">
+					<xsl:value-of select="description"/>					
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="$LABELS/labels/entry[@key='LABEL_DESCRIPTION_SPARQL']/@label" />
+				</xsl:otherwise>
+			</xsl:choose>
 
 			<xsl:if test="string-length(select) &gt; 0">
 				<code>

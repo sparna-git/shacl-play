@@ -403,8 +403,6 @@ public class NodeShape extends Shape  {
 
 			if (r.hasProperty(DCT.Description)) {
 				sc.setDescription(r.getProperty(DCT.Description).getString());
-			} else {
-				sc.setDescription("Sparql Query");
 			}
 
 			if (r.hasProperty(SH.select)) {

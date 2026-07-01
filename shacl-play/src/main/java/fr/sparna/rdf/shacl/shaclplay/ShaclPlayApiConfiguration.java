@@ -20,8 +20,8 @@ import org.springframework.context.annotation.Primary;
 @OpenAPIDefinition(
         info = @Info(
                 title = "SHACL Play REST API",
-                summary = "This API allows you to call the various features of SHACL Play from your own application.",
-                version = "1")
+                summary = "This API allows you to call the various features of SHACL Play from your own application."
+        )
 )
 /*
   Class de configuration pour Spring, elle est chargée par WEB-INF/spring/spring-servlet-xml#<context:component-scan base-package="fr.sparna.rdf.shacl" />

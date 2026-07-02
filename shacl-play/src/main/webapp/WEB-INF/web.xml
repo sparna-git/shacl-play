@@ -4,7 +4,17 @@
          xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
          version="6.0">
   <display-name>SHACL Play!</display-name>
-  
+
+  <!-- Necessary so that SpringDoc reads the forwarded headers https + "/play"-->
+  <filter>
+       <filter-name>forwardedHeaders</filter-name>
+       <filter-class>org.springframework.web.filter.ForwardedHeaderFilter</filter-class>
+  </filter>
+  <filter-mapping>
+       <filter-name>forwardedHeaders</filter-name>
+       <url-pattern>/*</url-pattern>
+  </filter-mapping>  
+
 	<filter>
 	  <filter-name>encodingFilter</filter-name>
 	  <filter-class>

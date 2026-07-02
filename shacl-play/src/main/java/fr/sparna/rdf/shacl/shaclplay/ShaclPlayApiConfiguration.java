@@ -3,6 +3,10 @@ package fr.sparna.rdf.shacl.shaclplay;
 import fr.sparna.rdf.shacl.shaclplay.swagger.SwaggerUICustom;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
+import jakarta.servlet.DispatcherType;
+
+import java.util.List;
+
 import org.springdoc.core.customizers.OpenApiCustomizer;
 import org.springdoc.core.properties.SwaggerUiConfigProperties;
 import org.springdoc.core.properties.SwaggerUiOAuthProperties;
@@ -10,9 +14,14 @@ import org.springdoc.core.providers.ObjectMapperProvider;
 import org.springdoc.webmvc.ui.SwaggerIndexPageTransformer;
 import org.springdoc.webmvc.ui.SwaggerWelcomeCommon;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.autoconfigure.web.servlet.ConditionalOnMissingFilterBean;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.core.Ordered;
+import org.springframework.web.filter.ForwardedHeaderFilter;
 
 /*
  * Permet de définir les informations principales de la page API Swagger
@@ -70,7 +79,6 @@ public class ShaclPlayApiConfiguration {
             openApi.getInfo().setVersion(data.getBuildVersion());
         };
     }
-
 
 
 }

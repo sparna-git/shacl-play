@@ -6,6 +6,7 @@ import fr.sparna.rdf.shacl.doc.model.Link;
 public class UsageOutput {
 
     private String nodeshape_name;
+    private Link nodeshape_link;
     private List<Link> properties_usage;
 
     
@@ -21,6 +22,12 @@ public class UsageOutput {
     }
     public void setNodeshape_name(String nodeshape_name) {
         this.nodeshape_name = nodeshape_name;
+    }
+    public Link getNodeshape_link() {
+        return nodeshape_link;
+    }
+    public void setNodeshape_link(Link nodeshape_link) {
+        this.nodeshape_link = nodeshape_link;
     }
     
     

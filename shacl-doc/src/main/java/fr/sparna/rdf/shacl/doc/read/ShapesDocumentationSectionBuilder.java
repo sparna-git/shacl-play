@@ -295,11 +295,13 @@ public class ShapesDocumentationSectionBuilder {
 		for (Shape shape : shapes) {
 			if (shape instanceof PropertyShape) {				
 				PropertyShape ps = (PropertyShape) shape;
-				
 				// Find Node Shape Usage Doc
 				PropertyShapeDoc psDocUsage = new PropertyShapeDoc(ps.getPropertyShape());
+
 				List<NodeShape> nsUsage = shapesGraph.findNodeShapeByPropertyShape(psDocUsage);
+				
 				for (NodeShape nodeShape_usageDoc : nsUsage) {
+					System.out.println(" "+nodeShape_usageDoc.getNodeShape());
 					boolean nsInList = nsUsageAsList.stream().filter( nsdoc -> nsdoc.getNodeShape().getNodeShape().getURI().equals(nodeShape_usageDoc.getNodeShape().getURI())).findFirst().isPresent();
 					if (!nsInList) {
 						UsageDoc usDoc = new UsageDoc();
@@ -309,22 +311,23 @@ public class ShapesDocumentationSectionBuilder {
 						usDoc.setProperties(psList);
 						nsUsageAsList.add(usDoc);
 					} else {
-						Integer nCount = 0;
+						//Integer nCount = 0;
 						for (UsageDoc nsResource : nsUsageAsList) {
 							if (nsResource.getNodeShape().getNodeShape().getURI().equals(nodeShape_usageDoc.getNodeShape().getURI())) {
-								List<PropertyShapeDoc> psList = nsResource.getProperties();
-								boolean nsExistProperty = psList.stream().filter( pp -> pp.getPropertyShape().getURI().equals(psDocUsage.getPropertyShape().getURI()) ).findFirst().isPresent();
-								if (!nsExistProperty) {
-									List<PropertyShapeDoc> p = nsResource.getProperties();
-									p.add(psDocUsage);
-									nsResource.setProperties(p);
-									nsUsageAsList.set(nCount, nsResource);
-								}
+								nsResource.getProperties().add(psDocUsage);								
 							}
-							nCount++;
 						}
 					}
 				}				
+			} else if (shape instanceof NodeShape) {
+				NodeShape ns = (NodeShape) shape;
+				boolean nsInList = nsUsageAsList.stream().filter( nsdoc -> nsdoc.getNodeShape().getNodeShape().getURI().equals(ns.getNodeShape().getURI())).findFirst().isPresent();
+				if (!nsInList) {
+					UsageDoc usDoc = new UsageDoc();
+					usDoc.setNodeShape(new NodeShapeDoc(ns.getNodeShape()));
+					usDoc.setProperties(new ArrayList<PropertyShapeDoc>());
+					nsUsageAsList.add(usDoc);					
+				}
 			}
 		}
 
@@ -380,22 +383,23 @@ public class ShapesDocumentationSectionBuilder {
 
 				}
 
+				UsageOutput uOutput = new UsageOutput();
 				if (usgae_doc.getProperties().size() > 0 ) {
 					List<Link> linkUsage = usgae_doc.getProperties()
 						.stream()
 						.map((ps -> new Link("#"+ps.getPropertyShape().getModel().shortForm(ps.getURIOrId()) , ps.getDisplayLabel(shacModel, lang))))
 						.collect(Collectors.toList());
 				
-						UsageOutput uOutput = new UsageOutput();
 						uOutput.setNodeshape_name(usgae_doc.getNodeShape().getDisplayLabel(shacModel, lang));
 						uOutput.setProperties_usage(linkUsage);
-
-						output.add(uOutput);
-				}
+						
+				} else {
+					uOutput.setNodeshape_link(new Link("#"+usgae_doc.getNodeShape().getNodeShape().getModel().shortForm(usgae_doc.getNodeShape().getURIOrId()), usgae_doc.getNodeShape().getDisplayLabel(shacModel, lang)));
+					//uOutput.setNodeshape_name(usgae_doc.getNodeShape().getDisplayLabel(shacModel, lang));					
+				} 
+				output.add(uOutput);
 			}
 		}
 		return output;
-	} 
-
-	
+	}
 }

@@ -1739,7 +1739,17 @@
 	<xsl:template match="usage">
 		<!--  solid #f2f2f71c; -->
 		<tr style="border-bottom: 0.2em">
-			<th><xsl:value-of select="nodeshape_name"/></th>
+			<xsl:choose>
+				<xsl:when test="string-length(nodeshape_name) = 0">
+					<th>
+						<a href="{nodeshape_link/href}"><xsl:value-of select="nodeshape_link/label"/></a>	
+					</th>
+				</xsl:when>
+				<xsl:otherwise>
+					<th><xsl:value-of select="nodeshape_name"/></th>
+				</xsl:otherwise>
+			</xsl:choose>
+			
 			<td style="padding-left: 1em;"><xsl:apply-templates select="properties_usage/properties_usage" /></td>
 		</tr>
 	</xsl:template>

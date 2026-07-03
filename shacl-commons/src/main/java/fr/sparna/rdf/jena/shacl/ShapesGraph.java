@@ -83,7 +83,7 @@ public class ShapesGraph {
 				.stream()
 				.filter( ns -> ns.getProperties()
 									.stream()
-									.filter( psp -> psp.getPropertyShape().getURI().equals(ps.getPropertyShape().getURI()))
+									.filter( psp -> psp.getPropertyShape().equals(ps.getPropertyShape()))
 									.findFirst()
 									.isPresent()
 						)

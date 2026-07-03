@@ -184,6 +184,7 @@ public class NodeShape extends Shape  {
 		List<Shape> usage = new ArrayList<>();
 		ShapesGraph graph = new ShapesGraph(this.getNodeShape().getModel());
 		for(NodeShape ns : graph.getAllNodeShapes()) {
+
 			// check if this node shape is used in sh:node
 			
 			if(ns.getShNode().map(n -> n.equals(this.getNodeShape())).orElse(false)) {
@@ -193,6 +194,7 @@ public class NodeShape extends Shape  {
 			if(ns.getRdfsSubClassOf().stream().filter(c -> c.equals(this.getNodeShape())).findFirst().isPresent()) {
 				usage.add(ns);
 			}
+
 			// check all property shapes
 			for(PropertyShape ps : ns.getProperties()) {
 
@@ -450,8 +452,10 @@ public class NodeShape extends Shape  {
 		return this.getShaclPlayColor().map(node -> node.asLiteral().toString()).orElse(null);
 	}
 	
-	public Boolean getMainBoolean() {
-		return this.getShaclPlayMain().map(node -> node.asLiteral().getBoolean()).orElse(false);
+	public Optional<Literal> getMainBoolean() {
+		Optional<Literal> result = this.getShaclPlayMain().map(node -> node.asLiteral());
+		return result;
+		//return this.getShaclPlayMain().map(node -> node.asLiteral().getBoolean()).orElse(false);
 	}
 	
 }

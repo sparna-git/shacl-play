@@ -114,8 +114,8 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 		List<ShapesDocumentationSection> sections = new ArrayList<>();
 		for (NodeShapeDoc nodeShape : shapesModel.getAllNodeShapesDoc()) {
 			
-			if (this.filterUnusedNodeShapes ) {
-				if (findNodeShapeInOtherProperties(shaclGraph, nodeShape)) {
+			if (this.isFilterUnusedNodeShapes() ) {
+				if (nodeShape.isUsedInShapesGraph()) {
 					ShapesDocumentationSection section = sectionBuidler.build(
 					nodeShape, 
 					shapesModel, 
@@ -127,8 +127,7 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 					this.readSectionDiagrams
 					);
 					sections.add(section);
-				}
-				
+				}				
 			} else {
 				ShapesDocumentationSection section = sectionBuidler.build(
 					nodeShape, 
@@ -186,37 +185,6 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 		}).collect(Collectors.toList());
 		
 		return sortNameSpacesectionPrefix; 
-	}
-
-	
-	public boolean findNodeShapeInOtherProperties (Model shaclGraph, NodeShapeDoc nodeShape) {
-		// id of nodeshape is the same as the id of one of the node shapes in the model
-		String nodeShapeId = nodeShape.getShortFormOrId();
-		// if the node shape has properties, then it is a section
-		if (nodeShape.getPropertiesDoc().size() > 0) {
-			return true;
-		} else {
-
-			List<Boolean> foundList = new ArrayList<>();
-			shaclGraph.listStatements().forEach( tripleObject -> {
-				if (tripleObject.getObject().isResource() && tripleObject.getObject().asResource().getURI() != null) {
-					String objectValue = tripleObject.getObject().getModel().shortForm(tripleObject.getObject().asResource().getURI());
-					if (objectValue.equals(nodeShapeId)) {
-						foundList.add(true);
-					}
-				}
-			});
-
-			if (foundList.size() > 0) {
-				if (foundList.stream().filter(b -> b == true).count() >= 1) {
-					return true;
-				} else {
-					return false;
-				}
-			} 
-			
-			return false;			
-		}
 	}
 
 	public boolean isReadDiagram() {

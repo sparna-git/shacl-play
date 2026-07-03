@@ -74,10 +74,10 @@ public class ShapesDocumentationSectionBuilder {
 		}
 		
 		// Get type of shape Main or Supportive Entities
-		if (!nodeShape.getMainBoolean()) {
+		if (nodeShape.getMainBoolean().isPresent()){
+			currentSection.setMainToc(nodeShape.getMainBoolean().get().getBoolean());
+		} else {
 			currentSection.setMainToc(isMainEntity(nodeShape));
-		} else { 
-			currentSection.setMainToc(nodeShape.getMainBoolean());
 		}
 		
 		// Get sh:node as type of shape

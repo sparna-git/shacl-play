@@ -166,11 +166,12 @@ public class NodeShape extends Shape  {
 			}
 		};
 
-		return hasNoActivePropertyShape.test(this) && this.hasTarget() == false;
+		return hasNoActivePropertyShape.test(this) && !this.hasTarget();
 	}
 
 	public boolean isUsedInShapesGraph() {
-		return (getUsage().size() > 0);
+		List<Shape> usage = getUsage();
+		return (usage.size() > 0);
 	}
 
 	/**

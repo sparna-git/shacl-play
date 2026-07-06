@@ -291,6 +291,7 @@ public class ShapesDocumentationSectionBuilder {
 
 		List<Shape> shapes = nodeShape.getUsage();	
 		List<UsageDoc> nsUsageAsList = new ArrayList();
+
 		// Populate
 		for (Shape shape : shapes) {
 			if (shape instanceof PropertyShape) {				
@@ -301,6 +302,7 @@ public class ShapesDocumentationSectionBuilder {
 				List<NodeShape> nsUsage = shapesGraph.findNodeShapeByPropertyShape(psDocUsage);
 				
 				for (NodeShape nodeShape_usageDoc : nsUsage) {
+
 					boolean nsInList = nsUsageAsList.stream().filter( nsdoc -> nsdoc.getNodeShape().getNodeShape().getURI().equals(nodeShape_usageDoc.getNodeShape().getURI())).findFirst().isPresent();
 					if (!nsInList) {
 						UsageDoc usDoc = new UsageDoc();
@@ -345,7 +347,7 @@ public class ShapesDocumentationSectionBuilder {
 		List<UsageOutput> output = new ArrayList();
 		// Sort Usage Doc
 		if (nsUsageAsList.size() > 0) {
-			// Short
+			// Sort
 			nsUsageAsList.sort(((UsageDoc arg0, UsageDoc arg1) -> {
 				if (arg0.getNodeShape().getShOrderAsLiteral().isPresent()) {
 					if (arg1.getNodeShape().getShOrderAsLiteral().isPresent()) {
@@ -366,7 +368,7 @@ public class ShapesDocumentationSectionBuilder {
 			
 				//Sort Properties	
 				if (usgae_doc.getProperties().size() > 1) {		
-				usgae_doc.getProperties()
+					usgae_doc.getProperties()
 					.sort((ps1,ps2) -> {
 						if(ps1.getShOrder().isPresent()) {
 							if(ps2.getShOrder().isPresent()) {

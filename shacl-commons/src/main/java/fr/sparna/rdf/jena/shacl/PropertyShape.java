@@ -26,6 +26,7 @@ public class PropertyShape extends Shape {
 		super(propertyShape);
 	}
 	
+	@Deprecated
 	public Resource getPropertyShape() {
 		return this.getShape();
 	}

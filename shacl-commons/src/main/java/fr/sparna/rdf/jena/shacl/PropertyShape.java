@@ -230,4 +230,25 @@ public class PropertyShape extends Shape {
 		);
 	}
 
+	/**
+	 * Returns the key to be used for sorting in the properties table
+	 * 
+	 * @param owlModel
+	 * @param lang
+	 * @return
+	 */
+	public String getSortOrderKey(Model owlModel, String lang) {
+		if(this.getShOrderAsLiteral().isPresent()) {
+			return this.getShOrderAsLiteral().map( o -> o.getDouble()).toString();
+		} else if(!this.getDisplayLabel(owlModel, lang).equals("")) {
+			return this.getDisplayLabel(owlModel, lang);
+		} else if(this.getShPath().isURIResource()) {
+			// otherwise use the property URI for sorting
+			return ModelRenderingUtils.render(this.getShPath(), true);
+		} else {
+			// otherwise use the path
+			return this.getShPath().toString();
+		}
+	}
+
 }

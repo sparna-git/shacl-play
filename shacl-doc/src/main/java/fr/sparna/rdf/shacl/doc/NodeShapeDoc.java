@@ -13,6 +13,7 @@ import org.topbraid.shacl.vocabulary.SH;
 
 import fr.sparna.rdf.jena.ModelRenderingUtils;
 import fr.sparna.rdf.jena.shacl.NodeShape;
+import fr.sparna.rdf.jena.shacl.PropertyShape;
 import fr.sparna.rdf.jena.shacl.ShOrderComparator;
 
 
@@ -22,7 +23,7 @@ public class NodeShapeDoc extends NodeShape  {
 	private Resource nodeShape;
 	
 	
-	protected List<PropertyShapeDoc> propertiesDoc = new ArrayList<>();
+	protected List<PropertyShape> propertiesDoc = new ArrayList<>();
 	
 	public NodeShapeDoc(Resource nodeShape) {
 		super(nodeShape);
@@ -42,11 +43,11 @@ public class NodeShapeDoc extends NodeShape  {
 		}
 	}
 	
-	public List<PropertyShapeDoc> getPropertiesDoc() {
+	public List<PropertyShape> getPropertiesDoc() {
 		return propertiesDoc;
 	}
 
-	public void setPropertiesDoc(List<PropertyShapeDoc> propertiesDoc) {
+	public void setPropertiesDoc(List<PropertyShape> propertiesDoc) {
 		this.propertiesDoc = propertiesDoc;
 	}
 

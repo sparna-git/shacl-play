@@ -6,10 +6,7 @@ import org.apache.jena.graph.Node;
 import org.apache.jena.graph.NodeFactory;
 import org.apache.jena.graph.Triple;
 import org.apache.jena.query.Query;
-import org.apache.jena.query.QueryExecution;
-import org.apache.jena.query.QueryExecutionFactory;
 import org.apache.jena.query.QueryFactory;
-import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.sparql.core.Var;
@@ -19,8 +16,8 @@ import org.apache.jena.vocabulary.DCTerms;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import fr.sparna.rdf.jena.shacl.PropertyShape;
 import fr.sparna.rdf.shacl.doc.NodeShapeDoc;
-import fr.sparna.rdf.shacl.doc.PropertyShapeDoc;
 import fr.sparna.rdf.shacl.doc.model.Link;
 import fr.sparna.rdf.shacl.doc.model.PropertyShapeDocumentation;
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentation;
@@ -68,7 +65,7 @@ public class EnrichDocumentationWithQuerySparqlVisitor implements ShaclVisitorIf
 	@Override
 	public void visitPropertyShape(Resource aPropertyShape, Resource aNodeShape) {
 		
-		PropertyShapeDoc ps = new PropertyShapeDoc(aPropertyShape);
+		PropertyShape ps = new PropertyShape(aPropertyShape);
 		NodeShapeDoc ns = new NodeShapeDoc(aNodeShape);
 		
 		// this works only if we have a targetClass and a URI in sh:path

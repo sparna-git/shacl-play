@@ -1,6 +1,7 @@
 package fr.sparna.rdf.shacl.doc.read;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,7 +17,6 @@ import fr.sparna.rdf.shacl.diagram.PlantUmlDiagramOutput;
 import fr.sparna.rdf.shacl.doc.MarkdownRenderer;
 import fr.sparna.rdf.shacl.doc.NodeShapeDoc;
 import fr.sparna.rdf.shacl.doc.PlantUmlSourceGenerator;
-import fr.sparna.rdf.shacl.doc.PropertyShapeDoc;
 import fr.sparna.rdf.shacl.doc.ShapesGraphDoc;
 import fr.sparna.rdf.shacl.doc.UsageDoc;
 import fr.sparna.rdf.shacl.doc.UsageOutput;
@@ -195,7 +195,7 @@ public class ShapesDocumentationSectionBuilder {
 		List<PropertyShapeDocumentation> properties = new ArrayList<>();
 		PropertyShapeDocumentationBuilder pBuidler = new PropertyShapeDocumentationBuilder(shapesGraph.getAllNodeShapesDoc(), shaclGraph, owlGraph, lang);	
 
-		for (PropertyShapeDoc aPropertyShape : nodeShape.getPropertiesDoc()) {
+		for (PropertyShape aPropertyShape : nodeShape.getProperties()) {
 			PropertyShapeDocumentation psd = pBuidler.build(
 				aPropertyShape,
 				nodeShape);				
@@ -287,39 +287,33 @@ public class ShapesDocumentationSectionBuilder {
 		}
 	}
 	
-	public List<UsageOutput> findNodeShapeUsage (ShapesGraphDoc shapesGraph,NodeShapeDoc nodeShape, Model shacModel, String lang) {
+	public List<UsageOutput> findNodeShapeUsage (ShapesGraphDoc shapesGraph, NodeShapeDoc nodeShape, Model shacModel, String lang) {
 
 		List<Shape> shapes = nodeShape.getUsage();	
-		List<UsageDoc> nsUsageAsList = new ArrayList();
+		List<UsageDoc> nsUsageAsList = new ArrayList<>();
 
 		// Populate
 		for (Shape shape : shapes) {
 			if (shape instanceof PropertyShape) {				
 				PropertyShape ps = (PropertyShape) shape;
 				// Find Node Shape Usage Doc
-				PropertyShapeDoc psDocUsage = new PropertyShapeDoc(ps.getPropertyShape());
+				PropertyShape psDocUsage = new PropertyShape(ps.getPropertyShape());
 
+				// potentially more than 1 NodeShape if the property shape is shared between several NodeShapes
 				List<NodeShape> nsUsage = shapesGraph.findNodeShapeByPropertyShape(psDocUsage);
 				
 				for (NodeShape nodeShape_usageDoc : nsUsage) {
-
+					// do we already have this node shape in the list? If not, add it with the property shape, otherwise just add the property shape to the existing node shape
 					boolean nsInList = nsUsageAsList.stream().filter( nsdoc -> nsdoc.getNodeShape().getNodeShape().getURI().equals(nodeShape_usageDoc.getNodeShape().getURI())).findFirst().isPresent();
 					if (!nsInList) {
-						UsageDoc usDoc = new UsageDoc();
-						usDoc.setNodeShape(new NodeShapeDoc(nodeShape_usageDoc.getNodeShape()));
-						List<PropertyShapeDoc> psList = new ArrayList<>();
-						psList.add(psDocUsage);
-						usDoc.setProperties(psList);
+						UsageDoc usDoc = new UsageDoc(new NodeShapeDoc(nodeShape_usageDoc.getNodeShape()));
+						usDoc.getProperties().add(psDocUsage);
 						nsUsageAsList.add(usDoc);
 					} else {
-						//Integer nCount = 0;
+						// find the entry corresponding to this node shape
 						for (UsageDoc nsResource : nsUsageAsList) {
 							if (nsResource.getNodeShape().getNodeShape().getURI().equals(nodeShape_usageDoc.getNodeShape().getURI())) {
-								List<PropertyShapeDoc> psList = nsResource.getProperties();
-								boolean nsExistProperty = psList.stream().filter( pp -> pp.getPropertyShape().getURI().equals(psDocUsage.getPropertyShape().getURI()) ).findFirst().isPresent();
-								if (!nsExistProperty) {
-									nsResource.getProperties().add(psDocUsage);
-								}
+								nsResource.getProperties().add(psDocUsage);
 							}
 						}
 					}
@@ -328,9 +322,7 @@ public class ShapesDocumentationSectionBuilder {
 				NodeShape ns = (NodeShape) shape;
 				boolean nsInList = nsUsageAsList.stream().filter( nsdoc -> nsdoc.getNodeShape().getNodeShape().getURI().equals(ns.getNodeShape().getURI())).findFirst().isPresent();
 				if (!nsInList) {
-					UsageDoc usDoc = new UsageDoc();
-					usDoc.setNodeShape(new NodeShapeDoc(ns.getNodeShape()));
-					usDoc.setProperties(new ArrayList<PropertyShapeDoc>());
+					UsageDoc usDoc = new UsageDoc(new NodeShapeDoc(ns.getNodeShape()));
 					nsUsageAsList.add(usDoc);					
 				}
 			}
@@ -399,8 +391,7 @@ public class ShapesDocumentationSectionBuilder {
 						uOutput.setProperties_usage(linkUsage);
 						
 				} else {
-					uOutput.setNodeshape_link(new Link("#"+usgae_doc.getNodeShape().getNodeShape().getModel().shortForm(usgae_doc.getNodeShape().getURIOrId()), usgae_doc.getNodeShape().getDisplayLabel(shacModel, lang)));
-					//uOutput.setNodeshape_name(usgae_doc.getNodeShape().getDisplayLabel(shacModel, lang));					
+					uOutput.setNodeshape_link(new Link("#"+usgae_doc.getNodeShape().getNodeShape().getModel().shortForm(usgae_doc.getNodeShape().getURIOrId()), usgae_doc.getNodeShape().getDisplayLabel(shacModel, lang)));			
 				} 
 				output.add(uOutput);
 			}

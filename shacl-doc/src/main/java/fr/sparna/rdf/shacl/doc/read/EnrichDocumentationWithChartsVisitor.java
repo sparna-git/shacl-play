@@ -17,9 +17,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import fr.sparna.rdf.jena.ModelRenderingUtils;
+import fr.sparna.rdf.jena.shacl.PropertyShape;
 import fr.sparna.rdf.shacl.SHACL_PLAY;
 import fr.sparna.rdf.shacl.doc.NodeShapeDoc;
-import fr.sparna.rdf.shacl.doc.PropertyShapeDoc;
 import fr.sparna.rdf.shacl.doc.model.Chart;
 import fr.sparna.rdf.shacl.doc.model.ChartDataItem;
 import fr.sparna.rdf.shacl.doc.model.PropertyShapeDocumentation;
@@ -88,7 +88,7 @@ public class EnrichDocumentationWithChartsVisitor implements ShaclVisitorIfc {
 					
 					// find corresponding section in doc
 					if(this.currentSection != null) {
-						PropertyShapeDoc ps = new PropertyShapeDoc(aPropertyShape);
+						PropertyShape ps = new PropertyShape(aPropertyShape);
 						PropertyShapeDocumentation propertySection = this.currentSection.findPropertyShapeDocumentationSectionByUriOrId(ps.getURIOrId());
 						
 						if(propertySection != null) {

@@ -82,11 +82,11 @@ public class ShapesGraph {
 		return getAllNodeShapes()
 				.stream()
 				.filter( ns -> ns.getProperties()
-									.stream()
-									.filter( psp -> psp.getPropertyShape().equals(ps.getPropertyShape()))
-									.findFirst()
-									.isPresent()
-						)
+					.stream()
+					.filter( psp -> psp.getPropertyShape().equals(ps.getPropertyShape()))
+					.findFirst()
+					.isPresent()
+				)
 				.collect(Collectors.toList());
 	}
 

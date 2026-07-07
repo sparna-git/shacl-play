@@ -9,8 +9,8 @@ import org.apache.jena.vocabulary.VOID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import fr.sparna.rdf.jena.shacl.PropertyShape;
 import fr.sparna.rdf.shacl.doc.NodeShapeDoc;
-import fr.sparna.rdf.shacl.doc.PropertyShapeDoc;
 import fr.sparna.rdf.shacl.doc.model.PropertyShapeDocumentation;
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentation;
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentationSection;
@@ -84,7 +84,7 @@ public class EnrichDocumentationWithStatisticsVisitor implements ShaclVisitorIfc
 			NodeShapeDoc ns = new NodeShapeDoc(aNodeShape);
 			ShapesDocumentationSection section = this.documentation.findSectionByUriOrId(ns.getURIOrId());
 			if(section != null) {
-				PropertyShapeDoc ps = new PropertyShapeDoc(aPropertyShape);
+				PropertyShape ps = new PropertyShape(aPropertyShape);
 				PropertyShapeDocumentation propertySection = section.findPropertyShapeDocumentationSectionByUriOrId(aPropertyShape.getModel().shortForm(ps.getURIOrId()));
 				
 				if(propertySection != null) {

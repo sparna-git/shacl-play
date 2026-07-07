@@ -7,9 +7,7 @@ public class UsageOutput {
 
     private String nodeshape_name;
     private Link nodeshape_link;
-    private List<Link> properties_usage;
-
-    
+    private List<Link> properties_usage;    
     
     public List<Link> getProperties_usage() {
         return properties_usage;

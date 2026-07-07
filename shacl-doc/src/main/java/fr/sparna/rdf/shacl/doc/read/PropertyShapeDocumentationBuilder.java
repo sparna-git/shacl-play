@@ -13,9 +13,9 @@ import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.XSD;
 
 import fr.sparna.rdf.jena.ModelRenderingUtils;
+import fr.sparna.rdf.jena.shacl.PropertyShape;
 import fr.sparna.rdf.jena.shacl.ShOrReadingUtils;
 import fr.sparna.rdf.shacl.doc.NodeShapeDoc;
-import fr.sparna.rdf.shacl.doc.PropertyShapeDoc;
 import fr.sparna.rdf.shacl.doc.model.Link;
 import fr.sparna.rdf.shacl.doc.model.PropertyShapeDocumentation;
 import net.sourceforge.plantuml.board.BNode;
@@ -44,7 +44,7 @@ public class PropertyShapeDocumentationBuilder {
 
 
 	public PropertyShapeDocumentation build(
-			PropertyShapeDoc propertyShape,
+			PropertyShape propertyShape,
 			NodeShapeDoc nodeShape) {
 		// Start building final structure
 		PropertyShapeDocumentation proprieteDoc = new PropertyShapeDocumentation();
@@ -55,8 +55,9 @@ public class PropertyShapeDocumentationBuilder {
 		// full URI
 		proprieteDoc.setPropertyShapeUriOrId(propertyShape.getPropertyShape().getModel().shortForm(propertyShape.getURIOrId()));
 		// section ID from concat of node shape ID + short name of the property
-		//proprieteDoc.setSectionId(nodeShape.getShortFormOrId()+"_"+propertyShape.getShPathAsString());	
-		proprieteDoc.setSectionId(nodeShape.getShortFormOrId()+"_"+propertyShape.getShPathAsString());	
+		// this is to easily write anchor references to this section	
+		String pathString = propertyShape.getPropertyPath().renderSparqlPropertyPath();
+		proprieteDoc.setSectionId(nodeShape.getShortFormOrId()+"_"+pathString);	
 		
 		// if sh:qualifiedValueShape found in then property else print cardinality
 		if (propertyShape.getShQualifiedValueShape().isPresent()) {
@@ -146,16 +147,16 @@ public class PropertyShapeDocumentationBuilder {
 		return bResult;
 	}
 		
-	public static Link buildPathLink(PropertyShapeDoc prop) {			
+	public static Link buildPathLink(PropertyShape prop) {			
 		if(prop.getShPath() != null && prop.getShPath().isURIResource()) {
 			return new Link(
 					prop.getShPath().getURI(),
-					prop.getShPathAsString()
+					prop.getPropertyPath().renderSparqlPropertyPath()
 			);			
 		} else {
 			return new Link(
 					null,
-					prop.getShPathAsString()
+					prop.getPropertyPath().renderSparqlPropertyPath()
 			);
 		}
 	}
@@ -278,7 +279,7 @@ public class PropertyShapeDocumentationBuilder {
 	
 	public Link buildShQualifiedValueShape(Resource shQualifiedValueShape) {
 		
-		PropertyShapeDoc qualifiedvaludShapeObject = new PropertyShapeDoc(shQualifiedValueShape);
+		PropertyShape qualifiedvaludShapeObject = new PropertyShape(shQualifiedValueShape);
 
 		return selectExpectedValueAsLink(
 			qualifiedvaludShapeObject.getShClass().isPresent() ? qualifiedvaludShapeObject.getShClass().get().asResource() : null,

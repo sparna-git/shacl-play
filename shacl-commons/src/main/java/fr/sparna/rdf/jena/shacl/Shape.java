@@ -33,6 +33,27 @@ public abstract class Shape {
 		return shape;
 	}
 
+	public String getShortFormOrId() {
+		if(this.shape != null && this.shape.isURIResource()) {
+			return this.getShape().getModel().shortForm(this.getShape().getURI());
+		} else {
+			// returns the blank node ID in that case
+			return this.shape.asResource().getId().getLabelString();
+		}
+	}
+
+	/**
+	 * @return the URI of the shape if it is a URI resource, or the blank node ID if it is a blank node
+	 */
+	public String getURIOrId() {
+		if(this.shape.isURIResource()) {
+			return this.shape.getURI();
+		} else {
+			// returns the blank node ID in that case
+			return this.shape.getId().toString();
+		}
+	}
+
 	public Optional<Literal> getShaclPlayColor() {
 		return ModelReadingUtils.getOptionalLiteral(shape, shape.getModel().createProperty(SHACL_PLAY.COLOR));
 	}

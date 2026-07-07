@@ -224,16 +224,6 @@ public class NodeShape extends Shape  {
 		return usage;
 	}
 		
-	
-	
-	public String getShortFormOrId() {
-		if(this.shape.isURIResource() && this.shape != null) {
-			return this.getNodeShape().getModel().shortForm(this.getNodeShape().getURI());
-		} else {
-			// returns the blank node ID in that case
-			return this.shape.asResource().getId().getLabelString();
-		}
-	}
 
 	public String getDisplayLabel(String lang) {
 		return this.getDisplayLabel(this.getNodeShape().getModel(), lang);

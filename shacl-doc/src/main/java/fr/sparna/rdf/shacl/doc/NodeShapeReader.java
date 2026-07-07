@@ -9,6 +9,8 @@ import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
 import org.topbraid.shacl.vocabulary.SH;
 
+import fr.sparna.rdf.jena.shacl.PropertyShape;
+
 public class NodeShapeReader {
 
 	private String lang;
@@ -18,22 +20,22 @@ public class NodeShapeReader {
 	}
 	
 
-	public List<PropertyShapeDoc> readProperties(Resource nodeShape, List<NodeShapeDoc> allBoxes, Model owlModel) {
+	public List<PropertyShape> readProperties(Resource nodeShape, List<NodeShapeDoc> allBoxes, Model owlModel) {
 		
 		List<Statement> propertyStatements = nodeShape.listProperties(SH.property).toList();
-		List<PropertyShapeDoc> propertyShapes = new ArrayList<>();
+		List<PropertyShape> propertyShapes = new ArrayList<>();
 		for (Statement aPropertyStatement : propertyStatements) {
 			RDFNode object = aPropertyStatement.getObject();
 
 			if (object.isResource()) {
 				Resource propertyShape = object.asResource();			
-				PropertyShapeDoc plantvalueproperty = new PropertyShapeDoc(propertyShape);
+				PropertyShape plantvalueproperty = new PropertyShape(propertyShape);
 				propertyShapes.add(plantvalueproperty);	
 			}					
 		}
 		
 		// sort property shapes
-		propertyShapes.sort((PropertyShapeDoc ps1, PropertyShapeDoc ps2) -> {
+		propertyShapes.sort((PropertyShape ps1, PropertyShape ps2) -> {
 			if(ps1.getShOrderAsLiteral().isPresent()) {
 				if(ps2.getShOrderAsLiteral().isPresent()) {
 					return (ps1.getShOrderAsLiteral().get().getDouble() - ps2.getShOrderAsLiteral().get().getDouble()) > 0?1:-1;

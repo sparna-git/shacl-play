@@ -7,10 +7,13 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.RDFNode;
+import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.Statement;
+import org.topbraid.shacl.vocabulary.SH;
 
 import fr.sparna.rdf.shacl.diagram.PlantUmlDiagramOutput;
 import fr.sparna.rdf.shacl.doc.NodeShapeDoc;
-import fr.sparna.rdf.shacl.doc.NodeShapeReader;
 import fr.sparna.rdf.shacl.doc.PlantUmlSourceGenerator;
 import fr.sparna.rdf.shacl.doc.ShaclPrefixReader;
 import fr.sparna.rdf.shacl.doc.ShapesGraphDoc;
@@ -161,9 +164,8 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 		
 		// 3. Lire les prefixes
 		HashSet<String> gatheredPrefixes = new HashSet<>();
-		NodeShapeReader reader = new NodeShapeReader(lang);
 		for (NodeShapeDoc aBox : AllNodeShapes) { // allNodeShapes) {
-			List<String> prefixes = reader.readPrefixes(aBox.getShape());
+			List<String> prefixes = this.readPrefixes(aBox.getShape());
 			gatheredPrefixes.addAll(prefixes);
 		}
 		Map<String, String> necessaryPrefixes = ShaclPrefixReader.gatherNecessaryPrefixes(shaclGraph.getNsPrefixMap(), gatheredPrefixes);
@@ -185,6 +187,24 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 		}).collect(Collectors.toList());
 		
 		return sortNameSpacesectionPrefix; 
+	}
+
+	public List<String> readPrefixes(Resource nodeShape) {
+		ShaclPrefixReader reader = new ShaclPrefixReader();
+		List<String> prefixes = new ArrayList<>();
+		
+		// read prefixes on node shape
+		prefixes.addAll(reader.readPrefixes(nodeShape));
+		
+		List<Statement> propertyStatements = nodeShape.listProperties(SH.property).toList();
+		for (Statement aPropertyStatement : propertyStatements) {
+			RDFNode object = aPropertyStatement.getObject();
+			if(object.isResource()) {
+				Resource propertyShape = object.asResource();
+				prefixes.addAll(reader.readPrefixes(propertyShape));
+			}
+		}
+		return prefixes;
 	}
 
 	public boolean isReadDiagram() {

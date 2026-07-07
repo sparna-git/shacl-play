@@ -1,16 +1,15 @@
 package fr.sparna.rdf.jena.shacl;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang3.ObjectUtils.Null;
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.RDFList;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
@@ -35,6 +34,8 @@ public class NodeShape extends Shape  {
 	public NodeShape(Resource nodeShape) {  
 	    super(nodeShape);
 	}
+
+	/***** TARGET SPECIFICATIONS *******/
 
 	/**
 	 * @return The values of SH.targetClass, or an empty list if none 
@@ -87,34 +88,6 @@ public class NodeShape extends Shape  {
 	}
 
 	/**
-	 * @return true if this NodeShape is also an rdfs:Class
-	 */
-	public boolean isClassShape() {
-		return shape.hasProperty(RDF.type, RDFS.Class);
-	}
-
-	/**
-	 * @return The list of rdfs:subClassOf of this node shape excluding owl:Thing, if present, or an empty list if none
-	 */
-	public List<Resource> getSubClassOf() {
-		return shape.listProperties(RDFS.subClassOf).toList().stream()
-				.map(s -> s.getResource())
-				.filter(r -> { return r.isURIResource() && !r.getURI().equals(OWL.Thing.getURI()); })
-				.collect(Collectors.toList());
-	}
-
-	/**
-	 * @return The sh:closed Literal value
-	 */
-	public Optional<Literal> getShClosed() {
-		return ModelReadingUtils.getOptionalLiteral(shape,SH.closed);
-	}
-
-	public Boolean isClosed() {
-		return getShClosed().map(l -> l.getBoolean()).orElse(false);
-	}	
-	
-	/**
 	 * @return true if getTargetClasses() contains the given classUri 
 	 */
 	public boolean isTargeting(Resource classUri) {
@@ -139,6 +112,114 @@ public class NodeShape extends Shape  {
 		;
 	}
 
+	public Literal getShTargetShSelect() {
+		return Optional.ofNullable(this.shape.getPropertyResourceValue(SH.target)).map(
+				r -> Optional.ofNullable(r.getProperty(SH.select)).map(l -> l.getLiteral()).orElse(null)
+		).orElse(null);
+	}
+
+	/***** / TARGET SPECIFICATIONS *******/
+
+	/***** SUBCLASS OF MANAGEMENT  *******/
+
+	/**
+	 * @return true if this NodeShape is also an rdfs:Class
+	 */
+	public boolean isClassShape() {
+		return shape.hasProperty(RDF.type, RDFS.Class);
+	}
+
+	/**
+	 * @return The list of rdfs:subClassOf of this node shape excluding owl:Thing, if present, or an empty list if none
+	 */
+	public List<Resource> getSubClassOf() {
+		return shape.listProperties(RDFS.subClassOf).toList().stream()
+				.map(s -> s.getResource())
+				.filter(r -> { return r.isURIResource() && !r.getURI().equals(OWL.Thing.getURI()); })
+				.collect(Collectors.toList());
+	}
+
+	public List<Resource> getRdfsSubClassOf() {
+		return NodeShape.getRdfsSubClassOfOf(shape);
+	}
+
+	/**
+	 * @return the list of resources that this resource is a rdfs:subClassOf of, excluding owl:Thing and blank nodes.
+	 */
+	public static List<Resource> getRdfsSubClassOfOf(Resource resource) {
+		return resource.listProperties(RDFS.subClassOf).toList().stream()
+				.map(s -> s.getResource())
+				.filter(r -> { return r.isURIResource() && !r.getURI().equals(OWL.Thing.getURI()); })
+				.collect(Collectors.toList());
+	}
+
+	/***** / SUBCLASS OF MANAGEMENT  *******/
+
+
+	/***** PROPERTY SHAPES MANAGEMENT  *******/
+
+	public List<PropertyShape> getProperties() {
+		if(this.properties != null) {
+			return properties;
+		} else {
+			this.properties = this.readProperties();
+			return this.properties;
+		}
+	}
+
+	private List<PropertyShape> readProperties() {
+		
+		List<Statement> propertyStatements = this.shape.listProperties(SH.property).toList();
+		List<PropertyShape> properties = new ArrayList<>();		
+		
+		for (Statement aPropertyStatement : propertyStatements) {
+			RDFNode object = aPropertyStatement.getObject();
+			
+			if(object.isResource()) {
+				Resource propertyShape = object.asResource();
+				properties.add(new PropertyShape(propertyShape));					
+			}
+		
+		}		
+
+		properties.sort((PropertyShape ps1, PropertyShape ps2) -> {
+			if(ps1.getShOrder().isPresent()) {
+				if(ps2.getShOrder().isPresent()) {
+					return ((ps1.getShOrder().get() - ps2.getShOrder().get()) > 0)?1:-1;
+				} else {
+					return -1;
+				}
+			} else {
+				if(ps2.getShOrder().isPresent()) {
+					return 1;
+				} else {
+					// both sh:order are null, try with sh:path
+					if(ps1.getPropertyPath().renderSparqlPropertyPath() != null && ps2.getPropertyPath().renderSparqlPropertyPath() != null) {						
+						return ps1.getPropertyPath().renderSparqlPropertyPath().compareTo(ps2.getPropertyPath().renderSparqlPropertyPath());
+					} else {
+						return ps1.getShape().toString().compareTo(ps2.getShape().toString());
+					}
+				}
+			}
+		});
+		 
+		return properties;	
+	}
+
+	/***** / PROPERTY SHAPES MANAGEMENT  *******/
+
+
+	/**
+	 * @return The sh:closed Literal value
+	 */
+	public Optional<Literal> getShClosed() {
+		return ModelReadingUtils.getOptionalLiteral(shape,SH.closed);
+	}
+
+	public Boolean isClosed() {
+		return getShClosed().map(l -> l.getBoolean()).orElse(false);
+	}	
+
 	/**
 	 * @return true if this node shape has no active property shapes and no target, meaning it 
 	 * describes only the value nodes of some property shapes
@@ -161,6 +242,8 @@ public class NodeShape extends Shape  {
 
 		return hasNoActivePropertyShape.test(this) && !this.hasTarget();
 	}
+
+	/***** USAGE INDICATOR  *******/
 
 	public boolean isUsedInShapesGraph() {
 		List<Shape> usage = getUsage();
@@ -216,7 +299,10 @@ public class NodeShape extends Shape  {
 		}
 		return usage;
 	}
+
+	/***** / USAGE INDICATOR  *******/
 		
+	/***** TEXTUAL ANNOTATIONS (label, description)  *******/
 
 	public String getDisplayLabel(String lang) {
 		return this.getDisplayLabel(this.getShape().getModel(), lang);
@@ -325,59 +411,9 @@ public class NodeShape extends Shape  {
 		return result;
 	}
 	
-	public List<PropertyShape> getProperties() {
-		if(this.properties != null) {
-			return properties;
-		} else {
-			this.properties = this.readProperties();
-			return this.properties;
-		}
-	}
 
-	private List<PropertyShape> readProperties() {
-		
-		List<Statement> propertyStatements = this.shape.listProperties(SH.property).toList();
-		List<PropertyShape> properties = new ArrayList<>();		
-		
-		for (Statement aPropertyStatement : propertyStatements) {
-			RDFNode object = aPropertyStatement.getObject();
-			
-			if(object.isResource()) {
-				Resource propertyShape = object.asResource();
-				properties.add(new PropertyShape(propertyShape));					
-			}
-		
-		}		
+	/***** / TEXTUAL ANNOTATIONS (label, description)  *******/
 
-		properties.sort((PropertyShape ps1, PropertyShape ps2) -> {
-			if(ps1.getShOrder().isPresent()) {
-				if(ps2.getShOrder().isPresent()) {
-					return ((ps1.getShOrder().get() - ps2.getShOrder().get()) > 0)?1:-1;
-				} else {
-					return -1;
-				}
-			} else {
-				if(ps2.getShOrder().isPresent()) {
-					return 1;
-				} else {
-					// both sh:order are null, try with sh:path
-					if(ps1.getPropertyPath().renderSparqlPropertyPath() != null && ps2.getPropertyPath().renderSparqlPropertyPath() != null) {						
-						return ps1.getPropertyPath().renderSparqlPropertyPath().compareTo(ps2.getPropertyPath().renderSparqlPropertyPath());
-					} else {
-						return ps1.getShape().toString().compareTo(ps2.getShape().toString());
-					}
-				}
-			}
-		});
-		 
-		return properties;	
-	}
-
-	public Literal getShTargetShSelect() {
-		return Optional.ofNullable(this.shape.getPropertyResourceValue(SH.target)).map(
-				r -> Optional.ofNullable(r.getProperty(SH.select)).map(l -> l.getLiteral()).orElse(null)
-		).orElse(null);
-	}
 
 	public List<SparqlConstraint> getSparqlConstraint() {
 
@@ -401,45 +437,48 @@ public class NodeShape extends Shape  {
 		return sparqlConstraint;
 	}
 
-	
+	public List<Resource> getShTargetClassRdfsSubclassOfInverseOfShTargetClass() {
+		Set<Resource> result = new HashSet<Resource>();
+		List<Resource> targetClasses = this.getAllTargetedClasses();
+		if(targetClasses != null) {
+			
+			List<Resource> subClassesOf = targetClasses.stream().flatMap( t -> NodeShape.getRdfsSubClassOfOf(t).stream()).collect(Collectors.toList());
+			
+			if(subClassesOf != null && subClassesOf.size() > 0) {
+				for (Resource aSuperClass : subClassesOf) {
+					List<Resource> shapeWithThisTarget = this.shape.getModel().listStatements(null, SH.targetClass, aSuperClass).toList().stream().map(s -> s.getSubject()).collect(Collectors.toList());
+					for (Resource aShapeWithSuperClassAsTarget : shapeWithThisTarget) {
+						result.add(aShapeWithSuperClassAsTarget);
+					}
+				}
+			}
+		}
+		
+		return new ArrayList<Resource>(result);
+	}
 
-	/* ######## FOAF ########  */
+	/**
+	 * Returns a list containing :
+	 * 1. the shapes that this one is subClassOf 
+	 * 2. plus the shapes that target a class, which the class that this shape target is a subClassOf.
+	 * 3. plus a shape that is referenced by this shape by a sh:node
+	 * 
+	 * @return
+	 */
+	public List<Resource> getSuperShapes() {
+		Set<Resource> superShapes = new HashSet<Resource>();
+		superShapes.addAll(this.getRdfsSubClassOf());
+		superShapes.addAll(this.getShTargetClassRdfsSubclassOfInverseOfShTargetClass());
+		superShapes.addAll(this.getShNodeAsList());
+		return new ArrayList<Resource>(superShapes);
+	}
+	
 
 	/**
 	 * @return The list of foaf:depiction values, if present, or an empty list if not present
 	 */
 	public List<Resource> getDepiction() {
 		return ModelReadingUtils.readObjectAsResource(shape, FOAF.depiction);
-	}
-
-	public List<Resource> getRdfsSubClassOf() {
-		return NodeShape.getRdfsSubClassOfOf(shape);
-	}
-
-	/**
-	 * @return the list of resources that this resource is a rdfs:subClassOf of, excluding owl:Thing and blank nodes.
-	 */
-	public static List<Resource> getRdfsSubClassOfOf(Resource resource) {
-		return resource.listProperties(RDFS.subClassOf).toList().stream()
-				.map(s -> s.getResource())
-				.filter(r -> { return r.isURIResource() && !r.getURI().equals(OWL.Thing.getURI()); })
-				.collect(Collectors.toList());
-	}
-
-	/* ######## SHACL Play ########  */
-	
-	public String getBackgroundColorString() {
-		return this.getShaclPlayBackgroundColor().map(node -> node.asLiteral().toString()).orElse(null);
-	}
-
-	public String getColorString() {
-		return this.getShaclPlayColor().map(node -> node.asLiteral().toString()).orElse(null);
-	}
-	
-	public Optional<Literal> getMainBoolean() {
-		Optional<Literal> result = this.getShaclPlayMain().map(node -> node.asLiteral());
-		return result;
-		//return this.getShaclPlayMain().map(node -> node.asLiteral().getBoolean()).orElse(false);
 	}
 	
 }

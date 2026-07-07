@@ -74,8 +74,8 @@ public class ShapesDocumentationSectionBuilder {
 		}
 		
 		// Get type of shape Main or Supportive Entities
-		if (nodeShape.getMainBoolean().isPresent()){
-			currentSection.setMainToc(nodeShape.getMainBoolean().get().getBoolean());
+		if (nodeShape.getShaclPlayMain().isPresent()){
+			currentSection.setMainToc(nodeShape.getShaclPlayMain().get().getBoolean());
 		} else {
 			currentSection.setMainToc(isMainEntity(nodeShape));
 		}

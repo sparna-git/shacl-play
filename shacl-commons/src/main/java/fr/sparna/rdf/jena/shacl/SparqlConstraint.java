@@ -8,18 +8,17 @@ public class SparqlConstraint {
     public String getDescription() {
         return description;
     }
+
     public void setDescription(String description) {
         this.description = description;
     }
+
     public String getSelect() {
         return select;
     }
+    
     public void setSelect(String select) {
         this.select = select;
     }
-
-    
-
-
 
 }

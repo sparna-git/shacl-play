@@ -47,7 +47,7 @@ public class ShapesGraphDoc extends ShapesGraph {
 		
 		// Convert nodehsape in nodeshape doc
 		ArrayList<NodeShapeDoc> allNodeShapes = new ArrayList<>();
-		NodeShapeReader reader = new NodeShapeReader(lang);
+
 		super.getAllNodeShapes()
 			.stream()
 			.map( ns -> allNodeShapes.add(new NodeShapeDoc(ns.getShape())))
@@ -55,14 +55,14 @@ public class ShapesGraphDoc extends ShapesGraph {
 
 		// sort node shapes
 		allNodeShapes.sort((NodeShapeDoc ns1, NodeShapeDoc ns2) -> {
-			if (ns1.getShOrderDoc() != null) {
-				if (ns2.getShOrderDoc() != null) {
-					return ((ns1.getShOrderDoc() - ns2.getShOrderDoc()) > 0)?1:-1;
+			if (ns1.getShOrder().isPresent()) {
+				if (ns2.getShOrder().isPresent()) {
+					return ((ns1.getShOrder().get() - ns2.getShOrder().get()) > 0)?1:-1;
 				} else {
 					return -1;
 				}
 			} else {
-				if (ns2.getShOrderDoc() != null) {
+				if (ns2.getShOrder().isPresent()) {
 					return 1;
 				} else {
 					// both sh:order are null, try with their display label
@@ -73,7 +73,7 @@ public class ShapesGraphDoc extends ShapesGraph {
 
 		// 2. Lire les propriétés
 		for (NodeShapeDoc aBox : allNodeShapes) {
-			aBox.setPropertiesDoc(reader.readProperties(aBox.getShape(), allNodeShapes, owlGraph));
+			// aBox.setProperties(reader.readProperties(aBox.getShape(), allNodeShapes, owlGraph));
 		}
 		
 		return allNodeShapes; 

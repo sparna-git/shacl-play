@@ -54,9 +54,9 @@ public class ShapesDocumentationSectionBuilder {
 		currentSection.setSectionId(nodeShape.getShortFormOrId());
 		// if the node shape is itself a class, set its subtitle to the URI
 		if(nodeShape.isClassShape()) {
-			currentSection.setSubtitleUri(new Link(nodeShape.getNodeShape().getURI(), nodeShape.getNodeShape().getURI()));
+			currentSection.setSubtitleUri(new Link(nodeShape.getShape().getURI(), nodeShape.getShape().getURI()));
 		} else {
-			currentSection.setSubtitleUri(new Link(null, nodeShape.getNodeShape().getURI()));
+			currentSection.setSubtitleUri(new Link(null, nodeShape.getShape().getURI()));
 		}
 		
 		// title : either skos:prefLabel or rdfs:label or the URI short form
@@ -68,7 +68,7 @@ public class ShapesDocumentationSectionBuilder {
 
 		if (readDiagram) {
 			// Create one diagram for each section
-			List<PlantUmlDiagramOutput> plantUmlDiagrams = this.diagramGenerator.generatePlantUmlDiagramSection(nodeShape.getNodeShape());
+			List<PlantUmlDiagramOutput> plantUmlDiagrams = this.diagramGenerator.generatePlantUmlDiagramSection(nodeShape.getShape());
 			// turn diagrams into output data structure
 			plantUmlDiagrams.stream().forEach(d -> currentSection.getSectionDiagrams().add(new ShapesDocumentationDiagram(d)));
 		}
@@ -211,7 +211,7 @@ public class ShapesDocumentationSectionBuilder {
 			// find corresponding node shape
 			NodeShapeDoc superShape = shapesGraph.findNodeShapeByResource(aSuperShape) != null ? shapesGraph.findNodeShapeByResource(aSuperShape) : null ;
 
-			if (superShape != null && !nodeShape.getNodeShape().equals(superShape.getNodeShape())) {			
+			if (superShape != null && !nodeShape.getShape().equals(superShape.getShape())) {			
 				groups.addAll(readPropertyGroupsRec(
 						superShape,
 						shapesGraph,
@@ -244,7 +244,7 @@ public class ShapesDocumentationSectionBuilder {
 	public Link buildShNodeLink(Resource shNode, List<NodeShapeDoc> allNodeShapes, Model owlGraph, String lang) {
 		for(NodeShapeDoc aBox : allNodeShapes) {
 			// using toString instead of getURI so that it works with anonymous nodeshapes
-			if(aBox.getNodeShape().toString().equals(shNode.toString())) {
+			if(aBox.getShape().toString().equals(shNode.toString())) {
 				return new Link("#"+aBox.getShortFormOrId(), aBox.getDisplayLabel(owlGraph, lang));
 			}
 		}
@@ -297,22 +297,22 @@ public class ShapesDocumentationSectionBuilder {
 			if (shape instanceof PropertyShape) {				
 				PropertyShape ps = (PropertyShape) shape;
 				// Find Node Shape Usage Doc
-				PropertyShape psDocUsage = new PropertyShape(ps.getPropertyShape());
+				PropertyShape psDocUsage = new PropertyShape(ps.getShape());
 
 				// potentially more than 1 NodeShape if the property shape is shared between several NodeShapes
 				List<NodeShape> nsUsage = shapesGraph.findNodeShapeByPropertyShape(psDocUsage);
 				
 				for (NodeShape nodeShape_usageDoc : nsUsage) {
 					// do we already have this node shape in the list? If not, add it with the property shape, otherwise just add the property shape to the existing node shape
-					boolean nsInList = nsUsageAsList.stream().filter( nsdoc -> nsdoc.getNodeShape().getNodeShape().getURI().equals(nodeShape_usageDoc.getNodeShape().getURI())).findFirst().isPresent();
+					boolean nsInList = nsUsageAsList.stream().filter( nsdoc -> nsdoc.getNodeShape().getShape().getURI().equals(nodeShape_usageDoc.getShape().getURI())).findFirst().isPresent();
 					if (!nsInList) {
-						UsageDoc usDoc = new UsageDoc(new NodeShapeDoc(nodeShape_usageDoc.getNodeShape()));
+						UsageDoc usDoc = new UsageDoc(new NodeShapeDoc(nodeShape_usageDoc.getShape()));
 						usDoc.getProperties().add(psDocUsage);
 						nsUsageAsList.add(usDoc);
 					} else {
 						// find the entry corresponding to this node shape
 						for (UsageDoc nsResource : nsUsageAsList) {
-							if (nsResource.getNodeShape().getNodeShape().getURI().equals(nodeShape_usageDoc.getNodeShape().getURI())) {
+							if (nsResource.getNodeShape().getShape().getURI().equals(nodeShape_usageDoc.getShape().getURI())) {
 								nsResource.getProperties().add(psDocUsage);
 							}
 						}
@@ -320,9 +320,9 @@ public class ShapesDocumentationSectionBuilder {
 				}				
 			} else if (shape instanceof NodeShape) {
 				NodeShape ns = (NodeShape) shape;
-				boolean nsInList = nsUsageAsList.stream().filter( nsdoc -> nsdoc.getNodeShape().getNodeShape().getURI().equals(ns.getNodeShape().getURI())).findFirst().isPresent();
+				boolean nsInList = nsUsageAsList.stream().filter( nsdoc -> nsdoc.getNodeShape().getShape().getURI().equals(ns.getShape().getURI())).findFirst().isPresent();
 				if (!nsInList) {
-					UsageDoc usDoc = new UsageDoc(new NodeShapeDoc(ns.getNodeShape()));
+					UsageDoc usDoc = new UsageDoc(new NodeShapeDoc(ns.getShape()));
 					nsUsageAsList.add(usDoc);					
 				}
 			}
@@ -384,14 +384,14 @@ public class ShapesDocumentationSectionBuilder {
 				if (usgae_doc.getProperties().size() > 0 ) {
 					List<Link> linkUsage = usgae_doc.getProperties()
 						.stream()
-						.map((ps -> new Link("#"+ps.getPropertyShape().getModel().shortForm(ps.getURIOrId()) , ps.getDisplayLabel(shacModel, lang))))
+						.map((ps -> new Link("#"+ps.getShape().getModel().shortForm(ps.getURIOrId()) , ps.getDisplayLabel(shacModel, lang))))
 						.collect(Collectors.toList());
 				
 						uOutput.setNodeshape_name(usgae_doc.getNodeShape().getDisplayLabel(shacModel, lang));
 						uOutput.setProperties_usage(linkUsage);
 						
 				} else {
-					uOutput.setNodeshape_link(new Link("#"+usgae_doc.getNodeShape().getNodeShape().getModel().shortForm(usgae_doc.getNodeShape().getURIOrId()), usgae_doc.getNodeShape().getDisplayLabel(shacModel, lang)));			
+					uOutput.setNodeshape_link(new Link("#"+usgae_doc.getNodeShape().getShape().getModel().shortForm(usgae_doc.getNodeShape().getURIOrId()), usgae_doc.getNodeShape().getDisplayLabel(shacModel, lang)));			
 				} 
 				output.add(uOutput);
 			}

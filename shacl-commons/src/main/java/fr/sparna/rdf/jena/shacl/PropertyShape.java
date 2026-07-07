@@ -25,11 +25,6 @@ public class PropertyShape extends Shape {
 	public PropertyShape(Resource propertyShape) {
 		super(propertyShape);
 	}
-	
-	@Deprecated
-	public Resource getPropertyShape() {
-		return this.getShape();
-	}
 
 	public String getDisplayLabel(Model owlModel, String lang) {
 		
@@ -53,7 +48,7 @@ public class PropertyShape extends Shape {
 
 		if(result == null && this.getShPath() == null) {
 			// problem. Return something so at least we can debug
-			return this.getPropertyShape().toString();
+			return this.getShape().toString();
 		}
 		
 		if(result == null && this.getShPath().isURIResource() && owlModel != null) {

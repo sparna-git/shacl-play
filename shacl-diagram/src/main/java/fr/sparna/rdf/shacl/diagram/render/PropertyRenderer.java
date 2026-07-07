@@ -105,9 +105,9 @@ public class PropertyRenderer {
 		// use property local name to garantee unicity of diamond
 		String nodeShapeLocalName = box.getNodeShape().getLocalName();
 		String nodeshapeId = nodeShapeLocalName.contains(":")?nodeShapeLocalName.split(":")[1]:nodeShapeLocalName;
-		String localName = property.getPropertyShape().getLocalName();
+		String localName = property.getShape().getLocalName();
 		if (localName == null) {
-		    localName = property.getPropertyShape().getId().getLabelString();
+		    localName = property.getShape().getId().getLabelString();
 		}
 		
 		

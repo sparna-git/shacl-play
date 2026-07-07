@@ -53,7 +53,7 @@ public class PropertyShapeDocumentationBuilder {
 		// URI in the documentation
 		proprieteDoc.setPropertyUri(buildPathLink(propertyShape));
 		// full URI
-		proprieteDoc.setPropertyShapeUriOrId(propertyShape.getPropertyShape().getModel().shortForm(propertyShape.getURIOrId()));
+		proprieteDoc.setPropertyShapeUriOrId(propertyShape.getShape().getModel().shortForm(propertyShape.getURIOrId()));
 		// section ID from concat of node shape ID + short name of the property
 		// this is to easily write anchor references to this section	
 		String pathString = propertyShape.getPropertyPath().renderSparqlPropertyPath();
@@ -218,7 +218,7 @@ public class PropertyShapeDocumentationBuilder {
 	public Link buildShNodeLink(Resource shNode) {
 		for(NodeShapeDoc aBox : allNodeShapes) {
 			// using toString instead of getURI so that it works with anonymous nodeshapes
-			if(aBox.getNodeShape().toString().equals(shNode.toString())) {
+			if(aBox.getShape().toString().equals(shNode.toString())) {
 				return new Link("#"+aBox.getShortFormOrId(), aBox.getDisplayLabel(owlGraph, lang));
 			}
 		}
@@ -233,7 +233,7 @@ public class PropertyShapeDocumentationBuilder {
 				return new Link("#"+aNodeShape.getShortFormOrId(), aNodeShape.getDisplayLabel(owlGraph, lang));
 				// checks that the URI of the NodeShape is itself equal to the sh:class
 				// add a check to work only with named URI node shapes
-			} else if (aNodeShape.getNodeShape().isURIResource() && aNodeShape.getNodeShape().getURI().equals(shClass.getURI())) {
+			} else if (aNodeShape.getShape().isURIResource() && aNodeShape.getShape().getURI().equals(shClass.getURI())) {
 				return new Link("#"+aNodeShape.getShortFormOrId(), aNodeShape.getDisplayLabel(owlGraph, lang));
 			}
 		}

@@ -163,7 +163,7 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 		HashSet<String> gatheredPrefixes = new HashSet<>();
 		NodeShapeReader reader = new NodeShapeReader(lang);
 		for (NodeShapeDoc aBox : AllNodeShapes) { // allNodeShapes) {
-			List<String> prefixes = reader.readPrefixes(aBox.getNodeShape());
+			List<String> prefixes = reader.readPrefixes(aBox.getShape());
 			gatheredPrefixes.addAll(prefixes);
 		}
 		Map<String, String> necessaryPrefixes = ShaclPrefixReader.gatherNecessaryPrefixes(shaclGraph.getNsPrefixMap(), gatheredPrefixes);

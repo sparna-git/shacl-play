@@ -147,7 +147,7 @@ public class JsonSchemaController {
 		//
 		ShapesGraph spGraph = new ShapesGraph(shapesModel, shapesModel);
 		List<NodeShape> ns = spGraph.getAllNodeShapes();	
-		List<String> listOfUrisRoot = ns.stream().map(nodeShape -> nodeShape.getNodeShape().getURI()).collect(Collectors.toList());
+		List<String> listOfUrisRoot = ns.stream().map(nodeShape -> nodeShape.getShape().getURI()).collect(Collectors.toList());
 		// sort it alphabetically
 		listOfUrisRoot = listOfUrisRoot.stream().sorted().collect(Collectors.toList());
 		

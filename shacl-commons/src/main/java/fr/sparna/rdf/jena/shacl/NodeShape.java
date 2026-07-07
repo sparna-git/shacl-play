@@ -35,13 +35,6 @@ public class NodeShape extends Shape  {
 	public NodeShape(Resource nodeShape) {  
 	    super(nodeShape);
 	}
-	
-	/**
-	 * @return the underlying node shape Resource
-	 */
-	public Resource getNodeShape() {
-		return this.shape;
-	}
 
 	/**
 	 * @return The values of SH.targetClass, or an empty list if none 
@@ -183,16 +176,16 @@ public class NodeShape extends Shape  {
 
 		// iterate through all shapes in the model and find those that refer to this node shape
 		List<Shape> usage = new ArrayList<>();
-		ShapesGraph graph = new ShapesGraph(this.getNodeShape().getModel());
+		ShapesGraph graph = new ShapesGraph(this.getShape().getModel());
 		for(NodeShape ns : graph.getAllNodeShapes()) {
 
 			// check if this node shape is used in sh:node
 			
-			if(ns.getShNode().map(n -> n.equals(this.getNodeShape())).orElse(false)) {
+			if(ns.getShNode().map(n -> n.equals(this.getShape())).orElse(false)) {
 				usage.add(ns);
 			}
 			// check if this node shape is used in a rdfs:subClassOf of this node shape
-			if(ns.getRdfsSubClassOf().stream().filter(c -> c.equals(this.getNodeShape())).findFirst().isPresent()) {
+			if(ns.getRdfsSubClassOf().stream().filter(c -> c.equals(this.getShape())).findFirst().isPresent()) {
 				usage.add(ns);
 			}
 
@@ -200,11 +193,11 @@ public class NodeShape extends Shape  {
 			for(PropertyShape ps : ns.getProperties()) {
 
 				// check if this node shape is used in sh:qualifiedValueShape
-				if(ps.getShQualifiedValueShape().map(n -> n.equals(this.getNodeShape())).orElse(false)) {
+				if(ps.getShQualifiedValueShape().map(n -> n.equals(this.getShape())).orElse(false)) {
 					usage.add(ps);
 				}
 				// check if this node shape is used in sh:node
-				if(ps.getShNode().map(n -> n.equals(this.getNodeShape())).orElse(false)) {
+				if(ps.getShNode().map(n -> n.equals(this.getShape())).orElse(false)) {
 					usage.add(ps);
 				}
 				// check if this node shape is used in sh:class targeting a class that is the target of this one
@@ -212,7 +205,7 @@ public class NodeShape extends Shape  {
 					usage.add(ps);
 				}
 				// check if this node shape is used in an sh:or containing a sh:node or a sh:class targeting a class that is the target of this one
-				if(ShOrReadingUtils.readShNodeInShOr(ps.getShOr()).stream().filter(n -> n.equals(this.getNodeShape())).findFirst().isPresent()) {
+				if(ShOrReadingUtils.readShNodeInShOr(ps.getShOr()).stream().filter(n -> n.equals(this.getShape())).findFirst().isPresent()) {
 					usage.add(ps);
 				}
 				
@@ -226,7 +219,7 @@ public class NodeShape extends Shape  {
 		
 
 	public String getDisplayLabel(String lang) {
-		return this.getDisplayLabel(this.getNodeShape().getModel(), lang);
+		return this.getDisplayLabel(this.getShape().getModel(), lang);
 	}
 
 	public String getDisplayLabel(Model owlModel, String lang) {
@@ -371,7 +364,7 @@ public class NodeShape extends Shape  {
 					if(ps1.getPropertyPath().renderSparqlPropertyPath() != null && ps2.getPropertyPath().renderSparqlPropertyPath() != null) {						
 						return ps1.getPropertyPath().renderSparqlPropertyPath().compareTo(ps2.getPropertyPath().renderSparqlPropertyPath());
 					} else {
-						return ps1.getPropertyShape().toString().compareTo(ps2.getPropertyShape().toString());
+						return ps1.getShape().toString().compareTo(ps2.getShape().toString());
 					}
 				}
 			}

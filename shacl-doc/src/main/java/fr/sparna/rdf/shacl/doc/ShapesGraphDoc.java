@@ -28,7 +28,7 @@ public class ShapesGraphDoc extends ShapesGraph {
 	}
 
 	public NodeShapeDoc findNodeShapeByResource(Resource r) {
-		return this.allNodeShapes.stream().filter(ns -> ns.getNodeShape().equals(r)).findFirst().orElse(null);
+		return this.allNodeShapes.stream().filter(ns -> ns.getShape().equals(r)).findFirst().orElse(null);
 	}
 
 	public List<NodeShapeDoc> getAllNodeShapesDoc() {	
@@ -50,7 +50,7 @@ public class ShapesGraphDoc extends ShapesGraph {
 		NodeShapeReader reader = new NodeShapeReader(lang);
 		super.getAllNodeShapes()
 			.stream()
-			.map( ns -> allNodeShapes.add(new NodeShapeDoc(ns.getNodeShape())))
+			.map( ns -> allNodeShapes.add(new NodeShapeDoc(ns.getShape())))
 			.collect(Collectors.toList());
 
 		// sort node shapes
@@ -73,7 +73,7 @@ public class ShapesGraphDoc extends ShapesGraph {
 
 		// 2. Lire les propriétés
 		for (NodeShapeDoc aBox : allNodeShapes) {
-			aBox.setPropertiesDoc(reader.readProperties(aBox.getNodeShape(), allNodeShapes, owlGraph));
+			aBox.setPropertiesDoc(reader.readProperties(aBox.getShape(), allNodeShapes, owlGraph));
 		}
 		
 		return allNodeShapes; 

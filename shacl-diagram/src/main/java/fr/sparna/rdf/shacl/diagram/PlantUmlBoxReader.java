@@ -50,7 +50,7 @@ public class PlantUmlBoxReader {
 					if(ps1.getPathAsSparql() != null && ps2.getPathAsSparql() != null) {						
 						return ps1.getPathAsSparql().compareTo(ps2.getPathAsSparql());
 					} else {
-						return ps1.getPropertyShape().toString().compareTo(ps2.getPropertyShape().toString());
+						return ps1.getShape().toString().compareTo(ps2.getShape().toString());
 					}
 				}
 			}

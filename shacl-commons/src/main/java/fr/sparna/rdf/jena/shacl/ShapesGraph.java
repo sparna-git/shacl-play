@@ -61,7 +61,7 @@ public class ShapesGraph {
 	
 	
 	public NodeShape findNodeShapeByResource(Resource r) {
-		return getAllNodeShapes().stream().filter(ns -> ns.getNodeShape().toString().equals(r.toString())).findFirst().orElse(null);
+		return getAllNodeShapes().stream().filter(ns -> ns.getShape().toString().equals(r.toString())).findFirst().orElse(null);
 	}
 
 	public List<Resource> findNodeShapeByProperty(Resource resource) {
@@ -83,7 +83,7 @@ public class ShapesGraph {
 				.stream()
 				.filter( ns -> ns.getProperties()
 					.stream()
-					.filter( psp -> psp.getPropertyShape().equals(ps.getPropertyShape()))
+					.filter( psp -> psp.getShape().equals(ps.getShape()))
 					.findFirst()
 					.isPresent()
 				)
@@ -96,7 +96,7 @@ public class ShapesGraph {
 	 */
 	public List<NodeShape> findNodeShapesByPropertyShapeShNode(PropertyShape ps) {
 		return getAllNodeShapes().stream().filter(ns -> 
-			ps.getShNode().map(n -> n.equals(ns.getNodeShape())).orElse(false)
+			ps.getShNode().map(n -> n.equals(ns.getShape())).orElse(false)
 		).collect(Collectors.toList());
 	}
 
@@ -137,7 +137,7 @@ public class ShapesGraph {
 				!ns.isUsedInShapesGraph()
 			)
 		).collect(Collectors.toList());
-		unusedNodeShapes.forEach(ns -> this.deleteNodeShape(ns.getNodeShape()));
+		unusedNodeShapes.forEach(ns -> this.deleteNodeShape(ns.getShape()));
 
 		// do that a second time so that potential sh:node references to the deleted node shapes are also deleted
 		// this should be a loop, of course
@@ -148,7 +148,7 @@ public class ShapesGraph {
 				!ns.isUsedInShapesGraph()
 			)
 		).collect(Collectors.toList());
-		unusedNodeShapes.forEach(ns -> this.deleteNodeShape(ns.getNodeShape()));
+		unusedNodeShapes.forEach(ns -> this.deleteNodeShape(ns.getShape()));
 	}
 
 	public void deleteNodeShape(Resource nodeShape) {

@@ -35,11 +35,11 @@ public class NodeShapeDoc extends NodeShape  {
 	}	
 	
 	public String getURIOrId() {
-		if(super.getNodeShape().isURIResource()) {
-			return super.getNodeShape().getURI();
+		if(super.getShape().isURIResource()) {
+			return super.getShape().getURI();
 		} else {
 			// returns the blank node ID in that case
-			return super.getNodeShape().asResource().getId().getLabelString();
+			return super.getShape().asResource().getId().getLabelString();
 		}
 	}
 	

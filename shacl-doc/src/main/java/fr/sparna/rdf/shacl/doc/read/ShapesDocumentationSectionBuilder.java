@@ -1,13 +1,14 @@
 package fr.sparna.rdf.shacl.doc.read;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.vocabulary.DCTerms;
 import org.apache.jena.vocabulary.RDFS;
 import org.apache.jena.rdf.model.Literal;
 
@@ -15,21 +16,22 @@ import fr.sparna.rdf.jena.ModelReadingUtils;
 import fr.sparna.rdf.jena.ModelRenderingUtils;
 import fr.sparna.rdf.shacl.diagram.PlantUmlDiagramOutput;
 import fr.sparna.rdf.shacl.doc.MarkdownRenderer;
-import fr.sparna.rdf.shacl.doc.NodeShapeDoc;
 import fr.sparna.rdf.shacl.doc.PlantUmlSourceGenerator;
 import fr.sparna.rdf.shacl.doc.ShapesGraphDoc;
 import fr.sparna.rdf.shacl.doc.UsageDoc;
-import fr.sparna.rdf.shacl.doc.UsageOutput;
+import fr.sparna.rdf.shacl.doc.model.Depiction;
 import fr.sparna.rdf.shacl.doc.model.Link;
 import fr.sparna.rdf.shacl.doc.model.PropertyShapeDocumentation;
 import fr.sparna.rdf.shacl.doc.model.PropertyShapesGroupDocumentation;
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentationDiagram;
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentationSection;
+import fr.sparna.rdf.shacl.doc.model.UsageOutput;
 import net.sourceforge.plantuml.board.BNode;
 
 import fr.sparna.rdf.jena.shacl.Shape;
 import fr.sparna.rdf.jena.shacl.NodeShape;
 import fr.sparna.rdf.jena.shacl.PropertyShape;
+import fr.sparna.rdf.jena.shacl.ShOrderComparator;
 
 public class ShapesDocumentationSectionBuilder {
 	
@@ -40,7 +42,7 @@ public class ShapesDocumentationSectionBuilder {
 	}
 
 	public ShapesDocumentationSection build(
-			NodeShapeDoc nodeShape,
+			NodeShape nodeShape,
 			ShapesGraphDoc shapesGraph,
 			Model shaclGraph,
 			Model owlGraph,
@@ -84,7 +86,7 @@ public class ShapesDocumentationSectionBuilder {
 		if (nodeShape.getShNodeAsList().size() > 0) {			
 			nodeShape.getShNodeAsList().forEach(shNode -> {
 				currentSection.setShNode(
-					buildShNodeLink(shNode, shapesGraph.getAllNodeShapesDoc(), owlGraph, lang)	
+					buildShNodeLink(shNode, shapesGraph.getAllNodeShapes(), owlGraph, lang)	
 				);
 			});
 		}
@@ -157,9 +159,7 @@ public class ShapesDocumentationSectionBuilder {
 		}
 		
 		// foaf:depiction
-		if (nodeShape.getFoafDepiction().size() > 0) {
-			currentSection.setDepictions(nodeShape.getFoafDepiction());
-		}
+		currentSection.setDepictions(this.readFoafDepiction(nodeShape));
 		
 		// Usage
 		currentSection.setUsages(findNodeShapeUsage(shapesGraph,nodeShape,shaclGraph,lang));
@@ -178,9 +178,46 @@ public class ShapesDocumentationSectionBuilder {
 
 		return currentSection;
 	}
+
+	public List<Depiction> readFoafDepiction(NodeShape nodeShape) {
+		
+		//List<Statement> depic = nodeShape.listProperties(FOAF.depiction).toList();
+		List<Resource> depictionsResources = new ArrayList<>();
+
+		for (Resource aDepiction : nodeShape.getDepiction()) {
+			if(
+				aDepiction.getURI() != null
+				&&
+				(
+					aDepiction.getURI().contains(".jpg")
+					||
+					aDepiction.getURI().contains(".png")
+				)
+			)
+			depictionsResources.add(aDepiction);					
+		}
+		
+		depictionsResources.sort(new ShOrderComparator());
+		
+		List<Depiction> depictions = new ArrayList<>();
+		for (Resource r : depictionsResources) {
+			Depiction aDepiction = new Depiction();
+			aDepiction.setSrc(r.getURI());
+			aDepiction.setShorder(ShOrderComparator.getShOrderOf(r));
+			
+			// dcterms:title
+			Optional.ofNullable(r.getProperty(DCTerms.title)).map(s -> s.getString()).ifPresent(title -> aDepiction.setTitle(title));
+			
+			// dcterms:description
+			Optional.ofNullable(r.getProperty(DCTerms.description)).map(s -> s.getString()).ifPresent(title -> aDepiction.setDescription(title));
+			depictions.add(aDepiction);
+		}
+		
+		return depictions;	
+	}
 	
 	static List<PropertyShapesGroupDocumentation> readPropertyGroupsRec(
-			NodeShapeDoc nodeShape,
+			NodeShape nodeShape,
 			ShapesGraphDoc shapesGraph,
 			Model shaclGraph,
 			Model owlGraph,
@@ -193,7 +230,7 @@ public class ShapesDocumentationSectionBuilder {
 		thisGroup.setTargetClass(new Link("#"+nodeShape.getShortFormOrId(),nodeShape.getDisplayLabel(owlGraph, lang)));
 
 		List<PropertyShapeDocumentation> properties = new ArrayList<>();
-		PropertyShapeDocumentationBuilder pBuidler = new PropertyShapeDocumentationBuilder(shapesGraph.getAllNodeShapesDoc(), shaclGraph, owlGraph, lang);	
+		PropertyShapeDocumentationBuilder pBuidler = new PropertyShapeDocumentationBuilder(shapesGraph.getAllNodeShapes(), shaclGraph, owlGraph, lang);	
 
 		for (PropertyShape aPropertyShape : nodeShape.getProperties()) {
 			PropertyShapeDocumentation psd = pBuidler.build(
@@ -209,7 +246,7 @@ public class ShapesDocumentationSectionBuilder {
 
 		for (Resource aSuperShape : superShapes) {
 			// find corresponding node shape
-			NodeShapeDoc superShape = shapesGraph.findNodeShapeByResource(aSuperShape) != null ? shapesGraph.findNodeShapeByResource(aSuperShape) : null ;
+			NodeShape superShape = shapesGraph.findNodeShapeByResource(aSuperShape) != null ? shapesGraph.findNodeShapeByResource(aSuperShape) : null ;
 
 			if (superShape != null && !nodeShape.getShape().equals(superShape.getShape())) {			
 				groups.addAll(readPropertyGroupsRec(
@@ -241,8 +278,8 @@ public class ShapesDocumentationSectionBuilder {
 		}
 	 }
 
-	public Link buildShNodeLink(Resource shNode, List<NodeShapeDoc> allNodeShapes, Model owlGraph, String lang) {
-		for(NodeShapeDoc aBox : allNodeShapes) {
+	public Link buildShNodeLink(Resource shNode, List<NodeShape> allNodeShapes, Model owlGraph, String lang) {
+		for(NodeShape aBox : allNodeShapes) {
 			// using toString instead of getURI so that it works with anonymous nodeshapes
 			if(aBox.getShape().toString().equals(shNode.toString())) {
 				return new Link("#"+aBox.getShortFormOrId(), aBox.getDisplayLabel(owlGraph, lang));
@@ -271,7 +308,7 @@ public class ShapesDocumentationSectionBuilder {
 		return l;
 	}
 
-	private boolean isMainEntity(NodeShapeDoc ns) {
+	private boolean isMainEntity(NodeShape ns) {
 		if (!ns.getTargetSubjectsOf().isEmpty()) {
 			return true;
 		} else if (!ns.getTargetObjectsOf().isEmpty()){
@@ -287,7 +324,7 @@ public class ShapesDocumentationSectionBuilder {
 		}
 	}
 	
-	public List<UsageOutput> findNodeShapeUsage (ShapesGraphDoc shapesGraph, NodeShapeDoc nodeShape, Model shacModel, String lang) {
+	public List<UsageOutput> findNodeShapeUsage (ShapesGraphDoc shapesGraph, NodeShape nodeShape, Model shacModel, String lang) {
 
 		List<Shape> shapes = nodeShape.getUsage();	
 		List<UsageDoc> nsUsageAsList = new ArrayList<>();
@@ -306,7 +343,7 @@ public class ShapesDocumentationSectionBuilder {
 					// do we already have this node shape in the list? If not, add it with the property shape, otherwise just add the property shape to the existing node shape
 					boolean nsInList = nsUsageAsList.stream().filter( nsdoc -> nsdoc.getNodeShape().getShape().getURI().equals(nodeShape_usageDoc.getShape().getURI())).findFirst().isPresent();
 					if (!nsInList) {
-						UsageDoc usDoc = new UsageDoc(new NodeShapeDoc(nodeShape_usageDoc.getShape()));
+						UsageDoc usDoc = new UsageDoc(new NodeShape(nodeShape_usageDoc.getShape()));
 						usDoc.getProperties().add(psDocUsage);
 						nsUsageAsList.add(usDoc);
 					} else {
@@ -322,7 +359,7 @@ public class ShapesDocumentationSectionBuilder {
 				NodeShape ns = (NodeShape) shape;
 				boolean nsInList = nsUsageAsList.stream().filter( nsdoc -> nsdoc.getNodeShape().getShape().getURI().equals(ns.getShape().getURI())).findFirst().isPresent();
 				if (!nsInList) {
-					UsageDoc usDoc = new UsageDoc(new NodeShapeDoc(ns.getShape()));
+					UsageDoc usDoc = new UsageDoc(new NodeShape(ns.getShape()));
 					nsUsageAsList.add(usDoc);					
 				}
 			}

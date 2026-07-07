@@ -1,23 +1,24 @@
 package fr.sparna.rdf.shacl.doc;
 import java.util.List;
 
+import fr.sparna.rdf.jena.shacl.NodeShape;
 import fr.sparna.rdf.jena.shacl.PropertyShape;
 
 public class UsageDoc {
 
-    private NodeShapeDoc nodeShape;
+    private NodeShape nodeShape;
     private List<PropertyShape> properties;
 
-    public UsageDoc(NodeShapeDoc nodeShape) {
+    public UsageDoc(NodeShape nodeShape) {
         this.nodeShape = nodeShape;
         this.properties = new java.util.ArrayList<PropertyShape>();
     }
     
-    public NodeShapeDoc getNodeShape() {
+    public NodeShape getNodeShape() {
         return nodeShape;
     }
 
-    public void setNodeShape(NodeShapeDoc nodeShape) {
+    public void setNodeShape(NodeShape nodeShape) {
         this.nodeShape = nodeShape;
     }
 

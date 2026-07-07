@@ -12,8 +12,8 @@ import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
 import org.topbraid.shacl.vocabulary.SH;
 
+import fr.sparna.rdf.jena.shacl.NodeShape;
 import fr.sparna.rdf.shacl.diagram.PlantUmlDiagramOutput;
-import fr.sparna.rdf.shacl.doc.NodeShapeDoc;
 import fr.sparna.rdf.shacl.doc.PlantUmlSourceGenerator;
 import fr.sparna.rdf.shacl.doc.ShaclPrefixReader;
 import fr.sparna.rdf.shacl.doc.ShapesGraphDoc;
@@ -106,7 +106,7 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 		}
 		
 		// Prefixes
-		List<NamespaceSection> nsSections = this.readNamespaceSections(shaclGraph, shapesModel.getAllNodeShapesDoc(), lang);
+		List<NamespaceSection> nsSections = this.readNamespaceSections(shaclGraph, shapesModel.getAllNodeShapes(), lang);
 		shapesDocumentation.setPrefixe(nsSections);
 		
 		
@@ -115,7 +115,7 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 		);
 		// For each NodeShape ...
 		List<ShapesDocumentationSection> sections = new ArrayList<>();
-		for (NodeShapeDoc nodeShape : shapesModel.getAllNodeShapesDoc()) {
+		for (NodeShape nodeShape : shapesModel.getAllNodeShapes()) {
 			
 			if (this.isFilterUnusedNodeShapes() ) {
 				if (nodeShape.isUsedInShapesGraph()) {
@@ -160,11 +160,11 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 		return shapesDocumentation;
 	}
 	
-	public List<NamespaceSection> readNamespaceSections(Model shaclGraph, List<NodeShapeDoc> AllNodeShapes, String lang) {
+	public List<NamespaceSection> readNamespaceSections(Model shaclGraph, List<NodeShape> AllNodeShapes, String lang) {
 		
 		// 3. Lire les prefixes
 		HashSet<String> gatheredPrefixes = new HashSet<>();
-		for (NodeShapeDoc aBox : AllNodeShapes) { // allNodeShapes) {
+		for (NodeShape aBox : AllNodeShapes) { // allNodeShapes) {
 			List<String> prefixes = this.readPrefixes(aBox.getShape());
 			gatheredPrefixes.addAll(prefixes);
 		}

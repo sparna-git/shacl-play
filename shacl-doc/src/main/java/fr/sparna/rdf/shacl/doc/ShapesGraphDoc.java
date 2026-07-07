@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.Resource;
 
+import fr.sparna.rdf.jena.shacl.NodeShape;
 import fr.sparna.rdf.jena.shacl.ShapesGraph;
 
 public class ShapesGraphDoc extends ShapesGraph {
@@ -14,7 +15,7 @@ public class ShapesGraphDoc extends ShapesGraph {
 	private Model shaclGraph;
 	private Model owlGraph;
 	
-	private List<NodeShapeDoc> allNodeShapes = new ArrayList<>();
+	private List<NodeShape> allNodeShapes = new ArrayList<>();
 	
 	/**
 	 * TODO : lang should not be here. It should be an accessor parameter in OwlOntology class
@@ -24,14 +25,14 @@ public class ShapesGraphDoc extends ShapesGraph {
 		this.shaclGraph = shaclGraph;
 		this.owlGraph = owlGraph;
 		
-		this.allNodeShapes = this.readAllNodeShapesDoc(shaclGraph, owlGraph, lang);
+		this.allNodeShapes = this.readAllNodeShapes(shaclGraph, owlGraph, lang);
 	}
 
-	public NodeShapeDoc findNodeShapeByResource(Resource r) {
+	public NodeShape findNodeShapeByResource(Resource r) {
 		return this.allNodeShapes.stream().filter(ns -> ns.getShape().equals(r)).findFirst().orElse(null);
 	}
 
-	public List<NodeShapeDoc> getAllNodeShapesDoc() {	
+	public List<NodeShape> getAllNodeShapes() {	
 		return allNodeShapes; 
 	}
 
@@ -43,18 +44,18 @@ public class ShapesGraphDoc extends ShapesGraph {
 		return owlGraph;
 	}
 
-	private ArrayList<NodeShapeDoc> readAllNodeShapesDoc(Model shaclGraph, Model owlGraph, String lang) {
+	private ArrayList<NodeShape> readAllNodeShapes(Model shaclGraph, Model owlGraph, String lang) {
 		
 		// Convert nodehsape in nodeshape doc
-		ArrayList<NodeShapeDoc> allNodeShapes = new ArrayList<>();
+		ArrayList<NodeShape> allNodeShapes = new ArrayList<>();
 
 		super.getAllNodeShapes()
 			.stream()
-			.map( ns -> allNodeShapes.add(new NodeShapeDoc(ns.getShape())))
+			.map( ns -> allNodeShapes.add(new NodeShape(ns.getShape())))
 			.collect(Collectors.toList());
 
 		// sort node shapes
-		allNodeShapes.sort((NodeShapeDoc ns1, NodeShapeDoc ns2) -> {
+		allNodeShapes.sort((NodeShape ns1, NodeShape ns2) -> {
 			if (ns1.getShOrder().isPresent()) {
 				if (ns2.getShOrder().isPresent()) {
 					return ((ns1.getShOrder().get() - ns2.getShOrder().get()) > 0)?1:-1;
@@ -71,10 +72,6 @@ public class ShapesGraphDoc extends ShapesGraph {
 			}
 		});
 
-		// 2. Lire les propriétés
-		for (NodeShapeDoc aBox : allNodeShapes) {
-			// aBox.setProperties(reader.readProperties(aBox.getShape(), allNodeShapes, owlGraph));
-		}
 		
 		return allNodeShapes; 
 		

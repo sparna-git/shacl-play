@@ -16,8 +16,8 @@ import org.apache.jena.vocabulary.DCTerms;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import fr.sparna.rdf.jena.shacl.NodeShape;
 import fr.sparna.rdf.jena.shacl.PropertyShape;
-import fr.sparna.rdf.shacl.doc.NodeShapeDoc;
 import fr.sparna.rdf.shacl.doc.model.Link;
 import fr.sparna.rdf.shacl.doc.model.PropertyShapeDocumentation;
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentation;
@@ -66,7 +66,7 @@ public class EnrichDocumentationWithQuerySparqlVisitor implements ShaclVisitorIf
 	public void visitPropertyShape(Resource aPropertyShape, Resource aNodeShape) {
 		
 		PropertyShape ps = new PropertyShape(aPropertyShape);
-		NodeShapeDoc ns = new NodeShapeDoc(aNodeShape);
+		NodeShape ns = new NodeShape(aNodeShape);
 		
 		// this works only if we have a targetClass and a URI in sh:path
 		if(ns.getAllTargetedClasses() != null && ps.getShPath().isURIResource()) {

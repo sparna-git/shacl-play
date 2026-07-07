@@ -1,4 +1,4 @@
-package fr.sparna.rdf.shacl.doc;
+package fr.sparna.rdf.shacl.doc.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonInclude;

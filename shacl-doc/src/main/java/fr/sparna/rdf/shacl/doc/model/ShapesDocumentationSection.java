@@ -9,8 +9,6 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
-import fr.sparna.rdf.shacl.doc.Depiction;
-import fr.sparna.rdf.shacl.doc.UsageOutput;
 import fr.sparna.rdf.shacl.diagram.PlantUmlDiagramOutput;
 import fr.sparna.rdf.jena.shacl.SparqlConstraint;
 

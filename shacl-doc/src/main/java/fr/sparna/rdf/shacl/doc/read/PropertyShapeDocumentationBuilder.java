@@ -13,9 +13,9 @@ import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.XSD;
 
 import fr.sparna.rdf.jena.ModelRenderingUtils;
+import fr.sparna.rdf.jena.shacl.NodeShape;
 import fr.sparna.rdf.jena.shacl.PropertyShape;
 import fr.sparna.rdf.jena.shacl.ShOrReadingUtils;
-import fr.sparna.rdf.shacl.doc.NodeShapeDoc;
 import fr.sparna.rdf.shacl.doc.model.Link;
 import fr.sparna.rdf.shacl.doc.model.PropertyShapeDocumentation;
 import net.sourceforge.plantuml.board.BNode;
@@ -23,7 +23,7 @@ import net.sourceforge.plantuml.board.BNode;
 
 public class PropertyShapeDocumentationBuilder {
 
-	private List<NodeShapeDoc> allNodeShapes;
+	private List<NodeShape> allNodeShapes;
 	private Model shaclGraph;
 	private Model owlGraph;
 	private String lang;
@@ -31,7 +31,7 @@ public class PropertyShapeDocumentationBuilder {
 	
 
 	public PropertyShapeDocumentationBuilder(
-		List<NodeShapeDoc> allNodeShapes,
+		List<NodeShape> allNodeShapes,
 		Model shaclGraph,
 		Model owlGraph,
 		String lang
@@ -45,7 +45,7 @@ public class PropertyShapeDocumentationBuilder {
 
 	public PropertyShapeDocumentation build(
 			PropertyShape propertyShape,
-			NodeShapeDoc nodeShape) {
+			NodeShape nodeShape) {
 		// Start building final structure
 		PropertyShapeDocumentation proprieteDoc = new PropertyShapeDocumentation();
 		proprieteDoc.setLabel(propertyShape.getDisplayLabel(shaclGraph.union(owlGraph), lang));
@@ -216,7 +216,7 @@ public class PropertyShapeDocumentationBuilder {
 	}
 
 	public Link buildShNodeLink(Resource shNode) {
-		for(NodeShapeDoc aBox : allNodeShapes) {
+		for(NodeShape aBox : allNodeShapes) {
 			// using toString instead of getURI so that it works with anonymous nodeshapes
 			if(aBox.getShape().toString().equals(shNode.toString())) {
 				return new Link("#"+aBox.getShortFormOrId(), aBox.getDisplayLabel(owlGraph, lang));
@@ -228,7 +228,7 @@ public class PropertyShapeDocumentationBuilder {
 	}
 
 	public Link buildShClassLink(Resource shClass) {
-		for(NodeShapeDoc aNodeShape : allNodeShapes) {
+		for(NodeShape aNodeShape : allNodeShapes) {
 			if(aNodeShape.getAllTargetedClasses() != null && findShClassInShTargetClass(aNodeShape.getAllTargetedClasses(),shClass.getURI())) {
 				return new Link("#"+aNodeShape.getShortFormOrId(), aNodeShape.getDisplayLabel(owlGraph, lang));
 				// checks that the URI of the NodeShape is itself equal to the sh:class

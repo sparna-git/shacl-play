@@ -1,7 +1,6 @@
-package fr.sparna.rdf.shacl.doc;
+package fr.sparna.rdf.shacl.doc.model;
 
 import java.util.List;
-import fr.sparna.rdf.shacl.doc.model.Link;
 
 public class UsageOutput {
 

@@ -374,17 +374,6 @@
 				<xsl:apply-templates select="releaseNotes" />
 
 
-				<!-- Anchor for the document -->
-				<script src="https://cdn.jsdelivr.net/npm/anchor-js/anchor.min.js">//</script>
-    			<script>				
-					anchors.options = {
-	                    icon: '#'
-	                  };
-               		anchors.options.placement = 'left';
-					//anchors.add('h2,h3');
-					// for links inside tables		
-					anchors.add('td[id]');
-				</script>
 				<!-- Script for handling SVG elements -->
 				<script>
 					document.addEventListener('DOMContentLoaded', function() {
@@ -1543,10 +1532,10 @@
 				</td>
 				<!-- Property URI -->
 				<!-- Also with the ID, if provided -->
-				<td style="position: relative; width: 100px; overflow: hidden;" onmouseover="this.style.overflow='';" onmouseout="this.style.overflow='hidden';">
+				<td id="{sectionId}" style="position: relative; width: 100px; overflow: hidden;" onmouseover="this.style.overflow='';" onmouseout="this.style.overflow='hidden';">
 					<div>
 						<div class="anchors-doc">
-							<a href="#{sectionId}" id="{sectionId}">#</a>									
+							<a href="#{sectionId}">#</a>									
 						</div>
 						<xsl:apply-templates select="./propertyUri"/>
 					</div>

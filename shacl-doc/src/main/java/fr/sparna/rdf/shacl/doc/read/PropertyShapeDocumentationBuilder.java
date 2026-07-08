@@ -44,7 +44,7 @@ public class PropertyShapeDocumentationBuilder {
 
 	public static String buildPropertyShapeSectionId(NodeShape nodeShape, PropertyShape propertyShape) {
 		String pathString = propertyShape.getPropertyPath().renderSparqlPropertyPath();
-		return nodeShape.getShortFormOrId()+"-"+pathString;
+		return nodeShape.getShortFormOrId()+"_"+pathString;
 		// return propertyShape.getShape().getModel().shortForm(propertyShape.getURIOrId());
 	}
 

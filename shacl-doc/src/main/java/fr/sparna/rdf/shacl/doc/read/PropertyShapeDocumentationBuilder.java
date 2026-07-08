@@ -56,7 +56,7 @@ public class PropertyShapeDocumentationBuilder {
 		// URI in the documentation
 		proprieteDoc.setPropertyUri(LinkFactory.buildPropertyPathLink(propertyShape.getPropertyPath()));
 		// full URI
-		proprieteDoc.setPropertyShapeUriOrId(propertyShape.getShape().getModel().shortForm(propertyShape.getURIOrId()));
+		proprieteDoc.setPropertyShapeUriOrId(propertyShape.getResource().getModel().shortForm(propertyShape.getURIOrId()));
 		// section ID from concat of node shape ID + short name of the property
 		// this is to easily write anchor references to this section	
 		proprieteDoc.setSectionId(buildPropertyShapeSectionId(nodeShape, propertyShape));

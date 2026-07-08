@@ -41,47 +41,47 @@ public class NodeShape extends Shape  {
 	 * @return The values of SH.targetClass, or an empty list if none 
 	 */
 	public List<Resource> getTargetClass() {
-		return ModelReadingUtils.readObjectAsResource(shape, SH.targetClass);
+		return ModelReadingUtils.readObjectAsResource(resource, SH.targetClass);
 	}
 
 	/**
 	 * @return The values of SH.targetSubjectsOf, or an empty list if none 
 	 */
 	public List<Resource> getTargetSubjectsOf() {
-		return ModelReadingUtils.readObjectAsResource(shape, SH.targetSubjectsOf);
+		return ModelReadingUtils.readObjectAsResource(resource, SH.targetSubjectsOf);
 	}
 
 	/**
 	 * @return The values of SH.targetObjectsOf, or an empty list if none 
 	 */
 	public List<Resource> getTargetObjectsOf() {
-		return ModelReadingUtils.readObjectAsResource(shape, SH.targetObjectsOf);
+		return ModelReadingUtils.readObjectAsResource(resource, SH.targetObjectsOf);
 	}
 
 	/**
 	 * @return The values of SH.target, or an empty list if none 
 	 */
 	public List<Resource> getTarget() {
-		return ModelReadingUtils.readObjectAsResource(shape, SH.target);
+		return ModelReadingUtils.readObjectAsResource(resource, SH.target);
 	}
 
 /**
 	 * @return The values of SH.targetNode, or an empty list if none 
 	 */	
 	public List<Resource> getTargetNode() {
-		return ModelReadingUtils.readObjectAsResource(shape, SH.targetNode);
+		return ModelReadingUtils.readObjectAsResource(resource, SH.targetNode);
 	}
 
 	/**
 	 * @return All targeted classes, that is the sh:targetClass resources value if present, plus the node shape itself if it is a class, or an empty list if none
 	 */
 	public List<Resource> getAllTargetedClasses() {
-		List<Resource> targets = shape.listProperties(SH.targetClass).toList().stream()
+		List<Resource> targets = resource.listProperties(SH.targetClass).toList().stream()
 				.map(s -> s.getResource())
 				.collect(Collectors.toList());
 		
 		if(this.isClassShape()) {
-			targets.add(this.shape);
+			targets.add(this.resource);
 		}
 
 		return targets;
@@ -113,7 +113,7 @@ public class NodeShape extends Shape  {
 	}
 
 	public Literal getShTargetShSelect() {
-		return Optional.ofNullable(this.shape.getPropertyResourceValue(SH.target)).map(
+		return Optional.ofNullable(this.resource.getPropertyResourceValue(SH.target)).map(
 				r -> Optional.ofNullable(r.getProperty(SH.select)).map(l -> l.getLiteral()).orElse(null)
 		).orElse(null);
 	}
@@ -126,21 +126,21 @@ public class NodeShape extends Shape  {
 	 * @return true if this NodeShape is also an rdfs:Class
 	 */
 	public boolean isClassShape() {
-		return shape.hasProperty(RDF.type, RDFS.Class);
+		return resource.hasProperty(RDF.type, RDFS.Class);
 	}
 
 	/**
 	 * @return The list of rdfs:subClassOf of this node shape excluding owl:Thing, if present, or an empty list if none
 	 */
 	public List<Resource> getSubClassOf() {
-		return shape.listProperties(RDFS.subClassOf).toList().stream()
+		return resource.listProperties(RDFS.subClassOf).toList().stream()
 				.map(s -> s.getResource())
 				.filter(r -> { return r.isURIResource() && !r.getURI().equals(OWL.Thing.getURI()); })
 				.collect(Collectors.toList());
 	}
 
 	public List<Resource> getRdfsSubClassOf() {
-		return NodeShape.getRdfsSubClassOfOf(shape);
+		return NodeShape.getRdfsSubClassOfOf(resource);
 	}
 
 	/**
@@ -169,7 +169,7 @@ public class NodeShape extends Shape  {
 
 	private List<PropertyShape> readProperties() {
 		
-		List<Statement> propertyStatements = this.shape.listProperties(SH.property).toList();
+		List<Statement> propertyStatements = this.resource.listProperties(SH.property).toList();
 		List<PropertyShape> properties = new ArrayList<>();		
 		
 		for (Statement aPropertyStatement : propertyStatements) {
@@ -194,7 +194,7 @@ public class NodeShape extends Shape  {
 	 * @return The sh:closed Literal value
 	 */
 	public Optional<Literal> getShClosed() {
-		return ModelReadingUtils.getOptionalLiteral(shape,SH.closed);
+		return ModelReadingUtils.getOptionalLiteral(resource,SH.closed);
 	}
 
 	public Boolean isClosed() {
@@ -241,16 +241,16 @@ public class NodeShape extends Shape  {
 		// iterate through all shapes in the model and find those that refer to this node shape
 		// use a shape to avoid returning a property shape 3 times if it is used in multiple node shapes
 		Set<Shape> usage = new HashSet<>();
-		ShapesGraph graph = new ShapesGraph(this.getShape().getModel());
+		ShapesGraph graph = new ShapesGraph(this.getResource().getModel());
 		for(NodeShape ns : graph.getAllNodeShapes()) {
 
 			// check if this node shape is used in sh:node
 			
-			if(ns.getShNode().map(n -> n.equals(this.getShape())).orElse(false)) {
+			if(ns.getShNode().map(n -> n.equals(this.getResource())).orElse(false)) {
 				usage.add(ns);
 			}
 			// check if this node shape is used in a rdfs:subClassOf of this node shape
-			if(ns.getRdfsSubClassOf().stream().filter(c -> c.equals(this.getShape())).findFirst().isPresent()) {
+			if(ns.getRdfsSubClassOf().stream().filter(c -> c.equals(this.getResource())).findFirst().isPresent()) {
 				usage.add(ns);
 			}
 
@@ -258,11 +258,11 @@ public class NodeShape extends Shape  {
 			for(PropertyShape ps : ns.getProperties()) {
 
 				// check if this node shape is used in sh:qualifiedValueShape
-				if(ps.getShQualifiedValueShape().map(n -> n.equals(this.getShape())).orElse(false)) {
+				if(ps.getShQualifiedValueShape().map(n -> n.equals(this.getResource())).orElse(false)) {
 					usage.add(ps);
 				}
 				// check if this node shape is used in sh:node
-				if(ps.getShNode().map(n -> n.equals(this.getShape())).orElse(false)) {
+				if(ps.getShNode().map(n -> n.equals(this.getResource())).orElse(false)) {
 					usage.add(ps);
 				}
 				// check if this node shape is used in sh:class targeting a class that is the target of this one
@@ -270,7 +270,7 @@ public class NodeShape extends Shape  {
 					usage.add(ps);
 				}
 				// check if this node shape is used in an sh:or containing a sh:node or a sh:class targeting a class that is the target of this one
-				if(ShOrReadingUtils.readShNodeInShOr(ps.getShOr()).stream().filter(n -> n.equals(this.getShape())).findFirst().isPresent()) {
+				if(ShOrReadingUtils.readShNodeInShOr(ps.getShOr()).stream().filter(n -> n.equals(this.getResource())).findFirst().isPresent()) {
 					usage.add(ps);
 				}
 				
@@ -395,26 +395,8 @@ public class NodeShape extends Shape  {
 	/***** / TEXTUAL ANNOTATIONS (label, description)  *******/
 
 
-	public List<SparqlConstraint> getSparqlConstraint() {
-
-		List<SparqlConstraint> sparqlConstraint = new ArrayList();
-
-		List<Resource> resourceConstraint = this.shape.listProperties(SH.sparql).toList().stream().map( c-> c.getResource()).collect(Collectors.toList());
-		for (Resource r : resourceConstraint) {
-			SparqlConstraint sc = new SparqlConstraint();
-
-			if (r.hasProperty(DCT.Description)) {
-				sc.setDescription(r.getProperty(DCT.Description).getString());
-			}
-
-			if (r.hasProperty(SH.select)) {
-				sc.setSelect(r.getProperty(SH.select).getString());
-			}
-
-			sparqlConstraint.add(sc);
-		}
-
-		return sparqlConstraint;
+	public List<SparqlConstraint> getSparqlConstraints() {
+		return this.resource.listProperties(SH.sparql).toList().stream().map( c-> c.getResource()).map(r -> new SparqlConstraint(r)).collect(Collectors.toList());
 	}
 
 	public List<Resource> getShTargetClassRdfsSubclassOfInverseOfShTargetClass() {
@@ -426,7 +408,7 @@ public class NodeShape extends Shape  {
 			
 			if(subClassesOf != null && subClassesOf.size() > 0) {
 				for (Resource aSuperClass : subClassesOf) {
-					List<Resource> shapeWithThisTarget = this.shape.getModel().listStatements(null, SH.targetClass, aSuperClass).toList().stream().map(s -> s.getSubject()).collect(Collectors.toList());
+					List<Resource> shapeWithThisTarget = this.resource.getModel().listStatements(null, SH.targetClass, aSuperClass).toList().stream().map(s -> s.getSubject()).collect(Collectors.toList());
 					for (Resource aShapeWithSuperClassAsTarget : shapeWithThisTarget) {
 						result.add(aShapeWithSuperClassAsTarget);
 					}
@@ -458,7 +440,7 @@ public class NodeShape extends Shape  {
 	 * @return The list of foaf:depiction values, if present, or an empty list if not present
 	 */
 	public List<Resource> getDepiction() {
-		return ModelReadingUtils.readObjectAsResource(shape, FOAF.depiction);
+		return ModelReadingUtils.readObjectAsResource(resource, FOAF.depiction);
 	}
 	
 }

@@ -29,7 +29,7 @@ public class PlantUmlBox implements PlantUmlBoxIfc {
 
 	@Override
 	public Resource getNodeShape() {
-		return this.nodeShape.getShape();
+		return this.nodeShape.getResource();
 	}
 
 	@Override
@@ -76,9 +76,9 @@ public class PlantUmlBox implements PlantUmlBoxIfc {
 	public boolean isTargetingBox(Resource classUri) {	
 		boolean hasShTargetClass = this.nodeShape.isTargeting(classUri);
 		boolean isItselfTheClass = 
-		this.nodeShape.getShape().hasProperty(RDF.type, RDFS.Class)
+		this.nodeShape.getResource().hasProperty(RDF.type, RDFS.Class)
 		&&
-		this.nodeShape.getShape().hasProperty(RDF.type, SH.NodeShape)
+		this.nodeShape.getResource().hasProperty(RDF.type, SH.NodeShape)
 		&&
 		this.nodeShape.equals(classUri);
 		
@@ -110,7 +110,7 @@ public class PlantUmlBox implements PlantUmlBoxIfc {
 	public String getLabel() {
 		// use the sh:targetClass if present, otherwise use the URI of the NodeShape
 		String classLabels = this.getTargetClass().stream().map(targetClass -> ModelRenderingUtils.render(targetClass, true)).collect(Collectors.joining(", "));
-		return ModelRenderingUtils.render(this.nodeShape.getShape(), true)+(classLabels.equals("")?"":" ("+classLabels+")");
+		return ModelRenderingUtils.render(this.nodeShape.getResource(), true)+(classLabels.equals("")?"":" ("+classLabels+")");
 	}
 	
 	public String getPlantUmlQuotedBoxName() {

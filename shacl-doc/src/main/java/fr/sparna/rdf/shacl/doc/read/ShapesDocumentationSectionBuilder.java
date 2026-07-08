@@ -14,6 +14,7 @@ import fr.sparna.rdf.shacl.doc.MarkdownRenderer;
 import fr.sparna.rdf.shacl.doc.PlantUmlSourceGenerator;
 import fr.sparna.rdf.jena.shacl.ShapesGraph;
 import fr.sparna.rdf.shacl.doc.UsageDoc;
+import fr.sparna.rdf.shacl.doc.model.ConstraintEntry;
 import fr.sparna.rdf.shacl.doc.model.Depiction;
 import fr.sparna.rdf.shacl.doc.model.Link;
 import fr.sparna.rdf.shacl.doc.model.PropertyShapeDocumentation;
@@ -25,7 +26,6 @@ import fr.sparna.rdf.shacl.doc.model.Usage;
 import fr.sparna.rdf.jena.shacl.Shape;
 import fr.sparna.rdf.jena.shacl.NodeShape;
 import fr.sparna.rdf.jena.shacl.PropertyShape;
-import fr.sparna.rdf.jena.shacl.ShOrderComparator;
 
 public class ShapesDocumentationSectionBuilder {
 	
@@ -50,9 +50,9 @@ public class ShapesDocumentationSectionBuilder {
 		currentSection.setSectionId(nodeShape.getShortFormOrId());
 		// if the node shape is itself a class, set its subtitle to the URI
 		if(nodeShape.isClassShape()) {
-			currentSection.setSubtitleUri(new Link(nodeShape.getShape().getURI(), nodeShape.getShape().getURI()));
+			currentSection.setSubtitleUri(new Link(nodeShape.getResource().getURI(), nodeShape.getResource().getURI()));
 		} else {
-			currentSection.setSubtitleUri(new Link(null, nodeShape.getShape().getURI()));
+			currentSection.setSubtitleUri(new Link(null, nodeShape.getResource().getURI()));
 		}
 		
 		// title : either skos:prefLabel or rdfs:label or the URI short form
@@ -64,7 +64,7 @@ public class ShapesDocumentationSectionBuilder {
 
 		if (readDiagram) {
 			// Create one diagram for each section
-			List<PlantUmlDiagramOutput> plantUmlDiagrams = this.diagramGenerator.generatePlantUmlDiagramSection(nodeShape.getShape());
+			List<PlantUmlDiagramOutput> plantUmlDiagrams = this.diagramGenerator.generatePlantUmlDiagramSection(nodeShape.getResource());
 			// turn diagrams into output data structure
 			plantUmlDiagrams.stream().forEach(d -> currentSection.getSectionDiagrams().add(new ShapesDocumentationDiagram(d)));
 		}
@@ -117,8 +117,10 @@ public class ShapesDocumentationSectionBuilder {
 		}
 		
 		// SPARQL CONSTRAINT
-		if (nodeShape.getSparqlConstraint().size() > 0) {
-			currentSection.setSparqlConstraints(nodeShape.getSparqlConstraint());
+		if (nodeShape.getSparqlConstraints().size() > 0) {
+			currentSection.setConstraintEntries(nodeShape.getSparqlConstraints().stream()
+					.map(sc -> new ConstraintEntry(sc, lang))
+					.collect(Collectors.toList()));
 		}
 		
 		// sh:pattern
@@ -191,13 +193,13 @@ public class ShapesDocumentationSectionBuilder {
 			depictionsResources.add(aDepiction);					
 		}
 		
-		depictionsResources.sort(new ShOrderComparator());
+		depictionsResources.sort(new Shape.ShOrderComparator());
 		
 		List<Depiction> depictions = new ArrayList<>();
 		for (Resource r : depictionsResources) {
 			Depiction aDepiction = new Depiction();
 			aDepiction.setSrc(r.getURI());
-			aDepiction.setShorder(ShOrderComparator.getShOrderOf(r));
+			aDepiction.setShorder(Shape.ShOrderComparator.getShOrderOf(r));
 			
 			// dcterms:title
 			Optional.ofNullable(r.getProperty(DCTerms.title)).map(s -> s.getString()).ifPresent(title -> aDepiction.setTitle(title));
@@ -242,7 +244,7 @@ public class ShapesDocumentationSectionBuilder {
 			// find corresponding node shape
 			NodeShape superShape = shapesGraph.findNodeShapeByResource(aSuperShape) != null ? shapesGraph.findNodeShapeByResource(aSuperShape) : null ;
 
-			if (superShape != null && !nodeShape.getShape().equals(superShape.getShape())) {			
+			if (superShape != null && !nodeShape.getResource().equals(superShape.getResource())) {			
 				groups.addAll(readPropertyGroupsRec(
 						superShape,
 						shapesGraph,
@@ -273,7 +275,7 @@ public class ShapesDocumentationSectionBuilder {
 				
 				for (NodeShape aNodeShapeWithThisPropertyShape : nsUsage) {
 					// do we already have this node shape in the list? If not, add it with the property shape, otherwise just add the property shape to the existing node shape
-					boolean nsInList = nsUsageAsList.stream().filter( nsdoc -> nsdoc.getNodeShape().getShape().equals(aNodeShapeWithThisPropertyShape.getShape())).findFirst().isPresent();
+					boolean nsInList = nsUsageAsList.stream().filter( nsdoc -> nsdoc.getNodeShape().getResource().equals(aNodeShapeWithThisPropertyShape.getResource())).findFirst().isPresent();
 					if (!nsInList) {
 						UsageDoc usDoc = new UsageDoc(aNodeShapeWithThisPropertyShape);
 						usDoc.getProperties().add(ps);
@@ -281,7 +283,7 @@ public class ShapesDocumentationSectionBuilder {
 					} else {
 						// find the entry corresponding to this node shape
 						for (UsageDoc nsResource : nsUsageAsList) {
-							if (nsResource.getNodeShape().getShape().equals(aNodeShapeWithThisPropertyShape.getShape())) {
+							if (nsResource.getNodeShape().getResource().equals(aNodeShapeWithThisPropertyShape.getResource())) {
 								nsResource.getProperties().add(ps);
 							}
 						}
@@ -289,9 +291,9 @@ public class ShapesDocumentationSectionBuilder {
 				}				
 			} else if (shape instanceof NodeShape) {
 				NodeShape ns = (NodeShape) shape;
-				boolean nsInList = nsUsageAsList.stream().filter( nsdoc -> nsdoc.getNodeShape().getShape().equals(ns.getShape())).findFirst().isPresent();
+				boolean nsInList = nsUsageAsList.stream().filter( nsdoc -> nsdoc.getNodeShape().getResource().equals(ns.getResource())).findFirst().isPresent();
 				if (!nsInList) {
-					UsageDoc usDoc = new UsageDoc(new NodeShape(ns.getShape()));
+					UsageDoc usDoc = new UsageDoc(new NodeShape(ns.getResource()));
 					nsUsageAsList.add(usDoc);					
 				}
 			}
@@ -323,13 +325,13 @@ public class ShapesDocumentationSectionBuilder {
 						.map((ps -> new Link(
 							"#"+PropertyShapeDocumentationBuilder.buildPropertyShapeSectionId(usgae_doc.getNodeShape(), ps),
 							// we need to avoid an empty label here otherwise ReSpec complains, so we default to the short form of the property shape if no label is found
-							ps.getDisplayLabel(shacModel, lang).equals("")?ps.getShape().getModel().shortForm(ps.getShPath().getURI()):ps.getDisplayLabel(shacModel, lang)
+							ps.getDisplayLabel(shacModel, lang).equals("")?ps.getResource().getModel().shortForm(ps.getShPath().getURI()):ps.getDisplayLabel(shacModel, lang)
 						))).collect(Collectors.toList());
 				
 						uOutput.setNodeshape_name(usgae_doc.getNodeShape().getDisplayLabel(shacModel, lang));
 						uOutput.setProperties_usage(linkUsage);						
 				} else {
-					uOutput.setNodeshape_link(new Link("#"+usgae_doc.getNodeShape().getShape().getModel().shortForm(usgae_doc.getNodeShape().getURIOrId()), usgae_doc.getNodeShape().getDisplayLabel(shacModel, lang)));			
+					uOutput.setNodeshape_link(new Link("#"+usgae_doc.getNodeShape().getResource().getModel().shortForm(usgae_doc.getNodeShape().getURIOrId()), usgae_doc.getNodeShape().getDisplayLabel(shacModel, lang)));			
 				} 
 				output.add(uOutput);
 			}

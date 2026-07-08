@@ -10,7 +10,6 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 import fr.sparna.rdf.shacl.diagram.PlantUmlDiagramOutput;
-import fr.sparna.rdf.jena.shacl.SparqlConstraint;
 
 /**
  * One section in the final documentation, corresponding to one NodeShape
@@ -70,16 +69,9 @@ public class ShapesDocumentationSection {
 
 
 	// List of description of attached SPARQL constraints
-	// TODO : refactor as another entity inside the section, with a SPARQL query and a description
-	@JacksonXmlElementWrapper(localName="sparqlConstraints")
-	@JacksonXmlProperty(localName = "sparqlConstraint")
-	private List<SparqlConstraint> sparqlConstraints;
-
-	/*
-	@JacksonXmlElementWrapper(localName="properties")
-	@JacksonXmlProperty(localName = "property")
-	public List<PropertyShapeDocumentation> propertySections;
-	*/
+	@JacksonXmlElementWrapper(localName="constraintEntries")
+	@JacksonXmlProperty(localName = "constraintEntry")
+	private List<ConstraintEntry> constraintEntries;
 	
 	@JacksonXmlElementWrapper(localName="propertyGroups")
 	@JacksonXmlProperty(localName = "propertyGroup")
@@ -328,11 +320,12 @@ public class ShapesDocumentationSection {
 		this.usages = usages;
 	}
 
-	public List<SparqlConstraint> getSparqlConstraints() {
-		return sparqlConstraints;
+	public List<ConstraintEntry> getConstraintEntries() {
+		return constraintEntries;
 	}
 
-	public void setSparqlConstraints(List<SparqlConstraint> sparqlConstraints) {
-		this.sparqlConstraints = sparqlConstraints;
+	public void setConstraintEntries(List<ConstraintEntry> constraintEntries) {
+		this.constraintEntries = constraintEntries;
 	}
+
 }

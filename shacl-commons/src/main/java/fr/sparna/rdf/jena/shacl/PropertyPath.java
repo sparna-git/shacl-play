@@ -8,6 +8,9 @@ import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.shacl.vocabulary.SHACLM;
 
+/**
+ * A SHACL Property Path, as defined in https://www.w3.org/TR/shacl/#property-paths
+ */
 public class PropertyPath {
     
     protected Resource resource;
@@ -16,6 +19,9 @@ public class PropertyPath {
         this.resource = r;
     }
 
+	/**
+	 * @return the underlying resource
+	 */
 	public Resource getResource() {
 		return resource;
 	}

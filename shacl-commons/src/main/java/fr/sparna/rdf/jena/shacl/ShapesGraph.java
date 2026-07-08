@@ -66,7 +66,7 @@ public class ShapesGraph {
 	
 	
 	public NodeShape findNodeShapeByResource(Resource r) {
-		return getAllNodeShapes().stream().filter(ns -> ns.getShape().toString().equals(r.toString())).findFirst().orElse(null);
+		return getAllNodeShapes().stream().filter(ns -> ns.getResource().toString().equals(r.toString())).findFirst().orElse(null);
 	}
 
 	/**
@@ -84,7 +84,7 @@ public class ShapesGraph {
 				.stream()
 				.filter( ns -> ns.getProperties()
 					.stream()
-					.filter( psp -> psp.getShape().equals(ps.getShape()))
+					.filter( psp -> psp.getResource().equals(ps.getResource()))
 					.findFirst()
 					.isPresent()
 				)
@@ -97,7 +97,7 @@ public class ShapesGraph {
 	 */
 	public List<NodeShape> findNodeShapesByPropertyShapeShNode(PropertyShape ps) {
 		return getAllNodeShapes().stream().filter(ns -> 
-			ps.getShNode().map(n -> n.equals(ns.getShape())).orElse(false)
+			ps.getShNode().map(n -> n.equals(ns.getResource())).orElse(false)
 		).collect(Collectors.toList());
 	}
 
@@ -127,7 +127,7 @@ public class ShapesGraph {
 				!ns.isUsedInShapesGraph()
 			)
 		).collect(Collectors.toList());
-		unusedNodeShapes.forEach(ns -> this.deleteNodeShape(ns.getShape()));
+		unusedNodeShapes.forEach(ns -> this.deleteNodeShape(ns.getResource()));
 
 		// do that a second time so that potential sh:node references to the deleted node shapes are also deleted
 		// this should be a loop, of course
@@ -138,7 +138,7 @@ public class ShapesGraph {
 				!ns.isUsedInShapesGraph()
 			)
 		).collect(Collectors.toList());
-		unusedNodeShapes.forEach(ns -> this.deleteNodeShape(ns.getShape()));
+		unusedNodeShapes.forEach(ns -> this.deleteNodeShape(ns.getResource()));
 	}
 
 	/**
@@ -153,12 +153,12 @@ public class ShapesGraph {
 		
 		// For each node shape, collect prefixes from its properties and its property shapes
 		for (NodeShape nodeShape : allNodeShapes) {
-			Resource shapeResource = nodeShape.getShape();
+			Resource shapeResource = nodeShape.getResource();
 			collectPrefixesFromResource(necessaryPrefixes, shapeResource);
 			
 			// Also collect prefixes from property shapes
 			for (PropertyShape propertyShape : nodeShape.getProperties()) {
-				Resource psResource = propertyShape.getShape();
+				Resource psResource = propertyShape.getResource();
 				collectPrefixesFromResource(necessaryPrefixes, psResource);
 			}
 		}

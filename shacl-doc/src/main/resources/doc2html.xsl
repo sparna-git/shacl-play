@@ -1134,19 +1134,16 @@
 					<xsl:apply-templates select="charts" />	
 					
 					<!-- Section for Contraints descriptions -->
-					<xsl:if test="count(sparqlConstraints/sparqlConstraint) &gt; 0">
+					<xsl:if test="count(constraintEntries/constraintEntry) &gt; 0">
 						<h4>
 							<xsl:value-of select="$LABELS/labels/entry[@key='LABEL_CONSTRAINTS']/@label" />
 						</h4>
 
 						<ul class="constraint_list">
-							<xsl:apply-templates select="sparqlConstraints/sparqlConstraint" />
+							<xsl:apply-templates select="constraintEntries/constraintEntry" />
 						</ul>	
 						
 					</xsl:if>
-
-
-
 
 				</section>
 			</div>
@@ -1440,7 +1437,7 @@
 	</xsl:template>
 	
 	<!-- Sparql Constraint -->
-	<xsl:template match="sparqlConstraint">
+	<xsl:template match="constraintEntry">
 		<!-- Sparql Constraint Select-->
 		<li>
 

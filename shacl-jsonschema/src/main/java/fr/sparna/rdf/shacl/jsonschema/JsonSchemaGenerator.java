@@ -143,7 +143,7 @@ public class JsonSchemaGenerator {
 		for (NodeShape ns : shapesGraph.getAllNodeShapes()) {
 			if(!ns.isPureValueShape()) {
 				rootSchema.embeddedSchema(
-					ns.getShape().getLocalName(),
+					ns.getResource().getLocalName(),
 					convertNodeShapeToObjectSchema(ns, shapesGraph.getShaclGraph(),!doNotIncludeValues,addProperties)
 				);
 			}
@@ -169,12 +169,12 @@ public class JsonSchemaGenerator {
             // if there are more than 1, use an OneOf schema
             List<Schema> oneOfList = new ArrayList<>();
             for (NodeShape nsroot : rootNodeShapes) {
-				oneOfList.add(ReferenceSchema.builder().refValue(JsonSchemaGenerator.buildSchemaReference(nsroot.getShape())).build());
+				oneOfList.add(ReferenceSchema.builder().refValue(JsonSchemaGenerator.buildSchemaReference(nsroot.getResource())).build());
             }
 			dataSchema = ArraySchema.builder().minItems(1).allItemSchema(CombinedSchema.anyOf(oneOfList).build()).build();
         } else if(rootNodeShapes.size() == 1) {
             // if there is only one, use only this one
-            Schema singleRootSchema = ReferenceSchema.builder().refValue(JsonSchemaGenerator.buildSchemaReference(rootNodeShapes.get(0).getShape())).build();
+            Schema singleRootSchema = ReferenceSchema.builder().refValue(JsonSchemaGenerator.buildSchemaReference(rootNodeShapes.get(0).getResource())).build();
             dataSchema = ArraySchema.builder().minItems(1).allItemSchema(singleRootSchema).build();
         } else {
 			throw new Exception("Could not determine a root schema");
@@ -243,7 +243,7 @@ public class JsonSchemaGenerator {
 		boolean addProperties
 	) throws Exception {
 		
-		log.debug("Converting NodeShape "+nodeShape.getShape().getURI()+" to JSON Schema, with "+nodeShape.getProperties().size()+" properties");
+		log.debug("Converting NodeShape "+nodeShape.getResource().getURI()+" to JSON Schema, with "+nodeShape.getProperties().size()+" properties");
 
 		ObjectSchema.Builder objectSchema = ObjectSchema.builder();	
 		
@@ -302,7 +302,7 @@ public class JsonSchemaGenerator {
 			// in the context
 			if(contextTest != null) {
 				String shortname = contextTest.getLeft();
-				log.debug("Converting PropertyShape "+ps.getShape().getURI()+" with key '"+shortname+"' to JSON Schema");
+				log.debug("Converting PropertyShape "+ps.getResource().getURI()+" with key '"+shortname+"' to JSON Schema");
 				objectSchema.addPropertySchema(shortname, this.convertPropertyShapeSchema(
 					ps, 
 					// requires array
@@ -578,7 +578,7 @@ public class JsonSchemaGenerator {
 
 		// sh:datatype, including in qualifiedValueShape
 		Optional<Resource> qualifiedValueShapeDatatype = Optional.ofNullable(
-			nodeShapeOrPropertyShape.getShape().getProperty(SH.qualifiedValueShape)
+			nodeShapeOrPropertyShape.getResource().getProperty(SH.qualifiedValueShape)
 		)
 		.map(st -> st.getResource())
 		.map(r -> new NodeShape(r)).flatMap(ns -> ns.getShDatatype());
@@ -672,11 +672,11 @@ public class JsonSchemaGenerator {
 				qualifiedValueShapeNode.isPresent()
 		) {
 			Resource theShNode = ps.getShNode().orElseGet(() -> qualifiedValueShapeNode.orElse(null));
-			ShapesGraph shapesGraph = new ShapesGraph(ps.getShape().getModel(), null);
+			ShapesGraph shapesGraph = new ShapesGraph(ps.getResource().getModel(), null);
 			if(shapesGraph.findNodeShapeByResource(theShNode) != null) {
 				return theShNode;
 			} else {
-				log.warn("Found a sh:node reference to "+theShNode.getURI()+" in property shape "+ps.getShape().getURI()+" but no NodeShape with this URI was found in the graph, ignoring this sh:node");
+				log.warn("Found a sh:node reference to "+theShNode.getURI()+" in property shape "+ps.getResource().getURI()+" but no NodeShape with this URI was found in the graph, ignoring this sh:node");
 				return null;
 			}
 		}
@@ -687,7 +687,7 @@ public class JsonSchemaGenerator {
 		if(ps.getShOr() != null) {
 			List<Resource> shNode = ShOrReadingUtils.readShNodeInShOr(ps.getShOr()).stream().map(r -> r.asResource()).collect(Collectors.toList());
 			// filter to keep only references that are found in the current file
-			ShapesGraph shapesGraph = new ShapesGraph(ps.getShape().getModel(), null);
+			ShapesGraph shapesGraph = new ShapesGraph(ps.getResource().getModel(), null);
 			shNode = shNode.stream()
 				.filter(n -> shapesGraph.findNodeShapeByResource(n) != null)
 				.collect(Collectors.toList());
@@ -711,21 +711,21 @@ public class JsonSchemaGenerator {
                 for (NodeShape nodeShape : nodeShapes) {
                     for (PropertyShape propertyShape : nodeShape.getProperties()) {
                         if(
-                            propertyShape.getShNode().filter(r -> r.getURI().equals(ns.getShape().getURI())).isPresent()
+                            propertyShape.getShNode().filter(r -> r.getURI().equals(ns.getResource().getURI())).isPresent()
                             ||
                             propertyShape.getShClass().filter(r -> {
                                 return 
 								// just in case to prevent NullPointer
 								(r.getURI() != null)
 								&&
-                                r.getURI().equals(ns.getShape().getURI())
+                                r.getURI().equals(ns.getResource().getURI())
                                 ||
                                 (ns.isTargeting(r))
                                 ;
                             }).isPresent()
                         ) {
                             if(propertyShape.isEmbedNever()) {
-								log.debug("Found that "+ns.getShape().getURI() + " is not embedded in property "+propertyShape.getShape().getURI());
+								log.debug("Found that "+ns.getResource().getURI() + " is not embedded in property "+propertyShape.getResource().getURI());
                                 isEmbedded = false;
                                 break;
                             }
@@ -737,7 +737,7 @@ public class JsonSchemaGenerator {
                 }
 
                 // 2. or be explicitely specified as an input
-                boolean isExplicitelyRootShape = rootShapes.contains(ns.getShape().getURI());
+                boolean isExplicitelyRootShape = rootShapes.contains(ns.getResource().getURI());
 
                 return  isExplicitelyRootShape || !isEmbedded;
             }

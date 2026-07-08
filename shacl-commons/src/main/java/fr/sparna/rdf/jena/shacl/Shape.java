@@ -23,28 +23,28 @@ import org.topbraid.shacl.vocabulary.SH;
 
 public abstract class Shape {
 	
-	protected Resource shape;
+	protected Resource resource;
 
-	public Shape(Resource shape) {  
-	    this.shape = shape;		
+	public Shape(Resource resource) {  
+	    this.resource = resource;		
 	}
 
 	public abstract String getDisplayLabel(Model owlModel, String lang);
 	public abstract String getDisplayDescription(Model owlModel, String lang);
 	
 	/**
-	 * @return the underlying shape Resource
+	 * @return the underlying Resource
 	 */
-	public Resource getShape() {
-		return shape;
+	public Resource getResource() {
+		return resource;
 	}
 
 	public String getShortFormOrId() {
-		if(this.shape != null && this.shape.isURIResource()) {
-			return this.getShape().getModel().shortForm(this.getShape().getURI());
+		if(this.resource != null && this.resource.isURIResource()) {
+			return this.getResource().getModel().shortForm(this.getResource().getURI());
 		} else {
 			// returns the blank node ID in that case
-			return this.shape.asResource().getId().getLabelString();
+			return this.resource.asResource().getId().getLabelString();
 		}
 	}
 
@@ -52,104 +52,104 @@ public abstract class Shape {
 	 * @return the URI of the shape if it is a URI resource, or the blank node ID if it is a blank node
 	 */
 	public String getURIOrId() {
-		if(this.shape.isURIResource()) {
-			return this.shape.getURI();
+		if(this.resource.isURIResource()) {
+			return this.resource.getURI();
 		} else {
 			// returns the blank node ID in that case
-			return this.shape.getId().toString();
+			return this.resource.getId().toString();
 		}
 	}
 
 	public Optional<Literal> getShaclPlayColor() {
-		return ModelReadingUtils.getOptionalLiteral(shape, shape.getModel().createProperty(SHACL_PLAY.COLOR));
+		return ModelReadingUtils.getOptionalLiteral(resource, resource.getModel().createProperty(SHACL_PLAY.COLOR));
 	}
 
 	public Optional<Literal> getShaclPlayBackgroundColor() {
-		return ModelReadingUtils.getOptionalLiteral(shape, shape.getModel().createProperty(SHACL_PLAY.BACKGROUNDCOLOR));
+		return ModelReadingUtils.getOptionalLiteral(resource, resource.getModel().createProperty(SHACL_PLAY.BACKGROUNDCOLOR));
 	}
 
 	public Optional<Literal> getShaclPlayShortName() {
-		return ModelReadingUtils.getOptionalLiteral(shape, shape.getModel().createProperty(SHACL_PLAY.SHORTNAME));
+		return ModelReadingUtils.getOptionalLiteral(resource, resource.getModel().createProperty(SHACL_PLAY.SHORTNAME));
 	}
 
 	public Optional<Literal> getShaclPlayMain() {
-		return ModelReadingUtils.getOptionalLiteral(shape, shape.getModel().createProperty(SHACL_PLAY.MAIN));
+		return ModelReadingUtils.getOptionalLiteral(resource, resource.getModel().createProperty(SHACL_PLAY.MAIN));
 	}
 
 	public RDFList getShOr() {
-		if (shape.hasProperty(SH.or)) {
-			return shape.getProperty(SH.or).getObject().as(RDFList.class); 
+		if (resource.hasProperty(SH.or)) {
+			return resource.getProperty(SH.or).getObject().as(RDFList.class); 
 		} else {
 			return null;
 		}		
 	}
 
 	public Optional<Resource> getShGroup() {
-		return ModelReadingUtils.getOptionalResource(shape, SH.group);
+		return ModelReadingUtils.getOptionalResource(resource, SH.group);
 	}
 
 	public Optional<Resource> getShNode() {
-		return ModelReadingUtils.getOptionalResource(shape, SH.node);
+		return ModelReadingUtils.getOptionalResource(resource, SH.node);
 	}
 
 	public List<Resource> getShNodeAsList() {
-		return ModelReadingUtils.readObjectAsResource(shape, SH.node);
+		return ModelReadingUtils.readObjectAsResource(resource, SH.node);
 	}
 
 	public Optional<Resource> getShClass() {
-		return ModelReadingUtils.getOptionalResource(shape, SH.class_);
+		return ModelReadingUtils.getOptionalResource(resource, SH.class_);
 	}
 
 	public Optional<Resource> getShDatatype() {
-		return ModelReadingUtils.getOptionalResource(this.shape, SH.datatype);
+		return ModelReadingUtils.getOptionalResource(this.resource, SH.datatype);
 	}
 	
 	public Optional<Resource> getShNodeKind() {
-		return ModelReadingUtils.getOptionalResource(this.shape, SH.nodeKind);
+		return ModelReadingUtils.getOptionalResource(this.resource, SH.nodeKind);
 	}
 	
 	public Optional<Literal> getShPattern() {
-		return ModelReadingUtils.getOptionalLiteral(this.shape, SH.pattern);
+		return ModelReadingUtils.getOptionalLiteral(this.resource, SH.pattern);
 	}
 
 	public Optional<Float> getShOrder() {
-		return ModelReadingUtils.getOptionalLiteral(this.shape, SH.order).map(l -> l.getFloat());
+		return ModelReadingUtils.getOptionalLiteral(this.resource, SH.order).map(l -> l.getFloat());
 	}
 
 	public Optional<Literal> getShOrderAsLiteral() {
-		return ModelReadingUtils.getOptionalLiteral(this.shape, SH.order);
+		return ModelReadingUtils.getOptionalLiteral(this.resource, SH.order);
 	}
 
 	public Optional<Integer> getShMinLength() {
-		return ModelReadingUtils.getOptionalLiteral(this.shape, SH.minLength).map(l -> l.getInt());
+		return ModelReadingUtils.getOptionalLiteral(this.resource, SH.minLength).map(l -> l.getInt());
 	}
 	
 	public Optional<Integer> getShMaxLength() {
-		return ModelReadingUtils.getOptionalLiteral(this.shape, SH.maxLength).map(l -> l.getInt());
+		return ModelReadingUtils.getOptionalLiteral(this.resource, SH.maxLength).map(l -> l.getInt());
 	}
 	
 	public Optional<Literal> getShMinInclusive() {
-		return ModelReadingUtils.getOptionalLiteral(this.shape, SH.minInclusive);
+		return ModelReadingUtils.getOptionalLiteral(this.resource, SH.minInclusive);
 	}
 	
 	public Optional<Literal> getShMaxInclusive() {
-		return ModelReadingUtils.getOptionalLiteral(this.shape, SH.maxInclusive);
+		return ModelReadingUtils.getOptionalLiteral(this.resource, SH.maxInclusive);
 	}
 	
 	public Optional<Literal> getShMinExclusive() {
-		return ModelReadingUtils.getOptionalLiteral(this.shape, SH.minExclusive);
+		return ModelReadingUtils.getOptionalLiteral(this.resource, SH.minExclusive);
 	}
 	
 	public Optional<Literal> getShMaxExclusive() {
-		return ModelReadingUtils.getOptionalLiteral(this.shape, SH.maxExclusive);
+		return ModelReadingUtils.getOptionalLiteral(this.resource, SH.maxExclusive);
 	}
 
 	public Optional<Boolean> getShDeactivated() {
-		return ModelReadingUtils.getOptionalLiteral(this.shape,SH.deactivated).map(l -> l.getBoolean());
+		return ModelReadingUtils.getOptionalLiteral(this.resource,SH.deactivated).map(l -> l.getBoolean());
 	}
 
 	public List<Literal> getShLanguageIn() {
-		Optional<Resource> list = ModelReadingUtils.getOptionalResource(this.shape, SH.languageIn);
+		Optional<Resource> list = ModelReadingUtils.getOptionalResource(this.resource, SH.languageIn);
 		if(list.isPresent()) {
 			List<RDFNode> languages = ModelReadingUtils.asJavaList(list.get());
 			return languages.stream().filter(n -> n.isLiteral()).map(n -> n.asLiteral()).collect(Collectors.toList());
@@ -159,7 +159,7 @@ public abstract class Shape {
 	}
 
 	public List<RDFNode> getSkosExample() {
-		return ModelReadingUtils.readObjectAsResourceOrLiteral(shape, SKOS.example);
+		return ModelReadingUtils.readObjectAsResourceOrLiteral(resource, SKOS.example);
 	}
 
 	/**
@@ -171,27 +171,27 @@ public abstract class Shape {
 	 */
 	public boolean couldBeLiteral() {
 		  return 
-		  shape.hasProperty(SH.datatype)
+		  resource.hasProperty(SH.datatype)
 		  ||
 		  ( 
-			shape.hasProperty(SH.nodeKind)
+			resource.hasProperty(SH.nodeKind)
 			&& 
-	  		shape.getProperty(SH.nodeKind).getObject().asResource().equals(SH.Literal) 
+	  		resource.getProperty(SH.nodeKind).getObject().asResource().equals(SH.Literal) 
 		  )
 		  ||
-		  shape.hasProperty(SH.languageIn)
+		  resource.hasProperty(SH.languageIn)
 	  	  ||
-		  shape.hasProperty(SH.minLength)
+		  resource.hasProperty(SH.minLength)
 		  ||
-		  shape.hasProperty(SH.maxLength)
+		  resource.hasProperty(SH.maxLength)
 	  	  ||
-		  shape.hasProperty(SH.minInclusive)
+		  resource.hasProperty(SH.minInclusive)
 		  ||
-		  shape.hasProperty(SH.maxInclusive)
+		  resource.hasProperty(SH.maxInclusive)
 	  	  ||
-		  shape.hasProperty(SH.minExclusive)
+		  resource.hasProperty(SH.minExclusive)
 		  ||
-		  shape.hasProperty(SH.maxExclusive);
+		  resource.hasProperty(SH.maxExclusive);
 	}
 
 	public boolean hasShOrShClassOrShNode() {
@@ -203,8 +203,8 @@ public abstract class Shape {
 	}
 
 	public List<Resource> getShOrShDatatype() {
-		if (this.shape.hasProperty(SH.or)) {			
-			List<Resource> values = ShOrReadingUtils.readShDatatypeInShOr(this.shape.getProperty(SH.or).getList());
+		if (this.resource.hasProperty(SH.or)) {			
+			List<Resource> values = ShOrReadingUtils.readShDatatypeInShOr(this.resource.getProperty(SH.or).getList());
 			if(values.size() > 0) {
 				return values;
 			}
@@ -213,8 +213,8 @@ public abstract class Shape {
 	}
 	
 	public List<Resource> getShOrShNodeKind() {
-		if (this.shape.hasProperty(SH.or)) {			
-			List<Resource> values = ShOrReadingUtils.readShNodeKindInShOr(this.shape.getProperty(SH.or).getList());
+		if (this.resource.hasProperty(SH.or)) {			
+			List<Resource> values = ShOrReadingUtils.readShNodeKindInShOr(this.resource.getProperty(SH.or).getList());
 			if(values.size() > 0) {
 				return values;
 			}
@@ -223,8 +223,8 @@ public abstract class Shape {
 	}
 	
 	public List<Resource> getShOrShClass() {
-		if (this.shape.hasProperty(SH.or)) {			
-			List<Resource> values = ShOrReadingUtils.readShClassInShOr(this.shape.getProperty(SH.or).getList());
+		if (this.resource.hasProperty(SH.or)) {			
+			List<Resource> values = ShOrReadingUtils.readShClassInShOr(this.resource.getProperty(SH.or).getList());
 			if(values.size() > 0) {
 				return values;
 			}
@@ -234,8 +234,8 @@ public abstract class Shape {
 	}
 	
 	public List<Resource> getShOrShNode() {
-		if (this.shape.hasProperty(SH.or)) {			
-			List<Resource> values = ShOrReadingUtils.readShNodeInShOr(this.shape.getProperty(SH.or).getList());
+		if (this.resource.hasProperty(SH.or)) {			
+			List<Resource> values = ShOrReadingUtils.readShNodeInShOr(this.resource.getProperty(SH.or).getList());
 			if(values.size() > 0) {
 				return values;
 			}
@@ -249,8 +249,8 @@ public abstract class Shape {
 	}
 
 	public List<Resource> getPropertyRoles() {
-		if (shape.hasProperty(DASH.propertyRole)) {
-			List<Statement> propertyRoles = shape.listProperties(DASH.propertyRole).toList();
+		if (resource.hasProperty(DASH.propertyRole)) {
+			List<Statement> propertyRoles = resource.listProperties(DASH.propertyRole).toList();
 			return propertyRoles.stream().map(s -> s.getObject().asResource()).collect(Collectors.toList());
 		} else {
 			return Collections.emptyList();
@@ -265,49 +265,49 @@ public abstract class Shape {
 	 * @return The rdfs:comment list in the provided language, or an empty list if none is present
 	 */
 	public List<Literal> getRdfsComment(String lang) {
-		return ModelReadingUtils.readLiteralInLang(shape, RDFS.comment, lang);
+		return ModelReadingUtils.readLiteralInLang(resource, RDFS.comment, lang);
 	}
 	
 	/**
 	 * @return The rdfs:label list in the provided language, or an empty list if none is present
 	 */
 	public List<Literal> getRdfsLabel(String lang) {
-		return ModelReadingUtils.readLiteralInLang(shape, RDFS.label, lang);
+		return ModelReadingUtils.readLiteralInLang(resource, RDFS.label, lang);
 	}
 
 	/**
 	 * @return The rdfs:label list in the provided language, or an empty list if none is present
 	 */
 	public List<Literal> getSchemaName(String lang) {
-		return ModelReadingUtils.readLiteralInLang(shape, SCHEMA.name, lang);
+		return ModelReadingUtils.readLiteralInLang(resource, SCHEMA.name, lang);
 	}
 
 	/**
 	 * @return The rdfs:label list in the provided language, or an empty list if none is present
 	 */
 	public List<Literal> getSchemaDescription(String lang) {
-		return ModelReadingUtils.readLiteralInLang(shape, SCHEMA.description, lang);
+		return ModelReadingUtils.readLiteralInLang(resource, SCHEMA.description, lang);
 	}
 
 	/**
 	 * @return The skos:prefLabel list in the provided language, or an empty list if none is present
 	 */
 	public List<Literal> getSkosPrefLabel(String lang) {
-		return ModelReadingUtils.readLiteralInLang(shape, SKOS.prefLabel, lang);
+		return ModelReadingUtils.readLiteralInLang(resource, SKOS.prefLabel, lang);
 	}
 	
 	/**
 	 * @return The skos:definition list in the provided language, or an empty list if none is present
 	 */
 	public List<Literal> getSkosDefinition(String lang) {
-		return ModelReadingUtils.readLiteralInLang(shape, SKOS.definition, lang);
+		return ModelReadingUtils.readLiteralInLang(resource, SKOS.definition, lang);
 	}	
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((shape == null) ? 0 : shape.hashCode());
+		result = prime * result + ((resource == null) ? 0 : resource.hashCode());
 		return result;
 	}
 
@@ -320,10 +320,10 @@ public abstract class Shape {
 		if (getClass() != obj.getClass())
 			return false;
 		Shape other = (Shape) obj;
-		if (shape == null) {
-			if (other.shape != null)
+		if (resource == null) {
+			if (other.resource != null)
 				return false;
-		} else if (!shape.equals(other.shape))
+		} else if (!resource.equals(other.resource))
 			return false;
 		return true;
 	}
@@ -333,7 +333,7 @@ public abstract class Shape {
 		public ShOrderComparator() {
 		}
 
-		private static Double getShOrderOf(Resource r) {
+		public static Double getShOrderOf(Resource r) {
 			return Optional.ofNullable(r.getProperty(SH.order)).map(s -> s.getDouble()).orElse(null);
 		}
 

@@ -87,7 +87,7 @@
 			<entry key="SECTION.USAGE.TITLE" label="Utilisation" />
 
 			<!-- SPARQL Constraint -->
-			<entry key="LABEL_DESCRIPTION_SPARQL" label="Contrainte sans description textuelle" />
+			<entry key="LABEL_DESCRIPTION_SPARQL" label="Pas de description disponible" />
 		</labels>
 	</xsl:variable>
 	<!-- In this stylesheet we just copy the base labels -->
@@ -170,7 +170,7 @@
 			<entry key="SECTION.USAGE.TITLE" label="Usage" />
 
 			<!-- SPARQL Constraint -->
-			<entry key="LABEL_DESCRIPTION_SPARQL" label="Constraint without textual description" />
+			<entry key="LABEL_DESCRIPTION_SPARQL" label="No description available" />
 		</labels>
 	</xsl:variable>
 	<!-- In this stylesheet we just copy the base labels -->
@@ -1341,14 +1341,14 @@
 			</xsl:if>
 
 			<!-- Additionnal constraints -->
-			<xsl:if test="count(sparqlConstraints/sparqlConstraint) &gt; 0">
+			<xsl:if test="count(constraintEntries/constraintEntry) &gt; 0">
 				<xsl:variable name="section_constraints" select="concat('constraints-',sectionId)"/>
 				<section id="{$section_constraints}">
 					<!-- title of section -->
 					<h4><xsl:value-of select="$LABELS/labels/entry[@key='LABEL_CONSTRAINTS']/@label" /></h4>
 
 					<ul class="constraint_list">
-						<xsl:apply-templates select="sparqlConstraints/sparqlConstraint" />
+						<xsl:apply-templates select="constraintEntries/constraintEntry" />
 					</ul>	
 				</section>
 			</xsl:if>
@@ -1674,7 +1674,7 @@
 	</xsl:template>
 	
 	<!-- Sparql Constraint -->
-	<xsl:template match="sparqlConstraint">
+	<xsl:template match="constraintEntry">
 		<!-- Sparql Constraint Select-->
 		<li>
 

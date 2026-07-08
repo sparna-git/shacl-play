@@ -50,7 +50,7 @@ public class PropertyShape extends Shape {
 
 		if(result == null && this.getShPath() == null) {
 			// problem. Return something so at least we can debug
-			return this.getShape().toString();
+			return this.getResource().toString();
 		}
 		
 		if(result == null && this.getShPath().isURIResource() && owlModel != null) {
@@ -114,12 +114,12 @@ public class PropertyShape extends Shape {
 	 * Could be either an IRI or a boolean set to false
 	 */
 	public Optional<RDFNode> getEmbed() {
-		return ModelReadingUtils.getOptionalRdfNode(shape, shape.getModel().createProperty(SHACL_PLAY.EMBED));
+		return ModelReadingUtils.getOptionalRdfNode(resource, resource.getModel().createProperty(SHACL_PLAY.EMBED));
 	}
 	
 	public List<RDFNode> getShIn() {
-		if (shape.hasProperty(SH.in)) {
-			Resource list = shape.getProperty(SH.in).getList().asResource();
+		if (resource.hasProperty(SH.in)) {
+			Resource list = resource.getProperty(SH.in).getList().asResource();
 			return list.as(RDFList.class).asJavaList();
 		} else {
 			return null;
@@ -134,67 +134,67 @@ public class PropertyShape extends Shape {
 	public boolean couldBeIriProperty() {
 		return
 		(
-			shape.hasProperty(SH.nodeKind)
+			resource.hasProperty(SH.nodeKind)
 			&&
-			shape.getProperty(SH.nodeKind).getObject().asResource().equals(SH.IRI)
+			resource.getProperty(SH.nodeKind).getObject().asResource().equals(SH.IRI)
 		)
 		||
-		shape.hasProperty(SH.class_);
+		resource.hasProperty(SH.class_);
  	}
 
 	
 	public Optional<Resource> getShQualifiedValueShape() {
-		return ModelReadingUtils.getOptionalResource(shape, SH.qualifiedValueShape);
+		return ModelReadingUtils.getOptionalResource(resource, SH.qualifiedValueShape);
 	}
 	
 	public Resource getShPath() {
-		return shape.getRequiredProperty(SH.path).getObject().asResource();
+		return resource.getRequiredProperty(SH.path).getObject().asResource();
 	}
 	
 	public Optional<Literal> getShName() {
-		return ModelReadingUtils.getOptionalLiteral(this.shape, SH.name);
+		return ModelReadingUtils.getOptionalLiteral(this.resource, SH.name);
 	}
 
 	/**
 	 * @return The sh:name list in the provided language, or an empty list if none is present
 	 */
 	public List<Literal> getShName(String lang) {
-		return ModelReadingUtils.readLiteralInLang(shape, SH.name, lang);
+		return ModelReadingUtils.readLiteralInLang(resource, SH.name, lang);
 	}
 	
 	public Optional<Literal> getShDescription() {
-		return ModelReadingUtils.getOptionalLiteral(this.shape, SH.description);
+		return ModelReadingUtils.getOptionalLiteral(this.resource, SH.description);
 	}
 
 	/**
 	 * @return The sh:description list in the provided language, or an empty list if none is present
 	 */
 	public List<Literal> getShDescription(String lang) {
-		return ModelReadingUtils.readLiteralInLang(shape, SH.description, lang);
+		return ModelReadingUtils.readLiteralInLang(resource, SH.description, lang);
 	}
 	
 	public Optional<RDFNode> getShHasValue() {
-		return ModelReadingUtils.getOptionalRdfNode(this.shape, SH.hasValue);
+		return ModelReadingUtils.getOptionalRdfNode(this.resource, SH.hasValue);
 	}
 	
 	public Optional<Literal> getShUniqueLang() {
-		return ModelReadingUtils.getOptionalLiteral(this.shape, SH.uniqueLang);
+		return ModelReadingUtils.getOptionalLiteral(this.resource, SH.uniqueLang);
 	}
 	
 	public Optional<Integer> getShMinCount() {
-		return ModelReadingUtils.getOptionalLiteral(this.shape, SH.minCount).map(l -> l.getInt());
+		return ModelReadingUtils.getOptionalLiteral(this.resource, SH.minCount).map(l -> l.getInt());
 	}
 	
 	public Optional<Integer> getShMaxCount() {
-		return ModelReadingUtils.getOptionalLiteral(this.shape, SH.maxCount).map(l -> l.getInt());
+		return ModelReadingUtils.getOptionalLiteral(this.resource, SH.maxCount).map(l -> l.getInt());
 	}
 	
 	public Optional<Integer> getShQualifiedMinCount() {
-		return ModelReadingUtils.getOptionalLiteral(this.shape, SH.qualifiedMinCount).map(l -> l.getInt());
+		return ModelReadingUtils.getOptionalLiteral(this.resource, SH.qualifiedMinCount).map(l -> l.getInt());
 	}
 	
 	public Optional<Integer> getShQualifiedMaxCount() {
-		return ModelReadingUtils.getOptionalLiteral(this.shape, SH.qualifiedMaxCount).map(l -> l.getInt());
+		return ModelReadingUtils.getOptionalLiteral(this.resource, SH.qualifiedMaxCount).map(l -> l.getInt());
 	}
 	
 	public String getShNodeLabel() {
@@ -249,7 +249,7 @@ public class PropertyShape extends Shape {
 					if(ps1.getPropertyPath().renderSparqlPropertyPath() != null && ps2.getPropertyPath().renderSparqlPropertyPath() != null) {						
 						return ps1.getPropertyPath().renderSparqlPropertyPath().compareTo(ps2.getPropertyPath().renderSparqlPropertyPath());
 					} else {
-						return ps1.getShape().toString().compareTo(ps2.getShape().toString());
+						return ps1.getResource().toString().compareTo(ps2.getResource().toString());
 					}
 				}
 			}

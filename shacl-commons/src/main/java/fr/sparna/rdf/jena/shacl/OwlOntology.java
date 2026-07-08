@@ -24,7 +24,14 @@ public class OwlOntology {
 	public OwlOntology(Resource rOntology) {
 		this.resource = rOntology;		
 	}	
-	
+
+	/**
+	 * @return the underlying resource
+	 */
+	public Resource getResource() {
+		return resource;
+	}
+		
 	public List<RDFNode> getRepository() {
 		return ModelReadingUtils.readObjectAsResourceOrLiteral(this.resource, DOAP.repository);
 	}
@@ -150,11 +157,6 @@ public class OwlOntology {
 
 	public String getVersionNotes(String lang) {
 		return ModelReadingUtils.readLiteralInLangAsString(this.resource,this.resource.getModel().createProperty(ADMS.VERSION_NOTES), lang);
-	}
-
-	public Resource getResource() {
-		return resource;
-	}
-	
+	}	
 	
 }

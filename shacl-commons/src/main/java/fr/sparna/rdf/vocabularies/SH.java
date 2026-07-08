@@ -36,6 +36,8 @@ public class SH {
     public final static Property resultPath = ResourceFactory.createProperty(NS + "resultPath");
     
     public final static Property resultMessage = ResourceFactory.createProperty(NS + "resultMessage");
+
+    public final static Property select = ResourceFactory.createProperty(NS + "select");
     
     public final static Property sourceConstraint = ResourceFactory.createProperty(NS + "sourceConstraint");
     
@@ -45,8 +47,7 @@ public class SH {
     
     public final static Property value = ResourceFactory.createProperty(NS + "value");
     
-    public final static Property zeroOrMorePath = ResourceFactory.createProperty(NS + "zeroOrMorePath");
-    
+    public final static Property zeroOrMorePath = ResourceFactory.createProperty(NS + "zeroOrMorePath");    
     
     public final static Resource Violation = ResourceFactory.createResource(NS + "Violation");
 

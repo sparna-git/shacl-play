@@ -68,6 +68,9 @@ public class Doc implements CliCommandIfc {
 		}
 		
 		ShapesDocumentationReaderIfc reader = ShapesDocumentationModelReader.buildShapesDocumentationModelReader(
+			shapesModel,
+			owlModel,
+			a.getLanguage(),
 			a.getDiagramShacl(),
 			name_img,
 			a.getHidePropertiesShacl(),
@@ -75,11 +78,7 @@ public class Doc implements CliCommandIfc {
 			!a.getNoUnusedNodeShapeFiltering()
 		);
 		
-		ShapesDocumentation doc = reader.readShapesDocumentation(
-				shapesModel,
-				owlModel,
-				a.getLanguage()
-		);
+		ShapesDocumentation doc = reader.readShapesDocumentation();
 		
 		
 		FileOutputStream out = new FileOutputStream(a.getOutput());

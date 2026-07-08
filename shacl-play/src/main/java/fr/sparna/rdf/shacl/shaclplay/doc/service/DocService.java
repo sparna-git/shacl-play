@@ -119,18 +119,17 @@ public class DocService {
         ShapesDocumentationWriterIfc writer;
 
         ShapesDocumentationReaderIfc reader = ShapesDocumentationModelReader.buildShapesDocumentationModelReader(
+                shapesModel,
+                // OWL graph : empty
+                ModelFactory.createDefaultModel(),
+                languageInput,
                 includeDiagram,
                 urlLogo,
                 hideProperties,
                 includeSectionDiagram,
                 filterUnusedNodeShapes
         );
-        ShapesDocumentation doc = reader.readShapesDocumentation(
-                shapesModel,
-                // OWL graph : empty
-                ModelFactory.createDefaultModel(),
-                languageInput
-        );
+        ShapesDocumentation doc = reader.readShapesDocumentation();
 
         switch (format){
             case HTML -> {

@@ -1,4 +1,4 @@
-package fr.sparna.rdf.shacl.doc.read;
+package fr.sparna.rdf.shacl.doc.read.visitors;
 
 import java.util.List;
 

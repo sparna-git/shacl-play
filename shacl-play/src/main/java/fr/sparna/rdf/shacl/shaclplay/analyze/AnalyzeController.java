@@ -245,15 +245,15 @@ public class AnalyzeController {
 				shapesModel.add(countModel);
 
 				// generate the documentation
-				ShapesDocumentationModelReader reader = ShapesDocumentationModelReader.buildDefaultShapesDocumentationModelReader();
-				ShapesDocumentation sd = reader.readShapesDocumentation(
-						// shapes + statistics
-						shapesModel,
-						// owl ontology
-						ModelFactory.createDefaultModel(),
-						// language
-						language						
+				ShapesDocumentationModelReader reader = ShapesDocumentationModelReader.buildDefaultShapesDocumentationModelReader(
+					// shapes + statistics
+					shapesModel,
+					// owl ontology
+					ModelFactory.createDefaultModel(),
+					// language
+					language	
 				);
+				ShapesDocumentation sd = reader.readShapesDocumentation();
 
 				// then serialize				
 				serialize(
@@ -290,15 +290,15 @@ public class AnalyzeController {
 
 				if(!async) {
 					// generate the documentation
-					ShapesDocumentationModelReader reader = ShapesDocumentationModelReader.buildDefaultShapesDocumentationModelReader();
-					ShapesDocumentation sd = reader.readShapesDocumentation(
-							// shapes + statistics
-							shapesModel,
-							// owl ontology
-							ModelFactory.createDefaultModel(),
-							// language
-							language						
+					ShapesDocumentationModelReader reader = ShapesDocumentationModelReader.buildDefaultShapesDocumentationModelReader(
+						// shapes + statistics
+						shapesModel,
+						// owl ontology
+						ModelFactory.createDefaultModel(),
+						// language
+						language
 					);
+					ShapesDocumentation sd = reader.readShapesDocumentation();
 					
 					// then serialize				
 					serialize(
@@ -536,15 +536,15 @@ public class AnalyzeController {
 		ShapesDocumentationWriterIfc.MODE mode = ShapesDocumentationWriterIfc.MODE.valueOf(format.toUpperCase());
 
 		// generate the documentation
-		ShapesDocumentationModelReader reader = ShapesDocumentationModelReader.buildDefaultShapesDocumentationModelReader();
-		ShapesDocumentation sd = reader.readShapesDocumentation(
-				// shapes
-				generatedShapes,
-				// owl ontology
-				ModelFactory.createDefaultModel(),
-				// language
-				language						
+		ShapesDocumentationModelReader reader = ShapesDocumentationModelReader.buildDefaultShapesDocumentationModelReader(
+			// shapes
+			generatedShapes,
+			// owl ontology
+			ModelFactory.createDefaultModel(),
+			// language
+			language
 		);
+		ShapesDocumentation sd = reader.readShapesDocumentation();
 		
 		// then serialize				
 		serialize(

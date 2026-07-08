@@ -11,30 +11,43 @@ import fr.sparna.rdf.jena.shacl.NodeShape;
 import fr.sparna.rdf.shacl.diagram.PlantUmlDiagramOutput;
 import fr.sparna.rdf.shacl.doc.PlantUmlSourceGenerator;
 import fr.sparna.rdf.jena.shacl.ShapesGraph;
-import fr.sparna.rdf.jena.shacl.ShapesGraph;
 import fr.sparna.rdf.shacl.doc.model.NamespaceSection;
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentation;
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentationDiagram;
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentationSection;
+import fr.sparna.rdf.shacl.doc.read.visitors.EnrichDocumentationWithChartsVisitor;
+import fr.sparna.rdf.shacl.doc.read.visitors.EnrichDocumentationWithQuerySparqlVisitor;
+import fr.sparna.rdf.shacl.doc.read.visitors.EnrichDocumentationWithStatisticsVisitor;
 import fr.sparna.rdf.shacl.generate.visitors.ShaclVisit;
 
 public class ShapesDocumentationModelReader implements ShapesDocumentationReaderIfc {
 
-	protected boolean readDiagram = true;
+	protected Model shaclGraph;
+	protected Model owlGraph;
+	protected String lang;
+
+	protected boolean readDiagram = false;
 	protected boolean hideProperties = false;
-	protected boolean readSectionDiagrams = false;
+	protected boolean readSectionDiagrams = true;
 	protected String imgLogo = null;
 	protected boolean filterUnusedNodeShapes = true;
 	
 
 	public static ShapesDocumentationModelReader buildShapesDocumentationModelReader(
+		Model shaclGraph,
+		Model owlGraph,
+		String lang,
 		boolean readDiagram,
 		String imgLogo,
 		boolean hideProperties,
 		boolean readSectionDiagrams,
 		boolean filterUnusedNodeShapes
 	) {
-		ShapesDocumentationModelReader reader = new ShapesDocumentationModelReader();
+		ShapesDocumentationModelReader reader = new ShapesDocumentationModelReader(
+			shaclGraph,
+			owlGraph,
+			lang
+	);
 		reader.setReadDiagram(readDiagram);
 		reader.setImgLogo(imgLogo);
 		reader.setHideProperties(hideProperties);
@@ -47,8 +60,15 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 	/**
 	 * @return a ShapesDocumentationModelReader with default options
 	 */
-	public static ShapesDocumentationModelReader buildDefaultShapesDocumentationModelReader() {
+	public static ShapesDocumentationModelReader buildDefaultShapesDocumentationModelReader(
+		Model shaclGraph,
+		Model owlGraph,
+		String lang
+	) {
 		return buildShapesDocumentationModelReader(
+			shaclGraph,
+			owlGraph,
+			lang,
 			false,
 			null,
 			false,
@@ -57,33 +77,18 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 		);
 	}
 
-	public ShapesDocumentationModelReader() {
-
-	}
-
-	/**
-	 * @deprecated use the static factory method buildShapesDocumentationModelReader instead
-	 */
-	@Deprecated
 	public ShapesDocumentationModelReader(
-		boolean readDiagram,
-		String imgLogo,
-		boolean hideProperties,
-		boolean readSectionDiagrams
+		Model shaclGraph,
+		Model owlGraph,
+		String lang
 	) {
-		super();
-		this.readDiagram = readDiagram;
-		this.imgLogo = imgLogo;
-		this.hideProperties = hideProperties;
-		this.readSectionDiagrams = readSectionDiagrams;
+		this.shaclGraph = shaclGraph;
+		this.owlGraph = owlGraph;
+		this.lang = lang;
 	}
 
 	@Override
-	public ShapesDocumentation readShapesDocumentation(
-			Model shaclGraph,
-			Model owlGraph,
-			String lang
-	) {
+	public ShapesDocumentation readShapesDocumentation() {
 		
 		// parse SHACL & OWL
 		ShapesGraph shapesModel = new ShapesGraph(shaclGraph, owlGraph);

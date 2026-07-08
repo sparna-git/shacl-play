@@ -326,11 +326,11 @@ public class ShapesDocumentationSectionBuilder {
 	
 	public List<UsageOutput> findNodeShapeUsage (ShapesGraph shapesGraph, NodeShape nodeShape, Model shacModel, Model owlModel, String lang) {
 
-		List<Shape> shapes = nodeShape.getUsage();	
+		List<Shape> incomingShapes = nodeShape.getUsage();	
 		List<UsageDoc> nsUsageAsList = new ArrayList<>();
 
 		// Populate
-		for (Shape shape : shapes) {
+		for (Shape shape : incomingShapes) {
 			if (shape instanceof PropertyShape) {				
 				PropertyShape ps = (PropertyShape) shape;
 
@@ -339,7 +339,7 @@ public class ShapesDocumentationSectionBuilder {
 				
 				for (NodeShape aNodeShapeWithThisPropertyShape : nsUsage) {
 					// do we already have this node shape in the list? If not, add it with the property shape, otherwise just add the property shape to the existing node shape
-					boolean nsInList = nsUsageAsList.stream().filter( nsdoc -> nsdoc.getNodeShape().getShape().getURI().equals(aNodeShapeWithThisPropertyShape.getShape().getURI())).findFirst().isPresent();
+					boolean nsInList = nsUsageAsList.stream().filter( nsdoc -> nsdoc.getNodeShape().getShape().equals(aNodeShapeWithThisPropertyShape.getShape())).findFirst().isPresent();
 					if (!nsInList) {
 						UsageDoc usDoc = new UsageDoc(aNodeShapeWithThisPropertyShape);
 						usDoc.getProperties().add(ps);
@@ -347,7 +347,7 @@ public class ShapesDocumentationSectionBuilder {
 					} else {
 						// find the entry corresponding to this node shape
 						for (UsageDoc nsResource : nsUsageAsList) {
-							if (nsResource.getNodeShape().getShape().getURI().equals(aNodeShapeWithThisPropertyShape.getShape().getURI())) {
+							if (nsResource.getNodeShape().getShape().equals(aNodeShapeWithThisPropertyShape.getShape())) {
 								nsResource.getProperties().add(ps);
 							}
 						}
@@ -355,7 +355,7 @@ public class ShapesDocumentationSectionBuilder {
 				}				
 			} else if (shape instanceof NodeShape) {
 				NodeShape ns = (NodeShape) shape;
-				boolean nsInList = nsUsageAsList.stream().filter( nsdoc -> nsdoc.getNodeShape().getShape().getURI().equals(ns.getShape().getURI())).findFirst().isPresent();
+				boolean nsInList = nsUsageAsList.stream().filter( nsdoc -> nsdoc.getNodeShape().getShape().equals(ns.getShape())).findFirst().isPresent();
 				if (!nsInList) {
 					UsageDoc usDoc = new UsageDoc(new NodeShape(ns.getShape()));
 					nsUsageAsList.add(usDoc);					
@@ -386,12 +386,14 @@ public class ShapesDocumentationSectionBuilder {
 				if (usgae_doc.getProperties().size() > 0 ) {
 					List<Link> linkUsage = usgae_doc.getProperties()
 						.stream()
-						.map((ps -> new Link("#"+ps.getShape().getModel().shortForm(ps.getURIOrId()) , ps.getDisplayLabel(shacModel, lang))))
-						.collect(Collectors.toList());
+						.map((ps -> new Link(
+							"#"+PropertyShapeDocumentationBuilder.buildPropertyShapeSectionId(usgae_doc.getNodeShape(), ps),
+							// we need to avoid an empty label here otherwise ReSpec complains, so we default to the short form of the property shape if no label is found
+							ps.getDisplayLabel(shacModel, lang).equals("")?ps.getShape().getModel().shortForm(ps.getShPath().getURI()):ps.getDisplayLabel(shacModel, lang)
+						))).collect(Collectors.toList());
 				
 						uOutput.setNodeshape_name(usgae_doc.getNodeShape().getDisplayLabel(shacModel, lang));
-						uOutput.setProperties_usage(linkUsage);
-						
+						uOutput.setProperties_usage(linkUsage);						
 				} else {
 					uOutput.setNodeshape_link(new Link("#"+usgae_doc.getNodeShape().getShape().getModel().shortForm(usgae_doc.getNodeShape().getURIOrId()), usgae_doc.getNodeShape().getDisplayLabel(shacModel, lang)));			
 				} 

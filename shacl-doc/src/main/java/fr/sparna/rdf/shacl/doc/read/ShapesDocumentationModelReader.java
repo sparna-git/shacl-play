@@ -93,7 +93,12 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 		
 		// parse SHACL & OWL
 		ShapesGraph shapesModel = new ShapesGraph(shaclGraph, owlGraph);
-		
+
+		// remove all unused node shapes from the model, if the option is set
+		if(this.isFilterUnusedNodeShapes()) {
+			shapesModel.pruneEmptyAndUnusedNodeShapes();
+		}
+
 		ShapesDocumentation shapesDocumentation = new ShapesDocumentation(shapesModel.getOntology(), lang);	
 		shapesDocumentation.setImgLogo(this.imgLogo);	
 		
@@ -113,45 +118,27 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 			.collect(Collectors.toList());
 		List<NamespaceSection> nsSections = this.readNamespaceSections(shaclGraph, sortedNodeShapes, lang);
 		shapesDocumentation.setPrefixe(nsSections);
-		
+	
 		
 		ShapesDocumentationSectionBuilder sectionBuidler = new ShapesDocumentationSectionBuilder(
 			new PlantUmlSourceGenerator(shaclGraph, owlGraph, this.hideProperties, lang)
 		);
 		// For each NodeShape ...
 		List<ShapesDocumentationSection> sections = new ArrayList<>();
-		for (NodeShape nodeShape : sortedNodeShapes) {
-			
-			if (this.isFilterUnusedNodeShapes() ) {
-				if (nodeShape.isUsedInShapesGraph()) {
-					ShapesDocumentationSection section = sectionBuidler.build(
-					nodeShape, 
-					shapesModel, 
-					// Model
-					shaclGraph, 
-					// Model
-					owlGraph, 
-					lang,
-					this.readSectionDiagrams
-					);
-					sections.add(section);
-				}				
-			} else {
-				ShapesDocumentationSection section = sectionBuidler.build(
-					nodeShape, 
-					shapesModel, 
-					// Model
-					shaclGraph, 
-					// Model
-					owlGraph, 
-					lang,
-					this.readSectionDiagrams
-					);
-					sections.add(section);
-			} 
+		for (NodeShape nodeShape : sortedNodeShapes) {			
+			ShapesDocumentationSection section = sectionBuidler.build(
+				nodeShape, 
+				shapesModel, 
+				// Model
+				shaclGraph, 
+				// Model
+				owlGraph, 
+				lang,
+				this.readSectionDiagrams
+			);
+			sections.add(section);
 		}
-		shapesDocumentation.setSections(sections);
-		
+		shapesDocumentation.setSections(sections);		
 		
 		// Apply post-processing to the generated documentation, to populate number of instances and charts
 		ShaclVisit visit = new ShaclVisit(shaclGraph);

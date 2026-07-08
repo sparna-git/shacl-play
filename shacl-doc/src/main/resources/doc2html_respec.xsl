@@ -1344,7 +1344,8 @@
 
 			<!-- Section of usage -->
 			<xsl:if test="usages/usage">
-				<section id="usage">
+				<xsl:variable name="section_usage" select="concat('usage-',sectionId)"/>
+				<section id="{$section_usage}">
 					<h4><xsl:value-of select="$LABELS/labels/entry[@key='SECTION.USAGE.TITLE']/@label" /></h4>
 					<xsl:apply-templates select="usages" />				
 				</section>
@@ -1542,32 +1543,14 @@
 				</td>
 				<!-- Property URI -->
 				<!-- Also with the ID, if provided -->
-				
-				<xsl:choose>
-					<xsl:when test="propertyShapeUriOrId">
-						<td style="position: relative; width: 100px; overflow: hidden;" onmouseover="this.style.overflow='';" onmouseout="this.style.overflow='hidden';">
-							<div>
-								<div class="anchors-doc">
-									<a href="#{propertyShapeUriOrId}" id="{propertyShapeUriOrId}">#</a>									
-								</div>
-								<xsl:apply-templates select="./propertyUri"/>
-							</div>
-						</td>
-					</xsl:when>
-					<xsl:otherwise>
-						<td>
-							<xsl:apply-templates select="./propertyUri"/>
-						</td>
-					</xsl:otherwise>
-				</xsl:choose>
-
-					<!--
-					<xsl:if test="sectionId">
-						<xsl:attribute name="id"><xsl:value-of select="sectionId" /></xsl:attribute>
-						< ! - - <a id="{sectionId}" href="#{sectionId}">#</a> - - >
-					</xsl:if>	
-					<xsl:apply-templates select="./propertyUri"/>
-					-->
+				<td style="position: relative; width: 100px; overflow: hidden;" onmouseover="this.style.overflow='';" onmouseout="this.style.overflow='hidden';">
+					<div>
+						<div class="anchors-doc">
+							<a href="#{sectionId}" id="{sectionId}">#</a>									
+						</div>
+						<xsl:apply-templates select="./propertyUri"/>
+					</div>
+				</td>
 				
 				<!-- Expected Value -->
 				<td>

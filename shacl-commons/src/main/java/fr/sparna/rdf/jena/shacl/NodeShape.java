@@ -239,7 +239,8 @@ public class NodeShape extends Shape  {
 	public List<Shape> getUsage() {
 
 		// iterate through all shapes in the model and find those that refer to this node shape
-		List<Shape> usage = new ArrayList<>();
+		// use a shape to avoid returning a property shape 3 times if it is used in multiple node shapes
+		Set<Shape> usage = new HashSet<>();
 		ShapesGraph graph = new ShapesGraph(this.getShape().getModel());
 		for(NodeShape ns : graph.getAllNodeShapes()) {
 
@@ -278,7 +279,7 @@ public class NodeShape extends Shape  {
 				}
 			}		
 		}
-		return usage;
+		return new ArrayList<>(usage);
 	}
 
 	/***** / USAGE INDICATOR  *******/

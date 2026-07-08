@@ -42,6 +42,12 @@ public class PropertyShapeDocumentationBuilder {
 		this.lang = lang;
 	}
 
+	public static String buildPropertyShapeSectionId(NodeShape nodeShape, PropertyShape propertyShape) {
+		String pathString = propertyShape.getPropertyPath().renderSparqlPropertyPath();
+		return nodeShape.getShortFormOrId()+"-"+pathString;
+		// return propertyShape.getShape().getModel().shortForm(propertyShape.getURIOrId());
+	}
+
 
 	public PropertyShapeDocumentation build(
 			PropertyShape propertyShape,
@@ -56,8 +62,7 @@ public class PropertyShapeDocumentationBuilder {
 		proprieteDoc.setPropertyShapeUriOrId(propertyShape.getShape().getModel().shortForm(propertyShape.getURIOrId()));
 		// section ID from concat of node shape ID + short name of the property
 		// this is to easily write anchor references to this section	
-		String pathString = propertyShape.getPropertyPath().renderSparqlPropertyPath();
-		proprieteDoc.setSectionId(nodeShape.getShortFormOrId()+"_"+pathString);	
+		proprieteDoc.setSectionId(buildPropertyShapeSectionId(nodeShape, propertyShape));
 		
 		// if sh:qualifiedValueShape found in then property else print cardinality
 		if (propertyShape.getShQualifiedValueShape().isPresent()) {

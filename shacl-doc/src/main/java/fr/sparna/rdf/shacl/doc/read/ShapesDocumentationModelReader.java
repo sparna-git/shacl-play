@@ -1,16 +1,11 @@
 package fr.sparna.rdf.shacl.doc.read;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.RDFNode;
-import org.apache.jena.rdf.model.Resource;
-import org.apache.jena.rdf.model.Statement;
-import org.topbraid.shacl.vocabulary.SH;
 
 import fr.sparna.rdf.jena.shacl.NodeShape;
 import fr.sparna.rdf.shacl.diagram.PlantUmlDiagramOutput;

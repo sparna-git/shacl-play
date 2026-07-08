@@ -24,7 +24,7 @@ import fr.sparna.rdf.jena.shacl.PropertyPath;
 import fr.sparna.rdf.jena.shacl.PropertyShape;
 import fr.sparna.rdf.jena.shacl.Shape;
 import fr.sparna.rdf.jena.shacl.ShapesGraph;
-import fr.sparna.rdf.shacl.SHACL_PLAY;
+import fr.sparna.rdf.vocabularies.SHACL_PLAY;
 
 public class JsonLdContextGenerator {
 

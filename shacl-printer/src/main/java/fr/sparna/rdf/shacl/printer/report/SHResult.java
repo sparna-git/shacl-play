@@ -7,7 +7,7 @@ import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.rdf.model.StmtIterator;
 import org.apache.jena.vocabulary.RDF;
 
-import fr.sparna.rdf.shacl.SH;
+import fr.sparna.rdf.vocabularies.SH;
 
 public class SHResult {
 

@@ -13,7 +13,7 @@ import org.apache.jena.vocabulary.OWL;
 import org.apache.jena.vocabulary.RDF;
 import org.topbraid.shacl.vocabulary.SH;
 
-import fr.sparna.rdf.shacl.SHACL_PLAY;
+import fr.sparna.rdf.vocabularies.SHACL_PLAY;
 
 public class ShapesGraph {
 	

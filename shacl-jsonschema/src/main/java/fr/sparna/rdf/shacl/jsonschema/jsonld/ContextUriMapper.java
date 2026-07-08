@@ -8,8 +8,8 @@ import org.apache.jena.rdf.model.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import fr.sparna.rdf.shacl.SH;
 import fr.sparna.rdf.shacl.jsonschema.ShaclReadingUtils;
+import fr.sparna.rdf.vocabularies.SH;
 import jakarta.json.JsonValue;
 
 public class ContextUriMapper implements UriToJsonMapper {

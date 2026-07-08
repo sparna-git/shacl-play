@@ -15,7 +15,8 @@ import org.apache.jena.vocabulary.RDFS;
 import org.apache.jena.vocabulary.SKOS;
 
 import fr.sparna.rdf.jena.ModelReadingUtils;
-import fr.sparna.rdf.shacl.*;
+import fr.sparna.rdf.vocabularies.*;
+
 import org.topbraid.shacl.vocabulary.SH;
 
 public abstract class Shape {

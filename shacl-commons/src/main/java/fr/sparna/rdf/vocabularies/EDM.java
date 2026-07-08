@@ -1,4 +1,4 @@
-package fr.sparna.rdf.shacl;
+package fr.sparna.rdf.vocabularies;
 
 public final class EDM {
 

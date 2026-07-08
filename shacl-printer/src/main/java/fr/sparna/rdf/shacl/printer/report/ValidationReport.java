@@ -20,8 +20,8 @@ import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.XSD;
 
 import fr.sparna.rdf.jena.JenaUtil;
-import fr.sparna.rdf.shacl.DASH;
-import fr.sparna.rdf.shacl.SH;
+import fr.sparna.rdf.vocabularies.DASH;
+import fr.sparna.rdf.vocabularies.SH;
 
 public class ValidationReport {
 

@@ -21,10 +21,10 @@ import org.apache.jena.vocabulary.SKOS;
 
 import fr.sparna.rdf.jena.ModelReadingUtils;
 import fr.sparna.rdf.jena.ModelRenderingUtils;
-import org.topbraid.shacl.vocabulary.SH;
+import fr.sparna.rdf.vocabularies.DCT;
+import fr.sparna.rdf.vocabularies.SCHEMA;
 
-import fr.sparna.rdf.shacl.DCT;
-import fr.sparna.rdf.shacl.SCHEMA;
+import org.topbraid.shacl.vocabulary.SH;
 
 public class NodeShape extends Shape  {
 	

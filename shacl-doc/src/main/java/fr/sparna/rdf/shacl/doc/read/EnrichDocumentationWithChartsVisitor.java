@@ -19,13 +19,13 @@ import org.slf4j.LoggerFactory;
 import fr.sparna.rdf.jena.ModelRenderingUtils;
 import fr.sparna.rdf.jena.shacl.NodeShape;
 import fr.sparna.rdf.jena.shacl.PropertyShape;
-import fr.sparna.rdf.shacl.SHACL_PLAY;
 import fr.sparna.rdf.shacl.doc.model.Chart;
 import fr.sparna.rdf.shacl.doc.model.ChartDataItem;
 import fr.sparna.rdf.shacl.doc.model.PropertyShapeDocumentation;
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentation;
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentationSection;
 import fr.sparna.rdf.shacl.generate.visitors.ShaclVisitorIfc;
+import fr.sparna.rdf.vocabularies.SHACL_PLAY;
 
 public class EnrichDocumentationWithChartsVisitor implements ShaclVisitorIfc {
 

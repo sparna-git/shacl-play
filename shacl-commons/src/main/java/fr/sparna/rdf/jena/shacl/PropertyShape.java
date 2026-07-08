@@ -16,7 +16,7 @@ import org.topbraid.shacl.vocabulary.SH;
 
 import fr.sparna.rdf.jena.ModelReadingUtils;
 import fr.sparna.rdf.jena.ModelRenderingUtils;
-import fr.sparna.rdf.shacl.SHACL_PLAY;
+import fr.sparna.rdf.vocabularies.SHACL_PLAY;
 
 public class PropertyShape extends Shape {
 

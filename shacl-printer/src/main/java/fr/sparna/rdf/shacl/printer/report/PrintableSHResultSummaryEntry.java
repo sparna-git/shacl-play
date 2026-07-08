@@ -2,7 +2,7 @@ package fr.sparna.rdf.shacl.printer.report;
 
 import org.topbraid.shacl.vocabulary.DASH;
 
-import fr.sparna.rdf.shacl.SH;
+import fr.sparna.rdf.vocabularies.SH;
 
 public class PrintableSHResultSummaryEntry {
 

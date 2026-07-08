@@ -1,4 +1,4 @@
-package fr.sparna.rdf.shacl;
+package fr.sparna.rdf.vocabularies;
 
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.Resource;

@@ -14,11 +14,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import fr.sparna.rdf.jena.ModelRenderingUtils;
-import fr.sparna.rdf.shacl.SHACL_PLAY;
 import fr.sparna.rdf.shacl.generate.providers.ResourceTargetDefinition;
 import fr.sparna.rdf.shacl.generate.providers.ShaclGeneratorDataProviderIfc;
 import fr.sparna.rdf.shacl.generate.providers.ShaclStatisticsDataProviderIfc;
 import fr.sparna.rdf.shacl.generate.providers.TargetDefinitionIfc;
+import fr.sparna.rdf.vocabularies.SHACL_PLAY;
 
 public class ComputeValueStatisticsVisitor extends DatasetAwareShaclVisitorBase implements ShaclVisitorIfc {
 

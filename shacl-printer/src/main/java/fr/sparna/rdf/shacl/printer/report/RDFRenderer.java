@@ -8,7 +8,7 @@ import org.apache.jena.rdf.model.RDFList;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 
-import fr.sparna.rdf.shacl.SH;
+import fr.sparna.rdf.vocabularies.SH;
 
 public class RDFRenderer {
 

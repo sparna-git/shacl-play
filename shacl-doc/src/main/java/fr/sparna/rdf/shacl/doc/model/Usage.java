@@ -2,7 +2,7 @@ package fr.sparna.rdf.shacl.doc.model;
 
 import java.util.List;
 
-public class UsageOutput {
+public class Usage {
 
     private String nodeshape_name;
     private Link nodeshape_link;

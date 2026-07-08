@@ -66,7 +66,7 @@ public class ShapesDocumentationSection {
 	// List of usage
 	@JacksonXmlElementWrapper(localName="usages")
 	@JacksonXmlProperty(localName = "usage")
-	private List<UsageOutput> usages;
+	private List<Usage> usages;
 
 
 	// List of description of attached SPARQL constraints
@@ -320,11 +320,11 @@ public class ShapesDocumentationSection {
 		this.shNode = shNode;
 	}
 
-	public List<UsageOutput> getUsages() {
+	public List<Usage> getUsages() {
 		return usages;
 	}
 
-	public void setUsages(List<UsageOutput> usages) {
+	public void setUsages(List<Usage> usages) {
 		this.usages = usages;
 	}
 

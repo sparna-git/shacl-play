@@ -1,12 +1,12 @@
 package fr.sparna.rdf.shacl.doc.model;
 
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 /**
  * An hyperlink, with href and label.
  * Href can be null (e.g. when rendering a complete sh:path as property path, vs. a single predicate URI)
- *
  */
 @JsonInclude(Include.NON_NULL)
 public class Link {
@@ -18,10 +18,6 @@ public class Link {
 	@JsonInclude(Include.NON_NULL)
 	private String label;
 
-	private String datatype;
-
-	private String lang;
-	
 	public Link() {
 		super();
 	}
@@ -44,22 +40,6 @@ public class Link {
 	}
 	public void setLabel(String label) {
 		this.label = label;
-	}
-
-	public String getDatatype() {
-		return datatype;
-	}
-
-	public String getLang() {
-		return lang;
-	}
-
-	public void setDatatype(String datatype) {
-		this.datatype = datatype;
-	}
-
-	public void setLang(String lang) {
-		this.lang = lang;
 	}
 	
 }

@@ -107,6 +107,12 @@
 			<artifactId>commonmark-ext-autolink</artifactId>
 		</dependency>
 
+	  	<dependency>
+	      <groupId>fr.sparna.rdf.shacl</groupId>
+	      <artifactId>shacl-commons</artifactId>
+	      <version>0.12.1</version>
+	    </dependency>
+
 
 		<!-- Diagram printing -->
 		<dependency>

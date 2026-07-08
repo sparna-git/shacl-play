@@ -14,11 +14,9 @@ import org.apache.jena.vocabulary.OWL;
 import org.apache.jena.vocabulary.RDFS;
 
 import fr.sparna.rdf.jena.ModelReadingUtils;
+import fr.sparna.rdf.vocabularies.ADMS;
 
 public class OwlOntology {
-	
-	public static String ADMS = "http://www.w3.org/ns/adms#";
-	public static String VERSION_NOTES = ADMS+"versionNotes";
 	
 	protected Resource resource;
 
@@ -89,10 +87,6 @@ public class OwlOntology {
 	public List<RDFNode> getDepiction() {
 		return ModelReadingUtils.readObjectAsResourceOrLiteral(this.resource, FOAF.depiction);
 	}
-
-	public String getOWLUri() {
-		return this.resource.toString();
-	}
 	
 	public String getDctTitle(String lang) {
 		return ModelReadingUtils.readLiteralInLangAsString(this.resource, DCTerms.title, lang);
@@ -155,7 +149,7 @@ public class OwlOntology {
 	}
 
 	public String getVersionNotes(String lang) {
-		return ModelReadingUtils.readLiteralInLangAsString(this.resource,this.resource.getModel().createProperty(VERSION_NOTES), lang);
+		return ModelReadingUtils.readLiteralInLangAsString(this.resource,this.resource.getModel().createProperty(ADMS.VERSION_NOTES), lang);
 	}
 
 	public Resource getResource() {

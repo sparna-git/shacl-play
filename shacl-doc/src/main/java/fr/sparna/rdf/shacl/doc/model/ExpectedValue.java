@@ -17,6 +17,7 @@ public class ExpectedValue {
 	@JacksonXmlProperty(localName = "or")
 	private List<Link> or;
 
+	// ... or the inValues is populated
 	@JacksonXmlElementWrapper(localName="inValues")
 	@JacksonXmlProperty(localName = "inValue")
 	private List<Link> inValues;

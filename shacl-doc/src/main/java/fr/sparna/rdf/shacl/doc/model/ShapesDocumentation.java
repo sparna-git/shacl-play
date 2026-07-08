@@ -149,7 +149,7 @@ public class ShapesDocumentation {
 			org.json.JSONObject jOutput = new org.json.JSONObject();
 			jOutput.put("@context","https://schema.org");
 			jOutput.put("@type","TechArticle");
-			jOutput.put("url",ontology.getOWLUri());
+			jOutput.put("url",ontology.getResource().toString());
 			jOutput.put("name",this.title);
 			jOutput.put("datePublished",this.datecreated);
 			jOutput.put("version",this.versionInfo);

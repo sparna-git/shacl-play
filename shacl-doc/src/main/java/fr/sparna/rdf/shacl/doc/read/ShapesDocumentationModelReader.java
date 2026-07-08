@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import org.apache.jena.rdf.model.Model;
 
 import fr.sparna.rdf.jena.shacl.NodeShape;
+import fr.sparna.rdf.jena.shacl.Shape;
 import fr.sparna.rdf.shacl.diagram.PlantUmlDiagramOutput;
 import fr.sparna.rdf.shacl.doc.PlantUmlSourceGenerator;
 import fr.sparna.rdf.jena.shacl.ShapesGraph;
@@ -108,7 +109,7 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 		// Prefixes
 		// Sort node shapes for documentation
 		List<NodeShape> sortedNodeShapes = shapesModel.getAllNodeShapes().stream()
-			.sorted(new ShapesGraph.NodeShapeDisplayLabelComparator(owlGraph, lang))
+			.sorted(new Shape.ShapeDisplayLabelComparator(owlGraph, lang))
 			.collect(Collectors.toList());
 		List<NamespaceSection> nsSections = this.readNamespaceSections(shaclGraph, sortedNodeShapes, lang);
 		shapesDocumentation.setPrefixe(nsSections);

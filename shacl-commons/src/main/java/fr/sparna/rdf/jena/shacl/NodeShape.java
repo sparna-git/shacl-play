@@ -182,26 +182,7 @@ public class NodeShape extends Shape  {
 		
 		}		
 
-		properties.sort((PropertyShape ps1, PropertyShape ps2) -> {
-			if(ps1.getShOrder().isPresent()) {
-				if(ps2.getShOrder().isPresent()) {
-					return ((ps1.getShOrder().get() - ps2.getShOrder().get()) > 0)?1:-1;
-				} else {
-					return -1;
-				}
-			} else {
-				if(ps2.getShOrder().isPresent()) {
-					return 1;
-				} else {
-					// both sh:order are null, try with sh:path
-					if(ps1.getPropertyPath().renderSparqlPropertyPath() != null && ps2.getPropertyPath().renderSparqlPropertyPath() != null) {						
-						return ps1.getPropertyPath().renderSparqlPropertyPath().compareTo(ps2.getPropertyPath().renderSparqlPropertyPath());
-					} else {
-						return ps1.getShape().toString().compareTo(ps2.getShape().toString());
-					}
-				}
-			}
-		});
+		properties.sort(new PropertyShape.PropertyShapeComparator());
 		 
 		return properties;	
 	}
@@ -304,10 +285,7 @@ public class NodeShape extends Shape  {
 		
 	/***** TEXTUAL ANNOTATIONS (label, description)  *******/
 
-	public String getDisplayLabel(String lang) {
-		return this.getDisplayLabel(this.getShape().getModel(), lang);
-	}
-
+	@Override
 	public String getDisplayLabel(Model owlModel, String lang) {
 		// try with skos:prefLabel
 		String result = ModelRenderingUtils.render(this.getSkosPrefLabel(lang), true);
@@ -362,6 +340,7 @@ public class NodeShape extends Shape  {
 		return result;
 	}
 
+	@Override
 	public String getDisplayDescription(Model owlModel, String lang) {
 		// try with skos:definition
 		String result = ModelRenderingUtils.render(this.getSkosDefinition(lang), true);

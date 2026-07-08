@@ -2,11 +2,13 @@ package fr.sparna.rdf.jena.shacl;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Literal;
+import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.RDFList;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
@@ -26,6 +28,9 @@ public abstract class Shape {
 	public Shape(Resource shape) {  
 	    this.shape = shape;		
 	}
+
+	public abstract String getDisplayLabel(Model owlModel, String lang);
+	public abstract String getDisplayDescription(Model owlModel, String lang);
 	
 	/**
 	 * @return the underlying shape Resource
@@ -296,6 +301,65 @@ public abstract class Shape {
 	 */
 	public List<Literal> getSkosDefinition(String lang) {
 		return ModelReadingUtils.readLiteralInLang(shape, SKOS.definition, lang);
+	}
+
+	public static class ShOrderComparator implements Comparator<Resource> {		
+
+		public ShOrderComparator() {
+		}
+
+		private static Double getShOrderOf(Resource r) {
+			return Optional.ofNullable(r.getProperty(SH.order)).map(s -> s.getDouble()).orElse(null);
+		}
+
+
+		@Override
+		public int compare(Resource r1, Resource r2) {
+			if (getShOrderOf(r1) != null) {
+				if (getShOrderOf(r2) != null) {
+					return ((getShOrderOf(r1) - getShOrderOf(r2)) > 0)?1:-1;
+				} else {
+					return -1;
+				}
+			} else {
+				if (getShOrderOf(r2) != null) {
+					return 1;
+				} else {
+					return 1;
+				}
+			}
+		}
+		
+	}
+
+	public static class ShapeDisplayLabelComparator implements Comparator<Shape> {
+
+		private Model owlGraph;
+		private String lang;		
+
+		public ShapeDisplayLabelComparator(Model owlGraph, String lang) {
+			this.owlGraph = owlGraph;
+			this.lang = lang;
+		}
+
+		@Override
+		public int compare(Shape ns1, Shape ns2) {
+			if (ns1.getShOrder().orElse(null) != null) {
+				if (ns2.getShOrder().orElse(null) != null) {
+					return ((ns1.getShOrder().get() - ns2.getShOrder().get()) > 0)?1:-1;
+				} else {
+					return -1;
+				}
+			} else {
+				if (ns2.getShOrder().orElse(null) != null) {
+					return 1;
+				} else {
+					// both sh:order are null, try with their display label
+					return ns1.getDisplayLabel(owlGraph, lang).compareToIgnoreCase(ns2.getDisplayLabel(owlGraph, lang));
+				}
+			}
+		}
+		
 	}
 
 }

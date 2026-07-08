@@ -162,7 +162,7 @@ public class ShapesDocumentationSectionBuilder {
 		currentSection.setDepictions(this.readFoafDepiction(nodeShape));
 		
 		// Usage
-		currentSection.setUsages(findNodeShapeUsage(shapesGraph,nodeShape,shaclGraph,lang));
+		currentSection.setUsages(findNodeShapeUsage(shapesGraph,nodeShape,shaclGraph,owlGraph,lang));
 
 		
 		// Read the property shapes from this shape and supershapes
@@ -324,7 +324,7 @@ public class ShapesDocumentationSectionBuilder {
 		}
 	}
 	
-	public List<UsageOutput> findNodeShapeUsage (ShapesGraph shapesGraph, NodeShape nodeShape, Model shacModel, String lang) {
+	public List<UsageOutput> findNodeShapeUsage (ShapesGraph shapesGraph, NodeShape nodeShape, Model shacModel, Model owlModel, String lang) {
 
 		List<Shape> shapes = nodeShape.getUsage();	
 		List<UsageDoc> nsUsageAsList = new ArrayList<>();
@@ -365,57 +365,24 @@ public class ShapesDocumentationSectionBuilder {
 			}
 		}
 
-		List<UsageOutput> outputUsage = this.getUsageOutput(nsUsageAsList, shacModel, lang);
+		List<UsageOutput> outputUsage = this.getUsageOutput(nsUsageAsList, shacModel, owlModel, lang);
 		
 		return outputUsage;
 	}
 
 
-	private List<UsageOutput> getUsageOutput(List<UsageDoc> nsUsageAsList, Model shacModel, String lang) {
+	private List<UsageOutput> getUsageOutput(List<UsageDoc> nsUsageAsList, Model shacModel, Model owlModel, String lang) {
 
-		List<UsageOutput> output = new ArrayList();
+		List<UsageOutput> output = new ArrayList<>();
 		// Sort Usage Doc
 		if (nsUsageAsList.size() > 0) {
+			Shape.ShapeDisplayLabelComparator comparator = new Shape.ShapeDisplayLabelComparator(owlModel, lang);
 			// Sort
-			nsUsageAsList.sort(((UsageDoc arg0, UsageDoc arg1) -> {
-				if (arg0.getNodeShape().getShOrderAsLiteral().isPresent()) {
-					if (arg1.getNodeShape().getShOrderAsLiteral().isPresent()) {
-						return ((arg0.getNodeShape().getShOrderAsLiteral().get().getDouble() - arg1.getNodeShape().getShOrderAsLiteral().get().getDouble()) > 0)?1:-1;
-					} else {
-						return -1;
-					}
-				} else {
-					if (arg1.getNodeShape().getShOrderAsLiteral().isPresent()) {
-						return 1;
-					} else {
-						return arg0.getNodeShape().getDisplayLabel(shacModel, lang).compareToIgnoreCase(arg1.getNodeShape().getDisplayLabel(shacModel, lang));
-					}
-				}
-			} ));
+			nsUsageAsList.sort(((UsageDoc arg0, UsageDoc arg1) -> { return comparator.compare(arg0.getNodeShape(), arg1.getNodeShape()); } ));
 
-			for (UsageDoc usgae_doc : nsUsageAsList) {
-			
-				//Sort Properties	
-				if (usgae_doc.getProperties().size() > 1) {		
-					usgae_doc.getProperties()
-					.sort((ps1,ps2) -> {
-						if(ps1.getShOrder().isPresent()) {
-							if(ps2.getShOrder().isPresent()) {
-								return (ps1.getShOrderAsLiteral().get().getDouble() - ps2.getShOrderAsLiteral().get().getDouble()) > 0?1:-1;
-							} else {
-								return -1;
-							}
-						} else {
-							if(ps2.getShOrder() != null) {
-								return 1;
-							} else {
-								// both sh:order are null, try with sh:name
-								return ps1.getSortOrderKey(shacModel, lang).compareToIgnoreCase(ps2.getSortOrderKey(shacModel, lang));
-							}
-						}
-					});
-
-				}
+			for (UsageDoc usgae_doc : nsUsageAsList) {			
+				//Sort Properties		
+				usgae_doc.getProperties().sort(new PropertyShape.PropertyShapeComparator());
 
 				UsageOutput uOutput = new UsageOutput();
 				if (usgae_doc.getProperties().size() > 0 ) {

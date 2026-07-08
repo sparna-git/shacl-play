@@ -13,7 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.topbraid.shacl.vocabulary.SH;
 
-import fr.sparna.rdf.shacl.SHP;
+import fr.sparna.rdf.vocabularies.SHACL_PLAY_SHAPES;
 
 
 /**
@@ -65,8 +65,8 @@ public class AddNotTargetOfAnyShapeListener implements ShapesTargetListener {
 				violation.addProperty(SH.resultSeverity, SH.Info);
 				violation.addProperty(SH.focusNode, subject);
 				violation.addProperty(SH.resultMessage, "Subject is not the target of any shape");
-				violation.addProperty(SH.sourceConstraintComponent, existingValidationReport.createResource(SHP.CLOSED_GRAPH_SHAPE));
-				violation.addProperty(SH.sourceShape, existingValidationReport.createResource(SHP.CLOSED_GRAPH_CONSTRAINT_COMPONENT));
+				violation.addProperty(SH.sourceConstraintComponent, existingValidationReport.createResource(SHACL_PLAY_SHAPES.CLOSED_GRAPH_SHAPE));
+				violation.addProperty(SH.sourceShape, existingValidationReport.createResource(SHACL_PLAY_SHAPES.CLOSED_GRAPH_CONSTRAINT_COMPONENT));
 
 				report.addProperty(SH.result, violation);
 			}

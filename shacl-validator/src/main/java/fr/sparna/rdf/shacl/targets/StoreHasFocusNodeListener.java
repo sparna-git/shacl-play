@@ -7,7 +7,7 @@ import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 
-import fr.sparna.rdf.shacl.SHP;
+import fr.sparna.rdf.vocabularies.SHACL_PLAY;
 
 /**
  * Stores the target nodes as shp:hasFocusNode triples in a target model.
@@ -25,7 +25,7 @@ public class StoreHasFocusNodeListener implements ShapesTargetListener {
 	public void notifyTargets(Resource shape, Model data, List<RDFNode> focusNodes) {
 		// add an sh:targetNode triple to the output model for each focus node
 		for(RDFNode focusNode : focusNodes) {
-			targetModel.add(shape, targetModel.createProperty(SHP.HAS_FOCUS_NODE), focusNode);
+			targetModel.add(shape, targetModel.createProperty(SHACL_PLAY.HAS_FOCUS_NODE), focusNode);
 		}
 	}
 

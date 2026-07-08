@@ -12,7 +12,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.topbraid.shacl.vocabulary.SH;
 
-import fr.sparna.rdf.shacl.SHP;
+import fr.sparna.rdf.vocabularies.SHACL_PLAY;
+
 
 
 /**
@@ -47,7 +48,7 @@ public class AddHasTargetListener implements ShapesTargetListener {
 			log.debug("Shape "+shape+" did not match any focus node");
 			targetModel.add(targetModel.createLiteralStatement(
 					shape,
-					targetModel.createProperty(SHP.TARGET_MATCHED),
+					targetModel.createProperty(SHACL_PLAY.TARGET_MATCHED),
 					false
 			));
 		}
@@ -57,7 +58,7 @@ public class AddHasTargetListener implements ShapesTargetListener {
 	public void notifyEnd() {
 		targetModel.add(targetModel.createLiteralStatement(
 			targetModel.listResourcesWithProperty(RDF.type, SH.ValidationReport).next(),
-			targetModel.createProperty(SHP.HAS_MATCHED),
+			targetModel.createProperty(SHACL_PLAY.HAS_MATCHED),
 			(this.shapesWithTargets.size() > 0)
 		));
 	}

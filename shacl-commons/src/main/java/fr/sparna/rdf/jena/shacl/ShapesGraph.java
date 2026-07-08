@@ -15,7 +15,6 @@ import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.RDFList;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
-import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.vocabulary.OWL;
 import org.apache.jena.vocabulary.RDF;
 import org.topbraid.shacl.vocabulary.SH;
@@ -72,10 +71,6 @@ public class ShapesGraph {
 		return getAllNodeShapes().stream().filter(ns -> ns.getShape().toString().equals(r.toString())).findFirst().orElse(null);
 	}
 
-	public List<Resource> findNodeShapeByProperty(Resource resource) {
-		return shaclGraph.listStatements(null,SH.property, resource).toList().stream().map( m -> m.getSubject()).collect(Collectors.toList());
-	}
-
 	/**
 	 * @param cl
 	 * @return all NodeShapes that target the given class, based on sh:targetClass, or a shape that is itself a class with the requested URI, or an empty list if none found
@@ -124,17 +119,6 @@ public class ShapesGraph {
 	 */
 	public List<PropertyShape> findPropertyShapesByShortname(String shortname) {
 		return shaclGraph.listSubjectsWithProperty(shaclGraph.createProperty(SHACL_PLAY.SHORTNAME), shaclGraph.createLiteral(shortname)).toList().stream().map(r -> new PropertyShape(r)).collect(Collectors.toList());
-	}
-
-	/*
-		Return list of properties from SH.node
-	*/
-	public List<Resource> findPropertyShapeByShNode(Resource findNS) {	
-		return shaclGraph.listStatements(null,SH.node, findNS).toList().stream().map(r -> r.getSubject()).collect(Collectors.toList());
-	}
-
-	public List<Resource> findPropertyShapeByShQualifiedValueShape(Resource findNS) {		
-		return shaclGraph.listStatements(null,SH.qualifiedValueShape, findNS).toList().stream().map(r -> r.getSubject()).collect(Collectors.toList());
 	}
 	
 	public void pruneEmptyAndUnusedNodeShapes() {

@@ -16,7 +16,7 @@ import fr.sparna.rdf.jena.shacl.NodeShape;
 import fr.sparna.rdf.shacl.diagram.PlantUmlDiagramOutput;
 import fr.sparna.rdf.shacl.doc.PlantUmlSourceGenerator;
 import fr.sparna.rdf.jena.shacl.ShapesGraph;
-import fr.sparna.rdf.shacl.doc.ShapesGraphDoc;
+import fr.sparna.rdf.jena.shacl.ShapesGraph;
 import fr.sparna.rdf.shacl.doc.model.NamespaceSection;
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentation;
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentationDiagram;
@@ -91,7 +91,7 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 	) {
 		
 		// parse SHACL & OWL
-		ShapesGraphDoc shapesModel = new ShapesGraphDoc(shaclGraph, owlGraph, lang);
+		ShapesGraph shapesModel = new ShapesGraph(shaclGraph, owlGraph);
 		
 		ShapesDocumentation shapesDocumentation = new ShapesDocumentation(shapesModel.getOntology(), lang);	
 		shapesDocumentation.setImgLogo(this.imgLogo);	
@@ -106,7 +106,11 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 		}
 		
 		// Prefixes
-		List<NamespaceSection> nsSections = this.readNamespaceSections(shaclGraph, shapesModel.getAllNodeShapes(), lang);
+		// Sort node shapes for documentation
+		List<NodeShape> sortedNodeShapes = shapesModel.getAllNodeShapes().stream()
+			.sorted(new ShapesGraph.NodeShapeDisplayLabelComparator(owlGraph, lang))
+			.collect(Collectors.toList());
+		List<NamespaceSection> nsSections = this.readNamespaceSections(shaclGraph, sortedNodeShapes, lang);
 		shapesDocumentation.setPrefixe(nsSections);
 		
 		
@@ -115,7 +119,7 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 		);
 		// For each NodeShape ...
 		List<ShapesDocumentationSection> sections = new ArrayList<>();
-		for (NodeShape nodeShape : shapesModel.getAllNodeShapes()) {
+		for (NodeShape nodeShape : sortedNodeShapes) {
 			
 			if (this.isFilterUnusedNodeShapes() ) {
 				if (nodeShape.isUsedInShapesGraph()) {

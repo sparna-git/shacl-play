@@ -17,7 +17,7 @@ import fr.sparna.rdf.jena.ModelRenderingUtils;
 import fr.sparna.rdf.shacl.diagram.PlantUmlDiagramOutput;
 import fr.sparna.rdf.shacl.doc.MarkdownRenderer;
 import fr.sparna.rdf.shacl.doc.PlantUmlSourceGenerator;
-import fr.sparna.rdf.shacl.doc.ShapesGraphDoc;
+import fr.sparna.rdf.jena.shacl.ShapesGraph;
 import fr.sparna.rdf.shacl.doc.UsageDoc;
 import fr.sparna.rdf.shacl.doc.model.Depiction;
 import fr.sparna.rdf.shacl.doc.model.Link;
@@ -43,7 +43,7 @@ public class ShapesDocumentationSectionBuilder {
 
 	public ShapesDocumentationSection build(
 			NodeShape nodeShape,
-			ShapesGraphDoc shapesGraph,
+			ShapesGraph shapesGraph,
 			Model shaclGraph,
 			Model owlGraph,
 			String lang,
@@ -218,7 +218,7 @@ public class ShapesDocumentationSectionBuilder {
 	
 	static List<PropertyShapesGroupDocumentation> readPropertyGroupsRec(
 			NodeShape nodeShape,
-			ShapesGraphDoc shapesGraph,
+			ShapesGraph shapesGraph,
 			Model shaclGraph,
 			Model owlGraph,
 			String lang
@@ -324,7 +324,7 @@ public class ShapesDocumentationSectionBuilder {
 		}
 	}
 	
-	public List<UsageOutput> findNodeShapeUsage (ShapesGraphDoc shapesGraph, NodeShape nodeShape, Model shacModel, String lang) {
+	public List<UsageOutput> findNodeShapeUsage (ShapesGraph shapesGraph, NodeShape nodeShape, Model shacModel, String lang) {
 
 		List<Shape> shapes = nodeShape.getUsage();	
 		List<UsageDoc> nsUsageAsList = new ArrayList<>();

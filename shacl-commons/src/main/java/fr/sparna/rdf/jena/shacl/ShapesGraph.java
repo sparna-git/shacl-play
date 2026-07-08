@@ -286,11 +286,13 @@ public class ShapesGraph {
 		return allNodeShapes; 		
 	}
 
-	class NodeShapeDisplayLabelComparator implements Comparator<NodeShape> {
+	public static class NodeShapeDisplayLabelComparator implements Comparator<NodeShape> {
 
+		private Model owlGraph;
 		private String lang;		
 
-		public NodeShapeDisplayLabelComparator(String lang) {
+		public NodeShapeDisplayLabelComparator(Model owlGraph, String lang) {
+			this.owlGraph = owlGraph;
 			this.lang = lang;
 		}
 
@@ -307,7 +309,7 @@ public class ShapesGraph {
 					return 1;
 				} else {
 					// both sh:order are null, try with their display label
-					return ns1.getDisplayLabel(lang).compareTo(ns2.getDisplayLabel(lang));
+					return ns1.getDisplayLabel(owlGraph, lang).compareToIgnoreCase(ns2.getDisplayLabel(owlGraph, lang));
 				}
 			}
 		}

@@ -333,24 +333,22 @@ public class ShapesDocumentationSectionBuilder {
 		for (Shape shape : shapes) {
 			if (shape instanceof PropertyShape) {				
 				PropertyShape ps = (PropertyShape) shape;
-				// Find Node Shape Usage Doc
-				PropertyShape psDocUsage = new PropertyShape(ps.getShape());
 
 				// potentially more than 1 NodeShape if the property shape is shared between several NodeShapes
-				List<NodeShape> nsUsage = shapesGraph.findNodeShapeByPropertyShape(psDocUsage);
+				List<NodeShape> nsUsage = shapesGraph.findNodeShapeByPropertyShape(ps);
 				
-				for (NodeShape nodeShape_usageDoc : nsUsage) {
+				for (NodeShape aNodeShapeWithThisPropertyShape : nsUsage) {
 					// do we already have this node shape in the list? If not, add it with the property shape, otherwise just add the property shape to the existing node shape
-					boolean nsInList = nsUsageAsList.stream().filter( nsdoc -> nsdoc.getNodeShape().getShape().getURI().equals(nodeShape_usageDoc.getShape().getURI())).findFirst().isPresent();
+					boolean nsInList = nsUsageAsList.stream().filter( nsdoc -> nsdoc.getNodeShape().getShape().getURI().equals(aNodeShapeWithThisPropertyShape.getShape().getURI())).findFirst().isPresent();
 					if (!nsInList) {
-						UsageDoc usDoc = new UsageDoc(new NodeShape(nodeShape_usageDoc.getShape()));
-						usDoc.getProperties().add(psDocUsage);
+						UsageDoc usDoc = new UsageDoc(aNodeShapeWithThisPropertyShape);
+						usDoc.getProperties().add(ps);
 						nsUsageAsList.add(usDoc);
 					} else {
 						// find the entry corresponding to this node shape
 						for (UsageDoc nsResource : nsUsageAsList) {
-							if (nsResource.getNodeShape().getShape().getURI().equals(nodeShape_usageDoc.getShape().getURI())) {
-								nsResource.getProperties().add(psDocUsage);
+							if (nsResource.getNodeShape().getShape().getURI().equals(aNodeShapeWithThisPropertyShape.getShape().getURI())) {
+								nsResource.getProperties().add(ps);
 							}
 						}
 					}

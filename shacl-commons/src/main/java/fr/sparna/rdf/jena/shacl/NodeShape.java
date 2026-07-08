@@ -221,7 +221,7 @@ public class NodeShape extends Shape  {
 			}
 		};
 
-		return hasNoActivePropertyShape.test(this) && !this.hasTarget();
+		return hasNoActivePropertyShape.test(this) && !this.hasTarget() && this.getRdfsSubClassOf().isEmpty();
 	}
 
 	/***** USAGE INDICATOR  *******/

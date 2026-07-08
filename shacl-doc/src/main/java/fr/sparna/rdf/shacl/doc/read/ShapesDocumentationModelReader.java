@@ -15,7 +15,7 @@ import org.topbraid.shacl.vocabulary.SH;
 import fr.sparna.rdf.jena.shacl.NodeShape;
 import fr.sparna.rdf.shacl.diagram.PlantUmlDiagramOutput;
 import fr.sparna.rdf.shacl.doc.PlantUmlSourceGenerator;
-import fr.sparna.rdf.shacl.doc.ShaclPrefixReader;
+import fr.sparna.rdf.jena.shacl.ShapesGraph;
 import fr.sparna.rdf.shacl.doc.ShapesGraphDoc;
 import fr.sparna.rdf.shacl.doc.model.NamespaceSection;
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentation;
@@ -163,12 +163,8 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 	public List<NamespaceSection> readNamespaceSections(Model shaclGraph, List<NodeShape> AllNodeShapes, String lang) {
 		
 		// 3. Lire les prefixes
-		HashSet<String> gatheredPrefixes = new HashSet<>();
-		for (NodeShape aBox : AllNodeShapes) { // allNodeShapes) {
-			List<String> prefixes = this.readPrefixes(aBox.getShape());
-			gatheredPrefixes.addAll(prefixes);
-		}
-		Map<String, String> necessaryPrefixes = ShaclPrefixReader.gatherNecessaryPrefixes(shaclGraph.getNsPrefixMap(), gatheredPrefixes);
+		ShapesGraph shapesGraph = new ShapesGraph(shaclGraph);
+		Map<String, String> necessaryPrefixes = shapesGraph.getNamespaces();
 		List<NamespaceSection> namespaceSections = NamespaceSection.fromMap(necessaryPrefixes);
 		List<NamespaceSection> sortNameSpacesectionPrefix = namespaceSections.stream().sorted((s1, s2) -> {
 			if(s1.getprefix() != null ) {
@@ -187,24 +183,6 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 		}).collect(Collectors.toList());
 		
 		return sortNameSpacesectionPrefix; 
-	}
-
-	public List<String> readPrefixes(Resource nodeShape) {
-		ShaclPrefixReader reader = new ShaclPrefixReader();
-		List<String> prefixes = new ArrayList<>();
-		
-		// read prefixes on node shape
-		prefixes.addAll(reader.readPrefixes(nodeShape));
-		
-		List<Statement> propertyStatements = nodeShape.listProperties(SH.property).toList();
-		for (Statement aPropertyStatement : propertyStatements) {
-			RDFNode object = aPropertyStatement.getObject();
-			if(object.isResource()) {
-				Resource propertyShape = object.asResource();
-				prefixes.addAll(reader.readPrefixes(propertyShape));
-			}
-		}
-		return prefixes;
 	}
 
 	public boolean isReadDiagram() {

@@ -141,23 +141,6 @@ public class ShaclXsdBoxReader {
 		return idpackage;
 	}
 	
-	public List<String> readPrefixes(Resource nodeShape) {
-		ShaclPrefixReader reader = new ShaclPrefixReader();
-		List<String> prefixes = new ArrayList<>();
-		
-		// read prefixes on node shape
-		prefixes.addAll(reader.readPrefixes(nodeShape));
-		
-		List<Statement> propertyStatements = nodeShape.listProperties(SH.property).toList();
-		for (Statement aPropertyStatement : propertyStatements) {
-			RDFNode object = aPropertyStatement.getObject();
-			if(object.isResource()) {
-				Resource propertyShape = object.asResource();
-				prefixes.addAll(reader.readPrefixes(propertyShape));
-			}
-		}
-		return prefixes;
-	}
 	
 	
 }

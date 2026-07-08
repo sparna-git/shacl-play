@@ -45,7 +45,7 @@ import fr.sparna.rdf.shacl.sparqlgen.construct.SparqlQueryHelper;
 import fr.sparna.rdf.shacl.sparqlgen.shaclmodel.NodeShape;
 import fr.sparna.rdf.shacl.sparqlgen.shaclmodel.NodeShapeReader;
 import fr.sparna.rdf.shacl.sparqlgen.shaclmodel.PropertyShape;
-import fr.sparna.rdf.shacl.sparqlgen.shaclmodel.ShaclPrefixReader;
+import fr.sparna.rdf.jena.shacl.ShapesGraph;
 
 public class SparqlGenerator {
 
@@ -105,15 +105,8 @@ public class SparqlGenerator {
 		}
 
 		// Get Prefix sh ttl
-		HashSet<String> gatheredPrefixes = new HashSet<>();
-		for (NodeShape aBox : allNodeShapes) {
-			List<String> prefixes = reader.readPrefixes(aBox.getNodeShapeResource());
-			gatheredPrefixes.addAll(prefixes);
-		}
-		Map<String, String> necessaryPrefixes = ShaclPrefixReader.gatherNecessaryPrefixes(
-				shaclFile.getNsPrefixMap(),
-				gatheredPrefixes
-		);
+		ShapesGraph shapesGraph = new ShapesGraph(shaclFile);
+		Map<String, String> necessaryPrefixes = shapesGraph.getNamespaces();
 	
 		// Start from all root NodeShapes
 		for (NodeShape aNodeShape : this.allNodeShapes) {

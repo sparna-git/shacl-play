@@ -2,14 +2,20 @@ package fr.sparna.rdf.jena.shacl;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.Property;
+import org.apache.jena.rdf.model.RDFList;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.vocabulary.OWL;
 import org.apache.jena.vocabulary.RDF;
 import org.topbraid.shacl.vocabulary.SH;
@@ -153,9 +159,103 @@ public class ShapesGraph {
 		unusedNodeShapes.forEach(ns -> this.deleteNodeShape(ns.getShape()));
 	}
 
+	/**
+	 * @return a map of namespace prefixes to URIs for all namespaces that are actually used in the shapes graph
+	 */
 	public Map<String, String> getNamespaces() {
-		// TODO : bring here the logic in ShaclPrefixReader.gatherNecessaryPrefixes to only return the namespaces that are actually used in the graph, not all of them
-		return null;
+		// Collect all necessary prefix names from the shapes graph
+		Set<String> necessaryPrefixes = new HashSet<>();
+		
+		// Get all node shapes
+		List<NodeShape> allNodeShapes = getAllNodeShapes();
+		
+		// For each node shape, collect prefixes from its properties and its property shapes
+		for (NodeShape nodeShape : allNodeShapes) {
+			Resource shapeResource = nodeShape.getShape();
+			collectPrefixesFromResource(necessaryPrefixes, shapeResource);
+			
+			// Also collect prefixes from property shapes
+			for (PropertyShape propertyShape : nodeShape.getProperties()) {
+				Resource psResource = propertyShape.getShape();
+				collectPrefixesFromResource(necessaryPrefixes, psResource);
+			}
+		}
+		
+		// Filter the model's namespace map to only include necessary prefixes
+		return gatherNecessaryPrefixes(shaclGraph.getNsPrefixMap(), necessaryPrefixes);
+	}
+
+	/**
+	 * Collects all prefix names used in the given resource's properties
+	 * @param prefixes Set to collect prefix names into
+	 * @param resource Resource to extract prefixes from
+	 */
+	private void collectPrefixesFromResource(Set<String> prefixes, Resource resource) {
+		// Properties that may contain URIs that need prefixes
+		Property[] propertiesToCheck = {
+			SH.path,
+			SH.targetClass,
+			SH.class_,
+			SH.datatype,
+			SH.in,
+			SH.hasValue,
+			SH.target,
+			SH.targetNode,
+			SH.targetSubjectsOf,
+			SH.targetObjectsOf
+		};
+		
+		for (Property property : propertiesToCheck) {
+			appendPrefix(prefixes, resource, property);
+		}
+	}
+
+	/**
+	 * Appends the prefix name from a property value to the prefixes set
+	 * @param prefixes Set to collect prefix names into
+	 * @param resource Resource to check
+	 * @param property Property to check on the resource
+	 */
+	private void appendPrefix(Set<String> prefixes, Resource resource, Property property) {
+		if(resource.hasProperty(property)) {
+			RDFNode object = resource.getProperty(property).getObject();
+			if(object.isURIResource()) {
+				String qname = resource.getModel().qnameFor(object.asNode().getURI());
+				// can be null if cannot be abbreviated
+				if(qname != null) {
+					prefixes.add(qname.split(":")[0]);
+				}
+			} else if(object.canAs(RDFList.class)) {
+				List<RDFNode> nodes = object.as(RDFList.class).asJavaList();
+				for (RDFNode aNode : nodes) {
+					if(aNode.isURIResource()) {
+						String qname = resource.getModel().qnameFor(aNode.asResource().getURI());
+						if(qname != null) {
+							prefixes.add(qname.split(":")[0]);
+						}
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * Filters a map of all prefixes to only include those that are in the necessaryPrefixes set
+	 * @param allPrefixes Map of all available prefixes (prefix -> URI)
+	 * @param necessaryPrefixes Set of prefix names that are needed
+	 * @return Filtered map containing only necessary prefixes
+	 */
+	private Map<String, String> gatherNecessaryPrefixes(Map<String, String> allPrefixes, Set<String> necessaryPrefixes) {
+		HashMap<String, String> result = new HashMap<>();
+		
+		for (String aPrefix : necessaryPrefixes) {
+			String uri = allPrefixes.get(aPrefix);
+			if(uri != null) {
+				result.put(aPrefix, uri);
+			}
+		}
+		
+		return result;
 	}
 
 	public void deleteNodeShape(Resource nodeShape) {

@@ -16,6 +16,8 @@ import org.topbraid.shacl.vocabulary.SH;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import fr.sparna.rdf.jena.shacl.ShapesGraph;
+
 public class Shacl2XsdConverter {
 
 	protected String targetNamespace;
@@ -93,14 +95,8 @@ public class Shacl2XsdConverter {
 
 		// 3. Lire les prefixes
 
-		HashSet<String> gatheredPrefixes = new HashSet<>();
-		for (ShaclXsdBox abox : ShaclXsdBoxes) {
-			List<String> prefixes = nodeShapeReader.readPrefixes(abox.getNodeShape());
-			gatheredPrefixes.addAll(prefixes);
-		}
-
-		Map<String, String> necessaryPrefixes = ShaclPrefixReader.gatherNecessaryPrefixes(shacl.getNsPrefixMap(),
-				gatheredPrefixes);
+		ShapesGraph shapesGraph = new ShapesGraph(shacl);
+		Map<String, String> necessaryPrefixes = shapesGraph.getNamespaces();
 		List<NamespaceSection> namespaceSections = NamespaceSection.fromMap(necessaryPrefixes);
 		List<NamespaceSection> sortNameSpacesectionPrefix = namespaceSections.stream().sorted((s1, s2) -> {
 			if (s1.getprefix() != null) {

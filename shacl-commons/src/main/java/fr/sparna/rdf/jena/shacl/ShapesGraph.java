@@ -3,6 +3,7 @@ package fr.sparna.rdf.jena.shacl;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -26,8 +27,6 @@ public class ShapesGraph {
 		super();
 		this.shaclGraph = shaclGraph;
 		this.owlGraph = owlGraph;
-		
-		this.ontology = this.readOWL(shaclGraph);
 	}
 
 	public ShapesGraph(Model shaclGraph) {
@@ -48,7 +47,10 @@ public class ShapesGraph {
 	}
 
 	public OwlOntology getOntology() {
-		return ontology;
+		if(this.ontology == null) {
+			this.ontology = readOntology(shaclGraph);
+		}
+		return this.ontology;
 	}
 
 	public Model getShaclGraph() {
@@ -151,6 +153,11 @@ public class ShapesGraph {
 		unusedNodeShapes.forEach(ns -> this.deleteNodeShape(ns.getShape()));
 	}
 
+	public Map<String, String> getNamespaces() {
+		// TODO : bring here the logic in ShaclPrefixReader.gatherNecessaryPrefixes to only return the namespaces that are actually used in the graph, not all of them
+		return null;
+	}
+
 	public void deleteNodeShape(Resource nodeShape) {
 		// delete any blank nodes that are linked to this node shape
 		this.shaclGraph.listStatements(nodeShape, null, (RDFNode) null).toList()
@@ -160,7 +167,7 @@ public class ShapesGraph {
 		this.shaclGraph.removeAll(null, null, nodeShape);
 	}
 	
-	private OwlOntology readOWL(Model shaclGraph) {
+	private OwlOntology readOntology(Model shaclGraph) {
 		
 		// Lecture de OWL
 		// this is tricky, because we can have multiple ones if SHACL is merged with OWL or imports OWL

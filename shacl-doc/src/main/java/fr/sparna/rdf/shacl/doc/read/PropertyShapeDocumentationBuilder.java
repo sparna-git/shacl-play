@@ -75,11 +75,11 @@ public class PropertyShapeDocumentationBuilder {
 		proprieteDoc.setDescription(propertyShape.getDisplayDescription(shaclGraph.union(owlGraph), lang));
 		
 		// colors
-		if (!propertyShape.getShaclPlayColor().isEmpty()) {
-			proprieteDoc.setColor(propertyShape.getShaclPlayColor().get().getString());
+		if (propertyShape.getDisplayColor() != null) {
+			proprieteDoc.setColor(propertyShape.getDisplayColor());
 		}		
-		if (!propertyShape.getShaclPlayBackgroundColor().isEmpty()) {
-			proprieteDoc.setBackgroundcolor(propertyShape.getShaclPlayBackgroundColor().get().getString());
+		if (propertyShape.getDisplayBackgroundColor() != null) {
+			proprieteDoc.setBackgroundcolor(propertyShape.getDisplayBackgroundColor());
 		}
 		
 		proprieteDoc.getExpectedValue().setExpectedValue(selectExpectedValueAsLink(

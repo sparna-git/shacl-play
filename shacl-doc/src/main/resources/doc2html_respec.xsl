@@ -1150,7 +1150,7 @@
 				<xsl:if test="
 					targetClass/targetClass
 					or
-					superClasses/link
+					superClasses/superClass
 					or
 					targetSubjectsOf != ''
 					or
@@ -1160,7 +1160,7 @@
 				">
 					<div class="sp_target">
 						<xsl:choose>
-							<xsl:when test="sparqlTarget and not(targetClass/targetClass or superClasses/link or targetSubjectsOf != '' or targetObjectsOf != '')">
+							<xsl:when test="sparqlTarget and not(targetClass/targetClass or superClasses/superClass or targetSubjectsOf != '' or targetObjectsOf != '')">
 								<!-- if there is only a SPARQL target, show a specific title with only the SPARQL target -->
 								<div class="sp_target-header"><xsl:value-of select="$LABELS/labels/entry[@key='SECTION_TARGET_SPARQLONLY.TITLE']/@label" /></div>
 								<xsl:apply-templates select="sparqlTarget" />
@@ -1191,11 +1191,11 @@
 									</li>
 									
 								</xsl:if>
-								<xsl:if test="superClasses/link">
+								<xsl:if test="superClasses/superClass">
 									<li>
 										<xsl:value-of
 											select="$LABELS/labels/entry[@key='LABEL_SUPERCLASSES']/@label" />
-										<xsl:for-each select="superClasses/link">
+										<xsl:for-each select="superClasses/superClass">
 											<xsl:choose>
 												<xsl:when test="position() = 1">
 													<a href="{href}"><xsl:value-of select="label" /></a>
@@ -1249,12 +1249,12 @@
 					or
 					skosExample != ''
 					or
-					shNode/href
+					shNodes/shNode
 				">
 					<div class="sp_syntax">
 						<div class="sp_syntax-header"><xsl:value-of select="$LABELS/labels/entry[@key='SECTION_SYNTAX.TITLE']/@label" /><xsl:if test="nodeKind != ''"> (<xsl:value-of select="nodeKind" />)</xsl:if></div>
 						<ul>
-							<xsl:if test="nodeKind != '' and not(pattern != '' or skosExample != '' or shNode/href)">
+							<xsl:if test="nodeKind != '' and not(pattern != '' or skosExample != '' or shNodes/shNode)">
 								<!-- Print this only if this is the only information available -->
 								<li>
 									<xsl:value-of
@@ -1274,10 +1274,10 @@
 									<code><xsl:value-of select="skosExample"/></code>
 								</li>
 							</xsl:if>
-							<xsl:if test="shNode/href">
+							<xsl:if test="shNodes/shNode">
 								<li>
 									<xsl:value-of select="$LABELS/labels/entry[@key='LABEL_SHNODE']/@label" />
-									<xsl:for-each select="shNode">
+									<xsl:for-each select="shNodes/shNode">
 										<xsl:variable name="shNode_Href" select="href"/>
 										<xsl:variable name="shNode_label" select="label"/>
 										
@@ -1289,7 +1289,7 @@
 												<xsl:text></xsl:text>
 											</xsl:when>
 											<xsl:when test="position() != last()">
-												<xsl:text> | </xsl:text>
+												<xsl:text>, </xsl:text>
 											</xsl:when>											
 										</xsl:choose>
 									</xsl:for-each>

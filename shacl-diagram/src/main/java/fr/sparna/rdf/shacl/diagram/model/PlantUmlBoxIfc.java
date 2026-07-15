@@ -20,9 +20,9 @@ public interface PlantUmlBoxIfc {
 	
 	public boolean isTargetingBox(Resource classUri);
 	
-	public String getBackgroundColorStringBox();
+	public String getBackgroundColor();
 	
-	public String getColorStringBox();	
+	public String getColor();	
 	
 	public int countShNodeOrShClassReferencesTo(String id, PlantUmlDiagram diagram);
 	

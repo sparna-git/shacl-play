@@ -38,23 +38,12 @@ public class PlantUmlBox implements PlantUmlBoxIfc {
 			(this.nodeShape.getTargetClass().size() > 0)?this.nodeShape.getTargetClass().get(0):null
 		);
 	}
-
-	public Optional<Literal> getBackgroundColor() {
-		return this.nodeShape.getShaclPlayBackgroundColor();
-	}
-	
-	public Optional<Literal> getColor() {
-		return this.nodeShape.getShaclPlayColor();
-	}
 	
 	public List<Resource> getDepictionBox() {
 		List<Resource> depictionInput = this.nodeShape.getDepiction()
 											.stream()
 											.filter(f -> { 
-												if (f.getURI().contains(".png")) {
-													return false;
-												}
-												if (f.getURI().contains(".jpg")) {
+												if (f.getURI().contains(".png") || f.getURI().contains(".jpg")) {
 													return false;
 												}
 												return true;												
@@ -85,12 +74,12 @@ public class PlantUmlBox implements PlantUmlBoxIfc {
 		return hasShTargetClass || isItselfTheClass;
 	}
 	
-	public String getBackgroundColorStringBox() {
-		return this.nodeShape.getShaclPlayBackgroundColor().map(node -> node.asLiteral().getLexicalForm()).orElse(null);
+	public String getBackgroundColor() {
+		return this.nodeShape.getDisplayBackgroundColor();
 	}
 	
-	public String getColorStringBox() {
-		return this.nodeShape.getShaclPlayColor().map(node -> node.asLiteral().getLexicalForm()).orElse(null);
+	public String getColor() {
+		return this.nodeShape.getDisplayColor();
 	}
 	
 	public int countShNodeOrShClassReferencesTo(String id, PlantUmlDiagram diagram) {

@@ -14,13 +14,13 @@ public class BasePlantUmlBox implements PlantUmlBoxIfc {
     }
 
     @Override
-    public String getBackgroundColorStringBox() {
+    public String getBackgroundColor() {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public String getColorStringBox() {
+    public String getColor() {
         // TODO Auto-generated method stub
         return null;
     }

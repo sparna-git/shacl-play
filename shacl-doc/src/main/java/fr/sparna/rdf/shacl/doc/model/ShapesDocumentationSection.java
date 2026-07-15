@@ -40,7 +40,11 @@ public class ShapesDocumentationSection {
 	private String nodeKind;
 	private Boolean closed;
 	private String skosExample;
-	private Link shNode;
+
+	@JacksonXmlElementWrapper(localName="shNodes")
+	@JacksonXmlProperty(localName = "shNode")
+	private List<Link> shNodes;
+	
 	private String color;
 	private Boolean mainToc;
 	
@@ -59,7 +63,7 @@ public class ShapesDocumentationSection {
 	private PlantUmlDiagramOutput nsDiagram;
 	
 	@JacksonXmlElementWrapper(localName="superClasses")
-	@JacksonXmlProperty(localName = "link")
+	@JacksonXmlProperty(localName = "superClass")
 	private List<Link> superClasses;
 	
 	// List of usage
@@ -304,14 +308,6 @@ public class ShapesDocumentationSection {
 		this.mainToc = mainToc;
 	}
 
-	public Link getShNode() {
-		return shNode;
-	}
-
-	public void setShNode(Link shNode) {
-		this.shNode = shNode;
-	}
-
 	public List<Usage> getUsages() {
 		return usages;
 	}
@@ -326,6 +322,14 @@ public class ShapesDocumentationSection {
 
 	public void setConstraintEntries(List<ConstraintEntry> constraintEntries) {
 		this.constraintEntries = constraintEntries;
+	}
+
+	public List<Link> getShNodes() {
+		return shNodes;
+	}
+
+	public void setShNodes(List<Link> shNodes) {
+		this.shNodes = shNodes;
 	}
 
 }

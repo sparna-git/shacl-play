@@ -21,7 +21,6 @@ import org.apache.jena.vocabulary.SKOS;
 
 import fr.sparna.rdf.jena.ModelReadingUtils;
 import fr.sparna.rdf.jena.ModelRenderingUtils;
-import fr.sparna.rdf.vocabularies.DCT;
 import fr.sparna.rdf.vocabularies.SCHEMA;
 
 import org.topbraid.shacl.vocabulary.SH;
@@ -158,6 +157,9 @@ public class NodeShape extends Shape  {
 
 	/***** PROPERTY SHAPES MANAGEMENT  *******/
 
+	/**
+	 * @return the property shapes of this node shape, with lazy loading and caching
+	 */
 	public List<PropertyShape> getProperties() {
 		if(this.properties != null) {
 			return properties;
@@ -224,6 +226,28 @@ public class NodeShape extends Shape  {
 		return hasNoActivePropertyShape.test(this) && !this.hasTarget() && this.getRdfsSubClassOf().isEmpty();
 	}
 
+	/**
+	 * @return true if this node shape has no active property shapes and has only one sh:rule
+	 */
+	public boolean isPureRuleShape() {
+		Predicate<NodeShape> hasNoActivePropertyShape = new Predicate<NodeShape>() {
+
+			@Override
+			public boolean test(NodeShape ns) {
+				// as soon as we find one non-deactivated property shape, we return false
+				for (PropertyShape ps : ns.getProperties()) {
+					if (!ps.isDeactivated()) {
+						return false;
+					}
+				}
+				// no property shape active at all, return true
+				return true;
+			}
+		};
+
+		return hasNoActivePropertyShape.test(this) && this.getShRule().size() > 0;
+	}
+
 	/***** USAGE INDICATOR  *******/
 
 	public boolean isUsedInShapesGraph() {
@@ -244,12 +268,11 @@ public class NodeShape extends Shape  {
 		ShapesGraph graph = new ShapesGraph(this.getResource().getModel());
 		for(NodeShape ns : graph.getAllNodeShapes()) {
 
-			// check if this node shape is used in sh:node
-			
-			if(ns.getShNode().map(n -> n.equals(this.getResource())).orElse(false)) {
+			// check if this node shape is used in sh:node			
+			if(ns.getShNodeAsList().stream().filter(n -> n.equals(this.getResource())).findFirst().isPresent()) {
 				usage.add(ns);
 			}
-			// check if this node shape is used in a rdfs:subClassOf of this node shape
+			// check if this node shape is used in a rdfs:subClassOf
 			if(ns.getRdfsSubClassOf().stream().filter(c -> c.equals(this.getResource())).findFirst().isPresent()) {
 				usage.add(ns);
 			}
@@ -272,8 +295,7 @@ public class NodeShape extends Shape  {
 				// check if this node shape is used in an sh:or containing a sh:node or a sh:class targeting a class that is the target of this one
 				if(ShOrReadingUtils.readShNodeInShOr(ps.getShOr()).stream().filter(n -> n.equals(this.getResource())).findFirst().isPresent()) {
 					usage.add(ps);
-				}
-				
+				}				
 				if(ShOrReadingUtils.readShClassInShOr(ps.getShOr()).stream().filter(c -> this.getAllTargetedClasses().stream().filter(tc -> tc.equals(c)).findFirst().isPresent()).findFirst().isPresent()) {
 					usage.add(ps);
 				}
@@ -390,12 +412,47 @@ public class NodeShape extends Shape  {
 		
 		return result;
 	}
-	
+
+	@Override
+	public String getDisplayColor() {
+		// if there is a shacl-play:color, use it		
+		if(this.getShaclPlayColor().isPresent()) {
+			return ModelRenderingUtils.render(this.getShaclPlayColor().get(), true);
+		} else {
+			// otherwise if there are some "parent shapes", recursively get their color and return the first one found
+			for(Resource parentShape : this.getSuperShapes()) {
+				NodeShape parentNodeShape = new NodeShape(parentShape);
+				String parentColor = parentNodeShape.getDisplayColor();
+				if(parentColor != null) {
+					return parentColor;
+				}
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public String getDisplayBackgroundColor() {
+		// if there is a shacl-play:backgroundcolor, use it		
+		if(this.getShaclPlayBackgroundColor().isPresent()) {
+			return ModelRenderingUtils.render(this.getShaclPlayBackgroundColor().get(), true);
+		} else {
+			// otherwise if there are some "parent shapes", recursively get their background color and return the first one found
+			for(Resource parentShape : this.getSuperShapes()) {
+				NodeShape parentNodeShape = new NodeShape(parentShape);
+				String parentBackgroundColor = parentNodeShape.getDisplayBackgroundColor();
+				if(parentBackgroundColor != null) {
+					return parentBackgroundColor;
+				}
+			}
+		}
+		return null;
+	}
 
 	/***** / TEXTUAL ANNOTATIONS (label, description)  *******/
 
 
-	public List<SparqlConstraint> getSparqlConstraints() {
+	public List<SparqlConstraint> getShSparql() {
 		return this.resource.listProperties(SH.sparql).toList().stream().map( c-> c.getResource()).map(r -> new SparqlConstraint(r)).collect(Collectors.toList());
 	}
 

@@ -122,7 +122,7 @@ public class ShapesGraph {
 	public void pruneEmptyAndUnusedNodeShapes() {
 		List<NodeShape> unusedNodeShapes = getAllNodeShapes().stream().filter(
 			ns -> (
-				ns.isPureValueShape()
+				(ns.isPureValueShape() || ns.isPureRuleShape())
 				&&
 				!ns.isUsedInShapesGraph()
 			)
@@ -133,7 +133,7 @@ public class ShapesGraph {
 		// this should be a loop, of course
 		unusedNodeShapes = getAllNodeShapes().stream().filter(
 			ns -> (
-				ns.isPureValueShape()
+				(ns.isPureValueShape() || ns.isPureRuleShape())
 				&&
 				!ns.isUsedInShapesGraph()
 			)

@@ -43,11 +43,11 @@ public class PlantUmlDiagramReader {
 					}
 				}
 				
-				// then read an rdfs:label
-				d.setTitle(this.readDctTitle(aRef, lang));
+				// then read a dcterms:title
+				d.setTitle(ModelReadingUtils.readLiteralInLangAsString(aRef, DCTerms.title, lang));
 
-				// then read an rdfs:comment
-				d.setDescription(this.readDctDescription(aRef, lang));
+				// then read a dcterms:description
+				d.setDescription(ModelReadingUtils.readLiteralInLangAsString(aRef, DCTerms.description, lang));
 				
 				// and an order
 				d.setOrderDiagram(this.readShOrder(aRef));
@@ -62,14 +62,6 @@ public class PlantUmlDiagramReader {
 		
 		
 		return diagrams;
-	}
-	
-	public String readDctTitle(Resource r, String lang) {
-		return ModelReadingUtils.readLiteralInLangAsString(r, DCTerms.title, lang);
-	}
-	
-	public String readDctDescription(Resource r, String lang) {
-		return ModelReadingUtils.readLiteralInLangAsString(r, DCTerms.description, lang);
 	}
 	
 	public double readShOrder(Resource r) {

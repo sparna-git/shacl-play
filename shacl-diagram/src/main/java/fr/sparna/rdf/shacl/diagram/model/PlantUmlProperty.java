@@ -1,9 +1,7 @@
 package fr.sparna.rdf.shacl.diagram.model;
 
 import java.util.List;
-import java.util.Optional;
 
-import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,10 +20,6 @@ public class PlantUmlProperty extends PropertyShape {
 	public PlantUmlProperty(Resource propertyShape) {
 		super(propertyShape);
 		this.propertyShape = propertyShape;
-	}
-	
-	public Optional<Literal> getColor() {
-		return super.getShaclPlayColor();
 	}
 		
 	@Deprecated

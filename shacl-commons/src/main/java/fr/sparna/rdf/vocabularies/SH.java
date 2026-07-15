@@ -37,6 +37,8 @@ public class SH {
     
     public final static Property resultMessage = ResourceFactory.createProperty(NS + "resultMessage");
 
+    public final static Property rule = ResourceFactory.createProperty(NS + "rule");
+
     public final static Property select = ResourceFactory.createProperty(NS + "select");
     
     public final static Property sourceConstraint = ResourceFactory.createProperty(NS + "sourceConstraint");

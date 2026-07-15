@@ -268,8 +268,8 @@ public class PlantUmlDiagramGenerator {
 			.map( b -> {
 				// create box with a label and colors
 				SimplePlantUmlBox newBoxSimple = new SimplePlantUmlBox(b.getNodeShape());
-				newBoxSimple.setBackgroundColorStringBox(b.getBackgroundColorStringBox());
-				newBoxSimple.setColorStringBox(b.getColorStringBox());
+				newBoxSimple.setBackgroundColorStringBox(b.getBackgroundColor());
+				newBoxSimple.setColorStringBox(b.getColor());
 				newBoxSimple.setLabel(b.getLabel());
 				// note : this is necessary so that the renderer can resolve class references to the correct boxes
 				newBoxSimple.setTargetClass(b.getTargetClass());

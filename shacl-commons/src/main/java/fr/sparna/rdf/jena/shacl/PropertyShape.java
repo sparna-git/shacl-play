@@ -110,6 +110,16 @@ public class PropertyShape extends Shape {
 		return result;
 	}	
 
+	@Override
+	public String getDisplayColor() {
+		return this.getShaclPlayColor().map(node -> node.asLiteral().getLexicalForm()).orElse(null);
+	}
+
+	@Override
+	public String getDisplayBackgroundColor() {
+		return this.getShaclPlayBackgroundColor().map(node -> node.asLiteral().getLexicalForm()).orElse(null);
+	}
+
 	/**
 	 * Could be either an IRI or a boolean set to false
 	 */

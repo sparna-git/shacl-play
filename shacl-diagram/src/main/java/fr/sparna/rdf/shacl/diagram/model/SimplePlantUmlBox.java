@@ -29,29 +29,21 @@ public class SimplePlantUmlBox extends BasePlantUmlBox {
 		this.link = "#" + ((r.isURIResource())?this.nodeShape.getModel().shortForm(this.nodeShape.getURI()):r.getId().getLabelString());    
     }
 
-	public String getBackgroundColorStringBox() {
+	public String getBackgroundColor() {
 		return backgroundColorStringBox;
 	}
-
-
 
 	public void setBackgroundColorStringBox(String backgroundColorStringBox) {
 		this.backgroundColorStringBox = backgroundColorStringBox;
 	}
 
-
-
-	public String getColorStringBox() {
+	public String getColor() {
 		return colorStringBox;
 	}
-
-
 
 	public void setColorStringBox(String colorStringBox) {
 		this.colorStringBox = colorStringBox;
 	}
-
-
 
 	public Resource getNodeShape() {
         return nodeShape;

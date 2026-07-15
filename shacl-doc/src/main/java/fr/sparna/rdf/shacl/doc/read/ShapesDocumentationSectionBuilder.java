@@ -24,6 +24,8 @@ import fr.sparna.rdf.shacl.doc.model.ShapesDocumentationSection;
 import fr.sparna.rdf.shacl.doc.model.Usage;
 
 import fr.sparna.rdf.jena.shacl.Shape;
+import fr.sparna.rdf.jena.ModelReadingUtils;
+import fr.sparna.rdf.jena.ModelRenderingUtils;
 import fr.sparna.rdf.jena.shacl.NodeShape;
 import fr.sparna.rdf.jena.shacl.PropertyShape;
 
@@ -77,12 +79,11 @@ public class ShapesDocumentationSectionBuilder {
 		}
 		
 		// Get sh:node as type of shape
-		if (nodeShape.getShNodeAsList().size() > 0) {			
-			nodeShape.getShNodeAsList().forEach(shNode -> {
-				currentSection.setShNode(
-					LinkFactory.buildShNodeOrOtherShapeReferenceLink(shNode, shapesGraph, owlGraph, lang)	
-				);
-			});
+		List<Resource> shNodes = nodeShape.getShNodeAsList();
+		if (shNodes.size() > 0) {
+			currentSection.setShNodes(shNodes.stream()
+					.map(shNode -> LinkFactory.buildShNodeOrOtherShapeReferenceLink(shNode, shapesGraph, owlGraph, lang))
+					.collect(Collectors.toList()));
 		}
 
 
@@ -117,8 +118,8 @@ public class ShapesDocumentationSectionBuilder {
 		}
 		
 		// SPARQL CONSTRAINT
-		if (nodeShape.getSparqlConstraints().size() > 0) {
-			currentSection.setConstraintEntries(nodeShape.getSparqlConstraints().stream()
+		if (nodeShape.getShSparql().size() > 0) {
+			currentSection.setConstraintEntries(nodeShape.getShSparql().stream()
 					.map(sc -> new ConstraintEntry(sc, lang))
 					.collect(Collectors.toList()));
 		}
@@ -155,7 +156,7 @@ public class ShapesDocumentationSectionBuilder {
 		}
 		
 		// foaf:depiction
-		currentSection.setDepictions(this.readFoafDepiction(nodeShape));
+		currentSection.setDepictions(this.readFoafDepiction(nodeShape, lang));
 		
 		// Usage
 		currentSection.setUsages(findNodeShapeUsage(shapesGraph,nodeShape,shaclGraph,owlGraph,lang));
@@ -175,7 +176,7 @@ public class ShapesDocumentationSectionBuilder {
 		return currentSection;
 	}
 
-	public List<Depiction> readFoafDepiction(NodeShape nodeShape) {
+	public List<Depiction> readFoafDepiction(NodeShape nodeShape, String lang) {
 		
 		//List<Statement> depic = nodeShape.listProperties(FOAF.depiction).toList();
 		List<Resource> depictionsResources = new ArrayList<>();
@@ -202,10 +203,10 @@ public class ShapesDocumentationSectionBuilder {
 			aDepiction.setShorder(Shape.ShOrderComparator.getShOrderOf(r));
 			
 			// dcterms:title
-			Optional.ofNullable(r.getProperty(DCTerms.title)).map(s -> s.getString()).ifPresent(title -> aDepiction.setTitle(title));
+			aDepiction.setTitle(ModelReadingUtils.readLiteralInLangAsString(r, DCTerms.title, lang));
 			
 			// dcterms:description
-			Optional.ofNullable(r.getProperty(DCTerms.description)).map(s -> s.getString()).ifPresent(title -> aDepiction.setDescription(title));
+			aDepiction.setDescription(ModelReadingUtils.readLiteralInLangAsString(r, DCTerms.description, lang));
 			depictions.add(aDepiction);
 		}
 		

@@ -81,16 +81,16 @@ public class BoxRenderer {
 		String declaration = "";
 
 		String colorBackGround = "";
-		if (box.getBackgroundColorStringBox() != null ) {
+		if (box.getBackgroundColor() != null ) {
 			// colors in PlantUML must not start with # in background
-			String finalColor = box.getBackgroundColorStringBox().startsWith("#")? box.getBackgroundColorStringBox().substring(1):box.getBackgroundColorStringBox();
+			String finalColor = box.getBackgroundColor().startsWith("#")? box.getBackgroundColor().substring(1):box.getBackgroundColor();
 			colorBackGround = "#back:"+finalColor;						
 		}
 		
 		String labelColorClass = "";
-		if(box.getColorStringBox() != null) {
+		if(box.getColor() != null) {
 			// colors in PlantUML must not start with # in background
-			String finalColor = box.getColorStringBox().startsWith("#")? box.getColorStringBox().substring(1):box.getColorStringBox();
+			String finalColor = box.getColor().startsWith("#")? box.getColor().substring(1):box.getColor();
 			labelColorClass += !colorBackGround.equals("")? ";":"#";
 			labelColorClass += "text:"+finalColor;
 		}
@@ -111,9 +111,9 @@ public class BoxRenderer {
 				||
 				(box.getPropertiesBox().size() == 0 && box.getRdfsSubClassOf().size() == 0 && box.getDepictionBox().size() == 0 )
 				||
-				box.getBackgroundColorStringBox() != null
+				box.getBackgroundColor() != null
 				||
-				box.getColorStringBox() != null 			
+				box.getColor() != null 			
 		) {
 			if (box.getNodeShape().isAnon()) {
 				// give it an empty label

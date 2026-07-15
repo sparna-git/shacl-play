@@ -31,6 +31,8 @@ public abstract class Shape {
 
 	public abstract String getDisplayLabel(Model owlModel, String lang);
 	public abstract String getDisplayDescription(Model owlModel, String lang);
+	public abstract String getDisplayColor();
+	public abstract String getDisplayBackgroundColor();
 	
 	/**
 	 * @return the underlying Resource
@@ -60,10 +62,16 @@ public abstract class Shape {
 		}
 	}
 
+	/**
+	 * @return the optional value of shacl-play:color. See also the entity-level getDisplayColor() method, which should be preferred
+	 */
 	public Optional<Literal> getShaclPlayColor() {
 		return ModelReadingUtils.getOptionalLiteral(resource, resource.getModel().createProperty(SHACL_PLAY.COLOR));
 	}
 
+	/**
+	 * @return the optional value of shacl-play:backgroundcolor. See also the entity-level getDisplayBackgroundColor() method, which should be preferred
+	 */
 	public Optional<Literal> getShaclPlayBackgroundColor() {
 		return ModelReadingUtils.getOptionalLiteral(resource, resource.getModel().createProperty(SHACL_PLAY.BACKGROUNDCOLOR));
 	}
@@ -259,6 +267,15 @@ public abstract class Shape {
 	
 	public boolean isLabelRole() {
 		return this.getPropertyRoles().stream().anyMatch(r -> r.getURI().equals(DASH.LabelRole.getURI()));
+	}
+
+	public List<Resource> getShRule() {
+		if (resource.hasProperty(SH.rule)) {
+			List<Statement> rules = resource.listProperties(SH.rule).toList();
+			return rules.stream().map(s -> s.getObject().asResource()).collect(Collectors.toList());
+		} else {
+			return Collections.emptyList();
+		}
 	}
 
 	/**

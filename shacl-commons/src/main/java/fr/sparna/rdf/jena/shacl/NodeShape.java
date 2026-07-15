@@ -10,9 +10,7 @@ import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
-import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.sparql.vocabulary.FOAF;
 import org.apache.jena.vocabulary.OWL;
 import org.apache.jena.vocabulary.RDF;
@@ -158,6 +156,13 @@ public class NodeShape extends Shape  {
 	/***** PROPERTY SHAPES MANAGEMENT  *******/
 
 	/**
+	 * @return the raw values of sh:property, or an empty list if none
+	 */
+	public List<Resource> getShProperty() {
+		return ModelReadingUtils.readObjectAsResource(resource, SH.property);
+	}
+
+	/**
 	 * @return the property shapes of this node shape, with lazy loading and caching
 	 */
 	public List<PropertyShape> getProperties() {
@@ -169,25 +174,30 @@ public class NodeShape extends Shape  {
 		}
 	}
 
-	private List<PropertyShape> readProperties() {
-		
-		List<Statement> propertyStatements = this.resource.listProperties(SH.property).toList();
-		List<PropertyShape> properties = new ArrayList<>();		
-		
-		for (Statement aPropertyStatement : propertyStatements) {
-			RDFNode object = aPropertyStatement.getObject();
-			
-			if(object.isResource()) {
-				Resource propertyShape = object.asResource();
-				properties.add(new PropertyShape(propertyShape));					
-			}
-		
-		}		
+	public List<PropertyShape> getInheritedProperties() {	
+		List<PropertyShape> properties = getProperties();
 
-		properties.sort(new PropertyShape.PropertyShapeComparator());
-		 
+		// add the properties of the super shapes
+		for(Resource superShape : this.getSuperShapes()) {
+			NodeShape superNodeShape = new NodeShape(superShape);
+			properties.addAll(superNodeShape.getInheritedProperties());
+		}
+
+		// sort the whole list
+		properties.sort(new PropertyShape.PropertyShapeComparator());		 
 		return properties;	
 	}
+
+	/**
+	 * @return the values of sh:property as PropertyShape, sorted, or an empty list if none
+	 */
+	private List<PropertyShape> readProperties() {	
+		List<PropertyShape> properties = this.getShProperty().stream().map(r -> new PropertyShape(r)).collect(Collectors.toList());
+		properties.sort(new PropertyShape.PropertyShapeComparator());		 
+		return properties;	
+	}
+
+
 
 	/***** / PROPERTY SHAPES MANAGEMENT  *******/
 
@@ -223,7 +233,7 @@ public class NodeShape extends Shape  {
 			}
 		};
 
-		return hasNoActivePropertyShape.test(this) && !this.hasTarget() && this.getRdfsSubClassOf().isEmpty();
+		return hasNoActivePropertyShape.test(this) && !this.hasTarget() && this.getSuperShapes().isEmpty();
 	}
 
 	/**

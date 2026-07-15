@@ -147,16 +147,6 @@ public class JsonSchemaGenerator {
 					convertNodeShapeToObjectSchema(ns, shapesGraph.getShaclGraph(),!doNotIncludeValues,addProperties)
 				);
 			}
-
-			/*
-			rootSchema.embeddedSchema(
-					ns.getNodeShape().getLocalName(),
-					// create the object schema from the node shape
-					ns.isPureValueShape()
-					?convertNodeShapeToStringSchema(ns, shapesGraph.getShaclGraph())
-					:convertNodeShapeToObjectSchema(ns, shapesGraph.getShaclGraph(),!doNotIncludeValues,addProperties)
-			);
-			 */
 		}
 		
 		// find the root node shapes
@@ -243,7 +233,7 @@ public class JsonSchemaGenerator {
 		boolean addProperties
 	) throws Exception {
 		
-		log.debug("Converting NodeShape "+nodeShape.getResource().getURI()+" to JSON Schema, with "+nodeShape.getProperties().size()+" properties");
+		log.debug("Converting NodeShape "+nodeShape.getResource().getURI()+" to JSON Schema, with "+nodeShape.getInheritedProperties().size()+" properties");
 
 		ObjectSchema.Builder objectSchema = ObjectSchema.builder();	
 		
@@ -321,7 +311,8 @@ public class JsonSchemaGenerator {
 					objectSchema.addRequiredProperty(shortname);
 				}	
 			}		
-		}		
+		}
+
 		
 		// set additionnal properties to false if the NodeShape is sh:closed
 		if (nodeShape.isClosed()) {

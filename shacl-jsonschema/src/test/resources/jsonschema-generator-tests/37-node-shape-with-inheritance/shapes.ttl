@@ -1,0 +1,36 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ex: <http://example.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ex:MainNodeShape
+    a sh:NodeShape ;
+    sh:property [
+        sh:path ex:property ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:nodeKind sh:IRI ;
+        sh:node ex:ChildNodeShape ;
+    ] ;
+.
+
+# This node shape inherits all properties from ex:ParentNodeShape
+ex:ChildNodeShape
+    a sh:NodeShape ;
+    sh:node ex:ParentNodeShape ;
+.
+
+
+ex:ParentNodeShape
+    a sh:NodeShape ;
+    sh:property [
+        sh:path ex:property1 ;
+        sh:datatype xsd:string ;
+        sh:minCount 1 ;
+        sh:maxCount 1;
+    ] ;
+    sh:property [
+        sh:path ex:property2 ;
+        sh:maxCount 1;
+        sh:datatype xsd:integer ;
+    ] ;
+.

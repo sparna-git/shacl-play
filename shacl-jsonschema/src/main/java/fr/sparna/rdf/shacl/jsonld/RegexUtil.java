@@ -1,6 +1,5 @@
 package fr.sparna.rdf.shacl.jsonld;
 
-import java.io.StringReader;
 import java.util.List;
 
 import com.github.curiousoddman.rgxgen.RgxGen;
@@ -8,25 +7,10 @@ import com.github.curiousoddman.rgxgen.config.RgxGenOption;
 import com.github.curiousoddman.rgxgen.config.RgxGenProperties;
 import com.github.curiousoddman.rgxgen.model.RgxGenCharsDefinition;
 
-import fr.sparna.rdf.shacl.jsonschema.jsonld.ProbingJsonLdContextWrapper;
-import jakarta.json.Json;
-import jakarta.json.JsonValue;
-
 public class RegexUtil {
 
-	public static String extractHttpBaseUriFromPattern(String pattern) {
-        System.out.println("Trying to extract base URI from pattern: " + pattern);
-
-        if(!pattern.contains("http")) {
-            return null;
-        }
-
-		// remove starting ^ if any
-		if(pattern.startsWith("^")) {
-			pattern = pattern.substring(1);
-		}
-
-        // remove ending $ if any
+    public static String cleanLastVariablePartFromRegex(String pattern) {
+        // remove trailing $ if any
         if(pattern.endsWith("$")) {
             pattern = pattern.substring(0, pattern.length()-1);
         }
@@ -53,28 +37,44 @@ public class RegexUtil {
             int lastIndex = pattern.lastIndexOf('(');
             subPattern = pattern.substring(0, lastIndex);
         }
-        
-        if(subPattern != null) {
-            // looks like a regex with more complex pattern, give up
-            if(subPattern.contains("*") || subPattern.contains("+") || subPattern.contains("?") || subPattern.contains("[") || subPattern.contains("(")) {
-                return null;
-            }
 
-            /*
-            // is subPattern contains # character but not at the end, remove everything after #
-            if(subPattern.contains("#") && !subPattern.endsWith("#")) {
-                subPattern = subPattern.substring(0, subPattern.indexOf('#')+1);
-            } else {
-                // if subPattern does not end with /, remove everything after the last /
-                if(!subPattern.endsWith("/")) {
-                    subPattern = subPattern.substring(0, subPattern.lastIndexOf('/')+1);
+        if(subPattern != null) {
+            if(!subPattern.equals(pattern)) {
+                // looks like a regex with more complex pattern, try to recurse once more
+                if(subPattern.contains("*") || subPattern.contains("+") || subPattern.contains("?") || subPattern.contains("[") || subPattern.contains("(")) {
+                    // remove trailing / or #
+                    if(subPattern.endsWith("/") || subPattern.endsWith("#")) {
+                        subPattern = subPattern.substring(0, subPattern.length()-1);
+                    }
+                    // and then recurse
+                    return cleanLastVariablePartFromRegex(subPattern);
+                } else {
+                    // no hint that this is still a regex, return result
+                    return subPattern;
                 }
+            } else {
+                // cannot clean more, return
+                return subPattern;
             }
-            */
-            return subPattern;
         } else {
             return null;
         }
+
+
+    }
+
+	public static String extractHttpBaseUriFromPattern(String pattern) {
+        if(!pattern.contains("http")) {
+            return null;
+        }
+
+		// remove starting ^ if any
+		if(pattern.startsWith("^")) {
+			pattern = pattern.substring(1);
+		}
+
+        // and clean all trailing variable parts, recursively (e.g. "eli/dl/doc/[A-Za-z0-9\\-_]+/[a-z]{2,3}$")
+        return cleanLastVariablePartFromRegex(pattern);
 	}
 
     public static String generateMatchingString(String regex) {
@@ -138,22 +138,16 @@ public class RegexUtil {
 
         final String TEST_1 = "^https://www.iana.org/assignments/media-types/application/.*$";
         final String TEST_2 = "^http://publications.europa.eu/resource/authority/file-type/.*$";
+        final String TEST_3 = "^^https://data.europarl.europa.eu/eli/dl/doc/[A-Za-z0-9\\-_]+/[a-z]{2,3}/.*$";
 
         /*
-        for(int i =0; i<10; i++) {
-            System.out.println("Generated value for TEST_1: " + generateMatchingString(TEST_1));
-        }
-
-        for(int i =0; i<10; i++) {
-            System.out.println("Generated value for TEST_2: " + generateMatchingString(TEST_2));
-        }
-            */
-
         String TEST_CONTEXT = "{\"p\": { \"@id\": \"https://data.europarl.europa.eu/p\", \"@context\": { \"@base\" : \"https://www.iana.org/assignments/media-types/application/\", \"@vocab\" : \"https://www.iana.org/assignments/media-types/application/\" } }, \"@base\": \"https://data.europarl.europa.eu/\"}";
         JsonValue baseContext = Json.createReader(new StringReader(TEST_CONTEXT)).readValue();
         ProbingJsonLdContextWrapper wrapper = new ProbingJsonLdContextWrapper(baseContext);
         for(int i =0; i<10; i++) {
             System.out.println("Generated value for TEST_1: " + wrapper.simplifyPattern(TEST_1, "https://data.europarl.europa.eu/p", false));
         }
+        */
+       System.out.println(RegexUtil.extractHttpBaseUriFromPattern(TEST_3));
     }
 }

@@ -11,6 +11,7 @@ import net.sourceforge.plantuml.code.TranscoderUtil;
 
 @JsonInclude(Include.NON_NULL)
 public class ShapesDocumentationDiagram {
+	
 	private String plantUmlString;
 	private String svg;
 	private String pngLink;

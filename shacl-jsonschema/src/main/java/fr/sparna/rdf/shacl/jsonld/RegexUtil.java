@@ -138,7 +138,7 @@ public class RegexUtil {
 
         final String TEST_1 = "^https://www.iana.org/assignments/media-types/application/.*$";
         final String TEST_2 = "^http://publications.europa.eu/resource/authority/file-type/.*$";
-        final String TEST_3 = "^^https://data.europarl.europa.eu/eli/dl/doc/[A-Za-z0-9\\-_]+/[a-z]{2,3}/.*$";
+        final String TEST_3 = "^https://data.europarl.europa.eu/eli/dl/doc/[A-Za-z0-9\\-_]+/[a-z]{2,3}/.*$";
 
         /*
         String TEST_CONTEXT = "{\"p\": { \"@id\": \"https://data.europarl.europa.eu/p\", \"@context\": { \"@base\" : \"https://www.iana.org/assignments/media-types/application/\", \"@vocab\" : \"https://www.iana.org/assignments/media-types/application/\" } }, \"@base\": \"https://data.europarl.europa.eu/\"}";

@@ -69,7 +69,14 @@ public class InputModelReader {
 			if(inputFile.exists()) {
 				if(inputFile.isDirectory()) {
 					for(File f : inputFile.listFiles()) {
-						model.add(populateModel(model, f.getAbsolutePath()));
+						// Files found by scanning a directory are read leniently: an unreadable
+						// or non-RDF file next to the data (a README, a .gitignore) is skipped
+						// with a log entry rather than failing the run.
+						try {
+							model.add(populateModel(model, f.getAbsolutePath()));
+						} catch (IllegalArgumentException skipped) {
+							log.warn("Skipping "+f.getAbsolutePath()+" : "+skipped.getMessage());
+						}
 					}
 				} else {
 					if(RDFLanguages.filenameToLang(inputFile.getName()) != null) {
@@ -87,8 +94,11 @@ public class InputModelReader {
 							// Note : getUnionModel does not include the default model, this is why we need to add it explicitely
 							model.add(d.getUnionModel());
 							model.add(d.getDefaultModel());
-						} catch (FileNotFoundException ignore) {
-							ignore.printStackTrace();
+						} catch (FileNotFoundException e) {
+							// exists() was just checked, so this means the file became
+							// unreadable between the check and the read.
+							throw new IllegalArgumentException(
+									"Cannot read input file "+inputFile.getAbsolutePath(), e);
 						}
 					} else if(inputFile.getName().endsWith("zip")) {
 						try(ZipInputStream zis = new ZipInputStream(new FileInputStream(inputFile))) {
@@ -120,7 +130,9 @@ public class InputModelReader {
 							e.printStackTrace();
 						}
 					} else {
-						log.error("Unknown RDF format for file "+inputFile.getAbsolutePath());
+						throw new IllegalArgumentException(
+								"Unknown RDF format for file "+inputFile.getAbsolutePath()
+								+". Expected an extension Jena recognises, or .zip, .xls, .xlsx.");
 					}				
 				}
 			} else if(anInput.startsWith("http")) {
@@ -128,6 +140,12 @@ public class InputModelReader {
 						model,
 						anInput
 				);
+			} else {
+				// Without this the input was skipped in silence and the command carried on
+				// with an empty model, producing an output that looks like the successful
+				// conversion of an empty ontology.
+				throw new IllegalArgumentException(
+						"Input does not exist and is not a URL : "+inputFile.getAbsolutePath());
 			}
 		} 	
 		

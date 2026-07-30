@@ -1,6 +1,7 @@
 package fr.sparna.rdf.shacl.owl2shacl;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -45,47 +46,59 @@ public class Owl2Shacl {
 	public Model convert(Model input) {
 		return this.convert(input, Owl2ShaclStyle.OPEN);
 	}
-	
-	public Model convert(Model input, Owl2ShaclStyle style) {
 
-//		OntDocumentManager mgr = new OntDocumentManager();
-//		// set mgr's properties now
-//		FileManager.get().addLocatorClassLoader(getClass().getClassLoader());
-//		FileManager.get().getLocationMapper().addAltEntry("http://sparna.fr/ontologies/owl2sh", "/fr/sparna/rdf/shacl/rdf2shacl/owl2shacl-common.ttl");
-//		
-//		mgr.setFileManager(FileManager.get());
-//		
-//		// now use it
-//		OntModelSpec myOntModelSpec = new OntModelSpec( OntModelSpec.OWL_MEM );
-//		myOntModelSpec.setDocumentManager( mgr );
-//		
-//		
-//		// read shapes file
-//		OntModel shapesModel = ModelFactory.createOntologyModel(myOntModelSpec);	
-		
-		OntModel shapesModel = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM);
-		
+	/**
+	 * Converts using one of the predefined conversion styles, whose rules are fetched from
+	 * the owl2shacl repository.
+	 */
+	public Model convert(Model input, Owl2ShaclStyle style) {
 		try {
-			shapesModel.read(
-					style.getRulesUrl().openStream(),
+			return this.convert(input, style.getRulesUrl());
+		} catch (IOException e) {
+			// Previously the read error was printed and conversion continued against an
+			// empty rules graph, yielding an empty result that looks like a successful
+			// conversion of an ontology with nothing to say. Failing is the honest outcome.
+			throw new RuntimeException("Cannot read the conversion rules for style " + style, e);
+		}
+	}
+
+	/**
+	 * Converts using a rules graph read from an arbitrary location: a local file, or a URL
+	 * of your choosing. This makes a conversion reproducible - the predefined styles read
+	 * from a branch that moves - and allows rule changes to be tried before they are
+	 * published.
+	 *
+	 * @param input     the OWL ontology to convert
+	 * @param rulesUrl  location of the conversion rules, in any RDF syntax Jena can read;
+	 *                  the syntax is derived from the file extension, defaulting to RDF/XML
+	 * @throws IOException if the rules cannot be read. A conversion with no rules would
+	 *                     silently produce an empty result, which is worse than failing.
+	 */
+	public Model convert(Model input, URL rulesUrl) throws IOException {
+		OntModel rulesModel = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM);
+		try (java.io.InputStream in = rulesUrl.openStream()) {
+			rulesModel.read(
+					in,
 					null,
-					RDFLanguages.filenameToLang(style.getRulesUrl().toString(), Lang.RDFXML).getName()
+					RDFLanguages.filenameToLang(rulesUrl.toString(), Lang.RDFXML).getName()
 			);
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw new IOException("Cannot read the conversion rules from " + rulesUrl, e);
 		}
+		return this.convert(input, rulesModel);
+	}
 
+	/**
+	 * Converts using a rules graph the caller has already read.
+	 */
+	public Model convert(Model input, Model rulesModel) {
 		// do the actual rule execution
-		Model results = RuleUtil.executeRules(
+		return RuleUtil.executeRules(
 				input,
-				shapesModel,
+				rulesModel,
 				null,
 				new Slf4jProgressMonitor("Owl2Shacl", log)
 		);
-		
-		return results;
 	}
-	
-	
-	
+
 }

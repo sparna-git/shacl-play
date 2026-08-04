@@ -108,7 +108,7 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 			List<PlantUmlDiagramOutput> plantUmlDiagrams = sourceGenerator.generatePlantUmlDiagram();
 			
 			// turn diagrams into output data structure
-			plantUmlDiagrams.stream().forEach(d -> shapesDocumentation.getDiagrams().add(new ShapesDocumentationDiagram(d)));			
+			plantUmlDiagrams.stream().forEach(d -> shapesDocumentation.getDiagrams().add(new ShapesDocumentationDiagram(d,shapesDocumentation.getTitle())));			
 		}
 		
 		// Prefixes

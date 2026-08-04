@@ -2,6 +2,10 @@ package fr.sparna.rdf.shacl.doc.model;
 
 import java.io.IOException;
 
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.xml.sax.SAXException;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
@@ -18,12 +22,16 @@ public class ShapesDocumentationDiagram {
 	private String displayTitle;
 	private String diagramDescription;
 	
-	public ShapesDocumentationDiagram(PlantUmlDiagramOutput diagramGenerationOutput) {
+	public ShapesDocumentationDiagram(PlantUmlDiagramOutput diagramGenerationOutput, String titleDiagram) {
 		this.plantUmlString = diagramGenerationOutput.getPlantUmlString();
 		try {
 			this.pngLink = "http://www.plantuml.com/plantuml/png/"+TranscoderUtil.getDefaultTranscoder().encode(diagramGenerationOutput.getPlantUmlString());
+
 			PlantUmlSvgSerializer svgGen = new PlantUmlSvgSerializer();
-			this.svg = svgGen.serializeInSVG(diagramGenerationOutput.getPlantUmlString());
+			this.svg = svgGen.metadataInSVG(diagramGenerationOutput.getPlantUmlString(),titleDiagram);
+			
+			//	this.svg = svgGen.serializeInSVG(diagramGenerationOutput.getPlantUmlString());
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

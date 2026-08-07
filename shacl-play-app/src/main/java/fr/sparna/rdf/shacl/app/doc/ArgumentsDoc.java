@@ -79,6 +79,22 @@ public class ArgumentsDoc {
 			required = false
 	)
 	private String imgLogo;
+
+	@Parameter(
+		names = { "-wt", "--watch" },
+		description = "Test watchDir.",
+		required = false
+	)
+	private Boolean watch = false;
+
+	public Boolean getWatch() {
+		return watch;
+	}
+
+	public void setWatch(Boolean watch) {
+		this.watch = watch;
+	}	
+
 	
 	public Boolean isPdfOutput() {
 		return this.output.getName().endsWith("pdf");

@@ -16,6 +16,8 @@ import org.slf4j.LoggerFactory;
 
 import com.openhtmltopdf.pdfboxout.PdfRendererBuilder;
 
+import fr.sparna.rdf.WatchService.watchDir;
+import fr.sparna.rdf.WatchService.watchFile;
 import fr.sparna.rdf.shacl.app.CliCommandIfc;
 import fr.sparna.rdf.shacl.app.InputModelReader;
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentation;
@@ -35,6 +37,11 @@ public class Doc implements CliCommandIfc {
 	public void execute(Object args) throws Exception {
 		ArgumentsDoc a = (ArgumentsDoc)args;
 		
+		watchFile wf = null;
+		if (a.getWatch()) {
+			wf = new watchFile(a.getInput().get(0));			
+		}		
+
 		// read input file or URL
 		Model shapesModel = ModelFactory.createDefaultModel(); 
 		InputModelReader.populateModelFromFile(shapesModel, a.getInput(), null);
@@ -66,6 +73,8 @@ public class Doc implements CliCommandIfc {
 				name_img = a.getImgLogo();
 			}
 		}
+
+		
 		
 		ShapesDocumentationReaderIfc reader = ShapesDocumentationModelReader.buildShapesDocumentationModelReader(
 			shapesModel,
@@ -123,6 +132,10 @@ public class Doc implements CliCommandIfc {
 		}	
 		out.flush();
 		out.close();
+		if (wf != null) {
+			wf.runWatchFile();
+		}
+		
 	}
 
 }

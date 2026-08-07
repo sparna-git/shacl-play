@@ -14,6 +14,7 @@ import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.RDFList;
 import org.apache.jena.rdf.model.RDFNode;
+import org.apache.jena.rdf.model.ResourceFactory;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.riot.Lang;
@@ -107,7 +108,15 @@ public class Owl2Shacl {
 				null,
 				new Slf4jProgressMonitor("Owl2Shacl", log)
 		);
-		return postProcessLists(results, SH.ignoredProperties);
+		// Every SHACL construct that takes an RDF list needs the same treatment, for the same
+		// reason: a SHACL rule cannot CONSTRUCT a list of unknown length, so the rules assert
+		// one value per member and the gathering happens here. Left as repeated bare values,
+		// a processor cannot honour the constraint - sh:ignoredProperties was disregarded
+		// entirely, and an sh:or whose value is not a list is ill-formed (SHACL Sec. 4.6.1).
+		for (Property listValued : LIST_VALUED_CONSTRAINTS) {
+			results = postProcessLists(results, listValued);
+		}
+		return results;
 	}
 
 	/**
@@ -128,6 +137,26 @@ public class Owl2Shacl {
 	 *
 	 * Idempotent: a value that is already a list is left alone, so calling it twice is harmless.
 	 */
+	/**
+	 * SHACL constraint components whose value is an RDF list, and which the rulesets
+	 * therefore assert one member at a time.
+	 *
+	 * <p>sh:ignoredProperties takes a list of properties (Sec. 4.8.1); sh:or, sh:and and
+	 * sh:xone take a list of shapes (Sec. 4.6). A rule cannot build a list of unknown
+	 * length, so each is gathered here after rule execution. The gathering is idempotent -
+	 * a value that is already a list is left alone - so a ruleset that somehow produced a
+	 * list directly is unaffected.
+	 */
+	private static final Property[] LIST_VALUED_CONSTRAINTS = {
+			SH.ignoredProperties,
+			SH.or,
+			SH.and,
+			// TopBraid's SH vocabulary class has no constant for sh:xone, so it is named
+			// here. sh:not is deliberately absent from this list: it takes a single shape,
+			// not a list, and gathering it would corrupt it.
+			ResourceFactory.createProperty(SH.NS + "xone")
+	};
+
 	private static Model postProcessLists(Model model, Property property) {
 		for (Resource subject : model.listResourcesWithProperty(property).toList()) {
 			List<Statement> statements = model.listStatements(subject, property, (RDFNode) null).toList();

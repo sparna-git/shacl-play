@@ -251,10 +251,22 @@ eclipse.preferences.version=1
           <version>1.0.0</version>
       </dependency>
 
+      <!--
+        Pinned to a JitPack commit build rather than master-SNAPSHOT. A SNAPSHOT here is
+        resolved against the upstream master branch under Maven's daily update policy, so
+        the first build of any given day can silently pick up different bytes with no
+        change in this repository. shacl-play-app bundles this dependency into its onejar
+        (162 entries), which makes the released binary irreproducible: two builds of the
+        same commit on different days do not agree.
+
+        ac18090cfd is the commit master resolved to when this was pinned. Verified
+        equivalent to the snapshot build it replaces: same 163 entries, byte-identical
+        except META-INF/maven/.../pom.properties, which carries a Maven build stamp.
+      -->
       <dependency>
           <groupId>com.github.sparna-git.xls2rdf</groupId>
           <artifactId>xls2rdf-lib</artifactId>
-          <version>master-SNAPSHOT</version>
+          <version>ac18090cfd</version>
       </dependency>
               
     </dependencies>

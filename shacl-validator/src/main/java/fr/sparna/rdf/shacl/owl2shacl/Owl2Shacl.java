@@ -102,7 +102,7 @@ public class Owl2Shacl {
 	 */
 	public Model convert(Model input, Model rulesModel) {
 		// do the actual rule execution
-		Model results = RuleUtil.executeRules(
+		return RuleUtil.executeRules(
 				input,
 				rulesModel,
 				null,

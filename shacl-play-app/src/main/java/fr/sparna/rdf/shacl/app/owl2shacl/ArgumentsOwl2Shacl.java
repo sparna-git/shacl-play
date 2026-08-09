@@ -1,9 +1,12 @@
 package fr.sparna.rdf.shacl.app.owl2shacl;
 
 import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 
 import com.beust.jcommander.Parameter;
+import com.beust.jcommander.ParameterException;
 import com.beust.jcommander.Parameters;
 
 import fr.sparna.rdf.shacl.owl2shacl.Owl2Shacl.Owl2ShaclStyle;
@@ -32,6 +35,54 @@ public class ArgumentsOwl2Shacl {
 			required = false
 	)
 	private Owl2ShaclStyle style = Owl2ShaclStyle.OPEN;
+
+	@Parameter(
+			names = { "-r", "--rules" },
+			description = "Path to a local file, or a URL, holding the conversion rules to apply."
+					+ " Overrides --style. The predefined styles read their rules from the main"
+					+ " branch of the owl2shacl repository over the network, so a conversion is"
+					+ " neither reproducible nor possible offline; supply the rules explicitly to"
+					+ " pin a known version, work without network access, or try rule changes"
+					+ " before they are published.",
+			required = false
+	)
+	private String rules;
+
+	public String getRules() {
+		return rules;
+	}
+
+	public void setRules(String rules) {
+		this.rules = rules;
+	}
+
+	/**
+	 * The rules location to convert with: the explicit --rules value if given, otherwise the
+	 * URL of the selected style.
+	 *
+	 * @throws ParameterException if --rules is neither a readable file nor a valid URL
+	 */
+	public URL resolveRulesUrl() {
+		if (rules == null) {
+			return style.getRulesUrl();
+		}
+		File asFile = new File(rules);
+		if (asFile.exists()) {
+			try {
+				return asFile.toURI().toURL();
+			} catch (MalformedURLException e) {
+				throw new ParameterException("--rules points to a file that cannot be addressed as a URL: " + rules, e);
+			}
+		}
+		try {
+			return new URL(rules);
+		} catch (MalformedURLException e) {
+			// The value is neither an existing file nor a URL. Saying which was expected is
+			// more useful than a MalformedURLException naming a missing protocol.
+			throw new ParameterException(
+					"--rules must be the path of a readable file or a valid URL, but was: " + rules, e);
+		}
+	}
 
 	public List<File> getInput() {
 		return input;

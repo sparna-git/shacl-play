@@ -1,6 +1,7 @@
 package fr.sparna.rdf.shacl.app.owl2shacl;
 
 import java.io.FileOutputStream;
+import java.net.URL;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -25,8 +26,10 @@ public class Owl2Shacl implements CliCommandIfc {
 		InputModelReader.populateModelFromFile(dataModel, a.getInput());
 		
 		fr.sparna.rdf.shacl.owl2shacl.Owl2Shacl owl2shacl = new fr.sparna.rdf.shacl.owl2shacl.Owl2Shacl();
-		
-		Model results = owl2shacl.convert(dataModel, a.getStyle());
+
+		URL rulesUrl = a.resolveRulesUrl();
+		log.debug("Converting with rules from {}", rulesUrl);
+		Model results = owl2shacl.convert(dataModel, rulesUrl);
 				
 		// set some default prefixes
 		results.setNsPrefix("sh", "http://www.w3.org/ns/shacl#");

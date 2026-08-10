@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Literal;
@@ -175,26 +174,28 @@ public class NodeShape extends Shape  {
 	}
 
 	public List<PropertyShape> getInheritedProperties() {	
-		List<PropertyShape> properties = getProperties();
+		List<PropertyShape> finalProperties = new ArrayList<>();
+		// make a copy to avoid changind the inner this.properties list
+		finalProperties.addAll(this.getProperties());
 
 		// add the properties of the super shapes
 		for(Resource superShape : this.getSuperShapes()) {
 			NodeShape superNodeShape = new NodeShape(superShape);
-			properties.addAll(superNodeShape.getInheritedProperties());
+			finalProperties.addAll(superNodeShape.getInheritedProperties());
 		}
 
 		// sort the whole list
-		properties.sort(new PropertyShape.PropertyShapeComparator());		 
-		return properties;	
+		finalProperties.sort(new PropertyShape.PropertyShapeComparator());		 
+		return finalProperties;	
 	}
 
 	/**
 	 * @return the values of sh:property as PropertyShape, sorted, or an empty list if none
 	 */
 	private List<PropertyShape> readProperties() {	
-		List<PropertyShape> properties = this.getShProperty().stream().map(r -> new PropertyShape(r)).collect(Collectors.toList());
-		properties.sort(new PropertyShape.PropertyShapeComparator());		 
-		return properties;	
+		List<PropertyShape> theProperties = this.getShProperty().stream().map(r -> new PropertyShape(r)).collect(Collectors.toList());
+		theProperties.sort(new PropertyShape.PropertyShapeComparator());	 
+		return theProperties;	
 	}
 
 
@@ -218,44 +219,14 @@ public class NodeShape extends Shape  {
 	 * describes only the value nodes of some property shapes
 	 */
 	public boolean isPureValueShape() {
-		Predicate<NodeShape> hasNoActivePropertyShape = new Predicate<NodeShape>() {
-
-			@Override
-			public boolean test(NodeShape ns) {
-				// as soon as we find one non-deactivated property shape, we return false
-				for (PropertyShape ps : ns.getProperties()) {
-					if (!ps.isDeactivated()) {
-						return false;
-					}
-				}
-				// no property shape active at all, return true
-				return true;
-			}
-		};
-
-		return hasNoActivePropertyShape.test(this) && !this.hasTarget() && this.getSuperShapes().isEmpty();
+		return getInheritedProperties().stream().filter(ps -> !ps.isDeactivated()).findFirst().isEmpty() && !this.hasTarget();
 	}
 
 	/**
 	 * @return true if this node shape has no active property shapes and has only one sh:rule
 	 */
 	public boolean isPureRuleShape() {
-		Predicate<NodeShape> hasNoActivePropertyShape = new Predicate<NodeShape>() {
-
-			@Override
-			public boolean test(NodeShape ns) {
-				// as soon as we find one non-deactivated property shape, we return false
-				for (PropertyShape ps : ns.getProperties()) {
-					if (!ps.isDeactivated()) {
-						return false;
-					}
-				}
-				// no property shape active at all, return true
-				return true;
-			}
-		};
-
-		return hasNoActivePropertyShape.test(this) && this.getShRule().size() > 0;
+		return getInheritedProperties().stream().filter(ps -> !ps.isDeactivated()).findFirst().isEmpty() && this.getShRule().size() > 0;
 	}
 
 	/***** USAGE INDICATOR  *******/

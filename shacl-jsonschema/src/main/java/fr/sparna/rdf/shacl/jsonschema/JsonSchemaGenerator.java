@@ -268,7 +268,7 @@ public class JsonSchemaGenerator {
 		objectSchema.addPropertySchema("id", idSchemaBuilder.build());		
 		objectSchema.addRequiredProperty("id");
 
-		for (PropertyShape ps : nodeShape.getProperties()) {
+		for (PropertyShape ps : nodeShape.getInheritedProperties()) {
 
 			// skip the property shape if it is deactivated
 			if (ps.isDeactivated()) {
@@ -292,7 +292,7 @@ public class JsonSchemaGenerator {
 			// in the context
 			if(contextTest != null) {
 				String shortname = contextTest.getLeft();
-				log.debug("Converting PropertyShape "+ps.getResource().getURI()+" with key '"+shortname+"' to JSON Schema");
+				log.debug("Converting PropertyShape "+ps.getURIOrId()+" with key '"+shortname+"' to JSON Schema");
 				objectSchema.addPropertySchema(shortname, this.convertPropertyShapeSchema(
 					ps, 
 					// requires array

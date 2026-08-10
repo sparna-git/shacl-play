@@ -1,0 +1,17 @@
+{
+  "@context": {
+    "id": "@id",
+    "type": "@type",
+    "graph": "@graph",
+
+
+    "ex": "http://example.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+
+
+    "SimpleClass": "ex:SimpleClass",
+    "OtherClass": "ex:OtherClass",
+
+    "inverse_p": {"@reverse": "ex:p"}
+  }
+}

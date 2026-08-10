@@ -76,6 +76,7 @@ public class JsonLdContext {
 		buffer.append(newLineChar);
 		buffer.append("  }"+newLineChar);
 	}
+	
 
 
 }

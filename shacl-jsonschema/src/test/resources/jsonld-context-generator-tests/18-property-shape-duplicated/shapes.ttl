@@ -1,0 +1,24 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ex: <http://example.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ex:MainNodeShape
+    a sh:NodeShape ;
+    sh:targetClass ex:SimpleClass ;
+    sh:property [
+        sh:path [ sh:inversePath ex:p ] ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+    ] ;
+.
+
+ex:OtherNodeShape
+    a sh:NodeShape ;
+    sh:targetClass ex:OtherClass ;
+    sh:property [
+        # This is used to test if unicity can be preserved in the context generation algoritm even for inverse path
+        sh:path [ sh:inversePath ex:p ] ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+    ] ;
+.

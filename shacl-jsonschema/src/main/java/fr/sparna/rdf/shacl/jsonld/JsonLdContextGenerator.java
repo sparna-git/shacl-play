@@ -103,31 +103,32 @@ public class JsonLdContextGenerator {
 		}
 
 		// find each paths in property shapes
-		List<Resource> paths = new ArrayList<>(propertyShapes.stream().map(p -> p.getShPath())
+		List<PropertyPath> paths = new ArrayList<>(propertyShapes.stream().map(p -> new PropertyPath(p.getShPath()))
 				// include only URI resources or inverse paths
-				.filter(r -> r.isURIResource() || new PropertyPath(r).isInverse())
+				.filter(path -> path.getResource().isURIResource() || path.isInverse())
 				.collect(Collectors.toSet())
 		);
 		// note : mappings are sorted in the JsonLdContext class
 		
 		// ### map each paths...
-		for(Resource path : paths) {
+		for(PropertyPath path : paths) {
+			Resource pathResource = path.getResource();
+
 			// ### determine the term : the shacl-play:shortname annotation, or the localName by default
-			Set<String> shortnames = findShortNamesOfPath(path, model);
+			Set<String> shortnames = findShortNamesOfPath(pathResource, model);
 			if(shortnames.isEmpty()) {
-				PropertyPath propertyPath = new PropertyPath(path);
-				if(propertyPath.isInverse()) {
+				if(path.isInverse()) {
 					// provide sensible default for inverse paths
-					shortnames.add(this.INVERSE_PREFIX + propertyPath.getShInversePath().getLocalName());
+					shortnames.add(this.INVERSE_PREFIX + path.getShInversePath().getLocalName());
 				} else {
-					shortnames.add(path.getLocalName());
+					shortnames.add(pathResource.getLocalName());
 				}
 			}
 
 			// iterate on all shortnames and generate a mapping for each shortname
 			for(String shortname: shortnames) {
 				JsonLdMapping mapping;
-				PropertyPath propertyPath = getPathOfShortNameOrPath(shortname, path, model);
+				PropertyPath propertyPath = getPathOfShortNameOrPath(shortname, pathResource, model);
 				if(propertyPath.isInverse()) {
 					mapping = new JsonLdMapping(
 						shortname,
@@ -135,20 +136,20 @@ public class JsonLdContextGenerator {
 						 true
 					);
 				} else {
-					if(path.getURI() != null && path.getURI().equals(RDF.type.getURI())) {
+					if(pathResource.getURI() != null && pathResource.getURI().equals(RDF.type.getURI())) {
 						// rdf:type is changed to @type, so that the compaction of @type works
 						mapping = new JsonLdMapping(shortname,"@type");
 					} else {
-						mapping = new JsonLdMapping(shortname,path.getModel().shortForm(path.getURI()));
+						mapping = new JsonLdMapping(shortname,pathResource.getModel().shortForm(pathResource.getURI()));
 					}
 						
 				}
 
 				// ### determine the @type
 				// if there is a sh:datatype, set type as the datatype
-				Set<Resource> datatypes = findDatatypesOfShortname(shortname, path, model);
+				Set<Resource> datatypes = findDatatypesOfShortname(shortname, pathResource, model);
 				if(datatypes.size() > 1) {
-					log.warn("Found different datatypes declared for path "+path+", will declare only one");
+					log.warn("Found different datatypes declared for path "+pathResource+", will declare only one");
 				} else if(!datatypes.isEmpty()) {
 					Resource theDatatype = datatypes.iterator().next();
 					String datatype = theDatatype.getURI();
@@ -162,8 +163,8 @@ public class JsonLdContextGenerator {
 					} else if (datatype.equals(RDF.langString.getURI())) {
 						// if there is a sh:languageIn with a single value, set a @language to the value
 						// otherwise map it to a @container: @language
-						if(findShLanguageInOfShortname(shortname, path, model).size() == 1) {
-							List<Literal> languages = findShLanguageInOfShortname(shortname, path, model).iterator().next();
+						if(findShLanguageInOfShortname(shortname, pathResource, model).size() == 1) {
+							List<Literal> languages = findShLanguageInOfShortname(shortname, pathResource, model).iterator().next();
 							if(languages.size() == 1) {
 								Literal langLiteral = languages.get(0);
 								mapping.setLanguage(langLiteral.getString());
@@ -183,8 +184,8 @@ public class JsonLdContextGenerator {
 				// if there are sh:class, or sh:nodeKind = sh:IRI, or sh:nodeKind = sh:BlankNodeOrIRI, set the type to @id
 				// note that we don't read sh:node only as it can point to a Literal
 				// nodeKinds and classes can be defined either on the property shape or on the node shape linked to the property shape
-				Set<Resource> classes = findShClassOfShortname(shortname, path, model);
-				Set<Resource> nodeKinds = findShNodeKindOfShortname(shortname, path, model);
+				Set<Resource> classes = findShClassOfShortname(shortname, pathResource, model);
+				Set<Resource> nodeKinds = findShNodeKindOfShortname(shortname, pathResource, model);
 				
 				if(
 						!classes.isEmpty()
@@ -197,9 +198,9 @@ public class JsonLdContextGenerator {
 				}
 
 				// use the sh:pattern to produce an inner @context with @base if the pattern is a simple startsWith regex
-				Set<Literal> patterns = findPatternsOfShortname(shortname, path, model);
+				Set<Literal> patterns = findPatternsOfShortname(shortname, pathResource, model);
 				if(patterns.size() > 1) {
-					log.warn("Found multiple patterns for path "+path+", will use only one");
+					log.warn("Found multiple patterns for path "+pathResource+", will use only one");
 				}
 				if(!patterns.isEmpty()) {
 					Literal patternLiteral = patterns.iterator().next();
@@ -212,10 +213,10 @@ public class JsonLdContextGenerator {
 				} else {
 					
 					// look through sh:or to determine if there is a common base URI to all patterns
-					Set<Literal> patternsThroughShOr = findPatternsOfShortnameThroughShOr(shortname, path, model);
+					Set<Literal> patternsThroughShOr = findPatternsOfShortnameThroughShOr(shortname, pathResource, model);
 
 					if(patternsThroughShOr.size() > 0) {
-						log.trace("Found multiple patterns through sh:or for path "+path+", will try to determine common base URI between : "+patternsThroughShOr.stream().map(l -> l.getString()).collect(Collectors.toList()));
+						log.trace("Found multiple patterns through sh:or for path "+pathResource+", will try to determine common base URI between : "+patternsThroughShOr.stream().map(l -> l.getString()).collect(Collectors.toList()));
 
 						List<String> startsWithList = patternsThroughShOr.stream()
 							.map(lit -> lit.getString())
@@ -238,16 +239,16 @@ public class JsonLdContextGenerator {
 					if(mapping.getContainer() == null) {
 						// by default there can be multiple values
 						boolean canBeMultiple = true;
-						Set<Integer> maxCounts = findShMaxCountOfShortname(shortname, path, model);
+						Set<Integer> maxCounts = findShMaxCountOfShortname(shortname, pathResource, model);
 						if(maxCounts.size() == 0) {
-							Set<RDFNode> hasValues = findHasValueOfShortname(shortname, path, model);
+							Set<RDFNode> hasValues = findHasValueOfShortname(shortname, pathResource, model);
 							// if there is a sh:hasValue, it means that the property cannot have multiple values, hance we don't set @container to @set 
 							if(hasValues.size() > 0) {
 								canBeMultiple = false;
 							}
 						} else {
 							// we have some sh:maxCount, but if there was some property shape without sh:maxCount, then we consider that the property can be multiple
-							if(!hasPropertyShapeWithoutShmaxCount(shortname, path, model)) {
+							if(!hasPropertyShapeWithoutShmaxCount(shortname, pathResource, model)) {
 								// test if all values of sh:maxCount are 1, in which case we don't set @container to @set
 								if(maxCounts.stream().filter(mc -> mc != null).allMatch(mc -> mc == 1)) {
 									canBeMultiple = false;

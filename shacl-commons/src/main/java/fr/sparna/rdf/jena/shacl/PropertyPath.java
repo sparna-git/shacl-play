@@ -14,9 +14,13 @@ import org.apache.jena.shacl.vocabulary.SHACLM;
 public class PropertyPath {
     
     protected Resource resource;
+
+	// this canonical key is useful to test the comparison of two property paths, in the equals method - since prop path are usually balnk nodes
+	protected String canonicalKey = null;
     
     public PropertyPath(Resource r) {
         this.resource = r;
+		this.canonicalKey = this.renderSparqlPropertyPath(false);
     }
 
 	/**
@@ -45,7 +49,7 @@ public class PropertyPath {
 	 * @return
 	 */
 	public String renderSparqlPropertyPath() {
-		// by default, render the property path without prefixes
+		// by default, render the property path with prefixes
 		return renderSparqlPropertyPath(true);
 	}
 
@@ -99,4 +103,31 @@ public class PropertyPath {
 
 		return result;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((canonicalKey == null) ? 0 : canonicalKey.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		PropertyPath other = (PropertyPath) obj;
+		if (canonicalKey == null) {
+			if (other.canonicalKey != null)
+				return false;
+		} else if (!canonicalKey.equals(other.canonicalKey))
+			return false;
+		return true;
+	}
+
+	
 }

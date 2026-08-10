@@ -107,4 +107,5 @@ public class JsonLdMapping {
 	public void setId(String id) {
 		this.id = id;
 	}
+	
 }

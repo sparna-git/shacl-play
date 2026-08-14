@@ -3,7 +3,6 @@ package fr.sparna.rdf.shacl.diagram.plantuml;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
 
@@ -15,10 +14,8 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
@@ -116,16 +113,16 @@ public class PlantUmlSvgSerializer {
 		svgElement.setAttribute("role", "img");
 		svgElement.setAttribute("aria-labelledby", "schema-title schema-desc");
 
-		// Create Title Element
+		// Create <title> Element
 		Element eTitle = doc.createElementNS("http://www.w3.org/2000/svg", "title");
 		eTitle.setAttribute("id", "schema-title");
 		eTitle.setTextContent("Diagram for shape " + titleDiagram);
 		svgElement.appendChild(eTitle);
 
-		// Create Description Element
-		Element eDesc = doc.createElementNS("http://www.w3.org/2000/svg","description");
+		// Create <desc> Element
+		Element eDesc = doc.createElementNS("http://www.w3.org/2000/svg","desc");
 		eDesc.setAttribute("id", "schema-desc");
-		eDesc.setTextContent("This diagram shows a semantic web data model centered around the " + titleDiagram + " entity");
+		eDesc.setTextContent("This diagram shows a UML model centered around the " + titleDiagram + " entity");
 		svgElement.appendChild(eDesc);
 
 		Transformer transformer = TransformerFactory.newInstance().newTransformer();

@@ -8,7 +8,7 @@
 <fmt:setBundle basename="fr.sparna.rdf.shacl.shaclplay.i18n.shaclplay"/>
 
 <footer id="footer" style="margin-top:30px;">
-	    SHACL Play! by <a href="http://blog.sparna.fr" target="_blank">Thomas Francart</a>, <a href="http://sparna.fr" target="_blank"><img src="<c:url value="/resources/img/sparna.png" />" /></a>
+	    SHACL Play! by <a href="https://blog.sparna.fr" target="_blank">Thomas Francart</a>, <a href="https://sparna.fr" target="_blank"><img src="<c:url value="/resources/img/sparna.png" />" /></a>
       	&nbsp;|&nbsp;
       	version : ${applicationScope['applicationData'].buildVersion} (${applicationScope['applicationData'].buildTimestamp})
       	&nbsp;|&nbsp;

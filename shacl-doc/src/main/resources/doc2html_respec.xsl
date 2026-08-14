@@ -55,9 +55,8 @@
 
 			<entry key="DIAGRAM.HELP"
 				label="Cliquez sur le diagramme pour naviguer vers la section correspondante" />
-			<!--<entry key="DIAGRAM.VIEW" label="Voir le diagramme en PNG" />-->
-			<entry key="DIAGRAM.VIEW_LABEL" label="Ouvrir le diagramme en PNG dans un nouvel onglet" />
-			<entry key="DIAGRAM.VIEW" label="Ouvrir le diagramme en PNG" />
+			<entry key="DIAGRAM.VIEW_LABEL" label="Ouvrir le diagramme comme une image dans un nouvel onglet" />
+			<entry key="DIAGRAM.VIEW" label="Télécharger comme une image" />
 
 			<entry key="DOCUMENTATION.TITLE" label="Documentation du modèle"/>
 			<entry key="DESCRIPTION.TITLE" label="Description"/>
@@ -94,10 +93,7 @@
 			<!-- SPARQL Constraint -->
 			<entry key="LABEL_DESCRIPTION_SPARQL" label="Pas de description disponible" />
 
-			<!-- Standard -->
-			<entry key="DESCRIPTION_TABLE_PROPERTY" label="Propriétés de " />
-
-
+			<entry key="LABEL_TABLE_PROPERTY" label="Tableau des propriétés de " />
 		</labels>
 	</xsl:variable>
 	<!-- In this stylesheet we just copy the base labels -->
@@ -146,9 +142,8 @@
 			<entry key="DIAGRAM.TITLE" label="Diagrams" />
 			<entry key="DIAGRAM.HELP"
 				label="Click diagram to navigate to corresponding section" />
-			<!--<entry key="DIAGRAM.VIEW" label="View as PNG" />-->
-			<entry key="DIAGRAM.VIEW_LABEL" label="Open the PNG diagram in a new tab" />
-			<entry key="DIAGRAM.VIEW" label="Open the PNG diagram" />
+			<entry key="DIAGRAM.VIEW_LABEL" label="Opens the diagram as an image in a new tab" />
+			<entry key="DIAGRAM.VIEW" label="Download as an image" />
 			
 			<entry key="DOCUMENTATION.TITLE" label="Model documentation"/>
 			<entry key="DESCRIPTION.TITLE" label="Description"/>
@@ -185,8 +180,7 @@
 			<!-- SPARQL Constraint -->
 			<entry key="LABEL_DESCRIPTION_SPARQL" label="No description available" />
 
-			<!-- Standard -->
-			<entry key="LABEL_TABLE_PROPERTY" label="Properties for " />
+			<entry key="LABEL_TABLE_PROPERTY" label="Table of properties for " />
 
 		</labels>
 	</xsl:variable>
@@ -1007,7 +1001,7 @@
 				</xsl:if>
 				<!-- ttl -->
 				<xsl:if test="dctFormat = 'https://www.iana.org/assignments/media-types/text/turtle'">
-					<img src="https://img.shields.io/badge/Format-TTL-blue.png" alt="TTL" /> 
+					<img src="https://img.shields.io/badge/Format-TTL-blue.png" alt="Turtle" /> 
 					<span class="sr-only">(opens TTL file in a new tab)</span>
 				</xsl:if>				
 			</a>
@@ -1096,18 +1090,21 @@
 				<div>
 					<xsl:value-of select="svg" disable-output-escaping="yes"/>
 				</div>
-				<small class="form-text text-muted">
-					<xsl:value-of
-							select="$LABELS/labels/entry[@key='DIAGRAM.HELP']/@label" />
-					<xsl:text> | </xsl:text>
-					<a href="{pngLink}" target="_blank" aria-label="{$LABELS/labels/entry[@key='DIAGRAM.VIEW_LABEL']/@label}">
-						<xsl:value-of select="$LABELS/labels/entry[@key='DIAGRAM.VIEW']/@label" />
-						<svg xmlns="http://www.w3.org/2000/svg" width="30" height="20" viewBox="0 0 640 640">
-							<path opacity=".4" d="M96 192L425.4 192L260.7 356.7L249.4 368L272 390.6L283.3 379.3L448 214.6L448 544L96 544L96 192z"/>
-							<path d="M368 64L352 64L352 96L521.4 96L260.7 356.7L249.4 368L272 390.6L283.3 379.3L544 118.6L544 288L576 288L576 64L368 64zM80 160L64 160L64 576L480 576L480 384L448 384L448 544L96 544L96 192L256 192L256 160L80 160z"/>
-						</svg>						
-					</a>			
-				</small>
+				<div>
+					<small class="form-text text-muted">
+						<xsl:value-of select="$LABELS/labels/entry[@key='DIAGRAM.HELP']/@label" />
+						<xsl:text> | </xsl:text>
+						<span>
+							<a href="{pngLink}" target="_blank" aria-label="{$LABELS/labels/entry[@key='DIAGRAM.VIEW_LABEL']/@label}">
+								<xsl:value-of select="$LABELS/labels/entry[@key='DIAGRAM.VIEW']/@label" />
+								<svg xmlns="http://www.w3.org/2000/svg" style="width:18px; vertical-align: middle; margin-left: 4px;" viewBox="0 0 640 640">
+									<path opacity=".4" d="M96 192L425.4 192L260.7 356.7L249.4 368L272 390.6L283.3 379.3L448 214.6L448 544L96 544L96 192z"/>
+									<path d="M368 64L352 64L352 96L521.4 96L260.7 356.7L249.4 368L272 390.6L283.3 379.3L544 118.6L544 288L576 288L576 64L368 64zM80 160L64 160L64 576L480 576L480 384L448 384L448 544L96 544L96 192L256 192L256 160L80 160z"/>
+								</svg>						
+							</a>
+						</span>
+					</small>
+				</div>
 				<xsl:comment>
 					<xsl:value-of select="plantUmlString" disable-output-escaping="yes" />
 				</xsl:comment>	
@@ -1437,8 +1434,8 @@
 								select="$LABELS/labels/entry[@key='DIAGRAM.HELP']/@label" />
 						<xsl:text> | </xsl:text>
 						<a href="{pngLink}" target="_blank" aria-label="{$LABELS/labels/entry[@key='DIAGRAM.VIEW_LABEL']/@label}">
-							<xsl:value-of select="$LABELS/labels/entry[@key='DIAGRAM.VIEW']/@label" />
-							<svg xmlns="http://www.w3.org/2000/svg" width="30" height="20" viewBox="0 0 640 640">
+							<xsl:value-of select="$LABELS/labels/entry[@key='DIAGRAM.VIEW']/@label" /> 
+							<svg xmlns="http://www.w3.org/2000/svg" style="width:18px; vertical-align: middle;" viewBox="0 0 640 640">
 								<path opacity=".4" d="M96 192L425.4 192L260.7 356.7L249.4 368L272 390.6L283.3 379.3L448 214.6L448 544L96 544L96 192z"/>
 								<path d="M368 64L352 64L352 96L521.4 96L260.7 356.7L249.4 368L272 390.6L283.3 379.3L544 118.6L544 288L576 288L576 64L368 64zM80 160L64 160L64 576L480 576L480 384L448 384L448 544L96 544L96 192L256 192L256 160L80 160z"/>
 							</svg>
@@ -1502,8 +1499,8 @@
 		
 		<!-- Always 4 columns : label, URI, expected value, cardinalities -->
 		<table class="sp_table_propertyshapes {$getBgColor} table-responsive">
-			<xsl:variable name="titleOfSection" select="../title"/>
-			<caption><xsl:value-of select="concat($LABELS/labels/entry[@key='LABEL_TABLE_PROPERTY']/@label,$titleOfSection)" /></caption>
+			<xsl:variable name="titleOfSection" select="../title"/>	
+			<caption><xsl:value-of select="concat($LABELS/labels/entry[@key='LABEL_TABLE_PROPERTY']/@label,$titleOfSection)" /></caption>			
 			<thead>
 				<tr>
 					<th>
@@ -1524,7 +1521,7 @@
 					</th>				
 				</tr>
 			</thead>
-			<xsl:apply-templates select="propertyGroup" />					
+			<xsl:apply-templates select="propertyGroup" />							
 		</table><!-- end properties table -->
 
 	</xsl:template>

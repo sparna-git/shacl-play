@@ -23,11 +23,21 @@ import jakarta.json.JsonValue;
 public class GenerateJsonSchema implements CliCommandIfc {
 
 	private Logger log = LoggerFactory.getLogger(this.getClass().getName());
+	private ArgumentsJsonSchema a;
 	
 	@Override
 	public void execute(Object args) throws Exception {
-		ArgumentsJsonSchema a = (ArgumentsJsonSchema)args;
+		this.a = (ArgumentsJsonSchema)args;
 		
+		if (this.a.getWatch()) {
+
+		} else {
+			this.generateJsonSchema();
+		}
+		
+	}
+
+	public void generateJsonSchema() throws Exception {
 		// read input file or URL
 		Model shapesModel = ModelFactory.createDefaultModel(); 
 		InputModelReader.populateModelFromFile(shapesModel, a.getInput(), null);	

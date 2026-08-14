@@ -36,7 +36,22 @@ public class ArgumentsJsonSchema {
 			description = "Path to a *.json file containing an optional JSON-LD context to be taken into account when generating the schema",
 			required = false
 	)
-	private File contextFile;	
+	private File contextFile;
+	
+	@Parameter(
+		names = { "-W", "--watch" },
+		description = "This option regenerate the output file when each time SHACL file is modified.",
+		required = false
+	)
+	private Boolean watch = false;
+
+	public Boolean getWatch() {
+		return watch;
+	}
+
+	public void setWatch(Boolean watch) {
+		this.watch = watch;
+	}
 
 	public List<File> getInput() {
 		return input;

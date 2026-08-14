@@ -14,8 +14,10 @@ import org.apache.jena.rdf.model.ModelFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import fr.sparna.rdf.WatchService.watchFile;
 import fr.sparna.rdf.shacl.app.CliCommandIfc;
 import fr.sparna.rdf.shacl.app.InputModelReader;
+import fr.sparna.rdf.shacl.app.doc.ArgumentsDoc;
 import fr.sparna.rdf.shacl.diagram.PlantUmlDiagramGenerator;
 import fr.sparna.rdf.shacl.diagram.PlantUmlDiagramOutput;
 import net.sourceforge.plantuml.FileFormat;
@@ -25,14 +27,35 @@ import net.sourceforge.plantuml.SourceStringReader;
 public class Draw implements CliCommandIfc {
 
 	private Logger log = LoggerFactory.getLogger(this.getClass().getName());
+	private ArgumentsDraw a;
 	
 	@Override
 	public void execute(Object args) throws Exception {
-		ArgumentsDraw a = (ArgumentsDraw)args;
+		this.a = (ArgumentsDraw)args;
 		
+		if (this.a.getWatch()) {
+			//
+			this.generateDraw();
+			System.out.println("The file :" + this.a.getOutput() + " was generated.");
+			// WatchService 
+			watchFile wf = new watchFile(a.getInput().get(0), () -> {
+				try {
+					this.generateDraw();
+				} catch (Exception e) {
+					log.error("Error regenerating documentation on file change", e);
+				}
+			});
+			wf.runWatchFile();
+		} else {
+			this.generateDraw();
+		}	
+	}
+
+	public void generateDraw() throws Exception {
+
 		// read input file or URL
 		Model shapesModel = ModelFactory.createDefaultModel(); 
-		InputModelReader.populateModelFromFile(shapesModel, a.getInput(), null);
+		InputModelReader.populateModelFromFile(shapesModel, this.a.getInput(), null);
 		
 		// draw
 		PlantUmlDiagramGenerator writer = new PlantUmlDiagramGenerator(

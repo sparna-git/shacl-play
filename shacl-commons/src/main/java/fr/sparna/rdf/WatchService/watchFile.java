@@ -1,12 +1,10 @@
 package fr.sparna.rdf.WatchService;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.WatchEvent.Kind;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,49 +12,27 @@ import org.slf4j.LoggerFactory;
 public class watchFile {
 
     // Log Shacl-Play
-    private final Logger log = LoggerFactory.getLogger(watchDir.class.getName());
+    private final Logger log = LoggerFactory.getLogger(watchFile.class.getName());
 
-    private Path pathDirectory;
-    private Path pathFile;
+    
+    private Path targetFile;
     private File inputFile;
     private List<File> fileIn;
+    private Runnable taskShaclPlay;
+    private Path pathFile;
 
-    public watchFile(File input) {
-        
-        //List<Path> paths = input.stream().map( f -> Paths.get(f.getAbsoluteFile().getParentFile().getAbsolutePath())).collect(Collectors.toList());
+    public watchFile(File input,Runnable taskShaclPlay) {
         // One File
         this.inputFile = input;
+        this.taskShaclPlay = taskShaclPlay;
         // Get path absolute
-        this.pathDirectory = Paths.get(input.getAbsoluteFile().getParentFile().getAbsolutePath());
         this.pathFile = Paths.get(input.getAbsoluteFile().getParentFile().getAbsolutePath());
-        System.out.println("Path file Directory: " + this.pathDirectory);
-        System.out.println("Path file input: " + this.pathFile);
-
-        // RegularFile
-        /* 
-        for (Path path : paths) {
-            if (!Files.isRegularFile(path)) {
-                // Do not allow this to be a folder since we want to watch files
-                throw new IllegalArgumentException(path + " is not a regular file");
-            }
-        }
-        */
-
-        // One file
-        /*
-        if (!Files.isRegularFile(this.pathFile)) {
-            // Do not allow this to be a folder since we want to watch files
-            throw new IllegalArgumentException(this.pathFile + " is not a regular file");
-        }
-        */
-
     }
 
     public void runWatchFile() throws IOException {
     
         // We obtain the file system of the Path
         FileSystem fileSystem = this.pathFile.getFileSystem();
-        System.out.println("File System of path: " + fileSystem.toString());
         // We create the new WatchService using the try-with-resources block
         try (WatchService watchService = fileSystem.newWatchService()) {
             // We watch for modification events
@@ -74,9 +50,11 @@ public class watchFile {
                     final WatchEvent<Path> watchEventPath = (WatchEvent<Path>) event;
                     final Path changedFile = watchEventPath.context();
 
+                    // && event.count() == 1
                     if(kind == StandardWatchEventKinds.ENTRY_MODIFY && event.count() == 1){
-                        System.out.println("Conversion made for " + this.inputFile + ".");
-                        watchService.close();                        
+                        // Call mehod to process the SHACL file
+                        System.out.println("The file: "+ this.inputFile + " is modified. The output file document is updated. " );
+                        this.taskShaclPlay.run();
                     }
                 }
                 boolean valid = key.reset();
@@ -88,6 +66,9 @@ public class watchFile {
             }
         } catch (Exception e) {
             // TODO: handle exception
+            this.taskShaclPlay.run();
+            // Send message the processus succesfull
+            System.out.println("The document is generated.");
         }
     }
 }

@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
 
 import com.openhtmltopdf.pdfboxout.PdfRendererBuilder;
 
-import fr.sparna.rdf.WatchService.watchFile;
+import fr.sparna.cli.watch.WatchFile;
 import fr.sparna.rdf.shacl.app.CliCommandIfc;
 import fr.sparna.rdf.shacl.app.InputModelReader;
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentation;
@@ -39,13 +39,13 @@ public class Doc implements CliCommandIfc {
 	
 		if (this.a.getWatch()) {
 			this.generateDoc();
-			System.out.println("The file :" + this.a.getOutput() + " was generated.");
-			//
-			watchFile wf = new watchFile(a.getInput().get(0), () -> {
+			System.out.println("Watching "+a.getInput().get(0).getAbsolutePath()+" for changes and writing output to "+a.getOutput().getAbsolutePath());
+			WatchFile wf = new WatchFile(a.getInput().get(0), () -> {
 				try {
 					this.generateDoc();
 				} catch (Exception e) {
 					log.error("Error regenerating documentation on file change", e);
+					e.printStackTrace();
 				}
 			});
 			wf.runWatchFile();

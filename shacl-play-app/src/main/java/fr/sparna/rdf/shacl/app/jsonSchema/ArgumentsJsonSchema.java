@@ -37,21 +37,6 @@ public class ArgumentsJsonSchema {
 			required = false
 	)
 	private File contextFile;
-	
-	@Parameter(
-		names = { "-W", "--watch" },
-		description = "This option regenerate the output file when each time SHACL file is modified.",
-		required = false
-	)
-	private Boolean watch = false;
-
-	public Boolean getWatch() {
-		return watch;
-	}
-
-	public void setWatch(Boolean watch) {
-		this.watch = watch;
-	}
 
 	public List<File> getInput() {
 		return input;

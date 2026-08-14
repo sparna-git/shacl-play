@@ -81,8 +81,8 @@ public class ArgumentsDoc {
 	private String imgLogo;
 
 	@Parameter(
-		names = { "-W", "--watch" },
-		description = "This option regenerate the output file when each time SHACL file is modified.",
+		names = { "-wt", "--watch" },
+		description = "Monitor the input file and regenerate the output when it is modified.",
 		required = false
 	)
 	private Boolean watch = false;

@@ -14,10 +14,9 @@ import org.apache.jena.rdf.model.ModelFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import fr.sparna.rdf.WatchService.watchFile;
+import fr.sparna.cli.watch.WatchFile;
 import fr.sparna.rdf.shacl.app.CliCommandIfc;
 import fr.sparna.rdf.shacl.app.InputModelReader;
-import fr.sparna.rdf.shacl.app.doc.ArgumentsDoc;
 import fr.sparna.rdf.shacl.diagram.PlantUmlDiagramGenerator;
 import fr.sparna.rdf.shacl.diagram.PlantUmlDiagramOutput;
 import net.sourceforge.plantuml.FileFormat;
@@ -34,15 +33,15 @@ public class Draw implements CliCommandIfc {
 		this.a = (ArgumentsDraw)args;
 		
 		if (this.a.getWatch()) {
-			//
 			this.generateDraw();
-			System.out.println("The file :" + this.a.getOutput() + " was generated.");
+			System.out.println("Watching "+a.getInput().get(0).getAbsolutePath()+" for changes and writing output to "+a.getOutput().getAbsolutePath());
 			// WatchService 
-			watchFile wf = new watchFile(a.getInput().get(0), () -> {
+			WatchFile wf = new WatchFile(a.getInput().get(0), () -> {
 				try {
 					this.generateDraw();
 				} catch (Exception e) {
-					log.error("Error regenerating documentation on file change", e);
+					log.error("Error regenerating on file change", e);
+					e.printStackTrace();
 				}
 			});
 			wf.runWatchFile();

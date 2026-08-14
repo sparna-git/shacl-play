@@ -1435,7 +1435,7 @@
 						<xsl:text> | </xsl:text>
 						<a href="{pngLink}" target="_blank" aria-label="{$LABELS/labels/entry[@key='DIAGRAM.VIEW_LABEL']/@label}">
 							<xsl:value-of select="$LABELS/labels/entry[@key='DIAGRAM.VIEW']/@label" /> 
-							<svg xmlns="http://www.w3.org/2000/svg" style="width:18px; vertical-align: middle;" viewBox="0 0 640 640">
+							<svg xmlns="http://www.w3.org/2000/svg" style="width:18px; vertical-align: middle; margin-left: 4px;" viewBox="0 0 640 640">
 								<path opacity=".4" d="M96 192L425.4 192L260.7 356.7L249.4 368L272 390.6L283.3 379.3L448 214.6L448 544L96 544L96 192z"/>
 								<path d="M368 64L352 64L352 96L521.4 96L260.7 356.7L249.4 368L272 390.6L283.3 379.3L544 118.6L544 288L576 288L576 64L368 64zM80 160L64 160L64 576L480 576L480 384L448 384L448 544L96 544L96 192L256 192L256 160L80 160z"/>
 							</svg>

@@ -430,6 +430,8 @@ public class JsonSchemaGenerator {
 					Schema.Builder innerSchemaBuilder = this.convertShapeToSchemaForProperty(new NodeShape(n), ps, model);
 					if(innerSchemaBuilder != null) {
 						anyOfList.add(innerSchemaBuilder.build());
+					} else {
+						log.warn("Found a reference to sh:node inside an sh:or, but don't know how to handle it: "+n.getURI());
 					}
 				} else {
 					anyOfList.add(ReferenceSchema.builder().refValue(JsonSchemaGenerator.buildSchemaReference(n)).build());

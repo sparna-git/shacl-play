@@ -32,6 +32,21 @@ public class ArgumentsDraw {
 			required = false
 	)
 	private boolean includeSubclasses = false;
+
+	@Parameter(
+		names = { "-wt", "--watch" },
+		description = "Monitor the input file and regenerate the output when it is modified.",
+		required = false
+	)
+	private Boolean watch = false;
+
+	public Boolean getWatch() {
+		return watch;
+	}
+
+	public void setWatch(Boolean watch) {
+		this.watch = watch;
+	}	
 	
 	public List<File> getInput() {
 		return input;

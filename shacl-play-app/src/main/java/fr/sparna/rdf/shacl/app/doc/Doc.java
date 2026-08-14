@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 
 import com.openhtmltopdf.pdfboxout.PdfRendererBuilder;
 
+import fr.sparna.cli.watch.WatchFile;
 import fr.sparna.rdf.shacl.app.CliCommandIfc;
 import fr.sparna.rdf.shacl.app.InputModelReader;
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentation;
@@ -30,65 +31,85 @@ import fr.sparna.rdf.shacl.doc.write.ShapesDocumentationXsltShaclPlayWriter;
 public class Doc implements CliCommandIfc {
 
 	private Logger log = LoggerFactory.getLogger(this.getClass().getName());
+	private ArgumentsDoc a;
 	
 	@Override
 	public void execute(Object args) throws Exception {
-		ArgumentsDoc a = (ArgumentsDoc)args;
-		
+		this.a = (ArgumentsDoc)args;
+	
+		if (this.a.getWatch()) {
+			this.generateDoc();
+			System.out.println("Watching "+a.getInput().get(0).getAbsolutePath()+" for changes and writing output to "+a.getOutput().getAbsolutePath());
+			WatchFile wf = new WatchFile(a.getInput().get(0), () -> {
+				try {
+					this.generateDoc();
+				} catch (Exception e) {
+					log.error("Error regenerating documentation on file change", e);
+					e.printStackTrace();
+				}
+			});
+			wf.runWatchFile();
+		} else {
+			this.generateDoc();
+		}	
+	}
+
+	public void generateDoc() throws Exception {
+
 		// read input file or URL
 		Model shapesModel = ModelFactory.createDefaultModel(); 
-		InputModelReader.populateModelFromFile(shapesModel, a.getInput(), null);
+		InputModelReader.populateModelFromFile(shapesModel, this.a.getInput(), null);
 		
 		// read ontology file
 		Model owlModel = ModelFactory.createDefaultModel(); 
-		if(a.getOntologies() != null) {
-			InputModelReader.populateModelFromFile(owlModel, a.getOntologies(), null);
+		if(this.a.getOntologies() != null) {
+			InputModelReader.populateModelFromFile(owlModel, this.a.getOntologies(), null);
 		}
 		
 		// create output dir if not existing
-		File outputDir = a.getOutput().getParentFile();
+		File outputDir = this.a.getOutput().getParentFile();
 		if(outputDir != null && !outputDir.exists()) {
 			outputDir.mkdirs();
 		}
 		
 		String name_img = null;
-		if(a.getImgLogo() != null) {			
-			if(new File(a.getImgLogo()).exists()) {
-				File fileImg = new File(a.getImgLogo()); 
-				File fileOut = new File(a.getOutput().toString());
+		if(this.a.getImgLogo() != null) {			
+			if(new File(this.a.getImgLogo()).exists()) {
+				File fileImg = new File(this.a.getImgLogo()); 
+				File fileOut = new File(this.a.getOutput().toString());
 				name_img = fileImg.getName();
 				// copy imagen file in the output directory
-				Path sourceImg = FileSystems.getDefault().getPath(a.getImgLogo().toString());
+				Path sourceImg = FileSystems.getDefault().getPath(this.a.getImgLogo().toString());
 				Path outputDirImg = FileSystems.getDefault().getPath(fileOut.getParentFile().getPath()+"\\"+name_img);
 				Files.copy(sourceImg, outputDirImg, StandardCopyOption.REPLACE_EXISTING);					
 			} else {
 				// not an existing file, take it as a URL
-				name_img = a.getImgLogo();
+				name_img = this.a.getImgLogo();
 			}
 		}
 		
 		ShapesDocumentationReaderIfc reader = ShapesDocumentationModelReader.buildShapesDocumentationModelReader(
 			shapesModel,
 			owlModel,
-			a.getLanguage(),
-			a.getDiagramShacl(),
+			this.a.getLanguage(),
+			this.a.getDiagramShacl(),
 			name_img,
-			a.getHidePropertiesShacl(),
-			!a.getNoSectionDiagrams(),
-			!a.getNoUnusedNodeShapeFiltering()
+			this.a.getHidePropertiesShacl(),
+			!this.a.getNoSectionDiagrams(),
+			!this.a.getNoUnusedNodeShapeFiltering()
 		);
 		
 		ShapesDocumentation doc = reader.readShapesDocumentation();
 		
 		
-		FileOutputStream out = new FileOutputStream(a.getOutput());
-		if(a.isPdfOutput()) {			
+		FileOutputStream out = new FileOutputStream(this.a.getOutput());
+		if(this.a.isPdfOutput()) {			
 			// 1. write Documentation structure to XML
 			ShapesDocumentationWriterIfc writerHTML = new ShapesDocumentationXsltShaclPlayWriter(MODE.PDF);
 			ByteArrayOutputStream htmlBytes = new ByteArrayOutputStream();
 			writerHTML.writeDoc(
 				doc,
-				a.getLanguage(),
+				this.a.getLanguage(),
 				htmlBytes
 			);
 			
@@ -101,28 +122,29 @@ public class Doc implements CliCommandIfc {
 			
 			_builder.withHtmlContent(htmlCode,"https://shacl-play.sparna.fr/play");			
 			
-			try (OutputStream os = new FileOutputStream(a.getOutput())) {
+			try (OutputStream os = new FileOutputStream(this.a.getOutput())) {
 				_builder.toStream(os);
 				_builder.testMode(false);
 				_builder.run();
 			}			
-		} else if(a.isXmlOutput()) {
+		} else if(this.a.isXmlOutput()) {
 			// 2. write Documentation structure to XML
 			ShapesDocumentationWriterIfc writer = new ShapesDocumentationXmlWriter();
-			writer.writeDoc(doc, a.getLanguage(), out);
+			writer.writeDoc(doc, this.a.getLanguage(), out);
 		} else {
 
-			if (a.getOldversion()) {
+			if (this.a.getOldversion()) {
 				ShapesDocumentationWriterIfc writer = new ShapesDocumentationXsltShaclPlayWriter(MODE.HTML);
-				writer.writeDoc(doc, a.getLanguage(), out);
+				writer.writeDoc(doc, this.a.getLanguage(), out);
 			} else {
 				// 2. write Documentation structure to HTML
 				ShapesDocumentationWriterIfc writer = new ShapesDocumentationXsltRespecWriter(MODE.HTML); //ShapesDocumentationXsltShaclPlayWriter(MODE.HTML);
-				writer.writeDoc(doc, a.getLanguage(), out);
+				writer.writeDoc(doc, this.a.getLanguage(), out);
 			}
 		}	
 		out.flush();
 		out.close();
+
 	}
 
 }

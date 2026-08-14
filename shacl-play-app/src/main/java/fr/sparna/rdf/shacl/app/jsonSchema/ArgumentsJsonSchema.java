@@ -36,7 +36,7 @@ public class ArgumentsJsonSchema {
 			description = "Path to a *.json file containing an optional JSON-LD context to be taken into account when generating the schema",
 			required = false
 	)
-	private File contextFile;	
+	private File contextFile;
 
 	public List<File> getInput() {
 		return input;

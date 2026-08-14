@@ -45,14 +45,19 @@
 			<entry key="METADATA.PUBLISHER" label="Editeur : " />
 			<entry key="METADATA.RIGHTHOLDER" label="Titulaire des droits : " />
 			<entry key="METADATA.FEEDBACK" label="Contact : " />
-			<entry key="METADATA.FORMATS" label="Télécharger les données : " />
+			
+			<!--<entry key="METADATA.FORMATS" label="Télécharger les données : " />-->
+			<entry key="METADATA.FORMATS" label="Formats disponibles : " />
+
 			<entry key="METADATA.IMPORTS" label="Imports : " />
 
 			<entry key="DIAGRAM.TITLE" label="Diagrammes" />
 
 			<entry key="DIAGRAM.HELP"
 				label="Cliquez sur le diagramme pour naviguer vers la section correspondante" />
-			<entry key="DIAGRAM.VIEW" label="Voir le diagramme en PNG" />
+			<!--<entry key="DIAGRAM.VIEW" label="Voir le diagramme en PNG" />-->
+			<entry key="DIAGRAM.VIEW_LABEL" label="Ouvrir le diagramme en PNG dans un nouvel onglet" />
+			<entry key="DIAGRAM.VIEW" label="Ouvrir le diagramme en PNG" />
 
 			<entry key="DOCUMENTATION.TITLE" label="Documentation du modèle"/>
 			<entry key="DESCRIPTION.TITLE" label="Description"/>
@@ -88,6 +93,11 @@
 
 			<!-- SPARQL Constraint -->
 			<entry key="LABEL_DESCRIPTION_SPARQL" label="Pas de description disponible" />
+
+			<!-- Standard -->
+			<entry key="DESCRIPTION_TABLE_PROPERTY" label="Propriétés de " />
+
+
 		</labels>
 	</xsl:variable>
 	<!-- In this stylesheet we just copy the base labels -->
@@ -130,12 +140,15 @@
 			<entry key="METADATA.VERSIONNOTES" label="Version notes: " />
 			<entry key="METADATA.IMPORTS" label="Imports : " />
 			
-			<entry key="METADATA.FORMATS" label="Download serialization: " />
+			<!--<entry key="METADATA.FORMATS" label="Download serialization: " />-->
+			<entry key="METADATA.FORMATS" label="Formats available: " />
 			
 			<entry key="DIAGRAM.TITLE" label="Diagrams" />
 			<entry key="DIAGRAM.HELP"
 				label="Click diagram to navigate to corresponding section" />
-			<entry key="DIAGRAM.VIEW" label="View as PNG" />
+			<!--<entry key="DIAGRAM.VIEW" label="View as PNG" />-->
+			<entry key="DIAGRAM.VIEW_LABEL" label="Open the PNG diagram in a new tab" />
+			<entry key="DIAGRAM.VIEW" label="Open the PNG diagram" />
 			
 			<entry key="DOCUMENTATION.TITLE" label="Model documentation"/>
 			<entry key="DESCRIPTION.TITLE" label="Description"/>
@@ -171,6 +184,10 @@
 
 			<!-- SPARQL Constraint -->
 			<entry key="LABEL_DESCRIPTION_SPARQL" label="No description available" />
+
+			<!-- Standard -->
+			<entry key="LABEL_TABLE_PROPERTY" label="Properties for " />
+
 		</labels>
 	</xsl:variable>
 	<!-- In this stylesheet we just copy the base labels -->
@@ -733,7 +750,18 @@
 			/* Overwrite ReSpec variable to adjust contract of Table of Content title */
 			--tocsidebar-heading-text: hsla(203,20%,40%,.9);
 		}
-	
+
+		.sr-only { 
+			position: absolute !important; 
+			width: 1px !important; 
+			height: 1px !important; 
+			padding: 0 !important; 
+			margin: -1px !important; 
+			overflow: hidden !important; 
+			clip: rect(0, 0, 0, 0) !important; 
+			white-space: nowrap !important; 
+			border: 0 !important; 
+		}
 					
 		<xsl:choose>
 			<xsl:when test="$MODE = 'PDF'">
@@ -961,22 +989,26 @@
 	
 	<xsl:template match="format">
 		<span class="sp_serialization_badge">
-			<a href="{dcatURL}" target="_blank">
+			<a href="{dcatURL}" target="_blank" rel="noopener noreferrer">
 				<!-- JSON -->
 				<xsl:if test="dctFormat = 'https://www.iana.org/assignments/media-types/application/ld+json'">
 					<img src="https://img.shields.io/badge/Format-JSON_LD-blue.png" alt="JSON-LD" /> 
+					<span class="sr-only">(opens JSON-LD file in a new tab)</span>
 				</xsl:if>
 				<!-- XML -->
 				<xsl:if test="dctFormat = 'https://www.iana.org/assignments/media-types/application/rdf+xml'">
 					<img src="https://img.shields.io/badge/Format-RDF/XML-blue.png" alt="RDF/XML" /> 
+					<span class="sr-only">(opens RDF file in a new tab)</span>
 				</xsl:if>			
 				<!-- N3 -->
 				<xsl:if test="dctFormat = 'https://www.iana.org/assignments/media-types/application/n-triples'">
 					<img src="https://img.shields.io/badge/Format-N_Triples-blue.png" alt="N-Triples" /> 			
+					<span class="sr-only">(opens N3 file in a new tab)</span>
 				</xsl:if>
 				<!-- ttl -->
 				<xsl:if test="dctFormat = 'https://www.iana.org/assignments/media-types/text/turtle'">
 					<img src="https://img.shields.io/badge/Format-TTL-blue.png" alt="TTL" /> 
+					<span class="sr-only">(opens TTL file in a new tab)</span>
 				</xsl:if>				
 			</a>
 		</span>
@@ -1068,8 +1100,12 @@
 					<xsl:value-of
 							select="$LABELS/labels/entry[@key='DIAGRAM.HELP']/@label" />
 					<xsl:text> | </xsl:text>
-					<a href="{pngLink}" target="_blank">
+					<a href="{pngLink}" target="_blank" aria-label="{$LABELS/labels/entry[@key='DIAGRAM.VIEW_LABEL']/@label}">
 						<xsl:value-of select="$LABELS/labels/entry[@key='DIAGRAM.VIEW']/@label" />
+						<svg xmlns="http://www.w3.org/2000/svg" width="30" height="20" viewBox="0 0 640 640">
+							<path opacity=".4" d="M96 192L425.4 192L260.7 356.7L249.4 368L272 390.6L283.3 379.3L448 214.6L448 544L96 544L96 192z"/>
+							<path d="M368 64L352 64L352 96L521.4 96L260.7 356.7L249.4 368L272 390.6L283.3 379.3L544 118.6L544 288L576 288L576 64L368 64zM80 160L64 160L64 576L480 576L480 384L448 384L448 544L96 544L96 192L256 192L256 160L80 160z"/>
+						</svg>						
 					</a>			
 				</small>
 				<xsl:comment>
@@ -1400,9 +1436,13 @@
 						<xsl:value-of
 								select="$LABELS/labels/entry[@key='DIAGRAM.HELP']/@label" />
 						<xsl:text> | </xsl:text>
-						<a href="{pngLink}" target="_blank">
+						<a href="{pngLink}" target="_blank" aria-label="{$LABELS/labels/entry[@key='DIAGRAM.VIEW_LABEL']/@label}">
 							<xsl:value-of select="$LABELS/labels/entry[@key='DIAGRAM.VIEW']/@label" />
-						</a>			
+							<svg xmlns="http://www.w3.org/2000/svg" width="30" height="20" viewBox="0 0 640 640">
+								<path opacity=".4" d="M96 192L425.4 192L260.7 356.7L249.4 368L272 390.6L283.3 379.3L448 214.6L448 544L96 544L96 192z"/>
+								<path d="M368 64L352 64L352 96L521.4 96L260.7 356.7L249.4 368L272 390.6L283.3 379.3L544 118.6L544 288L576 288L576 64L368 64zM80 160L64 160L64 576L480 576L480 384L448 384L448 544L96 544L96 192L256 192L256 160L80 160z"/>
+							</svg>
+						</a>						
 					</small>
 					<xsl:comment>
 						<xsl:value-of select="plantUmlString" disable-output-escaping="yes" />
@@ -1462,6 +1502,8 @@
 		
 		<!-- Always 4 columns : label, URI, expected value, cardinalities -->
 		<table class="sp_table_propertyshapes {$getBgColor} table-responsive">
+			<xsl:variable name="titleOfSection" select="../title"/>
+			<caption><xsl:value-of select="concat($LABELS/labels/entry[@key='LABEL_TABLE_PROPERTY']/@label,$titleOfSection)" /></caption>
 			<thead>
 				<tr>
 					<th>

@@ -68,7 +68,7 @@ public class ShapesDocumentationSectionBuilder {
 			// Create one diagram for each section
 			List<PlantUmlDiagramOutput> plantUmlDiagrams = this.diagramGenerator.generatePlantUmlDiagramSection(nodeShape.getResource());
 			// turn diagrams into output data structure
-			plantUmlDiagrams.stream().forEach(d -> currentSection.getSectionDiagrams().add(new ShapesDocumentationDiagram(d)));
+			plantUmlDiagrams.stream().forEach(d -> currentSection.getSectionDiagrams().add(new ShapesDocumentationDiagram(d,nodeShape.getShortFormOrId())));
 		}
 		
 		// Get type of shape Main or Supportive Entities

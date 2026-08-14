@@ -1,13 +1,29 @@
 package fr.sparna.rdf.shacl.diagram.plantuml;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
 
 import net.sourceforge.plantuml.FileFormat;
 import net.sourceforge.plantuml.FileFormatOption;
 import net.sourceforge.plantuml.SourceStringReader;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.TransformerFactoryConfigurationError;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
+import org.w3c.dom.*;
+import org.xml.sax.SAXException;
 
 public class PlantUmlSvgSerializer {
 
@@ -28,23 +44,48 @@ public class PlantUmlSvgSerializer {
 		final ByteArrayOutputStream out = new ByteArrayOutputStream();
 		reader.generateImage(out, new FileFormatOption(FileFormat.SVG));
 		out.close();
-			
-		// get the string back
-		String svgString = new String(out.toByteArray(), Charset.forName("UTF-8"));
 		
+		// get the string back
+		String svgString = this.preprocessingSVGCode(new String(out.toByteArray(), Charset.forName("UTF-8")));
+
+		// write post-processed String in the output stream
+		output.write(svgString.getBytes("UTF-8"));	
+	}
+
+	public String metadataInSVG(String plantUmlString, String titleDiagram) throws IOException {
+		//
+		SourceStringReader reader = new SourceStringReader(plantUmlString);
+		final ByteArrayOutputStream out = new ByteArrayOutputStream();
+		reader.generateImage(out, new FileFormatOption(FileFormat.SVG));
+
+		// temporary output to be post-processed
+		ByteArrayOutputStream baous = new ByteArrayOutputStream();
+		try {
+			this.addElementsInSVG(out,baous,titleDiagram);
+		} catch (ParserConfigurationException | SAXException | IOException | TransformerException e) {
+			e.printStackTrace();
+		}
+		// Preprocessing
+		String svgString = this.preprocessingSVGCode(new String(baous.toByteArray(), Charset.forName("UTF-8")));
+		// Output
+		return new String(svgString.getBytes("UTF-8"));
+	}
+
+	public String preprocessingSVGCode(String svgString) {
+
 		// replace the namespace
 		if (svgString.contains("g xmlns=\"\"")) {
 			svgString = svgString.replace("g xmlns=\"\"","g");
 		}
-		
+
 		// ensure the characters --> don't appear in the XML comments
 		svgString = svgString.replace("\" --> \"", "\" - -> \"");
 		
 		// post-process for Safari
 		svgString = this.safariPostProcess(svgString);
 
-		// write post-processed String in the output stream
-		output.write(svgString.getBytes("UTF-8"));	
+		return svgString;
+
 	}
 
 	private String safariPostProcess(String s) {
@@ -59,5 +100,37 @@ public class PlantUmlSvgSerializer {
 
 		return s;
 	}
+
+	public void addElementsInSVG(ByteArrayOutputStream out, OutputStream output, String titleDiagram ) throws ParserConfigurationException, SAXException, IOException, TransformerException {
+		
+		ByteArrayInputStream intSVG = new ByteArrayInputStream(out.toByteArray());
+
+		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+		DocumentBuilder db = dbf.newDocumentBuilder();
+		Document doc = db.parse(intSVG);
+		
+		// Instance
+		Element svgElement = doc.getDocumentElement();
+
+		// SVG Configuration
+		svgElement.setAttribute("role", "img");
+		svgElement.setAttribute("aria-labelledby", "schema-title schema-desc");
+
+		// Create Title Element
+		Element eTitle = doc.createElementNS("http://www.w3.org/2000/svg", "title");
+		eTitle.setAttribute("id", "schema-title");
+		eTitle.setTextContent("Diagram for shape " + titleDiagram);
+		svgElement.appendChild(eTitle);
+
+		// Create Description Element
+		Element eDesc = doc.createElementNS("http://www.w3.org/2000/svg","description");
+		eDesc.setAttribute("id", "schema-desc");
+		eDesc.setTextContent("This diagram shows a semantic web data model centered around the " + titleDiagram + " entity");
+		svgElement.appendChild(eDesc);
+
+		Transformer transformer = TransformerFactory.newInstance().newTransformer();
+		transformer.transform(new DOMSource(doc), new StreamResult(output));
+	}
+
 
 }

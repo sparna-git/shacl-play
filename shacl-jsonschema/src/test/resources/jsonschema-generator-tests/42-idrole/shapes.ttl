@@ -1,0 +1,26 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ex: <http://example.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dash: <http://datashapes.org/dash#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+ex:MainNodeShape
+    a sh:NodeShape ;
+    sh:property [
+        sh:path ex:identifier ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:nodeKind sh:Literal ;
+        sh:datatype xsd:string ;
+        sh:node ex:ValueNodeShape ;
+        # This is the ID
+        dash:propertyRole dash:IDRole ;
+    ] ;
+.
+
+ex:ValueNodeShape
+    a sh:NodeShape ;
+    sh:nodeKind sh:Literal ;
+    sh:pattern "[0-9]+" ;
+    skos:example "999" ;
+.

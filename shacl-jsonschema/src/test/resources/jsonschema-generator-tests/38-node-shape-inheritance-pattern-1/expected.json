@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "@context": {
+      "$ref": "#/$defs/@context"
+    },
+    "data": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/MainNodeShape"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "required": ["@context", "data"],
+  "$defs": {
+    "@context": {},
+    "MainNodeShape": {
+      "type": "object",
+      "properties": {
+        "id": {
+            "format": "iri-reference",
+            "type": "string"
+        },
+        "property": {
+          "$ref": "#/$defs/ChildNodeShape"
+        }
+      },
+      "required": ["id", "property"]
+    },
+    "ChildNodeShape": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "iri-reference",
+          "type": "string",
+          "pattern": "https://example.eu/.*"
+        },
+        "property": {"type": "string"}
+
+      },
+      "required": ["id"]
+    }
+  }
+}

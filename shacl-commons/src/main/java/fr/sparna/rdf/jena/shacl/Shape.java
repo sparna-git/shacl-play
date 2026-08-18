@@ -3,8 +3,10 @@ package fr.sparna.rdf.jena.shacl;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Literal;
@@ -41,56 +43,8 @@ public abstract class Shape {
 		return resource;
 	}
 
-	public String getShortFormOrId() {
-		if(this.resource != null && this.resource.isURIResource()) {
-			return this.getResource().getModel().shortForm(this.getResource().getURI());
-		} else {
-			// returns the blank node ID in that case
-			return this.resource.asResource().getId().getLabelString();
-		}
-	}
+	/******* SIMPLE ACCESSORS FOR SH PROPERTIES *********/
 
-	/**
-	 * @return the URI of the shape if it is a URI resource, or the blank node ID if it is a blank node
-	 */
-	public String getURIOrId() {
-		if(this.resource.isURIResource()) {
-			return this.resource.getURI();
-		} else {
-			// returns the blank node ID in that case
-			return this.resource.getId().toString();
-		}
-	}
-
-	/**
-	 * @return the optional value of shacl-play:color. See also the entity-level getDisplayColor() method, which should be preferred
-	 */
-	public Optional<Literal> getShaclPlayColor() {
-		return ModelReadingUtils.getOptionalLiteral(resource, resource.getModel().createProperty(SHACL_PLAY.COLOR));
-	}
-
-	/**
-	 * @return the optional value of shacl-play:backgroundcolor. See also the entity-level getDisplayBackgroundColor() method, which should be preferred
-	 */
-	public Optional<Literal> getShaclPlayBackgroundColor() {
-		return ModelReadingUtils.getOptionalLiteral(resource, resource.getModel().createProperty(SHACL_PLAY.BACKGROUNDCOLOR));
-	}
-
-	public Optional<Literal> getShaclPlayShortName() {
-		return ModelReadingUtils.getOptionalLiteral(resource, resource.getModel().createProperty(SHACL_PLAY.SHORTNAME));
-	}
-
-	public Optional<Literal> getShaclPlayMain() {
-		return ModelReadingUtils.getOptionalLiteral(resource, resource.getModel().createProperty(SHACL_PLAY.MAIN));
-	}
-
-	public RDFList getShOr() {
-		if (resource.hasProperty(SH.or)) {
-			return resource.getProperty(SH.or).getObject().as(RDFList.class); 
-		} else {
-			return null;
-		}		
-	}
 
 	public Optional<Resource> getShGroup() {
 		return ModelReadingUtils.getOptionalResource(resource, SH.group);
@@ -156,6 +110,14 @@ public abstract class Shape {
 		return ModelReadingUtils.getOptionalLiteral(this.resource,SH.deactivated).map(l -> l.getBoolean());
 	}
 
+	public RDFList getShOr() {
+		if (resource.hasProperty(SH.or)) {
+			return resource.getProperty(SH.or).getObject().as(RDFList.class); 
+		} else {
+			return null;
+		}		
+	}
+
 	public List<Literal> getShLanguageIn() {
 		Optional<Resource> list = ModelReadingUtils.getOptionalResource(this.resource, SH.languageIn);
 		if(list.isPresent()) {
@@ -166,8 +128,115 @@ public abstract class Shape {
 		}
 	}
 
+	public List<Resource> getShRule() {
+		if (resource.hasProperty(SH.rule)) {
+			List<Statement> rules = resource.listProperties(SH.rule).toList();
+			return rules.stream().map(s -> s.getObject().asResource()).collect(Collectors.toList());
+		} else {
+			return Collections.emptyList();
+		}
+	}
+
+
+	/****** SIMPLE ACCESSORS FOR NON-SH PROPERTIES *********/
+
 	public List<RDFNode> getSkosExample() {
 		return ModelReadingUtils.readObjectAsResourceOrLiteral(resource, SKOS.example);
+	}
+
+	public Optional<List<RDFNode>> getSkosExampleAsOptional() {
+		if(this.resource.hasProperty(SKOS.example)) {
+			return Optional.of(ModelReadingUtils.readObjectAsResourceOrLiteral(resource, SKOS.example));
+		} else {
+			return Optional.empty();
+		}
+	}
+
+	/**
+	 * @return the optional value of shacl-play:color. See also the entity-level getDisplayColor() method, which should be preferred
+	 */
+	public Optional<Literal> getShaclPlayColor() {
+		return ModelReadingUtils.getOptionalLiteral(resource, resource.getModel().createProperty(SHACL_PLAY.COLOR));
+	}
+
+	/**
+	 * @return the optional value of shacl-play:backgroundcolor. See also the entity-level getDisplayBackgroundColor() method, which should be preferred
+	 */
+	public Optional<Literal> getShaclPlayBackgroundColor() {
+		return ModelReadingUtils.getOptionalLiteral(resource, resource.getModel().createProperty(SHACL_PLAY.BACKGROUNDCOLOR));
+	}
+
+	public Optional<Literal> getShaclPlayShortName() {
+		return ModelReadingUtils.getOptionalLiteral(resource, resource.getModel().createProperty(SHACL_PLAY.SHORTNAME));
+	}
+
+	public Optional<Literal> getShaclPlayMain() {
+		return ModelReadingUtils.getOptionalLiteral(resource, resource.getModel().createProperty(SHACL_PLAY.MAIN));
+	}
+
+	/**
+	 * @return The rdfs:comment list in the provided language, or an empty list if none is present
+	 */
+	public List<Literal> getRdfsComment(String lang) {
+		return ModelReadingUtils.readLiteralInLang(resource, RDFS.comment, lang);
+	}
+	
+	/**
+	 * @return The rdfs:label list in the provided language, or an empty list if none is present
+	 */
+	public List<Literal> getRdfsLabel(String lang) {
+		return ModelReadingUtils.readLiteralInLang(resource, RDFS.label, lang);
+	}
+
+	/**
+	 * @return The rdfs:label list in the provided language, or an empty list if none is present
+	 */
+	public List<Literal> getSchemaName(String lang) {
+		return ModelReadingUtils.readLiteralInLang(resource, SCHEMA.name, lang);
+	}
+
+	/**
+	 * @return The rdfs:label list in the provided language, or an empty list if none is present
+	 */
+	public List<Literal> getSchemaDescription(String lang) {
+		return ModelReadingUtils.readLiteralInLang(resource, SCHEMA.description, lang);
+	}
+
+	/**
+	 * @return The skos:prefLabel list in the provided language, or an empty list if none is present
+	 */
+	public List<Literal> getSkosPrefLabel(String lang) {
+		return ModelReadingUtils.readLiteralInLang(resource, SKOS.prefLabel, lang);
+	}
+	
+	/**
+	 * @return The skos:definition list in the provided language, or an empty list if none is present
+	 */
+	public List<Literal> getSkosDefinition(String lang) {
+		return ModelReadingUtils.readLiteralInLang(resource, SKOS.definition, lang);
+	}
+
+	/************** ADVANCED ACCESSOR - NOT LOW LEVEL **********************/
+
+	public String getShortFormOrId() {
+		if(this.resource != null && this.resource.isURIResource()) {
+			return this.getResource().getModel().shortForm(this.getResource().getURI());
+		} else {
+			// returns the blank node ID in that case
+			return this.resource.asResource().getId().getLabelString();
+		}
+	}
+
+	/**
+	 * @return the URI of the shape if it is a URI resource, or the blank node ID if it is a blank node
+	 */
+	public String getURIOrId() {
+		if(this.resource.isURIResource()) {
+			return this.resource.getURI();
+		} else {
+			// returns the blank node ID in that case
+			return this.resource.getId().toString();
+		}
 	}
 
 	/**
@@ -201,6 +270,12 @@ public abstract class Shape {
 		  ||
 		  resource.hasProperty(SH.maxExclusive);
 	}
+
+	public boolean isDeactivated() {
+		return this.getShDeactivated().orElse(false);
+	}
+
+	/************** SH:OR MANAGEMENT **********************/
 
 	public boolean hasShOrShClassOrShNode() {
 		return 
@@ -252,73 +327,69 @@ public abstract class Shape {
 		return null;
 	}
 
-	public boolean isDeactivated() {
-		return this.getShDeactivated().orElse(false);
-	}
+	/************** INHERITANCE ACCESSORS **********************/
 
-	public List<Resource> getPropertyRoles() {
-		if (resource.hasProperty(DASH.propertyRole)) {
-			List<Statement> propertyRoles = resource.listProperties(DASH.propertyRole).toList();
-			return propertyRoles.stream().map(s -> s.getObject().asResource()).collect(Collectors.toList());
-		} else {
-			return Collections.emptyList();
-		}
-	}
-	
-	public boolean isLabelRole() {
-		return this.getPropertyRoles().stream().anyMatch(r -> r.getURI().equals(DASH.LabelRole.getURI()));
-	}
-
-	public List<Resource> getShRule() {
-		if (resource.hasProperty(SH.rule)) {
-			List<Statement> rules = resource.listProperties(SH.rule).toList();
-			return rules.stream().map(s -> s.getObject().asResource()).collect(Collectors.toList());
-		} else {
-			return Collections.emptyList();
-		}
+	public List<NodeShape> getShNodeShapes() {
+		Set<Resource> constrainingShapes = new HashSet<Resource>();
+		constrainingShapes.addAll(this.getShNodeAsList());
+		return new ArrayList<NodeShape>(constrainingShapes.stream().map(r -> new NodeShape(r)).collect(Collectors.toList()));
 	}
 
 	/**
-	 * @return The rdfs:comment list in the provided language, or an empty list if none is present
+	 * Look up the sh:pattern of this node shape, or if not present, the sh:pattern of its shapes referred to by sh:node, recursively.
+	 * @param includeShNodeInheritance
+	 * @return
 	 */
-	public List<Literal> getRdfsComment(String lang) {
-		return ModelReadingUtils.readLiteralInLang(resource, RDFS.comment, lang);
-	}
-	
-	/**
-	 * @return The rdfs:label list in the provided language, or an empty list if none is present
-	 */
-	public List<Literal> getRdfsLabel(String lang) {
-		return ModelReadingUtils.readLiteralInLang(resource, RDFS.label, lang);
-	}
-
-	/**
-	 * @return The rdfs:label list in the provided language, or an empty list if none is present
-	 */
-	public List<Literal> getSchemaName(String lang) {
-		return ModelReadingUtils.readLiteralInLang(resource, SCHEMA.name, lang);
-	}
-
-	/**
-	 * @return The rdfs:label list in the provided language, or an empty list if none is present
-	 */
-	public List<Literal> getSchemaDescription(String lang) {
-		return ModelReadingUtils.readLiteralInLang(resource, SCHEMA.description, lang);
-	}
-
-	/**
-	 * @return The skos:prefLabel list in the provided language, or an empty list if none is present
-	 */
-	public List<Literal> getSkosPrefLabel(String lang) {
-		return ModelReadingUtils.readLiteralInLang(resource, SKOS.prefLabel, lang);
-	}
-	
-	/**
-	 * @return The skos:definition list in the provided language, or an empty list if none is present
-	 */
-	public List<Literal> getSkosDefinition(String lang) {
-		return ModelReadingUtils.readLiteralInLang(resource, SKOS.definition, lang);
+	public Optional<Literal> getShPattern(boolean includeShNodeInheritance) {
+		return getWithInheritance(includeShNodeInheritance, Shape::getShPattern);
 	}	
+
+
+	public Optional<Resource> getShDatatype(boolean includeShNodeInheritance) {
+		return getWithInheritance(includeShNodeInheritance, Shape::getShDatatype);
+	}
+
+	public Optional<Resource> getShNodeKind(boolean includeShNodeInheritance) {
+		return getWithInheritance(includeShNodeInheritance, Shape::getShNodeKind);
+	}
+
+	public Optional<List<RDFNode>> getSkosExample(boolean includeShNodeInheritance) {
+		return getWithInheritance(includeShNodeInheritance, Shape::getSkosExampleAsOptional);
+	}
+
+	/**
+	 * Generic method to get a property value with optional SHACL node inheritance.
+	 * Recursively checks parent shapes (via sh:node) if the property is not found directly.
+	 *
+	 * @param includeShNodeInheritance whether to search in parent shapes
+	 * @param directAccessor function that extracts the property directly from a shape (without inheritance)
+	 * @return the property value if found, either directly or in a parent shape
+	 */
+	protected <T> Optional<T> getWithInheritance(
+		boolean includeShNodeInheritance,
+		java.util.function.Function<Shape, Optional<T>> directAccessor
+	) {
+
+		if(!includeShNodeInheritance) {
+			return directAccessor.apply(this);
+		} else {
+			Optional<T> value = directAccessor.apply(this);
+			if(value.isPresent()) {
+				return value;
+			} else {
+				for(NodeShape parentShape : this.getShNodeShapes()) {
+					Optional<T> parentValue = parentShape.getWithInheritance(true, directAccessor);
+					if(parentValue.isPresent()) {
+						return parentValue;
+					}
+				}
+				return Optional.empty();
+			}
+		}
+	}
+
+	/************** HASHCODE and EQUALS **********************/
+
 
 	@Override
 	public int hashCode() {
@@ -344,6 +415,8 @@ public abstract class Shape {
 			return false;
 		return true;
 	}
+
+	/************** INNER UTILITY CLASSES **********************/
 
 	public static class ShOrderComparator implements Comparator<Resource> {		
 

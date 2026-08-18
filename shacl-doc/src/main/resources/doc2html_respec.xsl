@@ -1163,12 +1163,35 @@
 						</xsl:otherwise>
 					</xsl:choose>
 				</xsl:if>				
-			</div>	
+			</div>
+
 			<!-- Section of General descriptions -->
-			<xsl:variable name="section_diagram" select="concat('description-',sectionId)"/>
-			<section id="{$section_diagram}" style="margin-top: -25px;">
+			<xsl:variable name="section_description" select="concat(sectionId,'-description')" />
+			<section id="{$section_description}" style="margin-top: -25px;">
 				
-				<h4><xsl:value-of select="$LABELS/labels/entry[@key='SECTION_GENERAL_DESCRIPTIONS']/@label"/></h4>
+				<xsl:if test="
+					description != ''
+					or
+					targetClass/targetClass
+					or
+					superClasses/superClass
+					or
+					targetSubjectsOf != ''
+					or
+					targetObjectsOf != ''
+					or
+					sparqlTarget
+					or
+					nodeKind != ''
+					or
+					pattern != ''
+					or
+					skosExample != ''
+					or
+					shNodes/shNode							
+				">
+					<h4><xsl:value-of select="$LABELS/labels/entry[@key='SECTION_GENERAL_DESCRIPTIONS']/@label"/></h4>
+				</xsl:if>
 
 				<!-- div definition -->
 				<xsl:if test="description != ''">
@@ -1259,13 +1282,6 @@
 										<xsl:apply-templates select="sparqlTarget" />
 									</li>
 								</xsl:if>
-								<!--
-								<xsl:if test="string-length(MessageOfValidate) &gt; 0">
-									<li>
-										<em>Message:</em><xsl:value-of select="MessageOfValidate"/>
-									</li>
-								</xsl:if>
-								-->
 								</ul>
 							</xsl:otherwise>
 						</xsl:choose>
@@ -1339,7 +1355,7 @@
 			<xsl:variable name="number_of_rect" select="count(tokenize(sectionDiagrams/sectionDiagram/svg, '&lt;rect')) - 1"/>
 
 			<xsl:if test="$number_of_rect > 1 or depictions !=''">
-				<xsl:variable name="section_diagram" select="concat('diagram-',sectionId)"/>
+				<xsl:variable name="section_diagram" select="concat(sectionId,'-diagram')"/>
 				<section id="{$section_diagram}" style="margin-top: -25px;">
 					<h4><xsl:value-of select="$LABELS/labels/entry[@key='SECTION.DIAGRAM.TITLE']/@label" /></h4>
 
@@ -1356,7 +1372,7 @@
 			</xsl:if>
 			
 			<xsl:if test="count(propertyGroups/propertyGroup/properties/property) > 0">
-				<xsl:variable name="section_properties" select="concat('properties-',sectionId)"/>
+				<xsl:variable name="section_properties" select="concat(sectionId,'-properties')"/>
 				<section id="{$section_properties}">
 					<h4><xsl:value-of select="$LABELS/labels/entry[@key='SECTION.PROPERTY.TITLE']/@label" /></h4>
 					<!-- Properties table -->
@@ -1366,7 +1382,7 @@
 
 			<!-- Section of usage -->
 			<xsl:if test="usages/usage">
-				<xsl:variable name="section_usage" select="concat('usage-',sectionId)"/>
+				<xsl:variable name="section_usage" select="concat(sectionId,'-usage')"/>
 				<section id="{$section_usage}">
 					<h4><xsl:value-of select="$LABELS/labels/entry[@key='SECTION.USAGE.TITLE']/@label" /></h4>
 					<xsl:apply-templates select="usages" />				
@@ -1375,7 +1391,7 @@
 
 			<!-- Additionnal constraints -->
 			<xsl:if test="count(constraintEntries/constraintEntry) &gt; 0">
-				<xsl:variable name="section_constraints" select="concat('constraints-',sectionId)"/>
+				<xsl:variable name="section_constraints" select="concat(sectionId,'-constraints')"/>
 				<section id="{$section_constraints}">
 					<!-- title of section -->
 					<h4><xsl:value-of select="$LABELS/labels/entry[@key='LABEL_CONSTRAINTS']/@label" /></h4>
@@ -1387,7 +1403,7 @@
 			</xsl:if>
 
 			<xsl:if test="charts/chart">
-				<xsl:variable name="section_charts" select="concat('charts-',sectionId)"/>
+				<xsl:variable name="section_charts" select="concat(sectionId,'-charts')"/>
 				<section id="{$section_charts}">
 					<h4><xsl:value-of select="$LABELS/labels/entry[@key='SECTION.CHARTS.TITLE']/@label" /></h4>					
 					<!-- Section for Pie Chart -->

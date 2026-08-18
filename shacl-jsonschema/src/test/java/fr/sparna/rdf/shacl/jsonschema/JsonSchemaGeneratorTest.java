@@ -2,7 +2,6 @@ package fr.sparna.rdf.shacl.jsonschema;
 
 import java.io.FileInputStream;
 import java.io.StringReader;
-import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;

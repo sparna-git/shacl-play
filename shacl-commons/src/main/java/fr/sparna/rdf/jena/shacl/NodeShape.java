@@ -61,7 +61,7 @@ public class NodeShape extends Shape  {
 		return ModelReadingUtils.readObjectAsResource(resource, SH.target);
 	}
 
-/**
+	/**
 	 * @return The values of SH.targetNode, or an empty list if none 
 	 */	
 	public List<Resource> getTargetNode() {
@@ -116,7 +116,31 @@ public class NodeShape extends Shape  {
 
 	/***** / TARGET SPECIFICATIONS *******/
 
-	/***** SUBCLASS OF MANAGEMENT  *******/
+
+	/***** SIMPLE ACCESSORS (in addition to thos defined at Shape level)  *******/
+
+	/**
+	 * @return The sh:closed Literal value
+	 */
+	public Optional<Literal> getShClosed() {
+		return ModelReadingUtils.getOptionalLiteral(resource,SH.closed);
+	}
+
+	public List<SparqlConstraint> getShSparql() {
+		return this.resource.listProperties(SH.sparql).toList().stream().map( c-> c.getResource()).map(r -> new SparqlConstraint(r)).collect(Collectors.toList());
+	}	
+
+	/**
+	 * @return The list of foaf:depiction values, if present, or an empty list if not present
+	 */
+	public List<Resource> getDepiction() {
+		return ModelReadingUtils.readObjectAsResource(resource, FOAF.depiction);
+	}
+
+	/***** / SIMPLE ACCESSORS  *******/
+
+
+	/***** SUBCLASS OF MANAGEMENT + SUPER SHAPES MANAGEMENT  *******/
 
 	/**
 	 * @return true if this NodeShape is also an rdfs:Class
@@ -149,6 +173,42 @@ public class NodeShape extends Shape  {
 				.collect(Collectors.toList());
 	}
 
+	public List<Resource> getShTargetClassRdfsSubclassOfInverseOfShTargetClass() {
+		Set<Resource> result = new HashSet<Resource>();
+		List<Resource> targetClasses = this.getAllTargetedClasses();
+		if(targetClasses != null) {
+			
+			List<Resource> subClassesOf = targetClasses.stream().flatMap( t -> NodeShape.getRdfsSubClassOfOf(t).stream()).collect(Collectors.toList());
+			
+			if(subClassesOf != null && subClassesOf.size() > 0) {
+				for (Resource aSuperClass : subClassesOf) {
+					List<Resource> shapeWithThisTarget = this.resource.getModel().listStatements(null, SH.targetClass, aSuperClass).toList().stream().map(s -> s.getSubject()).collect(Collectors.toList());
+					for (Resource aShapeWithSuperClassAsTarget : shapeWithThisTarget) {
+						result.add(aShapeWithSuperClassAsTarget);
+					}
+				}
+			}
+		}
+		
+		return new ArrayList<Resource>(result);
+	}
+
+	/**
+	 * Returns a list containing :
+	 * 1. the shapes that this one is subClassOf 
+	 * 2. plus the shapes that target a class, which the class that this shape target is a subClassOf.
+	 * 3. plus a shape that is referenced by this shape by a sh:node
+	 * 
+	 * @return
+	 */
+	public List<Resource> getSuperShapes() {
+		Set<Resource> superShapes = new HashSet<Resource>();
+		superShapes.addAll(this.getRdfsSubClassOf());
+		superShapes.addAll(this.getShTargetClassRdfsSubclassOfInverseOfShTargetClass());
+		superShapes.addAll(this.getShNodeAsList());
+		return new ArrayList<Resource>(superShapes);
+	}
+
 	/***** / SUBCLASS OF MANAGEMENT  *******/
 
 
@@ -174,14 +234,29 @@ public class NodeShape extends Shape  {
 	}
 
 	public List<PropertyShape> getInheritedProperties() {	
+		// by default, overwrite properties from super shapes with the more specific ones
+		return this.getInheritedProperties(true);
+	}
+
+	public List<PropertyShape> getInheritedProperties(boolean overridePropertiesWithSamePredicate) {	
 		List<PropertyShape> finalProperties = new ArrayList<>();
 		// make a copy to avoid changind the inner this.properties list
 		finalProperties.addAll(this.getProperties());
 
 		// add the properties of the super shapes
-		for(Resource superShape : this.getSuperShapes()) {
-			NodeShape superNodeShape = new NodeShape(superShape);
-			finalProperties.addAll(superNodeShape.getInheritedProperties());
+		for(NodeShape superNodeShape : this.getShNodeShapes()) {
+			List<PropertyShape> inheritedProperties = superNodeShape.getInheritedProperties(overridePropertiesWithSamePredicate);
+			// don't add inherited properties coming from "super shapes" if they have the same predicate
+			// as a more specific property
+			for(PropertyShape ps : inheritedProperties) {
+				if(
+					!overridePropertiesWithSamePredicate
+					||
+					finalProperties.stream().filter(aPropShape -> aPropShape.getPropertyPath().equals(ps.getPropertyPath())).findAny().isEmpty()
+				) {
+					finalProperties.add(ps);
+				}
+			}
 		}
 
 		// sort the whole list
@@ -202,32 +277,6 @@ public class NodeShape extends Shape  {
 
 	/***** / PROPERTY SHAPES MANAGEMENT  *******/
 
-
-	/**
-	 * @return The sh:closed Literal value
-	 */
-	public Optional<Literal> getShClosed() {
-		return ModelReadingUtils.getOptionalLiteral(resource,SH.closed);
-	}
-
-	public Boolean isClosed() {
-		return getShClosed().map(l -> l.getBoolean()).orElse(false);
-	}	
-
-	/**
-	 * @return true if this node shape has no active property shapes and no target, meaning it 
-	 * describes only the value nodes of some property shapes
-	 */
-	public boolean isPureValueShape() {
-		return getInheritedProperties().stream().filter(ps -> !ps.isDeactivated()).findFirst().isEmpty() && !this.hasTarget();
-	}
-
-	/**
-	 * @return true if this node shape has no active property shapes and has only one sh:rule
-	 */
-	public boolean isPureRuleShape() {
-		return getInheritedProperties().stream().filter(ps -> !ps.isDeactivated()).findFirst().isEmpty() && this.getShRule().size() > 0;
-	}
 
 	/***** USAGE INDICATOR  *******/
 
@@ -396,89 +445,44 @@ public class NodeShape extends Shape  {
 
 	@Override
 	public String getDisplayColor() {
-		// if there is a shacl-play:color, use it		
-		if(this.getShaclPlayColor().isPresent()) {
-			return ModelRenderingUtils.render(this.getShaclPlayColor().get(), true);
-		} else {
-			// otherwise if there are some "parent shapes", recursively get their color and return the first one found
-			for(Resource parentShape : this.getSuperShapes()) {
-				NodeShape parentNodeShape = new NodeShape(parentShape);
-				String parentColor = parentNodeShape.getDisplayColor();
-				if(parentColor != null) {
-					return parentColor;
-				}
-			}
-		}
-		return null;
+		return 
+			this.getWithInheritance(true, Shape::getShaclPlayColor)
+			.map(spc -> ModelRenderingUtils.render(spc, true))
+			.orElse(null);
 	}
 
 	@Override
 	public String getDisplayBackgroundColor() {
-		// if there is a shacl-play:backgroundcolor, use it		
-		if(this.getShaclPlayBackgroundColor().isPresent()) {
-			return ModelRenderingUtils.render(this.getShaclPlayBackgroundColor().get(), true);
-		} else {
-			// otherwise if there are some "parent shapes", recursively get their background color and return the first one found
-			for(Resource parentShape : this.getSuperShapes()) {
-				NodeShape parentNodeShape = new NodeShape(parentShape);
-				String parentBackgroundColor = parentNodeShape.getDisplayBackgroundColor();
-				if(parentBackgroundColor != null) {
-					return parentBackgroundColor;
-				}
-			}
-		}
-		return null;
+		return 
+			this.getWithInheritance(true, Shape::getShaclPlayBackgroundColor)
+			.map(spbc -> ModelRenderingUtils.render(spbc, true))
+			.orElse(null);
 	}
 
 	/***** / TEXTUAL ANNOTATIONS (label, description)  *******/
 
+	/***** OTHER UTILITY ACCESSOR FUNCTIONS ********/
 
-	public List<SparqlConstraint> getShSparql() {
-		return this.resource.listProperties(SH.sparql).toList().stream().map( c-> c.getResource()).map(r -> new SparqlConstraint(r)).collect(Collectors.toList());
-	}
+	public Boolean isClosed() {
+		return getShClosed().map(l -> l.getBoolean()).orElse(false);
+	}	
 
-	public List<Resource> getShTargetClassRdfsSubclassOfInverseOfShTargetClass() {
-		Set<Resource> result = new HashSet<Resource>();
-		List<Resource> targetClasses = this.getAllTargetedClasses();
-		if(targetClasses != null) {
-			
-			List<Resource> subClassesOf = targetClasses.stream().flatMap( t -> NodeShape.getRdfsSubClassOfOf(t).stream()).collect(Collectors.toList());
-			
-			if(subClassesOf != null && subClassesOf.size() > 0) {
-				for (Resource aSuperClass : subClassesOf) {
-					List<Resource> shapeWithThisTarget = this.resource.getModel().listStatements(null, SH.targetClass, aSuperClass).toList().stream().map(s -> s.getSubject()).collect(Collectors.toList());
-					for (Resource aShapeWithSuperClassAsTarget : shapeWithThisTarget) {
-						result.add(aShapeWithSuperClassAsTarget);
-					}
-				}
-			}
-		}
-		
-		return new ArrayList<Resource>(result);
+	/**
+	 * @return true if this node shape has no active property shapes and no target, meaning it 
+	 * describes only the value nodes of some property shapes
+	 */
+	public boolean isPureValueShape() {
+		return getInheritedProperties().stream().filter(ps -> !ps.isDeactivated()).findFirst().isEmpty() && !this.hasTarget();
 	}
 
 	/**
-	 * Returns a list containing :
-	 * 1. the shapes that this one is subClassOf 
-	 * 2. plus the shapes that target a class, which the class that this shape target is a subClassOf.
-	 * 3. plus a shape that is referenced by this shape by a sh:node
-	 * 
-	 * @return
+	 * @return true if this node shape has no active property shapes and has only one sh:rule
 	 */
-	public List<Resource> getSuperShapes() {
-		Set<Resource> superShapes = new HashSet<Resource>();
-		superShapes.addAll(this.getRdfsSubClassOf());
-		superShapes.addAll(this.getShTargetClassRdfsSubclassOfInverseOfShTargetClass());
-		superShapes.addAll(this.getShNodeAsList());
-		return new ArrayList<Resource>(superShapes);
+	public boolean isPureRuleShape() {
+		return getInheritedProperties().stream().filter(ps -> !ps.isDeactivated()).findFirst().isEmpty() && this.getShRule().size() > 0;
 	}
-	
 
-	/**
-	 * @return The list of foaf:depiction values, if present, or an empty list if not present
-	 */
-	public List<Resource> getDepiction() {
-		return ModelReadingUtils.readObjectAsResource(resource, FOAF.depiction);
-	}
+	/***** / OTHER UTILITY ACCESSOR FUNCTIONS ********/
+
 	
 }

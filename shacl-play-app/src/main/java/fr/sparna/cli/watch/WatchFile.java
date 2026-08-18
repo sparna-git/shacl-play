@@ -46,7 +46,6 @@ public class WatchFile {
                     final WatchEvent<Path> watchEventPath = (WatchEvent<Path>) event;
                     final Path changedFile = watchEventPath.context();
 
-                    // && event.count() == 1
                     if(kind == StandardWatchEventKinds.ENTRY_MODIFY && event.count() == 1){
                         // Call mehod to process the SHACL file
                         System.out.println("The file: "+ this.inputFile + " is modified. The output file document is updated. " );

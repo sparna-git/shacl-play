@@ -1,14 +1,17 @@
 package fr.sparna.rdf.jena.shacl;
 
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.RDFList;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.vocabulary.RDFS;
 import org.apache.jena.vocabulary.SKOS;
 import org.slf4j.Logger;
@@ -17,6 +20,7 @@ import org.topbraid.shacl.vocabulary.SH;
 
 import fr.sparna.rdf.jena.ModelReadingUtils;
 import fr.sparna.rdf.jena.ModelRenderingUtils;
+import fr.sparna.rdf.vocabularies.DASH;
 import fr.sparna.rdf.vocabularies.SHACL_PLAY;
 
 public class PropertyShape extends Shape {
@@ -237,6 +241,27 @@ public class PropertyShape extends Shape {
 			)
 		);
 	}
+
+	/************** PROPERTY ROLES MANAGEMENT **********************/
+
+
+	public List<Resource> getPropertyRoles() {
+		if (resource.hasProperty(DASH.propertyRole)) {
+			List<Statement> propertyRoles = resource.listProperties(DASH.propertyRole).toList();
+			return propertyRoles.stream().map(s -> s.getObject().asResource()).collect(Collectors.toList());
+		} else {
+			return Collections.emptyList();
+		}
+	}
+
+	public boolean isLabelRole() {
+		return this.getPropertyRoles().stream().anyMatch(r -> r.getURI().equals(DASH.LabelRole.getURI()));
+	}
+
+	public boolean isIDRole() {
+		return this.getPropertyRoles().stream().anyMatch(r -> r.getURI().equals(DASH.IDRole.getURI()));
+	}
+
 
 	public static class PropertyShapeComparator implements Comparator<PropertyShape> {
 

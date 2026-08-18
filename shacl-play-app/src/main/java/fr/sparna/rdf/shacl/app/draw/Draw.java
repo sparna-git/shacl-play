@@ -34,7 +34,7 @@ public class Draw implements CliCommandIfc {
 		
 		if (this.a.getWatch()) {
 			this.generateDraw();
-			System.out.println("Watching "+a.getInput().get(0).getAbsolutePath()+" for changes and writing output to "+a.getOutput().getAbsolutePath());
+			System.out.println("Watching "+a.getInput().get(0).getAbsolutePath()+" for changes and writing output to "+a.getOutput());
 			// WatchService 
 			WatchFile wf = new WatchFile(a.getInput().get(0), () -> {
 				try {

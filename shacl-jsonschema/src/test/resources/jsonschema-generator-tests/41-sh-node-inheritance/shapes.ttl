@@ -1,0 +1,23 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ex: <http://example.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ex:MainNodeShape
+    a sh:NodeShape ;
+    sh:property [
+        sh:path ex:property ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:nodeKind sh:Literal ;
+        sh:datatype xsd:integer ;
+        sh:node ex:ChildNodeShape ;
+    ] ;
+.
+
+# This is proving that the sh:pattern from the sh:node can be combined
+# with the sh:datatype from the property shape itself
+# the pattern should be omitted because the datatype is xsd:integer
+ex:ChildNodeShape
+    a sh:NodeShape ;
+    sh:pattern "[0-1]" ;
+.

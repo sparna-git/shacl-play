@@ -3,7 +3,10 @@ package fr.sparna.rdf.shacl.jsonschema;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -41,6 +44,7 @@ import fr.sparna.rdf.shacl.jsonschema.model.ObjectSchema;
 import fr.sparna.rdf.shacl.jsonschema.model.ReferenceSchema;
 import fr.sparna.rdf.shacl.jsonschema.model.Schema;
 import fr.sparna.rdf.shacl.jsonschema.model.StringSchema;
+import fr.sparna.rdf.vocabularies.SHUI;
 import jakarta.json.JsonValue;
 
 
@@ -142,10 +146,13 @@ public class JsonSchemaGenerator {
         populateMetadataFromOntology(shapesGraph,rootSchema);        
         
 		// Read nodeshapes and generate corresponding object schemas
-		for (NodeShape ns : shapesGraph.getAllNodeShapes()) {
+		// first sort them by local name to have a deterministic order in the output
+		List<NodeShape> sortedNodeShapes = new ArrayList<>(shapesGraph.getAllNodeShapes());
+		sortedNodeShapes.sort(Comparator.comparing(ns -> ns.getResource().isURIResource() ? ns.getResource().getLocalName() : ns.getResource().toString()));
+		for (NodeShape ns : sortedNodeShapes) {
 			if(!ns.isPureValueShape()) {
 				rootSchema.embeddedSchema(
-					ns.getResource().getLocalName(),
+					ns.getResource().isURIResource() ? ns.getResource().getLocalName() : ns.getResource().toString(),
 					convertNodeShapeToObjectSchema(ns, shapesGraph.getShaclGraph(),!doNotIncludeValues,addProperties)
 				);
 			}
@@ -155,7 +162,6 @@ public class JsonSchemaGenerator {
 		List<NodeShape> rootNodeShapes = findRootNodeShapes(shapesGraph.getAllNodeShapes(), rootShapes);
 
 		// now create the "data" schema
-
 		Schema dataSchema;
         if(rootNodeShapes.size() > 1) {
             // if there are more than 1, use an OneOf schema
@@ -261,18 +267,26 @@ public class JsonSchemaGenerator {
 		idSchemaBuilder.format("iri-reference");
 
 		// first look for an IDRole property on this shape
-		Optional<PropertyShape> idRoleProperty = nodeShape.getInheritedProperties().stream().filter(ps -> ps.isIDRole()).findFirst();
-		if(idRoleProperty.isPresent() && idRoleProperty.get().getShPattern(true).isPresent()) {
-			// if there is one, use its pattern for the id property
-			idSchemaBuilder.pattern(idRoleProperty.get().getShPattern(true).get().getString());
-			// also take the examples from here
-			if(idRoleProperty.get().getSkosExample(true).isPresent()) {
-				List<String> examples = idRoleProperty.get().getSkosExample(true).get().stream()
-					.map(e -> e.isLiteral()?e.asLiteral().getString():null)
-					.filter(Predicate.not(s -> s == null))
-					.collect(Collectors.toList());
+		List<PropertyShape> idRoleProperties = nodeShape.getInheritedPropertiesWithRole(SHUI.IDRole, true);
+		if(idRoleProperties.size() > 1) {
+			log.warn("Found more than one property with the role "+SHUI.IDRole.getURI()+" on NodeShape "+nodeShape.getResource().getURI()+", using the first one");
+		}
 
-				idSchemaBuilder.examples(examples);
+		if(idRoleProperties.size() > 0) {
+			PropertyShape idRoleProperty = idRoleProperties.get(0);
+			if(idRoleProperty.getShPattern(true).isPresent()) {
+				// if there is one, use its pattern for the id property
+				idSchemaBuilder.pattern(idRoleProperty.getShPattern(true).get().getString());
+				// also take the examples from here
+			
+				if(idRoleProperty.getSkosExample(true).isPresent()) {
+					List<String> examples = idRoleProperty.getSkosExample(true).get().stream()
+						.map(e -> e.isLiteral()?e.asLiteral().getString():null)
+						.filter(Predicate.not(s -> s == null))
+						.collect(Collectors.toList());
+
+					idSchemaBuilder.examples(examples);
+				}
 			}
 		} 
 		// inherit pattern
@@ -286,12 +300,13 @@ public class JsonSchemaGenerator {
 			}	
 		}
 
-		
-
 		// always set an id property, always required
 		objectSchema.addPropertySchema("id", idSchemaBuilder.build());		
 		objectSchema.addRequiredProperty("id");
 
+		// store the property shape schemas by keys so that we can sort them by key to have a deterministic order in the output
+		Map<String, Schema> propertySchemasByKey = new HashMap<>();
+		
 		for (PropertyShape ps : nodeShape.getInheritedProperties()) {
 
 			// skip the property shape if it is deactivated
@@ -317,7 +332,7 @@ public class JsonSchemaGenerator {
 			if(contextTest != null) {
 				String shortname = contextTest.getLeft();
 				log.debug("Converting PropertyShape "+ps.getURIOrId()+" with key '"+shortname+"' to JSON Schema");
-				objectSchema.addPropertySchema(shortname, this.convertPropertyShapeSchema(
+				propertySchemasByKey.put(shortname, this.convertPropertyShapeSchema(
 					ps, 
 					// requires array
 					contextTest.getMiddle(),
@@ -337,7 +352,12 @@ public class JsonSchemaGenerator {
 			}		
 		}
 
-		
+		// sort the property schemas by key to have a deterministic order in the output
+		// and add them to the object schema
+		propertySchemasByKey.entrySet().stream()
+			.sorted(Map.Entry.comparingByKey())
+			.forEach(entry -> objectSchema.addPropertySchema(entry.getKey(), entry.getValue()));
+
 		// set additionnal properties to false if the NodeShape is sh:closed
 		if (nodeShape.isClosed()) {
 			if (!addProperties) {
@@ -346,6 +366,7 @@ public class JsonSchemaGenerator {
 		}
 		
         return objectSchema.build();
+		
 		
 	}
 

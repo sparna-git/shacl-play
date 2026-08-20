@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.sparql.vocabulary.FOAF;
 import org.apache.jena.vocabulary.OWL;
@@ -19,6 +20,7 @@ import org.apache.jena.vocabulary.SKOS;
 import fr.sparna.rdf.jena.ModelReadingUtils;
 import fr.sparna.rdf.jena.ModelRenderingUtils;
 import fr.sparna.rdf.vocabularies.SCHEMA;
+import fr.sparna.rdf.vocabularies.SHUI;
 
 import org.topbraid.shacl.vocabulary.SH;
 
@@ -231,6 +233,47 @@ public class NodeShape extends Shape  {
 			this.properties = this.readProperties();
 			return this.properties;
 		}
+	}
+
+	/**
+	 * @param shuiRole a property role in the SHUI namespace
+	 * @return all property shapes of this node shape that have the given shuiRole or the equivalent dash role, or an empty list if none
+	 */
+	public List<PropertyShape> getPropertiesWithRole(Resource shuiRole) {	
+		List<PropertyShape> result = new ArrayList<>();
+		result.addAll(this.getProperties().stream().filter(ps -> ps.getPropertyRoles().stream().anyMatch(r -> r.equals(shuiRole))).collect(Collectors.toList()));
+		Resource dashRole = SHUI.getSameDashRole(shuiRole);
+		if(dashRole != null) {
+			result.addAll(this.getProperties().stream().filter(ps -> ps.getPropertyRoles().stream().anyMatch(r -> r.equals(dashRole))).collect(Collectors.toList()));
+		}
+		return result;
+	}
+
+	/**
+	 * @param shuiRole a property role in the SHUI namespace
+	 * @return the first property shape with the given role, by recursing up the node shape hierarchy or null if none is found
+	 */
+	public List<PropertyShape> getInheritedPropertiesWithRole(Resource shuiRole, boolean overridePropertiesWithSamePredicate) {
+		List<PropertyShape> result = new ArrayList<>();
+		result = this.getPropertiesWithRole(shuiRole);
+
+		// also look in the super shapes
+		for(NodeShape superNodeShape : this.getShNodeShapes()) {
+			List<PropertyShape> inheritedProperties = superNodeShape.getInheritedPropertiesWithRole(shuiRole, overridePropertiesWithSamePredicate);
+			// don't add inherited properties coming from "super shapes" if they have the same predicate
+			// as a more specific property
+			for(PropertyShape ps : inheritedProperties) {
+				if(
+					!overridePropertiesWithSamePredicate
+					||
+					result.stream().filter(aPropShape -> aPropShape.getPropertyPath().equals(ps.getPropertyPath())).findAny().isEmpty()
+				) {
+					result.add(ps);
+				}
+			}
+		}
+
+		return result;
 	}
 
 	public List<PropertyShape> getInheritedProperties() {	

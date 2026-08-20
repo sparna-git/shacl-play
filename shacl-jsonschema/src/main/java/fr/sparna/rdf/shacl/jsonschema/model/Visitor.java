@@ -1,5 +1,7 @@
 package fr.sparna.rdf.shacl.jsonschema.model;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -199,8 +201,11 @@ abstract class Visitor {
     }
 
     void visitPropertySchemas(Map<String, Schema> propertySchemas) {
-        for (Map.Entry<String, Schema> entry : propertySchemas.entrySet()) {
-            visitPropertySchema(entry.getKey(), entry.getValue());
+        // get the sorted keys first to ensure deterministic order of visiting
+        List<String> sortedKeys = new ArrayList<>(propertySchemas.keySet());
+        Collections.sort(sortedKeys);
+        for (String key : sortedKeys) {
+            visitPropertySchema(key, propertySchemas.get(key));
         }
     }
 

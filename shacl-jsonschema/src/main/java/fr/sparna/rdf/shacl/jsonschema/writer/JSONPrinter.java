@@ -81,9 +81,10 @@ public class JSONPrinter {
 
     public <K> void printSchemaMap(Map<K, Schema> input) {
         object();
-        input.entrySet().forEach(entry -> {
-            key(entry.getKey().toString());
-            entry.getValue().describeTo(this);
+        // sort the keys first to ensure deterministic order of printing
+        input.keySet().stream().sorted().forEach(key -> {
+            this.key(key.toString());
+            input.get(key).describeTo(this);
         });
         endObject();
     }

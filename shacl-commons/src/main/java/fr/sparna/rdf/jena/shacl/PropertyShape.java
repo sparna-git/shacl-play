@@ -1,5 +1,6 @@
 package fr.sparna.rdf.jena.shacl;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -22,6 +23,7 @@ import fr.sparna.rdf.jena.ModelReadingUtils;
 import fr.sparna.rdf.jena.ModelRenderingUtils;
 import fr.sparna.rdf.vocabularies.DASH;
 import fr.sparna.rdf.vocabularies.SHACL_PLAY;
+import fr.sparna.rdf.vocabularies.SHUI;
 
 public class PropertyShape extends Shape {
 
@@ -245,21 +247,40 @@ public class PropertyShape extends Shape {
 	/************** PROPERTY ROLES MANAGEMENT **********************/
 
 
+	/**
+	 * @return all property roles of this property shape, in both the DASH and SHUI namespaces
+	 */
 	public List<Resource> getPropertyRoles() {
-		if (resource.hasProperty(DASH.propertyRole)) {
-			List<Statement> propertyRoles = resource.listProperties(DASH.propertyRole).toList();
-			return propertyRoles.stream().map(s -> s.getObject().asResource()).collect(Collectors.toList());
-		} else {
-			return Collections.emptyList();
+		List<Resource> result = new ArrayList<>();
+		if (
+			resource.hasProperty(DASH.propertyRole)
+		) {			
+			List<Statement> dashPropertyRoles = resource.listProperties(DASH.propertyRole).toList();
+			result.addAll(dashPropertyRoles.stream().filter(s -> s.getObject().isResource()).map(s -> s.getObject().asResource()).collect(Collectors.toList()));
 		}
+
+		if (
+			resource.hasProperty(SHUI.propertyRole)
+		) {			
+			List<Statement> shuiPropertyRoles = resource.listProperties(SHUI.propertyRole).toList();
+			result.addAll(shuiPropertyRoles.stream().filter(s -> s.getObject().isResource()).map(s -> s.getObject().asResource()).collect(Collectors.toList()));
+		}
+
+		return result;
 	}
 
+	/**
+	 * @return true if this property shape has a property role of shui:LabelRole or dash:LabelRole
+	 */
 	public boolean isLabelRole() {
-		return this.getPropertyRoles().stream().anyMatch(r -> r.getURI().equals(DASH.LabelRole.getURI()));
+		return this.getPropertyRoles().stream().anyMatch(r -> r.getURI().equals(DASH.LabelRole.getURI()) || r.getURI().equals(SHUI.LabelRole.getURI()));
 	}
 
+	/**
+	 * @return true if this property shape has a property role of shui:IDRole or dash:IDRole
+	 */
 	public boolean isIDRole() {
-		return this.getPropertyRoles().stream().anyMatch(r -> r.getURI().equals(DASH.IDRole.getURI()));
+		return this.getPropertyRoles().stream().anyMatch(r -> r.getURI().equals(DASH.IDRole.getURI()) || r.getURI().equals(SHUI.IDRole.getURI()));
 	}
 
 

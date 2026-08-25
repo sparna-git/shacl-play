@@ -74,6 +74,10 @@ public class BoxRenderer {
 		
 	}
 
+	public static String quoteString(String string) {
+		return "\"" + string + "\"";
+	}
+
 	public String renderNodeShape(PlantUmlBoxIfc box, boolean avoidArrowsToEmptyBoxes) {
 		// String declaration = "Class"+"
 		// "+"\""+box.getNameshape()+"\""+((box.getNametargetclass() != null)?"
@@ -115,14 +119,11 @@ public class BoxRenderer {
 				||
 				box.getColor() != null 			
 		) {
-			if (box.getNodeShape().isAnon()) {
-				// give it an empty label
-				declaration = "Class" + " " + box.getLabel() +" as " +"\""+" \"";
-			} else {
-				declaration = "Class" + " " + "\"" + box.getLabel() + "\"";
-			}
 
-			declaration += (this.generateAnchorHyperlink) ? " [["+box.getLink()+"]]" : "";
+			declaration = "Class" + " " + "\"" + box.getLabel() + "\"";
+
+			// avoid it for anonymous shapes
+			declaration += (this.generateAnchorHyperlink && box.getLink() != null) ? " [["+box.getLink()+"]]" : "";
 			declaration += " " + colorBackGround+labelColorClass + "\n";
 			
 			if (superClassesBoxes != null) {
@@ -200,7 +201,7 @@ public class BoxRenderer {
 						}
 					}
 					
-					String GroupId = box.getPlantUmlQuotedBoxName() + " : "+ "__"+notationName+"__\n";
+					String GroupId = BoxRenderer.quoteString(box.getLabel()) + " : "+ "__"+notationName+"__\n";
 					
 					String codePropertyPlantUmlGroup = propertyRenderer.renderProperty(
 							plantUmlproperty, 

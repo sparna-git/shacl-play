@@ -229,7 +229,6 @@ public class PlantUmlDiagramGenerator {
 			interestingBoxes.addAll(
 				box.getPropertiesBox()
 				.stream()
-				.filter(f -> f.getShNode().isPresent() || f.getShClass().isPresent())
 				.map( p -> {
 					// return the box corresponding to the value of sh:node or sh:class
 					if (p.getShNode().isPresent()) {
@@ -239,8 +238,14 @@ public class PlantUmlDiagramGenerator {
 					if (p.getShClass().isPresent()) {
 						return PlantUmlDiagram.findBoxByTargetClass(p.getShClass().get().asResource(), allBoxes);
 					}
+
+					if (p.getShQualifiedValueShape().isPresent()) {
+						return PlantUmlDiagram.findBoxByResource(p.getShQualifiedValueShape().get().asResource(), allBoxes);
+					}
+
 					return null;
 				})
+				.filter(r -> r != null)
 				.collect(Collectors.toList())
 			);
 
@@ -259,25 +264,33 @@ public class PlantUmlDiagramGenerator {
 				}
 			}
 		}
-		
-		// recreate the boxes inside the diagram with their colors
-		List<PlantUmlBoxIfc> otherBoxes = interestingBoxes
+
+		interestingBoxes = interestingBoxes
 			.stream()
 			.filter(b -> b != null)
 			.distinct()
-			.map( b -> {
-				// create box with a label and colors
-				SimplePlantUmlBox newBoxSimple = new SimplePlantUmlBox(b.getNodeShape());
-				newBoxSimple.setBackgroundColorStringBox(b.getBackgroundColor());
-				newBoxSimple.setColorStringBox(b.getColor());
-				newBoxSimple.setLabel(b.getLabel());
-				// note : this is necessary so that the renderer can resolve class references to the correct boxes
-				newBoxSimple.setTargetClass(b.getTargetClass());
-				
-				return newBoxSimple;
-				
-			})
 			.collect(Collectors.toList());
+		
+		// recreate the boxes inside the diagram with their colors
+		int anonymousCount = 1;
+		List<PlantUmlBoxIfc> otherBoxes = new ArrayList<>();
+		for(int i =0;i<interestingBoxes.size();i++) {
+			PlantUmlBoxIfc b = interestingBoxes.get(i);
+			String label = b.getLabel();
+			if(b.getNodeShape().isAnon()) {
+				label += " "+anonymousCount++;
+			}
+
+			// create box with a label and colors
+			SimplePlantUmlBox newBoxSimple = new SimplePlantUmlBox(b.getNodeShape());
+			newBoxSimple.setBackgroundColorStringBox(b.getBackgroundColor());
+			newBoxSimple.setColorStringBox(b.getColor());
+			newBoxSimple.setLabel(label);
+			// note : this is necessary so that the renderer can resolve class references to the correct boxes
+			newBoxSimple.setTargetClass(b.getTargetClass());
+			
+			otherBoxes.add(newBoxSimple);
+		}
 		
 		return otherBoxes;
 	}

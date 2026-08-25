@@ -49,7 +49,7 @@ public class PropertyRenderer {
 		} else if (property.getShClass().isPresent()) {
 			return renderAsClassReference(property, box, renderAsDatatypeProperty); 
 		} else if (property.getShQualifiedValueShape().isPresent()) {
-			return renderAsQualifiedShapeReference(property, box,colorArrowProperty); 
+			return renderAsQualifiedShapeReference(property, box, colorArrowProperty); 
 		} else if (property.hasShOrShClassOrShNode()) {
 			return renderAsOr(property, box,colorArrowProperty);
 		} else {
@@ -60,11 +60,11 @@ public class PropertyRenderer {
 	// uml_shape+ " --> " +"\""+uml_node+"\""+" : "+uml_path+uml_datatype+"
 	// "+uml_literal+" "+uml_pattern+" "+uml_nodekind(uml_nodekind)+"\n";
 	private String renderAsNodeReference(PlantUmlProperty property, PlantUmlBoxIfc box, Boolean renderAsDatatypeProperty, String colorArrow) {
-		String nodeReference = this.resolveShNodeReference(property.getShNode().get());		
+		String nodeReference = this.renderShape(property.getShNode().get());		
 		
 		if (renderAsDatatypeProperty) {	
 			String output = null;			
-			output = box.getPlantUmlQuotedBoxName() + " : +" + property.getPathAsSparql() + " : " + nodeReference;	
+			output = BoxRenderer.quoteString(box.getLabel()) + " : +" + property.getPathAsSparql() + " : " + nodeReference;	
 
 			if (property.getPlantUmlCardinalityString() != null) {
 				output += " " + property.getPlantUmlCardinalityString() + " ";
@@ -86,11 +86,11 @@ public class PropertyRenderer {
 				option += "(" + ModelRenderingUtils.render(property.getShPattern().get()) + ")" + " ";
 			}
 			
-			// function for Merge all arrow what point to same class
+			// function to merge all arrows that point to the same class
 			if (!property.getShGroup().isPresent()) {
 				this.boxRenderer.notifyArrow(
 					// key : same box, same color, same target
-					box.getPlantUmlQuotedBoxName(), colorArrow, nodeReference,
+					BoxRenderer.quoteString(box.getLabel()), colorArrow, nodeReference,
 					// Values
 					property.getPathAsSparql() + option
 				);
@@ -118,7 +118,7 @@ public class PropertyRenderer {
 
 		// link between box and diamond
 		// Thomas : empirical : OR arrows look much better when they don't have direction (they will be pointing downwards)
-		output += box.getPlantUmlQuotedBoxName() + " -"+colorArrow+"-> \"" + sNameDiamond + "\" : " + property.getPathAsSparql();
+		output += BoxRenderer.quoteString(box.getLabel()) + " -"+colorArrow+"-> \"" + sNameDiamond + "\" : " + property.getPathAsSparql();
 
 		// added information on link
 		if (property.getPlantUmlCardinalityString() != null) {
@@ -132,12 +132,12 @@ public class PropertyRenderer {
 		// now link diamond to each value in the sh:or
 		if(property.getShOrShClass() != null) {
 			for (Resource shOrShClass : property.getShOrShClass() ) {
-				output += sNameDiamond + " .. " + " \""+this.resolveShClassReference(shOrShClass)+ "\"" + "\n";
+				output += sNameDiamond + " .. " + " \""+this.renderShClassReference(shOrShClass)+ "\"" + "\n";
 			}			
 		}
 		if(property.getShOrShNode() != null) {
 			for (Resource shOrShNode : property.getShOrShNode() ) {
-				output += sNameDiamond + " .. " + " \""+this.resolveShNodeReference(shOrShNode)+ "\"" + "\n";
+				output += sNameDiamond + " .. " + " \""+this.renderShape(shOrShNode)+ "\"" + "\n";
 			}
 			
 		}
@@ -149,16 +149,14 @@ public class PropertyRenderer {
 	// "+uml_path+uml_datatype+" "+uml_qualifiedMinMaxCount+"\n";
 	private String renderAsQualifiedShapeReference(PlantUmlProperty property, PlantUmlBoxIfc box, String colorArrow) {
 
-		String option="";
-		if (property.getPlantUmlQualifiedCardinalityString() != null) {
-			option = " " + property.getPlantUmlQualifiedCardinalityString() + " ";
-		}
+		String qualifiedValueShapeReference = this.renderShape(property.getShQualifiedValueShape().get());	
+		String option = (property.getPlantUmlQualifiedCardinalityString() != null)?" " + property.getPlantUmlQualifiedCardinalityString() + " ":"";
 		
 		if (!property.getShGroup().isPresent()) {
 			this.boxRenderer.notifyArrow(
 					//codeKey
 					// box.getPlantUmlQuotedBoxName() + " -"+colorArrow+"-> \"" + property.getShQualifiedValueShapeLabel() + "\" : ",
-					box.getPlantUmlQuotedBoxName(), colorArrow, property.getShQualifiedValueShapeLabel(),
+					BoxRenderer.quoteString(box.getLabel()), colorArrow, qualifiedValueShapeReference,
 					//data value
 					property.getPathAsSparql()+option
 			);
@@ -169,13 +167,13 @@ public class PropertyRenderer {
 	// value = uml_shape+" --> "+"\""+uml_class_property+"\""+" :
 	// "+uml_path+uml_literal+" "+uml_pattern+" "+uml_nodekind+"\n";
 	private String renderAsClassReference(PlantUmlProperty property, PlantUmlBoxIfc box, boolean renderAsDatatypeProperty) {
-		String classReference = this.resolveShClassReference(property.getShClass().get());
+		String classReference = this.renderShClassReference(property.getShClass().get());
 		
 		if (renderAsDatatypeProperty) {
 			String output = "";
 
 			// output = box.getPlantUmlQuotedBoxName() + " : +" + property.getPathAsSparql() + " : " + classReference.replaceAll("\\(","").replaceAll("\\)","");	
-			output = box.getPlantUmlQuotedBoxName() + " : +" + property.getPathAsSparql() + " : " + property.getShClass().get().getModel().shortForm(property.getShClass().get().getURI());	
+			output = BoxRenderer.quoteString(box.getLabel()) + " : +" + property.getPathAsSparql() + " : " + property.getShClass().get().getModel().shortForm(property.getShClass().get().getURI());	
 			
 			if (property.getPlantUmlCardinalityString() != null) {
 				output += " " + property.getPlantUmlCardinalityString() ;
@@ -210,7 +208,7 @@ public class PropertyRenderer {
 				this.boxRenderer.notifyArrow(
 					// Key
 					// box.getPlantUmlQuotedBoxName() + " -"+"-> \""+""+labelColor+ classReference + "\" : ",
-					box.getPlantUmlQuotedBoxName(), labelColor, classReference,
+					BoxRenderer.quoteString(box.getLabel()), labelColor, classReference,
 					// data Value
 					property.getPathAsSparql() + option
 				);
@@ -231,7 +229,7 @@ public class PropertyRenderer {
 		}
 		
 		
-		String output = box.getPlantUmlQuotedBoxName() + " : " + labelColor + property.getPathAsSparql() + " ";
+		String output = BoxRenderer.quoteString(box.getLabel()) + " : " + labelColor + property.getPathAsSparql() + " ";
 		
 		// if  sh:or value is of kind of datatype , for each property concat with or word .. eg. xsd:string or rdf:langString
 		String shOr_Datatype = "";
@@ -286,7 +284,7 @@ public class PropertyRenderer {
 		return output;
 	}	
 
-    public String resolveShClassReference(Resource shClassReference) {
+    public String renderShClassReference(Resource shClassReference) {
 		PlantUmlBoxIfc b = this.diagram.findBoxByTargetClass(shClassReference);
 		if(b != null) {
 			return b.getLabel();
@@ -300,12 +298,12 @@ public class PropertyRenderer {
 		}
 	}
 
-	public String resolveShNodeReference(Resource shNodeReference) {
-		PlantUmlBoxIfc b = this.diagram.findBoxByResource(shNodeReference);
+	public String renderShape(Resource shape) {
+		PlantUmlBoxIfc b = this.diagram.findBoxByResource(shape);
 		if(b != null) {
 			return b.getLabel();
 		} else {
-			return ModelRenderingUtils.render(shNodeReference, true);
+			return ModelRenderingUtils.render(shape, true);
 		}
 	}
     

@@ -44,12 +44,6 @@ public class BasePlantUmlBox implements PlantUmlBoxIfc {
     }
 
     @Override
-    public String getPlantUmlQuotedBoxName() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
     public List<PlantUmlProperty> getPropertiesBox() {
         // TODO Auto-generated method stub
         return null;

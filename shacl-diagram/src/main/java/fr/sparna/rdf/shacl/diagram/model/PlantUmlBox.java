@@ -99,7 +99,13 @@ public class PlantUmlBox implements PlantUmlBoxIfc {
 	public String getLabel() {
 		// use the sh:targetClass if present, otherwise use the URI of the NodeShape
 		String classLabels = this.getTargetClass().stream().map(targetClass -> ModelRenderingUtils.render(targetClass, true)).collect(Collectors.joining(", "));
-		return ModelRenderingUtils.render(this.nodeShape.getResource(), true)+(classLabels.equals("")?"":" ("+classLabels+")");
+		if(!classLabels.equals("")) {
+			return classLabels;
+		} else {
+			if(this.nodeShape.getResource().isAnon()) return "anonymous";
+			return ModelRenderingUtils.render(this.nodeShape.getResource(), true);
+		}
+		// return ModelRenderingUtils.render(this.nodeShape.getResource(), true)+(classLabels.equals("")?"":" ("+classLabels+")");
 	}
 	
 	public String getPlantUmlQuotedBoxName() {

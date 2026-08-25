@@ -27,8 +27,6 @@ public interface PlantUmlBoxIfc {
 	public int countShNodeOrShClassReferencesTo(String id, PlantUmlDiagram diagram);
 	
 	public String getLabel();
-	
-	public String getPlantUmlQuotedBoxName();
 
 	public List<PlantUmlProperty> getPropertiesBox();
 

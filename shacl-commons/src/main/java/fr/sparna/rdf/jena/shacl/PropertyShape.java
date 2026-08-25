@@ -216,10 +216,6 @@ public class PropertyShape extends Shape {
 	public String getShNodeLabel() {
 		return this.getShNode().map(r -> ModelRenderingUtils.render(r, true)).orElse(null);
 	}
-	
-	public String getShQualifiedValueShapeLabel() {
-		return this.getShQualifiedValueShape().map(r -> ModelRenderingUtils.render(r, true)).orElse(null);
-	}	
 
 	public PropertyPath getPropertyPath() {
 		return new PropertyPath(this.getShPath());

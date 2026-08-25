@@ -511,17 +511,19 @@ public class NodeShape extends Shape  {
 	}	
 
 	/**
-	 * @return true if this node shape has no active property shapes and no target, meaning it 
+	 * @return true if this node shape has no active property shapes (direct or through inheritance) and no target, meaning it 
 	 * describes only the value nodes of some property shapes
 	 */
 	public boolean isPureValueShape() {
+		// Warning : any change to here might break JSON schema algorithm
 		return getInheritedProperties().stream().filter(ps -> !ps.isDeactivated()).findFirst().isEmpty() && !this.hasTarget();
 	}
 
 	/**
-	 * @return true if this node shape has no active property shapes and has only one sh:rule
+	 * @return true if this node shape has no active property shapes (direct or through inheritance) and has only one sh:rule
 	 */
 	public boolean isPureRuleShape() {
+		// Warning : any change to here might break JSON schema algorithm
 		return getInheritedProperties().stream().filter(ps -> !ps.isDeactivated()).findFirst().isEmpty() && this.getShRule().size() > 0;
 	}
 

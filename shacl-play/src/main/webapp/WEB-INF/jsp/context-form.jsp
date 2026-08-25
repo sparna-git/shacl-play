@@ -124,8 +124,7 @@
 													See <a href="https://github.com/sparna-git/shacl-play/issues/301">this discussion</a> for why both <code>@vocab</code> and <code>@base</code> are set.
 												</li>
 												<li>Otherwise, if there is some <code>sh:or</code> on the property shape(s) using this predicate (or associated with this shortname), then read the <code>sh:pattern</code> on each of them, and determine if there is a single common root for all of the them. If there is, then use it to set <code>@vocab</code> + <code>@base</code> on an inner <code>@context</code></li>
-											</ol>
-											
+											</ol>											
 										</li>
 										<li>
 											Determine if <code>@container: @set</code> should be added : if no other value for <code>@container</code> was set (e.g. with <code>@language</code>), then by default set <code>@container: @set</code> unles :

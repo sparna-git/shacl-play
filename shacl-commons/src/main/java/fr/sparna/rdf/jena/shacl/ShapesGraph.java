@@ -120,25 +120,19 @@ public class ShapesGraph {
 	}
 	
 	public void pruneEmptyAndUnusedNodeShapes() {
-		List<NodeShape> unusedNodeShapes = getAllNodeShapes().stream().filter(
-			ns -> (
-				(ns.isPureValueShape() || ns.isPureRuleShape())
-				&&
-				!ns.isUsedInShapesGraph()
-			)
-		).collect(Collectors.toList());
-		unusedNodeShapes.forEach(ns -> this.deleteNodeShape(ns.getResource()));
+		List<NodeShape> unusedNodeShapes;
+		// clean recursively while we keep deleting something
+		do {
+			unusedNodeShapes = getAllNodeShapes().stream().filter(
+				ns -> (
+					(ns.isPureValueShape() || ns.isPureRuleShape())
+					&&
+					!ns.isUsedInShapesGraph()
+				)
+			).collect(Collectors.toList());
 
-		// do that a second time so that potential sh:node references to the deleted node shapes are also deleted
-		// this should be a loop, of course
-		unusedNodeShapes = getAllNodeShapes().stream().filter(
-			ns -> (
-				(ns.isPureValueShape() || ns.isPureRuleShape())
-				&&
-				!ns.isUsedInShapesGraph()
-			)
-		).collect(Collectors.toList());
-		unusedNodeShapes.forEach(ns -> this.deleteNodeShape(ns.getResource()));
+			unusedNodeShapes.forEach(ns -> this.deleteNodeShape(ns.getResource()));
+		} while(unusedNodeShapes.size() > 0);
 	}
 
 	/**
@@ -273,9 +267,7 @@ public class ShapesGraph {
 	 */
 	private static List<NodeShape> readAllNodeShapes(Model shaclGraph, Model owlGraph) {
 		
-		List<Resource> nodeShapes = shaclGraph.listResourcesWithProperty(RDF.type, SH.NodeShape).toList();
-
-		// 1. Lire toutes les classes		
+		List<Resource> nodeShapes = shaclGraph.listResourcesWithProperty(RDF.type, SH.NodeShape).toList();	
 		List<NodeShape> allNodeShapes = new ArrayList<>();
 		for (Resource nodeShape : nodeShapes) {
 			allNodeShapes.add(new NodeShape(nodeShape));

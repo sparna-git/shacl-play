@@ -32,6 +32,7 @@ import fr.sparna.rdf.shacl.generate.visitors.AssignNodeKindVisitor;
 import fr.sparna.rdf.shacl.generate.visitors.AssignValueOrInVisitor;
 import fr.sparna.rdf.shacl.generate.visitors.ShaclVisit;
 import fr.sparna.rdf.shacl.generate.visitors.ShaclVisitorIfc;
+import fr.sparna.rdf.vocabularies.SHACL_PLAY;
 
 
 /**
@@ -107,7 +108,7 @@ public class ShaclGenerator {
 		this.visitors.add(new AssignValueOrInVisitor(dataProvider));
 
 		// Add color for each node shape
-		this.visitors.add(new AssignColorVisitor());
+		this.visitors.add(new AssignColorVisitor(SHACL_PLAY.BACKGROUNDCOLOR));
 		
 		// add extra visitors
 		if(this.extraVisitors != null) {

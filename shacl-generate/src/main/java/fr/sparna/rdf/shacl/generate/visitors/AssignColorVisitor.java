@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 
 //import fr.sparna.rdf.shacl.generate.ColorOption;
 import fr.sparna.rdf.shacl.generate.ShaclGenerator;
+import fr.sparna.rdf.vocabularies.SHACL_PLAY;
 
 public class AssignColorVisitor implements ShaclVisitorIfc {
 
@@ -24,7 +25,7 @@ public class AssignColorVisitor implements ShaclVisitorIfc {
 		blanchedalmond("#ffebcd"),
 		blue("#0000ff"),
 		blueviolet("#8a2be2"),
-		brown("#a52a2a75"),
+		//brown("#a52a2a75"),
 		burlywood("#deb887"),
 		cadetblue("#5f9ea0"),
 		chartreuse("#7fff00"),
@@ -146,7 +147,6 @@ public class AssignColorVisitor implements ShaclVisitorIfc {
 		skyblue("#87ceeb"),
 		slateblue("#6a5acd"),
 		slategray("#708090"),
-		slategrey("#708090"),
 		snow("#fffafa"),
 		springgreen("#00ff7f"),
 		steelblue("#4682b4"),
@@ -162,7 +162,6 @@ public class AssignColorVisitor implements ShaclVisitorIfc {
 		yellowgreen("#9acd32");
 
 		private final String hexColor;
-		private static final ColorOption[] VALUES = values();
 		private static final Random RANDOM = new Random();
 
 		ColorOption(String hexColor) {
@@ -183,24 +182,26 @@ public class AssignColorVisitor implements ShaclVisitorIfc {
 		}
 
 		public static ColorOption random() {
-			return VALUES[RANDOM.nextInt(VALUES.length)];
+			return values()[RANDOM.nextInt(values().length)];
 		}
 	}
 
     private static final Logger log = LoggerFactory.getLogger(ShaclGenerator.class);
 
-    private String colorAnnotation = "https://shacl-play.sparna.fr/ontology#background-color";
+    private String colorAnnotation;
 	private Model model;
 
-    public AssignColorVisitor() {
+	public AssignColorVisitor() {
+		this(SHACL_PLAY.BACKGROUNDCOLOR);
+	}
+
+    public AssignColorVisitor(String colorAnnotation) {
+		this.colorAnnotation = colorAnnotation;
 	}
     
     @Override
 	public void visitModel(Model model) {
 		this.model = model;
-			
-		// add volipi namespace
-		model.setNsPrefix("shacl-play", "https://shacl-play.sparna.fr/ontology#");
 	}
 
     @Override
@@ -213,9 +214,9 @@ public class AssignColorVisitor implements ShaclVisitorIfc {
 		// read target class
 		// use a toList to avoid ConcurrentModificationException
 		aNodeShape.listProperties(SHACLM.targetClass).toList().stream().forEach(s -> {
-            String colorNodeShape = assignColor();
-            log.debug("Assigned color to NodeShape "+aNodeShape.getURI()+" : '"+colorNodeShape+"'");
-			aNodeShape.addProperty(aNodeShape.getModel().createProperty(colorAnnotation), colorNodeShape);			
+            String color = assignColor();
+            log.debug("Assigned color to NodeShape "+aNodeShape.getURI()+" : '"+color+"'");
+			aNodeShape.addProperty(aNodeShape.getModel().createProperty(colorAnnotation), color);			
 		});
 	}
 
@@ -230,7 +231,7 @@ public class AssignColorVisitor implements ShaclVisitorIfc {
 		
 	}
 
-    private String assignColor () {
+    private String assignColor() {
         return ColorOption.random().getNameColor();
     }
 

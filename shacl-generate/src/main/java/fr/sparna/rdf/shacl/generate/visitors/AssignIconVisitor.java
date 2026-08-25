@@ -11,13 +11,14 @@ import org.slf4j.LoggerFactory;
 
 import fr.sparna.rdf.shacl.generate.ShaclGenerator;
 import fr.sparna.rdf.vocabularies.EDM;
+import fr.sparna.rdf.vocabularies.VOLIPI;
 
 public class AssignIconVisitor implements ShaclVisitorIfc {
 
 	private static final Logger log = LoggerFactory.getLogger(ShaclGenerator.class);
 
 	private String fontAwesomeStyle = "fa-duotone";
-	private String iconAnnotation = "http://data.sparna.fr/ontologies/volipi#iconName";
+	private String iconAnnotation;
 	private Model model;
 	
 	private enum CLASS_ICON {
@@ -51,8 +52,13 @@ public class AssignIconVisitor implements ShaclVisitorIfc {
 			return null;
 		}
 	}
-	
+
 	public AssignIconVisitor() {
+		this(VOLIPI.ICON_NAME);
+	}
+	
+	public AssignIconVisitor(String iconAnnotation) {
+		this.iconAnnotation = iconAnnotation;
 	}
 	
 	@Override
@@ -60,7 +66,7 @@ public class AssignIconVisitor implements ShaclVisitorIfc {
 		this.model = model;
 		
 		// add volipi namespace
-		model.setNsPrefix("volipi", "http://data.sparna.fr/ontologies/volipi#");
+		model.setNsPrefix("volipi", VOLIPI.ICON_NAME);
 	}
 
 	@Override

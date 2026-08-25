@@ -201,16 +201,23 @@
 								<li><code>description</code> is populated from an owl:Ontology <code>dct:description</code></li>
 							</ul>
 							<h5>Node shapes conversion</h5>
-							<p>Each node shape with at least one non-deactivated property shape is turned into an object schema in the <a href="https://json-schema.org/understanding-json-schema/structuring#defs"><code>$defs</code></a> section of the schema, with the URI 
-								local name as the name of the schema. Node shapes with no non-deactivated property shapes are turned into string schemas being simple <a href="https://json-schema.org/understanding-json-schema/reference/string#resource-identifiers"><code>iri-reference</code></a>.</p>
+							<p>The Shapes Graph is cleaned so that Node Shapes that are not references from any where and that don't have any properties attached are removed.</p>
+							<p>A <strong><dfn id="pure-value-shape">pure value shape</dfn></strong> is a shape that has no non-deactivated attached properties (directly or through inheritance), and no target defined.</p>
+							<p>Each node shape that is not a <a href="pure-value-shape">pure value shape</a> is turned into an object schema in the <a href="https://json-schema.org/understanding-json-schema/structuring#defs"><code>$defs</code></a> section of the schema, with the URI 
+								local name as the name of the schema. Node shapes that are <a href="pure-value-shape">pure value shape</a> will be turned into string schemas being simple <a href="https://json-schema.org/understanding-json-schema/reference/string#resource-identifiers"><code>iri-reference</code></a>.</p>
 							<ul>
 								<li><code>title</code> is populated from the node shape <code>rdfs:label</code></li>
 								<li><code>description</code> is populated from the node shape <code>rdfs:comment</code></li>
 								<li>There is always a required <code>id</code> property</li>
-								<li>If there is an <code>sh:pattern</code> associated to the node shape, it is turned into a <code>pattern</code> constraint on the id key</li>
-								<li>If there is a <code>skos:example</code> associated to the node shape, it is turned into an <code>example</code> constraint on the id key</li>
+								<li>Pattern processing:
+									<ul>
+										<li>If the node shape holds (directly or through inheritance) a property shape tagged with <code>shui:propertyRole shuiIDRole</code> and this property has a <code>sh:pattern</code>, it is considered the pattern of the short form of the URI in the schema, and it is used for the <code>pattern</code> constraint on the id key.</li>
+										<li>Otherwise, if there is an <code>sh:node*/sh:pattern</code> associated to the node shape (meaning, directly or through inheritance), it is turned into a <code>pattern</code> constraint on the id key, after attempting to reduce the pattern using the context (e.g. remove base URI)</li>
+									</ul>									
+								</li>
+								<li>If there is a <code>sh:node*/skos:example</code> associated to the node shape (meaning, directly or through inheritance), it is turned into an <code>example</code> constraint on the id key</li>
 								<li>If node shape is closed, then <code>additionalProperties</code> is set to false, except if the flag "never set additional properties" is set.</li>
-								<li>Then each property shape is processed as described below</li>
+								<li>Then each non-deactivated property shape reachable through <code>sh:node*/sh:property</code> (meaning, directly or through inheritance) is processed as described below</li>
 							</ul>
 							<h5>Property shapes conversion</h5>
 							<p>Non-deactivated property shapes are processed this way:</p>
@@ -218,8 +225,6 @@
 								<li>If a JSON-LD context was provided, it is probed to determine the term for the property. The context probing works if it matches the property @type in the context
 									(either an @id property, or the datatype for literal properties).</li>
 								<li>If context was not provided, the corresponding JSON key is read from <code>shacl-play:shortName</code> annotation, otherwise the local name of the property in <code>sh:path</code> is used as the JSON key</li>
-								<li><code>title</code> is populated from the property shape <code>sh:name</code></li>
-								<li><code>description</code> is populated from the property shape <code>sh:description</code></li>
 								
 								<li>The property shape is mapped to a schema this way:
 									<ul>
@@ -228,33 +233,53 @@
 										</li>
 										<li>If the property shape has an <code>sh:in</code>, an <a href="https://json-schema.org/understanding-json-schema/reference/enum"><code>enum</code></a> schema is created with the list of possible values.
 										If a JSON-LD context was provided, an attempt is made to simplify the list of possible values to their actual mapping from the context, either because they are directly declared in the vocab, or because a prefix is declared.</li>
-										<li>If the property shape has an <code>sh:pattern</code>, a string schema is generated with a pattern constraint.
-											If a JSON-LD context was provided, the pattern constraint is "reduced" so that patterns matching complete IRIs may match only the end of IRI if they are shortened due to @base in the context</li>
+
 										<li>If the property shape has an <code>sh:node</code>, then :
 											<ul>
-												<li>If the property shape is annotated with <code>shacl-play:embed shacl-play:EmbedNever</code>, then a string schema with format <a href="https://json-schema.org/understanding-json-schema/reference/string#resource-identifiers"><code>iri-reference</code></a> is generated</li>
-												<li>Otherwise, create a <a href="https://json-schema.org/understanding-json-schema/structuring#dollarref"><code>$ref</code></a> schema with a reference to one of the schemas in the <code>#/$defs</code> section</li>
-												<li>Then the algorithm determines whether the property requires an array:
+												<li>If this <code>sh:node</code> reference is a <a href="#pure-value-shape">pure value shape</a>, don't do anything specific, as further steps will take care of it</li>
+												<li>Otherwise if the property shape is annotated with <code>shacl-play:embed shacl-play:EmbedNever</code>, then a string schema with format <a href="https://json-schema.org/understanding-json-schema/reference/string#resource-identifiers"><code>iri-reference</code></a> is generated</li>
+												<li>Otherwise, create a <a href="https://json-schema.org/understanding-json-schema/structuring#dollarref"><code>$ref</code></a> schema with a reference to one of the schemas in the <code>#/$defs</code> section</li>												
+											</ul>
+										</li>
+										
+										<li>If no schema were returned by the previous steps, then:
+											<ul>
+												<li>If a <code>(sh:node*)/sh:pattern</code> exists (i.e. attached directly to the property shape or through inheritance), and if the datatype of the property is not rdf:langString nor xsd:integer, then turn it into a string schema with a <a href="https://json-schema.org/understanding-json-schema/reference/string#regexp"><code>pattern</code></a> constraint.
+												If a JSON-LD context was provided, the pattern constraint is "reduced" so that patterns matching complete IRIs may match only the end of IRI if they are shortened due to @base in the context</li>
+												<li>If the property shape has an <code>(sh:node*)/sh:datatype</code> (i.e. attached directly to the property shape or through inheritance), or an <code>sh:qualifiedValueShape</code> that has an <code>sh:datatype</code> then:
 													<ul>
-														<li>If a JSON-LD context was provided, try to compact a test of the property to determine if the context mandates a <code>@container : @set</code>.
-															If the compaction test returns an array, then an array will be declared in the output schema
-														</li>
-														<li>Otherwise, if there is a <code>sh:qualifiedMaxCount</code> and it is > 1, then wrap the generated schema into an <a href="https://json-schema.org/understanding-json-schema/reference/array"><code>array</code></a> schema</li>
-														<li>Otherwise, if there is no <code>sh:maxCount</code> or a <code>sh:maxCount</code> that is > 1, then wrap the generated schema into an <a href="https://json-schema.org/understanding-json-schema/reference/array"><code>array</code></a> schema</li>
+														<li>If it is rdf:langString, then make a reference to the <code>container_language</code> in the <code>#/$defs</code> section</li>
+														<li>Create a string, <a href="https://json-schema.org/understanding-json-schema/reference/boolean">boolean</a> or <a href="https://json-schema.org/understanding-json-schema/reference/numeric">numeric</a> schema according to the <a href="https://github.com/sparna-git/shacl-play/blob/e4742a704dc919905db7613b6a6c35add75c11e4/shacl-doc/src/main/java/fr/sparna/jsonschema/DatatypeToJsonSchemaMapping.java">datatype-to-schema mapping</a></li>
 													</ul>
 												</li>
-												
+												<li>If the property shape has an <code>(sh:node*)/sh:nodeKind</code> (i.e. attached directly to the property shape or through inheritance) then
+													<ul>
+														<li>if it is <code>sh:IRI</code>, generate a string schema of format <a href="https://json-schema.org/understanding-json-schema/reference/string#resource-identifiers"><code>iri-reference</code></a>.</li>
+														<li>if it is <code></code>sh:Literal</code>, generate a string schema.</li>
+													</ul>													
+												</li>
+												<li>If the property shape has an <code>(sh:node*)/sh:example</code> (i.e. attached directly to the property shape or through inheritance) attempt to reduce them with the context and put them in "examples".</li>
 											</ul>
-										</li>
-										<li>If the property shape has an <code>sh:pattern</code>, then turn it into a string schema with a <a href="https://json-schema.org/understanding-json-schema/reference/string#regexp"><code>pattern</code></a> constraint.</li>
-										<li>If the property shape has an <code>sh:datatype</code>, or an <code>sh:qualifiedValueShape</code> that has an <code>sh:datatype</code> then:
+										</li>										
+										
+										<li>If still nothing, then use an <code>empty</code> schema</li>
+
+										<li>Then the algorithm determines whether the property requires an array:
 											<ul>
-												<li>If it is rdf:langString, then make a reference to the <code>container_language</code> in the <code>#/$defs</code> section</li>
-												<li>Create a string, <a href="https://json-schema.org/understanding-json-schema/reference/boolean">boolean</a> or <a href="https://json-schema.org/understanding-json-schema/reference/numeric">numeric</a> schema according to the <a href="https://github.com/sparna-git/shacl-play/blob/e4742a704dc919905db7613b6a6c35add75c11e4/shacl-doc/src/main/java/fr/sparna/jsonschema/DatatypeToJsonSchemaMapping.java">datatype-to-schema mapping</a></li>
+												<li>If a JSON-LD context was provided, and if the context does not require a <code>@container: language</code>, then:
+													<ul>
+														<li>if there is a <code>sh:qualifiedMaxCount</code> and it is > 1, then wrap the generated schema into an <a href="https://json-schema.org/understanding-json-schema/reference/array"><code>array</code></a> schema</li>
+														<li>if there is no <code>sh:maxCount</code> or a <code>sh:maxCount</code> that is > 1, then wrap the generated schema into an <a href="https://json-schema.org/understanding-json-schema/reference/array"><code>array</code></a> schema</li>
+													</ul>
+												</li>
+													
+												<li>If still not an array, try to compact a test of the property with the JSON-LD context to determine if the context mandates a <code>@container : @set</code>.
+													If the compaction test returns an array, then an array will be declared in the output schema.
+												</li>
 											</ul>
 										</li>
-										<li>If the property shape has an <code>sh:nodeKind</code> pointing to sh:IRI, generate a string schema of format <a href="https://json-schema.org/understanding-json-schema/reference/string#resource-identifiers"><code>iri-reference</code></a>.</li>
-										<li>Otherwise, return an <code>empty</code> schema</li>
+										<li><code>title</code> is populated from the property shape <code>sh:name</code></li>
+										<li><code>description</code> is populated from the property shape <code>sh:description</code></li>
 									</ul>
 								</li>
 								<li>If the <code>sh:minCount</code>, or the <code>sh:qualifiedMinCount</code> of the property is > 0, the JSON key is added to the list of <code>requiredProperties</code> of the schema</li>

@@ -12,15 +12,13 @@ public class SHACL_PLAY {
 	
 	public static String BACKGROUNDCOLOR = NAMESPACE + "background-color";
 	
-	public static String PACKAGE = NAMESPACE + "package";
-	
 	public static String EMBED = NAMESPACE + "embed";
 
 	public static String EMBED_NEVER = NAMESPACE + "EmbedNever";
 
 	public static String SHORTNAME = NAMESPACE + "shortname";
 
-	public static String MAIN = NAMESPACE + "main";
+	public static String IS_MAIN = NAMESPACE + "isMain";
 
 	/**
 	 * Boolean flag on a SHACL shape indicating if it matched at least focus node

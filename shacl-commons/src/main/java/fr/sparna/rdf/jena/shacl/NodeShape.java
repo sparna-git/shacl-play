@@ -20,6 +20,7 @@ import org.apache.jena.vocabulary.SKOS;
 import fr.sparna.rdf.jena.ModelReadingUtils;
 import fr.sparna.rdf.jena.ModelRenderingUtils;
 import fr.sparna.rdf.vocabularies.SCHEMA;
+import fr.sparna.rdf.vocabularies.SHACL_PLAY;
 import fr.sparna.rdf.vocabularies.SHUI;
 
 import org.topbraid.shacl.vocabulary.SH;
@@ -119,7 +120,7 @@ public class NodeShape extends Shape  {
 	/***** / TARGET SPECIFICATIONS *******/
 
 
-	/***** SIMPLE ACCESSORS (in addition to thos defined at Shape level)  *******/
+	/***** SIMPLE ACCESSORS (in addition to those defined at Shape level)  *******/
 
 	/**
 	 * @return The sh:closed Literal value
@@ -137,6 +138,10 @@ public class NodeShape extends Shape  {
 	 */
 	public List<Resource> getDepiction() {
 		return ModelReadingUtils.readObjectAsResource(resource, FOAF.depiction);
+	}
+
+	public Optional<Boolean> getShaclPlayIsMain() {
+		return ModelReadingUtils.getOptionalLiteral(this.resource,this.resource.getModel().createProperty(SHACL_PLAY.IS_MAIN)).map(l -> l.getBoolean());
 	}
 
 	/***** / SIMPLE ACCESSORS  *******/
@@ -525,6 +530,10 @@ public class NodeShape extends Shape  {
 	public boolean isPureRuleShape() {
 		// Warning : any change to here might break JSON schema algorithm
 		return getInheritedProperties().stream().filter(ps -> !ps.isDeactivated()).findFirst().isEmpty() && this.getShRule().size() > 0;
+	}
+
+	public boolean isMainShape() {
+		return this.getShaclPlayIsMain().orElse(this.hasTarget());
 	}
 
 	/***** / OTHER UTILITY ACCESSOR FUNCTIONS ********/

@@ -170,10 +170,6 @@ public abstract class Shape {
 		return ModelReadingUtils.getOptionalLiteral(resource, resource.getModel().createProperty(SHACL_PLAY.SHORTNAME));
 	}
 
-	public Optional<Literal> getShaclPlayMain() {
-		return ModelReadingUtils.getOptionalLiteral(resource, resource.getModel().createProperty(SHACL_PLAY.MAIN));
-	}
-
 	/**
 	 * @return The rdfs:comment list in the provided language, or an empty list if none is present
 	 */

@@ -1,19 +1,15 @@
 package fr.sparna.rdf.jena.shacl;
 
-import java.util.List;
-import java.util.Optional;
-
-import org.apache.jena.rdf.model.Literal;
-import org.apache.jena.rdf.model.RDFList;
-import org.apache.jena.rdf.model.RDFNode;
-import org.apache.jena.rdf.model.Resource;
+import fr.sparna.rdf.jena.ModelReadingUtils;
+import fr.sparna.rdf.jena.ModelRenderingUtils;
+import fr.sparna.rdf.shacl.SHACL_PLAY;
+import org.apache.jena.rdf.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.topbraid.shacl.vocabulary.SH;
 
-import fr.sparna.rdf.jena.ModelReadingUtils;
-import fr.sparna.rdf.jena.ModelRenderingUtils;
-import fr.sparna.rdf.shacl.SHACL_PLAY;
+import java.util.List;
+import java.util.Optional;
 
 public class PropertyShape extends Shape {
 
@@ -143,6 +139,36 @@ public class PropertyShape extends Shape {
 				(this.getEmbed().get().isLiteral() && (!this.getEmbed().get().asLiteral().getBoolean()))
 			)
 		);
+	}
+
+	public Optional<Resource> getShuiViewer(){
+			RDFNode node = this.shape.getProperty(ResourceFactory.createProperty("http://www.w3.org/ns/shacl-ui#", "viewer")).getObject();
+			if(node != null){
+				if(node.isURIResource()){
+					return Optional.ofNullable(node.asResource());
+				}
+			}
+			return Optional.empty();
+	}
+
+	public Optional<Resource> getShuiLabelViewer(){
+		RDFNode node = this.shape.getProperty(ResourceFactory.createProperty("http://www.w3.org/ns/shacl-ui#", "LabelViewer")).getObject();
+		if(node != null){
+			if(node.isURIResource()){
+				return Optional.ofNullable(node.asResource());
+			}
+		}
+		return Optional.empty();
+	}
+
+	public Optional<Resource> getShuiLabelRole(){
+		RDFNode node = this.shape.getProperty(ResourceFactory.createProperty("http://www.w3.org/ns/shacl-ui#", "LabelRole")).getObject();
+		if(node != null){
+			if(node.isURIResource()){
+				return Optional.ofNullable(node.asResource());
+			}
+		}
+		return Optional.empty();
 	}
 
 }

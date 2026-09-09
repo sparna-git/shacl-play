@@ -1,4 +1,4 @@
-package fr.sparna.rdf.shacl.shaclplay.home;
+package fr.sparna.rdf.shacl.shaclplay.ontology;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -12,17 +12,17 @@ import org.springframework.web.servlet.ModelAndView;
 
 
 @Controller
-public class HomeController {
+public class OntologyController {
 
 	private Logger log= LoggerFactory.getLogger(this.getClass().getName());
 
-	@RequestMapping(value = {"home", "/"},method=RequestMethod.GET)
-	public ModelAndView home(
+	@RequestMapping(value = {"ontology"},method=RequestMethod.GET)
+	public ModelAndView ontology(
 			HttpServletRequest request,
 			HttpServletResponse response
 	){
 
-		ModelAndView model=new ModelAndView("home");
+		ModelAndView model=new ModelAndView("ontology");
 		return model;
 	}
 

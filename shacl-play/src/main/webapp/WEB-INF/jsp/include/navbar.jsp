@@ -64,6 +64,9 @@
 	        <li class="nav-item">
                 <a id="api-button" class="menu-item nav-link active" href="<c:url value="/api-doc" />" >API</a>
             </li>
+			<li class="nav-item">
+                <a class="menu-item nav-link active" href="<c:url value="/ontology" />" >Ontology</a>
+            </li>
         </ul>
 
 

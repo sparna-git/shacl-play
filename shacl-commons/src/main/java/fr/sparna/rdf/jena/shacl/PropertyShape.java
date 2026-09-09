@@ -12,6 +12,7 @@ import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.RDFList;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.ResourceFactory;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.vocabulary.RDFS;
 import org.apache.jena.vocabulary.SKOS;
@@ -310,7 +311,7 @@ public class PropertyShape extends Shape {
 	}
 
 	public Optional<Resource> getShuiViewer(){
-			RDFNode node = this.shape.getProperty(ResourceFactory.createProperty("http://www.w3.org/ns/shacl-ui#", "viewer")).getObject();
+			RDFNode node = this.resource.getProperty(SHUI.viewer).getObject();
 			if(node != null){
 				if(node.isURIResource()){
 					return Optional.ofNullable(node.asResource());
@@ -320,7 +321,7 @@ public class PropertyShape extends Shape {
 	}
 
 	public Optional<Resource> getShuiLabelViewer(){
-		RDFNode node = this.shape.getProperty(ResourceFactory.createProperty("http://www.w3.org/ns/shacl-ui#", "LabelViewer")).getObject();
+		RDFNode node = this.resource.getProperty(ResourceFactory.createProperty(SHUI.LabelViewer.getURI())).getObject();
 		if(node != null){
 			if(node.isURIResource()){
 				return Optional.ofNullable(node.asResource());
@@ -330,7 +331,7 @@ public class PropertyShape extends Shape {
 	}
 
 	public Optional<Resource> getShuiLabelRole(){
-		RDFNode node = this.shape.getProperty(ResourceFactory.createProperty("http://www.w3.org/ns/shacl-ui#", "LabelRole")).getObject();
+		RDFNode node = this.resource.getProperty(ResourceFactory.createProperty(SHUI.LabelRole.getURI())).getObject();
 		if(node != null){
 			if(node.isURIResource()){
 				return Optional.ofNullable(node.asResource());

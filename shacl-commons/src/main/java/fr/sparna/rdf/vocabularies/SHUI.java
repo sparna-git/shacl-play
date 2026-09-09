@@ -14,6 +14,10 @@ public class SHUI {
 	public static final String NS = "http://www.w3.org/ns/shacl-ui#";
 	
     public static final Property propertyRole = M_MODEL.createProperty( NS + "propertyRole" );
+
+    public static final Property viewer = M_MODEL.createProperty( NS + "viewer" );
+
+    public static final Property LabelViewer = M_MODEL.createProperty( NS + "LabelViewer" );
 	
     public static final Resource LabelRole = M_MODEL.createProperty( NS + "LabelRole" );
 	
@@ -36,6 +40,8 @@ public class SHUI {
         M_MODEL.add(IconRole, OWL.sameAs, DASH.IconRole);
         M_MODEL.add(DepictionRole, OWL.sameAs, DASH.DepictionRole);
         M_MODEL.add(KeyInfoRole, OWL.sameAs, DASH.KeyInfoRole);
+
+        
     }
 
     public static final Resource getSameDashRole(Resource shuiRole) {

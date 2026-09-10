@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import fr.sparna.rdf.jena.ModelRenderingUtils;
 import fr.sparna.rdf.jena.shacl.NodeShape;
 import fr.sparna.rdf.jena.shacl.ShapesGraph;
 import fr.sparna.rdf.shacl.jsonschema.JsonSchemaGenerator;
@@ -146,8 +147,13 @@ public class JsonSchemaController {
 		
 		//
 		ShapesGraph spGraph = new ShapesGraph(shapesModel, shapesModel);
-		List<NodeShape> ns = spGraph.getAllNodeShapes();	
-		List<String> listOfUrisRoot = ns.stream().map(nodeShape -> nodeShape.getResource().getURI()).collect(Collectors.toList());
+		List<NodeShape> ns = spGraph.getAllNodeShapes();
+		// keep only the root ones
+		ns = ns.stream().filter(nodeShape -> nodeShape.isRootOfOrHasTarget()).collect(Collectors.toList());
+
+		List<String> listOfUrisRoot = ns.stream().map(nodeShape -> { 
+			return ModelRenderingUtils.render(nodeShape.getResource()) + (!nodeShape.getShaclPlayIsRootOf().isEmpty()?" (explicit root)":""); 
+		}).collect(Collectors.toList());
 		// sort it alphabetically
 		listOfUrisRoot = listOfUrisRoot.stream().sorted().collect(Collectors.toList());
 		

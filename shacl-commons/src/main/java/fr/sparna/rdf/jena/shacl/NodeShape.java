@@ -140,8 +140,8 @@ public class NodeShape extends Shape  {
 		return ModelReadingUtils.readObjectAsResource(resource, FOAF.depiction);
 	}
 
-	public Optional<Boolean> getShaclPlayIsMain() {
-		return ModelReadingUtils.getOptionalLiteral(this.resource,this.resource.getModel().createProperty(SHACL_PLAY.IS_MAIN)).map(l -> l.getBoolean());
+	public List<Resource> getShaclPlayIsRootOf() {
+		return ModelReadingUtils.readObjectAsResource(this.resource, this.resource.getModel().createProperty(SHACL_PLAY.IS_ROOT_OF));
 	}
 
 	/***** / SIMPLE ACCESSORS  *******/
@@ -532,9 +532,9 @@ public class NodeShape extends Shape  {
 		return getInheritedProperties().stream().filter(ps -> !ps.isDeactivated()).findFirst().isEmpty() && this.getShRule().size() > 0;
 	}
 
-	public boolean isMainShape() {
-		return this.getShaclPlayIsMain().orElse(this.hasTarget());
-	}
+	public Boolean isRootOfOrHasTarget() {
+		return (!getShaclPlayIsRootOf().isEmpty()) || this.hasTarget();
+	}	
 
 	/***** / OTHER UTILITY ACCESSOR FUNCTIONS ********/
 

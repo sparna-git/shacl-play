@@ -72,7 +72,12 @@ public class ShapesDocumentationSectionBuilder {
 		}
 		
 		// Get type of shape Main or Supportive Entities
-		currentSection.setMainToc(nodeShape.isMainShape());
+		boolean hasExplicitRoots = !shapesGraph.getRootNodeShapes().isEmpty();
+		if(hasExplicitRoots) {
+			currentSection.setMainToc(!shapesGraph.getRootNodeShapes().stream().filter(ns -> ns.getResource().equals(nodeShape.getResource())).findFirst().isEmpty());
+		} else {
+			currentSection.setMainToc(nodeShape.hasTarget());
+		}
 		
 		// Get sh:node as type of shape
 		List<Resource> shNodes = nodeShape.getShNodeAsList();

@@ -42,6 +42,14 @@ public class ShapesGraph {
 		return ShapesGraph.readAllNodeShapes(shaclGraph, owlGraph); 
 	}
 
+	public List<NodeShape> getRootNodeShapes() {	
+		return ShapesGraph.readAllNodeShapes(shaclGraph, owlGraph)
+		.stream()
+		// TODO : should test agains the URI of this ShapesGraph
+		.filter(nodeShape -> !nodeShape.getShaclPlayIsRootOf().isEmpty())
+		.collect(Collectors.toList());
+	}
+
 	/**
 	 * @return All subjects of a sh:path in the graph
 	 */

@@ -246,22 +246,22 @@
 							</div>
 						</div>
 
-						<div class="property blockquote bq-success" about="https://shacl-play.sparna.fr/ontology#isMain" id="isMain">
-							<h4>isMain&nbsp;<sup class="type-dp" title="data property" property="rdf:type" resource="owl:DatatypeProperty">(datatype property)</sup></h4>
+						<div class="property blockquote bq-success" about="https://shacl-play.sparna.fr/ontology#isRootOf" id="isRootOf">
+							<h4>isRootOf&nbsp;<sup class="type-dp" title="object property" property="rdf:type" resource="owl:DatatypeProperty">(object property)</sup></h4>
 							<div class="container">
 								<div class="row">
-									<div class="col-md"><span><strong>IRI:</strong> <code>https://shacl-play.sparna.fr/ontology#isMain</code></span></div>
+									<div class="col-md"><span><strong>IRI:</strong> <code>https://shacl-play.sparna.fr/ontology#isRootOf</code></span></div>
 								</div>
 								<div class="row">
 									<div class="col-md-2">Documentation:</div>
 									<div class="col-md-10">
 										<ul>
-											<li><strong>Label:</strong> <span property="rdfs:label" lang="en">is main</span><sup>@en</sup></li>
+											<li><strong>Label:</strong> <span property="rdfs:label" lang="en">is root of</span><sup>@en</sup></li>
 											<li>
-												<strong>Definition:</strong> <span property="rdfs:comment" lang="en">Indicates if a Node Shape is one of the main node shape in a Shapes graph.</span>
+												<strong>Definition:</strong> <span property="rdfs:comment" lang="en">Indicates that a Node Shape is a root node shape of a Shapes graph, that is if it should be considered as a top-level entry point, compared to other node shapes.</span>
 											</li>											
 											<li>
-												<strong>Usage note:</strong> <span property="skos:scopeNote" lang="en">This is used to separate sections between "main entities" and "supportive entities" in the documentation, and to help flagging the potential root node shapes when generating JSON schema. By default, a Node Shape is considered a main shape if it has a target. This property can be used to override this default behavior.</span>
+												<strong>Usage note:</strong> <span property="skos:scopeNote" lang="en">This is used to separate sections between "main entities" and "supportive entities" in the documentation, and to help flagging the root node shapes when generating JSON schema. By default, a Node Shape is considered a root shape if it has a target. This property can be used to override this default behavior.</span>
 											</li>
 											<li><strong>See also:</strong> <a property="rdfs:seeAlso" href="https://hanami.app/ontology#isRoot">hanami:isRoot</a></li>
 										</ul>
@@ -272,7 +272,7 @@
 									<div class="col-md-10">
 										<ul>
 											<li><strong>Domain:</strong> <code><a property="rdfs:domain" href="http://www.w3.org/ns/shacl#NodeShape">sh:NodeShape</a></code></li>
-											<li><strong>Range:</strong> <code><a property="rdfs:range" href="http://www.w3.org/2001/XMLSchema#">xsd:boolean</a></code></li>
+											<li><strong>Range:</strong> <code><a property="rdfs:range" href="http://www.w3.org/ns/shacl#ShapesGraph">sh:ShapesGraph</a></code></li>
 											<li><strong>Subproperty of:</strong> <em>none</em></li>
 										</ul>
 

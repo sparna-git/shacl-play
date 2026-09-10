@@ -18,7 +18,7 @@ public class SHACL_PLAY {
 
 	public static String SHORTNAME = NAMESPACE + "shortname";
 
-	public static String IS_MAIN = NAMESPACE + "isMain";
+	public static String IS_ROOT_OF = NAMESPACE + "isRootOf";
 
 	/**
 	 * Boolean flag on a SHACL shape indicating if it matched at least focus node

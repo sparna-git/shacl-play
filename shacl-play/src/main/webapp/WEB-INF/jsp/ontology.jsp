@@ -135,7 +135,7 @@
 										<ul>
 											<li><strong>Domain:</strong> <em>none</em></li>
 											<li><strong>Range:</strong> <code><a property="rdfs:range" href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></code></li>
-											<li><strong>Subproperty of:</strong> <code><a property="owl:equivalentProperty" href="http://data.sparna.fr/ontologies/volipi#color">volipi:color</a></code></li>
+											<li><strong>Subproperty of:</strong> <code><a property="owl:subPropertyOf" href="http://data.sparna.fr/ontologies/volipi#color">volipi:color</a></code></li>
 										</ul>
 
 									</div>	
@@ -273,7 +273,7 @@
 										<ul>
 											<li><strong>Domain:</strong> <code><a property="rdfs:domain" href="http://www.w3.org/ns/shacl#NodeShape">sh:NodeShape</a></code></li>
 											<li><strong>Range:</strong> <code><a property="rdfs:range" href="http://www.w3.org/ns/shacl#ShapesGraph">sh:ShapesGraph</a></code></li>
-											<li><strong>Subproperty of:</strong> <em>none</em></li>
+											<li><strong>Subproperty of:</strong> <code><a property="owl:subPropertyOf" href="http://www.w3.org/2000/01/rdf-schema#isDefinedBy">rdfs:isDefinedBy</a></code></li>
 										</ul>
 
 									</div>	

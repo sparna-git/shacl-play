@@ -1,27 +1,24 @@
 package fr.sparna.rdf.shacl.shaclplay.generate;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.URL;
-import java.net.URLEncoder;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
-import java.util.zip.ZipOutputStream;
-
-import jakarta.servlet.ServletOutputStream;
+import fr.sparna.rdf.jena.QueryExecutionLocalService;
+import fr.sparna.rdf.jena.QueryExecutionRemoteService;
+import fr.sparna.rdf.jena.QueryExecutionService;
+import fr.sparna.rdf.shacl.excel.DataParser;
+import fr.sparna.rdf.shacl.excel.model.Sheet;
+import fr.sparna.rdf.shacl.excel.writeXLS.WriteXLS;
+import fr.sparna.rdf.shacl.generate.*;
+import fr.sparna.rdf.shacl.generate.progress.StringBufferProgressMonitor;
+import fr.sparna.rdf.shacl.generate.providers.BaseShaclStatisticsDataProvider;
+import fr.sparna.rdf.shacl.generate.providers.SamplingShaclGeneratorDataProvider;
+import fr.sparna.rdf.shacl.generate.providers.ShaclGeneratorDataProviderIfc;
+import fr.sparna.rdf.shacl.generate.providers.ShaclStatisticsDataProviderIfc;
+import fr.sparna.rdf.shacl.generate.visitors.*;
+import fr.sparna.rdf.shacl.shaclplay.ApplicationData;
+import fr.sparna.rdf.shacl.shaclplay.ControllerCommons;
+import fr.sparna.rdf.shacl.shaclplay.ControllerModelFactory;
+import fr.sparna.rdf.shacl.shaclplay.ControllerModelFactory.SOURCE_TYPE;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
-import org.apache.commons.io.IOUtils;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.riot.Lang;
@@ -41,29 +38,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import fr.sparna.rdf.jena.QueryExecutionServiceImpl;
-import fr.sparna.rdf.shacl.excel.DataParser;
-import fr.sparna.rdf.shacl.excel.model.Sheet;
-import fr.sparna.rdf.shacl.excel.writeXLS.WriteXLS;
-import fr.sparna.rdf.shacl.generate.Configuration;
-import fr.sparna.rdf.shacl.generate.DefaultModelProcessor;
-import fr.sparna.rdf.shacl.generate.PaginatedQuery;
-import fr.sparna.rdf.shacl.generate.ShaclGenerator;
-import fr.sparna.rdf.shacl.generate.ShaclGeneratorAsync;
-import fr.sparna.rdf.shacl.generate.progress.StringBufferProgressMonitor;
-import fr.sparna.rdf.shacl.generate.providers.BaseShaclStatisticsDataProvider;
-import fr.sparna.rdf.shacl.generate.providers.SamplingShaclGeneratorDataProvider;
-import fr.sparna.rdf.shacl.generate.providers.ShaclGeneratorDataProviderIfc;
-import fr.sparna.rdf.shacl.generate.providers.ShaclStatisticsDataProviderIfc;
-import fr.sparna.rdf.shacl.generate.visitors.AssignLabelRoleVisitor;
-import fr.sparna.rdf.shacl.generate.visitors.AssignValueOrInVisitor;
-import fr.sparna.rdf.shacl.generate.visitors.ComputeStatisticsVisitor;
-import fr.sparna.rdf.shacl.generate.visitors.ComputeValueStatisticsVisitor;
-import fr.sparna.rdf.shacl.generate.visitors.CopyStatisticsToDescriptionVisitor;
-import fr.sparna.rdf.shacl.shaclplay.ApplicationData;
-import fr.sparna.rdf.shacl.shaclplay.ControllerCommons;
-import fr.sparna.rdf.shacl.shaclplay.ControllerModelFactory;
-import fr.sparna.rdf.shacl.shaclplay.ControllerModelFactory.SOURCE_TYPE;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URI;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 
 @Controller
@@ -180,13 +166,13 @@ public class GenerateController {
 			
 			String sourceName = null;
 			
-			QueryExecutionServiceImpl queryExecutionService;
+			QueryExecutionService queryExecutionService;
 
 			// first build the data provider, either for an endpoint or by loading a Model
 			Model datasetModel = ModelFactory.createDefaultModel();
 			if(source == SOURCE_TYPE.ENDPOINT) {
 				log.debug("Generating shapes for endpoint "+endpoint);
-				queryExecutionService = new QueryExecutionServiceImpl(endpoint);
+				queryExecutionService = new QueryExecutionRemoteService(URI.create(endpoint));
 				sourceName = ControllerModelFactory.getSourceNameForUrl(endpoint);
 			} else {
 				// if source is a URL, redirect to the API
@@ -206,7 +192,7 @@ public class GenerateController {
 					);
 					log.debug("Done Loading dataset. Model contains "+datasetModel.size()+" triples");
 
-					queryExecutionService = new QueryExecutionServiceImpl(datasetModel);
+					queryExecutionService = new QueryExecutionLocalService(datasetModel);
 					sourceName = modelPopulator.getSourceName();
 				}
 			}

@@ -1,16 +1,10 @@
 package fr.sparna.rdf.shacl.generate.providers;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.function.Consumer;
-import java.util.stream.Collectors;
-
+import fr.sparna.rdf.jena.JenaResultSetHandlers;
+import fr.sparna.rdf.jena.QueryExecutionLocalService;
+import fr.sparna.rdf.jena.QueryExecutionRemoteService;
+import fr.sparna.rdf.jena.QueryExecutionService;
+import fr.sparna.rdf.shacl.generate.PaginatedQuery;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
@@ -18,10 +12,17 @@ import org.apache.jena.rdf.model.ResourceFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import fr.sparna.rdf.jena.JenaResultSetHandlers;
-import fr.sparna.rdf.jena.QueryExecutionService;
-import fr.sparna.rdf.jena.QueryExecutionServiceImpl;
-import fr.sparna.rdf.shacl.generate.PaginatedQuery;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URI;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 public class BaseShaclStatisticsDataProvider implements ShaclStatisticsDataProviderIfc {
 
@@ -43,12 +44,12 @@ public class BaseShaclStatisticsDataProvider implements ShaclStatisticsDataProvi
 	protected boolean assumeNoSubclassOf = false;
 
 	public BaseShaclStatisticsDataProvider(PaginatedQuery paginatedQuery, String endpointUrl) {
-		this.queryExecutionService = new QueryExecutionServiceImpl(endpointUrl);
+		this.queryExecutionService = new QueryExecutionRemoteService(URI.create(endpointUrl));
 		this.paginatedQuery = paginatedQuery;
 	}
 
 	public BaseShaclStatisticsDataProvider(PaginatedQuery paginatedQuery, Model inputModel) {
-		this.queryExecutionService = new QueryExecutionServiceImpl(inputModel);
+		this.queryExecutionService = new QueryExecutionLocalService(inputModel);
 		this.paginatedQuery = paginatedQuery;
 	}
 

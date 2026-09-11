@@ -1,28 +1,23 @@
 package fr.sparna.rdf.shacl.app.analyze;
 
-import java.io.FileOutputStream;
-import java.io.OutputStream;
-
+import fr.sparna.rdf.jena.QueryExecutionLocalService;
+import fr.sparna.rdf.jena.QueryExecutionRemoteService;
+import fr.sparna.rdf.jena.QueryExecutionService;
+import fr.sparna.rdf.shacl.app.CliCommandIfc;
+import fr.sparna.rdf.shacl.app.InputModelReader;
+import fr.sparna.rdf.shacl.generate.providers.BaseShaclGeneratorDataProvider;
+import fr.sparna.rdf.shacl.generate.providers.BaseShaclStatisticsDataProvider;
+import fr.sparna.rdf.shacl.generate.providers.ShaclGeneratorDataProviderIfc;
+import fr.sparna.rdf.shacl.generate.visitors.*;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.util.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import fr.sparna.rdf.jena.QueryExecutionServiceImpl;
-import fr.sparna.rdf.shacl.app.CliCommandIfc;
-import fr.sparna.rdf.shacl.app.InputModelReader;
-import fr.sparna.rdf.shacl.generate.PaginatedQuery;
-import fr.sparna.rdf.shacl.generate.providers.BaseShaclGeneratorDataProvider;
-import fr.sparna.rdf.shacl.generate.providers.BaseShaclStatisticsDataProvider;
-import fr.sparna.rdf.shacl.generate.providers.SamplingShaclGeneratorDataProvider;
-import fr.sparna.rdf.shacl.generate.providers.ShaclGeneratorDataProviderIfc;
-import fr.sparna.rdf.shacl.generate.providers.ShaclStatisticsDataProviderIfc;
-import fr.sparna.rdf.shacl.generate.visitors.AssignValueOrInVisitor;
-import fr.sparna.rdf.shacl.generate.visitors.ComputeStatisticsVisitor;
-import fr.sparna.rdf.shacl.generate.visitors.ComputeValueStatisticsVisitor;
-import fr.sparna.rdf.shacl.generate.visitors.CopyStatisticsToDescriptionVisitor;
-import fr.sparna.rdf.shacl.generate.visitors.ShaclVisit;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.net.URI;
 
 public class Analyze implements CliCommandIfc {
 
@@ -35,13 +30,13 @@ public class Analyze implements CliCommandIfc {
 		Model shapes = ModelFactory.createDefaultModel(); 
 		InputModelReader.populateModel(shapes, a.getShapes());
 		
-		QueryExecutionServiceImpl queryExecutionService;
+		QueryExecutionService queryExecutionService;
 		if(a.getEndpoint() != null) {
-			queryExecutionService = new QueryExecutionServiceImpl(a.getEndpoint());
+			queryExecutionService = new QueryExecutionRemoteService(URI.create(a.getEndpoint()));
 		} else {
 			Model inputModel = ModelFactory.createDefaultModel(); 
 			InputModelReader.populateModelFromFile(inputModel, a.getInput());
-			queryExecutionService = new QueryExecutionServiceImpl(inputModel);
+			queryExecutionService = new QueryExecutionLocalService(inputModel);
 		}
 
 		ShaclGeneratorDataProviderIfc dataProvider = new BaseShaclGeneratorDataProvider(queryExecutionService);	

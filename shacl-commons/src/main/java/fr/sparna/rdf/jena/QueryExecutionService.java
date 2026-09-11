@@ -1,11 +1,12 @@
 package fr.sparna.rdf.jena;
 
-import java.util.List;
-
+import org.apache.jena.query.ParameterizedSparqlString;
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.QuerySolutionMap;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.RDFNode;
+
+import java.util.List;
 
 public interface QueryExecutionService {
 
@@ -18,7 +19,17 @@ public interface QueryExecutionService {
 	public Model executeConstructQuery(String query, QuerySolution bindings) ;
 	
 	public Model executeConstructQuery(String query);
-	
+
+	public static String buildQueryWithBindings(String sparql, QuerySolution bindings) {
+		if(bindings == null || !bindings.varNames().hasNext()) {
+			return sparql;
+		}
+		QuerySolutionMap qsm = new QuerySolutionMap();
+		qsm.addAll(bindings);
+		ParameterizedSparqlString pss = new ParameterizedSparqlString(sparql, qsm);
+		return pss.toString();
+	}
+
 	public static QuerySolution buildQuerySolution(String varName, RDFNode value) {
 		QuerySolutionMap qs = new QuerySolutionMap();
 		qs.add(varName, value);

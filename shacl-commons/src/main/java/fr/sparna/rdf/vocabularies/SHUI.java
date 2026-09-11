@@ -33,15 +33,12 @@ public class SHUI {
     
     static { 
         M_MODEL.add(propertyRole, OWL.equivalentProperty, DASH.propertyRole);
-
         M_MODEL.add(LabelRole, OWL.sameAs, DASH.LabelRole);
         M_MODEL.add(IDRole, OWL.sameAs, DASH.IDRole);
         M_MODEL.add(DescriptionRole, OWL.sameAs, DASH.DescriptionRole);
         M_MODEL.add(IconRole, OWL.sameAs, DASH.IconRole);
         M_MODEL.add(DepictionRole, OWL.sameAs, DASH.DepictionRole);
         M_MODEL.add(KeyInfoRole, OWL.sameAs, DASH.KeyInfoRole);
-
-        
     }
 
     public static final Resource getSameDashRole(Resource shuiRole) {

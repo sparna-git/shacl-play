@@ -1,30 +1,22 @@
 package fr.sparna.rdf.jena.shacl;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
-import org.apache.jena.rdf.model.Literal;
-import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.RDFList;
-import org.apache.jena.rdf.model.RDFNode;
-import org.apache.jena.rdf.model.Resource;
-import org.apache.jena.rdf.model.ResourceFactory;
-import org.apache.jena.rdf.model.Statement;
+import fr.sparna.rdf.jena.ModelReadingUtils;
+import fr.sparna.rdf.jena.ModelRenderingUtils;
+import fr.sparna.rdf.vocabularies.DASH;
+import fr.sparna.rdf.vocabularies.SHACL_PLAY;
+import fr.sparna.rdf.vocabularies.SHUI;
+import org.apache.jena.rdf.model.*;
 import org.apache.jena.vocabulary.RDFS;
 import org.apache.jena.vocabulary.SKOS;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.topbraid.shacl.vocabulary.SH;
 
-import fr.sparna.rdf.jena.ModelReadingUtils;
-import fr.sparna.rdf.jena.ModelRenderingUtils;
-import fr.sparna.rdf.vocabularies.DASH;
-import fr.sparna.rdf.vocabularies.SHACL_PLAY;
-import fr.sparna.rdf.vocabularies.SHUI;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class PropertyShape extends Shape {
 
@@ -310,34 +302,34 @@ public class PropertyShape extends Shape {
 		
 	}
 
-	public Optional<Resource> getShuiViewer(){
-			RDFNode node = this.resource.getProperty(SHUI.viewer).getObject();
-			if(node != null){
-				if(node.isURIResource()){
-					return Optional.ofNullable(node.asResource());
-				}
+	private Optional<Resource> getShui(Property shuiProperty){
+		Statement statement = this.resource.getProperty(shuiProperty);
+		if(statement != null){
+			RDFNode node = statement.getObject();
+			if(node.isURIResource()){
+				return Optional.ofNullable(node.asResource());
 			}
-			return Optional.empty();
+		}
+		return Optional.empty();
+	}
+
+	public Optional<Resource> getShuiViewer(){
+			return this.getShui(SHUI.viewer);
 	}
 
 	public Optional<Resource> getShuiLabelViewer(){
-		RDFNode node = this.resource.getProperty(ResourceFactory.createProperty(SHUI.LabelViewer.getURI())).getObject();
-		if(node != null){
-			if(node.isURIResource()){
-				return Optional.ofNullable(node.asResource());
-			}
-		}
-		return Optional.empty();
+		return this.getShui(SHUI.LabelViewer);
 	}
 
 	public Optional<Resource> getShuiLabelRole(){
-		RDFNode node = this.resource.getProperty(ResourceFactory.createProperty(SHUI.LabelRole.getURI())).getObject();
-		if(node != null){
-			if(node.isURIResource()){
-				return Optional.ofNullable(node.asResource());
-			}
-		}
-		return Optional.empty();
+		return this.getShui(SHUI.propertyRole);
+		//RDFNode node = this.resource.getProperty(ResourceFactory.createProperty(SHUI.LabelRole.getURI())).getObject();
+		//if(node != null){
+		//	if(node.isURIResource()){
+		//		return Optional.ofNullable(node.asResource());
+		//	}
+		//}
+		//return Optional.empty();
 	}
 
 }

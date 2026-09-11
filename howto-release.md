@@ -27,7 +27,7 @@ _none_
 
 ## Refactoring
 
-_ none_
+_none_
 
 ## Documentation
 

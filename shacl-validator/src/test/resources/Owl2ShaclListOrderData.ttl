@@ -1,0 +1,25 @@
+# Data fixture for Owl2ShaclIntegrationTest.
+#
+# Seven alternatives, because the defect this guards against is a permutation: with two members
+# a wrong order agrees with the right one half the time, and a test that passes half the time
+# is worse than none. Seven gives 5040 orderings.
+
+@prefix ex: <http://example.org/> .
+
+ex:Shape
+  ex:alternative
+    ex:entityAction ,
+    ex:environmentAction ,
+    ex:infrastructureAction ,
+    ex:parameterAction ,
+    ex:setMonitorAction ,
+    ex:trafficAction ,
+    ex:variableAction ;
+.
+
+ex:Closed
+  ex:ignorable
+    ex:zulu ,
+    ex:alpha ,
+    ex:mike ;
+.

@@ -1,0 +1,59 @@
+# Rules fixture for Owl2ShaclIntegrationTest.
+#
+# Reproduces the contract that every list-valued SHACL constraint relies on, without depending
+# on the owl2shacl rulesets: a SHACL rule cannot CONSTRUCT an RDF list of unknown length, so a
+# rule asserts one member at a time and the conversion gathers them afterwards.
+#
+# The members are blank nodes created fresh per solution, which is what makes the gathering
+# order-sensitive: the model returns them in its own iteration order, and for blank nodes that
+# follows the hash of a freshly generated random label.
+
+@prefix sh:   <http://www.w3.org/ns/shacl#> .
+@prefix ex:   <http://example.org/> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+ex:AlternativesShape
+  a sh:NodeShape ;
+  sh:targetNode ex:Shape ;
+  rdfs:label "One sh:or member per alternative" ;
+  sh:rule [
+    a sh:SPARQLRule ;
+    rdfs:label "alternatives to sh:or members" ;
+    sh:construct """
+      PREFIX sh: <http://www.w3.org/ns/shacl#>
+      PREFIX ex: <http://example.org/>
+      PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+      CONSTRUCT {
+        $this sh:or _:member .
+        _:member sh:property _:propertyShape .
+        _:propertyShape sh:path ?alternative .
+        _:propertyShape sh:minCount 1 .
+      }
+      WHERE {
+        $this ex:alternative ?alternative .
+      }
+      """ ;
+  ] ;
+.
+
+ex:IgnoredShape
+  a sh:NodeShape ;
+  sh:targetNode ex:Closed ;
+  rdfs:label "One sh:ignoredProperties member per ignorable property" ;
+  sh:rule [
+    a sh:SPARQLRule ;
+    rdfs:label "ignorable properties to sh:ignoredProperties members" ;
+    sh:construct """
+      PREFIX sh: <http://www.w3.org/ns/shacl#>
+      PREFIX ex: <http://example.org/>
+      CONSTRUCT {
+        $this sh:ignoredProperties ?ignorable .
+      }
+      WHERE {
+        $this ex:ignorable ?ignorable .
+      }
+      """ ;
+  ] ;
+.

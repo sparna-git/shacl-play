@@ -172,10 +172,13 @@ public class PropertyShapeDocumentationBuilder {
 			RDFNode shHasValue,
 			Resource shQualifiedValueShape
 	) {
-		Link l = null;
 
 		if (shQualifiedValueShape != null) {
-			l = this.buildShQualifiedValueShape(shQualifiedValueShape);			
+			if(shQualifiedValueShape.isAnon()) {
+				return this.buildShQualifiedValueShape(shQualifiedValueShape);
+			} else {
+				return LinkFactory.buildShNodeOrOtherShapeReferenceLink(shQualifiedValueShape, shapesGraph, owlGraph, lang);
+			}
 		} else if (shHasValue != null && shNode == null && shClass == null) {
 			return LinkFactory.buildDefaultLink(shHasValue);
 		} else if (shNode != null) {
@@ -187,8 +190,8 @@ public class PropertyShapeDocumentationBuilder {
 		} else if (shNodeKind != null) {
 			return LinkFactory.buildShNodeKindLink(shNodeKind);
 		}
-		
-		return l;
+
+		return null;
 	}
 	
 

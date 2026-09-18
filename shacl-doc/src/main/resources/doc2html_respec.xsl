@@ -66,7 +66,8 @@
 			<entry key="LABEL_SHNODE" label="Respecte : " />
 			<entry key="LABEL_TARGETCLASS" label="S'applique à : " />
 			<entry key="LABEL_NODEKIND" label="Type de noeud : " />
-			<entry key="LABEL_PATTERNS" label="Structure d'identifiant : " />
+			<entry key="LABEL_PATTERNS" label="Structure de l'URI ou de la valeur : " />
+			<entry key="LABEL_DATATYPE" label="Datatype : " />
 			<entry key="LABEL_CLOSE" label="Shape fermée" />
 			<entry key="LABEL_CLOSE_DESCRIPTION" label="&#9888; La description de cette entité est fixe, aucune propriété autre que celles listées dans le tableau ci-dessous n'est autorisée." />
 			<entry key="LABEL_EXAMPLE" label="Exemple : "/>
@@ -153,7 +154,8 @@
 			<entry key="LABEL_SHNODE" label="Conforms to: " />
 			<entry key="LABEL_TARGETCLASS" label="Applies to: " />
 			<entry key="LABEL_NODEKIND" label="Nodes: " />
-			<entry key="LABEL_PATTERNS" label="URI pattern: " />
+			<entry key="LABEL_PATTERNS" label="URI or value pattern: " />
+			<entry key="LABEL_DATATYPE" label="Datatype: " />
 			<entry key="LABEL_CLOSE" label="Closed shape" />
 			<entry key="LABEL_CLOSE_DESCRIPTION" label="&#9888; No other properties than the ones listed in the table below are allowed." />
 			<entry key="LABEL_EXAMPLE" label="Example: "/>
@@ -1188,6 +1190,8 @@
 					or
 					skosExample != ''
 					or
+					datatype != ''
+					or
 					shNodes/shNode							
 				">
 					<h4><xsl:value-of select="$LABELS/labels/entry[@key='SECTION_GENERAL_DESCRIPTIONS']/@label"/></h4>
@@ -1298,6 +1302,8 @@
 					or
 					skosExample != ''
 					or
+					datatype != ''
+					or
 					shNodes/shNode
 				">
 					<div class="sp_syntax">
@@ -1309,6 +1315,26 @@
 									<xsl:value-of
 										select="$LABELS/labels/entry[@key='LABEL_NODEKIND']/@label" />
 									<xsl:value-of select="nodeKind" />
+								</li>
+							</xsl:if>
+							<xsl:if test="datatype != ''">
+								<li>
+									<xsl:value-of select="$LABELS/labels/entry[@key='LABEL_DATATYPE']/@label" />
+									<xsl:choose>
+										<xsl:when test="datatype[href/text()]">
+											<code>
+												<a href="{datatype/href}"><xsl:value-of select="datatype/label" /></a>
+											</code>
+										</xsl:when>
+										<xsl:when test="datatype[label/text()]">
+											<code>
+												<xsl:value-of disable-output-escaping="yes" select="datatype/label" />
+											</code>
+										</xsl:when>
+										<xsl:otherwise>
+											<!-- Oups, don't know how to handle this -->
+										</xsl:otherwise>
+									</xsl:choose>
 								</li>
 							</xsl:if>
 							<xsl:if test="pattern != ''">

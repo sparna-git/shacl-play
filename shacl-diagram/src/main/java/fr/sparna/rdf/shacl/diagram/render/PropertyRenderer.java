@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import fr.sparna.rdf.jena.ModelRenderingUtils;
+import fr.sparna.rdf.jena.shacl.NodeShape;
 import fr.sparna.rdf.shacl.diagram.model.PlantUmlBoxIfc;
 import fr.sparna.rdf.shacl.diagram.model.PlantUmlDiagram;
 import fr.sparna.rdf.shacl.diagram.model.PlantUmlProperty;
@@ -39,19 +40,21 @@ public class PropertyRenderer {
 	) {
 		
 		// get the color for the arrow drawn
-		String colorArrowProperty = "";
+		String color = "";
 		if(property.getDisplayColor() != null) {
-			colorArrowProperty = "[bold,#"+property.getDisplayColor()+"]";
+			color = "[bold,#"+property.getDisplayColor()+"]";
 		}
 				
 		if (property.getShNode().isPresent()) {
-			return renderAsNodeReference(property, box, renderAsDatatypeProperty, colorArrowProperty);
+			return renderAsNodeReference(property, box, renderAsDatatypeProperty, color);
 		} else if (property.getShClass().isPresent()) {
 			return renderAsClassReference(property, box, renderAsDatatypeProperty); 
-		} else if (property.getShQualifiedValueShape().isPresent()) {
-			return renderAsQualifiedShapeReference(property, box, colorArrowProperty); 
+		} else if (property.getQualifiedValueShape().isPresent() && ( property.getQualifiedValueShape().get().getShNode().isPresent() || property.getQualifiedValueShape().get().getShClass().isPresent() ) ) {
+			return renderAsQualifiedShapeReference(property, box, color); 
+		} else if (property.getQualifiedValueShape().isPresent() && property.getQualifiedValueShape().get().getShDatatype().isPresent()) {
+			return renderAsQualifiedShapeDatatypeProperty(property, box, color); 
 		} else if (property.hasShOrShClassOrShNode()) {
-			return renderAsOr(property, box,colorArrowProperty);
+			return renderAsOr(property, box,color);
 		} else {
 			return renderDefault(property, box);
 		}
@@ -155,13 +158,32 @@ public class PropertyRenderer {
 		if (!property.getShGroup().isPresent()) {
 			this.boxRenderer.notifyArrow(
 					//codeKey
-					// box.getPlantUmlQuotedBoxName() + " -"+colorArrow+"-> \"" + property.getShQualifiedValueShapeLabel() + "\" : ",
 					BoxRenderer.quoteString(box.getLabel()), colorArrow, qualifiedValueShapeReference,
 					//data value
 					property.getPathAsSparql()+option
 			);
 		}
 		return null;
+	}
+
+	private String renderAsQualifiedShapeDatatypeProperty(PlantUmlProperty property, PlantUmlBoxIfc box, String colorArrow) {
+
+		NodeShape qualifiedValueShape = property.getQualifiedValueShape().get();		
+		String output = BoxRenderer.quoteString(box.getLabel()) + " : " + property.getPathAsSparql() + " ";
+		
+		if (qualifiedValueShape.getShDatatype().isPresent()) {
+			output += " : " + ModelRenderingUtils.render(qualifiedValueShape.getShDatatype().get()) + " ";
+		}		
+		
+		
+		if (property.getPlantUmlQualifiedCardinalityString() != null) {
+			output += " " + property.getPlantUmlCardinalityString() + " ";
+		}
+		if (qualifiedValueShape.getShPattern().isPresent() && this.displayPatterns) {
+			output += "{field}" + " " + "(" + ModelRenderingUtils.render(property.getShPattern().get()) + ")" + " ";
+		}
+		
+		return output+" \n";
 	}
 
 	// value = uml_shape+" --> "+"\""+uml_class_property+"\""+" :

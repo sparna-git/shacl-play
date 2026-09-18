@@ -40,6 +40,8 @@ public class ShapesDocumentationSection {
 	private String nodeKind;
 	private Boolean closed;
 	private String skosExample;
+	// sh:datatype attached directly to the NodeShape, if any. 
+	private Link datatype;
 
 	@JacksonXmlElementWrapper(localName="shNodes")
 	@JacksonXmlProperty(localName = "shNode")
@@ -330,6 +332,14 @@ public class ShapesDocumentationSection {
 
 	public void setShNodes(List<Link> shNodes) {
 		this.shNodes = shNodes;
+	}
+
+	public Link getDatatype() {
+		return datatype;
+	}
+
+	public void setDatatype(Link datatype) {
+		this.datatype = datatype;
 	}
 
 }

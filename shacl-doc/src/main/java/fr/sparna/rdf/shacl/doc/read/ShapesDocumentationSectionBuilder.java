@@ -128,6 +128,9 @@ public class ShapesDocumentationSectionBuilder {
 		// sh:pattern
 		currentSection.setPattern(nodeShape.getShPattern().isPresent() ?nodeShape.getShPattern().get().getString():null);
 		
+		// sh:datatype
+		currentSection.setDatatype(nodeShape.getShDatatype().map(d -> LinkFactory.buildShDatatypeLink(d)).orElse(null));
+
 		// sh:nodeKind
 		Resource nkSection = nodeShape.getShNodeKind().isPresent() ? nodeShape.getShNodeKind().get().asResource() : null;
 		currentSection.setNodeKind(LinkFactory.renderNodeKind(nkSection));

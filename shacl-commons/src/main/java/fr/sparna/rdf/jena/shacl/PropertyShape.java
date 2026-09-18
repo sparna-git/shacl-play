@@ -280,6 +280,10 @@ public class PropertyShape extends Shape {
 		return this.getPropertyRoles().stream().anyMatch(r -> r.getURI().equals(DASH.IDRole.getURI()) || r.getURI().equals(SHUI.IDRole.getURI()));
 	}
 
+	public Optional<NodeShape> getQualifiedValueShape() {
+		return ModelReadingUtils.getOptionalResource(resource, SH.qualifiedValueShape).map(r -> new NodeShape(r));
+	}
+
 
 	public static class PropertyShapeComparator implements Comparator<PropertyShape> {
 
@@ -306,8 +310,7 @@ public class PropertyShape extends Shape {
 					}
 				}
 			}
-		}
-		
+		}		
 	}
 
 	public Optional<Resource> getShuiViewer(){
@@ -318,26 +321,6 @@ public class PropertyShape extends Shape {
 				}
 			}
 			return Optional.empty();
-	}
-
-	public Optional<Resource> getShuiLabelViewer(){
-		RDFNode node = this.resource.getProperty(ResourceFactory.createProperty(SHUI.LabelViewer.getURI())).getObject();
-		if(node != null){
-			if(node.isURIResource()){
-				return Optional.ofNullable(node.asResource());
-			}
-		}
-		return Optional.empty();
-	}
-
-	public Optional<Resource> getShuiLabelRole(){
-		RDFNode node = this.resource.getProperty(ResourceFactory.createProperty(SHUI.LabelRole.getURI())).getObject();
-		if(node != null){
-			if(node.isURIResource()){
-				return Optional.ofNullable(node.asResource());
-			}
-		}
-		return Optional.empty();
 	}
 
 }

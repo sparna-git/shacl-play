@@ -281,7 +281,7 @@ public class BoxRenderer {
 	
 
 	/*
-	 * function for Merge arrows what point to same class.
+	 * function to merge arrows that point to the same box, with the same color and the same reference
 	 * codeKey - property key
 	 * dataValue - data values or additional values
 	 * collectRelationProperties - save all properties and if the property is included in the map, generate a list of values.

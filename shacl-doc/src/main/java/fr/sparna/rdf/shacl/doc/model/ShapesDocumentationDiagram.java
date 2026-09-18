@@ -2,15 +2,12 @@ package fr.sparna.rdf.shacl.doc.model;
 
 import java.io.IOException;
 
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.xml.sax.SAXException;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 import fr.sparna.rdf.shacl.diagram.PlantUmlDiagramOutput;
-import fr.sparna.rdf.shacl.diagram.plantuml.PlantUmlSvgSerializer;
+import fr.sparna.rdf.shacl.diagram.serialize.PlantUmlSvgSerializer;
 import net.sourceforge.plantuml.code.TranscoderUtil;
 
 @JsonInclude(Include.NON_NULL)

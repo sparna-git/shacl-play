@@ -1,9 +1,9 @@
 package fr.sparna.rdf.shacl.shaclplay.draw.rest;
 
 
+import fr.sparna.rdf.shacl.diagram.DrawFormat;
 import fr.sparna.rdf.shacl.shaclplay.ControllerModelFactory;
 import fr.sparna.rdf.shacl.shaclplay.catalog.shapes.ShapesCatalogService;
-import fr.sparna.rdf.shacl.shaclplay.draw.DrawFormat;
 import fr.sparna.rdf.shacl.shaclplay.draw.SwaggerDrawInfo;
 import fr.sparna.rdf.shacl.shaclplay.draw.service.DrawService;
 import fr.sparna.rdf.shacl.shaclplay.exception.DrawException;

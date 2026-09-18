@@ -1,4 +1,4 @@
-package fr.sparna.rdf.shacl.diagram.plantuml;
+package fr.sparna.rdf.shacl.diagram.serialize;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

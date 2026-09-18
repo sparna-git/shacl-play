@@ -17,11 +17,10 @@ import org.slf4j.LoggerFactory;
 import fr.sparna.cli.watch.WatchFile;
 import fr.sparna.rdf.shacl.app.CliCommandIfc;
 import fr.sparna.rdf.shacl.app.InputModelReader;
+import fr.sparna.rdf.shacl.diagram.DrawFormat;
 import fr.sparna.rdf.shacl.diagram.PlantUmlDiagramGenerator;
 import fr.sparna.rdf.shacl.diagram.PlantUmlDiagramOutput;
-import net.sourceforge.plantuml.FileFormat;
-import net.sourceforge.plantuml.FileFormatOption;
-import net.sourceforge.plantuml.SourceStringReader;
+import fr.sparna.rdf.shacl.diagram.serialize.DiagramSerializer;
 
 public class Draw implements CliCommandIfc {
 
@@ -78,33 +77,16 @@ public class Draw implements CliCommandIfc {
 			}
 			
 			log.debug("Drawing to "+outputFile.getAbsolutePath());
-			
-			// TODO : handle multiple diagram output
-			String plantUmlString = plantUmlStringList.get(0).getPlantUmlString();
 
-			if(outputFile.getName().endsWith(".iuml")) {
-				// output raw string
-				write(plantUmlString, outputFile);
-			} else if(outputFile.getName().endsWith(".svg")) {				
-				FileOutputStream out = new FileOutputStream(outputFile);
-				SourceStringReader reader = new SourceStringReader(plantUmlString);
-				reader.generateImage(out, new FileFormatOption(FileFormat.SVG));
-				out.close();
-			} else if(outputFile.getName().endsWith(".png")) {				
-				FileOutputStream out = new FileOutputStream(outputFile);
-				SourceStringReader reader = new SourceStringReader(plantUmlString);
-				reader.generateImage(out, new FileFormatOption(FileFormat.PNG));
-				out.close();
-			} else if(outputFile.getName().endsWith(".pdf")) {				
-				FileOutputStream out = new FileOutputStream(outputFile);
-				SourceStringReader reader = new SourceStringReader(plantUmlString);
-				reader.generateImage(out, new FileFormatOption(FileFormat.PDF));
-				out.close();
-			} else {
-				// raw string by default
-				write(plantUmlString, outputFile);
-			}
-	
+			DiagramSerializer diagramSerializer = new DiagramSerializer();
+			byte[] output = diagramSerializer.doOutputDiagram(plantUmlStringList, outputFile.getName(), DrawFormat.fromFileName(outputFile.getName()));
+
+			// write output to file
+			try (FileOutputStream fos = new FileOutputStream(outputFile)) {
+				fos.write(output);
+			} catch (IOException e) {
+				log.error("Error writing output file", e);
+			}	
 		}		
 	}
 	

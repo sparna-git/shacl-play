@@ -198,7 +198,7 @@ eclipse.preferences.version=1
       <dependency>                      
         <groupId>net.sourceforge.plantuml</groupId>                      
         <artifactId>plantuml</artifactId>                      
-        <version>1.2024.4</version>                    
+        <version>1.2026.8</version>                    
       </dependency>
                   
       <!-- Jackson -->                  

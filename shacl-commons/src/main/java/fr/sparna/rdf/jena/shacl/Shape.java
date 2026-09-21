@@ -331,26 +331,41 @@ public abstract class Shape {
 		return new ArrayList<NodeShape>(constrainingShapes.stream().map(r -> new NodeShape(r)).collect(Collectors.toList()));
 	}
 
+	public Optional<NodeShape> getShClassShape() {
+		List<NodeShape> shapes = this.getShClass().map(r -> {
+			return new ShapesGraph(r.getModel()).findNodeShapeByTargetClass(r);
+		}).orElse(new ArrayList<NodeShape>());
+
+		return shapes.isEmpty() ? Optional.empty() : Optional.of(shapes.get(0));
+	}
+
 	/**
 	 * Look up the sh:pattern of this node shape, or if not present, the sh:pattern of its shapes referred to by sh:node, recursively.
 	 * @param includeShNodeInheritance
 	 * @return
 	 */
 	public Optional<Literal> getShPattern(boolean includeShNodeInheritance) {
-		return getWithInheritance(includeShNodeInheritance, Shape::getShPattern);
-	}	
-
+		return getOptionalWithInheritance(includeShNodeInheritance, Shape::getShPattern);
+	}
 
 	public Optional<Resource> getShDatatype(boolean includeShNodeInheritance) {
-		return getWithInheritance(includeShNodeInheritance, Shape::getShDatatype);
+		return getOptionalWithInheritance(includeShNodeInheritance, Shape::getShDatatype);
+	}
+
+	public List<Literal> getShLanguageIn(boolean includeShNodeInheritance) {
+		return getListWithInheritance(includeShNodeInheritance, Shape::getShLanguageIn);
 	}
 
 	public Optional<Resource> getShNodeKind(boolean includeShNodeInheritance) {
-		return getWithInheritance(includeShNodeInheritance, Shape::getShNodeKind);
+		return getOptionalWithInheritance(includeShNodeInheritance, Shape::getShNodeKind);
+	}
+
+	public Optional<Resource> getShClass(boolean includeShNodeInheritance) {
+		return getOptionalWithInheritance(includeShNodeInheritance, Shape::getShClass);
 	}
 
 	public Optional<List<RDFNode>> getSkosExample(boolean includeShNodeInheritance) {
-		return getWithInheritance(includeShNodeInheritance, Shape::getSkosExampleAsOptional);
+		return getOptionalWithInheritance(includeShNodeInheritance, Shape::getSkosExampleAsOptional);
 	}
 
 	/**
@@ -361,7 +376,7 @@ public abstract class Shape {
 	 * @param directAccessor function that extracts the property directly from a shape (without inheritance)
 	 * @return the property value if found, either directly or in a parent shape
 	 */
-	protected <T> Optional<T> getWithInheritance(
+	protected <T> Optional<T> getOptionalWithInheritance(
 		boolean includeShNodeInheritance,
 		java.util.function.Function<Shape, Optional<T>> directAccessor
 	) {
@@ -374,12 +389,44 @@ public abstract class Shape {
 				return value;
 			} else {
 				for(NodeShape parentShape : this.getShNodeShapes()) {
-					Optional<T> parentValue = parentShape.getWithInheritance(true, directAccessor);
+					Optional<T> parentValue = parentShape.getOptionalWithInheritance(true, directAccessor);
 					if(parentValue.isPresent()) {
 						return parentValue;
 					}
 				}
+				
+				NodeShape parentShape = this.getShClassShape().orElse(null);
+				if(parentShape != null) {
+					Optional<T> parentValue = parentShape.getOptionalWithInheritance(true, directAccessor);
+					if(parentValue.isPresent()) {
+						return parentValue;
+					}
+				}
+
 				return Optional.empty();
+			}
+		}
+	}
+
+	protected <T> List<T> getListWithInheritance(
+		boolean includeShNodeInheritance,
+		java.util.function.Function<Shape, List<T>> directAccessor
+	) {
+
+		if(!includeShNodeInheritance) {
+			return directAccessor.apply(this);
+		} else {
+			List<T> value = directAccessor.apply(this);
+			if(!value.isEmpty()) {
+				return value;
+			} else {
+				for(NodeShape parentShape : this.getShNodeShapes()) {
+					List<T> parentValue = parentShape.getListWithInheritance(true, directAccessor);
+					if(!parentValue.isEmpty()) {
+						return parentValue;
+					}
+				}
+				return Collections.emptyList();
 			}
 		}
 	}

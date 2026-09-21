@@ -120,11 +120,24 @@ public class ShapesGraph {
 		return shaclGraph.listSubjectsWithProperty(SH.path, path).toList().stream().map(r -> new PropertyShape(r)).collect(Collectors.toList());
 	}
 
-	/*
-		Return the 
-	 */
 	public List<PropertyShape> findPropertyShapesByShortname(String shortname) {
 		return shaclGraph.listSubjectsWithProperty(shaclGraph.createProperty(SHACL_PLAY.SHORTNAME), shaclGraph.createLiteral(shortname)).toList().stream().map(r -> new PropertyShape(r)).collect(Collectors.toList());
+	}
+
+	public List<PropertyShape> findPropertyShapesByShortnameOrPath(String shortname, Resource path) {
+		List<PropertyShape> shapes = new ArrayList<>();
+		// find the (unique) property shape with its shortname, or with a path (which can return multiple property shapes)
+		List<PropertyShape> propertyShapesWithPath = new ArrayList<>();
+		if(shortname != null) {
+			propertyShapesWithPath = this.findPropertyShapesByShortname(shortname);
+		}
+		// if nothing found, try with the path
+		if(propertyShapesWithPath.isEmpty()) {
+			propertyShapesWithPath = this.findPropertyShapesByPath(path);
+		}
+		shapes.addAll(propertyShapesWithPath);
+
+		return shapes;
 	}
 	
 	public void pruneEmptyAndUnusedNodeShapes() {

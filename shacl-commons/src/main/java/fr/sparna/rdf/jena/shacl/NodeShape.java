@@ -494,7 +494,7 @@ public class NodeShape extends Shape  {
 	@Override
 	public String getDisplayColor() {
 		return 
-			this.getWithInheritance(true, Shape::getShaclPlayColor)
+			this.getOptionalWithInheritance(true, Shape::getShaclPlayColor)
 			.map(spc -> ModelRenderingUtils.render(spc, true))
 			.orElse(null);
 	}
@@ -502,7 +502,7 @@ public class NodeShape extends Shape  {
 	@Override
 	public String getDisplayBackgroundColor() {
 		return 
-			this.getWithInheritance(true, Shape::getShaclPlayBackgroundColor)
+			this.getOptionalWithInheritance(true, Shape::getShaclPlayBackgroundColor)
 			.map(spbc -> ModelRenderingUtils.render(spbc, true))
 			.orElse(null);
 	}

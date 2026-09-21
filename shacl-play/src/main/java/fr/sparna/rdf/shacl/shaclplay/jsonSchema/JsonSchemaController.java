@@ -93,6 +93,7 @@ public class JsonSchemaController {
 			modelPopulator.populateModelFromUrl(shapesModel, shapesUrl);
 			log.debug("Done Loading Shapes. Model contains "+shapesModel.size()+" triples");
 			
+
 			generateJsonSchema(
 				shapesModel,
 				urlRoot,
@@ -152,7 +153,9 @@ public class JsonSchemaController {
 		ns = ns.stream().filter(nodeShape -> nodeShape.isRootOfOrHasTarget()).collect(Collectors.toList());
 
 		List<String> listOfUrisRoot = ns.stream().map(nodeShape -> { 
-			return ModelRenderingUtils.render(nodeShape.getResource()) + (!nodeShape.getShaclPlayIsRootOf().isEmpty()?" (explicit root)":""); 
+			// return ModelRenderingUtils.render(nodeShape.getResource()) + (!nodeShape.getShaclPlayIsRootOf().isEmpty()?" (explicit root)":""); 
+			// return nodeShape.getResource().getURI() + (!nodeShape.getShaclPlayIsRootOf().isEmpty()?" (explicit root)":""); 
+			return nodeShape.getResource().getURI(); 
 		}).collect(Collectors.toList());
 		// sort it alphabetically
 		listOfUrisRoot = listOfUrisRoot.stream().sorted().collect(Collectors.toList());

@@ -129,6 +129,8 @@ public class JsonLdContextGenerator {
 			for(String shortname: shortnames) {
 				JsonLdMapping mapping;
 				PropertyPath propertyPath = getPathOfShortNameOrPath(shortname, pathResource, model);
+				List<PropertyShape> propertyShapesWithPath = this.shapesGraph.findPropertyShapesByShortnameOrPath(shortname, pathResource);
+
 				if(propertyPath.isInverse()) {
 					mapping = new JsonLdMapping(
 						shortname,
@@ -198,7 +200,12 @@ public class JsonLdContextGenerator {
 				}
 
 				// use the sh:pattern to produce an inner @context with @base if the pattern is a simple startsWith regex
-				Set<Literal> patterns = findPatternsOfShortname(shortname, pathResource, model);
+				Set<Literal> patterns = propertyShapesWithPath.stream()
+					.map(ps -> ps.getShPattern(true))
+					.filter(Optional::isPresent)
+					.map(Optional::get)
+					.collect(Collectors.toSet());
+
 				if(patterns.size() > 1) {
 					log.warn("Found multiple patterns for path "+pathResource+", will use only one");
 				}
@@ -355,17 +362,6 @@ public class JsonLdContextGenerator {
 		return languageIn;		
 	}
 
-	private Set<Literal> findPatternsOfShortname(String shortname, Resource path, Model model) {
-		List<Shape> shapes = findAllShapesToConsider(shortname, path, model);
-
-		Set<Literal> result = shapes.stream()
-			.map(ps -> ps.getShPattern())
-			.filter(Optional::isPresent)
-			.map(Optional::get)
-			.collect(Collectors.toSet());
-		return result;		
-	}
-
 	private Set<RDFNode> findHasValueOfShortname(String shortname, Resource path, Model model) {
 		// find the (unique) property shape with its shortname, or with a path (which can return multiple property shapes)
 		List<PropertyShape> propertyShapesWithPath = new ArrayList<>();
@@ -506,14 +502,7 @@ public class JsonLdContextGenerator {
 	private List<Shape> findAllShapesToConsider(String shortname, Resource path, Model model) {
 		List<Shape> shapes = new ArrayList<>();
 		// find the (unique) property shape with its shortname, or with a path (which can return multiple property shapes)
-		List<PropertyShape> propertyShapesWithPath = new ArrayList<>();
-		if(shortname != null) {
-			propertyShapesWithPath = this.shapesGraph.findPropertyShapesByShortname(shortname);
-		}
-		// if nothing found, try with the path
-		if(propertyShapesWithPath.isEmpty()) {
-			propertyShapesWithPath = this.shapesGraph.findPropertyShapesByPath(path);
-		}
+		List<PropertyShape> propertyShapesWithPath = this.shapesGraph.findPropertyShapesByShortnameOrPath(shortname, path);
 		shapes.addAll(propertyShapesWithPath);
 		
 		shapes.addAll(propertyShapesWithPath.stream()

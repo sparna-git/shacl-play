@@ -23,7 +23,7 @@ public class QueryExecutionRemoteService implements QueryExecutionService {
 
     @Override
     public <R> R executeSelectQuery(String query, QuerySolution bindings, JenaResultSetHandler<R> resultSetHandler) {
-        try(QueryExecution queryExecution = QueryExecution.service(this.endpoint.toString(), query)) {
+        try(QueryExecution queryExecution = QueryExecution.service(this.endpoint.toString(), QueryExecutionService.buildQueryWithBindings(query, bindings))) {
             if(LOGGER.isDebugEnabled()) {
                 LOGGER.debug(queryExecution.getQuery().serialize());
             }

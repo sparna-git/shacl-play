@@ -18,8 +18,8 @@ public class QueryExecutionLocalService implements QueryExecutionService {
 	}
 
 	@Override
-	public <R> R executeSelectQuery(String query, QuerySolution bindings, JenaResultSetHandler<R> resultSetHandler) {			
-		try(QueryExecution queryExecution = QueryExecution.create(query, this.inputModel)) {
+	public <R> R executeSelectQuery(String query, QuerySolution bindings, JenaResultSetHandler<R> resultSetHandler) {	
+		try(QueryExecution queryExecution = QueryExecution.create(QueryExecutionService.buildQueryWithBindings(query, bindings), this.inputModel)) {	
 			if(log.isDebugEnabled()) {
 				log.debug(queryExecution.getQuery().serialize());
 			}
@@ -61,6 +61,6 @@ public class QueryExecutionLocalService implements QueryExecutionService {
 	public Model executeConstructQuery(String query) {
 	    return executeConstructQuery(query, new QuerySolutionMap());
 	  }
-
+	
 
 }

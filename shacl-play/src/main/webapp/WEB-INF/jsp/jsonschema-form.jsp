@@ -357,7 +357,7 @@
 						$('select[id="IdUrl"]').empty();
 						$('select[id="IdUrl"]').append('<option value=""></option>');
 						$.each(JSON.parse(request.responseText), function(key, value) {
-							$('select[id="IdUrl"]').append($('<option>').text(value).attr('value', value)).trigger("chosen:updated");            
+							$('select[id="IdUrl"]').append($('<option>').text(key).attr('value', value)).trigger("chosen:updated");            
 						});
 					}
 				};

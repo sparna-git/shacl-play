@@ -88,8 +88,8 @@ public class EnrichDocumentationWithQuerySparqlVisitor implements ShaclVisitorIf
 					ElementTriplesBlock eBlock = new ElementTriplesBlock();		
 					
 					// TODO : this will not work in case of multiple target classes
-					if(section.getTargetClass() != null) {
-						for (Link r : section.getTargetClass()) {
+					if(section.getTargets().getTargetClass() != null) {
+						for (Link r : section.getTargets().getTargetClass()) {
 							eBlock.addTriple(new Triple(this.subject, this.type,NodeFactory.createURI(r.getHref())));
 						}	
 					}				

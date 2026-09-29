@@ -1174,15 +1174,15 @@
 				<xsl:if test="
 					description != ''
 					or
-					targetClass/targetClass
+					target/targetClass/targetClass
 					or
 					superClasses/superClass
 					or
-					targetSubjectsOf != ''
+					target/targetSubjectsOf != ''
 					or
-					targetObjectsOf != ''
+					target/targetObjectsOf != ''
 					or
-					sparqlTarget
+					target/sparqlTarget
 					or
 					nodeKind != ''
 					or
@@ -1208,31 +1208,31 @@
 
 				<!-- div targets -->
 				<xsl:if test="
-					targetClass/targetClass
+					target/targetClass/targetClass
 					or
 					superClasses/superClass
 					or
-					targetSubjectsOf != ''
+					target/targetSubjectsOf != ''
 					or
-					targetObjectsOf != ''
+					target/targetObjectsOf != ''
 					or
-					sparqlTarget							
+					target/sparqlTarget							
 				">
 					<div class="sp_target">
 						<xsl:choose>
-							<xsl:when test="sparqlTarget and not(targetClass/targetClass or superClasses/superClass or targetSubjectsOf != '' or targetObjectsOf != '')">
+							<xsl:when test="target/sparqlTarget and not(target/targetClass/targetClass or superClasses/superClass or target/targetSubjectsOf != '' or target/targetObjectsOf != '')">
 								<!-- if there is only a SPARQL target, show a specific title with only the SPARQL target -->
 								<div class="sp_target-header"><xsl:value-of select="$LABELS/labels/entry[@key='SECTION_TARGET_SPARQLONLY.TITLE']/@label" /></div>
-								<xsl:apply-templates select="sparqlTarget" />
+								<xsl:apply-templates select="target/sparqlTarget" />
 							</xsl:when>
 							<xsl:otherwise>
 								<div class="sp_target-header"><xsl:value-of select="$LABELS/labels/entry[@key='SECTION_TARGET.TITLE']/@label" /></div>
 								<ul class="sp_list_description_properties">
-								<xsl:if test="targetClass/targetClass">
+								<xsl:if test="target/targetClass/targetClass">
 
 									<li>
 										<xsl:value-of select="$LABELS/labels/entry[@key='LABEL_TARGETCLASS']/@label" />
-										<xsl:for-each select="targetClass/targetClass">
+										<xsl:for-each select="target/targetClass/targetClass">
 											<xsl:variable name="TargetClass_Href" select="href"/>
 											<xsl:variable name="TargetClass_label" select="label"/>
 											
@@ -1267,23 +1267,23 @@
 										</xsl:for-each>
 									</li>
 								</xsl:if>
-								<xsl:if test="targetSubjectsOf">
+								<xsl:if test="target/targetSubjectsOf">
 									<li>
 										<xsl:value-of select="$LABELS/labels/entry[@key='LABEL_TARGETSUBJECTSOF']/@label" />
-										<xsl:value-of select="targetSubjectsOf"/>
+										<xsl:value-of select="target/targetSubjectsOf"/>
 									</li>
 								</xsl:if>
-								<xsl:if test="targetObjectsOf">
+								<xsl:if test="target/targetObjectsOf">
 									<li>
 										<xsl:value-of select="$LABELS/labels/entry[@key='LABEL_TARGETOBJECTSOF']/@label" />
-										<xsl:value-of select="targetObjectsOf"/>
+										<xsl:value-of select="target/targetObjectsOf"/>
 									</li>
 								</xsl:if>
-								<xsl:if test="sparqlTarget">
+								<xsl:if test="target/sparqlTarget">
 									<li>					
 										<xsl:value-of select="$LABELS/labels/entry[@key='LABEL_TARGETCLASS']/@label" />									
 										<br/>
-										<xsl:apply-templates select="sparqlTarget" />
+										<xsl:apply-templates select="target/sparqlTarget" />
 									</li>
 								</xsl:if>
 								</ul>

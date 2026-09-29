@@ -211,7 +211,7 @@ public class ShapesDocumentation {
 	@JacksonXmlProperty(localName = "datasetDocumentation")
 	public boolean isDatasetDocumentation() {
 		return this.sections.stream().anyMatch(section -> {
-			return (section.getNumberOfTargets() > 0) || section.getPropertiesInAllGroups().stream().anyMatch(ps -> ps.getDistinctObjects() > 0 || ps.getTriples() > 0);
+			return (section.getTargets().getNumberOfTargets() > 0) || section.getPropertiesInAllGroups().stream().anyMatch(ps -> ps.getDistinctObjects() > 0 || ps.getTriples() > 0);
 		});
 	}
 	

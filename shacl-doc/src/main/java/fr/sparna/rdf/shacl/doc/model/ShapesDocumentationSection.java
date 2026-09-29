@@ -51,11 +51,11 @@ public class ShapesDocumentationSection {
 	private Boolean mainToc;
 	
 
-	private List<Link> targetClass;
-	private String targetSubjectsOf;
-	private String targetObjectsOf;
+	//private List<Link> targetClass;
+	//private String targetSubjectsOf;
+	//private String targetObjectsOf;
 	// The target of the shape when it is expressed using a SPARQL query
-	private String sparqlTarget;
+	//private String sparqlTarget;
 	
 	private String hasValue;
 	
@@ -63,6 +63,11 @@ public class ShapesDocumentationSection {
 	 * Diagram inside nodeshape
 	 */
 	private PlantUmlDiagramOutput nsDiagram;
+	
+	@JacksonXmlElementWrapper(localName="targets")
+	@JacksonXmlProperty(localName = "target")
+	private Targets targets;
+	
 	
 	@JacksonXmlElementWrapper(localName="superClasses")
 	@JacksonXmlProperty(localName = "superClass")
@@ -96,7 +101,7 @@ public class ShapesDocumentationSection {
 	@JacksonXmlProperty(localName = "depiction")
 	private List<Depiction> depictions;
 	
-	private int numberOfTargets;
+	//private int numberOfTargets;
 
 
 	
@@ -158,22 +163,6 @@ public class ShapesDocumentationSection {
 		this.description = description;
 	}
 	
-	public List<Link> getTargetClass() {
-		return targetClass;
-	}
-
-	public void setTargetClass(List<Link> targetClass) {
-		this.targetClass = targetClass;
-	}
-
-	public String getSparqlTarget() {
-		return sparqlTarget;
-	}
-
-	public void setSparqlTarget(String sparqlTarget) {
-		this.sparqlTarget = sparqlTarget;
-	}
-
 	public String getPattern() {
 		return pattern;
 	}
@@ -222,14 +211,6 @@ public class ShapesDocumentationSection {
 		this.messages = messages;
 	}
 
-	public int getNumberOfTargets() {
-		return numberOfTargets;
-	}
-
-	public void setNumberOfTargets(int numberOfTargets) {
-		this.numberOfTargets = numberOfTargets;
-	}
-
 	public String getNodeShapeUriOrId() {
 		return nodeShapeUriOrId;
 	}
@@ -244,22 +225,6 @@ public class ShapesDocumentationSection {
 
 	public void setPropertyGroups(List<PropertyShapesGroupDocumentation> propertyGroups) {
 		this.propertyGroups = propertyGroups;
-	}
-
-	public String getTargetSubjectsOf() {
-		return targetSubjectsOf;
-	}
-
-	public String getTargetObjectsOf() {
-		return targetObjectsOf;
-	}
-
-	public void setTargetSubjectsOf(String targetSubjectsOf) {
-		this.targetSubjectsOf = targetSubjectsOf;
-	}
-
-	public void setTargetObjectsOf(String targetObjectsOf) {
-		this.targetObjectsOf = targetObjectsOf;
 	}
 
 	public List<Depiction> getDepictions() {
@@ -341,5 +306,15 @@ public class ShapesDocumentationSection {
 	public void setDatatype(Link datatype) {
 		this.datatype = datatype;
 	}
+
+	public Targets getTargets() {
+		return targets;
+	}
+
+	public void setTargets(Targets targets) {
+		this.targets = targets;
+	}
+
+	
 
 }

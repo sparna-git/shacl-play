@@ -126,7 +126,7 @@
 		
 		<h3 id="{../sectionId}" class="sp_section_title_table" style="{$style}">
 			<xsl:value-of select="."/>
-			<xsl:apply-templates select="../numberOfTargets" />
+			<xsl:apply-templates select="../target/numberOfTargets" />
 		</h3>
 	</xsl:template>
 
@@ -141,7 +141,7 @@
 			<a href="{concat('#',sectionId)}">
 				<xsl:value-of select="title" />
 				<!-- Add indicator of number of target  -->
-				<xsl:apply-templates select="./numberOfTargets" mode="TOC"/>
+				<xsl:apply-templates select="./target/numberOfTargets" mode="TOC"/>
 			</a>
 			<xsl:if test="count(charts/chart) > 0">
 				<ul class="ul_type_none sp_list_toc_l3">										

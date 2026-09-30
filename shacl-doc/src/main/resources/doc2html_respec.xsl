@@ -96,7 +96,7 @@
 
 			<entry key="LABEL_TABLE_PROPERTY" label="Tableau des propriétés de " />
 
-			<entry key="LABEL_SPARQL_EDITOR" label="Editeur Sparql" />
+			<entry key="LABEL_SPARQL_EDITOR" label="Afficher les résultats" />
 
 		</labels>
 	</xsl:variable>
@@ -187,7 +187,7 @@
 
 			<entry key="LABEL_TABLE_PROPERTY" label="Table of properties for " />
 
-			<entry key="LABEL_SPARQL_EDITOR" label="Sparql Editor" />
+			<entry key="LABEL_SPARQL_EDITOR" label="See the results" />
 
 		</labels>
 	</xsl:variable>

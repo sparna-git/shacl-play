@@ -95,6 +95,9 @@
 			<entry key="LABEL_DESCRIPTION_SPARQL" label="Pas de description disponible" />
 
 			<entry key="LABEL_TABLE_PROPERTY" label="Tableau des propriétés de " />
+
+			<entry key="LABEL_SPARQL_EDITOR" label="Editeur Sparql" />
+
 		</labels>
 	</xsl:variable>
 	<!-- In this stylesheet we just copy the base labels -->
@@ -184,6 +187,8 @@
 
 			<entry key="LABEL_TABLE_PROPERTY" label="Table of properties for " />
 
+			<entry key="LABEL_SPARQL_EDITOR" label="Sparql Editor" />
+
 		</labels>
 	</xsl:variable>
 	<!-- In this stylesheet we just copy the base labels -->
@@ -237,7 +242,6 @@
 					</xsl:otherwise>
 				</xsl:choose>
 
-
 				<!--
 				<xsl:if test="$var_title != ''"></xsl:if>
 				-->
@@ -250,9 +254,9 @@
 				
 				<xsl:apply-templates select="../ShapesDocumentation" mode="javascript_extra_header"/>
 
-				<!--  RESPEC Documentation  
-				<script src="https://www.w3.org/Tools/respec/respec-w3c" class="remove" defer="true"></script>
-				-->
+				<!-- MatGUI Developer Guide -->
+				<link rel="stylesheet" href="https://unpkg.com/@matdata/yasgui/build/yasgui.min.css" />
+				<!--  RESPEC Documentation -->
 				<script language="javascript" src="https://shacl-play.sparna.fr/play/resources/respec/respec-w3c.js" class="remove" defer="true"></script>
 				<script class="remove">
 					// Turtle
@@ -342,7 +346,10 @@
 							<xsl:if test="not(contains(feedbacks/feedback/href,'github'))">
 								<xsl:apply-templates select="feedbacks" />
 							</xsl:if>
-							<xsl:apply-templates select="OWLimports" />							
+							<xsl:apply-templates select="OWLimports" />
+							<xsl:if test="string-length(sparqlEndPoint) &gt; 0">
+								<xsl:apply-templates select="sparqlEndPoint" />
+							</xsl:if>
 						]				
 					};
 				</script>
@@ -358,7 +365,6 @@
 					
 					<xsl:apply-templates select="rightsHolders" />
 				</p>
-
 				<xsl:apply-templates select="formats" />
 
 				<xsl:apply-templates select="abstract_" />
@@ -1022,6 +1028,18 @@
 		</section>
 	</xsl:template>
 
+	<xsl:template match="sparqlEndPoint">
+		{
+			key: <xsl:value-of select="concat($quota,'EndPoint',$quota,$comma)"/>
+			data: [
+				{
+					value: "",
+          			href: <xsl:value-of select="concat($quota,.,$quota)"/>
+				}
+			]
+		}
+	</xsl:template>
+
 	<!--
 		Section of prefix
 	-->
@@ -1222,14 +1240,15 @@
 						<xsl:choose>
 							<xsl:when test="target/sparqlTarget and not(target/targetClass/targetClass or superClasses/superClass or target/targetSubjectsOf != '' or target/targetObjectsOf != '')">
 								<!-- if there is only a SPARQL target, show a specific title with only the SPARQL target -->
-								<div class="sp_target-header"><xsl:value-of select="$LABELS/labels/entry[@key='SECTION_TARGET_SPARQLONLY.TITLE']/@label" /></div>
+								<div class="sp_target-header">
+								<xsl:value-of select="$LABELS/labels/entry[@key='SECTION_TARGET_SPARQLONLY.TITLE']/@label" /></div>
+								<!-- Sparql Traget-->
 								<xsl:apply-templates select="target/sparqlTarget" />
 							</xsl:when>
 							<xsl:otherwise>
 								<div class="sp_target-header"><xsl:value-of select="$LABELS/labels/entry[@key='SECTION_TARGET.TITLE']/@label" /></div>
 								<ul class="sp_list_description_properties">
 								<xsl:if test="target/targetClass/targetClass">
-
 									<li>
 										<xsl:value-of select="$LABELS/labels/entry[@key='LABEL_TARGETCLASS']/@label" />
 										<xsl:for-each select="target/targetClass/targetClass">
@@ -1283,6 +1302,7 @@
 									<li>					
 										<xsl:value-of select="$LABELS/labels/entry[@key='LABEL_TARGETCLASS']/@label" />									
 										<br/>
+										<p>List Type</p>
 										<xsl:apply-templates select="target/sparqlTarget" />
 									</li>
 								</xsl:if>
@@ -1441,10 +1461,29 @@
 
 	<xsl:template match="sparqlTarget">
 		<code>
-			<pre class="sparql">
-				<xsl:value-of select="." />					
+			<pre class="sparql">	
+				<xsl:value-of select="." />
 			</pre>
 		</code>
+		<xsl:if test="../../../../sparqlEndPoint">
+			<xsl:variable name="urlEndPoint" select="../../../../sparqlEndPoint"/>
+			<xsl:variable name="SparqlQuery">
+				<xsl:value-of select="." disable-output-escaping="yes"/>
+			</xsl:variable>
+			<xsl:variable name="urlSparqlEditor" select="concat('https://matgui.matdata.eu/','#query=',$SparqlQuery,'&amp;','endpoint=',$urlEndPoint)"/>
+			<div style="display: flex; justify-content: right;">
+				<a href="{$urlSparqlEditor}" target="_blank">
+					<i><b><xsl:value-of select="$LABELS/labels/entry[@key='LABEL_SPARQL_EDITOR']/@label" /></b></i>
+					<svg xmlns="http://www.w3.org/2000/svg" 
+						style="width:18px; vertical-align: middle; margin-left: 4px;"
+						viewBox="0 0 640 640">
+						<path opacity=".4" d="M223.6 248.1L353.3 176C357 198.1 368.3 217.7 384.4 231.9L254.7 304C251 281.9 239.7 262.3 223.6 248.1zM223.6 392C239.7 377.8 251 358.2 254.7 336.1L384.4 408.2C368.3 422.4 357 442 353.3 464.1L223.6 391.9z"/>
+						<path d="M352 160C352 107 395 64 448 64C501 64 544 107 544 160C544 213 501 256 448 256C395 256 352 213 352 160zM64 320C64 267 107 224 160 224C213 224 256 267 256 320C256 373 213 416 160 416C107 416 64 373 64 320zM448 384C501 384 544 427 544 480C544 533 501 576 448 576C395 576 352 533 352 480C352 427 395 384 448 384z"/>
+					</svg>	
+				</a>
+				<span class="sr-only">(opens Sparql Query Editor)</span>
+			</div>
+		</xsl:if>
 	</xsl:template>
 
 	<xsl:template match="section/title">

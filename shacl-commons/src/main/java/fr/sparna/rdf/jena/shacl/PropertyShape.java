@@ -302,34 +302,26 @@ public class PropertyShape extends Shape {
 		
 	}
 
-	private Optional<Resource> getShui(Property shuiProperty){
-		Statement statement = this.resource.getProperty(shuiProperty);
-		if(statement != null){
-			RDFNode node = statement.getObject();
-			if(node.isURIResource()){
-				return Optional.ofNullable(node.asResource());
-			}
+	/**
+	 * @return the list of all shui:viewer of this property shape, or an empty list if none is present
+	 */
+	public List<Resource> getShuiViewers() {
+		List<Resource> result = new ArrayList<>();
+		if (
+			resource.hasProperty(SHUI.viewer)
+		) {			
+			List<Statement> shuiViewers = resource.listProperties(SHUI.viewer).toList();
+			result.addAll(shuiViewers.stream().filter(s -> s.getObject().isResource()).map(s -> s.getObject().asResource()).collect(Collectors.toList()));
 		}
-		return Optional.empty();
+
+		return result;
 	}
 
+	/**
+	 * @return the first shui:viewer of this property shape, or an empty optional if none is present
+	 */
 	public Optional<Resource> getShuiViewer(){
-			return this.getShui(SHUI.viewer);
-	}
-
-	public Optional<Resource> getShuiLabelViewer(){
-		return this.getShui(SHUI.LabelViewer);
-	}
-
-	public Optional<Resource> getShuiLabelRole(){
-		return this.getShui(SHUI.propertyRole);
-		//RDFNode node = this.resource.getProperty(ResourceFactory.createProperty(SHUI.LabelRole.getURI())).getObject();
-		//if(node != null){
-		//	if(node.isURIResource()){
-		//		return Optional.ofNullable(node.asResource());
-		//	}
-		//}
-		//return Optional.empty();
+		return this.getShuiViewers().stream().findFirst();
 	}
 
 }

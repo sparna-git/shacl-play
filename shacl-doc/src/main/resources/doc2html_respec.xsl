@@ -96,7 +96,7 @@
 
 			<entry key="LABEL_TABLE_PROPERTY" label="Tableau des propriétés de " />
 
-			<entry key="LABEL_SPARQL_EDITOR" label="Afficher les résultats" />
+			<entry key="LABEL_LIST_TARGETS" label="Lister les cibles" />
 
 		</labels>
 	</xsl:variable>
@@ -187,7 +187,7 @@
 
 			<entry key="LABEL_TABLE_PROPERTY" label="Table of properties for " />
 
-			<entry key="LABEL_SPARQL_EDITOR" label="See the results" />
+			<entry key="LABEL_LIST_TARGETS" label="List targets" />
 
 		</labels>
 	</xsl:variable>
@@ -1449,15 +1449,13 @@
 			<xsl:variable name="urlSparqlEditor" select="concat('https://matgui.matdata.eu/','#query=',$SparqlQuery,'&amp;','endpoint=',$urlEndPoint)"/>
 			<div style="display: flex; justify-content: right;">
 				<a href="{$urlSparqlEditor}" target="_blank">
-					<i><b><xsl:value-of select="$LABELS/labels/entry[@key='LABEL_SPARQL_EDITOR']/@label" /></b></i>
-					<svg xmlns="http://www.w3.org/2000/svg" 
-						style="width:18px; vertical-align: middle; margin-left: 4px;"
-						viewBox="0 0 640 640">
-						<path opacity=".4" d="M223.6 248.1L353.3 176C357 198.1 368.3 217.7 384.4 231.9L254.7 304C251 281.9 239.7 262.3 223.6 248.1zM223.6 392C239.7 377.8 251 358.2 254.7 336.1L384.4 408.2C368.3 422.4 357 442 353.3 464.1L223.6 391.9z"/>
-						<path d="M352 160C352 107 395 64 448 64C501 64 544 107 544 160C544 213 501 256 448 256C395 256 352 213 352 160zM64 320C64 267 107 224 160 224C213 224 256 267 256 320C256 373 213 416 160 416C107 416 64 373 64 320zM448 384C501 384 544 427 544 480C544 533 501 576 448 576C395 576 352 533 352 480C352 427 395 384 448 384z"/>
-					</svg>	
+					<small><xsl:value-of select="$LABELS/labels/entry[@key='LABEL_LIST_TARGETS']/@label" /></small>
+					<svg xmlns="http://www.w3.org/2000/svg" style="width:18px; vertical-align: middle; margin-left: 4px;" viewBox="0 0 640 640">
+						<path opacity=".4" d="M96 192L425.4 192L260.7 356.7L249.4 368L272 390.6L283.3 379.3L448 214.6L448 544L96 544L96 192z"/>
+						<path d="M368 64L352 64L352 96L521.4 96L260.7 356.7L249.4 368L272 390.6L283.3 379.3L544 118.6L544 288L576 288L576 64L368 64zM80 160L64 160L64 576L480 576L480 384L448 384L448 544L96 544L96 192L256 192L256 160L80 160z"/>
+					</svg>
 				</a>
-				<span class="sr-only">(opens Sparql Query Editor)</span>
+				<span class="sr-only">(opens query in a new window for execution)</span>
 			</div>
 		</xsl:if>
 	</xsl:template>

@@ -95,6 +95,9 @@
 			<entry key="LABEL_DESCRIPTION_SPARQL" label="Pas de description disponible" />
 
 			<entry key="LABEL_TABLE_PROPERTY" label="Tableau des propriétés de " />
+
+			<entry key="LABEL_LIST_TARGETS" label="Lister les cibles" />
+
 		</labels>
 	</xsl:variable>
 	<!-- In this stylesheet we just copy the base labels -->
@@ -184,6 +187,8 @@
 
 			<entry key="LABEL_TABLE_PROPERTY" label="Table of properties for " />
 
+			<entry key="LABEL_LIST_TARGETS" label="List targets" />
+
 		</labels>
 	</xsl:variable>
 	<!-- In this stylesheet we just copy the base labels -->
@@ -237,7 +242,6 @@
 					</xsl:otherwise>
 				</xsl:choose>
 
-
 				<!--
 				<xsl:if test="$var_title != ''"></xsl:if>
 				-->
@@ -250,9 +254,9 @@
 				
 				<xsl:apply-templates select="../ShapesDocumentation" mode="javascript_extra_header"/>
 
-				<!--  RESPEC Documentation  
-				<script src="https://www.w3.org/Tools/respec/respec-w3c" class="remove" defer="true"></script>
-				-->
+				<!-- MatGUI Developer Guide -->
+				<link rel="stylesheet" href="https://unpkg.com/@matdata/yasgui/build/yasgui.min.css" />
+				<!--  RESPEC Documentation -->
 				<script language="javascript" src="https://shacl-play.sparna.fr/play/resources/respec/respec-w3c.js" class="remove" defer="true"></script>
 				<script class="remove">
 					// Turtle
@@ -342,7 +346,10 @@
 							<xsl:if test="not(contains(feedbacks/feedback/href,'github'))">
 								<xsl:apply-templates select="feedbacks" />
 							</xsl:if>
-							<xsl:apply-templates select="OWLimports" />							
+							<xsl:apply-templates select="OWLimports" />
+							<xsl:if test="string-length(sparqlEndPoint) &gt; 0">
+								<xsl:apply-templates select="sparqlEndPoint" />
+							</xsl:if>
 						]				
 					};
 				</script>
@@ -358,7 +365,6 @@
 					
 					<xsl:apply-templates select="rightsHolders" />
 				</p>
-
 				<xsl:apply-templates select="formats" />
 
 				<xsl:apply-templates select="abstract_" />
@@ -1022,6 +1028,18 @@
 		</section>
 	</xsl:template>
 
+	<xsl:template match="sparqlEndPoint">
+		{
+			key: <xsl:value-of select="concat($quota,'EndPoint',$quota,$comma)"/>
+			data: [
+				{
+					value: "",
+          			href: <xsl:value-of select="concat($quota,.,$quota)"/>
+				}
+			]
+		}
+	</xsl:template>
+
 	<!--
 		Section of prefix
 	-->
@@ -1174,15 +1192,7 @@
 				<xsl:if test="
 					description != ''
 					or
-					targetClass/targetClass
-					or
-					superClasses/superClass
-					or
-					targetSubjectsOf != ''
-					or
-					targetObjectsOf != ''
-					or
-					sparqlTarget
+					target/*
 					or
 					nodeKind != ''
 					or
@@ -1207,92 +1217,7 @@
 				</xsl:if>
 
 				<!-- div targets -->
-				<xsl:if test="
-					targetClass/targetClass
-					or
-					superClasses/superClass
-					or
-					targetSubjectsOf != ''
-					or
-					targetObjectsOf != ''
-					or
-					sparqlTarget							
-				">
-					<div class="sp_target">
-						<xsl:choose>
-							<xsl:when test="sparqlTarget and not(targetClass/targetClass or superClasses/superClass or targetSubjectsOf != '' or targetObjectsOf != '')">
-								<!-- if there is only a SPARQL target, show a specific title with only the SPARQL target -->
-								<div class="sp_target-header"><xsl:value-of select="$LABELS/labels/entry[@key='SECTION_TARGET_SPARQLONLY.TITLE']/@label" /></div>
-								<xsl:apply-templates select="sparqlTarget" />
-							</xsl:when>
-							<xsl:otherwise>
-								<div class="sp_target-header"><xsl:value-of select="$LABELS/labels/entry[@key='SECTION_TARGET.TITLE']/@label" /></div>
-								<ul class="sp_list_description_properties">
-								<xsl:if test="targetClass/targetClass">
-
-									<li>
-										<xsl:value-of select="$LABELS/labels/entry[@key='LABEL_TARGETCLASS']/@label" />
-										<xsl:for-each select="targetClass/targetClass">
-											<xsl:variable name="TargetClass_Href" select="href"/>
-											<xsl:variable name="TargetClass_label" select="label"/>
-											
-											<a href="{$TargetClass_Href}">
-												<xsl:value-of select="$TargetClass_label" />
-											</a>
-											<xsl:choose>
-												<xsl:when test="position() = last()">
-													<xsl:text></xsl:text>
-												</xsl:when>
-												<xsl:when test="position() != last()">
-													<xsl:text> | </xsl:text>
-												</xsl:when>											
-											</xsl:choose>
-										</xsl:for-each>
-									</li>
-									
-								</xsl:if>
-								<xsl:if test="superClasses/superClass">
-									<li>
-										<xsl:value-of
-											select="$LABELS/labels/entry[@key='LABEL_SUPERCLASSES']/@label" />
-										<xsl:for-each select="superClasses/superClass">
-											<xsl:choose>
-												<xsl:when test="position() = 1">
-													<a href="{href}"><xsl:value-of select="label" /></a>
-												</xsl:when>
-												<xsl:otherwise>
-													, <a href="{href}"><xsl:value-of select="label" /></a>
-												</xsl:otherwise>
-											</xsl:choose>
-										</xsl:for-each>
-									</li>
-								</xsl:if>
-								<xsl:if test="targetSubjectsOf">
-									<li>
-										<xsl:value-of select="$LABELS/labels/entry[@key='LABEL_TARGETSUBJECTSOF']/@label" />
-										<xsl:value-of select="targetSubjectsOf"/>
-									</li>
-								</xsl:if>
-								<xsl:if test="targetObjectsOf">
-									<li>
-										<xsl:value-of select="$LABELS/labels/entry[@key='LABEL_TARGETOBJECTSOF']/@label" />
-										<xsl:value-of select="targetObjectsOf"/>
-									</li>
-								</xsl:if>
-								<xsl:if test="sparqlTarget">
-									<li>					
-										<xsl:value-of select="$LABELS/labels/entry[@key='LABEL_TARGETCLASS']/@label" />									
-										<br/>
-										<xsl:apply-templates select="sparqlTarget" />
-									</li>
-								</xsl:if>
-								</ul>
-							</xsl:otherwise>
-						</xsl:choose>
-
-
-					</div>
-				</xsl:if>
+				<xsl:apply-templates select="target"/>
 
 				<!-- div value : nodeKind / pattern / examples -->
 				<xsl:if test="
@@ -1438,13 +1363,101 @@
 			</xsl:if>
 		</section>		
 	</xsl:template>
+	
+	<xsl:template match="target">
+		<xsl:if test="
+			targetClass/targetClass
+			or
+			targetSubjectsOf != ''
+			or
+			targetObjectsOf != ''
+			or
+			sparqlTarget							
+		">		
+			<div class="sp_target">
+				<xsl:choose>
+					<xsl:when test="sparqlTarget and not(targetClass/targetClass or superClasses/superClass or targetSubjectsOf != '' or targetObjectsOf != '')">
+						<!-- if there is only a SPARQL target, show a specific title with only the SPARQL target -->
+						<div class="sp_target-header">
+							<xsl:value-of select="$LABELS/labels/entry[@key='SECTION_TARGET_SPARQLONLY.TITLE']/@label" /></div>
+						<!-- Sparql Traget-->
+						<xsl:apply-templates select="sparqlTarget" />
+					</xsl:when>
+					<xsl:otherwise>
+						<div class="sp_target-header"><xsl:value-of select="$LABELS/labels/entry[@key='SECTION_TARGET.TITLE']/@label" /></div>
+						<ul class="sp_list_description_properties">
+							<xsl:if test="targetClass/targetClass">
+								<li>
+									<xsl:value-of select="$LABELS/labels/entry[@key='LABEL_TARGETCLASS']/@label" />
+									<xsl:for-each select="targetClass/targetClass">
+										<xsl:variable name="TargetClass_Href" select="href"/>
+										<xsl:variable name="TargetClass_label" select="label"/>
+										
+										<a href="{$TargetClass_Href}">
+											<xsl:value-of select="$TargetClass_label" />
+										</a>
+										<xsl:choose>
+											<xsl:when test="position() = last()">
+												<xsl:text></xsl:text>
+											</xsl:when>
+											<xsl:when test="position() != last()">
+												<xsl:text> | </xsl:text>
+											</xsl:when>											
+										</xsl:choose>
+									</xsl:for-each>
+								</li>								
+							</xsl:if>
+
+							<xsl:if test="targetSubjectsOf">
+								<li>
+									<xsl:value-of select="$LABELS/labels/entry[@key='LABEL_TARGETSUBJECTSOF']/@label" />
+									<xsl:value-of select="targetSubjectsOf"/>
+								</li>
+							</xsl:if>
+							<xsl:if test="targetObjectsOf">
+								<li>
+									<xsl:value-of select="$LABELS/labels/entry[@key='LABEL_TARGETOBJECTSOF']/@label" />
+									<xsl:value-of select="targetObjectsOf"/>
+								</li>
+							</xsl:if>
+							<xsl:if test="sparqlTarget">
+								<li>					
+									<xsl:value-of select="$LABELS/labels/entry[@key='LABEL_TARGETCLASS']/@label" />									
+									<br/>
+									<p>List Type</p>
+									<xsl:apply-templates select="sparqlTarget" />
+								</li>
+							</xsl:if>
+						</ul>
+					</xsl:otherwise>
+				</xsl:choose>			
+			</div>		
+		</xsl:if>
+	</xsl:template>
 
 	<xsl:template match="sparqlTarget">
 		<code>
-			<pre class="sparql">
-				<xsl:value-of select="." />					
+			<pre class="sparql">	
+				<xsl:value-of select="." />
 			</pre>
 		</code>
+		<xsl:if test="../../../../sparqlEndPoint">
+			<xsl:variable name="urlEndPoint" select="../../../../sparqlEndPoint"/>
+			<xsl:variable name="SparqlQuery">
+				<xsl:value-of select="." disable-output-escaping="yes"/>
+			</xsl:variable>
+			<xsl:variable name="urlSparqlEditor" select="concat('https://matgui.matdata.eu/','#query=',$SparqlQuery,'&amp;','endpoint=',$urlEndPoint)"/>
+			<div style="display: flex; justify-content: right;">
+				<a href="{$urlSparqlEditor}" target="_blank">
+					<small><xsl:value-of select="$LABELS/labels/entry[@key='LABEL_LIST_TARGETS']/@label" /></small>
+					<svg xmlns="http://www.w3.org/2000/svg" style="width:18px; vertical-align: middle; margin-left: 4px;" viewBox="0 0 640 640">
+						<path opacity=".4" d="M96 192L425.4 192L260.7 356.7L249.4 368L272 390.6L283.3 379.3L448 214.6L448 544L96 544L96 192z"/>
+						<path d="M368 64L352 64L352 96L521.4 96L260.7 356.7L249.4 368L272 390.6L283.3 379.3L544 118.6L544 288L576 288L576 64L368 64zM80 160L64 160L64 576L480 576L480 384L448 384L448 544L96 544L96 192L256 192L256 160L80 160z"/>
+					</svg>
+				</a>
+				<span class="sr-only">(opens query in a new window for execution)</span>
+			</div>
+		</xsl:if>
 	</xsl:template>
 
 	<xsl:template match="section/title">

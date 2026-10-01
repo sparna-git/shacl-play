@@ -15,6 +15,7 @@ import org.apache.jena.vocabulary.RDFS;
 
 import fr.sparna.rdf.jena.ModelReadingUtils;
 import fr.sparna.rdf.vocabularies.ADMS;
+import fr.sparna.rdf.vocabularies.SD;
 
 public class OwlOntology {
 	
@@ -159,4 +160,10 @@ public class OwlOntology {
 		return ModelReadingUtils.readLiteralInLangAsString(this.resource,this.resource.getModel().createProperty(ADMS.VERSION_NOTES), lang);
 	}	
 	
+	public Resource getUrlEndPoint() {
+		if (ModelReadingUtils.readObjectAsResource(this.resource, SD.ENDPOINT).size() > 0) {
+			return ModelReadingUtils.readObjectAsResource(this.resource, SD.ENDPOINT).get(0);
+		} 
+		return null;		
+	}
 }

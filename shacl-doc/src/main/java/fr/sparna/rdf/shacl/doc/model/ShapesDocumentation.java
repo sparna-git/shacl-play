@@ -7,6 +7,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.RDFNode;
+import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.vocabulary.RDFS;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -34,6 +35,8 @@ public class ShapesDocumentation {
 	protected String yearCopyRighted;
 	
 	protected String jsonldOWL;
+
+	protected String sparqlEndPoint;
 	
 	@JacksonXmlElementWrapper(localName="diagrams")
 	@JacksonXmlProperty(localName = "diagram")
@@ -92,6 +95,10 @@ public class ShapesDocumentation {
 			this.setModifiedDate(ontology.getDateModified());
 			this.setVersionInfo(ontology.getOwlVersionInfo());
 			
+			if (ontology.getUrlEndPoint() != null) {
+				this.setSparqlEndPoint(ontology.getUrlEndPoint().toString());
+			}
+			
 			Optional.ofNullable(ontology.getLicense(lang)).ifPresent(list -> {
 				this.license = list.stream()
 				.map(new RDFNodeToLinkMapper(lang))
@@ -144,7 +151,7 @@ public class ShapesDocumentation {
 				.map(new RDFNodeToLinkMapper(lang))
 				.collect(Collectors.toList());
 			});
-			
+
 			// JSON Object
 			org.json.JSONObject jOutput = new org.json.JSONObject();
 			jOutput.put("@context","https://schema.org");
@@ -211,7 +218,7 @@ public class ShapesDocumentation {
 	@JacksonXmlProperty(localName = "datasetDocumentation")
 	public boolean isDatasetDocumentation() {
 		return this.sections.stream().anyMatch(section -> {
-			return (section.getNumberOfTargets() > 0) || section.getPropertiesInAllGroups().stream().anyMatch(ps -> ps.getDistinctObjects() > 0 || ps.getTriples() > 0);
+			return (section.getTargets().getNumberOfTargets() > 0) || section.getPropertiesInAllGroups().stream().anyMatch(ps -> ps.getDistinctObjects() > 0 || ps.getTriples() > 0);
 		});
 	}
 	
@@ -379,5 +386,15 @@ public class ShapesDocumentation {
 		
 		
 	}
+
+	public String getSparqlEndPoint() {
+		return sparqlEndPoint;
+	}
+
+	public void setSparqlEndPoint(String sparqlEndPoint) {
+		this.sparqlEndPoint = sparqlEndPoint;
+	}
+
+	
 	
 }

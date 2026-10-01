@@ -983,9 +983,9 @@
 
 					<xsl:if
 						test="
-							targetClass/href
+							target/targetClass/href
 							or
-							superClasses/link
+							target/superClasses/link
 							or
 							nodeKind != ''
 							or
@@ -995,21 +995,21 @@
 							or
 							skosExample != ''
 							or
-							targetSubjectsOf != ''
+							target/targetSubjectsOf != ''
 							or
-							targetObjectsOf != ''
+							target/targetObjectsOf != ''
 							or
-							sparqlTarget
+							target/sparqlTarget
 							or
 							shNode/href
 						"
 					>
 						<ul class="sp_list_description_properties">
-							<xsl:if test="targetClass/targetClass">
+							<xsl:if test="target/targetClass/targetClass">
 
 								<li>
 									<xsl:value-of select="$LABELS/labels/entry[@key='LABEL_TARGETCLASS']/@label" />
-									<xsl:for-each select="targetClass/targetClass">
+									<xsl:for-each select="target/targetClass/targetClass">
 										<xsl:variable name="TargetClass_Href" select="href"/>
 										<xsl:variable name="TargetClass_label" select="label"/>
 										
@@ -1070,25 +1070,25 @@
 									<code><xsl:value-of select="skosExample"/></code>
 								</li>
 							</xsl:if>
-							<xsl:if test="targetSubjectsOf">
+							<xsl:if test="target/targetSubjectsOf">
 								<li>
 									<xsl:value-of select="$LABELS/labels/entry[@key='LABEL_TARGETSUBJECTSOF']/@label" />
-									<xsl:value-of select="targetSubjectsOf"/>
+									<xsl:value-of select="target/targetSubjectsOf"/>
 								</li>
 							</xsl:if>
-							<xsl:if test="targetObjectsOf">
+							<xsl:if test="target/targetObjectsOf">
 								<li>
 									<xsl:value-of select="$LABELS/labels/entry[@key='LABEL_TARGETOBJECTSOF']/@label" />
-									<xsl:value-of select="targetObjectsOf"/>
+									<xsl:value-of select="target/targetObjectsOf"/>
 								</li>
 							</xsl:if>
-							<xsl:if test="sparqlTarget">
+							<xsl:if test="target/sparqlTarget">
 								<li>					
 									<xsl:value-of select="$LABELS/labels/entry[@key='LABEL_TARGETCLASS']/@label" />
 									<br/>
 									<code>
 										<pre>
-											<xsl:value-of select="sparqlTarget" />					
+											<xsl:value-of select="target/sparqlTarget" />					
 										</pre>
 									</code>
 								</li>

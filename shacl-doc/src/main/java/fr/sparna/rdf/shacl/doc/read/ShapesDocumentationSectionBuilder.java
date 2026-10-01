@@ -17,6 +17,7 @@ import fr.sparna.rdf.shacl.doc.UsageDoc;
 import fr.sparna.rdf.shacl.doc.model.ConstraintEntry;
 import fr.sparna.rdf.shacl.doc.model.Depiction;
 import fr.sparna.rdf.shacl.doc.model.Link;
+import fr.sparna.rdf.shacl.doc.model.Targets;
 import fr.sparna.rdf.shacl.doc.model.PropertyShapeDocumentation;
 import fr.sparna.rdf.shacl.doc.model.PropertyShapesGroupDocumentation;
 import fr.sparna.rdf.shacl.doc.model.ShapesDocumentationDiagram;
@@ -87,18 +88,17 @@ public class ShapesDocumentationSectionBuilder {
 					.collect(Collectors.toList()));
 		}
 
-
+		/* 
 		// sh:targetSubjectsOf or sh:targetObjectsOf
 		if (!nodeShape.getTargetSubjectsOf().isEmpty()) {
-			currentSection.setTargetSubjectsOf(nodeShape.getTargetSubjectsOf().get(0).getURI());
+			currentSection.setTargetSubjectsOf(nodeShape.getTargetSubjectsOf().get(0).getURI());			
 		}		
 		if (!nodeShape.getTargetObjectsOf().isEmpty()) {
 			currentSection.setTargetObjectsOf(nodeShape.getTargetObjectsOf().get(0).getURI());
 		}
 		
 		// sh:targetClass
-		if(nodeShape.getAllTargetedClasses().size() > 0) {
-			
+		if(nodeShape.getAllTargetedClasses().size() > 0) {			
 			// Create List<Link>
 			List<Link> tClass = nodeShape.getAllTargetedClasses()
 									.stream()
@@ -117,6 +117,9 @@ public class ShapesDocumentationSectionBuilder {
 		if(nodeShape.getShTargetShSelect() != null) {
 			currentSection.setSparqlTarget(nodeShape.getShTargetShSelect().getString());
 		}
+		*/
+
+		currentSection.setTargets(this.getTargets(nodeShape, lang));
 		
 		// SPARQL CONSTRAINT
 		if (nodeShape.getShSparql().size() > 0) {
@@ -216,7 +219,45 @@ public class ShapesDocumentationSectionBuilder {
 		
 		return depictions;	
 	}
-	
+
+	public Targets getTargets(NodeShape nodeShape, String lang){
+
+		Targets oTargets = new Targets();
+		
+		// sh:targetClass
+		if(nodeShape.getAllTargetedClasses().size() > 0) {			
+			// Create List<Link>
+			List<Link> tClass = nodeShape.getAllTargetedClasses()
+									.stream()
+									.map(s -> 
+										new Link(s.getURI(),
+												// label of link is the label if known, otherwise it is the short form
+												s.getModel().shortForm(s.getURI())
+												)											
+											)
+									.collect(Collectors.toList());
+			
+			oTargets.setTargetClass(tClass);
+		}
+
+		// sh:targetSubjectsOf or sh:targetObjectsOf
+		if (!nodeShape.getTargetSubjectsOf().isEmpty()) {
+			oTargets.setTargetSubjectsOf(nodeShape.getTargetSubjectsOf().get(0).getURI());
+		}
+
+		if (!nodeShape.getTargetObjectsOf().isEmpty()) {
+			oTargets.setTargetObjectsOf(nodeShape.getTargetObjectsOf().get(0).getURI());
+		}
+
+		// sparql target
+		if(nodeShape.getShTargetShSelect() != null) {
+			oTargets.setSparqlTarget(nodeShape.getShTargetShSelect().getString());
+		}
+
+
+		return oTargets;
+	}
+
 	static List<PropertyShapesGroupDocumentation> readPropertyGroupsRec(
 			NodeShape nodeShape,
 			ShapesGraph shapesGraph,
@@ -262,9 +303,7 @@ public class ShapesDocumentationSectionBuilder {
 		
 		return groups;
 	}
-	
 
-	
 	public List<Usage> findNodeShapeUsage (ShapesGraph shapesGraph, NodeShape nodeShape, Model shacModel, Model owlModel, String lang) {
 
 		List<Shape> incomingShapes = nodeShape.getUsage();	
@@ -308,7 +347,6 @@ public class ShapesDocumentationSectionBuilder {
 		
 		return outputUsage;
 	}
-
 
 	private List<Usage> getUsageOutput(List<UsageDoc> nsUsageAsList, Model shacModel, Model owlModel, String lang) {
 

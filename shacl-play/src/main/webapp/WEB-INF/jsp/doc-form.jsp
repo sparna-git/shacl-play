@@ -240,6 +240,12 @@
 							  		<td>No</td>
 							  		<td class="text-break">Generates a <b>Description</b> section in the generated documentation, if present. Content is interpreted as Markdown.</td>
 							  	</tr>
+								<tr>
+							  		<th scope="row"><code>sd:endpoint</code></th>
+							  		<td>IRI</td>
+							  		<td>No</td>
+							  		<td class="text-break">Points to the endpoint URL that this SHACL description describes. If present, direct links will be provided to execute SPARQL target queries directly.</td>
+							  	</tr>
 							  	<tr>
 							  		<th scope="row"><code>adms:versionNodes</code></th>
 							  		<td>xsd:string</td>

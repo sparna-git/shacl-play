@@ -59,7 +59,7 @@ public class EnrichDocumentationWithStatisticsVisitor implements ShaclVisitorIfc
 				NodeShape ns = new NodeShape(aNodeShape);
 				ShapesDocumentationSection section = this.documentation.findSectionByUriOrId(ns.getURIOrId());
 				if(section != null) {
-					section.setNumberOfTargets(instances);
+					section.getTargets().setNumberOfTargets(instances);
 				} else {
 					log.warn("Cannot find documentation section with URI or ID "+ns.getURIOrId());
 				}

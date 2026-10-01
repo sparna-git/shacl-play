@@ -131,7 +131,7 @@
 		</xsl:variable>
 		
 		<xsl:value-of select="."/>
-		<xsl:apply-templates select="../numberOfTargets" />
+		<xsl:apply-templates select="../target/numberOfTargets" />
 
 		<!-- <h3 id="{../sectionId}" class="sp_section_title_table" style="{$style}"></h3>-->
 	</xsl:template>

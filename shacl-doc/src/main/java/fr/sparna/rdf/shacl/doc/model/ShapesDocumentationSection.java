@@ -49,7 +49,6 @@ public class ShapesDocumentationSection {
 	
 	private String color;
 	private Boolean mainToc;
-	
 
 	//private List<Link> targetClass;
 	//private String targetSubjectsOf;
@@ -68,7 +67,11 @@ public class ShapesDocumentationSection {
 	@JacksonXmlProperty(localName = "target")
 	private Targets targets;
 	
-	
+	@JacksonXmlElementWrapper(localName="agentInstructions")
+	@JacksonXmlProperty(localName = "agentInstruction")
+	private List<String> agentInstructions;
+
+
 	@JacksonXmlElementWrapper(localName="superClasses")
 	@JacksonXmlProperty(localName = "superClass")
 	private List<Link> superClasses;
@@ -315,6 +318,12 @@ public class ShapesDocumentationSection {
 		this.targets = targets;
 	}
 
-	
+	public List<String> getAgentInstructions() {
+		return agentInstructions;
+	}
+
+	public void setAgentInstructions(List<String> agentInstructions) {
+		this.agentInstructions = agentInstructions;
+	}	
 
 }

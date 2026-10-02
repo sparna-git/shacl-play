@@ -100,6 +100,12 @@ public class PropertyShapeDocumentationBuilder {
 		if(propertyShape.getShHasValue().isPresent() && (propertyShape.getShClass().isPresent() || propertyShape.getShNode().isPresent())) {
 			proprieteDoc.getExpectedValue().setInValues(Collections.singletonList(LinkFactory.buildDefaultLink(propertyShape.getShHasValue().get())));
 		}
+
+		// Agent instructions
+		if (propertyShape.getAgentInstruction(lang) != null && propertyShape.getAgentInstruction(lang).size() > 0) {			
+			List<String> agentInstructions = propertyShape.getAgentInstruction(lang).stream().map(l -> l.getString()).collect(Collectors.toList());
+			proprieteDoc.setAgentInstructions(agentInstructions);
+		}
 		
 		// sh:pattern on property
 		if(propertyShape.getShPattern().isPresent()) {

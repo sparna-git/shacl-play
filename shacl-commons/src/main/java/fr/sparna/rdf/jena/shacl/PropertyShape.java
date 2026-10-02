@@ -327,4 +327,10 @@ public class PropertyShape extends Shape {
 		return this.getShuiViewers().stream().findFirst();
 	}
 
+	@Override
+	public List<Literal> getAgentInstruction(String lang) {
+		// TODO Auto-generated method stub
+		return super.getAgentInstruction(lang);
+	}
+
 }

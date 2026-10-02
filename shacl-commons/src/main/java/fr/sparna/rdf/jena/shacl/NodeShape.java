@@ -539,4 +539,9 @@ public class NodeShape extends Shape  {
 	/***** / OTHER UTILITY ACCESSOR FUNCTIONS ********/
 
 	
+	@Override
+	public List<Literal> getAgentInstruction(String lang) {
+		// TODO Auto-generated method stub
+		return super.getAgentInstruction(lang);
+	}
 }

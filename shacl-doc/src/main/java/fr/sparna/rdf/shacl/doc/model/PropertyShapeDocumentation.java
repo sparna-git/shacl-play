@@ -1,6 +1,11 @@
 package fr.sparna.rdf.shacl.doc.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 @JsonInclude(Include.NON_NULL)
@@ -23,7 +28,7 @@ public class PropertyShapeDocumentation {
 
 	private String cardinalite;
 	private String description;
-		
+
 	private ExpectedValue expectedValue = new ExpectedValue();
 
 	
@@ -40,6 +45,11 @@ public class PropertyShapeDocumentation {
 	private boolean isDeactivated;
 	
 	private String examples;
+
+	@JacksonXmlElementWrapper(localName="agentInstructions")
+	@JacksonXmlProperty(localName = "agentInstruction")
+	private List<String> agentInstructions;
+
 	
 	public String getSparqlQueryProperty() {
 		return sparqlQueryProperty;
@@ -159,6 +169,14 @@ public class PropertyShapeDocumentation {
 
 	public void setExamples(String examples) {
 		this.examples = examples;
+	}
+
+	public List<String> getAgentInstructions() {
+		return agentInstructions;
+	}
+
+	public void setAgentInstructions(List<String> agentInstructions) {
+		this.agentInstructions = agentInstructions;
 	}
 
 }

@@ -1202,19 +1202,31 @@
 					or
 					datatype != ''
 					or
-					shNodes/shNode							
+					shNodes/shNode
+					or
+					agentInstructions/agentInstruction					
 				">
 					<h4><xsl:value-of select="$LABELS/labels/entry[@key='SECTION_GENERAL_DESCRIPTIONS']/@label"/></h4>
 				</xsl:if>
 
 				<!-- div definition -->
-				<xsl:if test="description != ''">
+				<xsl:if test="description != '' or (agentInstructions/count(agentInstruction) &gt; 0)">
 					<!--  disable output escaping so that HTML is preserved -->
 					<div class="def">
-						<div class="sp_def-header"><xsl:value-of select="$LABELS/labels/entry[@key='SECTION_DESCRIPTION.TITLE']/@label" /></div>
-						<xsl:value-of select="description" disable-output-escaping="yes" />
+
+						<xsl:if test="description != ''">
+							<div class="sp_def-header"><xsl:value-of select="$LABELS/labels/entry[@key='SECTION_DESCRIPTION.TITLE']/@label" /></div>
+							<xsl:value-of select="description" disable-output-escaping="yes" />
+						</xsl:if>
+
+						<!-- Agents Instructions -->
+						<xsl:if test="agentInstructions/count(agentInstruction) &gt; 0">
+							<xsl:apply-templates select="agentInstructions/agentInstruction" />						
+						</xsl:if>
 					</div>
 				</xsl:if>
+
+				
 
 				<!-- div targets -->
 				<xsl:apply-templates select="target"/>
@@ -1646,7 +1658,7 @@
 					</div>								
 				</td>				
 			</tr>
-			<xsl:if test="(string-length(./description) &gt; 0) or (string-length(./examples) &gt; 0)" >
+			<xsl:if test="(string-length(./description) &gt; 0) or (string-length(./examples) &gt; 0) or (agentInstructions/count(agentInstruction) &gt; 0)" >
 				<tr style="{$Colors}" class="sp_hidden_line">
 					<td colspan="4">
 						<div style="padding-left: 3.5em; margin-top: -15px; font-size:smaller;">
@@ -1663,6 +1675,12 @@
 									<xsl:apply-templates select="./examples"/>
 								</div>							
 							</xsl:if>
+							<!-- Display Agent Instructions -->
+							<xsl:if test="agentInstructions/count(agentInstruction) &gt; 0">
+								<div>
+									<xsl:apply-templates select="./agentInstructions/agentInstruction"/>
+								</div>
+							</xsl:if>	
 						</div>						
 					</td>			
 				</tr>
@@ -1818,6 +1836,16 @@
 			
 			<td style="padding-left: 1em;"><xsl:apply-templates select="properties_usage/properties_usage" /></td>
 		</tr>
+	</xsl:template>
+
+	<!-- Agent Instructions List -->
+	<xsl:template match="agentInstruction">
+		<span>
+			<p>
+				<svg xmlns="http://www.w3.org/2000/svg" style="width:18px; vertical-align: middle; margin-left: 4px; margin-right:0.3em;" viewBox="0 0 640 640"><path opacity=".4" d="M128 160L128 512L512 512L512 160L128 160zM304 304C304 339.3 275.3 368 240 368C204.7 368 176 339.3 176 304C176 268.7 204.7 240 240 240C275.3 240 304 268.7 304 304zM192 416L256 416L256 448L192 448L192 416zM288 416L352 416L352 448L288 448L288 416zM464 304C464 339.3 435.3 368 400 368C364.7 368 336 339.3 336 304C336 268.7 364.7 240 400 240C435.3 240 464 268.7 464 304zM384 416L448 416L448 448L384 448L384 416z"/><path d="M336 48L336 32L304 32L304 128L96 128L96 544L544 544L544 128L336 128L336 48zM304 160L512 160L512 512L128 512L128 160L304 160zM192 416L192 448L256 448L256 416L192 416zM288 416L288 448L352 448L352 416L288 416zM384 416L384 448L448 448L448 416L384 416zM272 304C272 321.7 257.7 336 240 336C222.3 336 208 321.7 208 304C208 286.3 222.3 272 240 272C257.7 272 272 286.3 272 304zM240 240C204.7 240 176 268.7 176 304C176 339.3 204.7 368 240 368C275.3 368 304 339.3 304 304C304 268.7 275.3 240 240 240zM400 336C382.3 336 368 321.7 368 304C368 286.3 382.3 272 400 272C417.7 272 432 286.3 432 304C432 321.7 417.7 336 400 336zM336 304C336 339.3 364.7 368 400 368C435.3 368 464 339.3 464 304C464 268.7 435.3 240 400 240C364.7 240 336 268.7 336 304zM64 272L64 256L32 256L32 416L64 416L64 272zM608 256L576 256L576 416L608 416L608 256z"/></svg>
+				<xsl:value-of select="."/>
+			</p>
+		</span>
 	</xsl:template>
 
 	<xsl:template match="properties_usage">

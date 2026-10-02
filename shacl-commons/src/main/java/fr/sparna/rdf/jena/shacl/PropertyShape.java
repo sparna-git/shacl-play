@@ -323,4 +323,10 @@ public class PropertyShape extends Shape {
 			return Optional.empty();
 	}
 
+	@Override
+	public List<Literal> getAgentInstruction(String lang) {
+		// TODO Auto-generated method stub
+		return super.getAgentInstruction(lang);
+	}
+
 }

@@ -79,6 +79,13 @@ public class ShapesDocumentationSectionBuilder {
 		} else {
 			currentSection.setMainToc(nodeShape.hasTarget());
 		}
+
+		// Agent instructions
+		if (nodeShape.getAgentInstruction(lang) != null && nodeShape.getAgentInstruction(lang).size() > 0) {
+			
+			List<String> agentInstructions = nodeShape.getAgentInstruction(lang).stream().map(l -> l.getString()).collect(Collectors.toList());
+			currentSection.setAgentInstructions(agentInstructions);
+		}
 		
 		// Get sh:node as type of shape
 		List<Resource> shNodes = nodeShape.getShNodeAsList();

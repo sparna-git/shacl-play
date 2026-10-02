@@ -64,7 +64,8 @@ public class PropertyRenderer {
 	// "+uml_literal+" "+uml_pattern+" "+uml_nodekind(uml_nodekind)+"\n";
 	private String renderAsNodeReference(PlantUmlProperty property, PlantUmlBoxIfc box, Boolean renderAsDatatypeProperty, String colorArrow) {
 		String nodeReference = this.renderShape(property.getShNode().get());		
-		
+		String cardinality = (property.getPlantUmlCardinalityString() == null)? "[0..*]" : property.getPlantUmlCardinalityString();
+
 		if (renderAsDatatypeProperty) {	
 			String output = null;			
 			output = BoxRenderer.quoteString(box.getLabel()) + " : +" + property.getPathAsSparql() + " : " + nodeReference;	
@@ -82,8 +83,8 @@ public class PropertyRenderer {
 			return output;			
 		} else {
 			String option = "";
-			if (property.getPlantUmlCardinalityString() != null) {
-				option += "<U+00A0>" + property.getPlantUmlCardinalityString() + " ";
+			if (cardinality != null) {
+				option += "<U+00A0>" + cardinality + " ";
 			}
 			if (property.getShPattern().isPresent() && this.displayPatterns) {
 				option += "(" + ModelRenderingUtils.render(property.getShPattern().get()) + ")" + " ";
@@ -153,8 +154,9 @@ public class PropertyRenderer {
 	private String renderAsQualifiedShapeReference(PlantUmlProperty property, PlantUmlBoxIfc box, String colorArrow) {
 
 		String qualifiedValueShapeReference = this.renderShape(property.getShQualifiedValueShape().get());	
-		String option = (property.getPlantUmlQualifiedCardinalityString() != null)?" " + property.getPlantUmlQualifiedCardinalityString() + " ":"";
 		
+		String option = (property.getPlantUmlQualifiedCardinalityString() != null)?" " + property.getPlantUmlQualifiedCardinalityString() + " ":"";
+
 		if (!property.getShGroup().isPresent()) {
 			this.boxRenderer.notifyArrow(
 					//codeKey
@@ -213,14 +215,16 @@ public class PropertyRenderer {
 			// TODO : why is this computed here diferently than in renderAsNode ???
 			String labelColor = "";
 			String labelColorClose = "";
+			String cardinality = (property.getPlantUmlCardinalityString() == null)? "[0..*]" : property.getPlantUmlCardinalityString();
+
 			if(property.getDisplayColor() != null) {
 				labelColor = "<color:"+property.getDisplayColor()+">"+" ";
 				labelColorClose = "</color>";
 			}
 	
 			String option = "";
-			if (property.getPlantUmlCardinalityString() != null) {
-				option += "<U+00A0>" + property.getPlantUmlCardinalityString() + " ";
+			if (cardinality != null) {
+				option += "<U+00A0>" + cardinality + " ";
 			}
 			if (property.getShPattern().isPresent() && this.displayPatterns) {
 				option += "(" + ModelRenderingUtils.render(property.getShPattern().get()) + ")" + " ";

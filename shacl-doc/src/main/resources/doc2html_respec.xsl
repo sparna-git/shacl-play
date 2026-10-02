@@ -1226,8 +1226,6 @@
 					</div>
 				</xsl:if>
 
-				
-
 				<!-- div targets -->
 				<xsl:apply-templates select="target"/>
 
@@ -1419,7 +1417,6 @@
 									</xsl:for-each>
 								</li>								
 							</xsl:if>
-
 							<xsl:if test="targetSubjectsOf">
 								<li>
 									<xsl:value-of select="$LABELS/labels/entry[@key='LABEL_TARGETSUBJECTSOF']/@label" />
@@ -1436,7 +1433,6 @@
 								<li>					
 									<xsl:value-of select="$LABELS/labels/entry[@key='LABEL_TARGETCLASS']/@label" />									
 									<br/>
-									<p>List Type</p>
 									<xsl:apply-templates select="sparqlTarget" />
 								</li>
 							</xsl:if>
@@ -1616,8 +1612,6 @@
 	</xsl:template>
 		
 	<xsl:template match="property">
-		
-
 		<xsl:variable name="guillemets">"</xsl:variable>	
 		<xsl:variable name="Colors">
 			<xsl:choose>
@@ -1805,6 +1799,21 @@
 						<xsl:value-of select="select" />					
 					</pre>
 				</code>
+				<xsl:if test="../../../../sparqlEndPoint">
+					<xsl:variable name="urlEndPoint" select="../../../../sparqlEndPoint"/>
+					<xsl:variable name="SparqlQuery"><xsl:value-of select="select" disable-output-escaping="yes"/></xsl:variable>
+					<xsl:variable name="urlSparqlEditor" select="concat('https://matgui.matdata.eu/','#query=',$SparqlQuery,'&amp;','endpoint=',$urlEndPoint)"/>
+					<div style="display: flex; justify-content: right;">
+						<a href="{$urlSparqlEditor}" target="_blank">
+							<small><xsl:value-of select="$LABELS/labels/entry[@key='LABEL_LIST_TARGETS']/@label" /></small>
+							<svg xmlns="http://www.w3.org/2000/svg" style="width:18px; vertical-align: middle; margin-left: 4px;" viewBox="0 0 640 640">
+								<path opacity=".4" d="M96 192L425.4 192L260.7 356.7L249.4 368L272 390.6L283.3 379.3L448 214.6L448 544L96 544L96 192z"/>
+								<path d="M368 64L352 64L352 96L521.4 96L260.7 356.7L249.4 368L272 390.6L283.3 379.3L544 118.6L544 288L576 288L576 64L368 64zM80 160L64 160L64 576L480 576L480 384L448 384L448 544L96 544L96 192L256 192L256 160L80 160z"/>
+							</svg>
+						</a>
+						<span class="sr-only">(opens query in a new window for execution)</span>
+					</div>
+				</xsl:if>
 			</xsl:if>
 		</li>
 	</xsl:template>

@@ -159,6 +159,10 @@ public class PropertyShape extends Shape {
 	public Resource getShPath() {
 		return resource.getRequiredProperty(SH.path).getObject().asResource();
 	}
+
+    public Resource getShInversePath() {
+		return resource.getRequiredProperty(SH.path).getObject().asResource().getRequiredProperty(SH.inversePath).getObject().asResource();
+	}
 	
 	public Optional<Literal> getShName() {
 		return ModelReadingUtils.getOptionalLiteral(this.resource, SH.name);

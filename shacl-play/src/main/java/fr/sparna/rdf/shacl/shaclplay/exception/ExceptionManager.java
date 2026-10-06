@@ -28,15 +28,12 @@ public enum ExceptionManager {
     }
 
     public static void throwException(Class<? extends Exception> klass, Throwable t){
+        t.printStackTrace();
         if(DocException.class == klass) {
-            DocException e = new DocException(t);
-            t.printStackTrace();
-            throw e;
+            throw new DocException(t);
         }
         if(DrawException.class == klass){
-            DrawException e = new DrawException(t);
-            t.printStackTrace();
-            throw e;
+            throw new DrawException(t);
         }
         //Add other exceptions here ...
     }

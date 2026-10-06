@@ -576,7 +576,7 @@
 							  	</tr>
 							  	<tr>
 							  		<th scope="row"><code>sh:or</code></th>
-							  		<td>RDF List of blank nodes with a <code>sh:node</code></td>
+							  		<td>RDF List of blank nodes with a <code>sh:node</code>, <code>sh:class</code>, <code>sh:datatype</code> or <code>sh:nodeKind</code></td>
 							  		<td>One of sh:node, sh:class, sh:nodeKind, sh:datatype, sh:or, sh:hasValue must be provided.</td>
 							  		<td class="text-break">Used to populate the <b>Expected value</b> column, see below.</td>
 							  	</tr>
@@ -603,7 +603,7 @@
 							<li>Otherwise use <code>sh:node</code></li>
 							<li>Otherwise use <code>sh:datatype</code></li>
 							<li>Otherwise use <code>sh:nodeKind</code></li>	
-							<li>Otherwise use <code>sh:or</code>; in this case, get the list items and read <code>sh:node</code> on each of them.</li>
+							<li>Otherwise use <code>sh:or</code>; in this case, get the list items and read on each of them, by order of preference : <code>sh:node</code>, <code>sh:class</code>, <code>sh:datatype</code>, <code>sh:nodeKind</code>.</li>
 							<li>Otherwise the column is left empty.</li>
 						</ul>
 						<p>Additionally, if <code>sh:in</code> is present, it is inserted as an additional information in the Expected value column.</p>

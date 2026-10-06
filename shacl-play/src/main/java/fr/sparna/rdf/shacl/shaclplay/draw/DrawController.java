@@ -115,7 +115,7 @@ public class DrawController {
 			);
 
 		} catch (Exception e) {
-			ExceptionManager.throwException(DrawException.class, e.getMessage());
+			ExceptionManager.throwException(DrawException.class, e);
 		}
 		return ResponseEntity.badRequest().build();
 	}

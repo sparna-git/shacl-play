@@ -120,7 +120,7 @@ public class RestDocController {
                         filterUnusedNodeShapes
             );
         } catch (Exception e) {
-            ExceptionManager.throwException(DocException.class, e.getMessage());
+            ExceptionManager.throwException(DocException.class , e);
         }
         return ResponseEntity.badRequest().build();
     }
@@ -191,7 +191,7 @@ public class RestDocController {
                     sectionDiagram,
                     filterUnusedNodeShapes);
         } catch (Exception e) {
-            ExceptionManager.throwException(DocException.class, e.getMessage());
+            ExceptionManager.throwException(DocException.class, e);
         }
         return ResponseEntity.badRequest().build();
     }

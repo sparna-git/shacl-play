@@ -27,16 +27,13 @@ public enum ExceptionManager {
         this.message = message;
     }
 
-    public static void throwException(Class<? extends Exception> klass, String msg){
+    public static void throwException(Class<? extends Exception> klass, Throwable t){
+        t.printStackTrace();
         if(DocException.class == klass) {
-            DocException e = new DocException(msg);
-            e.printStackTrace();
-            throw e;
+            throw new DocException(t);
         }
         if(DrawException.class == klass){
-            DrawException e = new DrawException(msg);
-            e.printStackTrace();
-            throw e;
+            throw new DrawException(t);
         }
         //Add other exceptions here ...
     }

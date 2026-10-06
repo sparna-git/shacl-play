@@ -196,7 +196,7 @@ public class DocController {
 					filterUnusedNodeShapes
 			);
 		} catch (Exception e) {
-			ExceptionManager.throwException(DocException.class, e.getMessage());
+			ExceptionManager.throwException(DocException.class, e);
 		}
 		return ResponseEntity.badRequest().build();
 	}

@@ -77,7 +77,7 @@ public class RestDrawController {
             );
 
         }catch (Exception ex){
-            ExceptionManager.throwException(DrawException.class, ex.getMessage());
+            ExceptionManager.throwException(DrawException.class, ex);
         }
         return ResponseEntity.badRequest().build();
     }
@@ -131,7 +131,7 @@ public class RestDrawController {
             );
 
         }catch (Exception ex){
-            ExceptionManager.throwException(DrawException.class, ex.getMessage());
+            ExceptionManager.throwException(DrawException.class, ex);
         }
         return ResponseEntity.badRequest().build();
     }

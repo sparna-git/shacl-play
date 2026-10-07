@@ -18,6 +18,7 @@ import org.apache.jena.vocabulary.RDF;
 import org.topbraid.shacl.vocabulary.SH;
 
 import fr.sparna.rdf.vocabularies.SHACL_PLAY;
+import fr.sparna.rdf.vocabularies.SH12;
 
 public class ShapesGraph {
 	
@@ -268,7 +269,9 @@ public class ShapesGraph {
 		
 		// Lecture de OWL
 		// this is tricky, because we can have multiple ones if SHACL is merged with OWL or imports OWL
-		List<Resource> sOWL = shaclGraph.listResourcesWithProperty(RDF.type, OWL.Ontology).toList();
+		List<Resource> sOWL = shaclGraph.listResourcesWithProperty(RDF.type, SH12.shapeGraph).toList().size() > 0 ?
+			shaclGraph.listResourcesWithProperty(RDF.type, SH12.shapeGraph).toList()
+			: shaclGraph.listResourcesWithProperty(RDF.type, OWL.Ontology).toList();
 		
 		// let's decide first to exclude the ones that are owl:import-ed from others
 		List<Resource> filteredOWL = sOWL.stream().filter(onto1 -> {

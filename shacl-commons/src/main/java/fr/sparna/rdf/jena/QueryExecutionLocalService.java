@@ -19,7 +19,7 @@ public class QueryExecutionLocalService implements QueryExecutionService {
 
 	@Override
 	public <R> R executeSelectQuery(String query, QuerySolution bindings, JenaResultSetHandler<R> resultSetHandler) {			
-		try(QueryExecution queryExecution = QueryExecution.create(query, this.inputModel)) {
+		try(QueryExecution queryExecution = QueryExecution.create(QueryExecutionService.buildQueryWithBindings(query, bindings), this.inputModel)) {
 			if(log.isDebugEnabled()) {
 				log.debug(queryExecution.getQuery().serialize());
 			}

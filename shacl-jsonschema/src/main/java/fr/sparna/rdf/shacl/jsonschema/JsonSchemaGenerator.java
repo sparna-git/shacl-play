@@ -23,12 +23,12 @@ import org.slf4j.LoggerFactory;
 import org.topbraid.shacl.vocabulary.SH;
 
 import fr.sparna.rdf.jena.shacl.NodeShape;
-import fr.sparna.rdf.jena.shacl.OwlOntology;
 import fr.sparna.rdf.jena.shacl.PropertyPath;
 import fr.sparna.rdf.jena.shacl.PropertyShape;
 import fr.sparna.rdf.jena.shacl.ShOrReadingUtils;
 import fr.sparna.rdf.jena.shacl.Shape;
 import fr.sparna.rdf.jena.shacl.ShapesGraph;
+import fr.sparna.rdf.jena.shacl.ShapesGraphResource;
 import fr.sparna.rdf.shacl.jsonschema.jsonld.ContextUriMapper;
 import fr.sparna.rdf.shacl.jsonschema.jsonld.LocalNameUriToJsonMapper;
 import fr.sparna.rdf.shacl.jsonschema.jsonld.ProbingJsonLdContextWrapper;
@@ -196,7 +196,7 @@ public class JsonSchemaGenerator {
     private void populateMetadataFromOntology(ShapesGraph shapesGraph,ObjectSchema.Builder rootSchema) {
     	
     	// Get the ontology object
-    	OwlOntology owl = shapesGraph.getOntology();
+    	ShapesGraphResource owl = shapesGraph.getResource();
     	
 		if(owl != null) {
 			// URI = id

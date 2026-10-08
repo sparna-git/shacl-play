@@ -17,27 +17,43 @@ import org.apache.jena.vocabulary.OWL;
 import org.apache.jena.vocabulary.RDF;
 import org.topbraid.shacl.vocabulary.SH;
 
+import fr.sparna.rdf.vocabularies.SH12;
 import fr.sparna.rdf.vocabularies.SHACL_PLAY;
 
 public class ShapesGraph {
 	
 	private Model shaclGraph;
 	private Model owlGraph;
-	
-	private OwlOntology ontology;
+
+	private ShapesGraphResource resource;
 	
 	public ShapesGraph(Model shaclGraph, Model owlGraph) {
 		super();
 		this.shaclGraph = shaclGraph;
 		this.owlGraph = owlGraph;
+
+		Resource resource = this.findShapesGraph();
+		if(resource == null) {
+			resource = this.findOntology();
+		}
+		if(resource != null) {
+			this.resource = new ShapesGraphResource(resource);
+		}
 	}
 
 	public ShapesGraph(Model shaclGraph) {
-		super();
-		this.shaclGraph = shaclGraph;
+		this(shaclGraph, null);
 	}
 	
-	
+	/**
+	 * Returns the resource that represents this shapes graph, 
+	 * either a sh:ShapesGraph or an owl:Ontology if no sh:ShapesGraph is found.
+	 * Can return null if no such resource is found in the graph.
+	 */
+	public ShapesGraphResource getResource() {
+		return this.resource;
+	}
+
 	public List<NodeShape> getAllNodeShapes() {	
 		return ShapesGraph.readAllNodeShapes(shaclGraph, owlGraph); 
 	}
@@ -55,13 +71,6 @@ public class ShapesGraph {
 	 */
 	public List<PropertyShape> getAllPropertyShapes() {	
 		return shaclGraph.listSubjectsWithProperty(SH.path).toList().stream().map(r -> new PropertyShape(r)).collect(Collectors.toList());
-	}
-
-	public OwlOntology getOntology() {
-		if(this.ontology == null) {
-			this.ontology = readOntology(shaclGraph);
-		}
-		return this.ontology;
 	}
 
 	public Model getShaclGraph() {
@@ -264,9 +273,12 @@ public class ShapesGraph {
 		this.shaclGraph.removeAll(null, null, nodeShape);
 	}
 	
-	private OwlOntology readOntology(Model shaclGraph) {
-		
-		// Lecture de OWL
+	/**
+	 * Find the (unique) owl:Ontology resource in the graph, if any, or null if none found.
+	 * If multiple are found, returns the first one that is not imported by another ontology in the graph.
+	 * @return
+	 */
+	private Resource findOntology() {
 		// this is tricky, because we can have multiple ones if SHACL is merged with OWL or imports OWL
 		List<Resource> sOWL = shaclGraph.listResourcesWithProperty(RDF.type, OWL.Ontology).toList();
 		
@@ -275,12 +287,20 @@ public class ShapesGraph {
 			return !sOWL.stream().anyMatch(onto2 -> onto2.hasProperty(OWL.imports, onto1));
 		}).collect(Collectors.toList());
 		
-		OwlOntology ontologyObject = null;
 		if(filteredOWL.size() > 0) {
-			ontologyObject = new OwlOntology(filteredOWL.get(0));
+			return filteredOWL.get(0);
+		} else {
+			return null;
 		}
-				
-		return ontologyObject;
+	}
+
+	/**
+	 * Finds the first resource of type sh:ShapesGraph in the graph, or null if none found.
+	 * If multiple are found, returns the first one.
+	 * @return
+	 */
+	private Resource findShapesGraph() {
+		return shaclGraph.listResourcesWithProperty(RDF.type, SH12.shapesGraph).toList().stream().findFirst().orElse(null);
 	}
 	
 	/**

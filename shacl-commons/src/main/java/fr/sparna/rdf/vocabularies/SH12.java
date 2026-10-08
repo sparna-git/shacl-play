@@ -17,7 +17,7 @@ public class SH12 {
 
     public final static String PREFIX = "sh";
 
-    public final static Resource shapeGraph = ResourceFactory.createResource(NS + "ShapesGraph");
+    public final static Resource shapesGraph = ResourceFactory.createResource(NS + "ShapesGraph");
     
     public final static Property agentInstruction = ResourceFactory.createProperty(NS + "agentInstruction");
    

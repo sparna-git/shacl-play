@@ -820,7 +820,10 @@
 				<!-- ttl -->
 				<xsl:if test="dctFormat = 'https://www.iana.org/assignments/media-types/text/turtle'">
 					<img src="https://img.shields.io/badge/Format-TTL-blue.png" alt="TTL" /> 
-				</xsl:if>				
+				</xsl:if>
+				<xsl:if test="dctFormat = 'https://www.iana.org/assignments/media-types/application/zip'">
+					<img src="https://img.shields.io/badge/Format-ZIP-blue.png" alt="ZIP" /> 
+				</xsl:if>	
 			</a>
 		</span>
 	</xsl:template>

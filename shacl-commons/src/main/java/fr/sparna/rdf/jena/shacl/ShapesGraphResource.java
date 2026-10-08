@@ -15,15 +15,16 @@ import org.apache.jena.vocabulary.RDFS;
 
 import fr.sparna.rdf.jena.ModelReadingUtils;
 import fr.sparna.rdf.vocabularies.ADMS;
+import fr.sparna.rdf.vocabularies.IANA;
 import fr.sparna.rdf.vocabularies.SD;
 
-public class OwlOntology {
+public class ShapesGraphResource {
 	
 	protected Resource resource;
 
 		
-	public OwlOntology(Resource rOntology) {
-		this.resource = rOntology;		
+	public ShapesGraphResource(Resource resource) {
+		this.resource = resource;		
 	}	
 
 	/**
@@ -32,7 +33,7 @@ public class OwlOntology {
 	public Resource getResource() {
 		return resource;
 	}
-		
+
 	public List<RDFNode> getRepository() {
 		return ModelReadingUtils.readObjectAsResourceOrLiteral(this.resource, DOAP.repository);
 	}
@@ -41,12 +42,13 @@ public class OwlOntology {
 		List<DcatDistribution> lOFormat = new ArrayList<DcatDistribution>();
 		if(this.resource.hasProperty(DCAT.distribution)) {
 			List<Statement> rformat = this.resource.listProperties(DCAT.distribution).toList();
-			for (Statement read : rformat) {				
-				if(read.getProperty(DCTerms.format).getResource().getURI().toString().equals("https://www.iana.org/assignments/media-types/text/turtle") ||
-				   read.getProperty(DCTerms.format).getResource().getURI().toString().equals("https://www.iana.org/assignments/media-types/application/rdf+xml") ||
-				   read.getProperty(DCTerms.format).getResource().getURI().toString().equals("https://www.iana.org/assignments/media-types/application/n-triples") ||
-				   read.getProperty(DCTerms.format).getResource().getURI().toString().equals("https://www.iana.org/assignments/media-types/application/ld+json")
-						) {
+			for (Statement read : rformat) {
+				if(read.getProperty(DCTerms.format).getResource().getURI().toString().equals(IANA.TEXT_TURTLE.getURI()) ||
+				   read.getProperty(DCTerms.format).getResource().getURI().toString().equals(IANA.APPLICATION_RDFXML.getURI()) ||
+				   read.getProperty(DCTerms.format).getResource().getURI().toString().equals(IANA.APPLICATION_NTRIPLES.getURI()) ||
+				   read.getProperty(DCTerms.format).getResource().getURI().toString().equals(IANA.APPLICATION_LDJSON.getURI()) ||
+				   read.getProperty(DCTerms.format).getResource().getURI().toString().equals(IANA.APPLICATION_ZIP.getURI())
+				) {
 					DcatDistribution owlformat = new DcatDistribution();
 					owlformat.setDctFormat(read.getProperty(DCTerms.format).getResource().getURI().toString());
 					owlformat.setDcatURL(read.getProperty(DCAT.downloadURL).getResource().getURI().toString());
@@ -56,10 +58,11 @@ public class OwlOntology {
 		}
 		
 		String[] orderFormat = {
-				"https://www.iana.org/assignments/media-types/application/ld+json",
-				"https://www.iana.org/assignments/media-types/application/rdf+xml",
-				"https://www.iana.org/assignments/media-types/application/n-triples",
-				"https://www.iana.org/assignments/media-types/text/turtle"
+				IANA.APPLICATION_LDJSON.getURI(),
+				IANA.APPLICATION_RDFXML.getURI(),
+				IANA.APPLICATION_NTRIPLES.getURI(),
+				IANA.TEXT_TURTLE.getURI(),
+				IANA.APPLICATION_ZIP.getURI()
 		};
 		
 		List<DcatDistribution> OutFormat = new ArrayList<DcatDistribution>();
@@ -166,4 +169,5 @@ public class OwlOntology {
 		} 
 		return null;		
 	}
+
 }

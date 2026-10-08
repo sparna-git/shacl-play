@@ -997,7 +997,7 @@
 				<!-- JSON -->
 				<xsl:if test="dctFormat = 'https://www.iana.org/assignments/media-types/application/ld+json'">
 					<img src="https://img.shields.io/badge/Format-JSON_LD-blue.png" alt="JSON-LD" /> 
-					<span class="sr-only">(opens JSON-LD file in a new tab)</span>
+					
 				</xsl:if>
 				<!-- XML -->
 				<xsl:if test="dctFormat = 'https://www.iana.org/assignments/media-types/application/rdf+xml'">
@@ -1013,7 +1013,12 @@
 				<xsl:if test="dctFormat = 'https://www.iana.org/assignments/media-types/text/turtle'">
 					<img src="https://img.shields.io/badge/Format-TTL-blue.png" alt="Turtle" /> 
 					<span class="sr-only">(opens TTL file in a new tab)</span>
-				</xsl:if>				
+				</xsl:if>	
+				<!-- ttl -->
+				<xsl:if test="dctFormat = 'https://www.iana.org/assignments/media-types/application/zip'">
+					<img src="https://img.shields.io/badge/Format-Zip-blue.png" alt="Zip" /> 
+					<span class="sr-only">(opens Zip file in a new tab)</span>
+				</xsl:if>	
 			</a>
 		</span>
 	</xsl:template>

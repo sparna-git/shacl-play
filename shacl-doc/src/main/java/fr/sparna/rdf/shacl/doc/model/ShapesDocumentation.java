@@ -7,7 +7,6 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.apache.jena.rdf.model.RDFNode;
-import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.vocabulary.RDFS;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -17,7 +16,8 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 import fr.sparna.rdf.shacl.doc.MarkdownRenderer;
 import fr.sparna.rdf.jena.shacl.DcatDistribution;
-import fr.sparna.rdf.jena.shacl.OwlOntology;
+import fr.sparna.rdf.jena.shacl.ShapesGraph;
+import fr.sparna.rdf.jena.shacl.ShapesGraphResource;
 
 @JsonInclude(Include.NON_NULL)
 public class ShapesDocumentation {
@@ -78,75 +78,75 @@ public class ShapesDocumentation {
 	
 	
 	
-	public ShapesDocumentation(OwlOntology ontology, String lang) {
+	public ShapesDocumentation(ShapesGraphResource shapesGraphResource, String lang) {
 		
-		if(ontology != null) {
+		if(shapesGraphResource != null) {
 			
-			this.setTitle(ontology.getTitleOrLabel(lang));
+			this.setTitle(shapesGraphResource.getTitleOrLabel(lang));
 			
-			String abstractString = ontology.getAbstractOrComment(lang);
+			String abstractString = shapesGraphResource.getAbstractOrComment(lang);
 			if(abstractString != null) {
 				this.setAbstract_(MarkdownRenderer.getInstance().renderMarkdown(abstractString));
 			}
 			
-			this.setDatecreated(ontology.getDateCreated());
-			this.setDateissued(ontology.getDateIssued());
-			this.setYearCopyRighted(ontology.getDateCopyrighted());
-			this.setModifiedDate(ontology.getDateModified());
-			this.setVersionInfo(ontology.getOwlVersionInfo());
+			this.setDatecreated(shapesGraphResource.getDateCreated());
+			this.setDateissued(shapesGraphResource.getDateIssued());
+			this.setYearCopyRighted(shapesGraphResource.getDateCopyrighted());
+			this.setModifiedDate(shapesGraphResource.getDateModified());
+			this.setVersionInfo(shapesGraphResource.getOwlVersionInfo());
 			
-			if (ontology.getUrlEndPoint() != null) {
-				this.setSparqlEndPoint(ontology.getUrlEndPoint().toString());
+			if (shapesGraphResource.getUrlEndPoint() != null) {
+				this.setSparqlEndPoint(shapesGraphResource.getUrlEndPoint().toString());
 			}
 			
-			Optional.ofNullable(ontology.getLicense(lang)).ifPresent(list -> {
+			Optional.ofNullable(shapesGraphResource.getLicense(lang)).ifPresent(list -> {
 				this.license = list.stream()
 				.map(new RDFNodeToLinkMapper(lang))
 				.collect(Collectors.toList());
 			});
 			
-			Optional.ofNullable(ontology.getCreator(lang)).ifPresent(list -> {
+			Optional.ofNullable(shapesGraphResource.getCreator(lang)).ifPresent(list -> {
 				this.creator = list.stream()
 				.map(new RDFNodeToLinkMapper(lang))
 				.collect(Collectors.toList());
 			});
 			
-			Optional.ofNullable(ontology.getPublisher(lang)).ifPresent(list -> {
+			Optional.ofNullable(shapesGraphResource.getPublisher(lang)).ifPresent(list -> {
 				this.publisher = list.stream()
 				.map(new RDFNodeToLinkMapper(lang))
 				.collect(Collectors.toList());
 			});
 			
-			Optional.ofNullable(ontology.getRightsHolder(lang)).ifPresent(list -> {
+			Optional.ofNullable(shapesGraphResource.getRightsHolder(lang)).ifPresent(list -> {
 				this.rightsHolder = list.stream()
 				.map(new RDFNodeToLinkMapper(lang))
 				.collect(Collectors.toList());
 			});
 			
-			if(ontology.getDescription(lang) != null) {				
-				this.setDescriptionDocument(MarkdownRenderer.getInstance().renderMarkdown(ontology.getDescription(lang)));
+			if(shapesGraphResource.getDescription(lang) != null) {				
+				this.setDescriptionDocument(MarkdownRenderer.getInstance().renderMarkdown(shapesGraphResource.getDescription(lang)));
 			}
 			
-			if(ontology.getVersionNotes(lang) != null) {							
-				this.setReleaseNotes(MarkdownRenderer.getInstance().renderMarkdown(ontology.getVersionNotes(lang)));
+			if(shapesGraphResource.getVersionNotes(lang) != null) {							
+				this.setReleaseNotes(MarkdownRenderer.getInstance().renderMarkdown(shapesGraphResource.getVersionNotes(lang)));
 			}
 			
-			Optional.ofNullable(ontology.getDepiction()).ifPresent(list -> {
+			Optional.ofNullable(shapesGraphResource.getDepiction()).ifPresent(list -> {
 				this.depictions = list
 						.stream()
 						.map(u -> new Depiction(u.asResource().getURI()))
 						.collect(Collectors.toList());
 			});
 			
-			Optional.ofNullable(ontology.getOwlImports()).ifPresent(list -> {
+			Optional.ofNullable(shapesGraphResource.getOwlImports()).ifPresent(list -> {
 				this.OWLimport = list.stream()
 				.map(new RDFNodeToLinkMapper(lang))
 				.collect(Collectors.toList());
 			});
 			
-			this.setFormat(ontology.getDistributions());
+			this.setFormat(shapesGraphResource.getDistributions());
 			
-			Optional.ofNullable(ontology.getRepository()).ifPresent(list -> {
+			Optional.ofNullable(shapesGraphResource.getRepository()).ifPresent(list -> {
 				this.feedback = list.stream()
 				.map(new RDFNodeToLinkMapper(lang))
 				.collect(Collectors.toList());
@@ -156,7 +156,7 @@ public class ShapesDocumentation {
 			org.json.JSONObject jOutput = new org.json.JSONObject();
 			jOutput.put("@context","https://schema.org");
 			jOutput.put("@type","TechArticle");
-			jOutput.put("url",ontology.getResource().toString());
+			jOutput.put("url",shapesGraphResource.getResource().toString());
 			jOutput.put("name",this.title);
 			jOutput.put("datePublished",this.datecreated);
 			jOutput.put("version",this.versionInfo);

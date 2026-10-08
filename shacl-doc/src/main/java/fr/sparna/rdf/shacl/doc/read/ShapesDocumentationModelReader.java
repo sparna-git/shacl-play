@@ -99,7 +99,7 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 			shapesModel.pruneEmptyAndUnusedNodeShapes();
 		}
 
-		ShapesDocumentation shapesDocumentation = new ShapesDocumentation(shapesModel.getOntology(), lang);	
+		ShapesDocumentation shapesDocumentation = new ShapesDocumentation(shapesModel.getResource(), lang);	
 		shapesDocumentation.setImgLogo(this.imgLogo);	
 		
 		// Option pour créer le diagramme		

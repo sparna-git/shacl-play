@@ -1,4 +1,6 @@
 package fr.sparna.rdf.shacl.jsonschema.jsonld;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Map.Entry;
 
 import org.apache.commons.lang3.tuple.Triple;
@@ -136,7 +138,25 @@ public class ProbingJsonLdContextWrapper implements JsonLdContextWrapper {
         log.trace("Probing JSON-LD context for regex: {} in the context of property: {}", regexPattern, propertyUri);
 
         try {
-            String testValue = RegexUtil.generateMatchingString(regexPattern);
+            String candidate = "";
+            String testValue = null;
+            for (int attempt = 0; attempt < 5; attempt++) {
+                candidate = RegexUtil.generateMatchingString(regexPattern);
+                try {
+                    URI uri = new URI(candidate);
+                    if (uri.isAbsolute()) {
+                        testValue = candidate;
+                        break;
+                    }
+                } catch (URISyntaxException e) {
+                    // Retry with another generated matching string.
+                }
+            }
+
+            if (testValue == null) {
+                throw new JsonLdException("Could not generate a valid URI after 5 attempts for regex pattern: " + regexPattern+ " last attempt was : "+candidate);
+            }
+            
             JsonObject probeDocument = prepareProbeRegex(testValue, propertyUri, reverse);
             
             log.trace("Probe document before compaction: {}", JsonUtils.prettyPrint(probeDocument));

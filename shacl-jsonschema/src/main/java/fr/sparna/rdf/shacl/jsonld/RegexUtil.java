@@ -98,7 +98,7 @@ public class RegexUtil {
         String generatedValue = rgxGen.generate();
 
         // replace the value inserted for dots back with a dot
-        String output = generatedValue.replaceAll("\u0000", ".").replaceAll(" ", "_");
+        String output = generatedValue.replaceAll("\u0000", ".").replaceAll(" ", "_").replaceAll("\\|", "_");
 
         System.out.println("Generated value : " + output);
         return output;

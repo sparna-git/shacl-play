@@ -25,7 +25,9 @@ public class SHUI {
 
     public static final Resource LiteralViewer = M_MODEL.createResource(NS + "LiteralViewer");
 	
-    public static final Property propertyRole = M_MODEL.createProperty( NS + "propertyRole" );
+    public static final Property propertyRole = M_MODEL.createProperty( NS + "propertyRole" ); // <-- Ici c'est un prédicate propertyRole
+
+    public static final Resource PropertyRole = M_MODEL.createResource(NS +  "PropertyRole"); // <-- Ici c'est une class de type PropertyRole
 
     public static final Property viewer = M_MODEL.createProperty( NS + "viewer" );
 

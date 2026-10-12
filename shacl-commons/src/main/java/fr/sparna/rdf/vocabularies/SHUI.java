@@ -10,26 +10,36 @@ public class SHUI {
 
     /** <p>The RDF model that holds the vocabulary terms</p> */
     private static final Model M_MODEL = ModelFactory.createDefaultModel();
-	
+
 	public static final String NS = "http://www.w3.org/ns/shacl-ui#";
+
+    public static final Resource BlankNodeViewer = M_MODEL.createResource(NS + "BlankNodeViewer");
+
+    public static final Resource DetailsViewer = M_MODEL.createResource(NS + "DetailsViewer");
+
+    public static final Resource HyperlinkViewer = M_MODEL.createResource(NS + "HyperlinkViewer");
+
+    public static final Resource IRIViewer = M_MODEL.createResource(NS + "IRIViewer");
+
+    public static final Resource LabelViewer = M_MODEL.createResource(NS + "LabelViewer");
+
+    public static final Resource LiteralViewer = M_MODEL.createResource(NS + "LiteralViewer");
 	
     public static final Property propertyRole = M_MODEL.createProperty( NS + "propertyRole" );
 
     public static final Property viewer = M_MODEL.createProperty( NS + "viewer" );
 
-    public static final Property LabelViewer = M_MODEL.createProperty( NS + "LabelViewer" );
+    public static final Resource LabelRole = M_MODEL.createResource( NS + "LabelRole" );
 	
-    public static final Resource LabelRole = M_MODEL.createProperty( NS + "LabelRole" );
-	
-    public static final Resource IDRole = M_MODEL.createProperty( NS + "IDRole" );
+    public static final Resource IDRole = M_MODEL.createResource( NS + "IDRole" );
 
-    public static final Resource DescriptionRole = M_MODEL.createProperty( NS + "DescriptionRole" );
+    public static final Resource DescriptionRole = M_MODEL.createResource( NS + "DescriptionRole" );
 
-    public static final Resource IconRole = M_MODEL.createProperty( NS + "IconRole" );
+    public static final Resource IconRole = M_MODEL.createResource( NS + "IconRole" );
 
-    public static final Resource DepictionRole = M_MODEL.createProperty( NS + "DepictionRole" );
+    public static final Resource DepictionRole = M_MODEL.createResource( NS + "DepictionRole" );
 
-    public static final Resource KeyInfoRole = M_MODEL.createProperty( NS + "KeyInfoRole" );
+    public static final Resource KeyInfoRole = M_MODEL.createResource( NS + "KeyInfoRole" );
     
     static { 
         M_MODEL.add(propertyRole, OWL.equivalentProperty, DASH.propertyRole);

@@ -372,11 +372,22 @@ public class ShapesDocumentationSectionBuilder {
 				if (usgae_doc.getProperties().size() > 0 ) {
 					List<Link> linkUsage = usgae_doc.getProperties()
 						.stream()
-						.map((ps -> new Link(
-							"#"+PropertyShapeDocumentationBuilder.buildPropertyShapeSectionId(usgae_doc.getNodeShape(), ps),
-							// we need to avoid an empty label here otherwise ReSpec complains, so we default to the short form of the property shape if no label is found
-							ps.getDisplayLabel(shacModel, lang).equals("")?ps.getResource().getModel().shortForm(ps.getShPath().getURI()):ps.getDisplayLabel(shacModel, lang)
-						))).collect(Collectors.toList());
+						.map((ps -> {
+                                String linkLabel = ps.getDisplayLabel(shacModel, lang);
+                                if (linkLabel == "") {
+                                    Resource psResource = ps.getResource();
+                                    String psUri = psResource.getURI();
+                                    if (psUri == null) {
+                                        psUri = psResource.getId().toString();
+                                    }
+                                    linkLabel = ps.getResource().getModel().shortForm(psUri);
+                                }
+                                return new Link(
+                                    "#"+PropertyShapeDocumentationBuilder.buildPropertyShapeSectionId(usgae_doc.getNodeShape(), ps),
+                                    // we need to avoid an empty label here otherwise ReSpec complains, so we default to the short form of the property shape if no label is found
+                                    linkLabel
+                                );
+                        })).collect(Collectors.toList());
 				
 						uOutput.setNodeshape_name(usgae_doc.getNodeShape().getDisplayLabel(shacModel, lang));
 						uOutput.setProperties_usage(linkUsage);						

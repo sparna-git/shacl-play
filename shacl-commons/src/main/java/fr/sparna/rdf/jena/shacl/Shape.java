@@ -17,10 +17,8 @@ import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.vocabulary.RDFS;
 import org.apache.jena.vocabulary.SKOS;
-import fr.sparna.rdf.vocabularies.SH12;
 
 import fr.sparna.rdf.jena.ModelReadingUtils;
-import fr.sparna.rdf.jena.ModelRenderingUtils;
 import fr.sparna.rdf.vocabularies.*;
 
 import org.topbraid.shacl.vocabulary.SH;
@@ -137,6 +135,10 @@ public abstract class Shape {
 		} else {
 			return Collections.emptyList();
 		}
+	}
+
+	public List<Literal> getAgentInstruction(String lang) {
+		return ModelReadingUtils.readLiteralInLang(resource, SH12.agentInstruction, lang);
 	}
 
 
@@ -523,9 +525,5 @@ public abstract class Shape {
 	}
 
 	/***** SHACL 1.2 ********/
-
-	public List<Literal> getAgentInstruction(String lang) {
-		return ModelReadingUtils.readLiteralInLang(resource, SH12.agentInstruction, lang);
-	}
 
 }

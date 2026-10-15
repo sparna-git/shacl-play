@@ -117,6 +117,43 @@ public class NodeShape extends Shape  {
 		).orElse(null);
 	}
 
+	/**
+	 * @param resource a focus node
+	 * @return true if this node shape targets the given resource, 
+	 * e.g. if this node shape has a sh:targetClass that is the type of the resource, 
+	 * or if it has a sh:targetSubjectsOf or sh:targetObjectsOf that matches a property of the resource, 
+	 * or if it has a sh:targetNode that matches the resource, or if it has a sh:target with a query that returns the resource
+	 */
+	public boolean targets(Resource resource) {
+		if(resource == null) {
+			return false;
+		}
+		if(this.getAllTargetedClasses().stream().filter(tc -> 
+			// reads all rdf:type of the input resource, then read all subClassOf of each of them, and check if any of them is equal to the target class
+			resource.listProperties(RDF.type).toList().stream()
+			.map(s -> s.getResource())
+			.flatMap(t -> NodeShape.getRdfsSubClassOfOf(t).stream())
+			.filter(c -> c.equals(tc))
+			.findFirst().isPresent()
+		).findFirst().isPresent()) {
+			return true;
+		}
+		if(this.getTargetSubjectsOf().stream().filter(p -> resource.hasProperty(resource.getModel().createProperty(p.getURI()))).findFirst().isPresent()) {
+			return true;
+		}
+		if(this.getTargetObjectsOf().stream().filter(p -> {
+			// checks if the Model of the input resource contains a statement with the given property and the input resource as object
+			return resource.getModel().listStatements(null, resource.getModel().createProperty(p.getURI()), resource).toList().size() > 0;
+		}).findFirst().isPresent()) {
+			return true;
+		}
+		if(this.getTargetNode().stream().filter(n -> n.equals(resource)).findFirst().isPresent()) {
+			return true;
+		}
+		
+		return false;
+	}
+
 	/***** / TARGET SPECIFICATIONS *******/
 
 
@@ -538,10 +575,4 @@ public class NodeShape extends Shape  {
 
 	/***** / OTHER UTILITY ACCESSOR FUNCTIONS ********/
 
-	
-	@Override
-	public List<Literal> getAgentInstruction(String lang) {
-		// TODO Auto-generated method stub
-		return super.getAgentInstruction(lang);
-	}
 }

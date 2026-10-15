@@ -11,8 +11,9 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title><fmt:message key="window.app" /></title>
+	<title><fmt:message key="window.app" /> - <fmt:message key="home.title" /></title>
 	<link rel="canonical" href="https://shacl-play.sparna.fr/play" />
+	<meta name=""description" content="A free online open-source SHACL validator, documentation generator, SHACL generator from RDF, and related tools." />
 	
     <!-- Font Awesome -->
     <link rel="stylesheet" href="<c:url value="/resources/fa/css/all.min.css" />">

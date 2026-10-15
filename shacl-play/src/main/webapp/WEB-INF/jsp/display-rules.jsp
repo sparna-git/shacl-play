@@ -13,7 +13,7 @@
 
 <html>
 	<head>
-	<title><fmt:message key="window.app" /></title>
+	<title><fmt:message key="window.app" /> - <fmt:message key="rules.title" /></title>
 	
 
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8">

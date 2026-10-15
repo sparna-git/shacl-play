@@ -11,7 +11,7 @@
 
 <html>
 	<head>
-		<title><fmt:message key="window.app" /></title>
+		<title><fmt:message key="window.app" /> - SHACL Excel</title>
 		<link rel="canonical" href="https://shacl-play.sparna.fr/play/shaclexcel" />
 		
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8">

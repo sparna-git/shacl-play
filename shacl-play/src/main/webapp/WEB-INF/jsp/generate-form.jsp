@@ -12,7 +12,7 @@
 
 <html>
 	<head>
-		<title><fmt:message key="window.app" /></title>
+		<title><fmt:message key="window.app" /> - <fmt:message key="generate.title" /></title>
 		<link rel="canonical" href="https://shacl-play.sparna.fr/play/generate" />
 
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8">

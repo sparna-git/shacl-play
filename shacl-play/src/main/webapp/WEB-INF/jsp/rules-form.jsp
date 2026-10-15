@@ -11,7 +11,7 @@
 
 <html>
 	<head>
-		<title><fmt:message key="window.app" /></title>
+		<title><fmt:message key="window.app" /> - <fmt:message key="rules.title" /></title>
 		<link rel="canonical" href="https://shacl-play.sparna.fr/play/rules" />
 		
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8">

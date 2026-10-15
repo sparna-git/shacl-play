@@ -364,24 +364,40 @@ public class ShapesDocumentationSectionBuilder {
 			// Sort
 			nsUsageAsList.sort(((UsageDoc arg0, UsageDoc arg1) -> { return comparator.compare(arg0.getNodeShape(), arg1.getNodeShape()); } ));
 
-			for (UsageDoc usgae_doc : nsUsageAsList) {			
+			for (UsageDoc usageDoc : nsUsageAsList) {			
 				//Sort Properties		
-				usgae_doc.getProperties().sort(new PropertyShape.PropertyShapeComparator());
+				usageDoc.getProperties().sort(new PropertyShape.PropertyShapeComparator());
 
 				Usage uOutput = new Usage();
-				if (usgae_doc.getProperties().size() > 0 ) {
-					List<Link> linkUsage = usgae_doc.getProperties()
+				if (usageDoc.getProperties().size() > 0 ) {
+					List<Link> linkUsage = usageDoc.getProperties()
 						.stream()
-						.map((ps -> new Link(
-							"#"+PropertyShapeDocumentationBuilder.buildPropertyShapeSectionId(usgae_doc.getNodeShape(), ps),
-							// we need to avoid an empty label here otherwise ReSpec complains, so we default to the short form of the property shape if no label is found
-							ps.getDisplayLabel(shacModel, lang).equals("")?ps.getResource().getModel().shortForm(ps.getShPath().getURI()):ps.getDisplayLabel(shacModel, lang)
-						))).collect(Collectors.toList());
+						.map((ps -> 
+							{ 
+								String label = ps.getDisplayLabel(shacModel, lang);
+								// we need to avoid an empty label here otherwise ReSpec complains
+								if(label == null || label.equals("")) {
+									if(ps.getShPath().isURIResource()) {
+										label = ps.getShPath().getModel().shortForm(ps.getShPath().getURI());
+									} else if(ps.getPropertyPath().isInverse()) {
+										label = "^"+ps.getPropertyPath().getShInversePath().getModel().shortForm(ps.getPropertyPath().getShInversePath().getURI());
+									} else if(ps.getResource().isURIResource()) {
+										label = ps.getResource().getModel().shortForm(ps.getResource().getURI());
+									} else {
+										label = "no label";
+									}
+								}
+								return new Link(
+									"#"+PropertyShapeDocumentationBuilder.buildPropertyShapeSectionId(usageDoc.getNodeShape(), ps),									
+									label
+							);
+							}
+						)).collect(Collectors.toList());
 				
-						uOutput.setNodeshape_name(usgae_doc.getNodeShape().getDisplayLabel(shacModel, lang));
+						uOutput.setNodeshape_name(usageDoc.getNodeShape().getDisplayLabel(shacModel, lang));
 						uOutput.setProperties_usage(linkUsage);						
 				} else {
-					uOutput.setNodeshape_link(new Link("#"+usgae_doc.getNodeShape().getResource().getModel().shortForm(usgae_doc.getNodeShape().getURIOrId()), usgae_doc.getNodeShape().getDisplayLabel(shacModel, lang)));			
+					uOutput.setNodeshape_link(new Link("#"+usageDoc.getNodeShape().getResource().getModel().shortForm(usageDoc.getNodeShape().getURIOrId()), usageDoc.getNodeShape().getDisplayLabel(shacModel, lang)));			
 				} 
 				output.add(uOutput);
 			}

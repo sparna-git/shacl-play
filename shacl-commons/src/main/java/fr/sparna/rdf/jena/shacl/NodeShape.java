@@ -1,29 +1,22 @@
 package fr.sparna.rdf.jena.shacl;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
-
+import fr.sparna.rdf.jena.ModelReadingUtils;
+import fr.sparna.rdf.jena.ModelRenderingUtils;
+import fr.sparna.rdf.vocabularies.SCHEMA;
+import fr.sparna.rdf.vocabularies.SHACL_PLAY;
+import fr.sparna.rdf.vocabularies.SHUI;
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.sparql.vocabulary.FOAF;
 import org.apache.jena.vocabulary.OWL;
 import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.RDFS;
 import org.apache.jena.vocabulary.SKOS;
-
-import fr.sparna.rdf.jena.ModelReadingUtils;
-import fr.sparna.rdf.jena.ModelRenderingUtils;
-import fr.sparna.rdf.vocabularies.SCHEMA;
-import fr.sparna.rdf.vocabularies.SHACL_PLAY;
-import fr.sparna.rdf.vocabularies.SHUI;
-
 import org.topbraid.shacl.vocabulary.SH;
+
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class NodeShape extends Shape  {
 	
@@ -130,11 +123,10 @@ public class NodeShape extends Shape  {
 		}
 		if(this.getAllTargetedClasses().stream().filter(tc -> 
 			// reads all rdf:type of the input resource, then read all subClassOf of each of them, and check if any of them is equal to the target class
-			resource.listProperties(RDF.type).toList().stream()
-			.map(s -> s.getResource())
-			.flatMap(t -> NodeShape.getRdfsSubClassOfOf(t).stream())
-			.filter(c -> c.equals(tc))
-			.findFirst().isPresent()
+				resource.listProperties(RDF.type).toList().stream()
+						.map(statement -> statement.getResource())
+						.filter(obj -> obj.equals(tc))
+						.findFirst().isPresent()
 		).findFirst().isPresent()) {
 			return true;
 		}

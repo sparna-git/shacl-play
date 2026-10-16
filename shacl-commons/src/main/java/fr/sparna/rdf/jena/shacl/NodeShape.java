@@ -148,7 +148,7 @@ public class NodeShape extends Shape  {
 			}
 		}
 
-		if(this.getTargetSubjectsOf().stream().filter(p -> resource.hasProperty(resource.getModel().createProperty(p.getURI()))).findFirst().isPresent()) {
+		if(this.getTargetSubjectsOf().stream().anyMatch(p -> resource.hasProperty(resource.getModel().createProperty(p.getURI())))) {
 			return true;
 		}
 		if(this.getTargetObjectsOf().stream().filter(p -> {
@@ -157,7 +157,7 @@ public class NodeShape extends Shape  {
 		}).findFirst().isPresent()) {
 			return true;
 		}
-		if(this.getTargetNode().stream().filter(n -> n.equals(resource)).findFirst().isPresent()) {
+		if(this.getTargetNode().stream().anyMatch(n -> n.equals(resource))) {
 			return true;
 		}
 		

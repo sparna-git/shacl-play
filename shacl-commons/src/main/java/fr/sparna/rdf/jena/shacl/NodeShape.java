@@ -166,12 +166,7 @@ public class NodeShape extends Shape  {
 
 	public boolean findRecursiveSubClassOfOf(Resource targetClass, Resource resource) {
 
-			List<Resource> subClassOf = resource
-					.listProperties(RDFS.subClassOf)
-					.toList()
-					.stream()
-					.map(Statement::getResource)
-					.toList();
+			List<Resource> subClassOf = NodeShape.getRdfsSubClassOfOf(resource);
 
 			if(subClassOf.isEmpty()) return false;
 

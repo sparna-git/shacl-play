@@ -140,11 +140,8 @@ public class NodeShape extends Shape  {
 						.toList();
 
 				for(Resource klass : isA) {
-
-					if(this.findRecursiveSubClassOfOf(target, klass)) return true;
-
+					if(NodeShape.isASubClassOf(target, klass)) return true;
 				}
-
 			}
 		}
 
@@ -162,28 +159,6 @@ public class NodeShape extends Shape  {
 		}
 		
 		return false;
-	}
-
-	public boolean findRecursiveSubClassOfOf(Resource targetClass, Resource resource) {
-
-			List<Resource> subClassOf = NodeShape.getRdfsSubClassOfOf(resource);
-
-			if(subClassOf.isEmpty()) return false;
-
-			for(Resource subClass: subClassOf){
-
-				if(targetClass.getURI().equals(subClass.getURI())) {
-
-					return true;
-
-				}
-
-				else return findRecursiveSubClassOfOf(targetClass, subClass);
-
-			}
-
-		return false;
-
 	}
 
 	/***** / TARGET SPECIFICATIONS *******/
@@ -247,6 +222,25 @@ public class NodeShape extends Shape  {
 				.map(s -> s.getResource())
 				.filter(r -> { return r.isURIResource() && !r.getURI().equals(OWL.Thing.getURI()); })
 				.collect(Collectors.toList());
+	}
+
+	/**
+	 * @return true if theClass is a rdfs:subClassOf c, recursively
+	 */
+	public static boolean isASubClassOf(Resource theClass, Resource c) {
+
+		List<Resource> superclasses = NodeShape.getRdfsSubClassOfOf(theClass);
+		if(superclasses.isEmpty()) return false;
+
+		for(Resource aSuperClass: superclasses){
+			if(c.getURI().equals(aSuperClass.getURI())) {
+				return true;
+			} else {
+				if(isASubClassOf(aSuperClass, c)) return true;
+			}
+		}
+
+		return false;
 	}
 
 	public List<Resource> getShTargetClassRdfsSubclassOfInverseOfShTargetClass() {

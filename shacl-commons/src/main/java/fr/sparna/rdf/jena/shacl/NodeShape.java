@@ -8,6 +8,7 @@ import fr.sparna.rdf.vocabularies.SHUI;
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.sparql.vocabulary.FOAF;
 import org.apache.jena.vocabulary.OWL;
 import org.apache.jena.vocabulary.RDF;
@@ -121,15 +122,32 @@ public class NodeShape extends Shape  {
 		if(resource == null) {
 			return false;
 		}
-		if(this.getAllTargetedClasses().stream().filter(tc -> 
-			// reads all rdf:type of the input resource, then read all subClassOf of each of them, and check if any of them is equal to the target class
-				resource.listProperties(RDF.type).toList().stream()
-						.map(statement -> statement.getResource())
-						.filter(obj -> obj.equals(tc))
-						.findFirst().isPresent()
-		).findFirst().isPresent()) {
+		if(this.getAllTargetedClasses().stream().anyMatch(tc -> resource.listProperties(RDF.type).toList()
+                .stream()
+                .anyMatch(statement -> statement.getResource().getURI().equals(tc.getURI())))) {
 			return true;
 		}
+		else{
+			List<Resource> targetedClasses = this.getAllTargetedClasses();
+
+			for(Resource target : targetedClasses) {
+
+				List<Resource> isA = resource
+						.listProperties(RDF.type)
+						.toList()
+						.stream()
+						.map(Statement::getResource)
+						.toList();
+
+				for(Resource klass : isA) {
+
+					if(this.findRecursiveSubClassOfOf(target, klass)) return true;
+
+				}
+
+			}
+		}
+
 		if(this.getTargetSubjectsOf().stream().filter(p -> resource.hasProperty(resource.getModel().createProperty(p.getURI()))).findFirst().isPresent()) {
 			return true;
 		}
@@ -144,6 +162,33 @@ public class NodeShape extends Shape  {
 		}
 		
 		return false;
+	}
+
+	public boolean findRecursiveSubClassOfOf(Resource targetClass, Resource resource) {
+
+			List<Resource> subClassOf = resource
+					.listProperties(RDFS.subClassOf)
+					.toList()
+					.stream()
+					.map(Statement::getResource)
+					.toList();
+
+			if(subClassOf.isEmpty()) return false;
+
+			for(Resource subClass: subClassOf){
+
+				if(targetClass.getURI().equals(subClass.getURI())) {
+
+					return true;
+
+				}
+
+				else return findRecursiveSubClassOfOf(targetClass, subClass);
+
+			}
+
+		return false;
+
 	}
 
 	/***** / TARGET SPECIFICATIONS *******/

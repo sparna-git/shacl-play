@@ -1,0 +1,100 @@
+@prefix rico: <https://www.ica.org/standards/RiC/ontology#> .
+@prefix type: <https://data.archives.haute-garonne.fr/type/> .
+@prefix ex: <http://example.org/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# Test data for NodeShape.targets() method
+
+# ============================================
+# Data instances
+# ============================================
+
+# Activity with type:acpro - should match the SPARQL query
+ex:activity1 a rico:Activity ;
+    rico:hasActivityType type:acpro .
+
+# Activity without type:acpro - should NOT match the SPARQL query
+ex:activity2 a rico:Activity ;
+    rico:hasActivityType type:other .
+
+# Non-activity resource
+ex:notActivity a rico:Agent .
+
+# Resources for targetSubjectsOf and targetObjectsOf tests
+ex:subject1 ex:property1 ex:object1 .
+ex:subject2 ex:property2 ex:object2 .
+
+# ============================================
+# Shapes for testing different target types
+# ============================================
+
+# Shape with sh:targetClass targeting rico:Activity
+ex:TargetClassShape
+    a sh:NodeShape ;
+    sh:targetClass rico:Activity .
+
+# Shape with sh:targetSubjectsOf targeting ex:property1
+ex:TargetSubjectsOfShape
+    a sh:NodeShape ;
+    sh:targetSubjectsOf ex:property1 .
+
+# Shape with sh:targetObjectsOf targeting ex:property2
+ex:TargetObjectsOfShape
+    a sh:NodeShape ;
+    sh:targetObjectsOf ex:property2 .
+
+# Shape with sh:targetNode targeting ex:activity1
+ex:TargetNodeShape
+    a sh:NodeShape ;
+    sh:targetNode ex:activity1 .
+
+# Shape with sh:target + sh:select using the provided SPARQL query
+# Using ?this as the variable
+# This matches the original SPARQL query from the user request
+ex:TargetSelectShape
+    a sh:NodeShape ;
+    sh:target [
+        sh:select "PREFIX rico: <https://www.ica.org/standards/RiC/ontology#> PREFIX type: <https://data.archives.haute-garonne.fr/type/> SELECT ?this WHERE { ?this a rico:Activity . ?this rico:hasActivityType type:acpro . }"
+    ] .
+
+# Shape with sh:targetClass that is also a class itself
+ex:ClassShape
+    a sh:NodeShape, rdfs:Class ;
+    sh:targetClass ex:MyClass .
+
+# Instance of ex:MyClass
+ex:myClassInstance a ex:MyClass .
+
+# Class that the shape itself is
+ex:ClassShapeDirect a ex:ClassShape .
+
+# ============================================
+# Additional classes and properties for subClassOf tests
+# ============================================
+
+# Hierarchy: ChildClass -> MyClass -> ParentClass -> GrandParentClass
+# So ChildClass is a subclass of MyClass
+# MyClass is a subclass of ParentClass
+# ParentClass is a subclass of GrandParentClass
+
+ex:ChildClass rdfs:subClassOf ex:MyClass .
+ex:MyClass rdfs:subClassOf ex:ParentClass .
+ex:ParentClass rdfs:subClassOf ex:GrandParentClass .
+
+ex:myClassInstance a ex:MyClass .
+ex:myChildClassInstance a ex:ChildClass .
+ex:myParentClassInstance a ex:ParentClass .
+ex:myGrandParentClassInstance a ex:GrandParentClass .
+
+# Shape targeting MyClass - should match instances of MyClass and ChildClass (subclass)
+# but NOT ParentClass or GrandParentClass (superclasses)
+ex:SubClassShape
+    a sh:NodeShape ;
+    sh:targetClass ex:MyClass .
+
+# Shape targeting ParentClass - should match instances of ParentClass, MyClass, and ChildClass (all subclasses)
+ex:SuperClassShape
+    a sh:NodeShape ;
+    sh:targetClass ex:ParentClass .

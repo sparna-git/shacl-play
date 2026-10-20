@@ -16,6 +16,11 @@ import org.apache.jena.rdf.model.RDFNode;
 
 public abstract class JenaResultSetHandlers {
 
+  /**
+   * Converts a ResultSet to a List of Maps, where each Map represents a row with variable names as keys and RDFNodes as values.
+   * @param resultSet
+   * @return
+   */
   public static List<Map<String, RDFNode>> convertToListOfMaps(ResultSet resultSet) {
     List<Map<String, RDFNode>> result = new ArrayList<>();
 
@@ -28,6 +33,11 @@ public abstract class JenaResultSetHandlers {
     return result;
   }
   
+  /**
+   * Converts a ResultSet to a List of RDFNode, taking the first variable of the result set as the value.
+   * @param resultSet a result set with a single column
+   * @return
+   */
   public static List<RDFNode> convertToList(ResultSet resultSet) {
 	  List<RDFNode> result = new ArrayList<>();
 
@@ -40,6 +50,11 @@ public abstract class JenaResultSetHandlers {
 	  return result;
   }
   
+  /**
+   * Converts a ResultSet to a Map of RDFNode to Integer, taking the first variable of the result set as the key and the second variable as the value.
+   * @param resultSet a result set with two columns
+   * @return
+   */
   public static Map<RDFNode, Integer> convertToMap(ResultSet resultSet) {
 	  Map<RDFNode, Integer> result = new HashMap<RDFNode, Integer>();
 

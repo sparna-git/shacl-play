@@ -1,7 +1,10 @@
 package fr.sparna.rdf.jena.shacl;
 
+import fr.sparna.rdf.jena.JenaResultSetHandlers;
 import fr.sparna.rdf.jena.ModelReadingUtils;
 import fr.sparna.rdf.jena.ModelRenderingUtils;
+import fr.sparna.rdf.jena.QueryExecutionLocalService;
+import fr.sparna.rdf.jena.QueryExecutionService;
 import fr.sparna.rdf.vocabularies.SCHEMA;
 import fr.sparna.rdf.vocabularies.SHACL_PLAY;
 import fr.sparna.rdf.vocabularies.SHUI;
@@ -113,53 +116,64 @@ public class NodeShape extends Shape  {
 
 	/**
 	 * @param resource a focus node
-	 * @return true if this node shape targets the given resource, 
-	 * e.g. if this node shape has a sh:targetClass that is the type of the resource, 
-	 * or if it has a sh:targetSubjectsOf or sh:targetObjectsOf that matches a property of the resource, 
-	 * or if it has a sh:targetNode that matches the resource, or if it has a sh:target with a query that returns the resource
+	 * @return true if this node shape targets the given resource, using the Model of the resource.
+	 * Use only for local models, otherwise use the other targets() method with a QueryExecutionService
 	 */
 	public boolean targets(Resource resource) {
+		return this.targets(resource, new QueryExecutionLocalService(resource.getModel()));
+	}
+
+	/**
+	 * Tests all the targets of this node shape against the given resource, using the given QueryExecutionService to run queries.
+	 * sh:targetClass will translate to an ASK query on rdf:type/rdfs:subClassOf*, sh:targetSubjectsOf and sh:targetObjectsOf will translate to an ASK query on the given property,
+	 * sh:targetNode will translate to a simple equality test, and sh:target will translate to an ASK query on the given SPARQL query, with the resource bound to ?this using VALUES 
+	 * @param resource a focus node
+	 * @param queryExecutionService a QueryExecutionService to run tests queries on the targets	
+	 * 		
+	 */
+	public boolean targets(Resource resource, QueryExecutionService queryExecutionService) {
 		if(resource == null) {
 			return false;
 		}
-		if(this.getAllTargetedClasses().stream().anyMatch(tc -> resource.listProperties(RDF.type).toList()
-                .stream()
-                .anyMatch(statement -> statement.getResource().getURI().equals(tc.getURI())))) {
+
+		// sh:targetClass
+		if(this.getAllTargetedClasses().stream().anyMatch(tc -> {
+			String askQuery = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> ASK { ?this rdf:type/rdfs:subClassOf* <" + tc.getURI() + "> }";
+			return queryExecutionService.executeAskQuery(askQuery, QueryExecutionService.buildQuerySolution("this", resource));
+		})) {
 			return true;
 		}
-		else{
-			List<Resource> targetedClasses = this.getAllTargetedClasses();
-
-			for(Resource target : targetedClasses) {
-
-				List<Resource> isA = resource
-						.listProperties(RDF.type)
-						.toList()
-						.stream()
-						.map(Statement::getResource)
-						.toList();
-
-				for(Resource klass : isA) {
-					if(NodeShape.isASubClassOf(target, klass)) return true;
-				}
-			}
-		}
-
-		if(this.getTargetSubjectsOf().stream().anyMatch(p -> resource.hasProperty(resource.getModel().createProperty(p.getURI())))) {
+		// sh:targetSubjectsOf
+		if(this.getTargetSubjectsOf().stream().anyMatch(p -> {
+			String askQuery = "ASK { ?this <" + p.getURI() + "> ?o }";
+			return queryExecutionService.executeAskQuery(askQuery, QueryExecutionService.buildQuerySolution("this", resource));
+		})) {
 			return true;
 		}
-		if(this.getTargetObjectsOf().stream().filter(p -> {
-			// checks if the Model of the input resource contains a statement with the given property and the input resource as object
-			return resource.getModel().listStatements(null, resource.getModel().createProperty(p.getURI()), resource).toList().size() > 0;
-		}).findFirst().isPresent()) {
+		//sh:targetObjectsOf
+		if(this.getTargetObjectsOf().stream().anyMatch(p -> {
+			String askQuery = "ASK { ?x <" + p.getURI() + "> ?this }";
+			return queryExecutionService.executeAskQuery(askQuery, QueryExecutionService.buildQuerySolution("this", resource));
+		})) {
 			return true;
 		}
+		// sh:targetNode
 		if(this.getTargetNode().stream().anyMatch(n -> n.equals(resource))) {
 			return true;
 		}
-		
+		// sh:target+sh:select
+		if(this.getShTargetShSelect() != null) {
+			String selectQuery = this.getShTargetShSelect().getString();
+			// Add VALUES clause to bind ?this to the resource
+			selectQuery += " VALUES ?this { <" + resource.getURI() + "> }";
+			return queryExecutionService.executeSelectQuery(
+				selectQuery,
+				JenaResultSetHandlers::convertToListOfMaps
+			).stream().findFirst().isPresent();
+		}
 		return false;
 	}
+
 
 	/***** / TARGET SPECIFICATIONS *******/
 

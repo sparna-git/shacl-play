@@ -11,7 +11,6 @@ import fr.sparna.rdf.vocabularies.SHUI;
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.Resource;
-import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.sparql.vocabulary.FOAF;
 import org.apache.jena.vocabulary.OWL;
 import org.apache.jena.vocabulary.RDF;
@@ -28,7 +27,11 @@ public class NodeShape extends Shape  {
 	protected List<PropertyShape> properties = null;
 
 	public NodeShape(Resource nodeShape) {  
-	    super(nodeShape);
+	    super(nodeShape, new ShapesGraph(nodeShape.getModel()));
+	}
+
+	public NodeShape(Resource nodeShape, ShapesGraph shapesGraph) {  
+	    super(nodeShape, shapesGraph);
 	}
 
 	/***** TARGET SPECIFICATIONS *******/
@@ -393,7 +396,7 @@ public class NodeShape extends Shape  {
 	 * @return the values of sh:property as PropertyShape, sorted, or an empty list if none
 	 */
 	private List<PropertyShape> readProperties() {	
-		List<PropertyShape> theProperties = this.getShProperty().stream().map(r -> new PropertyShape(r)).collect(Collectors.toList());
+		List<PropertyShape> theProperties = this.getShProperty().stream().map(r -> new PropertyShape(r, this.shapesGraph)).collect(Collectors.toList());
 		theProperties.sort(new PropertyShape.PropertyShapeComparator());	 
 		return theProperties;	
 	}

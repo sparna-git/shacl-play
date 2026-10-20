@@ -25,20 +25,12 @@ public class ShapesGraph {
 	private Model shaclGraph;
 	private Model owlGraph;
 
-	private ShapesGraphResource resource;
+	private transient ShapesGraphResource resource;
 	
 	public ShapesGraph(Model shaclGraph, Model owlGraph) {
 		super();
 		this.shaclGraph = shaclGraph;
 		this.owlGraph = owlGraph;
-
-		Resource resource = this.findShapesGraph();
-		if(resource == null) {
-			resource = this.findOntology();
-		}
-		if(resource != null) {
-			this.resource = new ShapesGraphResource(resource);
-		}
 	}
 
 	public ShapesGraph(Model shaclGraph) {
@@ -51,15 +43,25 @@ public class ShapesGraph {
 	 * Can return null if no such resource is found in the graph.
 	 */
 	public ShapesGraphResource getResource() {
+		if(this.resource == null) {
+			Resource r = this.findShapesGraph();
+			if(r == null) {
+				r = this.findOntology();
+			}
+			if(r != null) {
+				this.resource = new ShapesGraphResource(r);
+			}
+		}
+
 		return this.resource;
 	}
 
 	public List<NodeShape> getAllNodeShapes() {	
-		return ShapesGraph.readAllNodeShapes(shaclGraph, owlGraph); 
+		return this.readAllNodeShapes(shaclGraph, owlGraph); 
 	}
 
 	public List<NodeShape> getRootNodeShapes() {	
-		return ShapesGraph.readAllNodeShapes(shaclGraph, owlGraph)
+		return this.readAllNodeShapes(shaclGraph, owlGraph)
 		.stream()
 		// TODO : should test agains the URI of this ShapesGraph
 		.filter(nodeShape -> !nodeShape.getShaclPlayIsRootOf().isEmpty())
@@ -70,7 +72,7 @@ public class ShapesGraph {
 	 * @return All subjects of a sh:path in the graph
 	 */
 	public List<PropertyShape> getAllPropertyShapes() {	
-		return shaclGraph.listSubjectsWithProperty(SH.path).toList().stream().map(r -> new PropertyShape(r)).collect(Collectors.toList());
+		return shaclGraph.listSubjectsWithProperty(SH.path).toList().stream().map(r -> new PropertyShape(r, this)).collect(Collectors.toList());
 	}
 
 	public Model getShaclGraph() {
@@ -110,27 +112,27 @@ public class ShapesGraph {
 
 
 	/**
-	 * @return the nodes shapes that target the node indicated in the sh:node of the given property shape
+	 * @return the nodes shapes that target the node indicated in the sh:node of the given (property) shape
 	 */
-	public List<NodeShape> findNodeShapesByPropertyShapeShNode(PropertyShape ps) {
+	public List<NodeShape> findNodeShapesByPropertyShapeShNode(Shape ps) {
 		return getAllNodeShapes().stream().filter(ns -> 
 			ps.getShNode().map(n -> n.equals(ns.getResource())).orElse(false)
 		).collect(Collectors.toList());
 	}
 
 	/**
-	 * @return the nodes shapes that target the class indicated in the sh:class of the given property shape, relying on findNodeShapeByTargetClass
+	 * @return the nodes shapes that target the class indicated in the sh:class of the given (property) shape, relying on findNodeShapeByTargetClass
 	 */
-	public List<NodeShape> findNodeShapesByPropertyShapeShClass(PropertyShape ps) {
+	public List<NodeShape> findNodeShapesByPropertyShapeShClass(Shape ps) {
 		return ps.getShClass().map(cl -> this.findNodeShapeByTargetClass(cl)).orElse(new ArrayList<NodeShape>());
 	}
 
 	public List<PropertyShape> findPropertyShapesByPath(Resource path) {
-		return shaclGraph.listSubjectsWithProperty(SH.path, path).toList().stream().map(r -> new PropertyShape(r)).collect(Collectors.toList());
+		return shaclGraph.listSubjectsWithProperty(SH.path, path).toList().stream().map(r -> new PropertyShape(r, this)).collect(Collectors.toList());
 	}
 
 	public List<PropertyShape> findPropertyShapesByShortname(String shortname) {
-		return shaclGraph.listSubjectsWithProperty(shaclGraph.createProperty(SHACL_PLAY.SHORTNAME), shaclGraph.createLiteral(shortname)).toList().stream().map(r -> new PropertyShape(r)).collect(Collectors.toList());
+		return shaclGraph.listSubjectsWithProperty(shaclGraph.createProperty(SHACL_PLAY.SHORTNAME), shaclGraph.createLiteral(shortname)).toList().stream().map(r -> new PropertyShape(r, this)).collect(Collectors.toList());
 	}
 
 	public List<PropertyShape> findPropertyShapesByShortnameOrPath(String shortname, Resource path) {
@@ -306,12 +308,12 @@ public class ShapesGraph {
 	/**
 	 * @return all instances of sh:NodeShape in the graph, as NodeShape objects
 	 */
-	private static List<NodeShape> readAllNodeShapes(Model shaclGraph, Model owlGraph) {
+	private List<NodeShape> readAllNodeShapes(Model shaclGraph, Model owlGraph) {
 		
 		List<Resource> nodeShapes = shaclGraph.listResourcesWithProperty(RDF.type, SH.NodeShape).toList();	
 		List<NodeShape> allNodeShapes = new ArrayList<>();
 		for (Resource nodeShape : nodeShapes) {
-			allNodeShapes.add(new NodeShape(nodeShape));
+			allNodeShapes.add(new NodeShape(nodeShape, this));
 		}
 		
 		return allNodeShapes; 		

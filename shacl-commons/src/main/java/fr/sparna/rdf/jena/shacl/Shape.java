@@ -26,9 +26,15 @@ import org.topbraid.shacl.vocabulary.SH;
 public abstract class Shape {
 	
 	protected Resource resource;
+	protected ShapesGraph shapesGraph;
 
 	public Shape(Resource resource) {  
 	    this.resource = resource;		
+	}
+
+	public Shape(Resource resource, ShapesGraph shapesGraph) {  
+	    this.resource = resource;
+		this.shapesGraph = shapesGraph;	
 	}
 
 	public abstract String getDisplayLabel(Model owlModel, String lang);
@@ -332,7 +338,7 @@ public abstract class Shape {
 	public List<NodeShape> getShNodeShapes() {
 		Set<Resource> constrainingShapes = new HashSet<Resource>();
 		constrainingShapes.addAll(this.getShNodeAsList());
-		return new ArrayList<NodeShape>(constrainingShapes.stream().map(r -> new NodeShape(r)).collect(Collectors.toList()));
+		return new ArrayList<NodeShape>(constrainingShapes.stream().map(r -> new NodeShape(r, this.shapesGraph)).collect(Collectors.toList()));
 	}
 
 	public Optional<NodeShape> getShClassShape() {

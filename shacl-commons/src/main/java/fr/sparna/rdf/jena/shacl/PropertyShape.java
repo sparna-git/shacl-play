@@ -23,7 +23,11 @@ public class PropertyShape extends Shape {
 	private Logger log = LoggerFactory.getLogger(this.getClass().getName());
 	
 	public PropertyShape(Resource propertyShape) {
-		super(propertyShape);
+		super(propertyShape, new ShapesGraph(propertyShape.getModel()));
+	}
+
+	public PropertyShape(Resource propertyShape, ShapesGraph shapesGraph) {
+		super(propertyShape, shapesGraph);
 	}
 
 	@Override
@@ -273,7 +277,7 @@ public class PropertyShape extends Shape {
 	}
 
 	public Optional<NodeShape> getQualifiedValueShape() {
-		return ModelReadingUtils.getOptionalResource(resource, SH.qualifiedValueShape).map(r -> new NodeShape(r));
+		return ModelReadingUtils.getOptionalResource(resource, SH.qualifiedValueShape).map(r -> new NodeShape(r, this.shapesGraph));
 	}
 
 
@@ -327,10 +331,26 @@ public class PropertyShape extends Shape {
 		return this.getShuiViewers().stream().findFirst();
 	}
 
-	@Override
-	public List<Literal> getAgentInstruction(String lang) {
-		// TODO Auto-generated method stub
-		return super.getAgentInstruction(lang);
+	/**
+	 * @return the node shapes to be used as "range" for this property shape, either from sh:node first, or from sh:class, or from sh:qualifiedValueShape/sh:node or from sh:qualifiedValueShape/sh:class, or an empty list if none is present 
+	 */
+	public List<NodeShape> getObjectNodeShapes() {
+		// first look for sh:node
+		List<NodeShape> result = this.shapesGraph.findNodeShapesByPropertyShapeShNode(this);
+		if(result.size() == 0) {
+			// then look for sh:class
+			result = this.shapesGraph.findNodeShapesByPropertyShapeShClass(this);
+		}
+		if(result.size() == 0) {
+			Optional<NodeShape> qvs = this.getQualifiedValueShape();
+			if(qvs.isPresent()) {
+				result.addAll(this.shapesGraph.findNodeShapesByPropertyShapeShNode(qvs.get()));
+				if(result.size() == 0) {
+					result.addAll(this.shapesGraph.findNodeShapesByPropertyShapeShClass(qvs.get()));
+				}
+			}
+		}
+		return result;
 	}
 
 }

@@ -337,10 +337,14 @@ public class PropertyShape extends Shape {
 	public List<NodeShape> getObjectNodeShapes() {
 		// first look for sh:node
 		List<NodeShape> result = this.shapesGraph.findNodeShapesByPropertyShapeShNode(this);
+		
+		// then look for sh:class
 		if(result.size() == 0) {
 			// then look for sh:class
 			result = this.shapesGraph.findNodeShapesByPropertyShapeShClass(this);
 		}
+
+		// then look for sh:qualifiedValueShape/sh:node or sh:qualifiedValueShape/sh:class
 		if(result.size() == 0) {
 			Optional<NodeShape> qvs = this.getQualifiedValueShape();
 			if(qvs.isPresent()) {
@@ -350,6 +354,26 @@ public class PropertyShape extends Shape {
 				}
 			}
 		}
+
+		// then look inside sh:or
+		RDFList shOrList = this.getShOr();
+		if(shOrList != null) {			
+			if(result.size() == 0) {
+				List<Resource> shNodes = ShOrReadingUtils.readShNodeInShOr(shOrList);
+				for(Resource r : shNodes) {
+					result.add(new NodeShape(r, this.shapesGraph));
+				}		
+			}
+
+			if(result.size() == 0) {
+				List<Resource> shClasses = ShOrReadingUtils.readShClassInShOr(shOrList);
+				for(Resource r : shClasses) {
+					result.add(new NodeShape(r, this.shapesGraph));
+				}	
+			}
+
+		}
+
 		return result;
 	}
 

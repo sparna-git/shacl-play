@@ -9,16 +9,20 @@ import java.util.stream.Collectors;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.vocabulary.RDFS;
+
 import fr.sparna.rdf.shacl.diagram.model.PlantUmlBoxIfc;
 import fr.sparna.rdf.shacl.diagram.model.PlantUmlDiagram;
 import fr.sparna.rdf.shacl.diagram.model.PlantUmlProperty;
 
 public class BoxRenderer {
 
+public static final int MIN_BOXES_FOR_AVOIDING_ARROWS_TO_EMPTY_BOXES = 8;
+
 	protected boolean includeSubclassLinks = true;
 	protected boolean generateAnchorHyperlink = false;
 	// true to indicate that the diagram is a section diagram
 	protected boolean renderSectionDiagram = false;
+	protected boolean useLabels = true;
 
 	// the current diagram being rendered	
 	protected transient PlantUmlDiagram diagram;
@@ -29,18 +33,24 @@ public class BoxRenderer {
 	// current temporary arrow direction index to determine the u,d,r,l directions of the arrows
 	protected transient int currentArrowDirectionIndex = 0;
 
-	public static int MIN_BOXES_FOR_AVOIDING_ARROWS_TO_EMPTY_BOXES = 8;
+	protected String lang;
+
+
 
 	public BoxRenderer(
 		boolean includeSubclassLinks,
 		boolean generateAnchorHyperlink,
 		boolean renderSectionDiagram,
 		boolean displayPatterns,
+		boolean useLabels,
+		String lang,
 		PlantUmlDiagram diagram
 	) {
 		this.includeSubclassLinks = includeSubclassLinks;
 		this.generateAnchorHyperlink = generateAnchorHyperlink;
 		this.renderSectionDiagram = renderSectionDiagram;
+		this.useLabels = useLabels;
+		this.lang = lang;
 		this.diagram = diagram;
 	}
 
@@ -76,6 +86,14 @@ public class BoxRenderer {
 
 	public static String quoteString(String string) {
 		return "\"" + string + "\"";
+	}
+
+	public String renderQuotedBoxLabel(PlantUmlBoxIfc box) {
+		return quoteString(box.getPlantUmlLabel(this.lang));
+	}
+
+	public String renderBoxLabel(PlantUmlBoxIfc box) {
+		return box.getPlantUmlLabel(this.lang);
 	}
 
 	public String renderNodeShape(PlantUmlBoxIfc box, boolean avoidArrowsToEmptyBoxes) {
@@ -120,7 +138,7 @@ public class BoxRenderer {
 				box.getColor() != null 			
 		) {
 
-			declaration = "Class" + " " + "\"" + box.getLabel() + "\"";
+			declaration = "Class" + " "  + this.renderQuotedBoxLabel(box);
 
 			// avoid it for anonymous shapes
 			declaration += (this.generateAnchorHyperlink && box.getLink() != null) ? " [["+box.getLink()+"]]" : "";
@@ -129,11 +147,16 @@ public class BoxRenderer {
 			if (superClassesBoxes != null) {
 				for (PlantUmlBoxIfc aSuperClass : superClassesBoxes) {
 					// generate an "up" arrow - bolder and gray to distinguish it from other arrows
-					declaration += "\""+box.getLabel()+"\"" + " -up[#gray,bold]-|> " + "\""+aSuperClass.getLabel()+"\"" + "\n";
+					declaration += this.renderQuotedBoxLabel(box) + " -up[#gray,bold]-|> " +this.renderQuotedBoxLabel(aSuperClass) + "\n";
 				}
 			}
 
-			PropertyRenderer propertyRenderer = new PropertyRenderer(avoidArrowsToEmptyBoxes, this, this.diagram);
+			PropertyRenderer propertyRenderer = new PropertyRenderer(
+				avoidArrowsToEmptyBoxes,
+				this.useLabels,
+				this,
+				this.diagram
+		);
 			
 			String propertiesDeclaration = "";
 			for (int i=0;i<box.getPropertiesBox().size();i++) {
@@ -145,8 +168,8 @@ public class BoxRenderer {
 				// note that this behavior is triggered only if the diagram has a certain size
 				if (avoidArrowsToEmptyBoxes && diagram.getBoxes().size() > MIN_BOXES_FOR_AVOIDING_ARROWS_TO_EMPTY_BOXES) {
 					// then see if there is a reference to a box
-					String arrowReference = diagram.resolvePropertyShapeShNodeOrShClass(plantUmlproperty);
-					PlantUmlBoxIfc boxReference = diagram.findBoxById(arrowReference);
+					String arrowReference = diagram.resolvePropertyShapeShNodeOrShClass(plantUmlproperty, lang);
+					PlantUmlBoxIfc boxReference = diagram.findBoxByBoxReference(arrowReference, lang);
 					
 					// if the box is empty...
 					if (
@@ -167,10 +190,7 @@ public class BoxRenderer {
 							)							
 					) {
 						// count number of times it is used
-						int nCount = 0;
-						for (PlantUmlBoxIfc plantumlbox : diagram.getBoxes()) {
-							nCount += plantumlbox.countShNodeOrShClassReferencesTo(arrowReference, diagram);
-						}
+						int nCount = diagram.countReferencesTo(arrowReference, lang);
 						
 						// if used more than once, then display the box, otherwise don't display it
 						if (nCount <= 1) {
@@ -201,7 +221,7 @@ public class BoxRenderer {
 						}
 					}
 					
-					String GroupId = BoxRenderer.quoteString(box.getLabel()) + " : "+ "__"+notationName+"__\n";
+					String GroupId = this.renderBoxLabel(box) + " : "+ "__"+notationName+"__\n";
 					
 					String codePropertyPlantUmlGroup = propertyRenderer.renderProperty(
 							plantUmlproperty, 
@@ -286,7 +306,7 @@ public class BoxRenderer {
 	 * dataValue - data values or additional values
 	 * collectRelationProperties - save all properties and if the property is included in the map, generate a list of values.
 	 */
-	public void notifyArrow(String box, String color, String reference,String pathAsSparqlWithOptions) {
+	public void notifyArrow(String box, String color, String reference, String pathAsSparqlWithOptions) {
 		
 		NodeShapeArrowKey key = new NodeShapeArrowKey(box, color, reference);
 		if (!this.nodeShapeArrows.containsKey(key)) {
@@ -300,6 +320,10 @@ public class BoxRenderer {
 			/* Merge for each input data values in the same property */
 			this.nodeShapeArrows.computeIfPresent(key, (k,v) -> v+" \\l"+pathAsSparqlWithOptions);
 		}		
-	}	
+	}
+
+	public String getLang() {
+		return lang;
+	}
 
 }

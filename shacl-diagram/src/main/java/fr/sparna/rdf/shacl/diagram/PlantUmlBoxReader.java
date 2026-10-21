@@ -8,13 +8,19 @@ import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
 import org.topbraid.shacl.vocabulary.SH;
 
-import fr.sparna.rdf.shacl.diagram.model.PlantUmlBox;
+import fr.sparna.rdf.shacl.diagram.model.ResourcePlantUmlBox;
 import fr.sparna.rdf.shacl.diagram.model.PlantUmlProperty;;
 
 public class PlantUmlBoxReader {
 	
-	public PlantUmlBox read(Resource nodeShape, List<Resource> allNodeShapes) {
-		PlantUmlBox box = new PlantUmlBox(nodeShape);
+	private boolean useLabels = true;
+
+	public PlantUmlBoxReader(boolean useLabels) {
+		this.useLabels = useLabels;
+	}
+
+	public ResourcePlantUmlBox read(Resource nodeShape) {
+		ResourcePlantUmlBox box = new ResourcePlantUmlBox(nodeShape, this.useLabels);
 		return box;
 	}
 	

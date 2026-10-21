@@ -32,6 +32,8 @@ public class DrawService {
                 true,
                 // hide Properties
                 hideProperties,
+                // use labels
+                false,
                 // a language for label and description reading
                 "en"
         );

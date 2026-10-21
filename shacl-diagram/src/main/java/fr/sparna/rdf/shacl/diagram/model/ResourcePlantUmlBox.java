@@ -5,26 +5,24 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Resource;
-import org.apache.jena.vocabulary.RDF;
-import org.apache.jena.vocabulary.RDFS;
-import org.topbraid.shacl.vocabulary.SH;
 
 import fr.sparna.rdf.jena.ModelRenderingUtils;
 import fr.sparna.rdf.jena.shacl.NodeShape;
 
-public class PlantUmlBox implements PlantUmlBoxIfc {
+public class ResourcePlantUmlBox implements PlantUmlBoxIfc {
 	
 	private NodeShape nodeShape;
+	private boolean useLabels = true;
 	
 	protected List<PlantUmlProperty> propertiesBox = new ArrayList<>();
 
 	protected String link;
 
-	public PlantUmlBox(Resource nodeShape) {  
+	public ResourcePlantUmlBox(Resource nodeShape, boolean useLabels) {  
 		this.nodeShape = new NodeShape(nodeShape);
 		this.link = "#" + this.nodeShape.getShortFormOrId();
+		this.useLabels = useLabels;
 	}
 
 	@Override
@@ -62,16 +60,12 @@ public class PlantUmlBox implements PlantUmlBoxIfc {
 		return this.nodeShape.getShNodeAsList();
 	}
 	
-	public boolean isTargetingBox(Resource classUri) {	
-		boolean hasShTargetClass = this.nodeShape.isTargeting(classUri);
-		boolean isItselfTheClass = 
-		this.nodeShape.getResource().hasProperty(RDF.type, RDFS.Class)
-		&&
-		this.nodeShape.getResource().hasProperty(RDF.type, SH.NodeShape)
-		&&
-		this.nodeShape.equals(classUri);
-		
-		return hasShTargetClass || isItselfTheClass;
+	public boolean isTargetingClass(Resource classUri) {
+		return this.nodeShape.getAllTargetedClasses()
+				.stream()
+				.filter(c -> c.equals(classUri))
+				.findFirst()
+				.isPresent();
 	}
 	
 	public String getBackgroundColor() {
@@ -82,21 +76,16 @@ public class PlantUmlBox implements PlantUmlBoxIfc {
 		return this.nodeShape.getDisplayColor();
 	}
 	
-	public int countShNodeOrShClassReferencesTo(String id, PlantUmlDiagram diagram) {
-		int count = 0;
-		for (PlantUmlProperty p : this.propertiesBox) {
-			if (
-					diagram.resolvePropertyShapeShNodeOrShClass(p) != null
-					&&
-					diagram.resolvePropertyShapeShNodeOrShClass(p).equals(id)
-			) {
-				count++;
-			}
+	public String getPlantUmlLabel(String lang) {
+		String labelString = null;
+		if(this.useLabels) {
+			labelString = this.nodeShape.getDisplayLabel(this.nodeShape.getResource().getModel(), lang);
 		}
-		return count;
-	}	
-	
-	public String getLabel() {
+
+		if(labelString != null && !labelString.equals("")) {
+			return labelString;
+		}
+
 		// use the sh:targetClass if present, otherwise use the URI of the NodeShape
 		String classLabels = this.getTargetClass().stream().map(targetClass -> ModelRenderingUtils.render(targetClass, true)).collect(Collectors.joining(", "));
 		if(!classLabels.equals("")) {
@@ -105,11 +94,6 @@ public class PlantUmlBox implements PlantUmlBoxIfc {
 			if(this.nodeShape.getResource().isAnon()) return "anonymous";
 			return ModelRenderingUtils.render(this.nodeShape.getResource(), true);
 		}
-		// return ModelRenderingUtils.render(this.nodeShape.getResource(), true)+(classLabels.equals("")?"":" ("+classLabels+")");
-	}
-	
-	public String getPlantUmlQuotedBoxName() {
-		return "\"" + this.getLabel() + "\"";
 	}
 
 	public List<PlantUmlProperty> getPropertiesBox() {

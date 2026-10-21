@@ -8,6 +8,9 @@ import org.apache.jena.rdf.model.Resource;
 import fr.sparna.rdf.shacl.diagram.PlantUmlDiagramGenerator;
 import fr.sparna.rdf.shacl.diagram.PlantUmlDiagramOutput;
 
+/**
+ * This is used for diagrams generation in the documentation.
+ */
 public class PlantUmlSourceGenerator {
 
 	Model shapesModel;
@@ -36,6 +39,8 @@ public class PlantUmlSourceGenerator {
 				true,
 				//
 				hideProperties,
+				// use labels
+				false,
 				lang
 		);
 		

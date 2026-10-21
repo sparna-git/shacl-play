@@ -62,6 +62,8 @@ public class Draw implements CliCommandIfc {
 				true,
 				// hide Properties
 				false,
+				// use labels,
+				false,
 				// language
 				null
 		);

@@ -49,7 +49,7 @@ public class SimplePlantUmlBox extends BasePlantUmlBox {
         return nodeShape;
     }
 
-	public String getLabel() {
+	public String getPlantUmlLabel(String lang) {
 		return label;
 	}
 
@@ -107,7 +107,7 @@ public class SimplePlantUmlBox extends BasePlantUmlBox {
 	}
 
 	@Override
-    public boolean isTargetingBox(Resource classUri) {
+    public boolean isTargetingClass(Resource classUri) {
 		boolean hasShTargetClass = this.getTargetClass().filter(c -> c.equals(classUri)).isPresent();		
 		boolean isItselfTheClass = 
 		this.nodeShape.hasProperty(RDF.type, RDFS.Class)

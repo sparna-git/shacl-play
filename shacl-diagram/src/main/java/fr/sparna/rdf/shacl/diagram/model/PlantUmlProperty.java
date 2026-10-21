@@ -1,7 +1,5 @@
 package fr.sparna.rdf.shacl.diagram.model;
 
-import java.util.List;
-
 import org.apache.jena.rdf.model.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,15 +11,14 @@ public class PlantUmlProperty extends PropertyShape {
 
 	private Logger log = LoggerFactory.getLogger(this.getClass().getName());
 	
-	protected Resource propertyShape;
-	
-	protected List<String> value_inverseOf;
-	
 	public PlantUmlProperty(Resource propertyShape) {
 		super(propertyShape);
-		this.propertyShape = propertyShape;
 	}
-		
+	
+	public String getPlantUmlLabel(String lang) {
+		return this.getDisplayLabel(this.getResource().getModel(), lang);
+	}
+
 	@Deprecated
 	public String getPathAsSparql() {
 		// render the property path using prefixes
@@ -29,7 +26,7 @@ public class PlantUmlProperty extends PropertyShape {
 			return ModelRenderingUtils.renderSparqlPropertyPath(this.getShPath(), true);
 		} catch(Exception e) {
 			// just in case we have a property shape without an sh:path
-			return this.propertyShape.getURI();
+			return this.resource.getURI();
 		}
 	}	
 

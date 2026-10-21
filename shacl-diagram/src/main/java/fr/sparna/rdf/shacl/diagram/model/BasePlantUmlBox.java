@@ -8,12 +8,6 @@ import org.apache.jena.rdf.model.Resource;
 public class BasePlantUmlBox implements PlantUmlBoxIfc {
 
     @Override
-    public int countShNodeOrShClassReferencesTo(String id, PlantUmlDiagram diagram) {
-        // TODO Auto-generated method stub
-        return 0;
-    }
-
-    @Override
     public String getBackgroundColor() {
         // TODO Auto-generated method stub
         return null;
@@ -32,7 +26,7 @@ public class BasePlantUmlBox implements PlantUmlBoxIfc {
     }
 
     @Override
-    public String getLabel() {
+    public String getPlantUmlLabel(String lang) {
         // TODO Auto-generated method stub
         return null;
     }
@@ -68,7 +62,7 @@ public class BasePlantUmlBox implements PlantUmlBoxIfc {
     }
 
     @Override
-    public boolean isTargetingBox(Resource classUri) {
+    public boolean isTargetingClass(Resource classUri) {
         // TODO Auto-generated method stub
         return false;
     }

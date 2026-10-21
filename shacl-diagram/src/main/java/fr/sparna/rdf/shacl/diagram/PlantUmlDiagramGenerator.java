@@ -25,6 +25,7 @@ public class PlantUmlDiagramGenerator {
 	protected boolean generateAnchorHyperlink = false;
 	protected boolean avoidArrowsToEmptyBoxes = true;
 	protected boolean hidePropertiesBoxes = false;
+	protected boolean useLabels = true;
 	protected String lang;
 	
 	public PlantUmlDiagramGenerator(
@@ -32,6 +33,7 @@ public class PlantUmlDiagramGenerator {
 			boolean generateAnchorHyperlink,
 			boolean avoidArrowsToEmptyBoxes,
 			boolean hidePropertiesBoxes,
+			boolean useLabels,
 			String lang
 	) {
 		super();
@@ -39,6 +41,7 @@ public class PlantUmlDiagramGenerator {
 		this.generateAnchorHyperlink = generateAnchorHyperlink;
 		this.avoidArrowsToEmptyBoxes = avoidArrowsToEmptyBoxes;
 		this.hidePropertiesBoxes = hidePropertiesBoxes;
+		this.useLabels = useLabels;
 		this.lang = lang;
 	}
 
@@ -95,7 +98,7 @@ public class PlantUmlDiagramGenerator {
 		boxesIncludedInTheDiagram.add(mainBox);
 
 		// Add others Resources
-		List<PlantUmlBoxIfc> otherResources = PlantUmlDiagramGenerator.addAdditionnalBoxes(Collections.singletonList(mainBox), plantUmlBoxes);
+		List<PlantUmlBoxIfc> otherResources = PlantUmlDiagramGenerator.addAdditionnalBoxes(Collections.singletonList(mainBox), plantUmlBoxes, lang);
 		boxesIncludedInTheDiagram.addAll(otherResources);
 
 		// build a Diagram data structure
@@ -139,7 +142,7 @@ public class PlantUmlDiagramGenerator {
 	private List<PlantUmlDiagramOutput> outputDiagrams(List<PlantUmlDiagram> diagrams, boolean sectionDiagram) {
 		
 		// and then render each diagram
-		PlantUmlRenderer renderer = new PlantUmlRenderer();
+		PlantUmlRenderer renderer = new PlantUmlRenderer(this.lang);
 		renderer.setGenerateAnchorHyperlink(this.generateAnchorHyperlink);
 		// avoid setting this flag if we know there are more than one diagram
 		// this garantees that for small diagrams all arrows are always displayed
@@ -147,6 +150,7 @@ public class PlantUmlDiagramGenerator {
 		renderer.setIncludeSubclassLinks(this.includeSubclassLinks);
 		renderer.setHideProperties(this.hidePropertiesBoxes);
 		renderer.setRenderSectionDiagram(sectionDiagram);
+		renderer.setUseLabels(this.useLabels);
 				
 		List<PlantUmlDiagramOutput> codePlantUml = diagrams.stream().map(d -> new PlantUmlDiagramOutput(d, renderer)).sorted((o1,o2) -> {
 			if(o1.getDiagramOrder() > 0) {
@@ -194,8 +198,8 @@ public class PlantUmlDiagramGenerator {
 	private List<PlantUmlBoxIfc> buildBoxes(List<Resource> nodeShapes) {
 				
 		// 1. Lire toutes les box
-		PlantUmlBoxReader nodeShapeReader = new PlantUmlBoxReader();		
-		List<PlantUmlBoxIfc> plantUmlBoxes = nodeShapes.stream().map(res -> nodeShapeReader.read(res, nodeShapes)).sorted((b1,b2) -> {
+		PlantUmlBoxReader nodeShapeReader = new PlantUmlBoxReader(this.useLabels);		
+		List<PlantUmlBoxIfc> plantUmlBoxes = nodeShapes.stream().map(res -> nodeShapeReader.read(res)).sorted((b1,b2) -> {
 			if(b1.getNodeShape().isAnon()) {
 				if(!b2.getNodeShape().isAnon()) {
 					return b1.getNodeShape().toString().compareTo(b2.getNodeShape().toString());
@@ -206,7 +210,7 @@ public class PlantUmlDiagramGenerator {
 				if(!b2.getNodeShape().isAnon()) {
 					return 1;
 				} else {
-					return b1.getLabel().compareTo(b2.getLabel());
+					return b1.getPlantUmlLabel(this.lang).compareTo(b2.getPlantUmlLabel(this.lang));
 				}
 			}
 		}).collect(Collectors.toList());
@@ -219,7 +223,7 @@ public class PlantUmlDiagramGenerator {
 		return plantUmlBoxes;		
 	}
 	
-	public static List<PlantUmlBoxIfc> addAdditionnalBoxes(List<PlantUmlBoxIfc> initialBoxes, List<PlantUmlBoxIfc> allBoxes) {
+	public static List<PlantUmlBoxIfc> addAdditionnalBoxes(List<PlantUmlBoxIfc> initialBoxes, List<PlantUmlBoxIfc> allBoxes, String lang) {
 		
 		// read all sh:nodes and sh:class...
 		List<PlantUmlBoxIfc> interestingBoxes = new ArrayList<>();
@@ -276,7 +280,7 @@ public class PlantUmlDiagramGenerator {
 		List<PlantUmlBoxIfc> otherBoxes = new ArrayList<>();
 		for(int i =0;i<interestingBoxes.size();i++) {
 			PlantUmlBoxIfc b = interestingBoxes.get(i);
-			String label = b.getLabel();
+			String label = b.getPlantUmlLabel(lang);
 			if(b.getNodeShape().isAnon()) {
 				label += " "+anonymousCount++;
 			}

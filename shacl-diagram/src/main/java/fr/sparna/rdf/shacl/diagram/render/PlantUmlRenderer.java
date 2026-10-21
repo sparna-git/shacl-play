@@ -15,15 +15,18 @@ public class PlantUmlRenderer {
 	protected boolean avoidArrowsToEmptyBoxes = true;
 	protected boolean includeSubclassLinks = true;
 	protected boolean hideProperties = false;
+	protected boolean useLabels = true;
 	// true to indicate that the diagram is a section diagram
 	protected boolean renderSectionDiagram = false;
 
+	protected String lang;
 
 	// the current diagram being rendered	
 	protected transient PlantUmlDiagram diagram;
 
-	public PlantUmlRenderer() {
+	public PlantUmlRenderer(String lang) {
 		super();
+		this.lang = lang;
 	}
 	
 	public String renderDiagram(PlantUmlDiagram diagram) {
@@ -49,7 +52,15 @@ public class PlantUmlRenderer {
 		}
 		
 		// print all boxes
-		BoxRenderer boxRenderer = new BoxRenderer(includeSubclassLinks, generateAnchorHyperlink, renderSectionDiagram, displayPatterns, diagram);
+		BoxRenderer boxRenderer = new BoxRenderer(
+			this.includeSubclassLinks,
+			this.generateAnchorHyperlink,
+			this.renderSectionDiagram,
+			this.displayPatterns, 
+			this.useLabels,
+			this.lang,
+			diagram
+		);
 		for (PlantUmlBoxIfc plantUmlBox : diagram.getBoxes()) {
 			sourceuml.append(boxRenderer.renderNodeShape(plantUmlBox,this.avoidArrowsToEmptyBoxes));
 		}
@@ -122,4 +133,13 @@ public class PlantUmlRenderer {
 		this.renderSectionDiagram = renderSectionDiagram;
 	}
 
+	public boolean isUseLabels() {
+		return useLabels;
+	}
+
+	public void setUseLabels(boolean useLabels) {
+		this.useLabels = useLabels;
+	}
+
+	
 }

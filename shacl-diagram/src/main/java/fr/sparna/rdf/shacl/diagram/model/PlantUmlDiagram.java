@@ -24,8 +24,8 @@ public class PlantUmlDiagram {
 
 	protected List<PlantUmlBoxIfc> boxes = new ArrayList<>();
 	
-	public PlantUmlBoxIfc findBoxById(String id) {
-		return this.boxes.stream().filter(b -> b.getLabel().equals(id)).findFirst().orElse(null);
+	public PlantUmlBoxIfc findBoxByBoxReference(String boxReference, String lang) {
+		return this.boxes.stream().filter(b -> b.getPlantUmlLabel(lang).equals(boxReference)).findFirst().orElse(null);
 	}
 	
 	public PlantUmlBoxIfc findBoxByResource(Resource r) {
@@ -35,14 +35,34 @@ public class PlantUmlDiagram {
 	public PlantUmlBoxIfc findBoxByTargetClass(Resource classUri) {
 		return findBoxByTargetClass(classUri, this.boxes);
 	}
+
+	/**
+	 * Counts the number of references to a box through sh:node or sh:class references in the diagram
+	 * @param boxReference
+	 * @return
+	 */
+	public int countReferencesTo(String boxReference, String lang) {
+		int nCount = 0;
+		for (PlantUmlBoxIfc plantumlbox : this.getBoxes()) {
+			for (PlantUmlProperty p : plantumlbox.getPropertiesBox()) {
+				String ref = this.resolvePropertyShapeShNodeOrShClass(p, lang);
+				if(ref != null && ref.equals(boxReference)) {
+					nCount++;
+				}
+			}
+		}
+		return nCount;
+	}
 	
 	public static PlantUmlBoxIfc findBoxByTargetClass(Resource classUri, List<PlantUmlBoxIfc> boxes) {
-		return boxes.stream().filter(b -> b.isTargetingBox(classUri)).findFirst().orElse(null);
+		return boxes.stream().filter(b -> b.isTargetingClass(classUri)).findFirst().orElse(null);
 	}
 
 	public static PlantUmlBoxIfc findBoxByResource(Resource r, List<PlantUmlBoxIfc> boxes) {
 		return boxes.stream().filter(b -> b.getNodeShape().equals(r)).findFirst().orElse(null);
 	}
+
+
 	
 	/**
 	 * Returns the identifier of the arrow reference (a shortForm), either through an sh:node to an existing NodeShape,
@@ -50,62 +70,41 @@ public class PlantUmlDiagram {
 	 * 
 	 * @return
 	 */
-	public String resolvePropertyShapeShNodeOrShClass(PlantUmlProperty property) {
+	public String resolvePropertyShapeShNodeOrShClass(PlantUmlProperty property, String lang) {
 		if(property.getShNode().isPresent()) {
-			PlantUmlBoxIfc box = this.findBoxByResource(property.getShNode().get());
-			if(box != null) {
-				return box.getLabel();
-			} else {
-				return ModelRenderingUtils.render(property.getShNode().get(), true);
-			}
+			return resolveShNodeReference(property.getShNode().get(), lang);
 		} else if(property.getShClass().isPresent()) {			
 			// sh:class may not be targeted to a NodeShape
 			// PlantUML will make up a box with the class shortForm automatically
 			// we need to return it to indicate the property will generate an arrow in the diagram
-			// we don't jave to search in the PlantUmlBoxes
-			return this.resolveShClassReference(property);
+			return this.resolveShClassReference(property.getShClass().get(), lang);
 			
 			// TODO : we may be interested to get the references made through a sh:or ?
 		}
 		return null;
 	}
-	
-	public String resolveShClassReference(PlantUmlProperty property) {
-		return property.getShClass().map(cl -> {
-			PlantUmlBoxIfc b = this.findBoxByTargetClass(cl);
-			if(b != null) {
-				return b.getLabel();
-			} else {
-				if (cl.isURIResource()) { 
-					return cl.getModel().shortForm(cl.getURI());
-				} else {
-					log.warn("Found a blank sh:class reference on a shape with sh:path "+cl+", cannot handle it");
-					return null;
-				}
-			}
-		}).orElse(null);		
+
+	public String resolveShNodeReference(Resource reference, String lang) {
+		PlantUmlBoxIfc box = this.findBoxByResource(reference);
+		if(box != null) {
+			return box.getPlantUmlLabel(lang);
+		} else {
+			return ModelRenderingUtils.render(reference, true);
+		}		
 	}
 
-	/**
-	 * @return the PlantUmlBoxIfc corresponding to the sh:node reference is present, or the sh:class reference if present, or null
-	 */
-	public PlantUmlBoxIfc resolveShNodeOrShClassBox(PlantUmlProperty property) {
-		if(property.getShNode().isPresent()) {
-			return this.findBoxByResource(property.getShNode().get());
-		} else if(property.getShClass().isPresent()) {			
-			return this.resolveShClassBox(property);			
-			// TODO : we may be interested to scan the references made through a sh:or
-		}
-		return null;
-	}
-	
-	/**
-	 * @return the PlantUmlBoxIfc corresponding to the sh:class reference of the provided property, or null if sh:class is not present, or the box cannot be found
-	 */
-	public PlantUmlBoxIfc resolveShClassBox(PlantUmlProperty property) {
-		return property.getShClass().map(cl -> {
-			return this.findBoxByTargetClass(cl);
-		}).orElse(null);		
+	public String resolveShClassReference(Resource reference, String lang) {
+		PlantUmlBoxIfc b = this.findBoxByTargetClass(reference);
+		if(b != null) {
+			return b.getPlantUmlLabel(lang);
+		} else {
+			if (reference.isURIResource()) { 
+				return reference.getModel().shortForm(reference.getURI());
+			} else {
+				log.warn("Found a blank sh:class reference "+reference+", cannot handle it");
+				return reference.toString();
+			}
+		}		
 	}
 
 	public boolean usesShGroup(List<PlantUmlBoxIfc> boxes) {

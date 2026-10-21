@@ -53,7 +53,7 @@ public class PlantUmlDiagramReader {
 				d.setOrderDiagram(this.readShOrder(aRef));
 
 				// Add others boxes so that their color is apparent in the splitted diagram
-				List<PlantUmlBoxIfc> otherResources = PlantUmlDiagramGenerator.addAdditionnalBoxes(d.getBoxes(), boxes);
+				List<PlantUmlBoxIfc> otherResources = PlantUmlDiagramGenerator.addAdditionnalBoxes(d.getBoxes(), boxes, lang);
 				d.getBoxes().addAll(otherResources);
 				
 				diagrams.add(d);

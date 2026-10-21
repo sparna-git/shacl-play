@@ -18,15 +18,13 @@ public interface PlantUmlBoxIfc {
 
 	public List<Resource> getShNodeBox();
 	
-	public boolean isTargetingBox(Resource classUri);
+	public boolean isTargetingClass(Resource classUri);
 	
 	public String getBackgroundColor();
 	
 	public String getColor();	
 	
-	public int countShNodeOrShClassReferencesTo(String id, PlantUmlDiagram diagram);
-	
-	public String getLabel();
+	public String getPlantUmlLabel(String lang);
 
 	public List<PlantUmlProperty> getPropertiesBox();
 

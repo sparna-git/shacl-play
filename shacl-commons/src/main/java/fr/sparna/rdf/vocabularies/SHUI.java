@@ -29,6 +29,8 @@ public class SHUI {
 
     public static final Resource PropertyRole = M_MODEL.createResource(NS +  "PropertyRole"); // <-- Ici c'est une class de type PropertyRole
 
+    public static final Property hidden = M_MODEL.createProperty(NS + "hidden");
+
     public static final Property viewer = M_MODEL.createProperty( NS + "viewer" );
 
     public static final Resource LabelRole = M_MODEL.createResource( NS + "LabelRole" );

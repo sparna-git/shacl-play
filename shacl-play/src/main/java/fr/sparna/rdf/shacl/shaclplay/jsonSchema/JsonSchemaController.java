@@ -303,7 +303,7 @@ public class JsonSchemaController {
 		JsonSchemaGenerator generator = new JsonSchemaGenerator("en",context);
 		generator.setUseNativeTypes(!noUseNativeTypes);
 		generator.setDoNotIncludeValues(doNotIncludeValues);
-		generator.setSetAdditionalPropertiesFalse(noAdditionalProperties);
+		generator.setForbidAdditionalProperties(noAdditionalProperties);
 
 		// convert the shacl shapes to json schema
 		Schema output = generator.convertToJsonSchema(shapesModel, rootUri, supportiveShapesModel);

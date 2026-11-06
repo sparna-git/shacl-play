@@ -67,7 +67,7 @@ public class JsonSchemaGenerator {
 	private ProbingJsonLdContextWrapper contextWrapper;
 
 	private boolean doNotIncludeValues = false;
-	private boolean setAdditionalPropertiesFalse = false;
+	private boolean forbidAdditionalProperties = false;
 
     public JsonSchemaGenerator(String lang) {
 		this(lang,null);
@@ -366,7 +366,7 @@ public class JsonSchemaGenerator {
 
 		// set additionnal properties to false if the NodeShape is sh:closed
 		if (nodeShape.isClosed()) {
-			if (!this.setAdditionalPropertiesFalse) {
+			if (!this.forbidAdditionalProperties) {
 				objectSchema.additionalProperties(false);
 			}
 		}
@@ -816,12 +816,12 @@ public class JsonSchemaGenerator {
 		this.doNotIncludeValues = doNotIncludeValues;
 	}
 
-	public boolean isSetAdditionalPropertiesFalse() {
-		return setAdditionalPropertiesFalse;
+	public boolean isForbidAdditionalProperties() {
+		return forbidAdditionalProperties;
 	}
 
-	public void setSetAdditionalPropertiesFalse(boolean setAdditionalPropertiesFalse) {
-		this.setAdditionalPropertiesFalse = setAdditionalPropertiesFalse;
+	public void setForbidAdditionalProperties(boolean setAdditionalPropertiesFalse) {
+		this.forbidAdditionalProperties = setAdditionalPropertiesFalse;
 	}
 
 	

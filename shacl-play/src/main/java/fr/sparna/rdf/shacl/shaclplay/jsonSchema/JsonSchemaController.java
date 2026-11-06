@@ -4,6 +4,7 @@ import java.io.StringReader;
 import java.net.URLEncoder;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.Comparator;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -151,21 +152,27 @@ public class JsonSchemaController {
 		List<NodeShape> ns = spGraph.getAllNodeShapes();
 		// keep only the root ones
 		ns = ns.stream().filter(nodeShape -> nodeShape.isRootOfOrHasTarget()).collect(Collectors.toList());
-
-		List<String> listOfUrisRoot = ns.stream().map(nodeShape -> { 
+		
+		JSONObject item = new JSONObject();
+		for (NodeShape nodeShape : ns) {
+			item.put(nodeShape.getShortFormOrId(),nodeShape.getResource().getURI());
+		}
+		
+		//List<String> listOfUrisRoot = ns.stream().map(nodeShape -> { 
 			// return ModelRenderingUtils.render(nodeShape.getResource()) + (!nodeShape.getShaclPlayIsRootOf().isEmpty()?" (explicit root)":""); 
 			// return nodeShape.getResource().getURI() + (!nodeShape.getShaclPlayIsRootOf().isEmpty()?" (explicit root)":""); 
-			return nodeShape.getResource().getURI(); 
-		}).collect(Collectors.toList());
+		//	return nodeShape.getResource().getURI(); 
+		//}).collect(Collectors.toList());
 		// sort it alphabetically
-		listOfUrisRoot = listOfUrisRoot.stream().sorted().collect(Collectors.toList());
+		//listOfUrisRoot = listOfUrisRoot.stream().sorted().collect(Collectors.toList());
 		
 		//JSON Output
-		JSONArray outputJSon = new JSONArray(listOfUrisRoot);
+		//JSONArray outputJSon = new JSONArray(listOfUrisRoot);
+		//System.out.println(outputJSon.toString(2).getBytes());
 
 		response.setContentType("application/schema+json");
 		response.setCharacterEncoding("UTF-8");
-		response.getOutputStream().write(outputJSon.toString(2).getBytes());
+		response.getOutputStream().write(item.toString(2).getBytes());
 	}
 	
 	@RequestMapping(

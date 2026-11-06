@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.apache.jena.query.Dataset;
+import org.apache.jena.query.DatasetFactory;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.RDFList;
@@ -15,6 +17,8 @@ import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.vocabulary.OWL;
 import org.apache.jena.vocabulary.RDF;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.topbraid.shacl.vocabulary.SH;
 
 import fr.sparna.rdf.vocabularies.SH12;
@@ -22,19 +26,40 @@ import fr.sparna.rdf.vocabularies.SHACL_PLAY;
 
 public class ShapesGraph {
 	
-	private Model shaclGraph;
-	private Model owlGraph;
+	private Logger log = LoggerFactory.getLogger(this.getClass().getName());
+
+	private static final String SHACL_GRAPH = "https://shacl-play.sparna.fr/graph/base-shacl";
+
+	private static final String SUPPORTIVE_GRAPH = "https://shacl-play.sparna.fr/graph/supportive-shacl";
+
+	private static final String OWL_GRAPH = "https://shacl-play.sparna.fr/graph/owl";
+
+	private transient Dataset dataset;
 
 	private transient ShapesGraphResource resource;
 	
-	public ShapesGraph(Model shaclGraph, Model owlGraph) {
+	public ShapesGraph(Model shaclGraph, Model supportiveShaclGraph, Model owlGraph) {
 		super();
-		this.shaclGraph = shaclGraph;
-		this.owlGraph = owlGraph;
+
+		// create a dataset with the shacl graph as default graph, and the owl graph and supportive shacl graph as named graphs
+		this.dataset = DatasetFactory.create();
+
+		this.dataset.addNamedModel(SHACL_GRAPH, shaclGraph);
+		
+		if(owlGraph != null) {
+			this.dataset.addNamedModel(OWL_GRAPH, owlGraph);
+		}
+		if(supportiveShaclGraph != null) {
+			this.dataset.addNamedModel(SUPPORTIVE_GRAPH, supportiveShaclGraph);
+		}
 	}
 
 	public ShapesGraph(Model shaclGraph) {
-		this(shaclGraph, null);
+		this(shaclGraph, null, null);
+	}
+
+	public ShapesGraph(Model shaclGraph, Model owlGraph) {
+		this(shaclGraph, null, owlGraph);
 	}
 	
 	/**
@@ -57,11 +82,13 @@ public class ShapesGraph {
 	}
 
 	public List<NodeShape> getAllNodeShapes() {	
-		return this.readAllNodeShapes(shaclGraph, owlGraph); 
+		// get the union of all graphs in the dataset as a single model
+		return this.readAllNodeShapes(this.dataset.getUnionModel()); 
 	}
 
 	public List<NodeShape> getRootNodeShapes() {	
-		return this.readAllNodeShapes(shaclGraph, owlGraph)
+		// read from SHACL graph, not from union model, since we want the roots of this graph
+		return this.readAllNodeShapes(this.getShaclGraph())
 		.stream()
 		// TODO : should test agains the URI of this ShapesGraph
 		.filter(nodeShape -> !nodeShape.getShaclPlayIsRootOf().isEmpty())
@@ -72,20 +99,23 @@ public class ShapesGraph {
 	 * @return All subjects of a sh:path in the graph
 	 */
 	public List<PropertyShape> getAllPropertyShapes() {	
-		return shaclGraph.listSubjectsWithProperty(SH.path).toList().stream().map(r -> new PropertyShape(r, this)).collect(Collectors.toList());
+		return this.dataset.getUnionModel().listSubjectsWithProperty(SH.path).toList().stream().map(r -> new PropertyShape(r, this)).collect(Collectors.toList());
 	}
 
 	public Model getShaclGraph() {
-		return shaclGraph;
+		return this.dataset.getNamedModel(SHACL_GRAPH);
 	}
 
 	public Model getOwlGraph() {
-		return owlGraph;
+		return this.dataset.getNamedModel(OWL_GRAPH);
 	}
 	
+	public Model getSupportiveGraph() {
+		return this.dataset.getNamedModel(SUPPORTIVE_GRAPH);
+	}
 	
 	public NodeShape findNodeShapeByResource(Resource r) {
-		return getAllNodeShapes().stream().filter(ns -> ns.getResource().toString().equals(r.toString())).findFirst().orElse(null);
+		return getAllNodeShapes().stream().filter(ns -> ns.getResource().equals(r)).findFirst().orElse(null);
 	}
 
 	/**
@@ -128,11 +158,15 @@ public class ShapesGraph {
 	}
 
 	public List<PropertyShape> findPropertyShapesByPath(Resource path) {
-		return shaclGraph.listSubjectsWithProperty(SH.path, path).toList().stream().map(r -> new PropertyShape(r, this)).collect(Collectors.toList());
+		return this.dataset.getUnionModel().listSubjectsWithProperty(SH.path, path).toList().stream().map(r -> new PropertyShape(r, this)).collect(Collectors.toList());
 	}
 
 	public List<PropertyShape> findPropertyShapesByShortname(String shortname) {
-		return shaclGraph.listSubjectsWithProperty(shaclGraph.createProperty(SHACL_PLAY.SHORTNAME), shaclGraph.createLiteral(shortname)).toList().stream().map(r -> new PropertyShape(r, this)).collect(Collectors.toList());
+		Model workingGraph = this.dataset.getUnionModel();
+		return workingGraph.listSubjectsWithProperty(
+			workingGraph.createProperty(SHACL_PLAY.SHORTNAME),
+			workingGraph.createLiteral(shortname)).toList().stream().map(r -> new PropertyShape(r, this)
+		).collect(Collectors.toList());
 	}
 
 	public List<PropertyShape> findPropertyShapesByShortnameOrPath(String shortname, Resource path) {
@@ -163,7 +197,30 @@ public class ShapesGraph {
 				)
 			).collect(Collectors.toList());
 
-			unusedNodeShapes.forEach(ns -> this.deleteNodeShape(ns.getResource()));
+			unusedNodeShapes.forEach(ns -> ShapesGraph.deleteResource(this.getShaclGraph(), ns.getResource()));
+		} while(unusedNodeShapes.size() > 0);
+	}
+
+	/**
+	 * Removes all unused node shapes from the supportive graph
+	 */
+	public void cleanSupportiveGraph() {
+		if(this.getSupportiveGraph() == null)
+			return;
+
+		List<NodeShape> unusedNodeShapes;
+		// clean recursively while we keep deleting something
+		do {
+			unusedNodeShapes = this.readAllNodeShapes(this.getSupportiveGraph()).stream().filter(
+				ns -> (
+					!ns.isUsedInShapesGraph()
+				)
+			).collect(Collectors.toList());
+
+			unusedNodeShapes.forEach(ns -> {
+				log.debug("Deleting unused node shape "+ns.getResource().getURI()+" from supportive graph");
+				ShapesGraph.deleteResource(this.getSupportiveGraph(), ns.getResource());
+			});
 		} while(unusedNodeShapes.size() > 0);
 	}
 
@@ -190,7 +247,7 @@ public class ShapesGraph {
 		}
 		
 		// Filter the model's namespace map to only include necessary prefixes
-		return gatherNecessaryPrefixes(shaclGraph.getNsPrefixMap(), necessaryPrefixes);
+		return gatherNecessaryPrefixes(this.dataset.getUnionModel().getNsPrefixMap(), necessaryPrefixes);
 	}
 
 	/**
@@ -266,13 +323,18 @@ public class ShapesGraph {
 		return result;
 	}
 
-	public void deleteNodeShape(Resource nodeShape) {
-		// delete any blank nodes that are linked to this node shape
-		this.shaclGraph.listStatements(nodeShape, null, (RDFNode) null).toList()
-		.stream().filter(s -> s.getObject().isAnon()).forEach(s -> this.shaclGraph.removeAll(s.getObject().asResource(), null, null));
+	public static void deleteResource(Model model, Resource resource) {
+		// recursively delete any blank nodes that are linked to this resource
+		model.listStatements(resource, null, (RDFNode) null)
+		.toList()
+		.stream()
+		.filter(s -> s.getObject().isAnon())
+		.forEach(s -> 
+			ShapesGraph.deleteResource(model, s.getObject().asResource())
+		);
 
-		this.shaclGraph.removeAll(nodeShape, null, null);
-		this.shaclGraph.removeAll(null, null, nodeShape);
+		model.removeAll(resource, null, null);
+		model.removeAll(null, null, resource);
 	}
 	
 	/**
@@ -281,8 +343,9 @@ public class ShapesGraph {
 	 * @return
 	 */
 	private Resource findOntology() {
+		// look only in base SHACL graph
 		// this is tricky, because we can have multiple ones if SHACL is merged with OWL or imports OWL
-		List<Resource> sOWL = shaclGraph.listResourcesWithProperty(RDF.type, OWL.Ontology).toList();
+		List<Resource> sOWL = this.getShaclGraph().listResourcesWithProperty(RDF.type, OWL.Ontology).toList();
 		
 		// let's decide first to exclude the ones that are owl:import-ed from others
 		List<Resource> filteredOWL = sOWL.stream().filter(onto1 -> {
@@ -302,15 +365,16 @@ public class ShapesGraph {
 	 * @return
 	 */
 	private Resource findShapesGraph() {
-		return shaclGraph.listResourcesWithProperty(RDF.type, SH12.shapesGraph).toList().stream().findFirst().orElse(null);
+		// look only in base SHACL graph
+		return this.getShaclGraph().listResourcesWithProperty(RDF.type, SH12.shapesGraph).toList().stream().findFirst().orElse(null);
 	}
 	
 	/**
 	 * @return all instances of sh:NodeShape in the graph, as NodeShape objects
 	 */
-	private List<NodeShape> readAllNodeShapes(Model shaclGraph, Model owlGraph) {
+	private List<NodeShape> readAllNodeShapes(Model graph) {
 		
-		List<Resource> nodeShapes = shaclGraph.listResourcesWithProperty(RDF.type, SH.NodeShape).toList();	
+		List<Resource> nodeShapes = graph.listResourcesWithProperty(RDF.type, SH.NodeShape).toList();	
 		List<NodeShape> allNodeShapes = new ArrayList<>();
 		for (Resource nodeShape : nodeShapes) {
 			allNodeShapes.add(new NodeShape(nodeShape, this));

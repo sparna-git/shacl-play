@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import fr.sparna.rdf.jena.ModelRenderingUtils;
 import fr.sparna.rdf.jena.shacl.NodeShape;
 import fr.sparna.rdf.jena.shacl.ShapesGraph;
 import fr.sparna.rdf.shacl.jsonschema.JsonSchemaGenerator;
@@ -79,14 +78,14 @@ public class JsonSchemaController {
 			// Checkbox noUseNativeTypes 
 			@RequestParam(value="noUseNativeTypes", required=false, defaultValue = "false") boolean noUseNativeTypes,
 			// Checkbox Ignore the sh:hasValue and sh:in 
-			@RequestParam(value="ignoreProperties", required=false, defaultValue = "false") boolean ignoreProperties,
+			@RequestParam(value="ignoreProperties", required=false, defaultValue = "false") boolean doNotIncludeValues,
 			// Checkbox AdditionalProperties 
 			@RequestParam(value="noAdditionalProperties", required=false, defaultValue = "false") boolean noAdditionalProperties,
 			HttpServletRequest request,
 			HttpServletResponse response
 			) throws Exception {
 		try {
-			log.debug("schema(shapesUrl='"+shapesUrl+"', ignoreProperties="+ignoreProperties+", noAdditionalProperties="+noAdditionalProperties+")");
+			log.debug("schema(shapesUrl='"+shapesUrl+"', ignoreProperties="+doNotIncludeValues+", noAdditionalProperties="+noAdditionalProperties+")");
 			
 			Model shapesModel = ModelFactory.createDefaultModel();
 			ControllerModelFactory modelPopulator = new ControllerModelFactory(this.catalogService.getShapesCatalog());
@@ -96,10 +95,11 @@ public class JsonSchemaController {
 
 			generateJsonSchema(
 				shapesModel,
+				ModelFactory.createDefaultModel(), // empty supportive shapes model
 				urlRoot,
 				contextText,
 				noUseNativeTypes,
-				ignoreProperties,
+				doNotIncludeValues,
 				noAdditionalProperties,
 				response
 			);
@@ -183,23 +183,35 @@ public class JsonSchemaController {
 		// uploaded shapes if shapeSource=sourceShape-inputShapeFile
 		@RequestParam(value="inputShapeFile", required=false) List<MultipartFile> shapesFiles,
 		// inline Shapes if shapeSource=sourceShape-inputShapeInline
-		@RequestParam(value="inputShapeInline", required=false) String shapesText,
-		// URL Option
+		@RequestParam(value="inputShapeInline", required=false) String shapesText,		
+
+		/* supportive shapes */
+		@RequestParam(value="shapesSource-Supportive", required=true) String shapesSourceStringSupportive,
+		// reference to Shapes URL if shapeSource=sourceShape-inputShapeUrl
+		@RequestParam(value="inputShapeUrl-Supportive", required=false) String shapesUrlSupportive,
+		// reference to Shapes Catalog ID if shapeSource=sourceShape-inputShapeCatalog
+		@RequestParam(value="inputShapeCatalog-Supportive", required=false) String shapesCatalogIdSupportive,
+		// uploaded shapes if shapeSource=sourceShape-inputShapeFile
+		@RequestParam(value="inputShapeFile-Supportive", required=false) List<MultipartFile> shapesFilesSupportive,
+		// inline Shapes if shapeSource=sourceShape-inputShapeInline
+		@RequestParam(value="inputShapeInline-Supportive", required=false) String shapesTextSupportive,			
+		
+		// Root shape URI option, this is optional
 		@RequestParam(value="IdUrl", required=false) List<String> urlRoot,
-		// inline Context, this option is optional
+		// inline Context, this is is optional
 		@RequestParam(value="inputContextInline", required=false) String contextText,
 		// Checkbox useNativeTypes 
 		@RequestParam(value="noUseNativeTypes", required=false, defaultValue = "false") boolean noUseNativeTypes,	
 		// Checkbox Ignore the sh:hasValue and sh:in 
-		@RequestParam(value="ignoreProperties", required=false, defaultValue = "false") boolean ignoreProperties,
+		@RequestParam(value="ignoreProperties", required=false, defaultValue = "false") boolean doNotIncludeValues,
 		// Checkbox AdditionalProperties 
-		@RequestParam(value="noAdditionalProperties", required=false, defaultValue = "false") boolean noAdditionalProperties,		
+		@RequestParam(value="noAdditionalProperties", required=false, defaultValue = "false") boolean noAdditionalProperties,
 		HttpServletRequest request,
 		HttpServletResponse response
 	) throws Exception {
 
 		log.debug("jsonschema generation (shapesSource='"+shapesSourceString+"')");
-		log.debug("noUseNativeTypes="+noUseNativeTypes+", ignoreProperties="+ignoreProperties+", noAdditionalProperties="+noAdditionalProperties);
+		log.debug("noUseNativeTypes="+noUseNativeTypes+", doNotIncludeValues="+doNotIncludeValues+", noAdditionalProperties="+noAdditionalProperties);
 
 		try {
 			
@@ -222,16 +234,37 @@ public class JsonSchemaController {
 						null, //shapesUrl,
 						shapesText,
 						shapesFiles,
-						null //shapesCatalogId
+						shapesCatalogIdSupportive
 				);
 				
-				log.debug("Done Loading Shapes. Model contains "+shapesModel.size()+" triples");
+				log.debug("Done loading Shapes. Model contains "+shapesModel.size()+" triples");
+
+				// get the source type for supportive shapes
+				ControllerModelFactory.SOURCE_TYPE supportiveShapesSource = ControllerModelFactory.SOURCE_TYPE.valueOf(shapesSourceStringSupportive.toUpperCase());
+				log.debug("Supportive shapes source: "+supportiveShapesSource);
+				OntModel supportiveShapesModel = ModelFactory.createOntologyModel();
+
+				// first disable strict mode for supportive shapes, so that if no supportive shapes are provided, it will not throw an error
+				modelPopulator.setStrictMode(false);
+
+				modelPopulator.populateModel(
+						supportiveShapesModel,
+						supportiveShapesSource,
+						shapesUrlSupportive,
+						shapesTextSupportive,
+						shapesFilesSupportive,
+						shapesCatalogIdSupportive
+				);
+
+				log.debug("Done loading Supportive Shapes. Model contains "+supportiveShapesModel.size()+" triples");
+
 				generateJsonSchema(
 					shapesModel,
+					supportiveShapesModel,
 					urlRoot,
 					contextText,
 					noUseNativeTypes,
-					ignoreProperties,
+					doNotIncludeValues,
 					noAdditionalProperties,
 					response
 				);
@@ -248,10 +281,11 @@ public class JsonSchemaController {
 	
 	private Model generateJsonSchema(
 			Model shapesModel,
+			Model supportiveShapesModel,
 			List<String> rootUri,
 			String contextInput,
 			boolean noUseNativeTypes,
-			boolean ignoreProperties,
+			boolean doNotIncludeValues,
 			boolean noAdditionalProperties,
 			HttpServletResponse response
 	) throws Exception {
@@ -261,9 +295,11 @@ public class JsonSchemaController {
         	
 		JsonSchemaGenerator generator = new JsonSchemaGenerator("en",context);
 		generator.setUseNativeTypes(!noUseNativeTypes);
+		generator.setDoNotIncludeValues(doNotIncludeValues);
+		generator.setSetAdditionalPropertiesFalse(noAdditionalProperties);
 
 		// convert the shacl shapes to json schema
-		Schema output = generator.convertToJsonSchema(shapesModel, rootUri, ignoreProperties, noAdditionalProperties);
+		Schema output = generator.convertToJsonSchema(shapesModel, rootUri, supportiveShapesModel);
 		
 		JSONObject jsonSchemaOutput = new JSONObject(output.toString());
 

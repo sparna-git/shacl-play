@@ -63,6 +63,7 @@ public class JsonSchemaGeneratorTest {
         Path inputShaclFile = testDir.resolve("shapes.ttl");
         Path expectedJsonFile = testDir.resolve("expected.json");
         Path contextPath = testDir.resolve("context.jsonld");
+        Path supportivePath = testDir.resolve("supportive.ttl");
 
         if (!Files.exists(inputShaclFile)) {
             throw new IllegalArgumentException("shapes.ttl not found in " + directory);
@@ -74,6 +75,13 @@ public class JsonSchemaGeneratorTest {
         // Load the SHACL file
         Model shaclGraph = ModelFactory.createDefaultModel();
         shaclGraph.read(new FileInputStream(inputShaclFile.toFile()), RDF.uri, "TURTLE");
+
+        // Load supportive SHACL if present
+        Model supportiveShacl = null;
+        if (Files.exists(supportivePath)) {
+            supportiveShacl = ModelFactory.createDefaultModel();
+            supportiveShacl.read(new FileInputStream(supportivePath.toFile()), RDF.uri, "TURTLE");
+        }
 
         // Check if there's a context file in the same directory        
         JsonValue context = null;
@@ -96,7 +104,8 @@ public class JsonSchemaGeneratorTest {
         generator.setUseNativeTypes(useNativeTypes);
         Schema outputSchema = generator.convertToJsonSchema(
             shaclGraph,
-            Collections.singletonList("http://example.org/MainNodeShape")
+            Collections.singletonList("http://example.org/MainNodeShape"),
+            supportiveShacl
         );
 
         // Load the expected JSON schema

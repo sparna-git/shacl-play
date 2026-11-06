@@ -27,6 +27,8 @@ public class ControllerModelFactory {
 
 	protected String sourceName;
 
+	protected boolean strictMode = true;
+
 	public ControllerModelFactory(Catalog<? extends AbstractCatalogEntry> catalog) {
 		super();
 		this.catalog = catalog;
@@ -56,8 +58,13 @@ public class ControllerModelFactory {
 		switch(source) {
 		case FILE: {
 			// get uploaded file
-			if(files.isEmpty()) {
-				throw new ControllerModelException("Uploaded file is empty");
+			if(files.isEmpty() || files.stream().allMatch(f -> f.isEmpty())){
+				if(strictMode) {
+					throw new ControllerModelException("Uploaded file(s) is empty");
+				} else {
+					log.debug("No file uploaded, but strict mode is disabled, so not loading any data in the model");
+					return;
+				}
 			}
 
 			log.debug("Data is in one or more uploaded file : "+files.stream().map(f -> f.getOriginalFilename()).collect(Collectors.joining(", ")));			
@@ -88,6 +95,15 @@ public class ControllerModelFactory {
 		}
 		case URL: {
 			log.debug("Data is from a URL "+url);
+
+			if(url == null || url.trim().isEmpty()) {
+				if(strictMode) {
+					throw new ControllerModelException("URL is empty");
+				} else {
+					log.debug("No URL provided, but strict mode is disabled, so not loading any data in the model");
+					return;
+				}
+			}
 
 			try {
 				
@@ -146,6 +162,15 @@ public class ControllerModelFactory {
 		case INLINE: {
 			log.debug("Data is given inline ");
 
+			if(text == null || text.trim().isEmpty()) {
+				if(strictMode) {
+					throw new ControllerModelException("Inline data is empty");
+				} else {
+					log.debug("No inline data provided, but strict mode is disabled, so not loading any data in the model");
+					return;
+				}
+			}
+
 			try {
 				ControllerCommons.populateModel(model, text);
 				// shape name is "inline-rdf"
@@ -162,6 +187,15 @@ public class ControllerModelFactory {
 		}
 		case CATALOG: {
 			log.debug("Data is from a catalog, ID : "+catalogId);
+
+			if(catalogId == null || catalogId.trim().isEmpty()) {
+				if(strictMode) {
+					throw new ControllerModelException("Catalog ID is empty");
+				} else {
+					log.debug("No catalog ID provided, but strict mode is disabled, so not loading any data in the model");
+					return;
+				}
+			}
 
 			AbstractCatalogEntry entry = this.catalog.getCatalogEntryById(catalogId);
 
@@ -208,5 +242,15 @@ public class ControllerModelFactory {
 	public String getSourceName() {
 		return sourceName;
 	}
+
+	public boolean isStrictMode() {
+		return strictMode;
+	}
+
+	public void setStrictMode(boolean strictMode) {
+		this.strictMode = strictMode;
+	}
+
+	
 
 }

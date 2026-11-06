@@ -26,6 +26,10 @@ public class NodeShape extends Shape  {
 	// cache of property shapes
 	protected List<PropertyShape> properties = null;
 
+	/**
+	 * @deprecated
+	 * @param nodeShape
+	 */
 	public NodeShape(Resource nodeShape) {  
 	    super(nodeShape, new ShapesGraph(nodeShape.getModel()));
 	}
@@ -423,7 +427,7 @@ public class NodeShape extends Shape  {
 		// iterate through all shapes in the model and find those that refer to this node shape
 		// use a shape to avoid returning a property shape 3 times if it is used in multiple node shapes
 		Set<Shape> usage = new HashSet<>();
-		ShapesGraph graph = new ShapesGraph(this.getResource().getModel());
+		ShapesGraph graph = (this.shapesGraph != null)?shapesGraph:new ShapesGraph(this.getResource().getModel());
 		for(NodeShape ns : graph.getAllNodeShapes()) {
 
 			// check if this node shape is used in sh:node			

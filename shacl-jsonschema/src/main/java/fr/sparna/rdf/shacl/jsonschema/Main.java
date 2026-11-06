@@ -26,7 +26,7 @@ public class Main {
 		uris.add("https://data.europarl.europa.eu/def/adopted-texts#AdoptedText");
 		
 		JsonSchemaGenerator generator = new JsonSchemaGenerator("en");
-		Schema output = generator.convertToJsonSchema(shaclGraph,uris,false,false);
+		Schema output = generator.convertToJsonSchema(shaclGraph,uris, null);
 		
 		// Print Output
 		JSONObject o = new JSONObject(output.toString());

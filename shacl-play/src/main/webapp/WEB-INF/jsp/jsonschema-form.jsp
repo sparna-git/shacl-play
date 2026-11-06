@@ -64,7 +64,16 @@
 						<h2><i class="fal fa-shapes"></i>&nbsp;&nbsp;<fmt:message key="schema.shapes.title" /></h2>
 						
 						<!-- Include shapes blockquote -->
-					  	<%@ include file="include/shapes-blockquote.jsp" %>
+						<jsp:include page="include/shapes-blockquote.jsp">
+							<jsp:param name="suffix" value="" />
+						</jsp:include>
+
+						<h2><i class="fal fa-shapes"></i>&nbsp;&nbsp;<fmt:message key="schema.supportive.title" /></h2>
+						
+						<!-- Include shapes blockquote for supportive shapes -->
+					  	<jsp:include page="include/shapes-blockquote.jsp">
+							<jsp:param name="suffix" value="-Supportive" />
+						</jsp:include>
 					  	
 					  	<h2><i class="fal fa-tools"></i>&nbsp;&nbsp;<fmt:message key="blockquote.options.title" /></h2>
 					  	

@@ -66,6 +66,8 @@ public class JsonSchemaGenerator {
 	private JsonValue context;
 	private ProbingJsonLdContextWrapper contextWrapper;
 
+	private boolean doNotIncludeValues = false;
+	private boolean setAdditionalPropertiesFalse = false;
 
     public JsonSchemaGenerator(String lang) {
 		this(lang,null);
@@ -86,35 +88,40 @@ public class JsonSchemaGenerator {
 		this.lang = lang;
     }
 
-	public Schema convertToJsonSchema(Model shaclGraph,boolean ignoreProperties, boolean addProperties) throws Exception {
-		return convertToJsonSchema(shaclGraph, Arrays.asList(),ignoreProperties,addProperties);
+	public Schema convertToJsonSchema(Model shaclGraph) throws Exception {
+		return convertToJsonSchema(shaclGraph, Arrays.asList(), null);
 	}
 
 	public Schema convertToJsonSchema(
 		Model shaclGraph,
 		List<String> rootShapes
 	) throws Exception {
-		return this.convertToJsonSchema(shaclGraph, rootShapes, false, false);
+		return this.convertToJsonSchema(shaclGraph, rootShapes, null);
 	}
 
 	public Schema convertToJsonSchema(
 		Model shaclGraph,
 		List<String> rootShapes,
-		boolean doNotIncludeValues,
-		boolean addProperties
+		Model supportiveShaclGraph
 	) throws Exception {
 		// make a deep copy of the Model because we will be pruning the unused node shapes in it
 		Model shaclGraphCopy = ModelFactory.createDefaultModel().add(shaclGraph);
-		ShapesGraph shapesGraph = new ShapesGraph(shaclGraphCopy, null);
-		shapesGraph.pruneEmptyAndUnusedNodeShapes();
-		return convertToJsonSchema(shapesGraph, rootShapes, doNotIncludeValues, addProperties);
+		Model supportiveShaclGraphCopy = supportiveShaclGraph != null?ModelFactory.createDefaultModel().add(supportiveShaclGraph):null;
+
+		ShapesGraph shapesGraph = new ShapesGraph(shaclGraphCopy, supportiveShaclGraphCopy, null);
+
+		// shapesGraph.pruneEmptyAndUnusedNodeShapes();
+		shapesGraph.cleanSupportiveGraph();
+
+		return convertToJsonSchema(
+			shapesGraph,
+			rootShapes
+		);
 	}
 
     public Schema convertToJsonSchema(
 		ShapesGraph shapesGraph,
-		List<String> rootShapes,
-		boolean doNotIncludeValues,
-		boolean addProperties
+		List<String> rootShapes
 	) throws Exception {
         log.info("Generating JSON schema...");
 		    
@@ -153,7 +160,7 @@ public class JsonSchemaGenerator {
 			if(!ns.isPureValueShape()) {
 				rootSchema.embeddedSchema(
 					ns.getResource().isURIResource() ? ns.getResource().getLocalName() : ns.getResource().toString(),
-					convertNodeShapeToObjectSchema(ns, shapesGraph.getShaclGraph(),!doNotIncludeValues,addProperties)
+					convertNodeShapeToObjectSchema(ns, shapesGraph, shapesGraph.getShaclGraph())
 				);
 			}
 		}
@@ -236,9 +243,8 @@ public class JsonSchemaGenerator {
 
 	private Schema convertNodeShapeToObjectSchema(
 		NodeShape nodeShape,
-		Model model,
-		boolean includeValues,
-		boolean addProperties
+		ShapesGraph shapesGraph,
+		Model model
 	) throws Exception {
 		
 		log.debug("Converting NodeShape "+nodeShape.getResource().getURI()+" to JSON Schema");
@@ -334,12 +340,12 @@ public class JsonSchemaGenerator {
 				log.debug("Converting PropertyShape "+ps.getURIOrId()+" with key '"+shortname+"' to JSON Schema");
 				propertySchemasByKey.put(shortname, this.convertPropertyShapeSchema(
 					ps, 
+					shapesGraph,
 					// requires array
 					contextTest.getMiddle(),
 					// requires container language
 					contextTest.getRight(),
-					model,
-					includeValues)
+					model)
 				);
 
 				Optional<Integer> qualifiedMinCount = ps.getShQualifiedMinCount();
@@ -360,7 +366,7 @@ public class JsonSchemaGenerator {
 
 		// set additionnal properties to false if the NodeShape is sh:closed
 		if (nodeShape.isClosed()) {
-			if (!addProperties) {
+			if (!this.setAdditionalPropertiesFalse) {
 				objectSchema.additionalProperties(false);
 			}
 		}
@@ -372,13 +378,12 @@ public class JsonSchemaGenerator {
 
 	private Schema convertPropertyShapeSchema(
 		PropertyShape ps,
+		ShapesGraph shapesGraph,
 		boolean requiresArray,
 		boolean requiresContainerLanguage,
-		Model model,
-		boolean includeValues
+		Model model
 	) throws Exception {
 
-		ShapesGraph shapesGraph = new ShapesGraph(model, null);
 		PropertyPath path = ps.getPropertyPath();
 
 		// precedence order
@@ -395,7 +400,7 @@ public class JsonSchemaGenerator {
 
 		Schema.Builder singleValueBuilder = null;
 		
-		if (includeValues) {
+		if (!this.doNotIncludeValues) {
 			
 			// sh:hasValue	
 			if (!ps.getShHasValue().isEmpty()) {
@@ -802,4 +807,22 @@ public class JsonSchemaGenerator {
 	public void setUseNativeTypes(boolean useNativeTypes) {
 		this.useNativeTypes = useNativeTypes;
 	}
+
+	public boolean isDoNotIncludeValues() {
+		return doNotIncludeValues;
+	}
+
+	public void setDoNotIncludeValues(boolean doNotIncludeValues) {
+		this.doNotIncludeValues = doNotIncludeValues;
+	}
+
+	public boolean isSetAdditionalPropertiesFalse() {
+		return setAdditionalPropertiesFalse;
+	}
+
+	public void setSetAdditionalPropertiesFalse(boolean setAdditionalPropertiesFalse) {
+		this.setAdditionalPropertiesFalse = setAdditionalPropertiesFalse;
+	}
+
+	
 }

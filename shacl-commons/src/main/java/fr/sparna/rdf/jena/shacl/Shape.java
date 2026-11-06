@@ -28,10 +28,6 @@ public abstract class Shape {
 	protected Resource resource;
 	protected ShapesGraph shapesGraph;
 
-	public Shape(Resource resource) {  
-	    this.resource = resource;		
-	}
-
 	public Shape(Resource resource, ShapesGraph shapesGraph) {  
 	    this.resource = resource;
 		this.shapesGraph = shapesGraph;	
@@ -343,7 +339,7 @@ public abstract class Shape {
 
 	public Optional<NodeShape> getShClassShape() {
 		List<NodeShape> shapes = this.getShClass().map(r -> {
-			return new ShapesGraph(r.getModel()).findNodeShapeByTargetClass(r);
+			return this.shapesGraph.findNodeShapeByTargetClass(r);
 		}).orElse(new ArrayList<NodeShape>());
 
 		return shapes.isEmpty() ? Optional.empty() : Optional.of(shapes.get(0));
@@ -530,6 +526,8 @@ public abstract class Shape {
 		
 	}
 
-	/***** SHACL 1.2 ********/
+	public ShapesGraph getShapesGraph() {
+		return this.shapesGraph;
+	}
 
 }

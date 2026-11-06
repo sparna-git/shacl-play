@@ -97,7 +97,7 @@
 
 			<entry key="LABEL_TABLE_PROPERTY" label="Tableau des propriétés de " />
 
-			<entry key="LABEL_LIST_TARGETS" label="Lister les cibles" />
+			<entry key="LABEL_LIST_TARGETS" label="Exécuter la requête" />
 
 		</labels>
 	</xsl:variable>
@@ -189,7 +189,7 @@
 
 			<entry key="LABEL_TABLE_PROPERTY" label="Table of properties for " />
 
-			<entry key="LABEL_LIST_TARGETS" label="List targets" />
+			<entry key="LABEL_LIST_TARGETS" label="Execute query" />
 
 		</labels>
 	</xsl:variable>
@@ -1466,7 +1466,7 @@
 			<xsl:variable name="SparqlQuery">
 				<xsl:value-of select="." disable-output-escaping="yes"/>
 			</xsl:variable>
-			<xsl:variable name="urlSparqlEditor" select="concat('https://matgui.matdata.eu/','#query=',$SparqlQuery,'&amp;','endpoint=',$urlEndPoint)"/>
+			<xsl:variable name="urlSparqlEditor" select="concat('https://matgui.matdata.eu/','#query=',encode-for-uri($SparqlQuery),'&amp;','endpoint=',$urlEndPoint)"/>
 			<div style="display: flex; justify-content: right;">
 				<a href="{$urlSparqlEditor}" target="_blank">
 					<small><xsl:value-of select="$LABELS/labels/entry[@key='LABEL_LIST_TARGETS']/@label" /></small>
@@ -1818,7 +1818,7 @@
 				<xsl:if test="../../../../sparqlEndPoint">
 					<xsl:variable name="urlEndPoint" select="../../../../sparqlEndPoint"/>
 					<xsl:variable name="SparqlQuery"><xsl:value-of select="select" disable-output-escaping="yes"/></xsl:variable>
-					<xsl:variable name="urlSparqlEditor" select="concat('https://matgui.matdata.eu/','#query=',$SparqlQuery,'&amp;','endpoint=',$urlEndPoint)"/>
+					<xsl:variable name="urlSparqlEditor" select="concat('https://matgui.matdata.eu/','#query=',encode-for-uri($SparqlQuery),'&amp;','endpoint=',$urlEndPoint)"/>
 					<div style="display: flex; justify-content: right;">
 						<a href="{$urlSparqlEditor}" target="_blank">
 							<small><xsl:value-of select="$LABELS/labels/entry[@key='LABEL_LIST_TARGETS']/@label" /></small>

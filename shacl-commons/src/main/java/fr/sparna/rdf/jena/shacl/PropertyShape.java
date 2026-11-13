@@ -22,8 +22,12 @@ public class PropertyShape extends Shape {
 
 	private Logger log = LoggerFactory.getLogger(this.getClass().getName());
 	
+	/**
+	 * @deprecated
+	 * @param propertyShape
+	 */
 	public PropertyShape(Resource propertyShape) {
-		super(propertyShape, new ShapesGraph(propertyShape.getModel()));
+		super(propertyShape, null);
 	}
 
 	public PropertyShape(Resource propertyShape, ShapesGraph shapesGraph) {
@@ -335,6 +339,10 @@ public class PropertyShape extends Shape {
 	 * @return the node shapes to be used as "range" for this property shape, either from sh:node first, or from sh:class, or from sh:qualifiedValueShape/sh:node or from sh:qualifiedValueShape/sh:class, or an empty list if none is present 
 	 */
 	public List<NodeShape> getObjectNodeShapes() {
+		if(this.shapesGraph == null) {
+			throw new IllegalStateException("Cannot get object node shapes if no shapes graph was provided");
+		}
+
 		// first look for sh:node
 		List<NodeShape> result = this.shapesGraph.findNodeShapesByPropertyShapeShNode(this);
 		

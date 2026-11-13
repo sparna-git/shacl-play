@@ -11,15 +11,21 @@ import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.vocabulary.RDF;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.topbraid.shacl.vocabulary.SH;
 
+import fr.sparna.rdf.jena.shacl.NodeShape;
+import fr.sparna.rdf.jena.shacl.PropertyShape;
 import fr.sparna.rdf.shacl.diagram.model.PlantUmlBoxIfc;
 import fr.sparna.rdf.shacl.diagram.model.PlantUmlDiagram;
-import fr.sparna.rdf.shacl.diagram.model.PlantUmlProperty;
+import fr.sparna.rdf.shacl.diagram.model.ResourcePlantUmlBox;
 import fr.sparna.rdf.shacl.diagram.model.SimplePlantUmlBox;
 import fr.sparna.rdf.shacl.diagram.render.PlantUmlRenderer;
 
 public class PlantUmlDiagramGenerator {
+
+	private Logger log = LoggerFactory.getLogger(this.getClass().getName());
 
 	protected boolean includeSubclassLinks = true;
 	protected boolean generateAnchorHyperlink = false;
@@ -80,26 +86,25 @@ public class PlantUmlDiagramGenerator {
 		Model owlGraph,
 		Resource nodeShape
 	) {
+		log.trace("Generating diagram for "+nodeShape);
+
+		PlantUmlBoxReader nodeShapeReader = new PlantUmlBoxReader(this.useLabels);	
 		
-		// Get Boxes
-		List<Resource> nodeShapes = this.readNodeShapes(shaclGraph, owlGraph);
-		List<PlantUmlBoxIfc> plantUmlBoxes = this.buildBoxes(nodeShapes);
-		
+		log.trace("Generate small diagram...");
 		// Generate Diagram
 		List<PlantUmlBoxIfc> boxesIncludedInTheDiagram = new ArrayList<>();
 		// find the main box
-		PlantUmlBoxIfc mainBox = plantUmlBoxes
-				.stream()
-				.filter(s -> s.getNodeShape().isURIResource())
-				.filter(box -> box.getNodeShape().getURI().equals(nodeShape.getURI()))
-				.findFirst()
-				.get();	
-		
+		ResourcePlantUmlBox mainBox = nodeShapeReader.read(nodeShape);
+		mainBox.setPropertiesBox(nodeShapeReader.readProperties(nodeShape));
 		boxesIncludedInTheDiagram.add(mainBox);
 
 		// Add others Resources
-		List<PlantUmlBoxIfc> otherResources = PlantUmlDiagramGenerator.addAdditionnalBoxes(Collections.singletonList(mainBox), plantUmlBoxes, lang);
-		boxesIncludedInTheDiagram.addAll(otherResources);
+		List<NodeShape> relatedShapes = PlantUmlDiagramGenerator.findRelatedShapes(Collections.singletonList(new NodeShape(nodeShape)));	
+		relatedShapes.stream().forEach(s -> {
+			ResourcePlantUmlBox oldB = nodeShapeReader.read(s.getResource());
+			SimplePlantUmlBox newB = PlantUmlDiagramGenerator.toSimplePlantUmlBox(oldB, lang); // create a SimplePlantUmlBox with colors and label
+			boxesIncludedInTheDiagram.add(newB);
+		});
 
 		// build a Diagram data structure
 		PlantUmlDiagram d = new PlantUmlDiagram();
@@ -125,6 +130,7 @@ public class PlantUmlDiagramGenerator {
 		
 		this.avoidArrowsToEmptyBoxes = false;
 		
+		log.trace("Rendering diagram in PlantUml...");
 		List<PlantUmlDiagramOutput> outputDiagram = new ArrayList<>();
 		if (createDiagram) {
 			outputDiagram = this.outputDiagrams(Collections.singletonList(d), true);
@@ -222,29 +228,31 @@ public class PlantUmlDiagramGenerator {
 		
 		return plantUmlBoxes;		
 	}
-	
-	public static List<PlantUmlBoxIfc> addAdditionnalBoxes(List<PlantUmlBoxIfc> initialBoxes, List<PlantUmlBoxIfc> allBoxes, String lang) {
+
+
+	public static List<NodeShape> findRelatedShapes(List<NodeShape> initialNodeShapes) {
 		
-		// read all sh:nodes and sh:class...
-		List<PlantUmlBoxIfc> interestingBoxes = new ArrayList<>();
+		List<NodeShape> relatedShapes = new ArrayList<>();
 		
 		// iterate on all initial boxes
-		for (PlantUmlBoxIfc box : initialBoxes) {
-			interestingBoxes.addAll(
-				box.getPropertiesBox()
+		for (NodeShape aShape : initialNodeShapes) {
+			relatedShapes.addAll(
+				aShape.getProperties()
 				.stream()
 				.map( p -> {
 					// return the box corresponding to the value of sh:node or sh:class
 					if (p.getShNode().isPresent()) {
-						return PlantUmlDiagram.findBoxByResource(p.getShNode().get().asResource(), allBoxes);
+						return aShape.getShapesGraph().findNodeShapeByResource(p.getShNode().get().asResource());
 					}
 					
 					if (p.getShClass().isPresent()) {
-						return PlantUmlDiagram.findBoxByTargetClass(p.getShClass().get().asResource(), allBoxes);
+						// this is returning a list of NodeShapes, but we only want the first one (if any)
+						List<NodeShape> foundShapes = aShape.getShapesGraph().findNodeShapeByTargetClass(p.getShClass().get().asResource());
+						return foundShapes.isEmpty() ? null : foundShapes.get(0);
 					}
 
 					if (p.getShQualifiedValueShape().isPresent()) {
-						return PlantUmlDiagram.findBoxByResource(p.getShQualifiedValueShape().get().asResource(), allBoxes);
+						return aShape.getShapesGraph().findNodeShapeByResource(p.getShQualifiedValueShape().get().asResource());
 					}
 
 					return null;
@@ -254,49 +262,45 @@ public class PlantUmlDiagramGenerator {
 			);
 
 			// read all sh:or...
-			for (PlantUmlProperty prop : box.getPropertiesBox()) {
+			for (PropertyShape prop : aShape.getProperties()) {
 				if (prop.getShOrShClass() != null) {
 					for (Resource aShClass : prop.getShOrShClass()) {
-						interestingBoxes.add(PlantUmlDiagram.findBoxByTargetClass(aShClass, allBoxes));
+						relatedShapes.addAll(aShape.getShapesGraph().findNodeShapeByTargetClass(aShClass));
 					}
 				}
 				
 				if (prop.getShOrShNode() != null) {
 					for (Resource aShNode : prop.getShOrShNode()) {
-						interestingBoxes.add(PlantUmlDiagram.findBoxByResource(aShNode, allBoxes));
+						relatedShapes.add(aShape.getShapesGraph().findNodeShapeByResource(aShNode));
 					}
 				}
 			}
 		}
 
-		interestingBoxes = interestingBoxes
+		relatedShapes = relatedShapes
 			.stream()
 			.filter(b -> b != null)
 			.distinct()
 			.collect(Collectors.toList());
-		
-		// recreate the boxes inside the diagram with their colors
-		int anonymousCount = 1;
-		List<PlantUmlBoxIfc> otherBoxes = new ArrayList<>();
-		for(int i =0;i<interestingBoxes.size();i++) {
-			PlantUmlBoxIfc b = interestingBoxes.get(i);
-			String label = b.getPlantUmlLabel(lang);
-			if(b.getNodeShape().isAnon()) {
-				label += " "+anonymousCount++;
-			}
 
-			// create box with a label and colors
-			SimplePlantUmlBox newBoxSimple = new SimplePlantUmlBox(b.getNodeShape());
-			newBoxSimple.setBackgroundColorStringBox(b.getBackgroundColor());
-			newBoxSimple.setColorStringBox(b.getColor());
-			newBoxSimple.setLabel(label);
-			// note : this is necessary so that the renderer can resolve class references to the correct boxes
-			newBoxSimple.setTargetClass(b.getTargetClass());
-			
-			otherBoxes.add(newBoxSimple);
-		}
-		
-		return otherBoxes;
+		return relatedShapes;
+	}
+
+	public static SimplePlantUmlBox toSimplePlantUmlBox(ResourcePlantUmlBox b, String lang) {
+		String label = b.getPlantUmlLabel(lang);
+		// if(b.getNodeShape().isAnon()) {
+		// 	label += " "+anonymousCount++;
+		// }
+
+		// create box with a label and colors
+		SimplePlantUmlBox newBoxSimple = new SimplePlantUmlBox(b.getNodeShape());
+		newBoxSimple.setBackgroundColorStringBox(b.getBackgroundColor());
+		newBoxSimple.setColorStringBox(b.getColor());
+		newBoxSimple.setLabel(label);
+		// note : this is necessary so that the renderer can resolve class references to the correct boxes
+		newBoxSimple.setTargetClass(b.getTargetClass());
+
+		return newBoxSimple;
 	}
 
 }

@@ -8,6 +8,8 @@ import java.util.stream.Collectors;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.vocabulary.DCTerms;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import fr.sparna.rdf.shacl.diagram.PlantUmlDiagramOutput;
 import fr.sparna.rdf.shacl.doc.MarkdownRenderer;
@@ -26,12 +28,13 @@ import fr.sparna.rdf.shacl.doc.model.Usage;
 
 import fr.sparna.rdf.jena.shacl.Shape;
 import fr.sparna.rdf.jena.ModelReadingUtils;
-import fr.sparna.rdf.jena.ModelRenderingUtils;
 import fr.sparna.rdf.jena.shacl.NodeShape;
 import fr.sparna.rdf.jena.shacl.PropertyShape;
 
 public class ShapesDocumentationSectionBuilder {
 	
+	private Logger log = LoggerFactory.getLogger(this.getClass().getName());
+
 	private PlantUmlSourceGenerator diagramGenerator;
 
 	public ShapesDocumentationSectionBuilder(PlantUmlSourceGenerator diagramGenerator) {
@@ -48,6 +51,7 @@ public class ShapesDocumentationSectionBuilder {
 	) {
 		ShapesDocumentationSection currentSection = new ShapesDocumentationSection();
 		
+		log.trace("Initiating section with ID, subtitle, comment...");
 		// URI or blank node ID
 		currentSection.setNodeShapeUriOrId(nodeShape.getURIOrId());
 		currentSection.setSectionId(nodeShape.getShortFormOrId());
@@ -65,7 +69,11 @@ public class ShapesDocumentationSectionBuilder {
 		String renderedMd = MarkdownRenderer.getInstance().renderMarkdown(nodeShape.getDisplayDescription(owlGraph, lang));
 		currentSection.setDescription(renderedMd);
 
+		log.trace("Reading targets...");
+		currentSection.setTargets(this.getTargets(nodeShape, lang));
+
 		if (readDiagram) {
+			log.trace("Reading diagram...");
 			// Create one diagram for each section
 			List<PlantUmlDiagramOutput> plantUmlDiagrams = this.diagramGenerator.generatePlantUmlDiagramSection(nodeShape.getResource());
 			// turn diagrams into output data structure
@@ -81,52 +89,18 @@ public class ShapesDocumentationSectionBuilder {
 		}
 
 		// Agent instructions
-		if (nodeShape.getAgentInstruction(lang) != null && nodeShape.getAgentInstruction(lang).size() > 0) {
-			
+		if (nodeShape.getAgentInstruction(lang) != null && nodeShape.getAgentInstruction(lang).size() > 0) {			
 			List<String> agentInstructions = nodeShape.getAgentInstruction(lang).stream().map(l -> l.getString()).collect(Collectors.toList());
 			currentSection.setAgentInstructions(agentInstructions);
 		}
 		
-		// Get sh:node as type of shape
+		// Get sh:node
 		List<Resource> shNodes = nodeShape.getShNodeAsList();
 		if (shNodes.size() > 0) {
 			currentSection.setShNodes(shNodes.stream()
 					.map(shNode -> LinkFactory.buildShNodeOrOtherShapeReferenceLink(shNode, shapesGraph, owlGraph, lang))
 					.collect(Collectors.toList()));
 		}
-
-		/* 
-		// sh:targetSubjectsOf or sh:targetObjectsOf
-		if (!nodeShape.getTargetSubjectsOf().isEmpty()) {
-			currentSection.setTargetSubjectsOf(nodeShape.getTargetSubjectsOf().get(0).getURI());			
-		}		
-		if (!nodeShape.getTargetObjectsOf().isEmpty()) {
-			currentSection.setTargetObjectsOf(nodeShape.getTargetObjectsOf().get(0).getURI());
-		}
-		
-		// sh:targetClass
-		if(nodeShape.getAllTargetedClasses().size() > 0) {			
-			// Create List<Link>
-			List<Link> tClass = nodeShape.getAllTargetedClasses()
-									.stream()
-									.map(s -> 
-										new Link(s.getURI(),
-												// label of link is the label if known, otherwise it is the short form
-												s.getModel().shortForm(s.getURI())
-												)											
-											)
-									.collect(Collectors.toList());
-			
-			currentSection.setTargetClass(tClass);
-		}
-		
-		// sparql target
-		if(nodeShape.getShTargetShSelect() != null) {
-			currentSection.setSparqlTarget(nodeShape.getShTargetShSelect().getString());
-		}
-		*/
-
-		currentSection.setTargets(this.getTargets(nodeShape, lang));
 		
 		// SPARQL CONSTRAINT
 		if (nodeShape.getShSparql().size() > 0) {
@@ -135,6 +109,7 @@ public class ShapesDocumentationSectionBuilder {
 					.collect(Collectors.toList()));
 		}
 		
+		log.trace("Reading pattern, datatype, nodeKind, closed, skos:example, rdfs:subClassOf, foaf:depiction...");
 		// sh:pattern
 		currentSection.setPattern(nodeShape.getShPattern().isPresent() ?nodeShape.getShPattern().get().getString():null);
 		
@@ -172,21 +147,24 @@ public class ShapesDocumentationSectionBuilder {
 		// foaf:depiction
 		currentSection.setDepictions(this.readFoafDepiction(nodeShape, lang));
 		
+
 		// Usage
+		log.trace("Reading usage...");
 		currentSection.setUsages(findNodeShapeUsage(shapesGraph,nodeShape,shaclGraph,owlGraph,lang));
 
 		
 		// Read the property shapes from this shape and supershapes
+		log.trace("Reading properties...");
 		List<PropertyShapesGroupDocumentation> groups = readPropertyGroupsRec(
 				nodeShape,
 				shapesGraph,
 				shaclGraph,
 				owlGraph,
 				lang
-		);	
-		
+		);			
 		currentSection.setPropertyGroups(groups);
 
+		log.trace("Done generating section !");
 		return currentSection;
 	}
 
@@ -344,7 +322,7 @@ public class ShapesDocumentationSectionBuilder {
 				NodeShape ns = (NodeShape) shape;
 				boolean nsInList = nsUsageAsList.stream().filter( nsdoc -> nsdoc.getNodeShape().getResource().equals(ns.getResource())).findFirst().isPresent();
 				if (!nsInList) {
-					UsageDoc usDoc = new UsageDoc(new NodeShape(ns.getResource()));
+					UsageDoc usDoc = new UsageDoc(ns);
 					nsUsageAsList.add(usDoc);					
 				}
 			}

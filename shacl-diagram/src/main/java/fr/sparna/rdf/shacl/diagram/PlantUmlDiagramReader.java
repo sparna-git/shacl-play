@@ -11,8 +11,11 @@ import org.apache.jena.vocabulary.DCTerms;
 import org.topbraid.shacl.vocabulary.SH;
 
 import fr.sparna.rdf.jena.ModelReadingUtils;
+import fr.sparna.rdf.jena.shacl.NodeShape;
 import fr.sparna.rdf.shacl.diagram.model.PlantUmlBoxIfc;
 import fr.sparna.rdf.shacl.diagram.model.PlantUmlDiagram;
+import fr.sparna.rdf.shacl.diagram.model.ResourcePlantUmlBox;
+import fr.sparna.rdf.shacl.diagram.model.SimplePlantUmlBox;
 
 public class PlantUmlDiagramReader {
 
@@ -53,7 +56,14 @@ public class PlantUmlDiagramReader {
 				d.setOrderDiagram(this.readShOrder(aRef));
 
 				// Add others boxes so that their color is apparent in the splitted diagram
-				List<PlantUmlBoxIfc> otherResources = PlantUmlDiagramGenerator.addAdditionnalBoxes(d.getBoxes(), boxes, lang);
+				List<NodeShape> relatedShapes = PlantUmlDiagramGenerator.findRelatedShapes(d.getBoxes().stream().map(b -> new NodeShape(b.getNodeShape())).toList());
+				List<SimplePlantUmlBox> otherResources = relatedShapes.stream().map(s -> {
+					ResourcePlantUmlBox oldB = new ResourcePlantUmlBox(s.getResource(), true);
+					oldB.setPropertiesBox(new PlantUmlBoxReader(true).readProperties(s.getResource()));
+					
+					return PlantUmlDiagramGenerator.toSimplePlantUmlBox(oldB, lang);
+				}).toList();
+
 				d.getBoxes().addAll(otherResources);
 				
 				diagrams.add(d);

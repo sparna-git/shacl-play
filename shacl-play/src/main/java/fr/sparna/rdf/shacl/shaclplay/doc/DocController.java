@@ -152,12 +152,15 @@ public class DocController {
 			// get the shapes source type
 			ControllerModelFactory.SOURCE_TYPE source = ControllerModelFactory.SOURCE_TYPE.valueOf(shapesSourceString.toUpperCase());
 
-            LOGGER.debug("doc(shapeSourceString='{}')", shapesSourceString);
-			LOGGER.debug("REQUEST contentType={}", request.getContentType());
-			LOGGER.debug("REQUEST params={}", request.getParameterMap());
-
-			if (shapesFiles == null) LOGGER.debug("shapesFiles=null");
-			else LOGGER.debug("shapesFiles.length={}", shapesFiles.size());
+            LOGGER.debug("doc(shapeSourceString='{}', includeDiagram='{}', sectionDiagram='{}', filterUnusedNodeShapes='{}', format='{}', urlLogo='{}', language='{}')",
+			 shapesSourceString,
+			 includeDiagram,
+			 sectionDiagram,
+			 filterUnusedNodeShapes,
+			 clientFormat,
+			 urlLogo,
+			 language
+			);
 
 			Model model = ModelFactory.createDefaultModel();
 			ShapesDocumentationWriterIfc.MODE format = ShapesDocumentationWriterIfc.MODE.valueOf(clientFormat.toUpperCase());

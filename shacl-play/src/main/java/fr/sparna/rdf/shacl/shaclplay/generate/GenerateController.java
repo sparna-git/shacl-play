@@ -75,7 +75,7 @@ public class GenerateController {
 			@RequestParam(value="statistics", required=false) boolean computeStatistics,
 			HttpServletRequest request,
 			// compute statistics option
-			@RequestParam(value="generateLabels", required=false, defaultValue="true") boolean generateLabels,
+			@RequestParam(value="generateLabels", required=false) boolean generateLabels,
 			HttpServletResponse response
 	){
 		try {

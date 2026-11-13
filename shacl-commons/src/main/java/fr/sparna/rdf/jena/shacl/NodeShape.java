@@ -485,35 +485,37 @@ public class NodeShape extends Shape  {
 			result = ModelRenderingUtils.render(this.getSchemaName(lang), true);
 		}
 
-		if(this.getAllTargetedClasses().size() > 0) {
-			if(result == null) {			
-				// otherwise if we have skos:prefLabel on the class, take it
-				for (Resource t : this.getAllTargetedClasses()) {
-					String res = ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(owlModel.getResource(t.getURI()), SKOS.prefLabel, lang), true);
-					if (res != null) {
-						result = res;
+		if(owlModel != null){
+			if(this.getAllTargetedClasses().size() > 0) {
+				if(result == null) {
+					// otherwise if we have skos:prefLabel on the class, take it
+					for (Resource t : this.getAllTargetedClasses()) {
+						String res = ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(owlModel.getResource(t.getURI()), SKOS.prefLabel, lang), true);
+						if (res != null) {
+							result = res;
+						}
 					}
 				}
-			}
 
-			if(result == null) {			
-				// otherwise if we have rdfs:label on the class, take it
-				for (Resource t : this.getAllTargetedClasses()) {
-					String res = ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(owlModel.getResource(t.getURI()), RDFS.label, lang), true);
-					if (res != null) {
-						result = res;
+				if(result == null) {
+					// otherwise if we have rdfs:label on the class, take it
+					for (Resource t : this.getAllTargetedClasses()) {
+						String res = ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(owlModel.getResource(t.getURI()), RDFS.label, lang), true);
+						if (res != null) {
+							result = res;
+						}
 					}
-				}			
-			}
+				}
 
-			if(result == null) {			
-				// otherwise if we have schema:name on the class, take it
-				for (Resource t : this.getAllTargetedClasses()) {
-					String res = ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(owlModel.getResource(t.getURI()), SCHEMA.name, lang), true);
-					if (res != null) {
-						result = res;
+				if(result == null) {
+					// otherwise if we have schema:name on the class, take it
+					for (Resource t : this.getAllTargetedClasses()) {
+						String res = ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(owlModel.getResource(t.getURI()), SCHEMA.name, lang), true);
+						if (res != null) {
+							result = res;
+						}
 					}
-				}			
+				}
 			}
 		}
 		
@@ -523,6 +525,11 @@ public class NodeShape extends Shape  {
 		}
 		
 		return result;
+	}
+
+	@Override
+	public String getDisplayLabel(String lang) {
+		return this.getDisplayLabel(null, lang);
 	}
 
 	@Override
@@ -540,39 +547,46 @@ public class NodeShape extends Shape  {
 			result = ModelRenderingUtils.render(this.getSchemaDescription(lang), true);
 		}
 
-		if(this.getAllTargetedClasses().size() > 0) {
-			if(result == null) {
-				// otherwise if we have skos:definition on the class, take it
-				for (Resource t : this.getAllTargetedClasses()) {
-					String res = ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(owlModel.getResource(t.getURI()), SKOS.definition, lang), true);
-					if (res != null) {
-						result = res;
-					}
-				}				
-			}
-
-			if(result == null) {
-				// otherwise if we have rdfs:comment on the class, take it
-				for (Resource t : this.getAllTargetedClasses()) {
-					String res = ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(owlModel.getResource(t.getURI()), RDFS.comment, lang), true);
-					if (res != null) {
-						result = res;
+		if(owlModel != null) {
+			if(this.getAllTargetedClasses().size() > 0) {
+				if(result == null) {
+					// otherwise if we have skos:definition on the class, take it
+					for (Resource t : this.getAllTargetedClasses()) {
+						String res = ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(owlModel.getResource(t.getURI()), SKOS.definition, lang), true);
+						if (res != null) {
+							result = res;
+						}
 					}
 				}
-			}
 
-			if(result == null) {
-				// otherwise if we have schema:description on the class, take it
-				for (Resource t : this.getAllTargetedClasses()) {
-					String res = ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(owlModel.getResource(t.getURI()), SCHEMA.description, lang), true);
-					if (res != null) {
-						result = res;
+				if(result == null) {
+					// otherwise if we have rdfs:comment on the class, take it
+					for (Resource t : this.getAllTargetedClasses()) {
+						String res = ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(owlModel.getResource(t.getURI()), RDFS.comment, lang), true);
+						if (res != null) {
+							result = res;
+						}
+					}
+				}
+
+				if(result == null) {
+					// otherwise if we have schema:description on the class, take it
+					for (Resource t : this.getAllTargetedClasses()) {
+						String res = ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(owlModel.getResource(t.getURI()), SCHEMA.description, lang), true);
+						if (res != null) {
+							result = res;
+						}
 					}
 				}
 			}
 		}
-		
+
 		return result;
+	}
+
+	@Override
+	public String getDisplayDescription(String lang) {
+		return this.getDisplayDescription(null, lang);
 	}
 
 	@Override

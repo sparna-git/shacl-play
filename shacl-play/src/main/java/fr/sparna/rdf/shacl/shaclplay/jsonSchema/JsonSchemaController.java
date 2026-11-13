@@ -1,18 +1,21 @@
 package fr.sparna.rdf.shacl.shaclplay.jsonSchema;
 
-import java.io.StringReader;
-import java.net.URLEncoder;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.Comparator;
-
+import fr.sparna.rdf.jena.shacl.NodeShape;
+import fr.sparna.rdf.jena.shacl.ShapesGraph;
+import fr.sparna.rdf.shacl.jsonschema.JsonSchemaGenerator;
+import fr.sparna.rdf.shacl.jsonschema.model.Schema;
+import fr.sparna.rdf.shacl.shaclplay.ApplicationData;
+import fr.sparna.rdf.shacl.shaclplay.ControllerModelFactory;
+import fr.sparna.rdf.shacl.shaclplay.ControllerModelFactory.SOURCE_TYPE;
+import fr.sparna.rdf.shacl.shaclplay.catalog.shapes.ShapesCatalogService;
+import jakarta.json.Json;
+import jakarta.json.JsonReader;
+import jakarta.json.JsonValue;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.owasp.encoder.Encode;
 import org.slf4j.Logger;
@@ -25,18 +28,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import fr.sparna.rdf.jena.shacl.NodeShape;
-import fr.sparna.rdf.jena.shacl.ShapesGraph;
-import fr.sparna.rdf.shacl.jsonschema.JsonSchemaGenerator;
-import fr.sparna.rdf.shacl.jsonschema.model.Schema;
-import fr.sparna.rdf.shacl.shaclplay.ApplicationData;
-import fr.sparna.rdf.shacl.shaclplay.ControllerModelFactory;
-import fr.sparna.rdf.shacl.shaclplay.ControllerModelFactory.SOURCE_TYPE;
-import fr.sparna.rdf.shacl.shaclplay.catalog.shapes.ShapesCatalogService;
-
-import jakarta.json.Json;
-import jakarta.json.JsonReader;
-import jakarta.json.JsonValue;
+import java.io.StringReader;
+import java.net.URLEncoder;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Controller
@@ -77,11 +72,11 @@ public class JsonSchemaController {
 			// inline Context, this option is optional
 			@RequestParam(value="inputContextInline", required=false) String contextText,
 			// Checkbox noUseNativeTypes 
-			@RequestParam(value="noUseNativeTypes", required=false, defaultValue = "false") boolean noUseNativeTypes,
+			@RequestParam(value="noUseNativeTypes", required=false) boolean noUseNativeTypes,
 			// Checkbox Ignore the sh:hasValue and sh:in 
-			@RequestParam(value="ignoreProperties", required=false, defaultValue = "false") boolean doNotIncludeValues,
+			@RequestParam(value="ignoreProperties", required=false) boolean doNotIncludeValues,
 			// Checkbox AdditionalProperties 
-			@RequestParam(value="noAdditionalProperties", required=false, defaultValue = "false") boolean noAdditionalProperties,
+			@RequestParam(value="noAdditionalProperties", required=false) boolean noAdditionalProperties,
 			HttpServletRequest request,
 			HttpServletResponse response
 			) throws Exception {
@@ -208,11 +203,11 @@ public class JsonSchemaController {
 		// inline Context, this is is optional
 		@RequestParam(value="inputContextInline", required=false) String contextText,
 		// Checkbox useNativeTypes 
-		@RequestParam(value="noUseNativeTypes", required=false, defaultValue = "false") boolean noUseNativeTypes,	
+		@RequestParam(value="noUseNativeTypes", required=false) boolean noUseNativeTypes,
 		// Checkbox Ignore the sh:hasValue and sh:in 
-		@RequestParam(value="ignoreProperties", required=false, defaultValue = "false") boolean doNotIncludeValues,
+		@RequestParam(value="ignoreProperties", required=false) boolean doNotIncludeValues,
 		// Checkbox AdditionalProperties 
-		@RequestParam(value="noAdditionalProperties", required=false, defaultValue = "false") boolean noAdditionalProperties,
+		@RequestParam(value="noAdditionalProperties", required=false) boolean noAdditionalProperties,
 		HttpServletRequest request,
 		HttpServletResponse response
 	) throws Exception {

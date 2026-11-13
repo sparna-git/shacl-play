@@ -1,27 +1,16 @@
 package fr.sparna.rdf.jena.shacl;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-import org.apache.jena.rdf.model.Literal;
-import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.RDFList;
-import org.apache.jena.rdf.model.RDFNode;
-import org.apache.jena.rdf.model.Resource;
-import org.apache.jena.rdf.model.Statement;
+import fr.sparna.rdf.jena.ModelReadingUtils;
+import fr.sparna.rdf.vocabularies.SCHEMA;
+import fr.sparna.rdf.vocabularies.SH12;
+import fr.sparna.rdf.vocabularies.SHACL_PLAY;
+import org.apache.jena.rdf.model.*;
 import org.apache.jena.vocabulary.RDFS;
 import org.apache.jena.vocabulary.SKOS;
-
-import fr.sparna.rdf.jena.ModelReadingUtils;
-import fr.sparna.rdf.vocabularies.*;
-
 import org.topbraid.shacl.vocabulary.SH;
+
+import java.util.*;
+import java.util.stream.Collectors;
 
 public abstract class Shape {
 	
@@ -34,7 +23,9 @@ public abstract class Shape {
 	}
 
 	public abstract String getDisplayLabel(Model owlModel, String lang);
+	public abstract String getDisplayLabel(String lang);
 	public abstract String getDisplayDescription(Model owlModel, String lang);
+	public abstract String getDisplayDescription(String lang);
 	public abstract String getDisplayColor();
 	public abstract String getDisplayBackgroundColor();
 	

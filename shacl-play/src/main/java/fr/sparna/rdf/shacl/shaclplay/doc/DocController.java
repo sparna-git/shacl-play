@@ -25,7 +25,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 
-
 /*
 Controller pour le formulaire de génération de la documentation Shacl
  */
@@ -133,11 +132,11 @@ public class DocController {
 			// inline Shapes if shapeSource=sourceShape-inputShapeInline
 			@RequestParam(value="inputShapeInline", required=false) String shapesText,
 			// includeDiagram option
-			@RequestParam(value="includeDiagram", required=false, defaultValue = "false") boolean includeDiagram,
+			@RequestParam(value="includeDiagram", required=false) boolean includeDiagram,
 			// includeDiagram option
-			@RequestParam(value="sectionDiagram", required=false, defaultValue = "true") boolean sectionDiagram,
+			@RequestParam(value="sectionDiagram", required=false) boolean sectionDiagram,
 			// hide Properties
-			@RequestParam(value="hideProperties", required=false, defaultValue="false") boolean hideProperties,
+			@RequestParam(value="hideProperties", required=false) boolean hideProperties,
 			// List Option
 			@RequestParam(value="format", required=false, defaultValue = "HTML_RESPEC") String clientFormat,
 			// Logo Option
@@ -148,6 +147,7 @@ public class DocController {
 			@RequestParam(value="filterUnusedNodeShapes", required=false, defaultValue="true") boolean filterUnusedNodeShapes,
 			HttpServletRequest request
 	) {
+
 		try {
 			// get the shapes source type
 			ControllerModelFactory.SOURCE_TYPE source = ControllerModelFactory.SOURCE_TYPE.valueOf(shapesSourceString.toUpperCase());

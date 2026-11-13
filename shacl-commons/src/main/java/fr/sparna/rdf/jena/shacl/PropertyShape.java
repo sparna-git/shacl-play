@@ -56,14 +56,16 @@ public class PropertyShape extends Shape {
 			return this.getResource().toString();
 		}
 		
-		if(result == null && this.getShPath().isURIResource() && owlModel != null) {
-			// otherwise if we have skos:prefLabel on the property, take it
-			result = ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(owlModel.getResource(this.getShPath().getURI()), SKOS.prefLabel, lang), true);
-		}
-		
-		if(result == null && this.getShPath().isURIResource() && owlModel != null) {
-			// otherwise if we have rdfs:label on the property, take it
-			result = ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(owlModel.getResource(this.getShPath().getURI()), RDFS.label, lang), true);
+		if(owlModel == null && result == null) {
+			if(this.getShPath().isURIResource()) {
+				// otherwise if we have skos:prefLabel on the property, take it
+				result = ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(owlModel.getResource(this.getShPath().getURI()), SKOS.prefLabel, lang), true);
+			}
+
+			if(this.getShPath().isURIResource()) {
+				// otherwise if we have rdfs:label on the property, take it
+				result = ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(owlModel.getResource(this.getShPath().getURI()), RDFS.label, lang), true);
+			}
 		}
 		
 		// otherwise return empty string (could be null now that we use another method for sorting)
@@ -72,6 +74,11 @@ public class PropertyShape extends Shape {
 		}
 		
 		return result;
+	}
+
+	@Override
+	public String getDisplayLabel(String lang) {
+		return this.getDisplayLabel(null, lang);
 	}
 
 	@Override
@@ -100,18 +107,25 @@ public class PropertyShape extends Shape {
 			return "";
 		}
 		
-		if(result == null && this.getShPath().isURIResource()) {
-			// otherwise if we have skos:definition on the property, take it
-			result = ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(owlModel.getResource(this.getShPath().getURI()), SKOS.definition, lang), true);
-		}
-		
-		if(result == null && this.getShPath().isURIResource()) {
-			// otherwise if we have rdfs:comment on the property, take it
-			result = ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(owlModel.getResource(this.getShPath().getURI()), RDFS.comment, lang), true);
+		if(owlModel != null && result == null) {
+			if(this.getShPath().isURIResource()) {
+				// otherwise if we have skos:definition on the property, take it
+				result = ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(owlModel.getResource(this.getShPath().getURI()), SKOS.definition, lang), true);
+			}
+
+			if(this.getShPath().isURIResource()) {
+				// otherwise if we have rdfs:comment on the property, take it
+				result = ModelRenderingUtils.render(ModelReadingUtils.readLiteralInLang(owlModel.getResource(this.getShPath().getURI()), RDFS.comment, lang), true);
+			}
 		}
 		
 		return result;
-	}	
+	}
+
+	@Override
+	public String getDisplayDescription(String lang) {
+		return this.getDisplayDescription(null, lang);
+	}
 
 	@Override
 	public String getDisplayColor() {

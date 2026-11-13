@@ -29,14 +29,13 @@ public class ShapesGraph {
 	private Logger log = LoggerFactory.getLogger(this.getClass().getName());
 
 	private static final String SHACL_GRAPH = "https://shacl-play.sparna.fr/graph/base-shacl";
-
 	private static final String SUPPORTIVE_GRAPH = "https://shacl-play.sparna.fr/graph/supportive-shacl";
-
 	private static final String OWL_GRAPH = "https://shacl-play.sparna.fr/graph/owl";
 
 	private transient Dataset dataset;
-
 	private transient ShapesGraphResource resource;
+
+	private transient List<NodeShape> allNodeShapes;
 	
 	public ShapesGraph(Model shaclGraph, Model supportiveShaclGraph, Model owlGraph) {
 		super();
@@ -81,9 +80,15 @@ public class ShapesGraph {
 		return this.resource;
 	}
 
+	/**
+	 * @return the list of all NodeShapes in the union of all graphs in the dataset (shacl, supportive, owl)
+	 */
 	public List<NodeShape> getAllNodeShapes() {	
-		// get the union of all graphs in the dataset as a single model
-		return this.readAllNodeShapes(this.dataset.getUnionModel()); 
+		if(this.allNodeShapes == null) {
+			// get the union of all graphs in the dataset as a single model
+			this.allNodeShapes = this.readAllNodeShapes(this.dataset.getUnionModel());
+		}
+		return this.allNodeShapes;
 	}
 
 	public List<NodeShape> getRootNodeShapes() {	
@@ -185,8 +190,14 @@ public class ShapesGraph {
 		return shapes;
 	}
 	
+	/**
+	 * Removes node shapes that are pure value shapes or pure rule shapes, and that are not used in any other shape in the graph.
+	 * This ensures the documentation does not include node shapes that are not relevant (e.g. the shacl-ep case)
+	 */
 	public void pruneEmptyAndUnusedNodeShapes() {
 		List<NodeShape> unusedNodeShapes;
+		int cleanedCount = 0;
+		int iteration = 0;
 		// clean recursively while we keep deleting something
 		do {
 			unusedNodeShapes = getAllNodeShapes().stream().filter(
@@ -197,8 +208,22 @@ public class ShapesGraph {
 				)
 			).collect(Collectors.toList());
 
+			System.out.println("Deleting "+unusedNodeShapes.size()+" unused node shapes from the shapes graph : "+unusedNodeShapes.stream().map(ns -> ns.getResource().getURI()).collect(Collectors.joining(", ")));
+			// deletes the unused node shapes from the SHACL graph, and also from the supportive graph if any
 			unusedNodeShapes.forEach(ns -> ShapesGraph.deleteResource(this.getShaclGraph(), ns.getResource()));
+			if (this.getSupportiveGraph() != null) {
+			  unusedNodeShapes.forEach(ns -> ShapesGraph.deleteResource(this.getSupportiveGraph(), ns.getResource()));
+			}
+			this.allNodeShapes = null; // reset the cache of all node shapes, since we just deleted some
+
+			cleanedCount += unusedNodeShapes.size();
+			iteration++;
 		} while(unusedNodeShapes.size() > 0);
+		log.trace("Done pruning empty & unused node shapes. Cleaned " + cleanedCount + " shapes in " + iteration + " iterations	.");
+		if(cleanedCount > 0) {
+			this.allNodeShapes = null; // reset the cache of all node shapes, since we just deleted some
+		}
+		
 	}
 
 	/**
@@ -211,17 +236,17 @@ public class ShapesGraph {
 		List<NodeShape> unusedNodeShapes;
 		// clean recursively while we keep deleting something
 		do {
-			unusedNodeShapes = this.readAllNodeShapes(this.getSupportiveGraph()).stream().filter(
-				ns -> (
-					!ns.isUsedInShapesGraph()
-				)
-			).collect(Collectors.toList());
+			unusedNodeShapes = this.readAllNodeShapes(this.getSupportiveGraph()).stream()
+			.filter(ns -> !ns.isUsedInShapesGraph())
+			.collect(Collectors.toList());
 
 			unusedNodeShapes.forEach(ns -> {
-				log.debug("Deleting unused node shape "+ns.getResource().getURI()+" from supportive graph");
 				ShapesGraph.deleteResource(this.getSupportiveGraph(), ns.getResource());
 			});
+			this.allNodeShapes = null; // reset the cache of all node shapes, since we just deleted some
 		} while(unusedNodeShapes.size() > 0);
+
+		
 	}
 
 	/**

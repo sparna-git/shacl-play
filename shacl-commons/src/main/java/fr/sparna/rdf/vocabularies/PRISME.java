@@ -16,8 +16,11 @@ public class PRISME {
 
     public static final Resource LabelDescriptionViewer = M_MODEL.createResource(NS + "LabelDescriptionViewer");
 
+    public static final Resource MetaDataRole = M_MODEL.createResource(NS + "MetaDataRole");
+
     static{
         M_MODEL.add(OrderingKeyRole, RDF.type, SHUI.PropertyRole);
+        M_MODEL.add(MetaDataRole, RDF.type, SHUI.PropertyRole);
     }
 
 }

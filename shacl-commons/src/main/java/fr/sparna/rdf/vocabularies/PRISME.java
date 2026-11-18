@@ -10,7 +10,7 @@ public class PRISME {
     /** <p>The RDF model that holds the vocabulary terms</p> */
     private static final Model M_MODEL = ModelFactory.createDefaultModel();
 
-    public static final String NS = "https://prisme.sparna.fr/";
+    public static final String NS = "https://prisme.sparna.fr/shuix#";
 
     public static final Resource OrderingKeyRole = M_MODEL.createResource(NS + "OrderingKeyRole");
 

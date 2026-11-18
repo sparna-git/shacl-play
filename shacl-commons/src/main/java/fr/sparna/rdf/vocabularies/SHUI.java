@@ -11,7 +11,7 @@ public class SHUI {
     /** <p>The RDF model that holds the vocabulary terms</p> */
     private static final Model M_MODEL = ModelFactory.createDefaultModel();
 
-	public static final String NS = "http://www.w3.org/ns/shacl-ui#";
+	public static final String NS = "http://www.w3.org/ns/shacl-ui/";
 
     public static final Resource BlankNodeViewer = M_MODEL.createResource(NS + "BlankNodeViewer");
 

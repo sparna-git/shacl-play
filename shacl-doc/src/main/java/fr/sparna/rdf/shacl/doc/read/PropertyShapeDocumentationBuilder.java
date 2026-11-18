@@ -208,11 +208,11 @@ public class PropertyShapeDocumentationBuilder {
 		PropertyShape qualifiedvaludShapeObject = new PropertyShape(shQualifiedValueShape);
 
 		return selectExpectedValueAsLink(
-			qualifiedvaludShapeObject.getShClass().isPresent() ? qualifiedvaludShapeObject.getShClass().get().asResource() : null,
-			qualifiedvaludShapeObject.getShNode().isPresent() ? qualifiedvaludShapeObject.getShNode().get().asResource() : null,
-			qualifiedvaludShapeObject.getShDatatype().isPresent() ? qualifiedvaludShapeObject.getShDatatype().get().asResource() : null,
-			qualifiedvaludShapeObject.getShNodeKind().isPresent() ? qualifiedvaludShapeObject.getShNodeKind().get().asResource() : null,
-			qualifiedvaludShapeObject.getShHasValue().isPresent() ? qualifiedvaludShapeObject.getShHasValue().get().asResource() : null,
+			qualifiedvaludShapeObject.getShClass().map(c -> c.asResource()).orElse(null),
+			qualifiedvaludShapeObject.getShNode().map(n -> n.asResource()).orElse(null),
+			qualifiedvaludShapeObject.getShDatatype().map(d -> d.asResource()).orElse(null),
+			qualifiedvaludShapeObject.getShNodeKind().map(nk -> nk.asResource()).orElse(null),
+			qualifiedvaludShapeObject.getShHasValue().map(hv -> hv.asResource()).orElse(null),
 			// null for qualifiedValueShape
 			null
 		);

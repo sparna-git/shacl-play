@@ -53,6 +53,7 @@ public class RestDrawController {
             produces = {"image/svg+xml", "image/png", "text/html", "text/plain"})
     public ResponseEntity<ByteArrayResource> getDraw(
             @RequestParam(value="url", required=true) String shapesUrl,
+            @RequestParam(value="labelDiagram", required=false, defaultValue = "false") boolean labelDiagram,
             @RequestParam(value="format", required=false, defaultValue = "svg") String clientFormat,
             @RequestParam(value="hideProperties", required=false) boolean hideProperties
     ){
@@ -73,7 +74,8 @@ public class RestDrawController {
                     model,
                     modelPopulator.getSourceName(),
                     drawFormat,
-                    hideProperties
+                    hideProperties,
+                    labelDiagram
             );
 
         }catch (Exception ex){
@@ -100,6 +102,7 @@ public class RestDrawController {
                     required = true
             )
             @RequestParam(value="inputShapeFile", required=true) List<MultipartFile> shapesFiles,
+            @RequestParam(value="labelDiagram", required=false, defaultValue = "false") boolean labelDiagram,
             @RequestParam(value="hideProperties", required=false) boolean hideProperties,
             @RequestParam(value="format", required=false, defaultValue = "svg") String clientFormat
     ){
@@ -127,7 +130,8 @@ public class RestDrawController {
                 model,
                 modelPopulator.getSourceName(),
                 drawFormat,
-                hideProperties
+                hideProperties,
+                labelDiagram
             );
 
         }catch (Exception ex){

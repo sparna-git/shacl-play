@@ -19,6 +19,13 @@ public class ArgumentsDraw {
 	private List<File> input;
 
 	@Parameter(
+			names = { "-l", "--labelDiagram" },
+			description = "Set this option to use labels in the diagram, instead of URIs. Defaults to false",
+			required = false			
+	)
+	private boolean labelDiagram = false;
+
+	@Parameter(
 			names = { "-o", "--output" },
 			description = "Path to an output file, with extension *.png or *.svg or *.pdf or *.iuml. Can be repeated to generate multiple outputs.",
 			required = true,
@@ -71,5 +78,12 @@ public class ArgumentsDraw {
 	public void setIncludeSubclasses(boolean includeSubclasses) {
 		this.includeSubclasses = includeSubclasses;
 	}
-	
+
+	public boolean isLabelDiagram() {
+		return labelDiagram;
+	}
+
+	public void setLabelDiagram(boolean labelDiagram) {
+		this.labelDiagram = labelDiagram;
+	}	
 }

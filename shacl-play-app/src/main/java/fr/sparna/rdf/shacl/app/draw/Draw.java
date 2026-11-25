@@ -63,7 +63,7 @@ public class Draw implements CliCommandIfc {
 				// hide Properties
 				false,
 				// use labels,
-				false,
+				a.isLabelDiagram(),
 				// language
 				null
 		);

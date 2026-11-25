@@ -135,6 +135,8 @@ public class DocController {
 			@RequestParam(value="includeDiagram", required=false) boolean includeDiagram,
 			// includeDiagram option
 			@RequestParam(value="sectionDiagram", required=false) boolean sectionDiagram,
+			// Filter label in diagram
+			@RequestParam(value="LabelDiagram", required=false) boolean labelDiagram,
 			// hide Properties
 			@RequestParam(value="hideProperties", required=false) boolean hideProperties,
 			// List Option
@@ -152,10 +154,11 @@ public class DocController {
 			// get the shapes source type
 			ControllerModelFactory.SOURCE_TYPE source = ControllerModelFactory.SOURCE_TYPE.valueOf(shapesSourceString.toUpperCase());
 
-            LOGGER.debug("doc(shapeSourceString='{}', includeDiagram='{}', sectionDiagram='{}', filterUnusedNodeShapes='{}', format='{}', urlLogo='{}', language='{}')",
+            LOGGER.debug("doc(shapeSourceString='{}', includeDiagram='{}', sectionDiagram='{}',labelDiagram='{}', filterUnusedNodeShapes='{}', format='{}', urlLogo='{}', language='{}')",
 			 shapesSourceString,
 			 includeDiagram,
 			 sectionDiagram,
+			 labelDiagram,
 			 filterUnusedNodeShapes,
 			 clientFormat,
 			 urlLogo,
@@ -191,6 +194,7 @@ public class DocController {
 					// true to read diagram
 					includeDiagram,
 					hideProperties,
+					labelDiagram,
 					format,
 					urlLogo,
 					modelPopulator.getSourceName(),

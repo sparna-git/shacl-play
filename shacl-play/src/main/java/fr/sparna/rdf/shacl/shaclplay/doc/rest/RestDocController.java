@@ -85,6 +85,8 @@ public class RestDocController {
             ) boolean includeDiagram,
             // includeDiagram option
             @RequestParam(value="sectionDiagram", required=false, defaultValue = "true") boolean sectionDiagram,
+            // labelDiagram option
+            @RequestParam(value="labelDiagram", required=false, defaultValue = "false") boolean labelDiagram,
             // hide Properties
             @RequestParam(value="hideProperties", required=false, defaultValue = "false") boolean hideProperties,
             // List Option
@@ -112,6 +114,7 @@ public class RestDocController {
                         // true to read diagram
                         includeDiagram,
                         hideProperties,
+                        labelDiagram,
                     format,
                         urlLogo,
                         modelPopulator.getSourceName(),
@@ -147,6 +150,8 @@ public class RestDocController {
             @RequestParam(value="includeDiagram", required=false, defaultValue = "false") boolean includeDiagram,
             // includeDiagram option
             @RequestParam(value="sectionDiagram", required=false, defaultValue = "true") boolean sectionDiagram,
+            // labelDiagram option
+            @RequestParam(value="labelDiagram", required=false, defaultValue = "false") boolean labelDiagram,
             // hide Properties
             @RequestParam(value="hideProperties", required=false, defaultValue = "false") boolean hideProperties,
             // List Option
@@ -184,6 +189,7 @@ public class RestDocController {
                     // true to read diagram
                     includeDiagram,
                     hideProperties,
+                    labelDiagram,
                     format,
                     urlLogo,
                     modelPopulator.getSourceName(),

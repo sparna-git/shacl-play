@@ -17,14 +17,16 @@ public class PlantUmlSourceGenerator {
 	Model owlModel;
 	boolean hideProperties;
 	String lang;
+	boolean useLabels;
 	
-	public PlantUmlSourceGenerator(Model shapesModel,Model owlModel,boolean hideProperties,String lang) {
+	public PlantUmlSourceGenerator(Model shapesModel,Model owlModel,boolean hideProperties,String lang,boolean useLabels) {
 		
 		super();
 		this.shapesModel = shapesModel;				
 		this.owlModel  = owlModel;
 		this.hideProperties = hideProperties; 
 		this.lang = lang;
+		this.useLabels = useLabels;
 	}	
 	
 	public PlantUmlDiagramGenerator buildPlantUmlDiagramGenerator() {		
@@ -40,7 +42,7 @@ public class PlantUmlSourceGenerator {
 				//
 				hideProperties,
 				// use labels
-				false,
+				useLabels, //false,
 				lang
 		);
 		

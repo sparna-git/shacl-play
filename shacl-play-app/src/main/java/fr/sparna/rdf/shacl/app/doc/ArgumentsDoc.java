@@ -43,7 +43,7 @@ public class ArgumentsDoc {
 			required = false
 	)
 	private Boolean diagramShacl=false;
-	
+
 	@Parameter(
 			names = { "-nsd", "--noSectionDiagrams" },
 			description = "Set this parameter to remove entity diagrams for each section in the generated documentation.",
@@ -51,6 +51,13 @@ public class ArgumentsDoc {
 	)
 	private Boolean noSectionDiagrams=false;
 	
+	@Parameter(
+			names = { "-ld", "--labelDiagram" },
+			description = "Label the main diagram at the top of the generated documentation.",
+			required = false
+	)
+	private Boolean labelDiagram=false;
+
 	@Parameter(
 			names = { "-h", "--hide" },
 			description = "hide datatype properties.",
@@ -182,6 +189,14 @@ public class ArgumentsDoc {
 
 	public void setNoUnusedNodeShapeFiltering(Boolean noUnusedNodeShapeFiltering) {
 		this.noUnusedNodeShapeFiltering = noUnusedNodeShapeFiltering;
+	}
+
+	public Boolean getLabelDiagram() {
+		return labelDiagram;
+	}
+
+	public void setLabelDiagram(Boolean labelDiagram) {
+		this.labelDiagram = labelDiagram;
 	}
 	
 }

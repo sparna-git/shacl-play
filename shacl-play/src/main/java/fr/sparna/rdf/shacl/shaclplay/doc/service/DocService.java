@@ -25,6 +25,7 @@ public class DocService {
             Model shapesModel,
             boolean includeDiagram,
             boolean hideProperties,
+            boolean labelDiagram,
             ShapesDocumentationWriterIfc.MODE format,
             String urlLogo,
             String fileName,
@@ -47,7 +48,8 @@ public class DocService {
                 urlLogo,
                 hideProperties,
                 includeSectionDiagram,
-                filterUnusedNodeShapes
+                filterUnusedNodeShapes,
+                labelDiagram
         );
         ShapesDocumentation doc = reader.readShapesDocumentation();
 

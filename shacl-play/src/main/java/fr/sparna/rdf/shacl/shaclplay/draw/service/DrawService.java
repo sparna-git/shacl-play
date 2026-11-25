@@ -21,7 +21,8 @@ public class DrawService {
             Model shapesModel,
             String filename,
             DrawFormat drawFormat,
-            boolean hideProperties) throws IOException {
+            boolean hideProperties,
+            boolean labelDiagram) throws IOException {
 
         PlantUmlDiagramGenerator writer = new PlantUmlDiagramGenerator(
                 // includes the subClassOf links in the generated diagram
@@ -33,7 +34,7 @@ public class DrawService {
                 // hide Properties
                 hideProperties,
                 // use labels
-                false,
+                labelDiagram,
                 // a language for label and description reading
                 "en"
         );

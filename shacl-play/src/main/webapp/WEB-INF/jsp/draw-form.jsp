@@ -79,6 +79,22 @@
 								</div>
 							</div>
 						</div>
+
+						<!-- Label Diagram -->
+						<div class="form-group row">
+							<div class="col-sm-12">
+								<div class="form-check">
+									<input class="form-check-input" type="checkbox" id="labelDiagram" name="labelDiagram" />
+									<label class="form-check-label" for="labelDiagram">
+										<fmt:message key="draw.options.labelDiagram" />
+									</label>
+									<small class="form-text text-muted">
+										<fmt:message key="draw.options.labelDiagram.help" />
+									</small>
+								</div>
+							</div>
+						</div>
+
 						<!-- output type -->
 				      	<div class="form-group row">
 				      		<label for="format" class="col-sm-3 col-form-label">

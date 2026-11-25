@@ -36,6 +36,7 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 	protected boolean readSectionDiagrams = true;
 	protected String imgLogo = null;
 	protected boolean filterUnusedNodeShapes = true;
+	protected boolean labelDiagram = false;
 	
 
 	public static ShapesDocumentationModelReader buildShapesDocumentationModelReader(
@@ -46,12 +47,14 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 		String imgLogo,
 		boolean hideProperties,
 		boolean readSectionDiagrams,
-		boolean filterUnusedNodeShapes
+		boolean filterUnusedNodeShapes,
+		boolean labelDiagram
 	) {
 		ShapesDocumentationModelReader reader = new ShapesDocumentationModelReader(
 			shaclGraph,
 			owlGraph,
-			lang
+			lang,
+			labelDiagram
 		);
 		reader.setReadDiagram(readDiagram);
 		reader.setImgLogo(imgLogo);
@@ -78,6 +81,7 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 			null,
 			false,
 			true,
+			true,
 			true
 		);
 	}
@@ -85,11 +89,13 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 	public ShapesDocumentationModelReader(
 		Model shaclGraph,
 		Model owlGraph,
-		String lang
+		String lang,
+		boolean labelDiagram
 	) {
 		this.shaclGraph = shaclGraph;
 		this.owlGraph = owlGraph;
 		this.lang = lang;
+		this.labelDiagram = labelDiagram;
 	}
 
 	@Override
@@ -112,7 +118,7 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 		// Option pour créer le diagramme		
 		if (this.readDiagram) {	
 			log.trace("Generating diagrams...");		
-			PlantUmlSourceGenerator sourceGenerator = new PlantUmlSourceGenerator(shaclGraph, owlGraph, this.hideProperties, lang);
+			PlantUmlSourceGenerator sourceGenerator = new PlantUmlSourceGenerator(shaclGraph, owlGraph, this.hideProperties, lang, labelDiagram);
 			List<PlantUmlDiagramOutput> plantUmlDiagrams = sourceGenerator.generatePlantUmlDiagram();
 			
 			// turn diagrams into output data structure
@@ -132,7 +138,7 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 	
 		log.trace("Reading each section...");
 		ShapesDocumentationSectionBuilder sectionBuidler = new ShapesDocumentationSectionBuilder(
-			new PlantUmlSourceGenerator(shaclGraph, owlGraph, this.hideProperties, lang)
+			new PlantUmlSourceGenerator(shaclGraph, owlGraph, this.hideProperties, lang,labelDiagram)
 		);
 		// For each NodeShape ...
 		List<ShapesDocumentationSection> sections = new ArrayList<>();

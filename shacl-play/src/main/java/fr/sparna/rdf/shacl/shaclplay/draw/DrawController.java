@@ -67,6 +67,8 @@ public class DrawController {
 			@RequestParam(value="inputShapeFile", required=false) List<MultipartFile> shapesFiles,
 			// inline Shapes if shapeSource=sourceShape-inputShapeInline
 			@RequestParam(value="inputShapeInline", required=false) String shapesText,
+			// language for labels
+			@RequestParam(value="labelDiagram", required=false) boolean labelDiagram,
 			// output format svg / png
 			@RequestParam(value="format", required=false, defaultValue = "svg") String format,
 			// hide Properties
@@ -111,7 +113,8 @@ public class DrawController {
 					model,
 					modelPopulator.getSourceName(),
 					fmt,
-					hideProperties
+					hideProperties,
+					labelDiagram
 			);
 
 		} catch (Exception e) {

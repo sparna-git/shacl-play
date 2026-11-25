@@ -129,6 +129,21 @@
 								</div>
 							</div>
 						</div>
+
+						<!-- Display Labels and not URIS in Diagram -->
+						<div class="form-group row">
+							<div class="col-sm-12">
+								<div class="form-check">
+									<input class="form-check-input" type="checkbox" id="LabelDiagram" name="LabelDiagram" />
+									<label class="form-check-label" for="LabelDiagram">
+								    	<fmt:message key="doc.options.labelDiagram" />								  		
+								  	</label>
+								  	<small class="form-text text-muted">
+										<fmt:message key="doc.options.labelDiagram.help" />
+								  </small>						
+								</div>
+							</div>
+						</div>
 						
 						<!-- Hide Properties -->
 						<div class="form-group row">

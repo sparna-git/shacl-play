@@ -53,7 +53,7 @@ public class ArgumentsDoc {
 	
 	@Parameter(
 			names = { "-ld", "--labelDiagram" },
-			description = "Label the main diagram at the top of the generated documentation.",
+			description = "Set this option to use labels in the diagram, instead of URIs. Defaults to false",
 			required = false
 	)
 	private Boolean labelDiagram=false;

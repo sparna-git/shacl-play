@@ -145,6 +145,8 @@ public class DocController {
 			@RequestParam(value="language", required=false, defaultValue = "en") String language,
 			// Filter Unused NodeShape
 			@RequestParam(value="filterUnusedNodeShapes", required=false, defaultValue="true") boolean filterUnusedNodeShapes,
+			// Sparql Form URL
+			@RequestParam(value="sparqlFormUrl", required=false) String sparqlFormUrl,
 			HttpServletRequest request
 	) {
 
@@ -196,8 +198,9 @@ public class DocController {
 					modelPopulator.getSourceName(),
 					language,
 					sectionDiagram,
-					filterUnusedNodeShapes
-			);
+					filterUnusedNodeShapes,
+					sparqlFormUrl
+				);
 		} catch (Exception e) {
 			ExceptionManager.throwException(DocException.class, e);
 		}

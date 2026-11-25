@@ -30,7 +30,8 @@ public class DocService {
             String fileName,
             String languageInput,
             boolean includeSectionDiagram,
-            boolean filterUnusedNodeShapes
+            boolean filterUnusedNodeShapes,
+            String sparqlFormUrl
     ) throws IOException {
 
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
@@ -47,7 +48,8 @@ public class DocService {
                 urlLogo,
                 hideProperties,
                 includeSectionDiagram,
-                filterUnusedNodeShapes
+                filterUnusedNodeShapes,
+                sparqlFormUrl
         );
         ShapesDocumentation doc = reader.readShapesDocumentation();
 

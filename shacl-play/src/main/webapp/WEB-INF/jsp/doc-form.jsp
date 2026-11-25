@@ -99,6 +99,30 @@
 								</div>
 							</div>
 						</div>
+
+						<!-- URL Sparql Query -->
+						<div class="form-group row">
+						    <div class="col-sm-12">
+								<div class="form-check">
+									<input class="form-check-input" type="checkbox" id="sparqlFormUrlCheckbox" name="sparqlFormUrlCheckbox"/>
+									<label class="form-check-label" for="sparqlFormUrlCheckbox">
+										<fmt:message key="doc.options.sparqlFormUrl" />
+									</label>
+									<div class="col-sm-9">
+								      	<input type="url"
+								      			class="form-control" id="sparqlFormUrl" name="sparqlFormUrl" 
+								      			oninput="inputtextsparqlFormUrl()"
+								      			placeholder="<fmt:message key="doc.options.sparqlFormUrl.placeholder"/>"
+								      			disabled
+								      		>
+							      
+										<small class="form-text text-muted">
+											<fmt:message key="doc.options.sparqlFormUrl.help" />
+										</small>
+									</div>
+								</div>
+							</div>
+						</div>
 						
 				      	<!-- Diagram -->
 				      	<div class="form-group row">
@@ -708,6 +732,18 @@
     		  
     		  if(!inputLogoCheckbox.checked){
     		    document.getElementById("inputLogo").disabled = true;
+    		  }
+    		  
+    		}
+    </script>
+	<script>
+    	sparqlFormUrlCheckbox.onclick = function(){
+    		  if(sparqlFormUrlCheckbox.checked){
+    		    document.getElementById("sparqlFormUrl").disabled = false;
+    		  }
+    		  
+    		  if(!sparqlFormUrlCheckbox.checked){
+    		    document.getElementById("sparqlFormUrl").disabled = true;
     		  }
     		  
     		}

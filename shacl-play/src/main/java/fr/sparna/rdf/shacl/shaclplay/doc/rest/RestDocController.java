@@ -94,7 +94,9 @@ public class RestDocController {
             // Language Option
             @RequestParam(value="language", required=false, defaultValue = "en") String language,
             // Filter Unused NodeShape
-            @RequestParam(value="filterUnusedNodeShapes", required=false, defaultValue="true") boolean filterUnusedNodeShapes
+            @RequestParam(value="filterUnusedNodeShapes", required=false, defaultValue="true") boolean filterUnusedNodeShapes,
+            // Sparql Form URL
+            @RequestParam(value="sparqlFormUrl", required=false) String sparqlFormUrl
     ){
         try {
 
@@ -117,7 +119,8 @@ public class RestDocController {
                         modelPopulator.getSourceName(),
                         language,
                         sectionDiagram,
-                        filterUnusedNodeShapes
+                        filterUnusedNodeShapes,
+                        sparqlFormUrl
             );
         } catch (Exception e) {
             ExceptionManager.throwException(DocException.class , e);
@@ -156,7 +159,9 @@ public class RestDocController {
             // Language Option
             @RequestParam(value="language", required=false, defaultValue = "en") String language,
             // Filter Unused NodeShape
-            @RequestParam(value="filterUnusedNodeShapes", required=false, defaultValue="true") boolean filterUnusedNodeShapes
+            @RequestParam(value="filterUnusedNodeShapes", required=false, defaultValue="true") boolean filterUnusedNodeShapes,
+            // Sparql Form URL
+            @RequestParam(value="sparqlFormUrl", required=false) String sparqlFormUrl
     ){
         try {
 
@@ -189,7 +194,8 @@ public class RestDocController {
                     modelPopulator.getSourceName(),
                     language,
                     sectionDiagram,
-                    filterUnusedNodeShapes);
+                    filterUnusedNodeShapes,
+                    sparqlFormUrl);
         } catch (Exception e) {
             ExceptionManager.throwException(DocException.class, e);
         }

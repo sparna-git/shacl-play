@@ -36,6 +36,7 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 	protected boolean readSectionDiagrams = true;
 	protected String imgLogo = null;
 	protected boolean filterUnusedNodeShapes = true;
+	protected String sparqlFormUrl = null;
 	
 
 	public static ShapesDocumentationModelReader buildShapesDocumentationModelReader(
@@ -46,7 +47,8 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 		String imgLogo,
 		boolean hideProperties,
 		boolean readSectionDiagrams,
-		boolean filterUnusedNodeShapes
+		boolean filterUnusedNodeShapes,
+		String sparqlFormUrl
 	) {
 		ShapesDocumentationModelReader reader = new ShapesDocumentationModelReader(
 			shaclGraph,
@@ -58,6 +60,7 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 		reader.setHideProperties(hideProperties);
 		reader.setReadSectionDiagrams(readSectionDiagrams);
 		reader.setFilterUnusedNodeShapes(filterUnusedNodeShapes);
+		reader.setSparqlFormUrl(sparqlFormUrl);
 
 		return reader;
 	}
@@ -78,7 +81,8 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 			null,
 			false,
 			true,
-			true
+			true,
+			null
 		);
 	}
 
@@ -119,6 +123,11 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 			plantUmlDiagrams.stream().forEach(d -> shapesDocumentation.getDiagrams().add(new ShapesDocumentationDiagram(d,shapesDocumentation.getTitle())));			
 		}
 		
+		// Sparql Form URL
+		if (this.sparqlFormUrl != null) {
+			log.trace("Setting SPARQL Form URL to " + this.sparqlFormUrl);
+			shapesDocumentation.setSparqlFormUrl(this.sparqlFormUrl);
+		}
 		
 		// Sort node shapes for documentation
 		List<NodeShape> sortedNodeShapes = shapesModel.getAllNodeShapes().stream()
@@ -231,6 +240,14 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 
 	public void setFilterUnusedNodeShapes(boolean filterUnusedNodeShapes) {
 		this.filterUnusedNodeShapes = filterUnusedNodeShapes;
+	}
+
+	public String getSparqlFormUrl() {
+		return sparqlFormUrl;
+	}
+
+	public void setSparqlFormUrl(String sparqlFormUrl) {
+		this.sparqlFormUrl = sparqlFormUrl;
 	}
 
 	

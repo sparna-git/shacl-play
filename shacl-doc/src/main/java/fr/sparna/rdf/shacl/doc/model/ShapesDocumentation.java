@@ -37,6 +37,7 @@ public class ShapesDocumentation {
 	protected String jsonldOWL;
 
 	protected String sparqlEndPoint;
+	protected String sparqlFormUrl;
 	
 	@JacksonXmlElementWrapper(localName="diagrams")
 	@JacksonXmlProperty(localName = "diagram")
@@ -98,7 +99,7 @@ public class ShapesDocumentation {
 			if (shapesGraphResource.getUrlEndPoint() != null) {
 				this.setSparqlEndPoint(shapesGraphResource.getUrlEndPoint().toString());
 			}
-			
+
 			Optional.ofNullable(shapesGraphResource.getLicense(lang)).ifPresent(list -> {
 				this.license = list.stream()
 				.map(new RDFNodeToLinkMapper(lang))
@@ -395,6 +396,15 @@ public class ShapesDocumentation {
 		this.sparqlEndPoint = sparqlEndPoint;
 	}
 
+	public String getSparqlFormUrl() {
+		return sparqlFormUrl;
+	}
+
+	public void setSparqlFormUrl(String sparqlFormUrl) {
+		this.sparqlFormUrl = sparqlFormUrl;
+	}
+
+	
 	
 	
 }

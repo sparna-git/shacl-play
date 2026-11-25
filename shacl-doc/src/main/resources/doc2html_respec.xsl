@@ -9,6 +9,9 @@
 	<xsl:param name="quota">"</xsl:param>
 	<xsl:param name="comma">,</xsl:param>
 	
+
+	<xsl:variable name="sparqlFormUrl" select="./ShapesDocumentation/sparqlFormUrl" />
+
 	<!-- Indicates if we are producing the HTML for an HTML output of for a PDF conversion -->
 	<xsl:param name="MODE">HTML</xsl:param>
 
@@ -1466,7 +1469,19 @@
 			<xsl:variable name="SparqlQuery">
 				<xsl:value-of select="." disable-output-escaping="yes"/>
 			</xsl:variable>
-			<xsl:variable name="urlSparqlEditor" select="concat('https://matgui.matdata.eu/','#query=',encode-for-uri($SparqlQuery),'&amp;','endpoint=',$urlEndPoint)"/>
+
+			<xsl:variable name="urlForm">
+				<xsl:choose>
+					<xsl:when test="string-length(../../../../sparqlFormUrl) > 0">
+						<xsl:value-of select="../../../../sparqlFormUrl"/>
+					</xsl:when>
+					<xsl:otherwise>https://matgui.matdata.eu/</xsl:otherwise>
+				</xsl:choose>
+			</xsl:variable>
+			
+
+
+			<xsl:variable name="urlSparqlEditor" select="concat($urlForm,'#query=',encode-for-uri($SparqlQuery),'&amp;','endpoint=',$urlEndPoint)"/>
 			<div style="display: flex; justify-content: right;">
 				<a href="{$urlSparqlEditor}" target="_blank">
 					<small><xsl:value-of select="$LABELS/labels/entry[@key='LABEL_LIST_TARGETS']/@label" /></small>
@@ -1795,11 +1810,10 @@
 		<xsl:value-of select="." />
 	</xsl:template>
 	
-	<!-- Sparql Constraint -->
+	<!-- Sparql Constraint Section Additionnal constraints -->
 	<xsl:template match="constraintEntry">
 		<!-- Sparql Constraint Select-->
 		<li>
-
 			<xsl:choose>
 				<xsl:when test="string-length(description) &gt; 0">
 					<xsl:value-of select="description"/>					
@@ -1818,7 +1832,17 @@
 				<xsl:if test="../../../../sparqlEndPoint">
 					<xsl:variable name="urlEndPoint" select="../../../../sparqlEndPoint"/>
 					<xsl:variable name="SparqlQuery"><xsl:value-of select="select" disable-output-escaping="yes"/></xsl:variable>
-					<xsl:variable name="urlSparqlEditor" select="concat('https://matgui.matdata.eu/','#query=',encode-for-uri($SparqlQuery),'&amp;','endpoint=',$urlEndPoint)"/>
+
+					<xsl:variable name="urlForm">
+						<xsl:choose>
+							<xsl:when test="string-length(../../../../sparqlFormUrl) > 0">
+								<xsl:value-of select="../../../../sparqlFormUrl"/>
+							</xsl:when>
+							<xsl:otherwise>https://matgui.matdata.eu/</xsl:otherwise>
+						</xsl:choose>
+					</xsl:variable>
+					
+					<xsl:variable name="urlSparqlEditor" select="concat($urlForm,'#query=',encode-for-uri($SparqlQuery),'&amp;','endpoint=',$urlEndPoint)"/>
 					<div style="display: flex; justify-content: right;">
 						<a href="{$urlSparqlEditor}" target="_blank">
 							<small><xsl:value-of select="$LABELS/labels/entry[@key='LABEL_LIST_TARGETS']/@label" /></small>

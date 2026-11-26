@@ -1481,7 +1481,7 @@
 			
 
 
-			<xsl:variable name="urlSparqlEditor" select="concat($urlForm,'#query=',encode-for-uri($SparqlQuery),'&amp;','endpoint=',$urlEndPoint)"/>
+			<xsl:variable name="urlSparqlEditor" select="concat($urlForm,'?query=',encode-for-uri($SparqlQuery),'&amp;','endpoint=',$urlEndPoint)"/>
 			<div style="display: flex; justify-content: right;">
 				<a href="{$urlSparqlEditor}" target="_blank">
 					<small><xsl:value-of select="$LABELS/labels/entry[@key='LABEL_LIST_TARGETS']/@label" /></small>
@@ -1842,7 +1842,7 @@
 						</xsl:choose>
 					</xsl:variable>
 					
-					<xsl:variable name="urlSparqlEditor" select="concat($urlForm,'#query=',encode-for-uri($SparqlQuery),'&amp;','endpoint=',$urlEndPoint)"/>
+					<xsl:variable name="urlSparqlEditor" select="concat($urlForm,'?query=',encode-for-uri($SparqlQuery),'&amp;','endpoint=',$urlEndPoint)"/>
 					<div style="display: flex; justify-content: right;">
 						<a href="{$urlSparqlEditor}" target="_blank">
 							<small><xsl:value-of select="$LABELS/labels/entry[@key='LABEL_LIST_TARGETS']/@label" /></small>

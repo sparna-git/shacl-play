@@ -52,11 +52,11 @@ public class ArgumentsDoc {
 	private Boolean noSectionDiagrams=false;
 	
 	@Parameter(
-			names = { "-ld", "--labelDiagram" },
+			names = { "-du", "--diagramUri" },
 			description = "Set this option to use labels in the diagram, instead of URIs. Defaults to false",
 			required = false
 	)
-	private Boolean labelDiagram=false;
+	private Boolean labelDiagram=true;
 
 	@Parameter(
 			names = { "-h", "--hide" },

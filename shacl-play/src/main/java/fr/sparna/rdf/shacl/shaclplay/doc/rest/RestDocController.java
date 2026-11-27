@@ -109,6 +109,10 @@ public class RestDocController {
 
             LOGGER.debug("Done Loading Shapes. Model contains {} triples.", model.size());
 
+            // if labelDiagram is false, we want to display the label in the diagram, otherwise we display the URI
+			labelDiagram = !labelDiagram ? true : false;
+            LOGGER.debug("Label Diagram: {}", labelDiagram);
+
             return this.docService.doOutputDoc(
                         model,
                         // true to read diagram
@@ -151,7 +155,7 @@ public class RestDocController {
             // includeDiagram option
             @RequestParam(value="sectionDiagram", required=false, defaultValue = "true") boolean sectionDiagram,
             // labelDiagram option
-            @RequestParam(value="labelDiagram", required=false, defaultValue = "false") boolean labelDiagram,
+            @RequestParam(value="labelDiagram", required=false) boolean labelDiagram,
             // hide Properties
             @RequestParam(value="hideProperties", required=false, defaultValue = "false") boolean hideProperties,
             // List Option
@@ -183,6 +187,10 @@ public class RestDocController {
             );
 
             LOGGER.debug("Done Loading Shapes. Model contains {} triples.", shapesModel.size());
+            
+            // if labelDiagram is false, we want to display the label in the diagram, otherwise we display the URI
+			labelDiagram = !labelDiagram ? true : false;
+            LOGGER.debug("Label Diagram: {}", labelDiagram);
 
             return this.docService.doOutputDoc(
                     shapesModel,

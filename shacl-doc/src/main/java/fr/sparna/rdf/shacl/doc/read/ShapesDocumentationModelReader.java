@@ -82,7 +82,7 @@ public class ShapesDocumentationModelReader implements ShapesDocumentationReader
 			false,
 			true,
 			true,
-			true
+			false
 		);
 	}
 

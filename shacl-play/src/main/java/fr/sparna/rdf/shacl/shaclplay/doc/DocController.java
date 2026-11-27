@@ -189,6 +189,10 @@ public class DocController {
 
             LOGGER.debug("Done Loading Shapes. Model contains {} triples", model.size());
 
+			// if labelDiagram is false, we want to display the label in the diagram, otherwise we display the URI
+			labelDiagram = !labelDiagram ? true : false; 
+			LOGGER.debug("Label Diagram: {}", labelDiagram);
+
 			return this.docService.doOutputDoc(
 					model,
 					// true to read diagram
